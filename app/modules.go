@@ -4,7 +4,6 @@ import (
 	"github.com/CosmWasm/wasmd/x/wasm"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	vestingtypes "github.com/cosmos/cosmos-sdk/x/auth/vesting/types"
-	"github.com/cosmos/cosmos-sdk/x/authz"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	capabilitytypes "github.com/cosmos/cosmos-sdk/x/capability/types"
 	crisistypes "github.com/cosmos/cosmos-sdk/x/crisis/types"
@@ -26,9 +25,7 @@ import (
 
 func orderBeginBlockers() []string {
 	return []string{
-		// Upgrades should be run _very_ first
 		upgradetypes.ModuleName,
-		// Note: epochs' begin should be "real" start of epochs, we keep epochs beginblock at the beginning
 		capabilitytypes.ModuleName,
 		minttypes.ModuleName,
 		distrtypes.ModuleName,
@@ -42,27 +39,39 @@ func orderBeginBlockers() []string {
 		govtypes.ModuleName,
 		crisistypes.ModuleName,
 		genutiltypes.ModuleName,
-		authz.ModuleName,
-		paramstypes.ModuleName, vestingtypes.ModuleName,
 		feegrantmodule.ModuleName,
-		wasm.ModuleName,
+		// monitoringptypes.ModuleName,
+		paramstypes.ModuleName,
+		vestingtypes.ModuleName,
 		protocoladminmoduletypes.ModuleName,
 		tokenmngrmoduletypes.ModuleName,
+		wasm.ModuleName,
 		// superfluid must come after distribution and epochs
 	}
 }
 
 var orderEndBlockers = []string{
-	crisistypes.ModuleName, govtypes.ModuleName, stakingtypes.ModuleName,
-	capabilitytypes.ModuleName, authtypes.ModuleName, banktypes.ModuleName, distrtypes.ModuleName,
-	slashingtypes.ModuleName, minttypes.ModuleName,
-	genutiltypes.ModuleName, evidencetypes.ModuleName, authz.ModuleName,
-	paramstypes.ModuleName, upgradetypes.ModuleName, vestingtypes.ModuleName,
-	ibchost.ModuleName, ibctransfertypes.ModuleName,
+	crisistypes.ModuleName,
+	govtypes.ModuleName,
+	stakingtypes.ModuleName,
+	ibchost.ModuleName,
+	ibctransfertypes.ModuleName,
+	capabilitytypes.ModuleName,
+	authtypes.ModuleName,
+	banktypes.ModuleName,
+	distrtypes.ModuleName,
+	slashingtypes.ModuleName,
+	minttypes.ModuleName,
+	genutiltypes.ModuleName,
+	evidencetypes.ModuleName,
 	feegrantmodule.ModuleName,
-	wasm.ModuleName,
+	// monitoringptypes.ModuleName,
+	paramstypes.ModuleName,
+	upgradetypes.ModuleName,
+	vestingtypes.ModuleName,
 	protocoladminmoduletypes.ModuleName,
 	tokenmngrmoduletypes.ModuleName,
+	wasm.ModuleName,
 	// Note: epochs' endblock should be "real" end of epochs, we keep epochs endblock at the end
 }
 
@@ -80,9 +89,12 @@ var orderInitGenesis = []string{
 	genutiltypes.ModuleName,
 	evidencetypes.ModuleName,
 	ibctransfertypes.ModuleName,
-	paramstypes.ModuleName, upgradetypes.ModuleName, vestingtypes.ModuleName,
 	feegrantmodule.ModuleName,
-	wasm.ModuleName,
+	// monitoringptypes.ModuleName,
+	paramstypes.ModuleName,
+	upgradetypes.ModuleName,
+	vestingtypes.ModuleName,
 	protocoladminmoduletypes.ModuleName,
 	tokenmngrmoduletypes.ModuleName,
+	wasm.ModuleName,
 }
