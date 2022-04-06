@@ -11,6 +11,8 @@ import CosmosCosmosSdkCosmosSlashingV1Beta1 from './cosmos/cosmos-sdk/cosmos.sla
 import CosmosCosmosSdkCosmosStakingV1Beta1 from './cosmos/cosmos-sdk/cosmos.staking.v1beta1'
 import CosmosCosmosSdkCosmosVestingV1Beta1 from './cosmos/cosmos-sdk/cosmos.vesting.v1beta1'
 import CosmosIbcGoIbcApplicationsTransferV1 from './cosmos/ibc-go/ibc.applications.transfer.v1'
+import ThesixnetworkSixProtocolThesixnetworkSixprotocolProtocoladmin from './thesixnetwork/six-protocol/thesixnetwork.sixprotocol.protocoladmin'
+import ThesixnetworkSixProtocolThesixnetworkSixprotocolTokenmngr from './thesixnetwork/six-protocol/thesixnetwork.sixprotocol.tokenmngr'
 
 
 export default { 
@@ -25,6 +27,8 @@ export default {
   CosmosCosmosSdkCosmosStakingV1Beta1: load(CosmosCosmosSdkCosmosStakingV1Beta1, 'cosmos.staking.v1beta1'),
   CosmosCosmosSdkCosmosVestingV1Beta1: load(CosmosCosmosSdkCosmosVestingV1Beta1, 'cosmos.vesting.v1beta1'),
   CosmosIbcGoIbcApplicationsTransferV1: load(CosmosIbcGoIbcApplicationsTransferV1, 'ibc.applications.transfer.v1'),
+  ThesixnetworkSixProtocolThesixnetworkSixprotocolProtocoladmin: load(ThesixnetworkSixProtocolThesixnetworkSixprotocolProtocoladmin, 'thesixnetwork.sixprotocol.protocoladmin'),
+  ThesixnetworkSixProtocolThesixnetworkSixprotocolTokenmngr: load(ThesixnetworkSixProtocolThesixnetworkSixprotocolTokenmngr, 'thesixnetwork.sixprotocol.tokenmngr'),
   
 }
 
