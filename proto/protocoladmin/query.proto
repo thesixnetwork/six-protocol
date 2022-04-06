@@ -1,0 +1,104 @@
+syntax = "proto3";
+package thesixnetwork.sixprotocol.protocoladmin;
+
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "protocoladmin/params.proto";
+import "protocoladmin/group.proto";
+import "protocoladmin/admin.proto";
+// this line is used by starport scaffolding # 1
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/protocoladmin/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  // Parameters queries the parameters of the module.
+  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/thesixnetwork/six-protocol/protocoladmin/params";
+  }
+  // Queries a Group by index.
+	rpc Group(QueryGetGroupRequest) returns (QueryGetGroupResponse) {
+		option (google.api.http).get = "/thesixnetwork/six-protocol/protocoladmin/group/{name}";
+	}
+
+	// Queries a list of Group items.
+	rpc GroupAll(QueryAllGroupRequest) returns (QueryAllGroupResponse) {
+		option (google.api.http).get = "/thesixnetwork/six-protocol/protocoladmin/group";
+	}
+
+// Queries a Admin by index.
+	rpc Admin(QueryGetAdminRequest) returns (QueryGetAdminResponse) {
+		option (google.api.http).get = "/thesixnetwork/six-protocol/protocoladmin/admin/{group}/{admin}";
+	}
+
+	// Queries a list of Admin items.
+	rpc AdminAll(QueryAllAdminRequest) returns (QueryAllAdminResponse) {
+		option (google.api.http).get = "/thesixnetwork/six-protocol/protocoladmin/admin";
+	}
+
+// Queries a list of ListAdminOfGroup items.
+	rpc ListAdminOfGroup(QueryListAdminOfGroupRequest) returns (QueryListAdminOfGroupResponse) {
+		option (google.api.http).get = "/thesixnetwork/six-protocol/protocoladmin/list_admin_of_group/{group}";
+	}
+
+// this line is used by starport scaffolding # 2
+}
+
+// QueryParamsRequest is request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is response type for the Query/Params RPC method.
+message QueryParamsResponse {
+  // params holds all the parameters of this module.
+  Params params = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryGetGroupRequest {
+	  string name = 1;
+
+}
+
+message QueryGetGroupResponse {
+	Group group = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllGroupRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllGroupResponse {
+	repeated Group group = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetAdminRequest {
+	  string group = 1;
+  string admin = 2;
+
+}
+
+message QueryGetAdminResponse {
+	Admin admin = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllAdminRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllAdminResponse {
+	repeated Admin admin = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryListAdminOfGroupRequest {
+  	string group = 1;
+	cosmos.base.query.v1beta1.PageRequest pagination = 2;
+}
+
+message QueryListAdminOfGroupResponse {
+	repeated string admin = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// this line is used by starport scaffolding # 3

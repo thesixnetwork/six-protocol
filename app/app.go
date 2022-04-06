@@ -91,11 +91,17 @@ import (
 	"github.com/tendermint/starport/starport/pkg/openapiconsole"
 
 	"github.com/thesixnetwork/six-protocol/docs"
+	protocoladminmodule "github.com/thesixnetwork/six-protocol/x/protocoladmin"
+	protocoladminmodulekeeper "github.com/thesixnetwork/six-protocol/x/protocoladmin/keeper"
+	protocoladminmoduletypes "github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
+	tokenmngrmodule "github.com/thesixnetwork/six-protocol/x/tokenmngr"
+	tokenmngrmodulekeeper "github.com/thesixnetwork/six-protocol/x/tokenmngr/keeper"
+	tokenmngrmoduletypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 )
 
 const (
-	AccountAddressPrefix = "cosmos"
+	AccountAddressPrefix = "6x"
 	Name                 = "six-protocol"
 )
 
@@ -143,18 +149,21 @@ var (
 		evidence.AppModuleBasic{},
 		transfer.AppModuleBasic{},
 		vesting.AppModuleBasic{},
+		protocoladminmodule.AppModuleBasic{},
+		tokenmngrmodule.AppModuleBasic{},
 		// this line is used by starport scaffolding # stargate/app/moduleBasic
 	)
 
 	// module account permissions
 	maccPerms = map[string][]string{
-		authtypes.FeeCollectorName:     nil,
-		distrtypes.ModuleName:          nil,
-		minttypes.ModuleName:           {authtypes.Minter},
-		stakingtypes.BondedPoolName:    {authtypes.Burner, authtypes.Staking},
-		stakingtypes.NotBondedPoolName: {authtypes.Burner, authtypes.Staking},
-		govtypes.ModuleName:            {authtypes.Burner},
-		ibctransfertypes.ModuleName:    {authtypes.Minter, authtypes.Burner},
+		authtypes.FeeCollectorName:      nil,
+		distrtypes.ModuleName:           nil,
+		minttypes.ModuleName:            {authtypes.Minter},
+		stakingtypes.BondedPoolName:     {authtypes.Burner, authtypes.Staking},
+		stakingtypes.NotBondedPoolName:  {authtypes.Burner, authtypes.Staking},
+		govtypes.ModuleName:             {authtypes.Burner},
+		ibctransfertypes.ModuleName:     {authtypes.Minter, authtypes.Burner},
+		tokenmngrmoduletypes.ModuleName: {authtypes.Minter, authtypes.Burner, authtypes.Staking},
 		// this line is used by starport scaffolding # stargate/app/maccPerms
 	}
 )
@@ -212,6 +221,10 @@ type App struct {
 	ScopedIBCKeeper      capabilitykeeper.ScopedKeeper
 	ScopedTransferKeeper capabilitykeeper.ScopedKeeper
 
+	ScopedProtocoladminKeeper capabilitykeeper.ScopedKeeper
+	ProtocoladminKeeper       protocoladminmodulekeeper.Keeper
+	ScopedTokenmngrKeeper     capabilitykeeper.ScopedKeeper
+	TokenmngrKeeper           tokenmngrmodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// mm is the module manager
@@ -248,6 +261,8 @@ func New(
 		minttypes.StoreKey, distrtypes.StoreKey, slashingtypes.StoreKey,
 		govtypes.StoreKey, paramstypes.StoreKey, ibchost.StoreKey, upgradetypes.StoreKey, feegrant.StoreKey,
 		evidencetypes.StoreKey, ibctransfertypes.StoreKey, capabilitytypes.StoreKey,
+		protocoladminmoduletypes.StoreKey,
+		tokenmngrmoduletypes.StoreKey,
 		// this line is used by starport scaffolding # stargate/app/storeKey
 	)
 	tkeys := sdk.NewTransientStoreKeys(paramstypes.TStoreKey)
@@ -346,11 +361,43 @@ func New(
 		&stakingKeeper, govRouter,
 	)
 
+	scopedProtocoladminKeeper := app.CapabilityKeeper.ScopeToModule(protocoladminmoduletypes.ModuleName)
+	app.ScopedProtocoladminKeeper = scopedProtocoladminKeeper
+	app.ProtocoladminKeeper = *protocoladminmodulekeeper.NewKeeper(
+		appCodec,
+		keys[protocoladminmoduletypes.StoreKey],
+		keys[protocoladminmoduletypes.MemStoreKey],
+		app.GetSubspace(protocoladminmoduletypes.ModuleName),
+		app.IBCKeeper.ChannelKeeper,
+		&app.IBCKeeper.PortKeeper,
+		scopedProtocoladminKeeper,
+		app.AccountKeeper,
+	)
+	protocoladminModule := protocoladminmodule.NewAppModule(appCodec, app.ProtocoladminKeeper, app.AccountKeeper, app.BankKeeper)
+
+	scopedTokenmngrKeeper := app.CapabilityKeeper.ScopeToModule(tokenmngrmoduletypes.ModuleName)
+	app.ScopedTokenmngrKeeper = scopedTokenmngrKeeper
+	app.TokenmngrKeeper = *tokenmngrmodulekeeper.NewKeeper(
+		appCodec,
+		keys[tokenmngrmoduletypes.StoreKey],
+		keys[tokenmngrmoduletypes.MemStoreKey],
+		app.GetSubspace(tokenmngrmoduletypes.ModuleName),
+		app.IBCKeeper.ChannelKeeper,
+		&app.IBCKeeper.PortKeeper,
+		scopedTokenmngrKeeper,
+		app.BankKeeper,
+		app.AccountKeeper,
+		app.ProtocoladminKeeper,
+	)
+	tokenmngrModule := tokenmngrmodule.NewAppModule(appCodec, app.TokenmngrKeeper, app.AccountKeeper, app.BankKeeper)
+
 	// this line is used by starport scaffolding # stargate/app/keeperDefinition
 
 	// Create static IBC router, add transfer route, then set and seal it
 	ibcRouter := ibcporttypes.NewRouter()
 	ibcRouter.AddRoute(ibctransfertypes.ModuleName, transferModule)
+	ibcRouter.AddRoute(protocoladminmoduletypes.ModuleName, protocoladminModule)
+	ibcRouter.AddRoute(tokenmngrmoduletypes.ModuleName, tokenmngrModule)
 	// this line is used by starport scaffolding # ibc/app/router
 	app.IBCKeeper.SetRouter(ibcRouter)
 
@@ -384,6 +431,8 @@ func New(
 		ibc.NewAppModule(app.IBCKeeper),
 		params.NewAppModule(app.ParamsKeeper),
 		transferModule,
+		protocoladminModule,
+		tokenmngrModule,
 		// this line is used by starport scaffolding # stargate/app/appModule
 	)
 
@@ -418,6 +467,8 @@ func New(
 		genutiltypes.ModuleName,
 		evidencetypes.ModuleName,
 		ibctransfertypes.ModuleName,
+		protocoladminmoduletypes.ModuleName,
+		tokenmngrmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	)
 
@@ -440,6 +491,8 @@ func New(
 		evidence.NewAppModule(app.EvidenceKeeper),
 		ibc.NewAppModule(app.IBCKeeper),
 		transferModule,
+		protocoladminModule,
+		tokenmngrModule,
 		// this line is used by starport scaffolding # stargate/app/appModule
 	)
 	app.sm.RegisterStoreDecoders()
@@ -627,6 +680,8 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(crisistypes.ModuleName)
 	paramsKeeper.Subspace(ibctransfertypes.ModuleName)
 	paramsKeeper.Subspace(ibchost.ModuleName)
+	paramsKeeper.Subspace(protocoladminmoduletypes.ModuleName)
+	paramsKeeper.Subspace(tokenmngrmoduletypes.ModuleName)
 	// this line is used by starport scaffolding # stargate/app/paramSubspace
 
 	return paramsKeeper

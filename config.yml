@@ -1,16 +1,112 @@
-accounts:
+accounts: # mnemonic for development purpose
   - name: alice
-    coins: ["20000token", "200000000stake"]
+    coins: ["10000finix", "100000000000000usix"]
+    mnemonic: "history perfect across group seek acoustic delay captain sauce audit carpet tattoo exhaust green there giant cluster want pond bulk close screen scissors remind"
   - name: bob
-    coins: ["10000token", "100000000stake"]
+    coins: ["20000finix", "200000000000000usix"]
+    mnemonic: "limb sister humor wisdom elephant weasel beyond must any desert glance stem reform soccer include chest chef clerk call popular display nerve priority venture"
+  - name: faucet
+    coins: ["30000finix", "300000000000000usix"]
+  - name: super-admin
+    coins: ["10000finix", "300000000000000usix"]
+    mnemonic: "expect peace defense conduct virtual flight flip unit equip solve broccoli protect shed group else useless tree such tornado minimum decade tower warfare galaxy"
 validator:
-  name: alice
-  staked: "100000000stake"
+  name: bob
+  staked: "1000000000000usix"
 client:
   openapi:
     path: "docs/static/openapi.yml"
   vuex:
     path: "vue/src/store"
 faucet:
-  name: bob
-  coins: ["5token", "100000stake"]
+  name: faucet
+  coins: ["10finix", "1000000000usix"]
+build:
+  binary: "sixd"
+  main: "cmd/sixd"
+  ldflags:
+    ["-X main.Version=development", "-X main.Version.BuildTags=netgo,ledger"]
+init:
+  home: "$HOME/.six"
+  app:
+    grpc-web:
+      enable: true
+    api:
+      swagger: true
+genesis:
+  chain_id: "testnet"
+  app_state:
+    staking: # Overwrite genesis for staking module
+      params:
+        bond_denom: "usix"
+        max_validators: 3
+        unbonding_time: "300s"
+    mint:
+      params:
+        mint_denom: "usix"
+    crisis:
+      constant_fee:
+        denom: "usix"
+    gov:
+      deposit_params:
+        min_deposit: [{ amount: "1000000", denom: "usix" }]
+      voting_params:
+        voting_period: "300s"
+    bank:
+      denom_metadata:
+        [
+          {
+            description: "The native staking token of the SIX Protocol.",
+            denom_units:
+              [
+                { denom: "usix", exponent: 0, aliases: ["microsix"] },
+                { denom: "msix", exponent: 3, aliases: ["millisix"] },
+                { denom: "six", exponent: 6 },
+              ],
+            base: "usix",
+            display: "six",
+            name: "Six token",
+            symbol: "six",
+          },
+        ]
+    protocoladmin:
+      groupList:
+        [
+          { name: "super.admin", owner: "genesis" },
+          {
+            name: "token.admin",
+            owner: "6x1eau6xz2kdv6wy7rhj2nxv0xrgnjy79hcm2tr9t",
+          },
+        ]
+      adminList:
+        [
+          {
+            group: "super.admin",
+            admin: "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv",
+          },
+          {
+            admin: "6x1eau6xz2kdv6wy7rhj2nxv0xrgnjy79hcm2tr9t",
+            group: "token.admin",
+          },
+        ]
+    tokenmngr:
+      mintpermList:
+        [
+          {
+            address: "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq",
+            creator: "6x1eau6xz2kdv6wy7rhj2nxv0xrgnjy79hcm2tr9t",
+            token: "six",
+          },
+        ]
+      options: { defaultMintee: "6x1cws3ex5yqwlu4my49htq06nsnhuxw3v7rt20g6" }
+      port_id: "tokenmngr"
+      tokenList:
+        [
+          {
+            creator: "6x1eau6xz2kdv6wy7rhj2nxv0xrgnjy79hcm2tr9t",
+            maxSupply: 0,
+            mintee: "6x1cws3ex5yqwlu4my49htq06nsnhuxw3v7rt20g6",
+            name: "six",
+            base: "usix",
+          },
+        ]
