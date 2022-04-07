@@ -9,21 +9,21 @@ export const protobufPackage = "thesixnetwork.sixprotocol.protocoladmin";
 /** GenesisState defines the protocoladmin module's genesis state. */
 export interface GenesisState {
   params: Params | undefined;
-  port_id: string;
+  portId: string;
   groupList: Group[];
   /** this line is used by starport scaffolding # genesis/proto/state */
   adminList: Admin[];
 }
 
-const baseGenesisState: object = { port_id: "" };
+const baseGenesisState: object = { portId: "" };
 
 export const GenesisState = {
   encode(message: GenesisState, writer: Writer = Writer.create()): Writer {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
     }
-    if (message.port_id !== "") {
-      writer.uint32(18).string(message.port_id);
+    if (message.portId !== "") {
+      writer.uint32(18).string(message.portId);
     }
     for (const v of message.groupList) {
       Group.encode(v!, writer.uint32(26).fork()).ldelim();
@@ -47,7 +47,7 @@ export const GenesisState = {
           message.params = Params.decode(reader, reader.uint32());
           break;
         case 2:
-          message.port_id = reader.string();
+          message.portId = reader.string();
           break;
         case 3:
           message.groupList.push(Group.decode(reader, reader.uint32()));
@@ -72,10 +72,10 @@ export const GenesisState = {
     } else {
       message.params = undefined;
     }
-    if (object.port_id !== undefined && object.port_id !== null) {
-      message.port_id = String(object.port_id);
+    if (object.portId !== undefined && object.portId !== null) {
+      message.portId = String(object.portId);
     } else {
-      message.port_id = "";
+      message.portId = "";
     }
     if (object.groupList !== undefined && object.groupList !== null) {
       for (const e of object.groupList) {
@@ -94,7 +94,7 @@ export const GenesisState = {
     const obj: any = {};
     message.params !== undefined &&
       (obj.params = message.params ? Params.toJSON(message.params) : undefined);
-    message.port_id !== undefined && (obj.port_id = message.port_id);
+    message.portId !== undefined && (obj.portId = message.portId);
     if (message.groupList) {
       obj.groupList = message.groupList.map((e) =>
         e ? Group.toJSON(e) : undefined
@@ -121,10 +121,10 @@ export const GenesisState = {
     } else {
       message.params = undefined;
     }
-    if (object.port_id !== undefined && object.port_id !== null) {
-      message.port_id = object.port_id;
+    if (object.portId !== undefined && object.portId !== null) {
+      message.portId = object.portId;
     } else {
-      message.port_id = "";
+      message.portId = "";
     }
     if (object.groupList !== undefined && object.groupList !== null) {
       for (const e of object.groupList) {

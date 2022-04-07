@@ -1,4 +1,6 @@
 import { txClient, queryClient, MissingWalletError , registry} from './module'
+// @ts-ignore
+import { SpVuexError } from '@starport/vuex'
 
 import { Admin } from "./module/types/protocoladmin/admin"
 import { Group } from "./module/types/protocoladmin/group"
@@ -151,7 +153,7 @@ export default {
 					const sub=JSON.parse(subscription)
 					await dispatch(sub.action, sub.payload)
 				}catch(e) {
-					throw new Error('Subscriptions: ' + e.message)
+					throw new SpVuexError('Subscriptions: ' + e.message)
 				}
 			})
 		},
@@ -172,7 +174,7 @@ export default {
 				if (subscribe) commit('SUBSCRIBE', { action: 'QueryParams', payload: { options: { all }, params: {...key},query }})
 				return getters['getParams']( { params: {...key}, query}) ?? {}
 			} catch (e) {
-				throw new Error('QueryClient:QueryParams API Node Unavailable. Could not perform query: ' + e.message)
+				throw new SpVuexError('QueryClient:QueryParams', 'API Node Unavailable. Could not perform query: ' + e.message)
 				
 			}
 		},
@@ -194,7 +196,7 @@ export default {
 				if (subscribe) commit('SUBSCRIBE', { action: 'QueryGroup', payload: { options: { all }, params: {...key},query }})
 				return getters['getGroup']( { params: {...key}, query}) ?? {}
 			} catch (e) {
-				throw new Error('QueryClient:QueryGroup API Node Unavailable. Could not perform query: ' + e.message)
+				throw new SpVuexError('QueryClient:QueryGroup', 'API Node Unavailable. Could not perform query: ' + e.message)
 				
 			}
 		},
@@ -220,7 +222,7 @@ export default {
 				if (subscribe) commit('SUBSCRIBE', { action: 'QueryGroupAll', payload: { options: { all }, params: {...key},query }})
 				return getters['getGroupAll']( { params: {...key}, query}) ?? {}
 			} catch (e) {
-				throw new Error('QueryClient:QueryGroupAll API Node Unavailable. Could not perform query: ' + e.message)
+				throw new SpVuexError('QueryClient:QueryGroupAll', 'API Node Unavailable. Could not perform query: ' + e.message)
 				
 			}
 		},
@@ -242,7 +244,7 @@ export default {
 				if (subscribe) commit('SUBSCRIBE', { action: 'QueryAdmin', payload: { options: { all }, params: {...key},query }})
 				return getters['getAdmin']( { params: {...key}, query}) ?? {}
 			} catch (e) {
-				throw new Error('QueryClient:QueryAdmin API Node Unavailable. Could not perform query: ' + e.message)
+				throw new SpVuexError('QueryClient:QueryAdmin', 'API Node Unavailable. Could not perform query: ' + e.message)
 				
 			}
 		},
@@ -268,7 +270,7 @@ export default {
 				if (subscribe) commit('SUBSCRIBE', { action: 'QueryAdminAll', payload: { options: { all }, params: {...key},query }})
 				return getters['getAdminAll']( { params: {...key}, query}) ?? {}
 			} catch (e) {
-				throw new Error('QueryClient:QueryAdminAll API Node Unavailable. Could not perform query: ' + e.message)
+				throw new SpVuexError('QueryClient:QueryAdminAll', 'API Node Unavailable. Could not perform query: ' + e.message)
 				
 			}
 		},
@@ -294,27 +296,12 @@ export default {
 				if (subscribe) commit('SUBSCRIBE', { action: 'QueryListAdminOfGroup', payload: { options: { all }, params: {...key},query }})
 				return getters['getListAdminOfGroup']( { params: {...key}, query}) ?? {}
 			} catch (e) {
-				throw new Error('QueryClient:QueryListAdminOfGroup API Node Unavailable. Could not perform query: ' + e.message)
+				throw new SpVuexError('QueryClient:QueryListAdminOfGroup', 'API Node Unavailable. Could not perform query: ' + e.message)
 				
 			}
 		},
 		
 		
-		async sendMsgCreateGroup({ rootGetters }, { value, fee = [], memo = '' }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgCreateGroup(value)
-				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
-	gas: "200000" }, memo})
-				return result
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgCreateGroup:Init Could not initialize signing client. Wallet is required.')
-				}else{
-					throw new Error('TxClient:MsgCreateGroup:Send Could not broadcast Tx: '+ e.message)
-				}
-			}
-		},
 		async sendMsgRemoveAdminFromGroup({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
@@ -324,24 +311,9 @@ export default {
 				return result
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgRemoveAdminFromGroup:Init Could not initialize signing client. Wallet is required.')
+					throw new SpVuexError('TxClient:MsgRemoveAdminFromGroup:Init', 'Could not initialize signing client. Wallet is required.')
 				}else{
-					throw new Error('TxClient:MsgRemoveAdminFromGroup:Send Could not broadcast Tx: '+ e.message)
-				}
-			}
-		},
-		async sendMsgUpdateGroup({ rootGetters }, { value, fee = [], memo = '' }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgUpdateGroup(value)
-				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
-	gas: "200000" }, memo})
-				return result
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgUpdateGroup:Init Could not initialize signing client. Wallet is required.')
-				}else{
-					throw new Error('TxClient:MsgUpdateGroup:Send Could not broadcast Tx: '+ e.message)
+					throw new SpVuexError('TxClient:MsgRemoveAdminFromGroup:Send', 'Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
@@ -354,9 +326,9 @@ export default {
 				return result
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgAddAdminToGroup:Init Could not initialize signing client. Wallet is required.')
+					throw new SpVuexError('TxClient:MsgAddAdminToGroup:Init', 'Could not initialize signing client. Wallet is required.')
 				}else{
-					throw new Error('TxClient:MsgAddAdminToGroup:Send Could not broadcast Tx: '+ e.message)
+					throw new SpVuexError('TxClient:MsgAddAdminToGroup:Send', 'Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
@@ -369,26 +341,43 @@ export default {
 				return result
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgDeleteGroup:Init Could not initialize signing client. Wallet is required.')
+					throw new SpVuexError('TxClient:MsgDeleteGroup:Init', 'Could not initialize signing client. Wallet is required.')
 				}else{
-					throw new Error('TxClient:MsgDeleteGroup:Send Could not broadcast Tx: '+ e.message)
+					throw new SpVuexError('TxClient:MsgDeleteGroup:Send', 'Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
+		async sendMsgCreateGroup({ rootGetters }, { value, fee = [], memo = '' }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgCreateGroup(value)
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+	gas: "200000" }, memo})
+				return result
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new SpVuexError('TxClient:MsgCreateGroup:Init', 'Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new SpVuexError('TxClient:MsgCreateGroup:Send', 'Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
+		async sendMsgUpdateGroup({ rootGetters }, { value, fee = [], memo = '' }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgUpdateGroup(value)
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+	gas: "200000" }, memo})
+				return result
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new SpVuexError('TxClient:MsgUpdateGroup:Init', 'Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new SpVuexError('TxClient:MsgUpdateGroup:Send', 'Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
 		
-		async MsgCreateGroup({ rootGetters }, { value }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgCreateGroup(value)
-				return msg
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgCreateGroup:Init Could not initialize signing client. Wallet is required.')
-				}else{
-					throw new Error('TxClient:MsgCreateGroup:Create Could not create message: ' + e.message)
-				}
-			}
-		},
 		async MsgRemoveAdminFromGroup({ rootGetters }, { value }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
@@ -396,22 +385,10 @@ export default {
 				return msg
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgRemoveAdminFromGroup:Init Could not initialize signing client. Wallet is required.')
+					throw new SpVuexError('TxClient:MsgRemoveAdminFromGroup:Init', 'Could not initialize signing client. Wallet is required.')
 				}else{
-					throw new Error('TxClient:MsgRemoveAdminFromGroup:Create Could not create message: ' + e.message)
-				}
-			}
-		},
-		async MsgUpdateGroup({ rootGetters }, { value }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgUpdateGroup(value)
-				return msg
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgUpdateGroup:Init Could not initialize signing client. Wallet is required.')
-				}else{
-					throw new Error('TxClient:MsgUpdateGroup:Create Could not create message: ' + e.message)
+					throw new SpVuexError('TxClient:MsgRemoveAdminFromGroup:Create', 'Could not create message: ' + e.message)
+					
 				}
 			}
 		},
@@ -422,9 +399,10 @@ export default {
 				return msg
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgAddAdminToGroup:Init Could not initialize signing client. Wallet is required.')
+					throw new SpVuexError('TxClient:MsgAddAdminToGroup:Init', 'Could not initialize signing client. Wallet is required.')
 				}else{
-					throw new Error('TxClient:MsgAddAdminToGroup:Create Could not create message: ' + e.message)
+					throw new SpVuexError('TxClient:MsgAddAdminToGroup:Create', 'Could not create message: ' + e.message)
+					
 				}
 			}
 		},
@@ -435,9 +413,38 @@ export default {
 				return msg
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgDeleteGroup:Init Could not initialize signing client. Wallet is required.')
+					throw new SpVuexError('TxClient:MsgDeleteGroup:Init', 'Could not initialize signing client. Wallet is required.')
 				}else{
-					throw new Error('TxClient:MsgDeleteGroup:Create Could not create message: ' + e.message)
+					throw new SpVuexError('TxClient:MsgDeleteGroup:Create', 'Could not create message: ' + e.message)
+					
+				}
+			}
+		},
+		async MsgCreateGroup({ rootGetters }, { value }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgCreateGroup(value)
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new SpVuexError('TxClient:MsgCreateGroup:Init', 'Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new SpVuexError('TxClient:MsgCreateGroup:Create', 'Could not create message: ' + e.message)
+					
+				}
+			}
+		},
+		async MsgUpdateGroup({ rootGetters }, { value }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgUpdateGroup(value)
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new SpVuexError('TxClient:MsgUpdateGroup:Init', 'Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new SpVuexError('TxClient:MsgUpdateGroup:Create', 'Could not create message: ' + e.message)
+					
 				}
 			}
 		},
