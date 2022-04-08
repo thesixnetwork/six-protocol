@@ -43,7 +43,7 @@ genesis:
         unbonding_time: "300s"
       validator_approval:
         approver_address: "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"
-        enabled: true
+        enabled: false
     mint:
       params:
         mint_denom: "usix"

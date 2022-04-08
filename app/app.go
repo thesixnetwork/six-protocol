@@ -108,7 +108,7 @@ import (
 
 const (
 	AccountAddressPrefix = "6x"
-	Name                 = "six-protocol"
+	Name                 = "six"
 )
 
 // this line is used by starport scaffolding # stargate/wasm/app/enabledProposals
