@@ -242,6 +242,23 @@ export default {
                 throw new SpVuexError('QueryClient:QueryListAdminOfGroup', 'API Node Unavailable. Could not perform query: ' + e.message);
             }
         },
+        async sendMsgCreateGroup({ rootGetters }, { value, fee = [], memo = '' }) {
+            try {
+                const txClient = await initTxClient(rootGetters);
+                const msg = await txClient.msgCreateGroup(value);
+                const result = await txClient.signAndBroadcast([msg], { fee: { amount: fee,
+                        gas: "200000" }, memo });
+                return result;
+            }
+            catch (e) {
+                if (e == MissingWalletError) {
+                    throw new SpVuexError('TxClient:MsgCreateGroup:Init', 'Could not initialize signing client. Wallet is required.');
+                }
+                else {
+                    throw new SpVuexError('TxClient:MsgCreateGroup:Send', 'Could not broadcast Tx: ' + e.message);
+                }
+            }
+        },
         async sendMsgRemoveAdminFromGroup({ rootGetters }, { value, fee = [], memo = '' }) {
             try {
                 const txClient = await initTxClient(rootGetters);
@@ -293,23 +310,6 @@ export default {
                 }
             }
         },
-        async sendMsgCreateGroup({ rootGetters }, { value, fee = [], memo = '' }) {
-            try {
-                const txClient = await initTxClient(rootGetters);
-                const msg = await txClient.msgCreateGroup(value);
-                const result = await txClient.signAndBroadcast([msg], { fee: { amount: fee,
-                        gas: "200000" }, memo });
-                return result;
-            }
-            catch (e) {
-                if (e == MissingWalletError) {
-                    throw new SpVuexError('TxClient:MsgCreateGroup:Init', 'Could not initialize signing client. Wallet is required.');
-                }
-                else {
-                    throw new SpVuexError('TxClient:MsgCreateGroup:Send', 'Could not broadcast Tx: ' + e.message);
-                }
-            }
-        },
         async sendMsgUpdateGroup({ rootGetters }, { value, fee = [], memo = '' }) {
             try {
                 const txClient = await initTxClient(rootGetters);
@@ -324,6 +324,21 @@ export default {
                 }
                 else {
                     throw new SpVuexError('TxClient:MsgUpdateGroup:Send', 'Could not broadcast Tx: ' + e.message);
+                }
+            }
+        },
+        async MsgCreateGroup({ rootGetters }, { value }) {
+            try {
+                const txClient = await initTxClient(rootGetters);
+                const msg = await txClient.msgCreateGroup(value);
+                return msg;
+            }
+            catch (e) {
+                if (e == MissingWalletError) {
+                    throw new SpVuexError('TxClient:MsgCreateGroup:Init', 'Could not initialize signing client. Wallet is required.');
+                }
+                else {
+                    throw new SpVuexError('TxClient:MsgCreateGroup:Create', 'Could not create message: ' + e.message);
                 }
             }
         },
@@ -369,21 +384,6 @@ export default {
                 }
                 else {
                     throw new SpVuexError('TxClient:MsgDeleteGroup:Create', 'Could not create message: ' + e.message);
-                }
-            }
-        },
-        async MsgCreateGroup({ rootGetters }, { value }) {
-            try {
-                const txClient = await initTxClient(rootGetters);
-                const msg = await txClient.msgCreateGroup(value);
-                return msg;
-            }
-            catch (e) {
-                if (e == MissingWalletError) {
-                    throw new SpVuexError('TxClient:MsgCreateGroup:Init', 'Could not initialize signing client. Wallet is required.');
-                }
-                else {
-                    throw new SpVuexError('TxClient:MsgCreateGroup:Create', 'Could not create message: ' + e.message);
                 }
             }
         },
