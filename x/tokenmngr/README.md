@@ -4,7 +4,7 @@
 
 __Query__
 
-```devnet-wasmd query tokenmngr```
+```sixd query tokenmngr```
 
 ```bash
 Available Commands:
@@ -19,31 +19,31 @@ Available Commands:
 list-mintperm
 
 ```bash
-devnet-wasmd query tokenmngr list-mintperm
+sixd query tokenmngr list-mintperm
 ```
 
 list-token
 
 ```bash
-devnet-wasmd query tokenmngr list-token
+sixd query tokenmngr list-token
 ```
 
 show-mintperm
 
 ```bash
-devnet-wasmd query tokenmngr show-mintperm [token] [address]
+sixd query tokenmngr show-mintperm [token] [address]
 ```
 
 show-token
 
 ```bash
-devnet-wasmd query tokenmngr show-token [name]
+sixd query tokenmngr show-token [name]
 ```
 
 show-options
 
 ```bash
-devnet-wasmd query tokenmngr show-options
+sixd query tokenmngr show-options
 ```
 
 __Tx__
@@ -51,11 +51,14 @@ __Tx__
 ```bash
 Available Commands:
   create-mintperm Create a new mintperm
+  create-options  Create options
   create-token    Create a new token
   delete-mintperm Delete a mintperm
+  delete-options  Delete options
   delete-token    Delete a token
   mint            Broadcast message mint
   update-mintperm Update a mintperm
+  update-options  Update options
   update-token    Update a token
 ```
 
@@ -64,7 +67,7 @@ create-mintperm
 msg sender have to be token admin
 
 ```bash
-devnet-wasmd tx tokenmngr create-mintperm [token] [address]
+sixd tx tokenmngr create-mintperm [token] [address]
 ```
 
 ```ts
@@ -90,7 +93,7 @@ create-token
 msg sender have to be token admin
 
 ```bash
-devnet-wasmd tx tokenmngr create-token [name] [max-supply] [denom-metadata]
+sixd tx tokenmngr create-token [name] [max-supply] [mintee] [denom-metadata] [flags]
 ```
 
 ```ts
@@ -141,7 +144,7 @@ mint
 msg sender have to have mint permission
 
 ```bash
-devnet-wasmd tx tokenmngr mint [amount] [token] [receiver] [flags]
+sixd tx tokenmngr mint [amount] [token] [flags]
 ```
 
 ```ts

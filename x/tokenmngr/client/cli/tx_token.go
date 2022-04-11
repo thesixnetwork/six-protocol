@@ -11,7 +11,7 @@ import (
 
 func CmdCreateToken() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "create-token [name] [max-supply] [denom-metadata]",
+		Use:   "create-token [name] [max-supply] [mintee] [denom-metadata]",
 		Short: "Create a new token",
 		Args:  cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
@@ -24,7 +24,8 @@ func CmdCreateToken() *cobra.Command {
 				return err
 			}
 
-			argDenomMetaData := args[2]
+			argMintee := args[2]
+			argDenomMetaData := args[3]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -35,6 +36,7 @@ func CmdCreateToken() *cobra.Command {
 				clientCtx.GetFromAddress().String(),
 				indexName,
 				argMaxSupply,
+				argMintee,
 				argDenomMetaData,
 			)
 			if err := msg.ValidateBasic(); err != nil {
