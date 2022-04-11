@@ -17,6 +17,7 @@ func NewMsgCreateToken(
 	creator string,
 	name string,
 	maxSupply uint64,
+	mintee string,
 	denomMetaData string,
 
 ) *MsgCreateToken {
@@ -24,6 +25,7 @@ func NewMsgCreateToken(
 		Creator:       creator,
 		Name:          name,
 		MaxSupply:     maxSupply,
+		Mintee:        mintee,
 		DenomMetaData: denomMetaData,
 	}
 }

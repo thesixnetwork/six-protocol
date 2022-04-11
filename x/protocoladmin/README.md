@@ -26,7 +26,7 @@ app_state:
 
 __Query__
 
-```devnet-wasmd query protocoladmin```
+```sixd query protocoladmin```
 
 ```bash
 Available Commands:
@@ -41,31 +41,31 @@ Available Commands:
 list-admin
 
 ```bash
-devnet-wasmd query protocoladmin list-admin
+sixd query protocoladmin list-admin
 ```
 
 list-admin-of-group
 
 ```bash
-devnet-wasmd query protocoladmin list-admin-of-group [group] [flags]
+sixd query protocoladmin list-admin-of-group [group] [flags]
 ```
 
 list-group
 
 ```bash
-devnet-wasmd query protocoladmin list-group
+sixd query protocoladmin list-group
 ```
 
 show-admin
 
 ```bash
-devnet-wasmd query protocoladmin show-admin [group] [admin]
+sixd query protocoladmin show-admin [group] [admin]
 ```
 
 show-group
 
 ```bash
-devnet-wasmd query protocoladmin show-group [name]
+sixd query protocoladmin show-group [name]
 ```
 
 __Tx__
@@ -84,7 +84,7 @@ add-admin-to-group
 Inorder to add admin to group, the group needs to be existed and msg sender needs to be the group creator or super admin
 
 ```bash
-devnet-wasmd tx protocoladmin add-admin-to-group [name] [address]
+sixd tx protocoladmin add-admin-to-group [name] [address]
 ```
 
 create-group
@@ -92,7 +92,7 @@ create-group
 msg sender have to be super admin
 
 ```bash
-devnet-wasmd tx protocoladmin create-group [name]
+sixd tx protocoladmin create-group [name]
 ```
 
 delete-group
@@ -100,7 +100,7 @@ delete-group
 msg sender have to be super admin or group owner
 
 ```bash
-devnet-wasmd tx protocoladmin delete-group [name]
+sixd tx protocoladmin delete-group [name]
 ```
 
 remove-admin-from-group
@@ -108,7 +108,7 @@ remove-admin-from-group
 msg sender have to be super admin or group owner
 
 ```bash
-devnet-wasmd tx protocoladmin remove-admin-from-group [name] [address]
+sixd tx protocoladmin remove-admin-from-group [name] [address]
 ```
 
 update-group
@@ -116,5 +116,5 @@ update-group
 msg sender have to be super admin or group owner
 
 ```bash
-devnet-wasmd tx protocoladmin update-group [name]
+sixd tx protocoladmin update-group [name]
 ```
