@@ -53,7 +53,7 @@ func (k msgServer) UpdateGroup(goCtx context.Context, msg *types.MsgUpdateGroup)
 
 	// Checks if the the msg owner is the same as the current owner or is super admin
 	if msg.Creator != group.Owner && !foundAdmin {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "message creator is not super admin")
+		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "message creator is not owner or super admin")
 	}
 
 	var newGroup = types.Group{
@@ -82,7 +82,7 @@ func (k msgServer) DeleteGroup(goCtx context.Context, msg *types.MsgDeleteGroup)
 
 	// Checks if the the msg owner is the same as the current owner or is super admin
 	if msg.Creator != group.Owner && !foundAdmin {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "message creator is not super admin")
+		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "message creator is not owner or super admin")
 	}
 
 	k.RemoveGroup(
