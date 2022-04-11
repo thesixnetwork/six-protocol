@@ -40,6 +40,8 @@ func CmdCreateGroup() *cobra.Command {
 	return cmd
 }
 
+// ! Cmd generate tx which operation is not available at the moment
+// * Not added to cli
 func CmdUpdateGroup() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "update-group [name]",

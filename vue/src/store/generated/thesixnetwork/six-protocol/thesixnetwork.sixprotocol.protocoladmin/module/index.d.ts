@@ -1,8 +1,8 @@
 import { StdFee } from "@cosmjs/launchpad";
 import { Registry, OfflineSigner, EncodeObject } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
-import { MsgRemoveAdminFromGroup } from "./types/protocoladmin/tx";
 import { MsgCreateGroup } from "./types/protocoladmin/tx";
+import { MsgRemoveAdminFromGroup } from "./types/protocoladmin/tx";
 import { MsgAddAdminToGroup } from "./types/protocoladmin/tx";
 import { MsgUpdateGroup } from "./types/protocoladmin/tx";
 import { MsgDeleteGroup } from "./types/protocoladmin/tx";
@@ -17,8 +17,8 @@ interface SignAndBroadcastOptions {
 }
 declare const txClient: (wallet: OfflineSigner, { addr: addr }?: TxClientOptions) => Promise<{
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }?: SignAndBroadcastOptions) => any;
-    msgRemoveAdminFromGroup: (data: MsgRemoveAdminFromGroup) => EncodeObject;
     msgCreateGroup: (data: MsgCreateGroup) => EncodeObject;
+    msgRemoveAdminFromGroup: (data: MsgRemoveAdminFromGroup) => EncodeObject;
     msgAddAdminToGroup: (data: MsgAddAdminToGroup) => EncodeObject;
     msgUpdateGroup: (data: MsgUpdateGroup) => EncodeObject;
     msgDeleteGroup: (data: MsgDeleteGroup) => EncodeObject;

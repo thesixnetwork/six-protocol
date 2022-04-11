@@ -31,7 +31,6 @@ func GetTxCmd() *cobra.Command {
 	}
 
 	cmd.AddCommand(CmdCreateToken())
-	cmd.AddCommand(CmdUpdateToken())
 	cmd.AddCommand(CmdDeleteToken())
 	cmd.AddCommand(CmdCreateMintperm())
 	cmd.AddCommand(CmdUpdateMintperm())
