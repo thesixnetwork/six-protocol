@@ -37,33 +37,38 @@ func (k msgServer) CreateGroup(goCtx context.Context, msg *types.MsgCreateGroup)
 	return &types.MsgCreateGroupResponse{}, nil
 }
 
+// ! Function will return error for there is no implementation at the moment.
+// ? Should there be update operation for group?
 func (k msgServer) UpdateGroup(goCtx context.Context, msg *types.MsgUpdateGroup) (*types.MsgUpdateGroupResponse, error) {
-	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	// Check if the value exists
-	group, isFound := k.GetGroup(
-		ctx,
-		msg.Name,
-	)
-	if !isFound {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
-	}
+	return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "operation not available")
 
-	_, foundAdmin := k.GetAdmin(ctx, SUPER_ADMIN, msg.Creator)
+	// ctx := sdk.UnwrapSDKContext(goCtx)
 
-	// Checks if the the msg owner is the same as the current owner or is super admin
-	if msg.Creator != group.Owner && !foundAdmin {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "message creator is not owner or super admin")
-	}
+	// // Check if the value exists
+	// group, isFound := k.GetGroup(
+	// 	ctx,
+	// 	msg.Name,
+	// )
+	// if !isFound {
+	// 	return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
+	// }
 
-	var newGroup = types.Group{
-		Owner: msg.Creator,
-		Name:  msg.Name,
-	}
+	// _, foundAdmin := k.GetAdmin(ctx, SUPER_ADMIN, msg.Creator)
 
-	k.SetGroup(ctx, newGroup)
+	// // Checks if the the msg owner is the same as the current owner or is super admin
+	// if msg.Creator != group.Owner && !foundAdmin {
+	// 	return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "message creator is not owner or super admin")
+	// }
 
-	return &types.MsgUpdateGroupResponse{}, nil
+	// var newGroup = types.Group{
+	// 	Owner: msg.Creator,
+	// 	Name:  msg.Name,
+	// }
+
+	// k.SetGroup(ctx, newGroup)
+
+	// return &types.MsgUpdateGroupResponse{}, nil
 }
 
 func (k msgServer) DeleteGroup(goCtx context.Context, msg *types.MsgDeleteGroup) (*types.MsgDeleteGroupResponse, error) {

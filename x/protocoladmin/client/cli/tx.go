@@ -31,7 +31,6 @@ func GetTxCmd() *cobra.Command {
 	}
 
 	cmd.AddCommand(CmdCreateGroup())
-	cmd.AddCommand(CmdUpdateGroup())
 	cmd.AddCommand(CmdDeleteGroup())
 	cmd.AddCommand(CmdAddAdminToGroup())
 	cmd.AddCommand(CmdRemoveAdminFromGroup())

@@ -56,6 +56,7 @@ func (k msgServer) CreateToken(goCtx context.Context, msg *types.MsgCreateToken)
 	return &types.MsgCreateTokenResponse{}, nil
 }
 
+// ! Function will return error for there is no implementation at the moment
 func (k msgServer) UpdateToken(goCtx context.Context, msg *types.MsgUpdateToken) (*types.MsgUpdateTokenResponse, error) {
 
 	return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "operation not available")
