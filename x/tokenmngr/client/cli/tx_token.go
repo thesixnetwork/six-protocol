@@ -13,7 +13,7 @@ func CmdCreateToken() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "create-token [name] [max-supply] [mintee] [denom-metadata]",
 		Short: "Create a new token",
-		Args:  cobra.ExactArgs(3),
+		Args:  cobra.ExactArgs(4),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			// Get indexes
 			indexName := args[0]
