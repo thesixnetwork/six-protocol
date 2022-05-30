@@ -15,9 +15,9 @@ func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBu
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	var burn = types.Burn{
-		Creator : msg.Creator,
-		Token : msg.Token,
-		Amount : msg.Amount,
+		Creator: msg.Creator,
+		Token:   msg.Token,
+		Amount:  msg.Amount,
 	}
 
 	token, foundToken := k.GetToken(ctx, msg.Token)
@@ -66,5 +66,5 @@ func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBu
 
 	id := k.UpdateBurn(ctx, burn)
 
-	return &types.MsgBurnResponse{Id:id}, nil
+	return &types.MsgBurnResponse{Id: id}, nil
 }

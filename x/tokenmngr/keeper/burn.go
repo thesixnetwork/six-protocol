@@ -2,7 +2,7 @@ package keeper
 
 import (
 	"encoding/binary"
-	
+
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
