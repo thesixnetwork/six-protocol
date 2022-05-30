@@ -37,4 +37,6 @@ func KeyPrefix(p string) []byte {
 
 const (
 	OptionsKey = "Options-value-"
+	BurnKey = "Burn-value-"
+	BurnCountKey = "Burn-count-"
 )
