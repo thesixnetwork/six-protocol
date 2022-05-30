@@ -43,6 +43,14 @@ func TestGenesisState_Validate(t *testing.T) {
 				Options: &types.Options{
 					DefaultMintee: "39",
 				},
+				TokenBurnList: []types.TokenBurn{
+					{
+						Token: "0",
+					},
+					{
+						Token: "1",
+					},
+				},
 				// this line is used by starport scaffolding # types/genesis/validField
 			},
 			valid: true,
@@ -72,6 +80,20 @@ func TestGenesisState_Validate(t *testing.T) {
 					{
 						Token:   "0",
 						Address: "0",
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated tokenBurn",
+			genState: &types.GenesisState{
+				TokenBurnList: []types.TokenBurn{
+					{
+						Token: "0",
+					},
+					{
+						Token: "0",
 					},
 				},
 			},

@@ -21,6 +21,10 @@ func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) 
 	if genState.Options != nil {
 		k.SetOptions(ctx, *genState.Options)
 	}
+	// Set all the tokenBurn
+	for _, elem := range genState.TokenBurnList {
+		k.SetTokenBurn(ctx, elem)
+	}
 	// this line is used by starport scaffolding # genesis/module/init
 	k.SetPort(ctx, genState.PortId)
 	// Only try to bind to port if it is not already bound, since we may already own
@@ -49,6 +53,7 @@ func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
 	if found {
 		genesis.Options = &options
 	}
+	genesis.TokenBurnList = k.GetAllTokenBurn(ctx)
 	// this line is used by starport scaffolding # genesis/module/export
 
 	return genesis

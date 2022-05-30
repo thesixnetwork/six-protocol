@@ -3,6 +3,7 @@ import { Params } from "../tokenmngr/params";
 import { Token } from "../tokenmngr/token";
 import { Mintperm } from "../tokenmngr/mintperm";
 import { Options } from "../tokenmngr/options";
+import { TokenBurn } from "../tokenmngr/token_burn";
 import { Writer, Reader } from "protobufjs/minimal";
 
 export const protobufPackage = "thesixnetwork.sixprotocol.tokenmngr";
@@ -13,8 +14,9 @@ export interface GenesisState {
   port_id: string;
   tokenList: Token[];
   mintpermList: Mintperm[];
-  /** this line is used by starport scaffolding # genesis/proto/state */
   options: Options | undefined;
+  /** this line is used by starport scaffolding # genesis/proto/state */
+  tokenBurnList: TokenBurn[];
 }
 
 const baseGenesisState: object = { port_id: "" };
@@ -36,6 +38,9 @@ export const GenesisState = {
     if (message.options !== undefined) {
       Options.encode(message.options, writer.uint32(50).fork()).ldelim();
     }
+    for (const v of message.tokenBurnList) {
+      TokenBurn.encode(v!, writer.uint32(58).fork()).ldelim();
+    }
     return writer;
   },
 
@@ -45,6 +50,7 @@ export const GenesisState = {
     const message = { ...baseGenesisState } as GenesisState;
     message.tokenList = [];
     message.mintpermList = [];
+    message.tokenBurnList = [];
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -63,6 +69,9 @@ export const GenesisState = {
         case 6:
           message.options = Options.decode(reader, reader.uint32());
           break;
+        case 7:
+          message.tokenBurnList.push(TokenBurn.decode(reader, reader.uint32()));
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -75,6 +84,7 @@ export const GenesisState = {
     const message = { ...baseGenesisState } as GenesisState;
     message.tokenList = [];
     message.mintpermList = [];
+    message.tokenBurnList = [];
     if (object.params !== undefined && object.params !== null) {
       message.params = Params.fromJSON(object.params);
     } else {
@@ -99,6 +109,11 @@ export const GenesisState = {
       message.options = Options.fromJSON(object.options);
     } else {
       message.options = undefined;
+    }
+    if (object.tokenBurnList !== undefined && object.tokenBurnList !== null) {
+      for (const e of object.tokenBurnList) {
+        message.tokenBurnList.push(TokenBurn.fromJSON(e));
+      }
     }
     return message;
   },
@@ -126,6 +141,13 @@ export const GenesisState = {
       (obj.options = message.options
         ? Options.toJSON(message.options)
         : undefined);
+    if (message.tokenBurnList) {
+      obj.tokenBurnList = message.tokenBurnList.map((e) =>
+        e ? TokenBurn.toJSON(e) : undefined
+      );
+    } else {
+      obj.tokenBurnList = [];
+    }
     return obj;
   },
 
@@ -133,6 +155,7 @@ export const GenesisState = {
     const message = { ...baseGenesisState } as GenesisState;
     message.tokenList = [];
     message.mintpermList = [];
+    message.tokenBurnList = [];
     if (object.params !== undefined && object.params !== null) {
       message.params = Params.fromPartial(object.params);
     } else {
@@ -157,6 +180,11 @@ export const GenesisState = {
       message.options = Options.fromPartial(object.options);
     } else {
       message.options = undefined;
+    }
+    if (object.tokenBurnList !== undefined && object.tokenBurnList !== null) {
+      for (const e of object.tokenBurnList) {
+        message.tokenBurnList.push(TokenBurn.fromPartial(e));
+      }
     }
     return message;
   },

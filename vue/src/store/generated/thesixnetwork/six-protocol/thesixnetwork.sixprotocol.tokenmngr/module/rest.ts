@@ -85,6 +85,21 @@ export interface TokenmngrQueryAllMintpermResponse {
   pagination?: V1Beta1PageResponse;
 }
 
+export interface TokenmngrQueryAllTokenBurnResponse {
+  tokenBurn?: TokenmngrTokenBurn[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
 export interface TokenmngrQueryAllTokenResponse {
   token?: TokenmngrToken[];
 
@@ -123,6 +138,10 @@ export interface TokenmngrQueryGetOptionsResponse {
   Options?: TokenmngrOptions;
 }
 
+export interface TokenmngrQueryGetTokenBurnResponse {
+  tokenBurn?: TokenmngrTokenBurn;
+}
+
 export interface TokenmngrQueryGetTokenResponse {
   token?: TokenmngrToken;
 }
@@ -143,6 +162,13 @@ export interface TokenmngrToken {
   maxSupply?: string;
   mintee?: string;
   creator?: string;
+}
+
+export interface TokenmngrTokenBurn {
+  token?: string;
+
+  /** @format uint64 */
+  amount?: string;
 }
 
 /**
@@ -542,6 +568,48 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       path: `/thesixnetwork/sixprotocol/tokenmngr/burns`,
       method: "GET",
       query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryTokenBurnAll
+   * @summary Queries a list of TokenBurn items.
+   * @request GET:/thesixnetwork/sixprotocol/tokenmngr/token_burn
+   */
+  queryTokenBurnAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.count_total"?: boolean;
+      "pagination.reverse"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<TokenmngrQueryAllTokenBurnResponse, RpcStatus>({
+      path: `/thesixnetwork/sixprotocol/tokenmngr/token_burn`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryTokenBurn
+   * @summary Queries a TokenBurn by index.
+   * @request GET:/thesixnetwork/sixprotocol/tokenmngr/token_burn/{token}
+   */
+  queryTokenBurn = (token: string, params: RequestParams = {}) =>
+    this.request<TokenmngrQueryGetTokenBurnResponse, RpcStatus>({
+      path: `/thesixnetwork/sixprotocol/tokenmngr/token_burn/${token}`,
+      method: "GET",
       format: "json",
       ...params,
     });
