@@ -64,6 +64,21 @@ func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBu
 		return nil, err
 	}
 
+	prev, found := k.GetTokenBurn(ctx, msg.Token)
+	if !found {
+		var burn = types.TokenBurn{
+			Token: msg.Token,
+			Amount: msg.Amount,
+		}
+		k.SetTokenBurn(ctx, burn)
+	}else{
+		var burn = types.TokenBurn{
+			Token: msg.Token,
+			Amount: msg.Amount + prev.Amount,
+		}
+		k.SetTokenBurn(ctx, burn)
+	}
+
 	id := k.UpdateBurn(ctx, burn)
 
 	return &types.MsgBurnResponse{Id: id}, nil
