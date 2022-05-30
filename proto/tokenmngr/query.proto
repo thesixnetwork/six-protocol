@@ -8,6 +8,7 @@ import "tokenmngr/params.proto";
 import "tokenmngr/token.proto";
 import "tokenmngr/mintperm.proto";
 import "tokenmngr/options.proto";
+import "tokenmngr/burn.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "github.com/thesixnetwork/six-protocol/x/tokenmngr/types";
@@ -42,6 +43,11 @@ service Query {
 	rpc Options(QueryGetOptionsRequest) returns (QueryGetOptionsResponse) {
 		option (google.api.http).get = "/thesixnetwork/six-protocol/tokenmngr/options";
 	}
+// Queries a list of Burns items.
+	rpc Burns(QueryBurnsRequest) returns (QueryBurnsResponse) {
+		option (google.api.http).get = "/thesixnetwork/sixprotocol/tokenmngr/burns";
+	}
+
 // this line is used by starport scaffolding # 2
 }
 
@@ -96,4 +102,15 @@ message QueryGetOptionsRequest {}
 message QueryGetOptionsResponse {
 	Options Options = 1 [(gogoproto.nullable) = false];
 }
+message QueryBurnsRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryBurnsResponse {
+  // Returning a list of posts
+  repeated Burn Burn = 1;
+  // Adding pagination to response
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
 // this line is used by starport scaffolding # 3

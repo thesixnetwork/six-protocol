@@ -7,11 +7,11 @@ export const protobufPackage = "thesixnetwork.sixprotocol.tokenmngr";
 export interface Burn {
   id: number;
   creator: string;
-  amount: number;
   token: string;
+  amount: number;
 }
 
-const baseBurn: object = { id: 0, creator: "", amount: 0, token: "" };
+const baseBurn: object = { id: 0, creator: "", token: "", amount: 0 };
 
 export const Burn = {
   encode(message: Burn, writer: Writer = Writer.create()): Writer {
@@ -21,11 +21,11 @@ export const Burn = {
     if (message.creator !== "") {
       writer.uint32(18).string(message.creator);
     }
-    if (message.amount !== 0) {
-      writer.uint32(24).uint64(message.amount);
-    }
     if (message.token !== "") {
-      writer.uint32(34).string(message.token);
+      writer.uint32(26).string(message.token);
+    }
+    if (message.amount !== 0) {
+      writer.uint32(32).uint64(message.amount);
     }
     return writer;
   },
@@ -44,10 +44,10 @@ export const Burn = {
           message.creator = reader.string();
           break;
         case 3:
-          message.amount = longToNumber(reader.uint64() as Long);
+          message.token = reader.string();
           break;
         case 4:
-          message.token = reader.string();
+          message.amount = longToNumber(reader.uint64() as Long);
           break;
         default:
           reader.skipType(tag & 7);
@@ -69,15 +69,15 @@ export const Burn = {
     } else {
       message.creator = "";
     }
-    if (object.amount !== undefined && object.amount !== null) {
-      message.amount = Number(object.amount);
-    } else {
-      message.amount = 0;
-    }
     if (object.token !== undefined && object.token !== null) {
       message.token = String(object.token);
     } else {
       message.token = "";
+    }
+    if (object.amount !== undefined && object.amount !== null) {
+      message.amount = Number(object.amount);
+    } else {
+      message.amount = 0;
     }
     return message;
   },
@@ -86,8 +86,8 @@ export const Burn = {
     const obj: any = {};
     message.id !== undefined && (obj.id = message.id);
     message.creator !== undefined && (obj.creator = message.creator);
-    message.amount !== undefined && (obj.amount = message.amount);
     message.token !== undefined && (obj.token = message.token);
+    message.amount !== undefined && (obj.amount = message.amount);
     return obj;
   },
 
@@ -103,15 +103,15 @@ export const Burn = {
     } else {
       message.creator = "";
     }
-    if (object.amount !== undefined && object.amount !== null) {
-      message.amount = object.amount;
-    } else {
-      message.amount = 0;
-    }
     if (object.token !== undefined && object.token !== null) {
       message.token = object.token;
     } else {
       message.token = "";
+    }
+    if (object.amount !== undefined && object.amount !== null) {
+      message.amount = object.amount;
+    } else {
+      message.amount = 0;
     }
     return message;
   },

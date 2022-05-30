@@ -8,6 +8,7 @@ import {
 } from "../cosmos/base/query/v1beta1/pagination";
 import { Mintperm } from "../tokenmngr/mintperm";
 import { Options } from "../tokenmngr/options";
+import { Burn } from "../tokenmngr/burn";
 
 export const protobufPackage = "thesixnetwork.sixprotocol.tokenmngr";
 
@@ -59,6 +60,17 @@ export interface QueryGetOptionsRequest {}
 
 export interface QueryGetOptionsResponse {
   Options: Options | undefined;
+}
+
+export interface QueryBurnsRequest {
+  pagination: PageRequest | undefined;
+}
+
+export interface QueryBurnsResponse {
+  /** Returning a list of posts */
+  Burn: Burn[];
+  /** Adding pagination to response */
+  pagination: PageResponse | undefined;
 }
 
 const baseQueryParamsRequest: object = {};
@@ -860,6 +872,152 @@ export const QueryGetOptionsResponse = {
   },
 };
 
+const baseQueryBurnsRequest: object = {};
+
+export const QueryBurnsRequest = {
+  encode(message: QueryBurnsRequest, writer: Writer = Writer.create()): Writer {
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryBurnsRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryBurnsRequest } as QueryBurnsRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryBurnsRequest {
+    const message = { ...baseQueryBurnsRequest } as QueryBurnsRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryBurnsRequest): unknown {
+    const obj: any = {};
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageRequest.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<QueryBurnsRequest>): QueryBurnsRequest {
+    const message = { ...baseQueryBurnsRequest } as QueryBurnsRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryBurnsResponse: object = {};
+
+export const QueryBurnsResponse = {
+  encode(
+    message: QueryBurnsResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    for (const v of message.Burn) {
+      Burn.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(
+        message.pagination,
+        writer.uint32(18).fork()
+      ).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryBurnsResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryBurnsResponse } as QueryBurnsResponse;
+    message.Burn = [];
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.Burn.push(Burn.decode(reader, reader.uint32()));
+          break;
+        case 2:
+          message.pagination = PageResponse.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryBurnsResponse {
+    const message = { ...baseQueryBurnsResponse } as QueryBurnsResponse;
+    message.Burn = [];
+    if (object.Burn !== undefined && object.Burn !== null) {
+      for (const e of object.Burn) {
+        message.Burn.push(Burn.fromJSON(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryBurnsResponse): unknown {
+    const obj: any = {};
+    if (message.Burn) {
+      obj.Burn = message.Burn.map((e) => (e ? Burn.toJSON(e) : undefined));
+    } else {
+      obj.Burn = [];
+    }
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageResponse.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<QueryBurnsResponse>): QueryBurnsResponse {
+    const message = { ...baseQueryBurnsResponse } as QueryBurnsResponse;
+    message.Burn = [];
+    if (object.Burn !== undefined && object.Burn !== null) {
+      for (const e of object.Burn) {
+        message.Burn.push(Burn.fromPartial(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
@@ -876,6 +1034,8 @@ export interface Query {
   ): Promise<QueryAllMintpermResponse>;
   /** Queries a Options by index. */
   Options(request: QueryGetOptionsRequest): Promise<QueryGetOptionsResponse>;
+  /** Queries a list of Burns items. */
+  Burns(request: QueryBurnsRequest): Promise<QueryBurnsResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -955,6 +1115,16 @@ export class QueryClientImpl implements Query {
     return promise.then((data) =>
       QueryGetOptionsResponse.decode(new Reader(data))
     );
+  }
+
+  Burns(request: QueryBurnsRequest): Promise<QueryBurnsResponse> {
+    const data = QueryBurnsRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "thesixnetwork.sixprotocol.tokenmngr.Query",
+      "Burns",
+      data
+    );
+    return promise.then((data) => QueryBurnsResponse.decode(new Reader(data)));
   }
 }
 

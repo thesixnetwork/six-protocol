@@ -6,6 +6,6 @@ option go_package = "github.com/thesixnetwork/six-protocol/x/tokenmngr/types";
 message Burn {
     uint64 id = 1;
     string creator = 2;
-    uint64 amount = 3;
-    string token = 4; 
+    string token = 3; 
+    uint64 amount = 4;
 }
