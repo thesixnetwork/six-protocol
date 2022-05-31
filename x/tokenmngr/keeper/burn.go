@@ -8,6 +8,7 @@ import (
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
+// History burn
 func (k Keeper) UpdateBurn(ctx sdk.Context, burn types.Burn) uint64 {
 	// Get the current number of burns in the store
 	count := k.GetBurnCount(ctx)
@@ -43,7 +44,7 @@ func (k Keeper) GetBurnCount(ctx sdk.Context) uint64 {
 }
 
 func (k Keeper) SetBurnCount(ctx sdk.Context, count uint64) {
-	// Get the store using storeKey (which is "blog") and BurnCountKey (which is "Burn-count-")
+	// Get the store using storeKey (which is "burn") and BurnCountKey (which is "Burn-count-")
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), []byte(types.BurnCountKey))
 	// Convert the BurnCountKey to bytes
 	byteKey := []byte(types.BurnCountKey)

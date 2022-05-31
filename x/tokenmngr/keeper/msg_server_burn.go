@@ -19,9 +19,13 @@ func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBu
 		Token:   msg.Token,
 		Amount:  msg.Amount,
 	}
-
+	// Check is token exist
 	token, foundToken := k.GetToken(ctx, msg.Token)
-	_ = token
+	if !foundToken {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "token does not exist")
+	}
+
+	// Chect is this creator is exist
 	burner, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return nil, err
@@ -30,14 +34,10 @@ func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBu
 	if msg.Amount == 0 {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is prohibit from module")
 	}
-
-	if !foundToken {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "token does not exist")
+	//TODO:: Make sure MaxSupply and totalSupply is Dupplicate or not
+	if uint64(token.MaxSupply) < msg.Amount{
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is higher than maximum supply")
 	}
-
-	// if uint64(token.MaxSupply) < msg.Amount{
-	// 	return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is higher than maximum supply")
-	// }
 
 	supply := k.bankKeeper.GetSupply(ctx, msg.Token)
 	if supply.Amount.Uint64() < msg.Amount {
@@ -64,21 +64,23 @@ func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBu
 		return nil, err
 	}
 
+	// Get burning history
 	prev, found := k.GetTokenBurn(ctx, msg.Token)
 	if !found {
-		var burn = types.TokenBurn{
+		var tokenBurn = types.TokenBurn{
 			Token: msg.Token,
 			Amount: msg.Amount,
 		}
-		k.SetTokenBurn(ctx, burn)
+		k.SetTokenBurn(ctx, tokenBurn)
 	}else{
-		var burn = types.TokenBurn{
+		var tokenBurn = types.TokenBurn{
 			Token: msg.Token,
 			Amount: msg.Amount + prev.Amount,
 		}
-		k.SetTokenBurn(ctx, burn)
+		k.SetTokenBurn(ctx, tokenBurn)
 	}
 
+	// Update to history
 	id := k.UpdateBurn(ctx, burn)
 
 	return &types.MsgBurnResponse{Id: id}, nil
