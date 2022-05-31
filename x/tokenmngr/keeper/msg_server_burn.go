@@ -41,7 +41,7 @@ func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBu
 
 	supply := k.bankKeeper.GetSupply(ctx, msg.Token)
 	if supply.Amount.Uint64() < msg.Amount {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is higher than current supply")
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is higher than current total supply")
 	}
 
 	var burnAmount uint64 = msg.Amount
@@ -49,6 +49,10 @@ func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBu
 	tokens := sdk.Coin{
 		Denom:  msg.Token,
 		Amount: sdk.NewIntFromUint64(burnAmount),
+	}
+
+	if balance := k.bankKeeper.GetBalance(ctx, burner, msg.Token); balance.Amount.Uint64() < msg.Amount {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Amount of token is too hight than current balance")
 	}
 
 	//send to module
