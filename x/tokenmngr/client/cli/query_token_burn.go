@@ -11,8 +11,8 @@ import (
 
 func CmdListTokenBurn() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "list-token-burn",
-		Short: "list all tokenBurn",
+		Use:   "list-burn",
+		Short: "list all burn group by token",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx := client.GetClientContextFromCmd(cmd)
 
@@ -44,8 +44,8 @@ func CmdListTokenBurn() *cobra.Command {
 
 func CmdShowTokenBurn() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "show-token-burn [token]",
-		Short: "shows a tokenBurn",
+		Use:   "show-burn [token]",
+		Short: "shows a amount of burn per token",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			clientCtx := client.GetClientContextFromCmd(cmd)
