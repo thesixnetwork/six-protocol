@@ -20,10 +20,10 @@ func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBu
 		Amount:  msg.Amount,
 	}
 	// Check is token exist
-	_, foundToken := k.GetToken(ctx, msg.Token)
-	if !foundToken {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "token does not exist")
-	}
+	// _, foundToken := k.GetToken(ctx, msg.Token)
+	// if !foundToken {
+	// 	return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "token does not exist")
+	// }
 
 	// Chect is this creator is exist
 	burner, err := sdk.AccAddressFromBech32(msg.Creator)
@@ -72,13 +72,13 @@ func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBu
 	prev, found := k.GetTokenBurn(ctx, msg.Token)
 	if !found {
 		var tokenBurn = types.TokenBurn{
-			Token: msg.Token,
+			Token:  msg.Token,
 			Amount: msg.Amount,
 		}
 		k.SetTokenBurn(ctx, tokenBurn)
-	}else{
+	} else {
 		var tokenBurn = types.TokenBurn{
-			Token: msg.Token,
+			Token:  msg.Token,
 			Amount: msg.Amount + prev.Amount,
 		}
 		k.SetTokenBurn(ctx, tokenBurn)
