@@ -20,7 +20,7 @@ func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBu
 		Amount:  msg.Amount,
 	}
 	// Check is token exist
-	token, foundToken := k.GetToken(ctx, msg.Token)
+	_, foundToken := k.GetToken(ctx, msg.Token)
 	if !foundToken {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "token does not exist")
 	}
@@ -35,9 +35,9 @@ func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBu
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is prohibit from module")
 	}
 	//TODO:: Make sure MaxSupply and totalSupply is Dupplicate or not
-	if uint64(token.MaxSupply) < msg.Amount{
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is higher than maximum supply")
-	}
+	// if uint64(token.MaxSupply) < msg.Amount{
+	// 	return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is higher than maximum supply")
+	// }
 
 	supply := k.bankKeeper.GetSupply(ctx, msg.Token)
 	if supply.Amount.Uint64() < msg.Amount {
