@@ -587,8 +587,31 @@ func New(
 }
 
 func (app *App) RegisterUpgradeHandlers(cfg module.Configurator) {
-	app.UpgradeKeeper.SetUpgradeHandler("v1.0.1", func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
-		return app.mm.RunMigrations(ctx, cfg, vm)
+	app.UpgradeKeeper.SetUpgradeHandler("v1.0.1", func(ctx sdk.Context, plan upgradetypes.Plan, _ module.VersionMap) (module.VersionMap, error) {
+		// 1st-time running in-store migrations, using 1 as fromVersion to
+		// avoid running InitGenesis.
+		fromVM := map[string]uint64{
+			// "auth":         1,
+			// "bank":         1,
+			// "capability":   1,
+			// "crisis":       1,
+			// "distribution": 1,
+			// "evidence":     1,
+			// "gov":          1,
+			// "mint":         1,
+			// "params":       1,
+			// "slashing":     1,
+			// "staking":      1,
+			// "upgrade":      1,
+			// "vesting":      1,
+			// "ibc":          1,
+			// "genutil":      1,
+			// "transfer":     1,
+			"protocoladmin":	1,
+			"tokenmngr":		1,
+		}
+
+		return app.mm.RunMigrations(ctx, cfg, fromVM)
 	})
 }
 
