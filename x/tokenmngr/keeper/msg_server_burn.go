@@ -52,7 +52,7 @@ func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBu
 	}
 
 	if balance := k.bankKeeper.GetBalance(ctx, burner, msg.Token); balance.Amount.Uint64() < msg.Amount {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Amount of token is too hight than current balance")
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Amount of token is too high than current balance")
 	}
 
 	//send to module
