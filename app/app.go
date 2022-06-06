@@ -587,7 +587,7 @@ func New(
 }
 
 func (app *App) RegisterUpgradeHandlers(cfg module.Configurator) {
-	app.UpgradeKeeper.SetUpgradeHandler("v1.0.4", func(ctx sdk.Context, plan upgradetypes.Plan, _ module.VersionMap) (module.VersionMap, error) {
+	app.UpgradeKeeper.SetUpgradeHandler("v1.0.5", func(ctx sdk.Context, plan upgradetypes.Plan, _ module.VersionMap) (module.VersionMap, error) {
 		// 1st-time running in-store migrations, using 1 as fromVersion to
 		// avoid running InitGenesis.
 		fromVM := map[string]uint64{
@@ -607,6 +607,8 @@ func (app *App) RegisterUpgradeHandlers(cfg module.Configurator) {
 			"ibc":          	1,
 			"genutil":      	1,
 			"transfer":     	1,
+			"feegrant":			1,
+			"authz":			1,
 			"protocoladmin":	1,
 			"tokenmngr":		1,
 		}
