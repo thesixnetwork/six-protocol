@@ -587,7 +587,7 @@ func New(
 }
 
 func (app *App) RegisterUpgradeHandlers(cfg module.Configurator) {
-	app.UpgradeKeeper.SetUpgradeHandler("v1.0.6", func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
+	app.UpgradeKeeper.SetUpgradeHandler("v1.0.7-test-upgrade-cosmos-sdk-2", func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
 
 		return app.mm.RunMigrations(ctx, cfg, vm)
 	})
