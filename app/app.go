@@ -589,10 +589,13 @@ func New(
 func (app *App) RegisterUpgradeHandlers(cfg module.Configurator) {
 	app.UpgradeKeeper.SetUpgradeHandler("test", func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
 
+		// fromVM := map[string]uint64{
+		// 	"tokenmngr": 2,
+		// }
+
 		return app.mm.RunMigrations(ctx, cfg, vm)
 	})
 }
-
 
 // Name returns the name of the App
 func (app *App) Name() string { return app.BaseApp.Name() }
