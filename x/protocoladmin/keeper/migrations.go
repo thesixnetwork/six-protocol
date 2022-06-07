@@ -14,7 +14,7 @@ func NewMigrator(keeper Keeper) Migrator {
 	return Migrator{keeper: keeper}
 }
 
-// Migrate1to2 migrates from consensus version 1 to 2.
+// NoOpStoreMigrate means no migration is needed
 func (m Migrator) NoOpStoreMigrate(ctx sdk.Context) error {
 	return nil
 }

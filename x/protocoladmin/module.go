@@ -144,7 +144,7 @@ func (am AppModule) RegisterServices(cfg module.Configurator) {
 
 	m := keeper.NewMigrator(am.keeper)
 	if err := cfg.RegisterMigration(types.ModuleName, 2, m.NoOpStoreMigrate); err != nil {
-		panic(fmt.Sprintf("failed to migrate x/protocoladmin from version 2 to 3: %v", err))
+		panic(fmt.Sprintf("failed to register migration for protocoladmin: %v", err))
 	}
 }
 
