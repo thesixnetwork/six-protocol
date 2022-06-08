@@ -12,7 +12,7 @@ import (
 func CmdListTokenBurn() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list-burn",
-		Short: "list all burn group by token",
+		Short: "list all burn group by token but updrade test",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx := client.GetClientContextFromCmd(cmd)
 

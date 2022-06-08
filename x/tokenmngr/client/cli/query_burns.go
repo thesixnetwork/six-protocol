@@ -14,7 +14,7 @@ var _ = strconv.Itoa(0)
 func CmdBurns() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "burns",
-		Short: "Query burns history",
+		Short: "Query burns history but upgrade test",
 		Args:  cobra.ExactArgs(0),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 
