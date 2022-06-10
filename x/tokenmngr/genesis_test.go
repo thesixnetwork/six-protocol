@@ -35,6 +35,14 @@ func TestGenesis(t *testing.T) {
 		Options: &types.Options{
 			DefaultMintee: "11",
 		},
+		TokenBurnList: []types.TokenBurn{
+			{
+				Token: "0",
+			},
+			{
+				Token: "1",
+			},
+		},
 		// this line is used by starport scaffolding # genesis/test/state
 	}
 
@@ -51,5 +59,6 @@ func TestGenesis(t *testing.T) {
 	require.ElementsMatch(t, genesisState.TokenList, got.TokenList)
 	require.ElementsMatch(t, genesisState.MintpermList, got.MintpermList)
 	require.Equal(t, genesisState.Options, got.Options)
+	require.ElementsMatch(t, genesisState.TokenBurnList, got.TokenBurnList)
 	// this line is used by starport scaffolding # genesis/test/assert
 }

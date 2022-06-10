@@ -20,6 +20,7 @@ service Msg {
   rpc CreateOptions(MsgCreateOptions) returns (MsgCreateOptionsResponse);
   rpc UpdateOptions(MsgUpdateOptions) returns (MsgUpdateOptionsResponse);
   rpc DeleteOptions(MsgDeleteOptions) returns (MsgDeleteOptionsResponse);
+  rpc Burn(MsgBurn) returns (MsgBurnResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -94,4 +95,14 @@ message MsgDeleteOptions {
   string creator = 1;
 }
 message MsgDeleteOptionsResponse {}
+message MsgBurn {
+  string creator = 1;
+  uint64 amount = 2;
+  string token = 3;
+}
+
+message MsgBurnResponse {
+  uint64 id = 1;
+}
+
 // this line is used by starport scaffolding # proto/tx/message

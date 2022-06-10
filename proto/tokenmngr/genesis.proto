@@ -6,6 +6,7 @@ import "tokenmngr/params.proto";
 import "tokenmngr/token.proto";
 import "tokenmngr/mintperm.proto";
 import "tokenmngr/options.proto";
+import "tokenmngr/token_burn.proto";
 // this line is used by starport scaffolding # genesis/proto/import
 
 option go_package = "github.com/thesixnetwork/six-protocol/x/tokenmngr/types";
@@ -17,5 +18,6 @@ message GenesisState {
   repeated Token tokenList = 3 [(gogoproto.nullable) = false];
   repeated Mintperm mintpermList = 4 [(gogoproto.nullable) = false];
   Options options = 6;
+  repeated TokenBurn tokenBurnList = 7 [(gogoproto.nullable) = false];
   // this line is used by starport scaffolding # genesis/proto/state
 }
