@@ -20,10 +20,25 @@ export interface RpcStatus {
   details?: ProtobufAny[];
 }
 
+export interface TokenmngrBurn {
+  /** @format uint64 */
+  id?: string;
+  creator?: string;
+  token?: string;
+
+  /** @format uint64 */
+  amount?: string;
+}
+
 export interface TokenmngrMintperm {
   token?: string;
   address?: string;
   creator?: string;
+}
+
+export interface TokenmngrMsgBurnResponse {
+  /** @format uint64 */
+  id?: string;
 }
 
 export type TokenmngrMsgCreateMintpermResponse = object;
@@ -70,8 +85,38 @@ export interface TokenmngrQueryAllMintpermResponse {
   pagination?: V1Beta1PageResponse;
 }
 
+export interface TokenmngrQueryAllTokenBurnResponse {
+  tokenBurn?: TokenmngrTokenBurn[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
 export interface TokenmngrQueryAllTokenResponse {
   token?: TokenmngrToken[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
+export interface TokenmngrQueryBurnsResponse {
+  Burn?: TokenmngrBurn[];
 
   /**
    * PageResponse is to be embedded in gRPC response messages where the
@@ -91,6 +136,10 @@ export interface TokenmngrQueryGetMintpermResponse {
 
 export interface TokenmngrQueryGetOptionsResponse {
   Options?: TokenmngrOptions;
+}
+
+export interface TokenmngrQueryGetTokenBurnResponse {
+  tokenBurn?: TokenmngrTokenBurn;
 }
 
 export interface TokenmngrQueryGetTokenResponse {
@@ -113,6 +162,13 @@ export interface TokenmngrToken {
   maxSupply?: string;
   mintee?: string;
   creator?: string;
+}
+
+export interface TokenmngrTokenBurn {
+  token?: string;
+
+  /** @format uint64 */
+  amount?: string;
 }
 
 /**
@@ -151,7 +207,7 @@ export interface V1Beta1PageRequest {
    * count_total is only respected when offset is used. It is ignored when key
    * is set.
    */
-  countTotal?: boolean;
+  count_total?: boolean;
 
   /**
    * reverse is set to true if results are to be returned in the descending order.
@@ -172,7 +228,7 @@ corresponding request message has used PageRequest.
 */
 export interface V1Beta1PageResponse {
   /** @format byte */
-  nextKey?: string;
+  next_key?: string;
 
   /** @format uint64 */
   total?: string;
@@ -370,7 +426,7 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title tokenmngr/genesis.proto
+ * @title tokenmngr/burn.proto
  * @version version not set
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
@@ -387,7 +443,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       "pagination.key"?: string;
       "pagination.offset"?: string;
       "pagination.limit"?: string;
-      "pagination.countTotal"?: boolean;
+      "pagination.count_total"?: boolean;
       "pagination.reverse"?: boolean;
     },
     params: RequestParams = {},
@@ -461,7 +517,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       "pagination.key"?: string;
       "pagination.offset"?: string;
       "pagination.limit"?: string;
-      "pagination.countTotal"?: boolean;
+      "pagination.count_total"?: boolean;
       "pagination.reverse"?: boolean;
     },
     params: RequestParams = {},
@@ -485,6 +541,74 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryToken = (name: string, params: RequestParams = {}) =>
     this.request<TokenmngrQueryGetTokenResponse, RpcStatus>({
       path: `/thesixnetwork/six-protocol/tokenmngr/token/${name}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryBurns
+   * @summary Queries a list of Burns items.
+   * @request GET:/thesixnetwork/sixprotocol/tokenmngr/burns
+   */
+  queryBurns = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.count_total"?: boolean;
+      "pagination.reverse"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<TokenmngrQueryBurnsResponse, RpcStatus>({
+      path: `/thesixnetwork/sixprotocol/tokenmngr/burns`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryTokenBurnAll
+   * @summary Queries a list of TokenBurn items.
+   * @request GET:/thesixnetwork/sixprotocol/tokenmngr/token_burn
+   */
+  queryTokenBurnAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.count_total"?: boolean;
+      "pagination.reverse"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<TokenmngrQueryAllTokenBurnResponse, RpcStatus>({
+      path: `/thesixnetwork/sixprotocol/tokenmngr/token_burn`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryTokenBurn
+   * @summary Queries a TokenBurn by index.
+   * @request GET:/thesixnetwork/sixprotocol/tokenmngr/token_burn/{token}
+   */
+  queryTokenBurn = (token: string, params: RequestParams = {}) =>
+    this.request<TokenmngrQueryGetTokenBurnResponse, RpcStatus>({
+      path: `/thesixnetwork/sixprotocol/tokenmngr/token_burn/${token}`,
       method: "GET",
       format: "json",
       ...params,

@@ -8,6 +8,8 @@ import {
 } from "../cosmos/base/query/v1beta1/pagination";
 import { Mintperm } from "../tokenmngr/mintperm";
 import { Options } from "../tokenmngr/options";
+import { Burn } from "../tokenmngr/burn";
+import { TokenBurn } from "../tokenmngr/token_burn";
 
 export const protobufPackage = "thesixnetwork.sixprotocol.tokenmngr";
 
@@ -59,6 +61,34 @@ export interface QueryGetOptionsRequest {}
 
 export interface QueryGetOptionsResponse {
   Options: Options | undefined;
+}
+
+export interface QueryBurnsRequest {
+  pagination: PageRequest | undefined;
+}
+
+export interface QueryBurnsResponse {
+  /** Returning a list of posts */
+  Burn: Burn[];
+  /** Adding pagination to response */
+  pagination: PageResponse | undefined;
+}
+
+export interface QueryGetTokenBurnRequest {
+  token: string;
+}
+
+export interface QueryGetTokenBurnResponse {
+  tokenBurn: TokenBurn | undefined;
+}
+
+export interface QueryAllTokenBurnRequest {
+  pagination: PageRequest | undefined;
+}
+
+export interface QueryAllTokenBurnResponse {
+  tokenBurn: TokenBurn[];
+  pagination: PageResponse | undefined;
 }
 
 const baseQueryParamsRequest: object = {};
@@ -860,6 +890,466 @@ export const QueryGetOptionsResponse = {
   },
 };
 
+const baseQueryBurnsRequest: object = {};
+
+export const QueryBurnsRequest = {
+  encode(message: QueryBurnsRequest, writer: Writer = Writer.create()): Writer {
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryBurnsRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryBurnsRequest } as QueryBurnsRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryBurnsRequest {
+    const message = { ...baseQueryBurnsRequest } as QueryBurnsRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryBurnsRequest): unknown {
+    const obj: any = {};
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageRequest.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<QueryBurnsRequest>): QueryBurnsRequest {
+    const message = { ...baseQueryBurnsRequest } as QueryBurnsRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryBurnsResponse: object = {};
+
+export const QueryBurnsResponse = {
+  encode(
+    message: QueryBurnsResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    for (const v of message.Burn) {
+      Burn.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(
+        message.pagination,
+        writer.uint32(18).fork()
+      ).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryBurnsResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryBurnsResponse } as QueryBurnsResponse;
+    message.Burn = [];
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.Burn.push(Burn.decode(reader, reader.uint32()));
+          break;
+        case 2:
+          message.pagination = PageResponse.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryBurnsResponse {
+    const message = { ...baseQueryBurnsResponse } as QueryBurnsResponse;
+    message.Burn = [];
+    if (object.Burn !== undefined && object.Burn !== null) {
+      for (const e of object.Burn) {
+        message.Burn.push(Burn.fromJSON(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryBurnsResponse): unknown {
+    const obj: any = {};
+    if (message.Burn) {
+      obj.Burn = message.Burn.map((e) => (e ? Burn.toJSON(e) : undefined));
+    } else {
+      obj.Burn = [];
+    }
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageResponse.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<QueryBurnsResponse>): QueryBurnsResponse {
+    const message = { ...baseQueryBurnsResponse } as QueryBurnsResponse;
+    message.Burn = [];
+    if (object.Burn !== undefined && object.Burn !== null) {
+      for (const e of object.Burn) {
+        message.Burn.push(Burn.fromPartial(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryGetTokenBurnRequest: object = { token: "" };
+
+export const QueryGetTokenBurnRequest = {
+  encode(
+    message: QueryGetTokenBurnRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.token !== "") {
+      writer.uint32(10).string(message.token);
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryGetTokenBurnRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryGetTokenBurnRequest,
+    } as QueryGetTokenBurnRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.token = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetTokenBurnRequest {
+    const message = {
+      ...baseQueryGetTokenBurnRequest,
+    } as QueryGetTokenBurnRequest;
+    if (object.token !== undefined && object.token !== null) {
+      message.token = String(object.token);
+    } else {
+      message.token = "";
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetTokenBurnRequest): unknown {
+    const obj: any = {};
+    message.token !== undefined && (obj.token = message.token);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryGetTokenBurnRequest>
+  ): QueryGetTokenBurnRequest {
+    const message = {
+      ...baseQueryGetTokenBurnRequest,
+    } as QueryGetTokenBurnRequest;
+    if (object.token !== undefined && object.token !== null) {
+      message.token = object.token;
+    } else {
+      message.token = "";
+    }
+    return message;
+  },
+};
+
+const baseQueryGetTokenBurnResponse: object = {};
+
+export const QueryGetTokenBurnResponse = {
+  encode(
+    message: QueryGetTokenBurnResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.tokenBurn !== undefined) {
+      TokenBurn.encode(message.tokenBurn, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryGetTokenBurnResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryGetTokenBurnResponse,
+    } as QueryGetTokenBurnResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.tokenBurn = TokenBurn.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetTokenBurnResponse {
+    const message = {
+      ...baseQueryGetTokenBurnResponse,
+    } as QueryGetTokenBurnResponse;
+    if (object.tokenBurn !== undefined && object.tokenBurn !== null) {
+      message.tokenBurn = TokenBurn.fromJSON(object.tokenBurn);
+    } else {
+      message.tokenBurn = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetTokenBurnResponse): unknown {
+    const obj: any = {};
+    message.tokenBurn !== undefined &&
+      (obj.tokenBurn = message.tokenBurn
+        ? TokenBurn.toJSON(message.tokenBurn)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryGetTokenBurnResponse>
+  ): QueryGetTokenBurnResponse {
+    const message = {
+      ...baseQueryGetTokenBurnResponse,
+    } as QueryGetTokenBurnResponse;
+    if (object.tokenBurn !== undefined && object.tokenBurn !== null) {
+      message.tokenBurn = TokenBurn.fromPartial(object.tokenBurn);
+    } else {
+      message.tokenBurn = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllTokenBurnRequest: object = {};
+
+export const QueryAllTokenBurnRequest = {
+  encode(
+    message: QueryAllTokenBurnRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryAllTokenBurnRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryAllTokenBurnRequest,
+    } as QueryAllTokenBurnRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllTokenBurnRequest {
+    const message = {
+      ...baseQueryAllTokenBurnRequest,
+    } as QueryAllTokenBurnRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllTokenBurnRequest): unknown {
+    const obj: any = {};
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageRequest.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllTokenBurnRequest>
+  ): QueryAllTokenBurnRequest {
+    const message = {
+      ...baseQueryAllTokenBurnRequest,
+    } as QueryAllTokenBurnRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllTokenBurnResponse: object = {};
+
+export const QueryAllTokenBurnResponse = {
+  encode(
+    message: QueryAllTokenBurnResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    for (const v of message.tokenBurn) {
+      TokenBurn.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(
+        message.pagination,
+        writer.uint32(18).fork()
+      ).ldelim();
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryAllTokenBurnResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryAllTokenBurnResponse,
+    } as QueryAllTokenBurnResponse;
+    message.tokenBurn = [];
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.tokenBurn.push(TokenBurn.decode(reader, reader.uint32()));
+          break;
+        case 2:
+          message.pagination = PageResponse.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllTokenBurnResponse {
+    const message = {
+      ...baseQueryAllTokenBurnResponse,
+    } as QueryAllTokenBurnResponse;
+    message.tokenBurn = [];
+    if (object.tokenBurn !== undefined && object.tokenBurn !== null) {
+      for (const e of object.tokenBurn) {
+        message.tokenBurn.push(TokenBurn.fromJSON(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllTokenBurnResponse): unknown {
+    const obj: any = {};
+    if (message.tokenBurn) {
+      obj.tokenBurn = message.tokenBurn.map((e) =>
+        e ? TokenBurn.toJSON(e) : undefined
+      );
+    } else {
+      obj.tokenBurn = [];
+    }
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageResponse.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllTokenBurnResponse>
+  ): QueryAllTokenBurnResponse {
+    const message = {
+      ...baseQueryAllTokenBurnResponse,
+    } as QueryAllTokenBurnResponse;
+    message.tokenBurn = [];
+    if (object.tokenBurn !== undefined && object.tokenBurn !== null) {
+      for (const e of object.tokenBurn) {
+        message.tokenBurn.push(TokenBurn.fromPartial(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
@@ -876,6 +1366,16 @@ export interface Query {
   ): Promise<QueryAllMintpermResponse>;
   /** Queries a Options by index. */
   Options(request: QueryGetOptionsRequest): Promise<QueryGetOptionsResponse>;
+  /** Queries a list of Burns items. */
+  Burns(request: QueryBurnsRequest): Promise<QueryBurnsResponse>;
+  /** Queries a TokenBurn by index. */
+  TokenBurn(
+    request: QueryGetTokenBurnRequest
+  ): Promise<QueryGetTokenBurnResponse>;
+  /** Queries a list of TokenBurn items. */
+  TokenBurnAll(
+    request: QueryAllTokenBurnRequest
+  ): Promise<QueryAllTokenBurnResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -954,6 +1454,44 @@ export class QueryClientImpl implements Query {
     );
     return promise.then((data) =>
       QueryGetOptionsResponse.decode(new Reader(data))
+    );
+  }
+
+  Burns(request: QueryBurnsRequest): Promise<QueryBurnsResponse> {
+    const data = QueryBurnsRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "thesixnetwork.sixprotocol.tokenmngr.Query",
+      "Burns",
+      data
+    );
+    return promise.then((data) => QueryBurnsResponse.decode(new Reader(data)));
+  }
+
+  TokenBurn(
+    request: QueryGetTokenBurnRequest
+  ): Promise<QueryGetTokenBurnResponse> {
+    const data = QueryGetTokenBurnRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "thesixnetwork.sixprotocol.tokenmngr.Query",
+      "TokenBurn",
+      data
+    );
+    return promise.then((data) =>
+      QueryGetTokenBurnResponse.decode(new Reader(data))
+    );
+  }
+
+  TokenBurnAll(
+    request: QueryAllTokenBurnRequest
+  ): Promise<QueryAllTokenBurnResponse> {
+    const data = QueryAllTokenBurnRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "thesixnetwork.sixprotocol.tokenmngr.Query",
+      "TokenBurnAll",
+      data
+    );
+    return promise.then((data) =>
+      QueryAllTokenBurnResponse.decode(new Reader(data))
     );
   }
 }

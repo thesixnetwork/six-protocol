@@ -38,7 +38,7 @@ export interface DenomUnit {
 export interface Metadata {
   description: string;
   /** denom_units represents the list of DenomUnit's for a given coin */
-  denomUnits: DenomUnit[];
+  denom_units: DenomUnit[];
   /** base represents the base denom (should be the DenomUnit with exponent = 0). */
   base: string;
   /**
@@ -299,7 +299,7 @@ export const Metadata = {
     if (message.description !== "") {
       writer.uint32(10).string(message.description);
     }
-    for (const v of message.denomUnits) {
+    for (const v of message.denom_units) {
       DenomUnit.encode(v!, writer.uint32(18).fork()).ldelim();
     }
     if (message.base !== "") {
@@ -321,7 +321,7 @@ export const Metadata = {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = { ...baseMetadata } as Metadata;
-    message.denomUnits = [];
+    message.denom_units = [];
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -329,7 +329,7 @@ export const Metadata = {
           message.description = reader.string();
           break;
         case 2:
-          message.denomUnits.push(DenomUnit.decode(reader, reader.uint32()));
+          message.denom_units.push(DenomUnit.decode(reader, reader.uint32()));
           break;
         case 3:
           message.base = reader.string();
@@ -353,15 +353,15 @@ export const Metadata = {
 
   fromJSON(object: any): Metadata {
     const message = { ...baseMetadata } as Metadata;
-    message.denomUnits = [];
+    message.denom_units = [];
     if (object.description !== undefined && object.description !== null) {
       message.description = String(object.description);
     } else {
       message.description = "";
     }
-    if (object.denomUnits !== undefined && object.denomUnits !== null) {
-      for (const e of object.denomUnits) {
-        message.denomUnits.push(DenomUnit.fromJSON(e));
+    if (object.denom_units !== undefined && object.denom_units !== null) {
+      for (const e of object.denom_units) {
+        message.denom_units.push(DenomUnit.fromJSON(e));
       }
     }
     if (object.base !== undefined && object.base !== null) {
@@ -391,12 +391,12 @@ export const Metadata = {
     const obj: any = {};
     message.description !== undefined &&
       (obj.description = message.description);
-    if (message.denomUnits) {
-      obj.denomUnits = message.denomUnits.map((e) =>
+    if (message.denom_units) {
+      obj.denom_units = message.denom_units.map((e) =>
         e ? DenomUnit.toJSON(e) : undefined
       );
     } else {
-      obj.denomUnits = [];
+      obj.denom_units = [];
     }
     message.base !== undefined && (obj.base = message.base);
     message.display !== undefined && (obj.display = message.display);
@@ -407,15 +407,15 @@ export const Metadata = {
 
   fromPartial(object: DeepPartial<Metadata>): Metadata {
     const message = { ...baseMetadata } as Metadata;
-    message.denomUnits = [];
+    message.denom_units = [];
     if (object.description !== undefined && object.description !== null) {
       message.description = object.description;
     } else {
       message.description = "";
     }
-    if (object.denomUnits !== undefined && object.denomUnits !== null) {
-      for (const e of object.denomUnits) {
-        message.denomUnits.push(DenomUnit.fromPartial(e));
+    if (object.denom_units !== undefined && object.denom_units !== null) {
+      for (const e of object.denom_units) {
+        message.denom_units.push(DenomUnit.fromPartial(e));
       }
     }
     if (object.base !== undefined && object.base !== null) {

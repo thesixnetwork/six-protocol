@@ -1,0 +1,11 @@
+syntax = "proto3";
+package thesixnetwork.sixprotocol.tokenmngr;
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/tokenmngr/types";
+
+message Burn {
+    uint64 id = 1;
+    string creator = 2;
+    string token = 3; 
+    uint64 amount = 4;
+}
