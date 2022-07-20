@@ -126,14 +126,13 @@ require (
 )
 
 require (
-	github.com/cosmos/ibc-go/v2 v2.0.3
 	github.com/ignite/cli v0.22.2
 	golang.org/x/net v0.0.0-20220624214902-1bab6f366d9e // indirect
 	golang.org/x/sys v0.0.0-20220610221304-9f5ed59c137d // indirect
 )
 
 replace (
-	github.com/cosmos/cosmos-sdk => ../cosmos-sdk 
+	github.com/cosmos/cosmos-sdk => ../cosmos-sdk
 	github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
 	github.com/keybase/go-keychain => github.com/99designs/go-keychain v0.0.0-20191008050251-8e49817e8af4
 	google.golang.org/grpc => google.golang.org/grpc v1.33.2

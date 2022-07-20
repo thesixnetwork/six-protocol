@@ -436,33 +436,33 @@ func New(
 
 	scopedProtocoladminKeeper := app.CapabilityKeeper.ScopeToModule(protocoladminmoduletypes.ModuleName)
 	app.ScopedProtocoladminKeeper = scopedProtocoladminKeeper
-	// app.ProtocoladminKeeper = *protocoladminmodulekeeper.NewKeeper(
-	// 	appCodec,
-	// 	keys[protocoladminmoduletypes.StoreKey],
-	// 	keys[protocoladminmoduletypes.MemStoreKey],
-	// 	app.GetSubspace(protocoladminmoduletypes.ModuleName),
-	// 	app.IBCKeeper.ChannelKeeper,
-	// 	&app.IBCKeeper.PortKeeper,
-	// 	scopedProtocoladminKeeper,
-	// 	app.AccountKeeper,
-	// )
+	app.ProtocoladminKeeper = *protocoladminmodulekeeper.NewKeeper(
+		appCodec,
+		keys[protocoladminmoduletypes.StoreKey],
+		keys[protocoladminmoduletypes.MemStoreKey],
+		app.GetSubspace(protocoladminmoduletypes.ModuleName),
+		app.IBCKeeper.ChannelKeeper,
+		&app.IBCKeeper.PortKeeper,
+		scopedProtocoladminKeeper,
+		app.AccountKeeper,
+	)
 	protocoladminModule := protocoladminmodule.NewAppModule(appCodec, app.ProtocoladminKeeper, app.AccountKeeper, app.BankKeeper)
 	// protocoladminIBCModule := protocoladminmodule.NewIBCModule(app.ProtocoladminKeeper)
 
 	scopedTokenmngrKeeper := app.CapabilityKeeper.ScopeToModule(tokenmngrmoduletypes.ModuleName)
 	app.ScopedTokenmngrKeeper = scopedTokenmngrKeeper
-	// app.TokenmngrKeeper = *tokenmngrmodulekeeper.NewKeeper(
-	// 	appCodec,
-	// 	keys[tokenmngrmoduletypes.StoreKey],
-	// 	keys[tokenmngrmoduletypes.MemStoreKey],
-	// 	app.GetSubspace(tokenmngrmoduletypes.ModuleName),
-	// 	app.IBCKeeper.ChannelKeeper,
-	// 	&app.IBCKeeper.PortKeeper,
-	// 	scopedTokenmngrKeeper,
-	// 	app.BankKeeper,
-	// 	app.AccountKeeper,
-	// 	app.ProtocoladminKeeper,
-	// )
+	app.TokenmngrKeeper = *tokenmngrmodulekeeper.NewKeeper(
+		appCodec,
+		keys[tokenmngrmoduletypes.StoreKey],
+		keys[tokenmngrmoduletypes.MemStoreKey],
+		app.GetSubspace(tokenmngrmoduletypes.ModuleName),
+		app.IBCKeeper.ChannelKeeper,
+		&app.IBCKeeper.PortKeeper,
+		scopedTokenmngrKeeper,
+		app.BankKeeper,
+		app.AccountKeeper,
+		app.ProtocoladminKeeper,
+	)
 	tokenmngrModule := tokenmngrmodule.NewAppModule(appCodec, app.TokenmngrKeeper, app.AccountKeeper, app.BankKeeper)
 	// tokenmngrIBCModule := tokenmngrmodule.NewIBCModule(app.TokenmngrKeeper)
 
