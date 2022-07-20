@@ -10,8 +10,8 @@ import (
 	porttypes "github.com/cosmos/ibc-go/v3/modules/core/05-port/types"
 	host "github.com/cosmos/ibc-go/v3/modules/core/24-host"
 	ibcexported "github.com/cosmos/ibc-go/v3/modules/core/exported"
-	types "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 	keeper "github.com/thesixnetwork/six-protocol/x/tokenmngr/keeper"
+	types "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
 // IBCModule implements the ICS26 interface for oracle given the oracle keeper.

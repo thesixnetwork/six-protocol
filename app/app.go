@@ -14,8 +14,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	"github.com/cosmos/cosmos-sdk/codec/types"
 	"github.com/cosmos/cosmos-sdk/server/api"
-	"github.com/cosmos/cosmos-sdk/server/config"
+	"github.com/thesixnetwork/six-protocol/docs"
 	servertypes "github.com/cosmos/cosmos-sdk/server/types"
+	"github.com/cosmos/cosmos-sdk/server/config"
 	"github.com/cosmos/cosmos-sdk/simapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
@@ -161,8 +162,6 @@ var (
 		evidence.AppModuleBasic{},
 		transfer.AppModuleBasic{},
 		vesting.AppModuleBasic{},
-		protocoladminmodule.AppModuleBasic{},
-		tokenmngrmodule.AppModuleBasic{},
 		wasm.AppModuleBasic{},
 		// this line is used by starport scaffolding # stargate/app/moduleBasic
 		protocoladminmodule.AppModuleBasic{},
@@ -179,6 +178,7 @@ var (
 		govtypes.ModuleName:             {authtypes.Burner},
 		ibctransfertypes.ModuleName:     {authtypes.Minter, authtypes.Burner},
 		tokenmngrmoduletypes.ModuleName: {authtypes.Minter, authtypes.Burner, authtypes.Staking},
+		protocoladminmoduletypes.ModuleName: {authtypes.Minter, authtypes.Burner, authtypes.Staking},
 		wasm.ModuleName:                 {authtypes.Burner},
 		// this line is used by starport scaffolding # stargate/app/maccPerms
 	}
@@ -238,8 +238,8 @@ type App struct {
 	ScopedWasmKeeper capabilitykeeper.ScopedKeeper
 
 	// make scoped keepers public for test purposes
-	ScopedIBCKeeper           capabilitykeeper.ScopedKeeper
-	ScopedTransferKeeper      capabilitykeeper.ScopedKeeper
+	ScopedIBCKeeper      capabilitykeeper.ScopedKeeper
+	ScopedTransferKeeper capabilitykeeper.ScopedKeeper
 	// ScopedICAHostKeeper       capabilitykeeper.ScopedKeeper
 	ScopedProtocoladminKeeper capabilitykeeper.ScopedKeeper
 	ProtocoladminKeeper       protocoladminmodulekeeper.Keeper
@@ -338,45 +338,45 @@ func New(
 		app.GetSubspace(stakingtypes.ModuleName),
 	)
 	app.MintKeeper = mintkeeper.NewKeeper(
-		appCodec, keys[minttypes.StoreKey], 
-		app.GetSubspace(minttypes.ModuleName), 
+		appCodec, keys[minttypes.StoreKey],
+		app.GetSubspace(minttypes.ModuleName),
 		&stakingKeeper,
-		app.AccountKeeper, 
-		app.BankKeeper, 
+		app.AccountKeeper,
+		app.BankKeeper,
 		authtypes.FeeCollectorName,
 	)
 	app.DistrKeeper = distrkeeper.NewKeeper(
-		appCodec, 
-		keys[distrtypes.StoreKey], 
-		app.GetSubspace(distrtypes.ModuleName), 
+		appCodec,
+		keys[distrtypes.StoreKey],
+		app.GetSubspace(distrtypes.ModuleName),
 		app.AccountKeeper, app.BankKeeper,
-		&stakingKeeper, 
-		authtypes.FeeCollectorName, 
+		&stakingKeeper,
+		authtypes.FeeCollectorName,
 		app.ModuleAccountAddrs(),
 	)
 	app.SlashingKeeper = slashingkeeper.NewKeeper(
-		appCodec, 
-		keys[slashingtypes.StoreKey], 
-		&stakingKeeper, 
+		appCodec,
+		keys[slashingtypes.StoreKey],
+		&stakingKeeper,
 		app.GetSubspace(slashingtypes.ModuleName),
 	)
 	app.CrisisKeeper = crisiskeeper.NewKeeper(
-		app.GetSubspace(crisistypes.ModuleName), 
-		invCheckPeriod, 
-		app.BankKeeper, 
+		app.GetSubspace(crisistypes.ModuleName),
+		invCheckPeriod,
+		app.BankKeeper,
 		authtypes.FeeCollectorName,
 	)
 
 	app.FeeGrantKeeper = feegrantkeeper.NewKeeper(
 		appCodec,
-		keys[feegrant.StoreKey], 
+		keys[feegrant.StoreKey],
 		app.AccountKeeper,
 	)
 	app.UpgradeKeeper = upgradekeeper.NewKeeper(
-		skipUpgradeHeights, 
-		keys[upgradetypes.StoreKey], 
-		appCodec, 
-		homePath, 
+		skipUpgradeHeights,
+		keys[upgradetypes.StoreKey],
+		appCodec,
+		homePath,
 		app.BaseApp,
 	)
 
@@ -436,43 +436,43 @@ func New(
 
 	scopedProtocoladminKeeper := app.CapabilityKeeper.ScopeToModule(protocoladminmoduletypes.ModuleName)
 	app.ScopedProtocoladminKeeper = scopedProtocoladminKeeper
-	app.ProtocoladminKeeper = *protocoladminmodulekeeper.NewKeeper(
-		appCodec,
-		keys[protocoladminmoduletypes.StoreKey],
-		keys[protocoladminmoduletypes.MemStoreKey],
-		app.GetSubspace(protocoladminmoduletypes.ModuleName),
-		app.IBCKeeper.ChannelKeeper,
-		&app.IBCKeeper.PortKeeper,
-		scopedProtocoladminKeeper,
-		app.AccountKeeper,
-	)
+	// app.ProtocoladminKeeper = *protocoladminmodulekeeper.NewKeeper(
+	// 	appCodec,
+	// 	keys[protocoladminmoduletypes.StoreKey],
+	// 	keys[protocoladminmoduletypes.MemStoreKey],
+	// 	app.GetSubspace(protocoladminmoduletypes.ModuleName),
+	// 	app.IBCKeeper.ChannelKeeper,
+	// 	&app.IBCKeeper.PortKeeper,
+	// 	scopedProtocoladminKeeper,
+	// 	app.AccountKeeper,
+	// )
 	protocoladminModule := protocoladminmodule.NewAppModule(appCodec, app.ProtocoladminKeeper, app.AccountKeeper, app.BankKeeper)
-	protocoladminIBCModule := protocoladminModule.NewIBCModule(app.ProtocoladminKeeper, app.IBCKeeper.ChannelKeeper, app.IBCKeeper.PortKeeper)
+	// protocoladminIBCModule := protocoladminmodule.NewIBCModule(app.ProtocoladminKeeper)
 
 	scopedTokenmngrKeeper := app.CapabilityKeeper.ScopeToModule(tokenmngrmoduletypes.ModuleName)
 	app.ScopedTokenmngrKeeper = scopedTokenmngrKeeper
-	app.TokenmngrKeeper = *tokenmngrmodulekeeper.NewKeeper(
-		appCodec,
-		keys[tokenmngrmoduletypes.StoreKey],
-		keys[tokenmngrmoduletypes.MemStoreKey],
-		app.GetSubspace(tokenmngrmoduletypes.ModuleName),
-		app.IBCKeeper.ChannelKeeper,
-		&app.IBCKeeper.PortKeeper,
-		scopedTokenmngrKeeper,
-		app.BankKeeper,
-		app.AccountKeeper,
-		app.ProtocoladminKeeper,
-	)
+	// app.TokenmngrKeeper = *tokenmngrmodulekeeper.NewKeeper(
+	// 	appCodec,
+	// 	keys[tokenmngrmoduletypes.StoreKey],
+	// 	keys[tokenmngrmoduletypes.MemStoreKey],
+	// 	app.GetSubspace(tokenmngrmoduletypes.ModuleName),
+	// 	app.IBCKeeper.ChannelKeeper,
+	// 	&app.IBCKeeper.PortKeeper,
+	// 	scopedTokenmngrKeeper,
+	// 	app.BankKeeper,
+	// 	app.AccountKeeper,
+	// 	app.ProtocoladminKeeper,
+	// )
 	tokenmngrModule := tokenmngrmodule.NewAppModule(appCodec, app.TokenmngrKeeper, app.AccountKeeper, app.BankKeeper)
-	tokenmngrIBCModule := tokenmngrmodule.NewIBCModule(appCodec, app.TokenmngrKeeper, app.AccountKeeper, app.BankKeeper)
+	// tokenmngrIBCModule := tokenmngrmodule.NewIBCModule(app.TokenmngrKeeper)
 
 	// this line is used by starport scaffolding # stargate/app/keeperDefinition
 
 	// Create static IBC router, add transfer route, then set and seal it
 	ibcRouter := ibcporttypes.NewRouter()
 	ibcRouter.AddRoute(ibctransfertypes.ModuleName, transferIBCModule)
-	ibcRouter.AddRoute(protocoladminmoduletypes.ModuleName, protocoladminIBCModule)
-	ibcRouter.AddRoute(tokenmngrmoduletypes.ModuleName, tokenmngrIBCModule)
+	// ibcRouter.AddRoute(protocoladminmoduletypes.ModuleName, protocoladminIBCModule)
+	// ibcRouter.AddRoute(tokenmngrmoduletypes.ModuleName, tokenmngrIBCModule)
 
 	// Wasm
 	wasmDir := filepath.Join(homePath, "wasm")
@@ -542,7 +542,7 @@ func New(
 		distr.NewAppModule(appCodec, app.DistrKeeper, app.AccountKeeper, app.BankKeeper, app.StakingKeeper),
 		staking.NewAppModule(appCodec, app.StakingKeeper, app.AccountKeeper, app.BankKeeper),
 		upgrade.NewAppModule(app.UpgradeKeeper),
-		wasm.NewAppModule(appCodec, &app.WasmKeeper, app.StakingKeeper),
+		wasm.NewAppModule(appCodec, &app.WasmKeeper,  app.StakingKeeper, app.AccountKeeper, app.BankKeeper),
 		evidence.NewAppModule(app.EvidenceKeeper),
 		ibc.NewAppModule(app.IBCKeeper),
 		params.NewAppModule(app.ParamsKeeper),
@@ -584,7 +584,7 @@ func New(
 		slashing.NewAppModule(appCodec, app.SlashingKeeper, app.AccountKeeper, app.BankKeeper, app.StakingKeeper),
 		params.NewAppModule(app.ParamsKeeper),
 		evidence.NewAppModule(app.EvidenceKeeper),
-		wasm.NewAppModule(appCodec, &app.WasmKeeper, app.StakingKeeper),
+		wasm.NewAppModule(appCodec, &app.WasmKeeper, app.StakingKeeper, app.AccountKeeper, app.BankKeeper),
 		ibc.NewAppModule(app.IBCKeeper),
 		transferModule,
 		protocoladminModule,
@@ -612,9 +612,9 @@ func New(
 				SignModeHandler: encodingConfig.TxConfig.SignModeHandler(),
 				SigGasConsumer:  ante.DefaultSigVerificationGasConsumer,
 			},
-			IBCChannelkeeper:  app.IBCKeeper.ChannelKeeper,
-			WasmConfig:        &wasmConfig,
-			TXCounterStoreKey: keys[wasm.StoreKey],
+			IBCKeeper:         app.IBCKeeper,
+			WasmConfig:        wasmConfig,
+			TxCounterStoreKey: keys[wasm.StoreKey],
 		},
 	)
 	if err != nil {
