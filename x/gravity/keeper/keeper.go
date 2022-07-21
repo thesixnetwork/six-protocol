@@ -9,7 +9,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 	"github.com/ignite/cli/ignite/pkg/cosmosibckeeper"
-	"github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
+	"github.com/thesixnetwork/six-protocol/x/gravity/types"
 )
 
 type (
@@ -20,7 +20,11 @@ type (
 		memKey     sdk.StoreKey
 		paramstore paramtypes.Subspace
 
-		accountKeeper types.AccountKeeper
+		bankKeeper     types.BankKeeper
+		stakingKeeper  types.StakingKeeper
+		slashingKeeper types.SlashingKeeper
+		distrKeeper    types.DistrKeeper
+		accountKeeper  types.AccountKeeper
 	}
 )
 
@@ -32,7 +36,7 @@ func NewKeeper(
 	channelKeeper cosmosibckeeper.ChannelKeeper,
 	portKeeper cosmosibckeeper.PortKeeper,
 	scopedKeeper cosmosibckeeper.ScopedKeeper,
-	accountKeeper types.AccountKeeper,
+	bankKeeper types.BankKeeper, stakingKeeper types.StakingKeeper, slashingKeeper types.SlashingKeeper, distrKeeper types.DistrKeeper, accountKeeper types.AccountKeeper,
 ) *Keeper {
 	// set KeyTable if it has not already been set
 	if !ps.HasKeyTable() {
@@ -47,11 +51,11 @@ func NewKeeper(
 			portKeeper,
 			scopedKeeper,
 		),
-		cdc:           cdc,
-		storeKey:      storeKey,
-		memKey:        memKey,
-		paramstore:    ps,
-		accountKeeper: accountKeeper,
+		cdc:        cdc,
+		storeKey:   storeKey,
+		memKey:     memKey,
+		paramstore: ps,
+		bankKeeper: bankKeeper, stakingKeeper: stakingKeeper, slashingKeeper: slashingKeeper, distrKeeper: distrKeeper, accountKeeper: accountKeeper,
 	}
 }
 

@@ -15,11 +15,11 @@ import (
 	"github.com/tendermint/tendermint/libs/log"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 	tmdb "github.com/tendermint/tm-db"
-	"github.com/thesixnetwork/six-protocol/x/tokenmngr/keeper"
-	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+	"github.com/thesixnetwork/six-protocol/x/gravity/keeper"
+	"github.com/thesixnetwork/six-protocol/x/gravity/types"
 )
 
-func TokenmngrKeeper(t testing.TB) (*keeper.Keeper, sdk.Context) {
+func GravityKeeper(t testing.TB) (*keeper.Keeper, sdk.Context) {
 	logger := log.NewNopLogger()
 
 	storeKey := sdk.NewKVStoreKey(types.StoreKey)
@@ -39,7 +39,7 @@ func TokenmngrKeeper(t testing.TB) (*keeper.Keeper, sdk.Context) {
 		types.Amino,
 		storeKey,
 		memStoreKey,
-		"TokenmngrSubSpace",
+		"GravitySubSpace",
 	)
 	IBCKeeper := ibckeeper.NewKeeper(
 		appCodec,
@@ -47,14 +47,14 @@ func TokenmngrKeeper(t testing.TB) (*keeper.Keeper, sdk.Context) {
 		ss,
 		nil,
 		nil,
-		capabilityKeeper.ScopeToModule("TokenmngrIBCKeeper"),
+		capabilityKeeper.ScopeToModule("GravityIBCKeeper"),
 	)
 
 	paramsSubspace := typesparams.NewSubspace(appCodec,
 		types.Amino,
 		storeKey,
 		memStoreKey,
-		"TokenmngrParams",
+		"GravityParams",
 	)
 	k := keeper.NewKeeper(
 		appCodec,
@@ -63,7 +63,9 @@ func TokenmngrKeeper(t testing.TB) (*keeper.Keeper, sdk.Context) {
 		paramsSubspace,
 		IBCKeeper.ChannelKeeper,
 		&IBCKeeper.PortKeeper,
-		capabilityKeeper.ScopeToModule("TokenmngrScopedKeeper"),
+		capabilityKeeper.ScopeToModule("GravityScopedKeeper"),
+		nil,
+		nil,
 		nil,
 		nil,
 		nil,
