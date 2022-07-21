@@ -743,7 +743,7 @@ func MintVouchersFromAir(t *testing.T, ctx sdk.Context, k Keeper, dest sdk.AccAd
 func NewTestMsgCreateValidator(address sdk.ValAddress, pubKey ccrypto.PubKey, amt sdk.Int) *stakingtypes.MsgCreateValidator {
 	commission := stakingtypes.NewCommissionRates(sdk.ZeroDec(), sdk.ZeroDec(), sdk.ZeroDec())
 	out, err := stakingtypes.NewMsgCreateValidator(
-		address, pubKey, sdk.NewCoin("stake", amt),
+		address, "approver" ,pubKey, sdk.NewCoin("stake", amt),
 		stakingtypes.Description{
 			Moniker:         "",
 			Identity:        "",
