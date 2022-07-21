@@ -1,11 +1,12 @@
 import { txClient, queryClient, MissingWalletError , registry} from './module'
 
+import { Attestation } from "./module/types/gravity/attestation"
 import { GravityPacketData } from "./module/types/gravity/packet"
 import { NoData } from "./module/types/gravity/packet"
 import { Params } from "./module/types/gravity/params"
 
 
-export { GravityPacketData, NoData, Params };
+export { Attestation, GravityPacketData, NoData, Params };
 
 async function initTxClient(vuexGetters) {
 	return await txClient(vuexGetters['common/wallet/signer'], {
@@ -44,8 +45,11 @@ function getStructure(template) {
 const getDefaultState = () => {
 	return {
 				Params: {},
+				Attestation: {},
+				AttestationAll: {},
 				
 				_Structure: {
+						Attestation: getStructure(Attestation.fromPartial({})),
 						GravityPacketData: getStructure(GravityPacketData.fromPartial({})),
 						NoData: getStructure(NoData.fromPartial({})),
 						Params: getStructure(Params.fromPartial({})),
@@ -82,6 +86,18 @@ export default {
 						(<any> params).query=null
 					}
 			return state.Params[JSON.stringify(params)] ?? {}
+		},
+				getAttestation: (state) => (params = { params: {}}) => {
+					if (!(<any> params).query) {
+						(<any> params).query=null
+					}
+			return state.Attestation[JSON.stringify(params)] ?? {}
+		},
+				getAttestationAll: (state) => (params = { params: {}}) => {
+					if (!(<any> params).query) {
+						(<any> params).query=null
+					}
+			return state.AttestationAll[JSON.stringify(params)] ?? {}
 		},
 				
 		getTypeStructure: (state) => (type) => {
@@ -134,6 +150,54 @@ export default {
 				return getters['getParams']( { params: {...key}, query}) ?? {}
 			} catch (e) {
 				throw new Error('QueryClient:QueryParams API Node Unavailable. Could not perform query: ' + e.message)
+				
+			}
+		},
+		
+		
+		
+		
+		 		
+		
+		
+		async QueryAttestation({ commit, rootGetters, getters }, { options: { subscribe, all} = { subscribe:false, all:false}, params, query=null }) {
+			try {
+				const key = params ?? {};
+				const queryClient=await initQueryClient(rootGetters)
+				let value= (await queryClient.queryAttestation( key.index)).data
+				
+					
+				commit('QUERY', { query: 'Attestation', key: { params: {...key}, query}, value })
+				if (subscribe) commit('SUBSCRIBE', { action: 'QueryAttestation', payload: { options: { all }, params: {...key},query }})
+				return getters['getAttestation']( { params: {...key}, query}) ?? {}
+			} catch (e) {
+				throw new Error('QueryClient:QueryAttestation API Node Unavailable. Could not perform query: ' + e.message)
+				
+			}
+		},
+		
+		
+		
+		
+		 		
+		
+		
+		async QueryAttestationAll({ commit, rootGetters, getters }, { options: { subscribe, all} = { subscribe:false, all:false}, params, query=null }) {
+			try {
+				const key = params ?? {};
+				const queryClient=await initQueryClient(rootGetters)
+				let value= (await queryClient.queryAttestationAll(query)).data
+				
+					
+				while (all && (<any> value).pagination && (<any> value).pagination.next_key!=null) {
+					let next_values=(await queryClient.queryAttestationAll({...query, 'pagination.key':(<any> value).pagination.next_key})).data
+					value = mergeResults(value, next_values);
+				}
+				commit('QUERY', { query: 'AttestationAll', key: { params: {...key}, query}, value })
+				if (subscribe) commit('SUBSCRIBE', { action: 'QueryAttestationAll', payload: { options: { all }, params: {...key},query }})
+				return getters['getAttestationAll']( { params: {...key}, query}) ?? {}
+			} catch (e) {
+				throw new Error('QueryClient:QueryAttestationAll API Node Unavailable. Could not perform query: ' + e.message)
 				
 			}
 		},
