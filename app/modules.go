@@ -19,8 +19,10 @@ import (
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 	ibctransfertypes "github.com/cosmos/ibc-go/v3/modules/apps/transfer/types"
 	ibchost "github.com/cosmos/ibc-go/v3/modules/core/24-host"
+	gravitymoduletypes "github.com/thesixnetwork/six-protocol/x/gravity/types"
 	protocoladminmoduletypes "github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
 	tokenmngrmoduletypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+	bech32ibctypes "github.com/osmosis-labs/bech32-ibc/x/bech32ibc/types"
 )
 
 func orderBeginBlockers() []string {
@@ -46,6 +48,8 @@ func orderBeginBlockers() []string {
 		protocoladminmoduletypes.ModuleName,
 		tokenmngrmoduletypes.ModuleName,
 		wasm.ModuleName,
+		gravitymoduletypes.ModuleName,
+		bech32ibctypes.ModuleName,
 		// superfluid must come after distribution and epochs
 	}
 }
@@ -71,6 +75,8 @@ var orderEndBlockers = []string{
 	vestingtypes.ModuleName,
 	protocoladminmoduletypes.ModuleName,
 	tokenmngrmoduletypes.ModuleName,
+	gravitymoduletypes.ModuleName,
+	bech32ibctypes.ModuleName,
 	wasm.ModuleName,
 	// Note: epochs' endblock should be "real" end of epochs, we keep epochs endblock at the end
 }
@@ -96,5 +102,7 @@ var orderInitGenesis = []string{
 	vestingtypes.ModuleName,
 	protocoladminmoduletypes.ModuleName,
 	tokenmngrmoduletypes.ModuleName,
+	gravitymoduletypes.ModuleName,
+	bech32ibctypes.ModuleName,
 	wasm.ModuleName,
 }
