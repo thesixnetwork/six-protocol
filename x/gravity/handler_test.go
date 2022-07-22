@@ -561,7 +561,7 @@ func TestMsgSetOrchestratorAddresses(t *testing.T) {
 	k := input.GravityKeeper
 	h := NewHandler(input.GravityKeeper)
 	ctx = ctx.WithBlockTime(blockTime)
-	valAddress, err := sdk.ValAddressFromBech32(input.StakingKeeper.GetValidators(ctx, 10)[0].OperatorAddress)
+	valAddress, err := sdk.ValAddressFromBech32(input.stakingKeeper.GetValidators(ctx, 10)[0].OperatorAddress)
 	require.NoError(t, err)
 
 	// test setting keys

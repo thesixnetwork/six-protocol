@@ -23,8 +23,6 @@ type StakingKeeper interface {
 	IterateLastValidators(sdk.Context, func(index int64, validator stakingtypes.ValidatorI) (stop bool))
 	Validator(sdk.Context, sdk.ValAddress) stakingtypes.ValidatorI
 	ValidatorByConsAddr(sdk.Context, sdk.ConsAddress) stakingtypes.ValidatorI
-	Slash(sdk.Context, sdk.ConsAddress, int64, int64, sdk.Dec)
-	Jail(sdk.Context, sdk.ConsAddress)
 }
 
 // BankKeeper defines the expected bank keeper methods
@@ -36,13 +34,18 @@ type BankKeeper interface {
 	BurnCoins(ctx sdk.Context, name string, amt sdk.Coins) error
 	GetAllBalances(ctx sdk.Context, addr sdk.AccAddress) sdk.Coins
 	GetDenomMetaData(ctx sdk.Context, denom string) bank.Metadata
+	SetDenomMetaData(ctx sdk.Context, denom string, metadata bank.Metadata)
+	GetBalance(ctx sdk.Context, addr sdk.AccAddress, denom string) sdk.Coin
+	GetSupply(ctx sdk.Context, denom string) sdk.Coin
 }
 
 type SlashingKeeper interface {
 	GetValidatorSigningInfo(ctx sdk.Context, address sdk.ConsAddress) (info slashingtypes.ValidatorSigningInfo, found bool)
+	Jail(ctx sdk.Context, consAddr sdk.ConsAddress)
+	Slash(sdk.Context, sdk.ConsAddress, int64, int64, sdk.Dec)
 }
 
-type DistributionKeeper interface {
+type DistrKeeper interface {
 	FundCommunityPool(ctx sdk.Context, amount sdk.Coins, sender sdk.AccAddress) error
 	GetFeePool(ctx sdk.Context) (feePool types.FeePool)
 	SetFeePool(ctx sdk.Context, feePool types.FeePool)

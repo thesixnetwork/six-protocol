@@ -10,7 +10,8 @@ import (
 	upgradekeeper "github.com/cosmos/cosmos-sdk/x/upgrade/keeper"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 	ibchost "github.com/cosmos/ibc-go/v3/modules/core/24-host"
-	gravityparams "github.com/thesixnetwork/six-protocol/app/params"
+	"github.com/ignite/cli/ignite/pkg/cosmoscmd"
+	app "github.com/thesixnetwork/six-protocol/app"
 
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	"github.com/cosmos/cosmos-sdk/codec"
@@ -245,7 +246,7 @@ var (
 type TestInput struct {
 	GravityKeeper     Keeper
 	AccountKeeper     authkeeper.AccountKeeper
-	StakingKeeper     stakingkeeper.Keeper
+	stakingKeeper     stakingkeeper.Keeper
 	SlashingKeeper    slashingkeeper.Keeper
 	DistKeeper        distrkeeper.Keeper
 	BankKeeper        bankkeeper.BaseKeeper
@@ -263,10 +264,10 @@ func SetupFiveValChain(t *testing.T) (TestInput, sdk.Context) {
 	input := CreateTestEnv(t)
 
 	// Set the params for our modules
-	input.StakingKeeper.SetParams(input.Context, TestingStakeParams)
+	input.stakingKeeper.SetParams(input.Context, TestingStakeParams)
 
 	// Initialize each of the validators
-	sh := staking.NewHandler(input.StakingKeeper)
+	sh := staking.NewHandler(input.stakingKeeper)
 	for i := range []int{0, 1, 2, 3, 4} {
 
 		// Initialize the account for the key
@@ -294,7 +295,7 @@ func SetupFiveValChain(t *testing.T) (TestInput, sdk.Context) {
 	}
 
 	// Run the staking endblocker to ensure valset is correct in state
-	staking.EndBlocker(input.Context, input.StakingKeeper)
+	staking.EndBlocker(input.Context, input.stakingKeeper)
 
 	// Register eth addresses and orchestrator address for each validator
 	for i, addr := range ValAddrs {
@@ -318,10 +319,10 @@ func SetupTestChain(t *testing.T, weights []uint64, setDelegateAddresses bool) (
 
 	// Set the params for our modules
 	TestingStakeParams.MaxValidators = 100
-	input.StakingKeeper.SetParams(input.Context, TestingStakeParams)
+	input.stakingKeeper.SetParams(input.Context, TestingStakeParams)
 
 	// Initialize each of the validators
-	sh := staking.NewHandler(input.StakingKeeper)
+	sh := staking.NewHandler(input.stakingKeeper)
 	for i, weight := range weights {
 		consPrivKey := ed25519.GenPrivKey()
 		consPubKey := consPrivKey.PubKey()
@@ -353,7 +354,7 @@ func SetupTestChain(t *testing.T, weights []uint64, setDelegateAddresses bool) (
 		require.NoError(t, err)
 
 		// Run the staking endblocker to ensure valset is correct in state
-		staking.EndBlocker(input.Context, input.StakingKeeper)
+		staking.EndBlocker(input.Context, input.stakingKeeper)
 
 		if setDelegateAddresses {
 			// set the delegate addresses for this key
@@ -368,7 +369,7 @@ func SetupTestChain(t *testing.T, weights []uint64, setDelegateAddresses bool) (
 			input.Context = input.Context.WithBlockHeight(input.Context.BlockHeight() + 100)
 
 			// Run the staking endblocker to ensure valset is correct in state
-			staking.EndBlocker(input.Context, input.StakingKeeper)
+			staking.EndBlocker(input.Context, input.stakingKeeper)
 
 			// set a request every time.
 			input.GravityKeeper.SetValsetRequest(input.Context)
@@ -378,7 +379,7 @@ func SetupTestChain(t *testing.T, weights []uint64, setDelegateAddresses bool) (
 
 	// some inputs can cause the validator creation ot not work, this checks that
 	// everything was successful
-	validators := input.StakingKeeper.GetBondedValidatorsByPower(input.Context)
+	validators := input.stakingKeeper.GetBondedValidatorsByPower(input.Context)
 	require.Equal(t, len(weights), len(validators))
 
 	// Return the test input
@@ -642,7 +643,7 @@ func CreateTestEnv(t *testing.T) TestInput {
 		GravityKeeper:   k,
 		AccountKeeper:   accountKeeper,
 		BankKeeper:      bankKeeper,
-		StakingKeeper:   stakingKeeper,
+		stakingKeeper:   stakingKeeper,
 		SlashingKeeper:  slashingKeeper,
 		DistKeeper:      distKeeper,
 		GovKeeper:       govKeeper,
@@ -664,7 +665,7 @@ func (t TestInput) AssertInvariants() {
 	distrInvariantFunc := distrkeeper.AllInvariants(t.DistKeeper)
 	bankInvariantFunc := bankkeeper.AllInvariants(t.BankKeeper)
 	govInvariantFunc := govkeeper.AllInvariants(t.GovKeeper, t.BankKeeper)
-	stakeInvariantFunc := stakingkeeper.AllInvariants(t.StakingKeeper)
+	stakeInvariantFunc := stakingkeeper.AllInvariants(t.stakingKeeper)
 	gravInvariantFunc := AllInvariants(t.GravityKeeper)
 
 	invariantStr, invariantViolated := distrInvariantFunc(t.Context)
@@ -720,8 +721,8 @@ func MakeTestMarshaler() codec.Codec {
 	return codec.NewProtoCodec(interfaceRegistry)
 }
 
-func MakeTestEncodingConfig() gravityparams.EncodingConfig {
-	encodingConfig := gravityparams.MakeEncodingConfig()
+func MakeTestEncodingConfig() cosmoscmd.EncodingConfig {
+	encodingConfig := app.MakeEncodingConfig()
 	std.RegisterLegacyAminoCodec(encodingConfig.Amino)
 	std.RegisterInterfaces(encodingConfig.InterfaceRegistry)
 	ModuleBasics.RegisterLegacyAminoCodec(encodingConfig.Amino)
@@ -743,7 +744,7 @@ func MintVouchersFromAir(t *testing.T, ctx sdk.Context, k Keeper, dest sdk.AccAd
 func NewTestMsgCreateValidator(address sdk.ValAddress, pubKey ccrypto.PubKey, amt sdk.Int) *stakingtypes.MsgCreateValidator {
 	commission := stakingtypes.NewCommissionRates(sdk.ZeroDec(), sdk.ZeroDec(), sdk.ZeroDec())
 	out, err := stakingtypes.NewMsgCreateValidator(
-		address, "approver" ,pubKey, sdk.NewCoin("stake", amt),
+		address, "approver", pubKey, sdk.NewCoin("stake", amt),
 		stakingtypes.Description{
 			Moniker:         "",
 			Identity:        "",

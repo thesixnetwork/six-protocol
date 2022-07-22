@@ -6,28 +6,18 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	bankkeeper "github.com/cosmos/cosmos-sdk/x/bank/keeper"
-	paramstypes "github.com/cosmos/cosmos-sdk/x/params/types"
-
+	
 	"github.com/thesixnetwork/six-protocol/x/gravity/types"
 )
 
-var _ types.QueryServer = Keeper{
-	StakingKeeper:      nil,
-	storeKey:           nil,
-	paramSpace:         paramstypes.Subspace{},
-	cdc:                nil,
-	bankKeeper:         &bankkeeper.BaseKeeper{},
-	SlashingKeeper:     nil,
-	AttestationHandler: nil,
-}
+var _ types.QueryServer = Keeper{}
 
 const QUERY_ATTESTATIONS_LIMIT uint64 = 1000
 
 // Params queries the params of the gravity module
 func (k Keeper) Params(c context.Context, req *types.QueryParamsRequest) (*types.QueryParamsResponse, error) {
 	var params types.Params
-	k.paramSpace.GetParamSet(sdk.UnwrapSDKContext(c), &params)
+	k.paramstore.GetParamSet(sdk.UnwrapSDKContext(c), &params)
 	return &types.QueryParamsResponse{Params: params}, nil
 }
 

@@ -8,14 +8,14 @@ import (
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
-	"github.com/thesixnetwork/six-protocol/app"
 	"github.com/thesixnetwork/six-protocol/x/gravity/keeper"
 	"github.com/thesixnetwork/six-protocol/x/gravity/types"
+	"github.com/ignite/cli/ignite/pkg/cosmoscmd"
 )
 
 func TestQueryGetAttestations(t *testing.T) {
 	input := keeper.CreateTestEnv(t)
-	encCfg := app.MakeEncodingConfig()
+	encCfg := cosmoscmd.MakeEncodingConfig()
 	k := input.GravityKeeper
 	ctx := input.Context
 

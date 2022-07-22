@@ -41,12 +41,12 @@ func TestValsetCreationUponUnbonding(t *testing.T) {
 
 	input.Context = ctx.WithBlockHeight(ctx.BlockHeight() + 1)
 	// begin unbonding
-	sh := staking.NewHandler(input.StakingKeeper)
+	sh := staking.NewHandler(input.stakingKeeper)
 	undelegateMsg := keeper.NewTestMsgUnDelegateValidator(keeper.ValAddrs[0], keeper.StakingAmount)
 	sh(input.Context, undelegateMsg)
 
 	// Run the staking endblocker to ensure valset is set in state
-	staking.EndBlocker(input.Context, input.StakingKeeper)
+	staking.EndBlocker(input.Context, input.stakingKeeper)
 	EndBlocker(input.Context, pk)
 
 	// TODO: Is this the right check to replace blockHeight == latestValsetNonce with?
@@ -72,7 +72,7 @@ func TestValsetSlashing_ValsetCreated_Before_ValidatorBonded(t *testing.T) {
 	EndBlocker(ctx, pk)
 
 	// ensure that the  validator who is bonded after valset is created is not slashed
-	val := input.StakingKeeper.Validator(ctx, keeper.ValAddrs[0])
+	val := input.stakingKeeper.Validator(ctx, keeper.ValAddrs[0])
 	require.False(t, val.IsJailed())
 }
 
@@ -110,11 +110,11 @@ func TestValsetSlashing_ValsetCreated_After_ValidatorBonded(t *testing.T) {
 	EndBlocker(ctx, pk)
 
 	// ensure that the  validator who is bonded before valset is created is slashed
-	val := input.StakingKeeper.Validator(ctx, keeper.ValAddrs[0])
+	val := input.stakingKeeper.Validator(ctx, keeper.ValAddrs[0])
 	require.True(t, val.IsJailed())
 
 	// ensure that the  validator who attested the valset is not slashed.
-	val = input.StakingKeeper.Validator(ctx, keeper.ValAddrs[1])
+	val = input.stakingKeeper.Validator(ctx, keeper.ValAddrs[1])
 	require.False(t, val.IsJailed())
 
 }
@@ -153,14 +153,14 @@ func TestNonValidatorValsetConfirm(t *testing.T) {
 	// Set the account in state
 	input.AccountKeeper.SetAccount(input.Context, acc)
 
-	sh := staking.NewHandler(input.StakingKeeper)
+	sh := staking.NewHandler(input.stakingKeeper)
 	_, err := sh(
 		input.Context,
 		keeper.NewTestMsgCreateValidator(valAddr, consPubKey, sdk.NewIntFromUint64(1)),
 	)
 	require.NoError(t, err)
 	// Run the staking endblocker to ensure valset is correct in state
-	staking.EndBlocker(input.Context, input.StakingKeeper)
+	staking.EndBlocker(input.Context, input.stakingKeeper)
 
 	ethAddr, err := types.NewEthAddress("0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B")
 	if err != nil {
@@ -215,7 +215,7 @@ func TestValsetSlashing_UnbondingValidator_UnbondWindow_NotExpired(t *testing.T)
 	input, ctx := keeper.SetupFiveValChain(t)
 	defer func() { input.Context.Logger().Info("Asserting invariants at test end"); input.AssertInvariants() }()
 
-	val := input.StakingKeeper.Validator(ctx, keeper.ValAddrs[0])
+	val := input.stakingKeeper.Validator(ctx, keeper.ValAddrs[0])
 	fmt.Println("val1  tokens", val.GetTokens().ToDec())
 
 	pk := input.GravityKeeper
@@ -240,7 +240,7 @@ func TestValsetSlashing_UnbondingValidator_UnbondWindow_NotExpired(t *testing.T)
 	// Validator-1  Unbond slash window is not expired. if not attested, slash
 	// Validator-2  Unbond slash window is not expired. if attested, don't slash
 	input.Context = ctx.WithBlockHeight(valUnbondingHeight)
-	sh := staking.NewHandler(input.StakingKeeper)
+	sh := staking.NewHandler(input.stakingKeeper)
 	undelegateMsg1 := keeper.NewTestMsgUnDelegateValidator(keeper.ValAddrs[0], keeper.StakingAmount)
 	sh(input.Context, undelegateMsg1)
 	undelegateMsg2 := keeper.NewTestMsgUnDelegateValidator(keeper.ValAddrs[1], keeper.StakingAmount)
@@ -257,18 +257,18 @@ func TestValsetSlashing_UnbondingValidator_UnbondWindow_NotExpired(t *testing.T)
 		conf := types.NewMsgValsetConfirm(vs.Nonce, *ethAddr, orch, "dummysig")
 		pk.SetValsetConfirm(ctx, *conf)
 	}
-	staking.EndBlocker(input.Context, input.StakingKeeper)
+	staking.EndBlocker(input.Context, input.stakingKeeper)
 
 	ctx = ctx.WithBlockHeight(currentBlockHeight)
 	EndBlocker(ctx, pk)
 
 	// Assertions
-	val1 := input.StakingKeeper.Validator(ctx, keeper.ValAddrs[0])
+	val1 := input.stakingKeeper.Validator(ctx, keeper.ValAddrs[0])
 	assert.True(t, val1.IsJailed())
 	fmt.Println("val1  tokens", val1.GetTokens().ToDec())
 	// check if tokens are slashed for val1.
 
-	val2 := input.StakingKeeper.Validator(ctx, keeper.ValAddrs[1])
+	val2 := input.stakingKeeper.Validator(ctx, keeper.ValAddrs[1])
 	assert.True(t, val2.IsJailed())
 	fmt.Println("val2  tokens", val2.GetTokens().ToDec())
 	// check if tokens shouldn't be slashed for val2.
@@ -310,14 +310,14 @@ func TestNonValidatorBatchConfirm(t *testing.T) {
 	// Set the account in state
 	input.AccountKeeper.SetAccount(input.Context, acc)
 
-	sh := staking.NewHandler(input.StakingKeeper)
+	sh := staking.NewHandler(input.stakingKeeper)
 	_, err := sh(
 		input.Context,
 		keeper.NewTestMsgCreateValidator(valAddr, consPubKey, sdk.NewIntFromUint64(1)),
 	)
 	require.NoError(t, err)
 	// Run the staking endblocker to ensure valset is correct in state
-	staking.EndBlocker(input.Context, input.StakingKeeper)
+	staking.EndBlocker(input.Context, input.stakingKeeper)
 
 	ethAddr, err := types.NewEthAddress("0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B")
 	if err != nil {
@@ -404,7 +404,7 @@ func TestBatchSlashing(t *testing.T) {
 		}
 		if i == 1 {
 			// don't sign with 2nd validator. set val bond height > batch block height
-			validator := input.StakingKeeper.Validator(ctx, keeper.ValAddrs[i])
+			validator := input.stakingKeeper.Validator(ctx, keeper.ValAddrs[i])
 			valConsAddr, _ := validator.GetConsAddr()
 			valSigningInfo := slashingtypes.ValidatorSigningInfo{
 				Address:             "",
@@ -430,11 +430,11 @@ func TestBatchSlashing(t *testing.T) {
 	EndBlocker(ctx, pk)
 
 	// ensure that the  validator is jailed and slashed
-	val := input.StakingKeeper.Validator(ctx, keeper.ValAddrs[0])
+	val := input.stakingKeeper.Validator(ctx, keeper.ValAddrs[0])
 	require.True(t, val.IsJailed())
 
 	// ensure that the 2nd  validator is not jailed and slashed
-	val2 := input.StakingKeeper.Validator(ctx, keeper.ValAddrs[1])
+	val2 := input.stakingKeeper.Validator(ctx, keeper.ValAddrs[1])
 	require.False(t, val2.IsJailed())
 
 	// Ensure that the last slashed valset nonce is set properly

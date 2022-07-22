@@ -30,8 +30,8 @@ var (
 	_ module.AppModule = AppModule{
 		AppModuleBasic: AppModuleBasic{},
 		keeper: keeper.Keeper{
-			StakingKeeper:      nil,
-			SlashingKeeper:     nil,
+			stakingKeeper:      nil,
+			slashingKeeper:     nil,
 			AttestationHandler: nil,
 		},
 		bankKeeper: nil,

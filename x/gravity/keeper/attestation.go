@@ -81,7 +81,7 @@ func (k Keeper) TryAttestation(ctx sdk.Context, att *types.Attestation) {
 	if !att.Observed {
 		// Sum the current powers of all validators who have voted and see if it passes the current threshold
 		// TODO: The different integer types and math here needs a careful review
-		totalPower := k.StakingKeeper.GetLastTotalPower(ctx)
+		totalPower := k.stakingKeeper.GetLastTotalPower(ctx)
 		requiredPower := types.AttestationVotesPowerThreshold.Mul(totalPower).Quo(sdk.NewInt(100))
 		attestationPower := sdk.NewInt(0)
 		for _, validator := range att.Votes {
@@ -89,7 +89,7 @@ func (k Keeper) TryAttestation(ctx sdk.Context, att *types.Attestation) {
 			if err != nil {
 				panic(err)
 			}
-			validatorPower := k.StakingKeeper.GetLastValidatorPower(ctx, val)
+			validatorPower := k.stakingKeeper.GetLastValidatorPower(ctx, val)
 			// Add it to the attestation power's sum
 			attestationPower = attestationPower.Add(sdk.NewInt(validatorPower))
 			// If the power of all the validators that have voted on the attestation is higher or equal to the threshold,

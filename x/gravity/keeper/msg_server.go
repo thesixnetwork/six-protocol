@@ -43,7 +43,7 @@ func (k msgServer) SetOrchestratorAddress(c context.Context, msg *types.MsgSetOr
 	}
 
 	// ensure that the validator exists
-	if k.Keeper.StakingKeeper.Validator(ctx, val) == nil {
+	if k.Keeper.stakingKeeper.Validator(ctx, val) == nil {
 		return nil, sdkerrors.Wrap(stakingtypes.ErrNoValidatorFound, val.String())
 	}
 
@@ -273,7 +273,7 @@ func (k msgServer) checkOrchestratorValidatorInSet(ctx sdk.Context, orchestrator
 	}
 
 	// return an error if the validator isn't in the active set
-	val := k.StakingKeeper.Validator(ctx, validator.GetOperator())
+	val := k.stakingKeeper.Validator(ctx, validator.GetOperator())
 	if val == nil || !val.IsBonded() {
 		return sdkerrors.Wrap(sdkerrors.ErrorInvalidSigner, "validator not in active set")
 	}

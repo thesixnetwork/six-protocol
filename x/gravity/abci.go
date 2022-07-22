@@ -215,7 +215,7 @@ func valsetSlashing(ctx sdk.Context, k keeper.Keeper, params types.Params) {
 
 	unslashedValsets := k.GetUnSlashedValsets(ctx, params.SignedValsetsWindow)
 
-	currentBondedSet := k.StakingKeeper.GetBondedValidatorsByPower(ctx)
+	currentBondedSet := k.stakingKeeper.GetBondedValidatorsByPower(ctx)
 	unbondingValidators := getUnbondingValidators(ctx, k)
 
 	for _, vs := range unslashedValsets {
@@ -228,7 +228,7 @@ func valsetSlashing(ctx sdk.Context, k keeper.Keeper, params types.Params) {
 			if err != nil {
 				panic("Failed to get validator consensus addr")
 			}
-			valSigningInfo, exist := k.SlashingKeeper.GetValidatorSigningInfo(ctx, consAddr)
+			valSigningInfo, exist := k.slashingKeeper.GetValidatorSigningInfo(ctx, consAddr)
 
 			//  Slash validator ONLY if he joined before valset is created
 			startedBeforeValsetCreated := valSigningInfo.StartHeight < int64(vs.Height)
@@ -241,7 +241,7 @@ func valsetSlashing(ctx sdk.Context, k keeper.Keeper, params types.Params) {
 					// refresh validator before slashing/jailing
 					val = updateValidator(ctx, k, val.GetOperator())
 					if !val.IsJailed() {
-						k.StakingKeeper.Slash(ctx, consAddr, ctx.BlockHeight(), val.ConsensusPower(sdk.DefaultPowerReduction), params.SlashFractionValset)
+						k.stakingKeeper.Slash(ctx, consAddr, ctx.BlockHeight(), val.ConsensusPower(sdk.DefaultPowerReduction), params.SlashFractionValset)
 						ctx.EventManager().EmitTypedEvent(
 							&types.EventSignatureSlashing{
 								Type:    types.AttributeKeyValsetSignatureSlashing,
@@ -249,7 +249,7 @@ func valsetSlashing(ctx sdk.Context, k keeper.Keeper, params types.Params) {
 							},
 						)
 
-						k.StakingKeeper.Jail(ctx, consAddr)
+						k.stakingKeeper.Jail(ctx, consAddr)
 					}
 
 				}
@@ -263,7 +263,7 @@ func valsetSlashing(ctx sdk.Context, k keeper.Keeper, params types.Params) {
 			if err != nil {
 				panic(err)
 			}
-			validator, found := k.StakingKeeper.GetValidator(ctx, sdk.ValAddress(addr))
+			validator, found := k.stakingKeeper.GetValidator(ctx, sdk.ValAddress(addr))
 			if !found {
 				panic("Unable to find validator!")
 			}
@@ -271,7 +271,7 @@ func valsetSlashing(ctx sdk.Context, k keeper.Keeper, params types.Params) {
 			if err != nil {
 				panic(err)
 			}
-			valSigningInfo, exist := k.SlashingKeeper.GetValidatorSigningInfo(ctx, valConsAddr)
+			valSigningInfo, exist := k.slashingKeeper.GetValidatorSigningInfo(ctx, valConsAddr)
 
 			// Only slash validators who joined after valset is created and they are unbonding and UNBOND_SLASHING_WINDOW hasn't passed
 			startedBeforeValsetCreated := valSigningInfo.StartHeight < int64(vs.Height)
@@ -286,14 +286,14 @@ func valsetSlashing(ctx sdk.Context, k keeper.Keeper, params types.Params) {
 					// refresh validator before slashing/jailing
 					validator = updateValidator(ctx, k, validator.GetOperator())
 					if !validator.IsJailed() {
-						k.StakingKeeper.Slash(ctx, valConsAddr, ctx.BlockHeight(), validator.ConsensusPower(sdk.DefaultPowerReduction), params.SlashFractionValset)
+						k.stakingKeeper.Slash(ctx, valConsAddr, ctx.BlockHeight(), validator.ConsensusPower(sdk.DefaultPowerReduction), params.SlashFractionValset)
 						ctx.EventManager().EmitTypedEvent(
 							&types.EventSignatureSlashing{
 								Type:    types.AttributeKeyValsetSignatureSlashing,
 								Address: valConsAddr.String(),
 							},
 						)
-						k.StakingKeeper.Jail(ctx, valConsAddr)
+						k.stakingKeeper.Jail(ctx, valConsAddr)
 					}
 				}
 			}
@@ -308,7 +308,7 @@ func valsetSlashing(ctx sdk.Context, k keeper.Keeper, params types.Params) {
 // pull in individual validators as needed to check that we are not jailing them twice, or slashing
 // them improperly
 func updateValidator(ctx sdk.Context, k keeper.Keeper, val sdk.ValAddress) stakingtypes.Validator {
-	valObj, found := k.StakingKeeper.GetValidator(ctx, val)
+	valObj, found := k.stakingKeeper.GetValidator(ctx, val)
 	if !found {
 		// this should be impossible, we haven't even progressed a single block since we got the list
 		panic("Validator exited set during endblocker?")
@@ -319,9 +319,9 @@ func updateValidator(ctx sdk.Context, k keeper.Keeper, val sdk.ValAddress) staki
 // getUnbondingValidators gets all currently unbonding validators in groups based on
 // the block at which they will finish validating.
 func getUnbondingValidators(ctx sdk.Context, k keeper.Keeper) (addresses []string) {
-	blockTime := ctx.BlockTime().Add(k.StakingKeeper.GetParams(ctx).UnbondingTime)
+	blockTime := ctx.BlockTime().Add(k.stakingKeeper.GetParams(ctx).UnbondingTime)
 	blockHeight := ctx.BlockHeight()
-	unbondingValIterator := k.StakingKeeper.ValidatorQueueIterator(ctx, blockTime, blockHeight)
+	unbondingValIterator := k.stakingKeeper.ValidatorQueueIterator(ctx, blockTime, blockHeight)
 	defer unbondingValIterator.Close()
 
 	// All unbonding validators
@@ -371,7 +371,7 @@ func batchSlashing(ctx sdk.Context, k keeper.Keeper, params types.Params) {
 		return
 	}
 
-	currentBondedSet := k.StakingKeeper.GetBondedValidatorsByPower(ctx)
+	currentBondedSet := k.stakingKeeper.GetBondedValidatorsByPower(ctx)
 	unslashedBatches := k.GetUnSlashedBatches(ctx, maxHeight)
 	for _, batch := range unslashedBatches {
 		// SLASH BONDED VALIDTORS who didn't attest batch requests
@@ -381,7 +381,7 @@ func batchSlashing(ctx sdk.Context, k keeper.Keeper, params types.Params) {
 			if err != nil {
 				panic(err)
 			}
-			valSigningInfo, exist := k.SlashingKeeper.GetValidatorSigningInfo(ctx, consAddr)
+			valSigningInfo, exist := k.slashingKeeper.GetValidatorSigningInfo(ctx, consAddr)
 
 			// Don't slash validators who joined after batch is created
 			startedBeforeBatchCreated := valSigningInfo.StartHeight < int64(batch.Block)
@@ -393,14 +393,14 @@ func batchSlashing(ctx sdk.Context, k keeper.Keeper, params types.Params) {
 					// refresh validator before slashing/jailing
 					val = updateValidator(ctx, k, val.GetOperator())
 					if !val.IsJailed() {
-						k.StakingKeeper.Slash(ctx, consAddr, ctx.BlockHeight(), val.ConsensusPower(sdk.DefaultPowerReduction), params.SlashFractionBatch)
+						k.stakingKeeper.Slash(ctx, consAddr, ctx.BlockHeight(), val.ConsensusPower(sdk.DefaultPowerReduction), params.SlashFractionBatch)
 						ctx.EventManager().EmitTypedEvent(
 							&types.EventSignatureSlashing{
 								Type:    types.AttributeKeyBatchSignatureSlashing,
 								Address: consAddr.String(),
 							},
 						)
-						k.StakingKeeper.Jail(ctx, consAddr)
+						k.stakingKeeper.Jail(ctx, consAddr)
 					}
 				}
 			}
@@ -449,7 +449,7 @@ func logicCallSlashing(ctx sdk.Context, k keeper.Keeper, params types.Params) {
 		return
 	}
 
-	currentBondedSet := k.StakingKeeper.GetBondedValidatorsByPower(ctx)
+	currentBondedSet := k.stakingKeeper.GetBondedValidatorsByPower(ctx)
 	unslashedLogicCalls := k.GetUnSlashedLogicCalls(ctx, maxHeight)
 	for _, call := range unslashedLogicCalls {
 
@@ -461,7 +461,7 @@ func logicCallSlashing(ctx sdk.Context, k keeper.Keeper, params types.Params) {
 			if err != nil {
 				panic(err)
 			}
-			valSigningInfo, exist := k.SlashingKeeper.GetValidatorSigningInfo(ctx, consAddr)
+			valSigningInfo, exist := k.slashingKeeper.GetValidatorSigningInfo(ctx, consAddr)
 			startedBeforeCallCreated := valSigningInfo.StartHeight < int64(call.Block)
 			if exist && startedBeforeCallCreated {
 				// check that the validator confirmed the logic call
@@ -470,14 +470,14 @@ func logicCallSlashing(ctx sdk.Context, k keeper.Keeper, params types.Params) {
 					// refresh validator before slashing/jailing
 					val = updateValidator(ctx, k, val.GetOperator())
 					if !val.IsJailed() {
-						k.StakingKeeper.Slash(ctx, consAddr, ctx.BlockHeight(), val.ConsensusPower(sdk.DefaultPowerReduction), params.SlashFractionLogicCall)
+						k.stakingKeeper.Slash(ctx, consAddr, ctx.BlockHeight(), val.ConsensusPower(sdk.DefaultPowerReduction), params.SlashFractionLogicCall)
 						ctx.EventManager().EmitTypedEvent(
 							&types.EventSignatureSlashing{
 								Type:    types.AttributeKeyLogicCallSignatureSlashing,
 								Address: consAddr.String(),
 							},
 						)
-						k.StakingKeeper.Jail(ctx, consAddr)
+						k.stakingKeeper.Jail(ctx, consAddr)
 					}
 				}
 			}

@@ -70,7 +70,7 @@ func (k Keeper) GetOrchestratorValidator(ctx sdk.Context, orch sdk.AccAddress) (
 			MinSelfDelegation: sdk.Int{},
 		}, false
 	}
-	validator, found = k.StakingKeeper.GetValidator(ctx, valAddr)
+	validator, found = k.stakingKeeper.GetValidator(ctx, valAddr)
 	if !found {
 		return stakingtypes.Validator{
 			OperatorAddress: "",
@@ -196,7 +196,7 @@ func (k Keeper) GetValidatorByEthAddress(ctx sdk.Context, ethAddr types.EthAddre
 			MinSelfDelegation: sdk.Int{},
 		}, false
 	}
-	validator, found = k.StakingKeeper.GetValidator(ctx, valAddr)
+	validator, found = k.stakingKeeper.GetValidator(ctx, valAddr)
 	if !found {
 		return stakingtypes.Validator{
 			OperatorAddress: "",

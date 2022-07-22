@@ -151,6 +151,6 @@ func TestSubmitBadSignatureEvidenceSlash(t *testing.T) {
 	err = input.GravityKeeper.CheckBadSignatureEvidence(ctx, &msg)
 	require.NoError(t, err)
 
-	val := input.StakingKeeper.Validator(ctx, ValAddrs[0])
+	val := input.stakingKeeper.Validator(ctx, ValAddrs[0])
 	require.True(t, val.IsJailed())
 }

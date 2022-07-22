@@ -79,7 +79,7 @@ func pruneAttestationsAfterNonce(ctx sdk.Context, k Keeper, nonceCutoff uint64) 
 
 	// Discover all affected validators whose LastEventNonce must be reset to nonceCutoff
 
-	numValidators := len(k.StakingKeeper.GetBondedValidatorsByPower(ctx))
+	numValidators := len(k.stakingKeeper.GetBondedValidatorsByPower(ctx))
 	// void and setMember are necessary for sets to work
 	type void struct{}
 	var setMember void
@@ -128,7 +128,7 @@ func (k Keeper) HandleAirdropProposal(ctx sdk.Context, p *types.AirdropProposal)
 		return sdkerrors.Wrap(types.ErrInvalid, "Invalid airdrop denom")
 	}
 
-	feePool := k.DistKeeper.GetFeePool(ctx)
+	feePool := k.distrKeeper.GetFeePool(ctx)
 	feePoolAmount := feePool.CommunityPool.AmountOf(p.Denom)
 
 	airdropTotal := sdk.NewInt(0)
@@ -198,7 +198,7 @@ func (k Keeper) HandleAirdropProposal(ctx sdk.Context, p *types.AirdropProposal)
 		return sdkerrors.Wrap(types.ErrInvalid, "internal error!")
 	}
 	feePool.CommunityPool = newCoins
-	k.DistKeeper.SetFeePool(ctx, feePool)
+	k.distrKeeper.SetFeePool(ctx, feePool)
 
 	endingSupply := k.bankKeeper.GetSupply(ctx, p.Denom)
 	if !startingSupply.Equal(endingSupply) {

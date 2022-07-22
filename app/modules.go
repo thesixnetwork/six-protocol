@@ -19,10 +19,10 @@ import (
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 	ibctransfertypes "github.com/cosmos/ibc-go/v3/modules/apps/transfer/types"
 	ibchost "github.com/cosmos/ibc-go/v3/modules/core/24-host"
+	bech32ibctypes "github.com/osmosis-labs/bech32-ibc/x/bech32ibc/types"
 	gravitymoduletypes "github.com/thesixnetwork/six-protocol/x/gravity/types"
 	protocoladminmoduletypes "github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
 	tokenmngrmoduletypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
-	bech32ibctypes "github.com/osmosis-labs/bech32-ibc/x/bech32ibc/types"
 )
 
 func orderBeginBlockers() []string {

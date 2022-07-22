@@ -19,7 +19,11 @@ func main() {
 		// this line is used by starport scaffolding # root/arguments
 	)
 	rootCmd.AddCommand(
+		// AddGenesisAccountCmd(app.DefaultNodeHome), this module is already included in the scaffolding  # root/arguments
+		// migratecmd.AddMigrateCmd(app.DefaultNodeHome), this module is already included in the scaffolding  # root/arguments
+		// GenTxCmd(app.DefaultNodeHome), this module is already included in the scaffolding  # root/arguments
 		AddGenesisWasmMsgCmd(app.DefaultNodeHome),
+		AddEthKeyCommands(app.DefaultNodeHome),
 	)
 	if err := svrcmd.Execute(rootCmd, app.DefaultNodeHome); err != nil {
 		os.Exit(1)

@@ -14,6 +14,7 @@ import CosmosIbcGoIbcApplicationsTransferV1 from './cosmos/ibc-go/ibc.applicatio
 import ThesixnetworkSixProtocolGravity from './thesixnetwork/six-protocol/gravity'
 import ThesixnetworkSixProtocolThesixnetworkSixprotocolGravity from './thesixnetwork/six-protocol/thesixnetwork.sixprotocol.gravity'
 import ThesixnetworkSixProtocolThesixnetworkSixprotocolProtocoladmin from './thesixnetwork/six-protocol/thesixnetwork.sixprotocol.protocoladmin'
+import ThesixnetworkSixProtocolThesixnetworkSixprotocolSixgate from './thesixnetwork/six-protocol/thesixnetwork.sixprotocol.sixgate'
 import ThesixnetworkSixProtocolThesixnetworkSixprotocolTokenmngr from './thesixnetwork/six-protocol/thesixnetwork.sixprotocol.tokenmngr'
 
 
@@ -32,6 +33,7 @@ export default {
   ThesixnetworkSixProtocolGravity: load(ThesixnetworkSixProtocolGravity, 'gravity'),
   ThesixnetworkSixProtocolThesixnetworkSixprotocolGravity: load(ThesixnetworkSixProtocolThesixnetworkSixprotocolGravity, 'thesixnetwork.sixprotocol.gravity'),
   ThesixnetworkSixProtocolThesixnetworkSixprotocolProtocoladmin: load(ThesixnetworkSixProtocolThesixnetworkSixprotocolProtocoladmin, 'thesixnetwork.sixprotocol.protocoladmin'),
+  ThesixnetworkSixProtocolThesixnetworkSixprotocolSixgate: load(ThesixnetworkSixProtocolThesixnetworkSixprotocolSixgate, 'thesixnetwork.sixprotocol.sixgate'),
   ThesixnetworkSixProtocolThesixnetworkSixprotocolTokenmngr: load(ThesixnetworkSixProtocolThesixnetworkSixprotocolTokenmngr, 'thesixnetwork.sixprotocol.tokenmngr'),
   
 }

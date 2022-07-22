@@ -54,12 +54,12 @@ func TestAirdropProposal(t *testing.T) {
 	gk := input.GravityKeeper
 
 	feePoolBalance := sdk.NewInt64Coin("grav", 10000)
-	feePool := gk.DistKeeper.GetFeePool(ctx)
+	feePool := gk.distrKeeper.GetFeePool(ctx)
 	newCoins := feePool.CommunityPool.Add(sdk.NewDecCoins(sdk.NewDecCoinFromCoin(feePoolBalance))...)
 	feePool.CommunityPool = newCoins
-	gk.DistKeeper.SetFeePool(ctx, feePool)
+	gk.distrKeeper.SetFeePool(ctx, feePool)
 	// test that we are actually setting the fee pool
-	assert.Equal(t, input.DistKeeper.GetFeePool(ctx), feePool)
+	assert.Equal(t, input.distrKeeper.GetFeePool(ctx), feePool)
 	// mint the actual coins
 	require.NoError(t, input.BankKeeper.MintCoins(ctx, types.ModuleName, sdk.NewCoins(feePoolBalance)))
 	require.NoError(t, input.BankKeeper.SendCoinsFromModuleToModule(ctx, types.ModuleName, disttypes.ModuleName, sdk.NewCoins(feePoolBalance)))
@@ -82,25 +82,25 @@ func TestAirdropProposal(t *testing.T) {
 
 	err = gk.HandleAirdropProposal(ctx, &goodAirdrop)
 	require.NoError(t, err)
-	feePool = gk.DistKeeper.GetFeePool(ctx)
+	feePool = gk.distrKeeper.GetFeePool(ctx)
 	assert.Equal(t, feePool.CommunityPool.AmountOf("grav"), sdk.NewInt64DecCoin("grav", 7000).Amount)
 	input.AssertInvariants()
 
 	// now we test with extremely large amounts, specifically to get to rounding errors
 	feePoolBalance = sdk.NewCoin("grav", extremelyLargeAmount)
-	feePool = gk.DistKeeper.GetFeePool(ctx)
+	feePool = gk.distrKeeper.GetFeePool(ctx)
 	newCoins = feePool.CommunityPool.Add(sdk.NewDecCoins(sdk.NewDecCoinFromCoin(feePoolBalance))...)
 	feePool.CommunityPool = newCoins
-	gk.DistKeeper.SetFeePool(ctx, feePool)
+	gk.distrKeeper.SetFeePool(ctx, feePool)
 	// test that we are actually setting the fee pool
-	assert.Equal(t, input.DistKeeper.GetFeePool(ctx), feePool)
+	assert.Equal(t, input.distrKeeper.GetFeePool(ctx), feePool)
 	// mint the actual coins
 	require.NoError(t, input.BankKeeper.MintCoins(ctx, types.ModuleName, sdk.NewCoins(feePoolBalance)))
 	require.NoError(t, input.BankKeeper.SendCoinsFromModuleToModule(ctx, types.ModuleName, disttypes.ModuleName, sdk.NewCoins(feePoolBalance)))
 
 	err = gk.HandleAirdropProposal(ctx, &airdropLarge)
 	require.NoError(t, err)
-	feePool = gk.DistKeeper.GetFeePool(ctx)
+	feePool = gk.distrKeeper.GetFeePool(ctx)
 	input.AssertInvariants()
 }
 

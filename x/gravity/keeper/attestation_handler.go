@@ -14,7 +14,7 @@ import (
 )
 
 // Check that distKeeper implements the expected type
-var _ types.DistributionKeeper = (*distrkeeper.Keeper)(nil)
+var _ types.DistrKeeper = (*distrkeeper.Keeper)(nil)
 
 // AttestationHandler processes `observed` Attestations
 type AttestationHandler struct {

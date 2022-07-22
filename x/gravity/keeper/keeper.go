@@ -10,12 +10,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	authkeeper "github.com/cosmos/cosmos-sdk/x/auth/keeper"
-	bankkeeper "github.com/cosmos/cosmos-sdk/x/bank/keeper"
-	distrkeeper "github.com/cosmos/cosmos-sdk/x/distribution/keeper"
 	distrtypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
-	slashingkeeper "github.com/cosmos/cosmos-sdk/x/slashing/keeper"
-	stakingkeeper "github.com/cosmos/cosmos-sdk/x/staking/keeper"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	ibctransferkeeper "github.com/cosmos/ibc-go/v3/modules/apps/transfer/keeper"
 	"github.com/tendermint/tendermint/libs/log"
@@ -25,23 +21,19 @@ import (
 	"github.com/thesixnetwork/six-protocol/x/gravity/types"
 )
 
-// Check that our expected keeper types are implemented
-var _ types.StakingKeeper = (*stakingkeeper.Keeper)(nil)
-var _ types.SlashingKeeper = (*slashingkeeper.Keeper)(nil)
-var _ types.DistributionKeeper = (*distrkeeper.Keeper)(nil)
 
 // Keeper maintains the link to storage and exposes getter/setter methods for the various parts of the state machine
 type Keeper struct {
 	// NOTE: If you add anything to this struct, add a nil check to ValidateMembers below!
+	cdc         codec.BinaryCodec // The wire codec for binary encoding/decoding.
 	storeKey   sdk.StoreKey // Unexposed key to access store from sdk.Context
-	paramSpace paramtypes.Subspace
+	memKey     sdk.StoreKey
+	paramstore paramtypes.Subspace
 
-	// NOTE: If you add anything to this struct, add a nil check to ValidateMembers below!
-	cdc               codec.BinaryCodec // The wire codec for binary encoding/decoding.
-	bankKeeper        *bankkeeper.BaseKeeper
-	StakingKeeper     *stakingkeeper.Keeper
-	SlashingKeeper    *slashingkeeper.Keeper
-	DistKeeper        *distrkeeper.Keeper
+	bankKeeper     types.BankKeeper
+	stakingKeeper  types.StakingKeeper
+	slashingKeeper types.SlashingKeeper
+	distrKeeper    types.DistrKeeper
 	accountKeeper     *authkeeper.AccountKeeper
 	ibcTransferKeeper *ibctransferkeeper.Keeper
 	bech32IbcKeeper   *bech32ibckeeper.Keeper
@@ -56,13 +48,13 @@ func (k Keeper) ValidateMembers() {
 	if k.bankKeeper == nil {
 		panic("Nil bankKeeper!")
 	}
-	if k.StakingKeeper == nil {
+	if k.stakingKeeper == nil {
 		panic("Nil StakingKeeper!")
 	}
-	if k.SlashingKeeper == nil {
+	if k.slashingKeeper == nil {
 		panic("Nil SlashingKeeper!")
 	}
-	if k.DistKeeper == nil {
+	if k.distrKeeper == nil {
 		panic("Nil DistKeeper!")
 	}
 	if k.accountKeeper == nil {
@@ -78,32 +70,34 @@ func (k Keeper) ValidateMembers() {
 
 // NewKeeper returns a new instance of the gravity keeper
 func NewKeeper(
-	storeKey sdk.StoreKey,
-	paramSpace paramtypes.Subspace,
 	cdc codec.BinaryCodec,
-	bankKeeper *bankkeeper.BaseKeeper,
-	stakingKeeper *stakingkeeper.Keeper,
-	slashingKeeper *slashingkeeper.Keeper,
-	distKeeper *distrkeeper.Keeper,
+	storeKey sdk.StoreKey,
+	memKey sdk.StoreKey,
+	ps paramtypes.Subspace,
+
+	bankKeeper types.BankKeeper, 
+	stakingKeeper types.StakingKeeper, 
+	slashingKeeper types.SlashingKeeper, 
+	distrKeeper types.DistrKeeper, 
 	accKeeper *authkeeper.AccountKeeper,
 	ibcTransferKeeper *ibctransferkeeper.Keeper,
 	bech32IbcKeeper *bech32ibckeeper.Keeper,
 ) Keeper {
 	// set KeyTable if it has not already been set
-	if !paramSpace.HasKeyTable() {
-		paramSpace = paramSpace.WithKeyTable(types.ParamKeyTable())
+	if !ps.HasKeyTable() {
+		ps = ps.WithKeyTable(types.ParamKeyTable())
 	}
 
 	k := Keeper{
+		cdc:        cdc,
 		storeKey:   storeKey,
-		paramSpace: paramSpace,
-
-		cdc:                cdc,
-		bankKeeper:         bankKeeper,
-		StakingKeeper:      stakingKeeper,
-		SlashingKeeper:     slashingKeeper,
-		DistKeeper:         distKeeper,
-		accountKeeper:      accKeeper,
+		memKey:     memKey,
+		paramstore: ps,
+		bankKeeper: bankKeeper, 
+		stakingKeeper: stakingKeeper, 
+		slashingKeeper: slashingKeeper, 
+		distrKeeper: distrKeeper, 
+		accountKeeper: accKeeper,
 		ibcTransferKeeper:  ibcTransferKeeper,
 		bech32IbcKeeper:    bech32IbcKeeper,
 		AttestationHandler: nil,
@@ -128,9 +122,9 @@ func (k Keeper) SendToCommunityPool(ctx sdk.Context, coins sdk.Coins) error {
 	if err := k.bankKeeper.SendCoinsFromModuleToModule(ctx, types.ModuleName, distrtypes.ModuleName, coins); err != nil {
 		return sdkerrors.Wrap(err, "transfer to community pool failed")
 	}
-	feePool := k.DistKeeper.GetFeePool(ctx)
+	feePool := k.distrKeeper.GetFeePool(ctx)
 	feePool.CommunityPool = feePool.CommunityPool.Add(sdk.NewDecCoinsFromCoins(coins...)...)
-	k.DistKeeper.SetFeePool(ctx, feePool)
+	k.distrKeeper.SetFeePool(ctx, feePool)
 	return nil
 }
 
@@ -140,19 +134,19 @@ func (k Keeper) SendToCommunityPool(ctx sdk.Context, coins sdk.Coins) error {
 
 // GetParams returns the parameters from the store
 func (k Keeper) GetParams(ctx sdk.Context) (params types.Params) {
-	k.paramSpace.GetParamSet(ctx, &params)
+	k.paramstore.GetParamSet(ctx, &params)
 	return
 }
 
 // SetParams sets the parameters in the store
 func (k Keeper) SetParams(ctx sdk.Context, ps types.Params) {
-	k.paramSpace.SetParamSet(ctx, &ps)
+	k.paramstore.SetParamSet(ctx, &ps)
 }
 
 // GetBridgeContractAddress returns the bridge contract address on ETH
 func (k Keeper) GetBridgeContractAddress(ctx sdk.Context) *types.EthAddress {
 	var a string
-	k.paramSpace.Get(ctx, types.ParamsStoreKeyBridgeEthereumAddress, &a)
+	k.paramstore.Get(ctx, types.ParamsStoreKeyBridgeEthereumAddress, &a)
 	addr, err := types.NewEthAddress(a)
 	if err != nil {
 		panic(sdkerrors.Wrapf(err, "found invalid bridge contract address in store: %v", a))
@@ -163,7 +157,7 @@ func (k Keeper) GetBridgeContractAddress(ctx sdk.Context) *types.EthAddress {
 // GetBridgeChainID returns the chain id of the ETH chain we are running against
 func (k Keeper) GetBridgeChainID(ctx sdk.Context) uint64 {
 	var a uint64
-	k.paramSpace.Get(ctx, types.ParamsStoreKeyBridgeContractChainID, &a)
+	k.paramstore.Get(ctx, types.ParamsStoreKeyBridgeContractChainID, &a)
 	return a
 }
 
@@ -179,7 +173,7 @@ func (k Keeper) GetBridgeChainID(ctx sdk.Context) uint64 {
 // successive chain in charge of the same bridge
 func (k Keeper) GetGravityID(ctx sdk.Context) string {
 	var a string
-	k.paramSpace.Get(ctx, types.ParamsStoreKeyGravityID, &a)
+	k.paramstore.Get(ctx, types.ParamsStoreKeyGravityID, &a)
 	return a
 }
 
@@ -194,7 +188,7 @@ func (k Keeper) GetGravityID(ctx sdk.Context) string {
 // same as the chain id since the chain id may be changed many times with each
 // successive chain in charge of the same bridge
 func (k Keeper) SetGravityID(ctx sdk.Context, v string) {
-	k.paramSpace.Set(ctx, types.ParamsStoreKeyGravityID, v)
+	k.paramstore.Set(ctx, types.ParamsStoreKeyGravityID, v)
 }
 
 // logger returns a module-specific logger.
