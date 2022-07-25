@@ -77,7 +77,7 @@ import (
 	"github.com/osmosis-labs/bech32-ibc/x/bech32ibc"
 	bech32ibckeeper "github.com/osmosis-labs/bech32-ibc/x/bech32ibc/keeper"
 	bech32ibctypes "github.com/osmosis-labs/bech32-ibc/x/bech32ibc/types"
-	
+
 	transfer "github.com/cosmos/ibc-go/v3/modules/apps/transfer"
 	ibctransferkeeper "github.com/cosmos/ibc-go/v3/modules/apps/transfer/keeper"
 	ibctransfertypes "github.com/cosmos/ibc-go/v3/modules/apps/transfer/types"
@@ -186,7 +186,7 @@ var (
 		tokenmngrmoduletypes.ModuleName:     {authtypes.Minter, authtypes.Burner, authtypes.Staking},
 		protocoladminmoduletypes.ModuleName: {authtypes.Minter, authtypes.Burner, authtypes.Staking},
 		wasm.ModuleName:                     {authtypes.Burner},
-		gravitymoduletypes.ModuleName:        {authtypes.Minter, authtypes.Burner},
+		gravitymoduletypes.ModuleName:       {authtypes.Minter, authtypes.Burner},
 		// this line is used by starport scaffolding # stargate/app/maccPerms
 	}
 )
@@ -224,9 +224,9 @@ type App struct {
 	memKeys map[string]*sdk.MemoryStoreKey
 
 	// keepers
-	AccountKeeper    authkeeper.AccountKeeper
-	BankKeeper 		bankkeeper.Keeper
-	BaseKeeper 		bankkeeper.BaseKeeper
+	AccountKeeper authkeeper.AccountKeeper
+	// BankKeeper       bankkeeper.Keeper
+	BankKeeper       bankkeeper.BaseKeeper
 	CapabilityKeeper *capabilitykeeper.Keeper
 	StakingKeeper    stakingkeeper.Keeper
 	SlashingKeeper   slashingkeeper.Keeper
@@ -237,19 +237,19 @@ type App struct {
 	UpgradeKeeper    upgradekeeper.Keeper
 	ParamsKeeper     paramskeeper.Keeper
 	// IBC Keeper must be a pointer in the app, so we can SetRouter on it correctly
-	IBCKeeper        *ibckeeper.Keeper
-	EvidenceKeeper   evidencekeeper.Keeper
-	TransferKeeper   ibctransferkeeper.Keeper
-	FeeGrantKeeper   feegrantkeeper.Keeper
-	AuthzKeeper      authzkeeper.Keeper
-	WasmKeeper       wasm.Keeper
-	ProtocoladminKeeper       protocoladminmodulekeeper.Keeper
-	TokenmngrKeeper           tokenmngrmodulekeeper.Keeper
-	GravityKeeper             gravitymodulekeeper.Keeper
-	Bech32ibckeeper           bech32ibckeeper.Keeper
+	IBCKeeper           *ibckeeper.Keeper
+	EvidenceKeeper      evidencekeeper.Keeper
+	TransferKeeper      ibctransferkeeper.Keeper
+	FeeGrantKeeper      feegrantkeeper.Keeper
+	AuthzKeeper         authzkeeper.Keeper
+	WasmKeeper          wasm.Keeper
+	ProtocoladminKeeper protocoladminmodulekeeper.Keeper
+	TokenmngrKeeper     tokenmngrmodulekeeper.Keeper
+	GravityKeeper       gravitymodulekeeper.Keeper
+	Bech32ibckeeper     bech32ibckeeper.Keeper
 
 	// make scoped keepers public for test purposes
-	ScopedWasmKeeper capabilitykeeper.ScopedKeeper
+	ScopedWasmKeeper     capabilitykeeper.ScopedKeeper
 	ScopedIBCKeeper      capabilitykeeper.ScopedKeeper
 	ScopedTransferKeeper capabilitykeeper.ScopedKeeper
 	// ScopedICAHostKeeper       capabilitykeeper.ScopedKeeper
@@ -344,7 +344,7 @@ func New(
 		app.ModuleAccountAddrs(),
 	)
 
-	StakingKeeper := stakingkeeper.NewKeeper(
+	app.StakingKeeper = stakingkeeper.NewKeeper(
 		appCodec,
 		keys[stakingtypes.StoreKey],
 		app.AccountKeeper,
@@ -354,7 +354,7 @@ func New(
 	app.MintKeeper = mintkeeper.NewKeeper(
 		appCodec, keys[minttypes.StoreKey],
 		app.GetSubspace(minttypes.ModuleName),
-		&StakingKeeper,
+		app.StakingKeeper,
 		app.AccountKeeper,
 		app.BankKeeper,
 		authtypes.FeeCollectorName,
@@ -399,10 +399,6 @@ func New(
 	app.RegisterUpgradeHandlers(cfg)
 
 	// register the staking hooks
-	// NOTE: stakingKeeper above is passed by reference, so that it will contain these hooks
-	app.StakingKeeper = *StakingKeeper.SetHooks(
-		stakingtypes.NewMultiStakingHooks(app.DistrKeeper.Hooks(), app.SlashingKeeper.Hooks(),app.GravityKeeper.Hooks()),
-	)
 
 	// ... other modules keepers
 
@@ -481,7 +477,6 @@ func New(
 	)
 	tokenmngrModule := tokenmngrmodule.NewAppModule(appCodec, app.TokenmngrKeeper, app.AccountKeeper, app.BankKeeper)
 
-
 	bech32IbcKeeper := *bech32ibckeeper.NewKeeper(
 		app.IBCKeeper.ChannelKeeper,
 		appCodec,
@@ -492,17 +487,22 @@ func New(
 	scopedGravityKeeper := app.CapabilityKeeper.ScopeToModule(gravitymoduletypes.ModuleName)
 	app.ScopedGravityKeeper = scopedGravityKeeper
 
-	gravityKeeper := gravitymodulekeeper.NewKeeper(
+	app.GravityKeeper = gravitymodulekeeper.NewKeeper(
 		keys[gravitymoduletypes.StoreKey],
 		app.GetSubspace(gravitymoduletypes.ModuleName),
 		appCodec,
-		&app.BaseKeeper,
+		&app.BankKeeper,
 		&app.StakingKeeper,
 		&app.SlashingKeeper,
 		&app.DistrKeeper,
 		&app.AccountKeeper,
 		&app.TransferKeeper,
 		&app.Bech32ibckeeper,
+	)
+	// app.GravityKeeper = gravityKeeper
+	// NOTE: stakingKeeper above is passed by reference, so that it will contain these hooks
+	app.StakingKeeper.SetHooks(
+		stakingtypes.NewMultiStakingHooks(app.DistrKeeper.Hooks(), app.SlashingKeeper.Hooks(), app.GravityKeeper.Hooks()),
 	)
 	// gravityModule := gravitymodule.NewAppModule(gravityKeeper, app.BankKeeper)
 
@@ -569,8 +569,8 @@ func New(
 
 	app.mm = module.NewManager(
 		genutil.NewAppModule(
-			app.AccountKeeper, 
-			app.StakingKeeper, 
+			app.AccountKeeper,
+			app.StakingKeeper,
 			app.BaseApp.DeliverTx,
 			encodingConfig.TxConfig,
 		),
@@ -591,7 +591,7 @@ func New(
 		ibc.NewAppModule(app.IBCKeeper),
 		params.NewAppModule(app.ParamsKeeper),
 		gravitymodule.NewAppModule(
-			gravityKeeper,
+			app.GravityKeeper,
 			app.BankKeeper,
 		),
 		bech32ibc.NewAppModule(
