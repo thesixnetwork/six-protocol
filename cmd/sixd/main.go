@@ -20,6 +20,8 @@ func main() {
 	)
 	rootCmd.AddCommand(
 		AddGenesisWasmMsgCmd(app.DefaultNodeHome),
+		Commands(app.DefaultNodeHome),
+		AddKeyCommand(),
 	)
 	if err := svrcmd.Execute(rootCmd, app.DefaultNodeHome); err != nil {
 		os.Exit(1)
