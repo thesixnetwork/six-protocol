@@ -1402,33 +1402,18 @@ export default {
 		},
 		
 		
-		async sendMsgValsetUpdatedClaim({ rootGetters }, { value, fee = [], memo = '' }) {
+		async sendMsgSendToCosmosClaim({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgValsetUpdatedClaim(value)
+				const msg = await txClient.msgSendToCosmosClaim(value)
 				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
 	gas: "200000" }, memo})
 				return result
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgValsetUpdatedClaim:Init Could not initialize signing client. Wallet is required.')
+					throw new Error('TxClient:MsgSendToCosmosClaim:Init Could not initialize signing client. Wallet is required.')
 				}else{
-					throw new Error('TxClient:MsgValsetUpdatedClaim:Send Could not broadcast Tx: '+ e.message)
-				}
-			}
-		},
-		async sendMsgLogicCallExecutedClaim({ rootGetters }, { value, fee = [], memo = '' }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgLogicCallExecutedClaim(value)
-				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
-	gas: "200000" }, memo})
-				return result
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgLogicCallExecutedClaim:Init Could not initialize signing client. Wallet is required.')
-				}else{
-					throw new Error('TxClient:MsgLogicCallExecutedClaim:Send Could not broadcast Tx: '+ e.message)
+					throw new Error('TxClient:MsgSendToCosmosClaim:Send Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
@@ -1447,63 +1432,18 @@ export default {
 				}
 			}
 		},
-		async sendMsgConfirmBatch({ rootGetters }, { value, fee = [], memo = '' }) {
+		async sendMsgCancelSendToEth({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgConfirmBatch(value)
+				const msg = await txClient.msgCancelSendToEth(value)
 				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
 	gas: "200000" }, memo})
 				return result
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgConfirmBatch:Init Could not initialize signing client. Wallet is required.')
+					throw new Error('TxClient:MsgCancelSendToEth:Init Could not initialize signing client. Wallet is required.')
 				}else{
-					throw new Error('TxClient:MsgConfirmBatch:Send Could not broadcast Tx: '+ e.message)
-				}
-			}
-		},
-		async sendMsgRequestBatch({ rootGetters }, { value, fee = [], memo = '' }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgRequestBatch(value)
-				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
-	gas: "200000" }, memo})
-				return result
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgRequestBatch:Init Could not initialize signing client. Wallet is required.')
-				}else{
-					throw new Error('TxClient:MsgRequestBatch:Send Could not broadcast Tx: '+ e.message)
-				}
-			}
-		},
-		async sendMsgSendToCosmosClaim({ rootGetters }, { value, fee = [], memo = '' }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgSendToCosmosClaim(value)
-				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
-	gas: "200000" }, memo})
-				return result
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgSendToCosmosClaim:Init Could not initialize signing client. Wallet is required.')
-				}else{
-					throw new Error('TxClient:MsgSendToCosmosClaim:Send Could not broadcast Tx: '+ e.message)
-				}
-			}
-		},
-		async sendMsgSendToEth({ rootGetters }, { value, fee = [], memo = '' }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgSendToEth(value)
-				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
-	gas: "200000" }, memo})
-				return result
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgSendToEth:Init Could not initialize signing client. Wallet is required.')
-				}else{
-					throw new Error('TxClient:MsgSendToEth:Send Could not broadcast Tx: '+ e.message)
+					throw new Error('TxClient:MsgCancelSendToEth:Send Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
@@ -1522,33 +1462,48 @@ export default {
 				}
 			}
 		},
-		async sendMsgCancelSendToEth({ rootGetters }, { value, fee = [], memo = '' }) {
+		async sendMsgSendToEth({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgCancelSendToEth(value)
+				const msg = await txClient.msgSendToEth(value)
 				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
 	gas: "200000" }, memo})
 				return result
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgCancelSendToEth:Init Could not initialize signing client. Wallet is required.')
+					throw new Error('TxClient:MsgSendToEth:Init Could not initialize signing client. Wallet is required.')
 				}else{
-					throw new Error('TxClient:MsgCancelSendToEth:Send Could not broadcast Tx: '+ e.message)
+					throw new Error('TxClient:MsgSendToEth:Send Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
-		async sendMsgERC20DeployedClaim({ rootGetters }, { value, fee = [], memo = '' }) {
+		async sendMsgRequestBatch({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgERC20DeployedClaim(value)
+				const msg = await txClient.msgRequestBatch(value)
 				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
 	gas: "200000" }, memo})
 				return result
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgERC20DeployedClaim:Init Could not initialize signing client. Wallet is required.')
+					throw new Error('TxClient:MsgRequestBatch:Init Could not initialize signing client. Wallet is required.')
 				}else{
-					throw new Error('TxClient:MsgERC20DeployedClaim:Send Could not broadcast Tx: '+ e.message)
+					throw new Error('TxClient:MsgRequestBatch:Send Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
+		async sendMsgConfirmBatch({ rootGetters }, { value, fee = [], memo = '' }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgConfirmBatch(value)
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+	gas: "200000" }, memo})
+				return result
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgConfirmBatch:Init Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new Error('TxClient:MsgConfirmBatch:Send Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
@@ -1567,18 +1522,18 @@ export default {
 				}
 			}
 		},
-		async sendMsgValsetConfirm({ rootGetters }, { value, fee = [], memo = '' }) {
+		async sendMsgValsetUpdatedClaim({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgValsetConfirm(value)
+				const msg = await txClient.msgValsetUpdatedClaim(value)
 				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
 	gas: "200000" }, memo})
 				return result
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgValsetConfirm:Init Could not initialize signing client. Wallet is required.')
+					throw new Error('TxClient:MsgValsetUpdatedClaim:Init Could not initialize signing client. Wallet is required.')
 				}else{
-					throw new Error('TxClient:MsgValsetConfirm:Send Could not broadcast Tx: '+ e.message)
+					throw new Error('TxClient:MsgValsetUpdatedClaim:Send Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
@@ -1597,30 +1552,62 @@ export default {
 				}
 			}
 		},
-		
-		async MsgValsetUpdatedClaim({ rootGetters }, { value }) {
+		async sendMsgERC20DeployedClaim({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgValsetUpdatedClaim(value)
-				return msg
+				const msg = await txClient.msgERC20DeployedClaim(value)
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+	gas: "200000" }, memo})
+				return result
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgValsetUpdatedClaim:Init Could not initialize signing client. Wallet is required.')
-				} else{
-					throw new Error('TxClient:MsgValsetUpdatedClaim:Create Could not create message: ' + e.message)
+					throw new Error('TxClient:MsgERC20DeployedClaim:Init Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new Error('TxClient:MsgERC20DeployedClaim:Send Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
-		async MsgLogicCallExecutedClaim({ rootGetters }, { value }) {
+		async sendMsgLogicCallExecutedClaim({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
 				const msg = await txClient.msgLogicCallExecutedClaim(value)
-				return msg
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+	gas: "200000" }, memo})
+				return result
 			} catch (e) {
 				if (e == MissingWalletError) {
 					throw new Error('TxClient:MsgLogicCallExecutedClaim:Init Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new Error('TxClient:MsgLogicCallExecutedClaim:Send Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
+		async sendMsgValsetConfirm({ rootGetters }, { value, fee = [], memo = '' }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgValsetConfirm(value)
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+	gas: "200000" }, memo})
+				return result
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgValsetConfirm:Init Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new Error('TxClient:MsgValsetConfirm:Send Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
+		
+		async MsgSendToCosmosClaim({ rootGetters }, { value }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgSendToCosmosClaim(value)
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgSendToCosmosClaim:Init Could not initialize signing client. Wallet is required.')
 				} else{
-					throw new Error('TxClient:MsgLogicCallExecutedClaim:Create Could not create message: ' + e.message)
+					throw new Error('TxClient:MsgSendToCosmosClaim:Create Could not create message: ' + e.message)
 				}
 			}
 		},
@@ -1637,55 +1624,16 @@ export default {
 				}
 			}
 		},
-		async MsgConfirmBatch({ rootGetters }, { value }) {
+		async MsgCancelSendToEth({ rootGetters }, { value }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgConfirmBatch(value)
+				const msg = await txClient.msgCancelSendToEth(value)
 				return msg
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgConfirmBatch:Init Could not initialize signing client. Wallet is required.')
+					throw new Error('TxClient:MsgCancelSendToEth:Init Could not initialize signing client. Wallet is required.')
 				} else{
-					throw new Error('TxClient:MsgConfirmBatch:Create Could not create message: ' + e.message)
-				}
-			}
-		},
-		async MsgRequestBatch({ rootGetters }, { value }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgRequestBatch(value)
-				return msg
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgRequestBatch:Init Could not initialize signing client. Wallet is required.')
-				} else{
-					throw new Error('TxClient:MsgRequestBatch:Create Could not create message: ' + e.message)
-				}
-			}
-		},
-		async MsgSendToCosmosClaim({ rootGetters }, { value }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgSendToCosmosClaim(value)
-				return msg
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgSendToCosmosClaim:Init Could not initialize signing client. Wallet is required.')
-				} else{
-					throw new Error('TxClient:MsgSendToCosmosClaim:Create Could not create message: ' + e.message)
-				}
-			}
-		},
-		async MsgSendToEth({ rootGetters }, { value }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgSendToEth(value)
-				return msg
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgSendToEth:Init Could not initialize signing client. Wallet is required.')
-				} else{
-					throw new Error('TxClient:MsgSendToEth:Create Could not create message: ' + e.message)
+					throw new Error('TxClient:MsgCancelSendToEth:Create Could not create message: ' + e.message)
 				}
 			}
 		},
@@ -1702,29 +1650,42 @@ export default {
 				}
 			}
 		},
-		async MsgCancelSendToEth({ rootGetters }, { value }) {
+		async MsgSendToEth({ rootGetters }, { value }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgCancelSendToEth(value)
+				const msg = await txClient.msgSendToEth(value)
 				return msg
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgCancelSendToEth:Init Could not initialize signing client. Wallet is required.')
+					throw new Error('TxClient:MsgSendToEth:Init Could not initialize signing client. Wallet is required.')
 				} else{
-					throw new Error('TxClient:MsgCancelSendToEth:Create Could not create message: ' + e.message)
+					throw new Error('TxClient:MsgSendToEth:Create Could not create message: ' + e.message)
 				}
 			}
 		},
-		async MsgERC20DeployedClaim({ rootGetters }, { value }) {
+		async MsgRequestBatch({ rootGetters }, { value }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgERC20DeployedClaim(value)
+				const msg = await txClient.msgRequestBatch(value)
 				return msg
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgERC20DeployedClaim:Init Could not initialize signing client. Wallet is required.')
+					throw new Error('TxClient:MsgRequestBatch:Init Could not initialize signing client. Wallet is required.')
 				} else{
-					throw new Error('TxClient:MsgERC20DeployedClaim:Create Could not create message: ' + e.message)
+					throw new Error('TxClient:MsgRequestBatch:Create Could not create message: ' + e.message)
+				}
+			}
+		},
+		async MsgConfirmBatch({ rootGetters }, { value }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgConfirmBatch(value)
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgConfirmBatch:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgConfirmBatch:Create Could not create message: ' + e.message)
 				}
 			}
 		},
@@ -1741,16 +1702,16 @@ export default {
 				}
 			}
 		},
-		async MsgValsetConfirm({ rootGetters }, { value }) {
+		async MsgValsetUpdatedClaim({ rootGetters }, { value }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgValsetConfirm(value)
+				const msg = await txClient.msgValsetUpdatedClaim(value)
 				return msg
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgValsetConfirm:Init Could not initialize signing client. Wallet is required.')
+					throw new Error('TxClient:MsgValsetUpdatedClaim:Init Could not initialize signing client. Wallet is required.')
 				} else{
-					throw new Error('TxClient:MsgValsetConfirm:Create Could not create message: ' + e.message)
+					throw new Error('TxClient:MsgValsetUpdatedClaim:Create Could not create message: ' + e.message)
 				}
 			}
 		},
@@ -1764,6 +1725,45 @@ export default {
 					throw new Error('TxClient:MsgBatchSendToEthClaim:Init Could not initialize signing client. Wallet is required.')
 				} else{
 					throw new Error('TxClient:MsgBatchSendToEthClaim:Create Could not create message: ' + e.message)
+				}
+			}
+		},
+		async MsgERC20DeployedClaim({ rootGetters }, { value }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgERC20DeployedClaim(value)
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgERC20DeployedClaim:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgERC20DeployedClaim:Create Could not create message: ' + e.message)
+				}
+			}
+		},
+		async MsgLogicCallExecutedClaim({ rootGetters }, { value }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgLogicCallExecutedClaim(value)
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgLogicCallExecutedClaim:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgLogicCallExecutedClaim:Create Could not create message: ' + e.message)
+				}
+			}
+		},
+		async MsgValsetConfirm({ rootGetters }, { value }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgValsetConfirm(value)
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgValsetConfirm:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgValsetConfirm:Create Could not create message: ' + e.message)
 				}
 			}
 		},
