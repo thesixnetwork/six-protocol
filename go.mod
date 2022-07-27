@@ -136,7 +136,7 @@ require (
 	github.com/pelletier/go-toml v1.9.5 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.1 // indirect
 	github.com/petermattis/goid v0.0.0-20180202154549-b0b1615b78e5 // indirect
-	github.com/pkg/errors v0.9.1 // indirect
+	github.com/pkg/errors v0.9.1
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/prometheus/client_golang v1.12.2 // indirect
 	github.com/prometheus/client_model v0.2.0 // indirect
@@ -182,13 +182,16 @@ require (
 )
 
 require (
-	github.com/Gravity-Bridge/Gravity-Bridge/module v1.4.1 // indirect
+	github.com/deckarep/golang-set v1.8.0 // indirect
+	github.com/go-stack/stack v1.8.0 // indirect
+	github.com/google/uuid v1.3.0 // indirect
+	github.com/rjeczalik/notify v0.9.1 // indirect
 	golang.org/x/net v0.0.0-20220624214902-1bab6f366d9e // indirect
 	golang.org/x/sys v0.0.0-20220610221304-9f5ed59c137d // indirect
 )
 
 replace (
-	github.com/cosmos/cosmos-sdk => github.com/thesixnetwork/cosmos-sdk v0.45.4-six-protocol
+	github.com/cosmos/cosmos-sdk => /Users/hamdeeduere/Documents/Repositories/six-dev/cosmos-sdk
 	github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
 	github.com/keybase/go-keychain => github.com/99designs/go-keychain v0.0.0-20191008050251-8e49817e8af4
 	google.golang.org/grpc => google.golang.org/grpc v1.33.2
