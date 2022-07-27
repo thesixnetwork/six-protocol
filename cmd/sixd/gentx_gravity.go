@@ -49,7 +49,7 @@ func GenGravityTxCmd(mbm module.BasicManager, txEncCfg client.TxEncodingConfig, 
 
 	//nolint: exhaustruct
 	cmd := &cobra.Command{
-		Use:   "gentx_orchestrator [key_name] [amount] [eth-address] [orchestrator-address]",
+		Use:   "gengate [key_name] [amount] [eth-address] [orchestrator-address]",
 		Short: "Generate a genesis tx carrying a self delegation, oracle key delegation and orchestrator key delegation",
 		Args:  cobra.ExactArgs(4),
 		Long: fmt.Sprintf(`Generate a genesis transaction that creates a validator with a self-delegation, oracle key 
@@ -59,7 +59,7 @@ priv_validator.json file. The following default parameters are included:
     %s
 
 Example:
-$ %s gentx my-key-name 1000000stake 0x033030FEeBd93E3178487c35A9c8cA80874353C9 cosmos1ahx7f8wyertuus9r20284ej0asrs085case3kn --home=/path/to/home/dir --keyring-backend=os --chain-id=test-chain-1 \
+$ %s gengate my-key-name 1000000stake 0x033030FEeBd93E3178487c35A9c8cA80874353C9 cosmos1ahx7f8wyertuus9r20284ej0asrs085case3kn --home=/path/to/home/dir --keyring-backend=os --chain-id=test-chain-1 \
     --moniker="myvalidator" \
     --commission-max-change-rate=0.01 \
     --commission-max-rate=1.0 \
