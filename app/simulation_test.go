@@ -62,6 +62,7 @@ var defaultConsensusParams = &abci.ConsensusParams{
 func BenchmarkSimulation(b *testing.B) {
 	simapp.FlagEnabledValue = true
 	simapp.FlagCommitValue = true
+	var _ = defaultConsensusParams
 
 	config, db, dir, logger, _, err := simapp.SetupSimulation("goleveldb-app-sim", "Simulation")
 	require.NoError(b, err, "simulation setup failed")
