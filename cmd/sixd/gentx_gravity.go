@@ -40,7 +40,7 @@ import (
 
 // GenTxCmd builds the application's gentx command.
 //nolint:gocyclo
-func GenGravityTxCmd(mbm module.BasicManager, txEncCfg client.TxEncodingConfig, genBalIterator types.GenesisBalancesIterator, defaultNodeHome string) *cobra.Command {
+func GenGateTxCmd(mbm module.BasicManager, txEncCfg client.TxEncodingConfig, genBalIterator types.GenesisBalancesIterator, defaultNodeHome string) *cobra.Command {
 	ipDefault, errIpDefault := server.ExternalIP()
 	if errIpDefault != nil {
 		fmt.Printf("errIpDefault %v", errIpDefault)
@@ -307,10 +307,10 @@ func writeSignedGenTx(clientCtx client.Context, outputDocument string, tx sdk.Tx
 const flagGenTxDir = "gentx-dir"
 
 // CollectGenTxsCmd - return the cobra command to collect genesis transactions
-func CollectGenTxsCmd(genBalIterator types.GenesisBalancesIterator, defaultNodeHome string) *cobra.Command {
+func CollectGenGateTxsCmd(genBalIterator types.GenesisBalancesIterator, defaultNodeHome string) *cobra.Command {
 	//nolint: exhaustruct
 	cmd := &cobra.Command{
-		Use:   "collect-gentxs",
+		Use:   "collect-gengate",
 		Short: "Collect genesis txs and output a genesis.json file",
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			serverCtx := server.GetServerContextFromCmd(cmd)

@@ -23,8 +23,8 @@ func main() {
 	rootCmd.AddCommand(
 		AddGenesisWasmMsgCmd(app.DefaultNodeHome),
 		Commands(app.DefaultNodeHome),
-		AddKeyCommand(),
-		GenGravityTxCmd(app.ModuleBasics, params.MakeEncodingConfig().TxConfig, banktypes.GenesisBalancesIterator{}, app.DefaultNodeHome),
+		GenGateTxCmd(app.ModuleBasics, params.MakeEncodingConfig().TxConfig, banktypes.GenesisBalancesIterator{}, app.DefaultNodeHome),
+		CollectGenGateTxsCmd(banktypes.GenesisBalancesIterator{}, app.DefaultNodeHome),
 	)
 	if err := svrcmd.Execute(rootCmd, app.DefaultNodeHome); err != nil {
 		os.Exit(1)
