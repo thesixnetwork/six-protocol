@@ -9,8 +9,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	authkeeper "github.com/cosmos/cosmos-sdk/x/auth/keeper"
-	bankkeeper "github.com/cosmos/cosmos-sdk/x/bank/keeper"
 	distrkeeper "github.com/cosmos/cosmos-sdk/x/distribution/keeper"
 	distrtypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
@@ -38,11 +36,11 @@ type Keeper struct {
 
 	// NOTE: If you add anything to this struct, add a nil check to ValidateMembers below!
 	cdc               codec.BinaryCodec // The wire codec for binary encoding/decoding.
-	bankKeeper        *bankkeeper.BaseKeeper
-	StakingKeeper     *stakingkeeper.Keeper
-	SlashingKeeper    *slashingkeeper.Keeper
-	DistKeeper        *distrkeeper.Keeper
-	accountKeeper     *authkeeper.AccountKeeper
+	bankKeeper        types.BankKeeper
+	StakingKeeper     types.StakingKeeper
+	SlashingKeeper    types.SlashingKeeper
+	DistKeeper        types.DistributionKeeper
+	accountKeeper     types.AccountKeeper
 	ibcTransferKeeper *ibctransferkeeper.Keeper
 	bech32IbcKeeper   *bech32ibckeeper.Keeper
 
@@ -81,11 +79,11 @@ func NewKeeper(
 	storeKey sdk.StoreKey,
 	paramSpace paramtypes.Subspace,
 	cdc codec.BinaryCodec,
-	bankKeeper *bankkeeper.BaseKeeper,
-	stakingKeeper *stakingkeeper.Keeper,
-	slashingKeeper *slashingkeeper.Keeper,
-	distKeeper *distrkeeper.Keeper,
-	accKeeper *authkeeper.AccountKeeper,
+	bankKeeper types.BankKeeper,
+	stakingKeeper types.StakingKeeper,
+	slashingKeeper types.SlashingKeeper,
+	distKeeper types.DistributionKeeper,
+	accKeeper types.AccountKeeper,
 	ibcTransferKeeper *ibctransferkeeper.Keeper,
 	bech32IbcKeeper *bech32ibckeeper.Keeper,
 ) Keeper {

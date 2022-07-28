@@ -613,8 +613,18 @@ func CreateTestEnv(t *testing.T) TestInput {
 		panic("Test Env Creation failure, could not set native hrp")
 	}
 
-	k := NewKeeper(gravityKey, getSubspace(paramsKeeper, types.DefaultParamspace), marshaler, &bankKeeper,
-		&stakingKeeper, &slashingKeeper, &distKeeper, &accountKeeper, &ibcTransferKeeper, &bech32IbcKeeper)
+	k := NewKeeper(
+		gravityKey, 
+		getSubspace(paramsKeeper, types.DefaultParamspace), 
+		marshaler, 
+		&bankKeeper,
+		&stakingKeeper, 
+		&slashingKeeper, 
+		&distKeeper, 
+		&accountKeeper, 
+		&ibcTransferKeeper,
+		&bech32IbcKeeper,
+	)
 
 	stakingKeeper = *stakingKeeper.SetHooks(
 		stakingtypes.NewMultiStakingHooks(

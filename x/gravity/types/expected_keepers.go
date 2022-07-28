@@ -8,6 +8,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/distribution/types"
 	slashingtypes "github.com/cosmos/cosmos-sdk/x/slashing/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
+	accounttypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 )
 
 // StakingKeeper defines the expected staking keeper methods
@@ -29,13 +30,16 @@ type StakingKeeper interface {
 
 // BankKeeper defines the expected bank keeper methods
 type BankKeeper interface {
+	GetBalance(ctx sdk.Context, addr sdk.AccAddress, denom string) sdk.Coin
 	SendCoinsFromModuleToAccount(ctx sdk.Context, senderModule string, recipientAddr sdk.AccAddress, amt sdk.Coins) error
 	SendCoinsFromAccountToModule(ctx sdk.Context, senderAddr sdk.AccAddress, recipientModule string, amt sdk.Coins) error
 	SendCoinsFromModuleToModule(ctx sdk.Context, senderModule string, recipientModule string, amt sdk.Coins) error
-	MintCoins(ctx sdk.Context, name string, amt sdk.Coins) error
-	BurnCoins(ctx sdk.Context, name string, amt sdk.Coins) error
+	MintCoins(ctx sdk.Context, moduleName string, amt sdk.Coins) error
+	BurnCoins(ctx sdk.Context, moduleName string, amt sdk.Coins) error
 	GetAllBalances(ctx sdk.Context, addr sdk.AccAddress) sdk.Coins
-	GetDenomMetaData(ctx sdk.Context, denom string) bank.Metadata
+	GetDenomMetaData(ctx sdk.Context, denom string) (bank.Metadata, bool)
+	GetSupply(ctx sdk.Context, denom string) sdk.Coin
+	SetDenomMetaData(ctx sdk.Context, denomMetaData bank.Metadata)
 }
 
 type SlashingKeeper interface {
@@ -47,3 +51,12 @@ type DistributionKeeper interface {
 	GetFeePool(ctx sdk.Context) (feePool types.FeePool)
 	SetFeePool(ctx sdk.Context, feePool types.FeePool)
 }
+
+type AccountKeeper interface {
+	GetAccount(ctx sdk.Context, addr sdk.AccAddress) accounttypes.AccountI
+	GetModuleAddress(name string) sdk.AccAddress
+	NewAccountWithAddress(ctx sdk.Context, addr sdk.AccAddress) accounttypes.AccountI
+	GetModuleAccount(ctx sdk.Context, moduleName string) accounttypes.ModuleAccountI
+	// Methods imported from account should be defined here
+}
+

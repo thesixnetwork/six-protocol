@@ -225,8 +225,8 @@ type App struct {
 
 	// keepers
 	AccountKeeper authkeeper.AccountKeeper
-	// BankKeeper       bankkeeper.Keeper
-	BankKeeper       bankkeeper.BaseKeeper
+	BankKeeper    bankkeeper.Keeper
+	// BaseKeeper       bankkeeper.BaseKeeper
 	CapabilityKeeper *capabilitykeeper.Keeper
 	StakingKeeper    stakingkeeper.Keeper
 	SlashingKeeper   slashingkeeper.Keeper
@@ -491,11 +491,11 @@ func New(
 		keys[gravitymoduletypes.StoreKey],
 		app.GetSubspace(gravitymoduletypes.ModuleName),
 		appCodec,
-		&app.BankKeeper,
-		&app.StakingKeeper,
-		&app.SlashingKeeper,
-		&app.DistrKeeper,
-		&app.AccountKeeper,
+		app.BankKeeper,
+		app.StakingKeeper,
+		app.SlashingKeeper,
+		app.DistrKeeper,
+		app.AccountKeeper,
 		&app.TransferKeeper,
 		&app.Bech32ibckeeper,
 	)
