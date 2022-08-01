@@ -103,17 +103,16 @@ import (
 	tokenmngrmodule "github.com/thesixnetwork/six-protocol/x/tokenmngr"
 	tokenmngrmodulekeeper "github.com/thesixnetwork/six-protocol/x/tokenmngr/keeper"
 	tokenmngrmoduletypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
-
 	gravitymodule "github.com/thesixnetwork/six-protocol/x/gravity"
 	gravitymodulekeeper "github.com/thesixnetwork/six-protocol/x/gravity/keeper"
 	gravitymoduletypes "github.com/thesixnetwork/six-protocol/x/gravity/types"
-
-	// this line is used by starport scaffolding # stargate/app/moduleImport
 
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
 	wasm "github.com/CosmWasm/wasmd/x/wasm"
 	wasmclient "github.com/CosmWasm/wasmd/x/wasm/client"
+
+	// this line is used by starport scaffolding # stargate/app/moduleImport
 )
 
 const (
@@ -236,26 +235,24 @@ type App struct {
 	CrisisKeeper     crisiskeeper.Keeper
 	UpgradeKeeper    upgradekeeper.Keeper
 	ParamsKeeper     paramskeeper.Keeper
-	// IBC Keeper must be a pointer in the app, so we can SetRouter on it correctly
-	IBCKeeper           *ibckeeper.Keeper
+	IBCKeeper           *ibckeeper.Keeper // IBC Keeper must be a pointer in the app, so we can SetRouter on it correctly
 	EvidenceKeeper      evidencekeeper.Keeper
 	TransferKeeper      ibctransferkeeper.Keeper
 	FeeGrantKeeper      feegrantkeeper.Keeper
 	AuthzKeeper         authzkeeper.Keeper
 	WasmKeeper          wasm.Keeper
-	ProtocoladminKeeper protocoladminmodulekeeper.Keeper
-	TokenmngrKeeper     tokenmngrmodulekeeper.Keeper
-	GravityKeeper       gravitymodulekeeper.Keeper
-	Bech32ibckeeper     bech32ibckeeper.Keeper
 
 	// make scoped keepers public for test purposes
-	ScopedWasmKeeper     capabilitykeeper.ScopedKeeper
 	ScopedIBCKeeper      capabilitykeeper.ScopedKeeper
 	ScopedTransferKeeper capabilitykeeper.ScopedKeeper
-	// ScopedICAHostKeeper       capabilitykeeper.ScopedKeeper
+	ScopedWasmKeeper     capabilitykeeper.ScopedKeeper
 	ScopedProtocoladminKeeper capabilitykeeper.ScopedKeeper
+	ProtocoladminKeeper protocoladminmodulekeeper.Keeper
 	ScopedTokenmngrKeeper     capabilitykeeper.ScopedKeeper
+	TokenmngrKeeper     tokenmngrmodulekeeper.Keeper
 	ScopedGravityKeeper       capabilitykeeper.ScopedKeeper
+	GravityKeeper       gravitymodulekeeper.Keeper
+	Bech32ibckeeper     bech32ibckeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// mm is the module manager
@@ -326,7 +323,6 @@ func New(
 	scopedTransferKeeper := app.CapabilityKeeper.ScopeToModule(ibctransfertypes.ModuleName)
 	scopedWasmKeeper := app.CapabilityKeeper.ScopeToModule(wasm.ModuleName)
 	// this line is used by starport scaffolding # stargate/app/scopedKeeper
-	// scopedICAHostKeeper := app.CapabilityKeeper.ScopeToModule(icahosttypes.SubModuleName)
 
 	// add keepers
 	app.AccountKeeper = authkeeper.NewAccountKeeper(
@@ -335,6 +331,10 @@ func New(
 		app.GetSubspace(authtypes.ModuleName),
 		authtypes.ProtoBaseAccount,
 		maccPerms,
+	)
+
+	app.AuthzKeeper = authzkeeper.NewKeeper(
+		keys[authzkeeper.StoreKey], appCodec, app.BaseApp.MsgServiceRouter(),
 	)
 
 	app.BankKeeper = bankkeeper.NewBaseKeeper(
@@ -398,16 +398,12 @@ func New(
 	cfg := module.NewConfigurator(appCodec, app.MsgServiceRouter(), app.GRPCQueryRouter())
 	app.RegisterUpgradeHandlers(cfg)
 
-	// register the staking hooks
-
 	// ... other modules keepers
 
 	// Create IBC Keeper
 	app.IBCKeeper = ibckeeper.NewKeeper(
 		appCodec, keys[ibchost.StoreKey], app.GetSubspace(ibchost.ModuleName), app.StakingKeeper, app.UpgradeKeeper, scopedIBCKeeper,
 	)
-
-	app.AuthzKeeper = authzkeeper.NewKeeper(keys[authzkeeper.StoreKey], appCodec, app.BaseApp.MsgServiceRouter())
 
 	// register the proposal types
 	govRouter := govtypes.NewRouter()
@@ -459,7 +455,6 @@ func New(
 		app.AccountKeeper,
 	)
 	protocoladminModule := protocoladminmodule.NewAppModule(appCodec, app.ProtocoladminKeeper, app.AccountKeeper, app.BankKeeper)
-	// protocoladminIBCModule := protocoladminmodule.NewIBCModule(app.ProtocoladminKeeper)
 
 	scopedTokenmngrKeeper := app.CapabilityKeeper.ScopeToModule(tokenmngrmoduletypes.ModuleName)
 	app.ScopedTokenmngrKeeper = scopedTokenmngrKeeper
@@ -499,22 +494,16 @@ func New(
 		&app.TransferKeeper,
 		&app.Bech32ibckeeper,
 	)
-	// app.GravityKeeper = gravityKeeper
+
 	// NOTE: stakingKeeper above is passed by reference, so that it will contain these hooks
 	app.StakingKeeper.SetHooks(
 		stakingtypes.NewMultiStakingHooks(app.DistrKeeper.Hooks(), app.SlashingKeeper.Hooks(), app.GravityKeeper.Hooks()),
 	)
-	// gravityModule := gravitymodule.NewAppModule(gravityKeeper, app.BankKeeper)
-
-	// tokenmngrIBCModule := tokenmngrmodule.NewIBCModule(app.TokenmngrKeeper)
-
 	// this line is used by starport scaffolding # stargate/app/keeperDefinition
 
 	// Create static IBC router, add transfer route, then set and seal it
 	ibcRouter := ibcporttypes.NewRouter()
 	ibcRouter.AddRoute(ibctransfertypes.ModuleName, transferIBCModule)
-	// ibcRouter.AddRoute(protocoladminmoduletypes.ModuleName, protocoladminIBCModule)
-	// ibcRouter.AddRoute(tokenmngrmoduletypes.ModuleName, tokenmngrIBCModule)
 
 	// Wasm
 	wasmDir := filepath.Join(homePath, "wasm")
