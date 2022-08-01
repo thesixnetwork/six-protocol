@@ -50,6 +50,7 @@ import (
 	feegrantkeeper "github.com/cosmos/cosmos-sdk/x/feegrant/keeper"
 	feegrantmodule "github.com/cosmos/cosmos-sdk/x/feegrant/module"
 	"github.com/cosmos/cosmos-sdk/x/genutil"
+	genutiltypes "github.com/cosmos/cosmos-sdk/x/genutil/types"
 	"github.com/cosmos/cosmos-sdk/x/gov"
 	govclient "github.com/cosmos/cosmos-sdk/x/gov/client"
 	govkeeper "github.com/cosmos/cosmos-sdk/x/gov/keeper"
@@ -72,8 +73,6 @@ import (
 	upgradeclient "github.com/cosmos/cosmos-sdk/x/upgrade/client"
 	upgradekeeper "github.com/cosmos/cosmos-sdk/x/upgrade/keeper"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
-	"github.com/thesixnetwork/six-protocol/docs"
-	genutiltypes "github.com/cosmos/cosmos-sdk/x/genutil/types"
 	"github.com/cosmos/ibc-go/v3/modules/apps/transfer"
 	ibctransferkeeper "github.com/cosmos/ibc-go/v3/modules/apps/transfer/keeper"
 	ibctransfertypes "github.com/cosmos/ibc-go/v3/modules/apps/transfer/types"
@@ -99,6 +98,9 @@ import (
 
 	"github.com/ignite/cli/ignite/pkg/cosmoscmd"
 	"github.com/ignite/cli/ignite/pkg/openapiconsole"
+
+	"github.com/thesixnetwork/six-protocol/docs"
+
 	gravitymodule "github.com/thesixnetwork/six-protocol/x/gravity"
 	gravitymodulekeeper "github.com/thesixnetwork/six-protocol/x/gravity/keeper"
 	gravitymoduletypes "github.com/thesixnetwork/six-protocol/x/gravity/types"
@@ -225,8 +227,9 @@ type App struct {
 	memKeys map[string]*sdk.MemoryStoreKey
 
 	// keepers
-	AccountKeeper authkeeper.AccountKeeper
-	BankKeeper    bankkeeper.Keeper
+	AccountKeeper    authkeeper.AccountKeeper
+	AuthzKeeper      authzkeeper.Keeper
+	BankKeeper       bankkeeper.Keeper
 	CapabilityKeeper *capabilitykeeper.Keeper
 	StakingKeeper    stakingkeeper.Keeper
 	SlashingKeeper   slashingkeeper.Keeper
@@ -236,24 +239,23 @@ type App struct {
 	CrisisKeeper     crisiskeeper.Keeper
 	UpgradeKeeper    upgradekeeper.Keeper
 	ParamsKeeper     paramskeeper.Keeper
-	IBCKeeper           *ibckeeper.Keeper // IBC Keeper must be a pointer in the app, so we can SetRouter on it correctly
-	EvidenceKeeper      evidencekeeper.Keeper
-	TransferKeeper      ibctransferkeeper.Keeper
-	FeeGrantKeeper      feegrantkeeper.Keeper
-	AuthzKeeper         authzkeeper.Keeper
-	WasmKeeper          wasm.Keeper
+	IBCKeeper        *ibckeeper.Keeper // IBC Keeper must be a pointer in the app, so we can SetRouter on it correctly
+	EvidenceKeeper   evidencekeeper.Keeper
+	TransferKeeper   ibctransferkeeper.Keeper
+	FeeGrantKeeper   feegrantkeeper.Keeper
+	WasmKeeper       wasm.Keeper
 
 	// make scoped keepers public for test purposes
-	ScopedIBCKeeper      capabilitykeeper.ScopedKeeper
-	ScopedTransferKeeper capabilitykeeper.ScopedKeeper
-	ScopedWasmKeeper     capabilitykeeper.ScopedKeeper
+	ScopedIBCKeeper        capabilitykeeper.ScopedKeeper
+	ScopedTransferKeeper   capabilitykeeper.ScopedKeeper
+	ScopedWasmKeeper       capabilitykeeper.ScopedKeeper
 	ScopedProtocoladminKeeper capabilitykeeper.ScopedKeeper
-	ProtocoladminKeeper protocoladminmodulekeeper.Keeper
+	ProtocoladminKeeper       protocoladminmodulekeeper.Keeper
 	ScopedTokenmngrKeeper     capabilitykeeper.ScopedKeeper
-	TokenmngrKeeper     tokenmngrmodulekeeper.Keeper
+	TokenmngrKeeper           tokenmngrmodulekeeper.Keeper
 	ScopedGravityKeeper       capabilitykeeper.ScopedKeeper
-	GravityKeeper       gravitymodulekeeper.Keeper
-	Bech32ibckeeper     bech32ibckeeper.Keeper
+	GravityKeeper             gravitymodulekeeper.Keeper
+	Bech32ibckeeper           bech32ibckeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// mm is the module manager
@@ -428,8 +430,10 @@ func New(
 		app.BankKeeper,
 		scopedTransferKeeper,
 	)
-	transferModule := transfer.NewAppModule(app.TransferKeeper)
-	transferIBCModule := transfer.NewIBCModule(app.TransferKeeper)
+	var (
+		transferModule    = transfer.NewAppModule(app.TransferKeeper)
+		transferIBCModule = transfer.NewIBCModule(app.TransferKeeper)
+	)
 
 	// Create evidence Keeper for to register the IBC light client misbehaviour evidence route
 	evidenceKeeper := evidencekeeper.NewKeeper(
@@ -482,7 +486,6 @@ func New(
 
 	scopedGravityKeeper := app.CapabilityKeeper.ScopeToModule(gravitymoduletypes.ModuleName)
 	app.ScopedGravityKeeper = scopedGravityKeeper
-
 	app.GravityKeeper = gravitymodulekeeper.NewKeeper(
 		keys[gravitymoduletypes.StoreKey],
 		app.GetSubspace(gravitymoduletypes.ModuleName),
@@ -580,6 +583,7 @@ func New(
 		evidence.NewAppModule(app.EvidenceKeeper),
 		ibc.NewAppModule(app.IBCKeeper),
 		params.NewAppModule(app.ParamsKeeper),
+		transferModule,
 		gravitymodule.NewAppModule(
 			app.GravityKeeper,
 			app.BankKeeper,
@@ -588,7 +592,6 @@ func New(
 			appCodec,
 			bech32IbcKeeper,
 		),
-		transferModule,
 		protocoladminModule,
 		tokenmngrModule,
 		// this line is used by starport scaffolding # stargate/app/appModule
@@ -606,6 +609,7 @@ func New(
 		slashingtypes.ModuleName,
 		evidencetypes.ModuleName,
 		stakingtypes.ModuleName,
+		vestingtypes.ModuleName,
 		ibchost.ModuleName,
 		ibctransfertypes.ModuleName,
 		authtypes.ModuleName,
@@ -615,12 +619,11 @@ func New(
 		genutiltypes.ModuleName,
 		feegrant.ModuleName,
 		paramstypes.ModuleName,
-		vestingtypes.ModuleName,
 		protocoladminmoduletypes.ModuleName,
 		tokenmngrmoduletypes.ModuleName,
-		wasm.ModuleName,
 		gravitymoduletypes.ModuleName,
 		bech32ibctypes.ModuleName,
+		wasm.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/beginBlockers
 	)
 
@@ -628,20 +631,20 @@ func New(
 		crisistypes.ModuleName,
 		govtypes.ModuleName,
 		stakingtypes.ModuleName,
-		ibchost.ModuleName,
-		ibctransfertypes.ModuleName,
 		capabilitytypes.ModuleName,
 		authtypes.ModuleName,
 		banktypes.ModuleName,
 		distrtypes.ModuleName,
 		slashingtypes.ModuleName,
+		vestingtypes.ModuleName,
 		minttypes.ModuleName,
 		genutiltypes.ModuleName,
 		evidencetypes.ModuleName,
 		feegrant.ModuleName,
 		paramstypes.ModuleName,
 		upgradetypes.ModuleName,
-		vestingtypes.ModuleName,
+		ibchost.ModuleName,
+		ibctransfertypes.ModuleName,
 		protocoladminmoduletypes.ModuleName,
 		tokenmngrmoduletypes.ModuleName,
 		gravitymoduletypes.ModuleName,
@@ -661,6 +664,7 @@ func New(
 		banktypes.ModuleName,
 		distrtypes.ModuleName,
 		stakingtypes.ModuleName,
+		vestingtypes.ModuleName,
 		slashingtypes.ModuleName,
 		govtypes.ModuleName,
 		minttypes.ModuleName,
@@ -668,11 +672,10 @@ func New(
 		ibchost.ModuleName,
 		genutiltypes.ModuleName,
 		evidencetypes.ModuleName,
-		ibctransfertypes.ModuleName,
-		feegrant.ModuleName,
 		paramstypes.ModuleName,
 		upgradetypes.ModuleName,
-		vestingtypes.ModuleName,
+		ibctransfertypes.ModuleName,
+		feegrant.ModuleName,
 		protocoladminmoduletypes.ModuleName,
 		tokenmngrmoduletypes.ModuleName,
 		gravitymoduletypes.ModuleName,
@@ -912,8 +915,8 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(ibchost.ModuleName)
 	paramsKeeper.Subspace(protocoladminmoduletypes.ModuleName)
 	paramsKeeper.Subspace(tokenmngrmoduletypes.ModuleName)
-	paramsKeeper.Subspace(wasm.ModuleName)
 	paramsKeeper.Subspace(gravitymoduletypes.ModuleName)
+	paramsKeeper.Subspace(wasm.ModuleName)
 	// this line is used by starport scaffolding # stargate/app/paramSubspace
 
 	return paramsKeeper
