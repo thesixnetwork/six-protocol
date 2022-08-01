@@ -101,6 +101,10 @@ import (
 	"github.com/ignite/cli/ignite/pkg/cosmoscmd"
 	"github.com/ignite/cli/ignite/pkg/openapiconsole"
 
+	monitoringp "github.com/tendermint/spn/x/monitoringp"
+	monitoringpkeeper "github.com/tendermint/spn/x/monitoringp/keeper"
+	monitoringptypes "github.com/tendermint/spn/x/monitoringp/types"
+
 	"github.com/thesixnetwork/six-protocol/docs"
 
 	gravitymodule "github.com/thesixnetwork/six-protocol/x/gravity"
@@ -172,6 +176,7 @@ var (
 		evidence.AppModuleBasic{},
 		transfer.AppModuleBasic{},
 		vesting.AppModuleBasic{},
+		monitoringp.AppModuleBasic{},
 		protocoladminmodule.AppModuleBasic{},
 		tokenmngrmodule.AppModuleBasic{},
 		gravitymodule.AppModuleBasic{},
@@ -182,17 +187,17 @@ var (
 
 	// module account permissions
 	maccPerms = map[string][]string{
-		authtypes.FeeCollectorName:          nil,
-		distrtypes.ModuleName:               nil,
-		minttypes.ModuleName:                {authtypes.Minter},
-		stakingtypes.BondedPoolName:         {authtypes.Burner, authtypes.Staking},
-		stakingtypes.NotBondedPoolName:      {authtypes.Burner, authtypes.Staking},
-		govtypes.ModuleName:                 {authtypes.Burner},
-		ibctransfertypes.ModuleName:         {authtypes.Minter, authtypes.Burner},
-		tokenmngrmoduletypes.ModuleName:     {authtypes.Minter, authtypes.Burner, authtypes.Staking},
+		authtypes.FeeCollectorName:      nil,
+		distrtypes.ModuleName:           nil,
+		minttypes.ModuleName:            {authtypes.Minter},
+		stakingtypes.BondedPoolName:     {authtypes.Burner, authtypes.Staking},
+		stakingtypes.NotBondedPoolName:  {authtypes.Burner, authtypes.Staking},
+		govtypes.ModuleName:             {authtypes.Burner},
+		ibctransfertypes.ModuleName:     {authtypes.Minter, authtypes.Burner},
+		tokenmngrmoduletypes.ModuleName: {authtypes.Minter, authtypes.Burner, authtypes.Staking},
 		protocoladminmoduletypes.ModuleName: {authtypes.Minter, authtypes.Burner, authtypes.Staking},
-		wasm.ModuleName:                     {authtypes.Burner},
-		gravitymoduletypes.ModuleName:       {authtypes.Minter, authtypes.Burner},
+		gravitymoduletypes.ModuleName:   {authtypes.Minter, authtypes.Burner},
+		wasm.ModuleName:                 {authtypes.Burner},
 		// this line is used by starport scaffolding # stargate/app/maccPerms
 	}
 )
@@ -246,11 +251,13 @@ type App struct {
 	EvidenceKeeper   evidencekeeper.Keeper
 	TransferKeeper   ibctransferkeeper.Keeper
 	FeeGrantKeeper   feegrantkeeper.Keeper
+	MonitoringKeeper monitoringpkeeper.Keeper
 	WasmKeeper       wasm.Keeper
 
 	// make scoped keepers public for test purposes
 	ScopedIBCKeeper        capabilitykeeper.ScopedKeeper
 	ScopedTransferKeeper   capabilitykeeper.ScopedKeeper
+	ScopedMonitoringKeeper capabilitykeeper.ScopedKeeper
 	ScopedWasmKeeper       capabilitykeeper.ScopedKeeper
 	ScopedProtocoladminKeeper capabilitykeeper.ScopedKeeper
 	ProtocoladminKeeper       protocoladminmodulekeeper.Keeper
@@ -294,7 +301,7 @@ func New(
 		authtypes.StoreKey, authz.ModuleName, banktypes.StoreKey, stakingtypes.StoreKey,
 		minttypes.StoreKey, distrtypes.StoreKey, slashingtypes.StoreKey,
 		govtypes.StoreKey, paramstypes.StoreKey, ibchost.StoreKey, upgradetypes.StoreKey, feegrant.StoreKey,
-		evidencetypes.StoreKey, ibctransfertypes.StoreKey, capabilitytypes.StoreKey,
+		evidencetypes.StoreKey, ibctransfertypes.StoreKey, capabilitytypes.StoreKey, monitoringptypes.StoreKey,
 		protocoladminmoduletypes.StoreKey,
 		tokenmngrmoduletypes.StoreKey,
 		gravitymoduletypes.StoreKey,
@@ -449,6 +456,20 @@ func New(
 		appCodec, keys[govtypes.StoreKey], app.GetSubspace(govtypes.ModuleName), app.AccountKeeper, app.BankKeeper,
 		app.StakingKeeper, govRouter,
 	)
+	scopedMonitoringKeeper := app.CapabilityKeeper.ScopeToModule(monitoringptypes.ModuleName)
+	app.MonitoringKeeper = *monitoringpkeeper.NewKeeper(
+		appCodec,
+		keys[monitoringptypes.StoreKey],
+		keys[monitoringptypes.MemStoreKey],
+		app.GetSubspace(monitoringptypes.ModuleName),
+		app.StakingKeeper,
+		app.IBCKeeper.ClientKeeper,
+		app.IBCKeeper.ConnectionKeeper,
+		app.IBCKeeper.ChannelKeeper,
+		&app.IBCKeeper.PortKeeper,
+		scopedMonitoringKeeper,
+	)
+	monitoringModule := monitoringp.NewAppModule(appCodec, app.MonitoringKeeper)
 
 	scopedProtocoladminKeeper := app.CapabilityKeeper.ScopeToModule(protocoladminmoduletypes.ModuleName)
 	app.ScopedProtocoladminKeeper = scopedProtocoladminKeeper
@@ -511,6 +532,7 @@ func New(
 	// Create static IBC router, add transfer route, then set and seal it
 	ibcRouter := ibcporttypes.NewRouter()
 	ibcRouter.AddRoute(ibctransfertypes.ModuleName, transferIBCModule)
+	ibcRouter.AddRoute(monitoringptypes.ModuleName, monitoringModule)
 
 	// Wasm
 	wasmDir := filepath.Join(homePath, "wasm")
@@ -588,6 +610,7 @@ func New(
 		ibc.NewAppModule(app.IBCKeeper),
 		params.NewAppModule(app.ParamsKeeper),
 		transferModule,
+		monitoringModule,
 		gravitymodule.NewAppModule(
 			app.GravityKeeper,
 			app.BankKeeper,
@@ -624,6 +647,7 @@ func New(
 		genutiltypes.ModuleName,
 		feegrant.ModuleName,
 		paramstypes.ModuleName,
+		monitoringptypes.ModuleName,
 		protocoladminmoduletypes.ModuleName,
 		tokenmngrmoduletypes.ModuleName,
 		gravitymoduletypes.ModuleName,
@@ -651,6 +675,7 @@ func New(
 		upgradetypes.ModuleName,
 		ibchost.ModuleName,
 		ibctransfertypes.ModuleName,
+		monitoringptypes.ModuleName,
 		protocoladminmoduletypes.ModuleName,
 		tokenmngrmoduletypes.ModuleName,
 		gravitymoduletypes.ModuleName,
@@ -683,6 +708,7 @@ func New(
 		upgradetypes.ModuleName,
 		ibctransfertypes.ModuleName,
 		feegrant.ModuleName,
+		monitoringptypes.ModuleName,
 		protocoladminmoduletypes.ModuleName,
 		tokenmngrmoduletypes.ModuleName,
 		gravitymoduletypes.ModuleName,
@@ -690,6 +716,7 @@ func New(
 		wasm.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	)
+
 	app.mm.RegisterInvariants(&app.CrisisKeeper)
 	app.mm.RegisterRoutes(app.Router(), app.QueryRouter(), encodingConfig.Amino)
 	app.mm.RegisterServices(cfg)
@@ -711,6 +738,7 @@ func New(
 		wasm.NewAppModule(appCodec, &app.WasmKeeper, app.StakingKeeper, app.AccountKeeper, app.BankKeeper),
 		ibc.NewAppModule(app.IBCKeeper),
 		transferModule,
+		monitoringModule,
 		protocoladminModule,
 		tokenmngrModule,
 		gravitymodule.NewAppModule(app.GravityKeeper, app.BankKeeper),
@@ -763,6 +791,7 @@ func New(
 
 	app.ScopedIBCKeeper = scopedIBCKeeper
 	app.ScopedTransferKeeper = scopedTransferKeeper
+	app.ScopedMonitoringKeeper = scopedMonitoringKeeper
 	app.ScopedWasmKeeper = scopedWasmKeeper
 	// this line is used by starport scaffolding # stargate/app/beforeInitReturn
 
@@ -921,6 +950,7 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(crisistypes.ModuleName)
 	paramsKeeper.Subspace(ibctransfertypes.ModuleName)
 	paramsKeeper.Subspace(ibchost.ModuleName)
+	paramsKeeper.Subspace(monitoringptypes.ModuleName)
 	paramsKeeper.Subspace(protocoladminmoduletypes.ModuleName)
 	paramsKeeper.Subspace(tokenmngrmoduletypes.ModuleName)
 	paramsKeeper.Subspace(gravitymoduletypes.ModuleName)
