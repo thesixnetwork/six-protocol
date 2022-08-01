@@ -89,7 +89,7 @@ import (
 	"github.com/osmosis-labs/bech32-ibc/x/bech32ibc"
 	bech32ibckeeper "github.com/osmosis-labs/bech32-ibc/x/bech32ibc/keeper"
 	bech32ibctypes "github.com/osmosis-labs/bech32-ibc/x/bech32ibc/types"
-	
+
 	"github.com/spf13/cast"
 	abci "github.com/tendermint/tendermint/abci/types"
 	tmjson "github.com/tendermint/tendermint/libs/json"
@@ -99,7 +99,6 @@ import (
 
 	"github.com/ignite/cli/ignite/pkg/cosmoscmd"
 	"github.com/ignite/cli/ignite/pkg/openapiconsole"
-	"github.com/thesixnetwork/six-protocol/x/gravity"
 	gravitymodule "github.com/thesixnetwork/six-protocol/x/gravity"
 	gravitymodulekeeper "github.com/thesixnetwork/six-protocol/x/gravity/keeper"
 	gravitymoduletypes "github.com/thesixnetwork/six-protocol/x/gravity/types"
@@ -703,7 +702,7 @@ func New(
 		transferModule,
 		protocoladminModule,
 		tokenmngrModule,
-		gravity.NewAppModule(app.GravityKeeper, app.BankKeeper),
+		gravitymodule.NewAppModule(app.GravityKeeper, app.BankKeeper),
 		// this line is used by starport scaffolding # stargate/app/appModule
 	)
 
