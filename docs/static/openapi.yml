@@ -21699,7 +21699,7 @@ paths:
         - Query
   /gravity/v1/batch_send_to_eth_claim:
     post:
-      operationId: GravityBatchSendToEthClaim
+      operationId: GravityV1BatchSendToEthClaim
       responses:
         '200':
           description: A successful response.
@@ -21918,7 +21918,7 @@ paths:
         - Msg
   /gravity/v1/cancel_send_to_eth:
     post:
-      operationId: GravityCancelSendToEth
+      operationId: GravityV1CancelSendToEth
       responses:
         '200':
           description: A successful response.
@@ -22123,7 +22123,7 @@ paths:
         - Msg
   /gravity/v1/confim_logic:
     post:
-      operationId: GravityConfirmLogicCall
+      operationId: GravityV1ConfirmLogicCall
       responses:
         '200':
           description: A successful response.
@@ -22340,7 +22340,7 @@ paths:
         - Msg
   /gravity/v1/confirm_batch:
     post:
-      operationId: GravityConfirmBatch
+      operationId: GravityV1ConfirmBatch
       responses:
         '200':
           description: A successful response.
@@ -22557,7 +22557,7 @@ paths:
         - Msg
   /gravity/v1/erc20_deployed_claim:
     post:
-      operationId: GravityERC20DeployedClaim
+      operationId: GravityV1ERC20DeployedClaim
       responses:
         '200':
           description: A successful response.
@@ -22788,7 +22788,7 @@ paths:
         - Msg
   /gravity/v1/execute_ibc_auto_forwards:
     post:
-      operationId: GravityExecuteIbcAutoForwards
+      operationId: GravityV1ExecuteIbcAutoForwards
       responses:
         '200':
           description: A successful response.
@@ -22993,7 +22993,7 @@ paths:
         - Msg
   /gravity/v1/logic_call_executed_claim:
     post:
-      operationId: GravityLogicCallExecutedClaim
+      operationId: GravityV1LogicCallExecutedClaim
       responses:
         '200':
           description: A successful response.
@@ -23213,7 +23213,7 @@ paths:
         - Msg
   /gravity/v1/request_batch:
     post:
-      operationId: GravityRequestBatch
+      operationId: GravityV1RequestBatch
       responses:
         '200':
           description: A successful response.
@@ -23417,7 +23417,7 @@ paths:
         - Msg
   /gravity/v1/send_to_cosmos_claim:
     post:
-      operationId: GravitySendToCosmosClaim
+      operationId: GravityV1SendToCosmosClaim
       responses:
         '200':
           description: A successful response.
@@ -23643,7 +23643,7 @@ paths:
         - Msg
   /gravity/v1/send_to_eth:
     post:
-      operationId: GravitySendToEth
+      operationId: GravityV1SendToEth
       responses:
         '200':
           description: A successful response.
@@ -23863,7 +23863,7 @@ paths:
         - Msg
   /gravity/v1/set_orchestrator_address:
     post:
-      operationId: GravitySetOrchestratorAddress
+      operationId: GravityV1SetOrchestratorAddress
       responses:
         '200':
           description: A successful response.
@@ -24071,7 +24071,7 @@ paths:
         - Msg
   /gravity/v1/submit_bad_signature_evidence:
     post:
-      operationId: GravitySubmitBadSignatureEvidence
+      operationId: GravityV1SubmitBadSignatureEvidence
       responses:
         '200':
           description: A successful response.
@@ -24335,7 +24335,7 @@ paths:
         - Msg
   /gravity/v1/valset_confirm:
     post:
-      operationId: GravityValsetConfirm
+      operationId: GravityV1ValsetConfirm
       responses:
         '200':
           description: A successful response.
@@ -24548,7 +24548,7 @@ paths:
         - Msg
   /gravity/v1/valset_updated_claim:
     post:
-      operationId: GravityValsetUpdateClaim
+      operationId: GravityV1ValsetUpdateClaim
       responses:
         '200':
           description: A successful response.
@@ -24771,7 +24771,7 @@ paths:
         - Msg
   /gravity/v1beta/batch/confirms:
     get:
-      operationId: GravityBatchConfirms
+      operationId: GravityV1BatchConfirms
       responses:
         '200':
           description: A successful response.
@@ -25015,7 +25015,7 @@ paths:
         - Query
   /gravity/v1beta/batch/last_pending_request_by_addr:
     get:
-      operationId: GravityLastPendingBatchRequestByAddr
+      operationId: GravityV1LastPendingBatchRequestByAddr
       responses:
         '200':
           description: A successful response.
@@ -25292,7 +25292,7 @@ paths:
         - Query
   /gravity/v1beta/batch/outgoinglogic:
     get:
-      operationId: GravityOutgoingLogicCalls
+      operationId: GravityV1OutgoingLogicCalls
       responses:
         '200':
           description: A successful response.
@@ -25559,7 +25559,7 @@ paths:
         - Query
   /gravity/v1beta/batch/outgoingtx:
     get:
-      operationId: GravityOutgoingTxBatches
+      operationId: GravityV1OutgoingTxBatches
       responses:
         '200':
           description: A successful response.
@@ -25831,7 +25831,7 @@ paths:
         - Query
   /gravity/v1beta/batch/request_by_nonce:
     get:
-      operationId: GravityBatchRequestByNonce
+      operationId: GravityV1BatchRequestByNonce
       responses:
         '200':
           description: A successful response.
@@ -26111,7 +26111,7 @@ paths:
         - Query
   /gravity/v1beta/batchfees:
     get:
-      operationId: GravityBatchFees
+      operationId: GravityV1BatchFees
       responses:
         '200':
           description: A successful response.
@@ -26319,7 +26319,7 @@ paths:
         - Query
   '/gravity/v1beta/confirms/{nonce}':
     get:
-      operationId: GravityValsetConfirmsByNonce
+      operationId: GravityV1ValsetConfirmsByNonce
       responses:
         '200':
           description: A successful response.
@@ -26575,7 +26575,7 @@ paths:
         - Query
   /gravity/v1beta/cosmos_originated/denom_to_erc20:
     get:
-      operationId: GravityDenomToERC20
+      operationId: GravityV1DenomToERC20
       responses:
         '200':
           description: A successful response.
@@ -26780,7 +26780,7 @@ paths:
         - Query
   /gravity/v1beta/cosmos_originated/erc20_to_denom:
     get:
-      operationId: GravityERC20ToDenom
+      operationId: GravityV1ERC20ToDenom
       responses:
         '200':
           description: A successful response.
@@ -26985,7 +26985,7 @@ paths:
         - Query
   /gravity/v1beta/logic/confirms:
     get:
-      operationId: GravityLogicConfirms
+      operationId: GravityV1LogicConfirms
       responses:
         '200':
           description: A successful response.
@@ -27230,7 +27230,7 @@ paths:
         - Query
   '/gravity/v1beta/logic/{address}':
     get:
-      operationId: GravityLastPendingLogicCallByAddr
+      operationId: GravityV1LastPendingLogicCallByAddr
       responses:
         '200':
           description: A successful response.
@@ -27502,7 +27502,7 @@ paths:
         - Query
   '/gravity/v1beta/oracle/eventnonce/{address}':
     get:
-      operationId: GravityLastEventNonceByAddr
+      operationId: GravityV1LastEventNonceByAddr
       responses:
         '200':
           description: A successful response.
@@ -27707,7 +27707,7 @@ paths:
   /gravity/v1beta/params:
     get:
       summary: Deployments queries deployments
-      operationId: GravityParams
+      operationId: GravityV1Params
       responses:
         '200':
           description: A successful response.
@@ -28046,7 +28046,7 @@ paths:
         - Query
   /gravity/v1beta/query_attestations:
     get:
-      operationId: GravityGetAttestations
+      operationId: GravityV1GetAttestations
       responses:
         '200':
           description: A successful response.
@@ -28505,7 +28505,7 @@ paths:
         - Query
   /gravity/v1beta/query_delegate_keys_by_eth:
     get:
-      operationId: GravityGetDelegateKeyByEth
+      operationId: GravityV1GetDelegateKeyByEth
       responses:
         '200':
           description: A successful response.
@@ -28710,7 +28710,7 @@ paths:
         - Query
   /gravity/v1beta/query_delegate_keys_by_orchestrator:
     get:
-      operationId: GravityGetDelegateKeyByOrchestrator
+      operationId: GravityV1GetDelegateKeyByOrchestrator
       responses:
         '200':
           description: A successful response.
@@ -28915,7 +28915,7 @@ paths:
         - Query
   /gravity/v1beta/query_delegate_keys_by_validator:
     get:
-      operationId: GravityGetDelegateKeyByValidator
+      operationId: GravityV1GetDelegateKeyByValidator
       responses:
         '200':
           description: A successful response.
@@ -29120,7 +29120,7 @@ paths:
         - Query
   /gravity/v1beta/query_pending_ibc_auto_forwards:
     get:
-      operationId: GravityGetPendingIbcAutoForwards
+      operationId: GravityV1GetPendingIbcAutoForwards
       responses:
         '200':
           description: A successful response.
@@ -29358,7 +29358,7 @@ paths:
         - Query
   /gravity/v1beta/query_pending_send_to_eth:
     get:
-      operationId: GravityGetPendingSendToEth
+      operationId: GravityV1GetPendingSendToEth
       responses:
         '200':
           description: A successful response.
@@ -29673,7 +29673,7 @@ paths:
         - Query
   /gravity/v1beta/valset:
     get:
-      operationId: GravityValsetRequest
+      operationId: GravityV1ValsetRequest
       responses:
         '200':
           description: A successful response.
@@ -29912,7 +29912,7 @@ paths:
         - Query
   /gravity/v1beta/valset/confirm:
     get:
-      operationId: GravityValsetConfirm
+      operationId: GravityV1ValsetConfirm
       responses:
         '200':
           description: A successful response.
@@ -30170,7 +30170,7 @@ paths:
         - Query
   /gravity/v1beta/valset/current:
     get:
-      operationId: GravityCurrentValset
+      operationId: GravityV1CurrentValset
       responses:
         '200':
           description: A successful response.
@@ -30403,7 +30403,7 @@ paths:
         - Query
   /gravity/v1beta/valset/last:
     get:
-      operationId: GravityLastPendingValsetRequestByAddr
+      operationId: GravityV1LastPendingValsetRequestByAddr
       responses:
         '200':
           description: A successful response.
@@ -30643,7 +30643,7 @@ paths:
         - Query
   /gravity/v1beta/valset/requests:
     get:
-      operationId: GravityLastValsetRequests
+      operationId: GravityV1LastValsetRequests
       responses:
         '200':
           description: A successful response.
@@ -41470,6 +41470,202 @@ paths:
           required: true
           type: string
           format: uint64
+      tags:
+        - Query
+  /tendermint/spn/monitoringp/connection_channel_id:
+    get:
+      summary: Queries a ConnectionChannelID by index.
+      operationId: TendermintSpnMonitoringpConnectionChannelID
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              ConnectionChannelID:
+                type: object
+                properties:
+                  channelID:
+                    type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      tags:
+        - Query
+  /tendermint/spn/monitoringp/consumer_client_id:
+    get:
+      summary: Queries a ConsumerClientID by index.
+      operationId: TendermintSpnMonitoringpConsumerClientID
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              ConsumerClientID:
+                type: object
+                properties:
+                  clientID:
+                    type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      tags:
+        - Query
+  /tendermint/spn/monitoringp/monitoring_info:
+    get:
+      summary: Queries a MonitoringInfo by index.
+      operationId: TendermintSpnMonitoringpMonitoringInfo
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              MonitoringInfo:
+                type: object
+                properties:
+                  transmitted:
+                    type: boolean
+                  signatureCounts:
+                    type: object
+                    properties:
+                      blockCount:
+                        type: string
+                        format: uint64
+                      counts:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            opAddress:
+                              type: string
+                            RelativeSignatures:
+                              type: string
+                          title: >-
+                            SignatureCount contains information of signature
+                            reporting for one specific validator with consensus
+                            address
+
+                            RelativeSignatures is the sum of all signatures
+                            relative to the validator set size
+                    title: >-
+                      SignatureCounts contains information about signature
+                      reporting for a number of blocks
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      tags:
+        - Query
+  /tendermint/spn/monitoringp/params:
+    get:
+      summary: Params queries the parameters of the module.
+      operationId: TendermintSpnMonitoringpParams
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              params:
+                type: object
+                properties:
+                  lastBlockHeight:
+                    type: string
+                    format: int64
+                  consumerChainID:
+                    type: string
+                  consumerConsensusState:
+                    type: object
+                    properties:
+                      nextValidatorsHash:
+                        type: string
+                      timestamp:
+                        type: string
+                      root:
+                        type: object
+                        properties:
+                          hash:
+                            type: string
+                        title: MerkleRoot represents a Merkle Root in ConsensusState
+                    title: >-
+                      ConsensusState represents a Consensus State
+
+                      it is compatible with the dumped state from `appd q ibc
+                      client self-consensus-state` command
+                  consumerUnbondingPeriod:
+                    type: string
+                    format: int64
+                  consumerRevisionHeight:
+                    type: string
+                    format: uint64
+                description: Params defines the parameters for the module.
+            description: >-
+              QueryParamsResponse is response type for the Query/Params RPC
+              method.
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
       tags:
         - Query
   /thesixnetwork/six-protocol/protocoladmin/admin:
@@ -59552,7 +59748,7 @@ definitions:
     title: |-
       QuerySmartContractStateResponse is the response type for the
       Query/SmartContractState RPC method
-  gravity.Attestation:
+  gravity.v1.Attestation:
     type: object
     properties:
       observed:
@@ -59755,7 +59951,7 @@ definitions:
       Observed indicates that >67% of validators have attested to the event,
 
       and that the event should be executed by the gravity state machine
-  gravity.BatchFees:
+  gravity.v1.BatchFees:
     type: object
     properties:
       token:
@@ -59765,7 +59961,7 @@ definitions:
       tx_count:
         type: string
         format: uint64
-  gravity.BridgeValidator:
+  gravity.v1.BridgeValidator:
     type: object
     properties:
       power:
@@ -59774,7 +59970,7 @@ definitions:
       ethereum_address:
         type: string
     title: BridgeValidator represents a validator's ETH address and its power
-  gravity.ERC20Token:
+  gravity.v1.ERC20Token:
     type: object
     properties:
       contract:
@@ -59792,11 +59988,11 @@ definitions:
 
       (note: developers should look up the token symbol using the address on ETH
       to display for UI)
-  gravity.MsgBatchSendToEthClaimResponse:
+  gravity.v1.MsgBatchSendToEthClaimResponse:
     type: object
-  gravity.MsgCancelSendToEthResponse:
+  gravity.v1.MsgCancelSendToEthResponse:
     type: object
-  gravity.MsgConfirmBatch:
+  gravity.v1.MsgConfirmBatch:
     type: object
     properties:
       nonce:
@@ -59827,9 +60023,9 @@ definitions:
       as well as an Ethereum signature over this batch by the validator
 
       -------------
-  gravity.MsgConfirmBatchResponse:
+  gravity.v1.MsgConfirmBatchResponse:
     type: object
-  gravity.MsgConfirmLogicCall:
+  gravity.v1.MsgConfirmLogicCall:
     type: object
     properties:
       invalidation_id:
@@ -59860,25 +60056,25 @@ definitions:
       as well as an Ethereum signature over this batch by the validator
 
       -------------
-  gravity.MsgConfirmLogicCallResponse:
+  gravity.v1.MsgConfirmLogicCallResponse:
     type: object
-  gravity.MsgERC20DeployedClaimResponse:
+  gravity.v1.MsgERC20DeployedClaimResponse:
     type: object
-  gravity.MsgExecuteIbcAutoForwardsResponse:
+  gravity.v1.MsgExecuteIbcAutoForwardsResponse:
     type: object
-  gravity.MsgLogicCallExecutedClaimResponse:
+  gravity.v1.MsgLogicCallExecutedClaimResponse:
     type: object
-  gravity.MsgRequestBatchResponse:
+  gravity.v1.MsgRequestBatchResponse:
     type: object
-  gravity.MsgSendToCosmosClaimResponse:
+  gravity.v1.MsgSendToCosmosClaimResponse:
     type: object
-  gravity.MsgSendToEthResponse:
+  gravity.v1.MsgSendToEthResponse:
     type: object
-  gravity.MsgSetOrchestratorAddressResponse:
+  gravity.v1.MsgSetOrchestratorAddressResponse:
     type: object
-  gravity.MsgSubmitBadSignatureEvidenceResponse:
+  gravity.v1.MsgSubmitBadSignatureEvidenceResponse:
     type: object
-  gravity.MsgValsetConfirm:
+  gravity.v1.MsgValsetConfirm:
     type: object
     properties:
       nonce:
@@ -59921,11 +60117,11 @@ definitions:
       chain store and submit them to Ethereum to update the validator set
 
       -------------
-  gravity.MsgValsetConfirmResponse:
+  gravity.v1.MsgValsetConfirmResponse:
     type: object
-  gravity.MsgValsetUpdatedClaimResponse:
+  gravity.v1.MsgValsetUpdatedClaimResponse:
     type: object
-  gravity.OutgoingLogicCall:
+  gravity.v1.OutgoingLogicCall:
     type: object
     properties:
       transfers:
@@ -59988,7 +60184,7 @@ definitions:
         type: string
         format: uint64
     title: OutgoingLogicCall represents an individual logic call from gravity to ETH
-  gravity.OutgoingTransferTx:
+  gravity.v1.OutgoingTransferTx:
     type: object
     properties:
       id:
@@ -60037,7 +60233,7 @@ definitions:
           (note: developers should look up the token symbol using the address on
           ETH to display for UI)
     title: OutgoingTransferTx represents an individual send from gravity to ETH
-  gravity.OutgoingTxBatch:
+  gravity.v1.OutgoingTxBatch:
     type: object
     properties:
       batch_nonce:
@@ -60105,7 +60301,7 @@ definitions:
     title: >-
       OutgoingTxBatch represents a batch of transactions going from gravity to
       ETH
-  gravity.Params:
+  gravity.v1.Params:
     type: object
     properties:
       gravity_id:
@@ -60243,7 +60439,7 @@ definitions:
       different claim
 
       for the same Ethereum event
-  gravity.PendingIbcAutoForward:
+  gravity.v1.PendingIbcAutoForward:
     type: object
     properties:
       foreign_receiver:
@@ -60271,7 +60467,7 @@ definitions:
 
       PendingIbcAutoForward queue in attestation_handler and sent over IBC on
       some submission of a MsgExecuteIbcAutoForwards
-  gravity.QueryAttestationsResponse:
+  gravity.v1.QueryAttestationsResponse:
     type: object
     properties:
       attestations:
@@ -60491,7 +60687,7 @@ definitions:
             event,
 
             and that the event should be executed by the gravity state machine
-  gravity.QueryBatchConfirmsResponse:
+  gravity.v1.QueryBatchConfirmsResponse:
     type: object
     properties:
       confirms:
@@ -60531,7 +60727,7 @@ definitions:
             as well as an Ethereum signature over this batch by the validator
 
             -------------
-  gravity.QueryBatchFeeResponse:
+  gravity.v1.QueryBatchFeeResponse:
     type: object
     properties:
       batch_fees:
@@ -60546,7 +60742,7 @@ definitions:
             tx_count:
               type: string
               format: uint64
-  gravity.QueryBatchRequestByNonceResponse:
+  gravity.v1.QueryBatchRequestByNonceResponse:
     type: object
     properties:
       batch:
@@ -60621,7 +60817,7 @@ definitions:
         title: >-
           OutgoingTxBatch represents a batch of transactions going from gravity
           to ETH
-  gravity.QueryCurrentValsetResponse:
+  gravity.v1.QueryCurrentValsetResponse:
     type: object
     properties:
       valset:
@@ -60658,48 +60854,48 @@ definitions:
           signatures on
 
           ETH because of the significant gas savings
-  gravity.QueryDelegateKeysByEthAddressResponse:
+  gravity.v1.QueryDelegateKeysByEthAddressResponse:
     type: object
     properties:
       validator_address:
         type: string
       orchestrator_address:
         type: string
-  gravity.QueryDelegateKeysByOrchestratorAddressResponse:
+  gravity.v1.QueryDelegateKeysByOrchestratorAddressResponse:
     type: object
     properties:
       validator_address:
         type: string
       eth_address:
         type: string
-  gravity.QueryDelegateKeysByValidatorAddressResponse:
+  gravity.v1.QueryDelegateKeysByValidatorAddressResponse:
     type: object
     properties:
       eth_address:
         type: string
       orchestrator_address:
         type: string
-  gravity.QueryDenomToERC20Response:
+  gravity.v1.QueryDenomToERC20Response:
     type: object
     properties:
       erc20:
         type: string
       cosmos_originated:
         type: boolean
-  gravity.QueryERC20ToDenomResponse:
+  gravity.v1.QueryERC20ToDenomResponse:
     type: object
     properties:
       denom:
         type: string
       cosmos_originated:
         type: boolean
-  gravity.QueryLastEventNonceByAddrResponse:
+  gravity.v1.QueryLastEventNonceByAddrResponse:
     type: object
     properties:
       event_nonce:
         type: string
         format: uint64
-  gravity.QueryLastPendingBatchRequestByAddrResponse:
+  gravity.v1.QueryLastPendingBatchRequestByAddrResponse:
     type: object
     properties:
       batch:
@@ -60776,7 +60972,7 @@ definitions:
           title: >-
             OutgoingTxBatch represents a batch of transactions going from
             gravity to ETH
-  gravity.QueryLastPendingLogicCallByAddrResponse:
+  gravity.v1.QueryLastPendingLogicCallByAddrResponse:
     type: object
     properties:
       call:
@@ -60848,7 +61044,7 @@ definitions:
           title: >-
             OutgoingLogicCall represents an individual logic call from gravity
             to ETH
-  gravity.QueryLastPendingValsetRequestByAddrResponse:
+  gravity.v1.QueryLastPendingValsetRequestByAddrResponse:
     type: object
     properties:
       valsets:
@@ -60888,7 +61084,7 @@ definitions:
             signatures on
 
             ETH because of the significant gas savings
-  gravity.QueryLastValsetRequestsResponse:
+  gravity.v1.QueryLastValsetRequestsResponse:
     type: object
     properties:
       valsets:
@@ -60928,7 +61124,7 @@ definitions:
             signatures on
 
             ETH because of the significant gas savings
-  gravity.QueryLogicConfirmsResponse:
+  gravity.v1.QueryLogicConfirmsResponse:
     type: object
     properties:
       confirms:
@@ -60968,7 +61164,7 @@ definitions:
             as well as an Ethereum signature over this batch by the validator
 
             -------------
-  gravity.QueryOutgoingLogicCallsResponse:
+  gravity.v1.QueryOutgoingLogicCallsResponse:
     type: object
     properties:
       calls:
@@ -61040,7 +61236,7 @@ definitions:
           title: >-
             OutgoingLogicCall represents an individual logic call from gravity
             to ETH
-  gravity.QueryOutgoingTxBatchesResponse:
+  gravity.v1.QueryOutgoingTxBatchesResponse:
     type: object
     properties:
       batches:
@@ -61117,7 +61313,7 @@ definitions:
           title: >-
             OutgoingTxBatch represents a batch of transactions going from
             gravity to ETH
-  gravity.QueryParamsResponse:
+  gravity.v1.QueryParamsResponse:
     type: object
     properties:
       params:
@@ -61261,7 +61457,7 @@ definitions:
           a different claim
 
           for the same Ethereum event
-  gravity.QueryPendingIbcAutoForwardsResponse:
+  gravity.v1.QueryPendingIbcAutoForwardsResponse:
     type: object
     properties:
       pending_ibc_auto_forwards:
@@ -61297,7 +61493,7 @@ definitions:
 
             PendingIbcAutoForward queue in attestation_handler and sent over IBC
             on some submission of a MsgExecuteIbcAutoForwards
-  gravity.QueryPendingSendToEthResponse:
+  gravity.v1.QueryPendingSendToEthResponse:
     type: object
     properties:
       transfers_in_batches:
@@ -61402,7 +61598,7 @@ definitions:
                 (note: developers should look up the token symbol using the
                 address on ETH to display for UI)
           title: OutgoingTransferTx represents an individual send from gravity to ETH
-  gravity.QueryValsetConfirmResponse:
+  gravity.v1.QueryValsetConfirmResponse:
     type: object
     properties:
       confirm:
@@ -61455,7 +61651,7 @@ definitions:
           chain store and submit them to Ethereum to update the validator set
 
           -------------
-  gravity.QueryValsetConfirmsByNonceResponse:
+  gravity.v1.QueryValsetConfirmsByNonceResponse:
     type: object
     properties:
       confirms:
@@ -61510,7 +61706,7 @@ definitions:
             chain store and submit them to Ethereum to update the validator set
 
             -------------
-  gravity.QueryValsetRequestResponse:
+  gravity.v1.QueryValsetRequestResponse:
     type: object
     properties:
       valset:
@@ -61547,7 +61743,7 @@ definitions:
           signatures on
 
           ETH because of the significant gas savings
-  gravity.Valset:
+  gravity.v1.Valset:
     type: object
     properties:
       nonce:
@@ -66085,6 +66281,224 @@ definitions:
     description: |-
       Version defines the versioning scheme used to negotiate the IBC verison in
       the connection handshake.
+  tendermint.spn.monitoringp.ConnectionChannelID:
+    type: object
+    properties:
+      channelID:
+        type: string
+  tendermint.spn.monitoringp.ConsumerClientID:
+    type: object
+    properties:
+      clientID:
+        type: string
+  tendermint.spn.monitoringp.MonitoringInfo:
+    type: object
+    properties:
+      transmitted:
+        type: boolean
+      signatureCounts:
+        type: object
+        properties:
+          blockCount:
+            type: string
+            format: uint64
+          counts:
+            type: array
+            items:
+              type: object
+              properties:
+                opAddress:
+                  type: string
+                RelativeSignatures:
+                  type: string
+              title: >-
+                SignatureCount contains information of signature reporting for
+                one specific validator with consensus address
+
+                RelativeSignatures is the sum of all signatures relative to the
+                validator set size
+        title: >-
+          SignatureCounts contains information about signature reporting for a
+          number of blocks
+  tendermint.spn.monitoringp.Params:
+    type: object
+    properties:
+      lastBlockHeight:
+        type: string
+        format: int64
+      consumerChainID:
+        type: string
+      consumerConsensusState:
+        type: object
+        properties:
+          nextValidatorsHash:
+            type: string
+          timestamp:
+            type: string
+          root:
+            type: object
+            properties:
+              hash:
+                type: string
+            title: MerkleRoot represents a Merkle Root in ConsensusState
+        title: >-
+          ConsensusState represents a Consensus State
+
+          it is compatible with the dumped state from `appd q ibc client
+          self-consensus-state` command
+      consumerUnbondingPeriod:
+        type: string
+        format: int64
+      consumerRevisionHeight:
+        type: string
+        format: uint64
+    description: Params defines the parameters for the module.
+  tendermint.spn.monitoringp.QueryGetConnectionChannelIDResponse:
+    type: object
+    properties:
+      ConnectionChannelID:
+        type: object
+        properties:
+          channelID:
+            type: string
+  tendermint.spn.monitoringp.QueryGetConsumerClientIDResponse:
+    type: object
+    properties:
+      ConsumerClientID:
+        type: object
+        properties:
+          clientID:
+            type: string
+  tendermint.spn.monitoringp.QueryGetMonitoringInfoResponse:
+    type: object
+    properties:
+      MonitoringInfo:
+        type: object
+        properties:
+          transmitted:
+            type: boolean
+          signatureCounts:
+            type: object
+            properties:
+              blockCount:
+                type: string
+                format: uint64
+              counts:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    opAddress:
+                      type: string
+                    RelativeSignatures:
+                      type: string
+                  title: >-
+                    SignatureCount contains information of signature reporting
+                    for one specific validator with consensus address
+
+                    RelativeSignatures is the sum of all signatures relative to
+                    the validator set size
+            title: >-
+              SignatureCounts contains information about signature reporting for
+              a number of blocks
+  tendermint.spn.monitoringp.QueryParamsResponse:
+    type: object
+    properties:
+      params:
+        type: object
+        properties:
+          lastBlockHeight:
+            type: string
+            format: int64
+          consumerChainID:
+            type: string
+          consumerConsensusState:
+            type: object
+            properties:
+              nextValidatorsHash:
+                type: string
+              timestamp:
+                type: string
+              root:
+                type: object
+                properties:
+                  hash:
+                    type: string
+                title: MerkleRoot represents a Merkle Root in ConsensusState
+            title: >-
+              ConsensusState represents a Consensus State
+
+              it is compatible with the dumped state from `appd q ibc client
+              self-consensus-state` command
+          consumerUnbondingPeriod:
+            type: string
+            format: int64
+          consumerRevisionHeight:
+            type: string
+            format: uint64
+        description: Params defines the parameters for the module.
+    description: QueryParamsResponse is response type for the Query/Params RPC method.
+  tendermint.spn.types.ConsensusState:
+    type: object
+    properties:
+      nextValidatorsHash:
+        type: string
+      timestamp:
+        type: string
+      root:
+        type: object
+        properties:
+          hash:
+            type: string
+        title: MerkleRoot represents a Merkle Root in ConsensusState
+    title: >-
+      ConsensusState represents a Consensus State
+
+      it is compatible with the dumped state from `appd q ibc client
+      self-consensus-state` command
+  tendermint.spn.types.MerkleRoot:
+    type: object
+    properties:
+      hash:
+        type: string
+    title: MerkleRoot represents a Merkle Root in ConsensusState
+  tendermint.spn.types.SignatureCount:
+    type: object
+    properties:
+      opAddress:
+        type: string
+      RelativeSignatures:
+        type: string
+    title: >-
+      SignatureCount contains information of signature reporting for one
+      specific validator with consensus address
+
+      RelativeSignatures is the sum of all signatures relative to the validator
+      set size
+  tendermint.spn.types.SignatureCounts:
+    type: object
+    properties:
+      blockCount:
+        type: string
+        format: uint64
+      counts:
+        type: array
+        items:
+          type: object
+          properties:
+            opAddress:
+              type: string
+            RelativeSignatures:
+              type: string
+          title: >-
+            SignatureCount contains information of signature reporting for one
+            specific validator with consensus address
+
+            RelativeSignatures is the sum of all signatures relative to the
+            validator set size
+    title: >-
+      SignatureCounts contains information about signature reporting for a
+      number of blocks
   thesixnetwork.sixprotocol.protocoladmin.Admin:
     type: object
     properties:

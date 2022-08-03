@@ -6,7 +6,6 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	// _ "github.com/thesixnetwork/six-protocol/config"
 	"github.com/thesixnetwork/six-protocol/x/gravity/types"
 )
 

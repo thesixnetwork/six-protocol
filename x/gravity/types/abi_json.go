@@ -20,7 +20,7 @@ const (
 		"stateMutability": "pure",
 		"type": "function",
 		"inputs": [
-			{ "internalType": "bytes32",   "name": "_gravityId",       "type": "bytes32" },
+			{ "internalType": "bytes32",   "name": "_gravityId",     "type": "bytes32" },
 			{ "internalType": "bytes32",   "name": "_methodName",    "type": "bytes32" },
 			{ "internalType": "uint256[]", "name": "_amounts",       "type": "uint256[]" },
 			{ "internalType": "address[]", "name": "_destinations",  "type": "address[]" },

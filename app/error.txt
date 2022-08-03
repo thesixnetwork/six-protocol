@@ -1,0 +1,54 @@
+
+runtime/debug.Stack()
+      /Users/hamdeeduere/goroot/src/runtime/debug/stack.go:24 +0x65
+github.com/tendermint/tendermint/consensus.(*State).receiveRoutine.func2()
+      /Users/hamdeeduere/go/pkg/mod/github.com/tendermint/tendermint@v0.34.20-0.20220517115723-e6f071164839/consensus/state.go:727 +0x4c
+panic({0x5b36d20, 0xc000b71110})
+      /Users/hamdeeduere/goroot/src/runtime/panic.go:838 +0x207
+github.com/cosmos/cosmos-sdk/store/cachemulti.Store.GetKVStore({{0x6b0e3c8, 0xc00111d300}, 0xc003920db0, 0xc00130d980, {0x0, 0x0}, 0x0, 0xc00130d9b0}, {0x0, 0x0})
+      /Users/hamdeeduere/Documents/Repositories/six-dev/cosmos-sdk/store/cachemulti/store.go:187 +0x10a
+github.com/cosmos/cosmos-sdk/types.Context.KVStore({{0x6b00498, 0xc00013a160}, {0x6b0fce0, 0xc00111d900}, {{0xb, 0x0}, {0xc000056616, 0x3}, 0x9, {0x10985a20, ...}, ...}, ...}, ...)
+      /Users/hamdeeduere/Documents/Repositories/six-dev/cosmos-sdk/types/context.go:247 +0x92
+github.com/osmosis-labs/bech32-ibc/x/bech32ibc/keeper.Keeper.GetNativeHrp({{_, _}, {_, _}, {_, _}, {_, _}}, {{0x6b00498, 0xc00013a160}, ...})
+      /Users/hamdeeduere/go/pkg/mod/github.com/osmosis-labs/bech32-ibc@v0.3.0-rc1/x/bech32ibc/keeper/records.go:15 +0xb8
+github.com/thesixnetwork/six-protocol/app.(*App).assertBech32PrefixMatches(_, {{0x6b00498, 0xc00013a160}, {0x6b0fce0, 0xc00111d900}, {{0xb, 0x0}, {0xc000056616, 0x3}, 0x9, ...}, ...})
+      /Users/hamdeeduere/Documents/Repositories/six-dev/six-protocol/app/assert.go:18 +0x11e
+github.com/thesixnetwork/six-protocol/app.(*App).firstBeginBlocker(...)
+      /Users/hamdeeduere/Documents/Repositories/six-dev/six-protocol/app/app.go:854
+github.com/thesixnetwork/six-protocol/app.(*App).BeginBlocker.func1()
+      /Users/hamdeeduere/Documents/Repositories/six-dev/six-protocol/app/app.go:847 +0x98
+sync.(*Once).doSlow(0x6b00498?, 0xc00013a160?)
+      /Users/hamdeeduere/goroot/src/sync/once.go:68 +0xc2
+sync.(*Once).Do(...)
+      /Users/hamdeeduere/goroot/src/sync/once.go:59
+github.com/thesixnetwork/six-protocol/app.(*App).BeginBlocker(_, {{0x6b00498, 0xc00013a160}, {0x6b0fce0, 0xc00111d900}, {{0xb, 0x0}, {0xc000056616, 0x3}, 0x9, ...}, ...}, ...)
+      /Users/hamdeeduere/Documents/Repositories/six-dev/six-protocol/app/app.go:846 +0x118
+github.com/cosmos/cosmos-sdk/baseapp.(*BaseApp).BeginBlock(_, {{0xc001098e60, 0x20, 0x20}, {{0xb, 0x0}, {0xc000056616, 0x3}, 0x9, {0x10985a20, ...}, ...}, ...})
+      /Users/hamdeeduere/Documents/Repositories/six-dev/cosmos-sdk/baseapp/abci.go:194 +0x97c
+github.com/tendermint/tendermint/abci/client.(*localClient).BeginBlockSync(_, {{0xc001098e60, 0x20, 0x20}, {{0xb, 0x0}, {0xc000056616, 0x3}, 0x9, {0x10985a20, ...}, ...}, ...})
+      /Users/hamdeeduere/go/pkg/mod/github.com/tendermint/tendermint@v0.34.20-0.20220517115723-e6f071164839/abci/client/local_client.go:280 +0x118
+github.com/tendermint/tendermint/proxy.(*appConnConsensus).BeginBlockSync(_, {{0xc001098e60, 0x20, 0x20}, {{0xb, 0x0}, {0xc000056616, 0x3}, 0x9, {0x10985a20, ...}, ...}, ...})
+      /Users/hamdeeduere/go/pkg/mod/github.com/tendermint/tendermint@v0.34.20-0.20220517115723-e6f071164839/proxy/app_conn.go:81 +0x55
+github.com/tendermint/tendermint/state.execBlockOnProxyApp({0x6b01960?, 0xc001210900}, {0x6b08650, 0xc000ea3cd0}, 0xc003864000, {0x6b0ecf8, 0xc000ea2dd0}, 0x8?)
+      /Users/hamdeeduere/go/pkg/mod/github.com/tendermint/tendermint@v0.34.20-0.20220517115723-e6f071164839/state/execution.go:307 +0x3dd
+github.com/tendermint/tendermint/state.(*BlockExecutor).ApplyBlock(_, {{{0xb, 0x0}, {0xc00119b0b0, 0x7}}, {0xc00119b0b7, 0x3}, 0x1, 0x8, {{0xc001184a80, ...}, ...}, ...}, ...)
+      /Users/hamdeeduere/go/pkg/mod/github.com/tendermint/tendermint@v0.34.20-0.20220517115723-e6f071164839/state/execution.go:140 +0x171
+github.com/tendermint/tendermint/consensus.(*State).finalizeCommit(0xc001113c00, 0x9)
+      /Users/hamdeeduere/go/pkg/mod/github.com/tendermint/tendermint@v0.34.20-0.20220517115723-e6f071164839/consensus/state.go:1655 +0x9fd
+github.com/tendermint/tendermint/consensus.(*State).tryFinalizeCommit(0xc001113c00, 0x9)
+      /Users/hamdeeduere/go/pkg/mod/github.com/tendermint/tendermint@v0.34.20-0.20220517115723-e6f071164839/consensus/state.go:1564 +0x305
+github.com/tendermint/tendermint/consensus.(*State).enterCommit.func1()
+      /Users/hamdeeduere/go/pkg/mod/github.com/tendermint/tendermint@v0.34.20-0.20220517115723-e6f071164839/consensus/state.go:1499 +0x87
+github.com/tendermint/tendermint/consensus.(*State).enterCommit(0xc001113c00, 0x9, 0x0)
+      /Users/hamdeeduere/go/pkg/mod/github.com/tendermint/tendermint@v0.34.20-0.20220517115723-e6f071164839/consensus/state.go:1537 +0xbea
+github.com/tendermint/tendermint/consensus.(*State).addVote(0xc001113c00, 0xc0037ea000, {0x0, 0x0})
+      /Users/hamdeeduere/go/pkg/mod/github.com/tendermint/tendermint@v0.34.20-0.20220517115723-e6f071164839/consensus/state.go:2151 +0xb7c
+github.com/tendermint/tendermint/consensus.(*State).tryAddVote(0xc001113c00, 0xc0037ea000, {0x0?, 0x40c7c26?})
+      /Users/hamdeeduere/go/pkg/mod/github.com/tendermint/tendermint@v0.34.20-0.20220517115723-e6f071164839/consensus/state.go:1949 +0x2c
+github.com/tendermint/tendermint/consensus.(*State).handleMsg(0xc001113c00, {{0x6adee00?, 0xc000d860a8?}, {0x0?, 0x0?}})
+      /Users/hamdeeduere/go/pkg/mod/github.com/tendermint/tendermint@v0.34.20-0.20220517115723-e6f071164839/consensus/state.go:856 +0x44b
+github.com/tendermint/tendermint/consensus.(*State).receiveRoutine(0xc001113c00, 0x0)
+      /Users/hamdeeduere/go/pkg/mod/github.com/tendermint/tendermint@v0.34.20-0.20220517115723-e6f071164839/consensus/state.go:783 +0x512
+created by github.com/tendermint/tendermint/consensus.(*State).OnStart
+      /Users/hamdeeduere/go/pkg/mod/github.com/tendermint/tendermint@v0.34.20-0.20220517115723-e6f071164839/consensus/state.go:379 +0x12d
+"

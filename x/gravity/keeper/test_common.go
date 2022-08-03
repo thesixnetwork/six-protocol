@@ -613,18 +613,8 @@ func CreateTestEnv(t *testing.T) TestInput {
 		panic("Test Env Creation failure, could not set native hrp")
 	}
 
-	k := NewKeeper(
-		gravityKey, 
-		getSubspace(paramsKeeper, types.DefaultParamspace), 
-		marshaler, 
-		&bankKeeper,
-		&stakingKeeper, 
-		&slashingKeeper, 
-		&distKeeper, 
-		&accountKeeper, 
-		&ibcTransferKeeper,
-		&bech32IbcKeeper,
-	)
+	k := NewKeeper(gravityKey, getSubspace(paramsKeeper, types.DefaultParamspace), marshaler, &bankKeeper,
+		&stakingKeeper, &slashingKeeper, &distKeeper, &accountKeeper, &ibcTransferKeeper, &bech32IbcKeeper)
 
 	stakingKeeper = *stakingKeeper.SetHooks(
 		stakingtypes.NewMultiStakingHooks(
@@ -753,7 +743,7 @@ func MintVouchersFromAir(t *testing.T, ctx sdk.Context, k Keeper, dest sdk.AccAd
 func NewTestMsgCreateValidator(address sdk.ValAddress, pubKey ccrypto.PubKey, amt sdk.Int) *stakingtypes.MsgCreateValidator {
 	commission := stakingtypes.NewCommissionRates(sdk.ZeroDec(), sdk.ZeroDec(), sdk.ZeroDec())
 	out, err := stakingtypes.NewMsgCreateValidator(
-		address, "approver" ,pubKey, sdk.NewCoin("stake", amt),
+		address, "approver",pubKey, sdk.NewCoin("stake", amt),
 		stakingtypes.Description{
 			Moniker:         "",
 			Identity:        "",

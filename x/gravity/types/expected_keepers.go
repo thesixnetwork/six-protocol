@@ -59,4 +59,3 @@ type AccountKeeper interface {
 	GetModuleAccount(ctx sdk.Context, moduleName string) accounttypes.ModuleAccountI
 	// Methods imported from account should be defined here
 }
-
