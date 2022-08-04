@@ -21697,7 +21697,7 @@ paths:
           type: boolean
       tags:
         - Query
-  /gravity/v1/batch_send_to_eth_claim:
+  /thesixnetwork/six-protocol/gravity/v1/batch_send_to_eth_claim:
     post:
       operationId: GravityV1BatchSendToEthClaim
       responses:
@@ -21916,7 +21916,7 @@ paths:
           type: string
       tags:
         - Msg
-  /gravity/v1/cancel_send_to_eth:
+  /thesixnetwork/six-protocol/gravity/v1/cancel_send_to_eth:
     post:
       operationId: GravityV1CancelSendToEth
       responses:
@@ -22121,7 +22121,7 @@ paths:
           type: string
       tags:
         - Msg
-  /gravity/v1/confim_logic:
+  /thesixnetwork/six-protocol/gravity/v1/confim_logic:
     post:
       operationId: GravityV1ConfirmLogicCall
       responses:
@@ -22338,7 +22338,7 @@ paths:
           type: string
       tags:
         - Msg
-  /gravity/v1/confirm_batch:
+  /thesixnetwork/six-protocol/gravity/v1/confirm_batch:
     post:
       operationId: GravityV1ConfirmBatch
       responses:
@@ -22555,7 +22555,7 @@ paths:
           type: string
       tags:
         - Msg
-  /gravity/v1/erc20_deployed_claim:
+  /thesixnetwork/six-protocol/gravity/v1/erc20_deployed_claim:
     post:
       operationId: GravityV1ERC20DeployedClaim
       responses:
@@ -22786,7 +22786,7 @@ paths:
           type: string
       tags:
         - Msg
-  /gravity/v1/execute_ibc_auto_forwards:
+  /thesixnetwork/six-protocol/gravity/v1/execute_ibc_auto_forwards:
     post:
       operationId: GravityV1ExecuteIbcAutoForwards
       responses:
@@ -22991,7 +22991,7 @@ paths:
           type: string
       tags:
         - Msg
-  /gravity/v1/logic_call_executed_claim:
+  /thesixnetwork/six-protocol/gravity/v1/logic_call_executed_claim:
     post:
       operationId: GravityV1LogicCallExecutedClaim
       responses:
@@ -23211,7 +23211,7 @@ paths:
           type: string
       tags:
         - Msg
-  /gravity/v1/request_batch:
+  /thesixnetwork/six-protocol/gravity/v1/request_batch:
     post:
       operationId: GravityV1RequestBatch
       responses:
@@ -23415,7 +23415,7 @@ paths:
           type: string
       tags:
         - Msg
-  /gravity/v1/send_to_cosmos_claim:
+  /thesixnetwork/six-protocol/gravity/v1/send_to_cosmos_claim:
     post:
       operationId: GravityV1SendToCosmosClaim
       responses:
@@ -23641,7 +23641,7 @@ paths:
           type: string
       tags:
         - Msg
-  /gravity/v1/send_to_eth:
+  /thesixnetwork/six-protocol/gravity/v1/send_to_eth:
     post:
       operationId: GravityV1SendToEth
       responses:
@@ -23861,7 +23861,7 @@ paths:
           type: string
       tags:
         - Msg
-  /gravity/v1/set_orchestrator_address:
+  /thesixnetwork/six-protocol/gravity/v1/set_orchestrator_address:
     post:
       operationId: GravityV1SetOrchestratorAddress
       responses:
@@ -24069,7 +24069,7 @@ paths:
           type: string
       tags:
         - Msg
-  /gravity/v1/submit_bad_signature_evidence:
+  /thesixnetwork/six-protocol/gravity/v1/submit_bad_signature_evidence:
     post:
       operationId: GravityV1SubmitBadSignatureEvidence
       responses:
@@ -24333,7 +24333,7 @@ paths:
           type: string
       tags:
         - Msg
-  /gravity/v1/valset_confirm:
+  /thesixnetwork/six-protocol/gravity/v1/valset_confirm:
     post:
       operationId: GravityV1ValsetConfirm
       responses:
@@ -24546,7 +24546,7 @@ paths:
           type: string
       tags:
         - Msg
-  /gravity/v1/valset_updated_claim:
+  /thesixnetwork/six-protocol/gravity/v1/valset_updated_claim:
     post:
       operationId: GravityV1ValsetUpdateClaim
       responses:
@@ -24769,7 +24769,7 @@ paths:
           type: string
       tags:
         - Msg
-  /gravity/v1beta/batch/confirms:
+  /thesixnetwork/six-protocol/gravity/v1beta/batch/confirms:
     get:
       operationId: GravityV1BatchConfirms
       responses:
@@ -25013,7 +25013,7 @@ paths:
           type: string
       tags:
         - Query
-  /gravity/v1beta/batch/last_pending_request_by_addr:
+  /thesixnetwork/six-protocol/gravity/v1beta/batch/last_pending_request_by_addr:
     get:
       operationId: GravityV1LastPendingBatchRequestByAddr
       responses:
@@ -25290,7 +25290,7 @@ paths:
           type: string
       tags:
         - Query
-  /gravity/v1beta/batch/outgoinglogic:
+  /thesixnetwork/six-protocol/gravity/v1beta/batch/outgoinglogic:
     get:
       operationId: GravityV1OutgoingLogicCalls
       responses:
@@ -25557,7 +25557,7 @@ paths:
                         }
       tags:
         - Query
-  /gravity/v1beta/batch/outgoingtx:
+  /thesixnetwork/six-protocol/gravity/v1beta/batch/outgoingtx:
     get:
       operationId: GravityV1OutgoingTxBatches
       responses:
@@ -25829,7 +25829,7 @@ paths:
                         }
       tags:
         - Query
-  /gravity/v1beta/batch/request_by_nonce:
+  /thesixnetwork/six-protocol/gravity/v1beta/batch/request_by_nonce:
     get:
       operationId: GravityV1BatchRequestByNonce
       responses:
@@ -26109,7 +26109,7 @@ paths:
           type: string
       tags:
         - Query
-  /gravity/v1beta/batchfees:
+  /thesixnetwork/six-protocol/gravity/v1beta/batchfees:
     get:
       operationId: GravityV1BatchFees
       responses:
@@ -26317,7 +26317,7 @@ paths:
                         }
       tags:
         - Query
-  '/gravity/v1beta/confirms/{nonce}':
+  '/thesixnetwork/six-protocol/gravity/v1beta/confirms/{nonce}':
     get:
       operationId: GravityV1ValsetConfirmsByNonce
       responses:
@@ -26573,7 +26573,7 @@ paths:
           format: uint64
       tags:
         - Query
-  /gravity/v1beta/cosmos_originated/denom_to_erc20:
+  /thesixnetwork/six-protocol/gravity/v1beta/cosmos_originated/denom_to_erc20:
     get:
       operationId: GravityV1DenomToERC20
       responses:
@@ -26778,7 +26778,7 @@ paths:
           type: string
       tags:
         - Query
-  /gravity/v1beta/cosmos_originated/erc20_to_denom:
+  /thesixnetwork/six-protocol/gravity/v1beta/cosmos_originated/erc20_to_denom:
     get:
       operationId: GravityV1ERC20ToDenom
       responses:
@@ -26983,7 +26983,7 @@ paths:
           type: string
       tags:
         - Query
-  /gravity/v1beta/logic/confirms:
+  /thesixnetwork/six-protocol/gravity/v1beta/logic/confirms:
     get:
       operationId: GravityV1LogicConfirms
       responses:
@@ -27228,7 +27228,7 @@ paths:
           format: uint64
       tags:
         - Query
-  '/gravity/v1beta/logic/{address}':
+  '/thesixnetwork/six-protocol/gravity/v1beta/logic/{address}':
     get:
       operationId: GravityV1LastPendingLogicCallByAddr
       responses:
@@ -27500,7 +27500,7 @@ paths:
           type: string
       tags:
         - Query
-  '/gravity/v1beta/oracle/eventnonce/{address}':
+  '/thesixnetwork/six-protocol/gravity/v1beta/oracle/eventnonce/{address}':
     get:
       operationId: GravityV1LastEventNonceByAddr
       responses:
@@ -27704,7 +27704,7 @@ paths:
           type: string
       tags:
         - Query
-  /gravity/v1beta/params:
+  /thesixnetwork/six-protocol/gravity/v1beta/params:
     get:
       summary: Deployments queries deployments
       operationId: GravityV1Params
@@ -28044,7 +28044,7 @@ paths:
                         }
       tags:
         - Query
-  /gravity/v1beta/query_attestations:
+  /thesixnetwork/six-protocol/gravity/v1beta/query_attestations:
     get:
       operationId: GravityV1GetAttestations
       responses:
@@ -28503,7 +28503,7 @@ paths:
           format: uint64
       tags:
         - Query
-  /gravity/v1beta/query_delegate_keys_by_eth:
+  /thesixnetwork/six-protocol/gravity/v1beta/query_delegate_keys_by_eth:
     get:
       operationId: GravityV1GetDelegateKeyByEth
       responses:
@@ -28708,7 +28708,7 @@ paths:
           type: string
       tags:
         - Query
-  /gravity/v1beta/query_delegate_keys_by_orchestrator:
+  /thesixnetwork/six-protocol/gravity/v1beta/query_delegate_keys_by_orchestrator:
     get:
       operationId: GravityV1GetDelegateKeyByOrchestrator
       responses:
@@ -28913,7 +28913,7 @@ paths:
           type: string
       tags:
         - Query
-  /gravity/v1beta/query_delegate_keys_by_validator:
+  /thesixnetwork/six-protocol/gravity/v1beta/query_delegate_keys_by_validator:
     get:
       operationId: GravityV1GetDelegateKeyByValidator
       responses:
@@ -29118,7 +29118,7 @@ paths:
           type: string
       tags:
         - Query
-  /gravity/v1beta/query_pending_ibc_auto_forwards:
+  /thesixnetwork/six-protocol/gravity/v1beta/query_pending_ibc_auto_forwards:
     get:
       operationId: GravityV1GetPendingIbcAutoForwards
       responses:
@@ -29356,7 +29356,7 @@ paths:
           format: uint64
       tags:
         - Query
-  /gravity/v1beta/query_pending_send_to_eth:
+  /thesixnetwork/six-protocol/gravity/v1beta/query_pending_send_to_eth:
     get:
       operationId: GravityV1GetPendingSendToEth
       responses:
@@ -29671,7 +29671,7 @@ paths:
           type: string
       tags:
         - Query
-  /gravity/v1beta/valset:
+  /thesixnetwork/six-protocol/gravity/v1beta/valset:
     get:
       operationId: GravityV1ValsetRequest
       responses:
@@ -29910,7 +29910,7 @@ paths:
           format: uint64
       tags:
         - Query
-  /gravity/v1beta/valset/confirm:
+  /thesixnetwork/six-protocol/gravity/v1beta/valset/confirm:
     get:
       operationId: GravityV1ValsetConfirm
       responses:
@@ -30168,7 +30168,7 @@ paths:
           type: string
       tags:
         - Query
-  /gravity/v1beta/valset/current:
+  /thesixnetwork/six-protocol/gravity/v1beta/valset/current:
     get:
       operationId: GravityV1CurrentValset
       responses:
@@ -30401,7 +30401,7 @@ paths:
                         }
       tags:
         - Query
-  /gravity/v1beta/valset/last:
+  /thesixnetwork/six-protocol/gravity/v1beta/valset/last:
     get:
       operationId: GravityV1LastPendingValsetRequestByAddr
       responses:
@@ -30641,7 +30641,7 @@ paths:
           type: string
       tags:
         - Query
-  /gravity/v1beta/valset/requests:
+  /thesixnetwork/six-protocol/gravity/v1beta/valset/requests:
     get:
       operationId: GravityV1LastValsetRequests
       responses:

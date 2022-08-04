@@ -1,7 +1,7 @@
 /* eslint-disable */
 import * as Long from "long";
 import { util, configure, Writer, Reader } from "protobufjs/minimal";
-import { ERC20Token } from "../../gravity/v1/attestation";
+import { ERC20Token } from "../../thesixnetwork/six-protocol/gravity/v1/attestation";
 
 export const protobufPackage = "gravity.v1";
 

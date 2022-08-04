@@ -2,19 +2,19 @@
 import * as Long from "long";
 import { util, configure, Writer, Reader } from "protobufjs/minimal";
 import { Coin } from "../../cosmos/base/v1beta1/coin";
-import { Valset, ERC20ToDenom } from "../../gravity/v1/types";
+import { Valset, ERC20ToDenom } from "../../thesixnetwork/six-protocol/gravity/v1/types";
 import {
   MsgValsetConfirm,
   MsgConfirmBatch,
   MsgConfirmLogicCall,
   MsgSetOrchestratorAddress,
-} from "../../gravity/v1/msgs";
+} from "../../thesixnetwork/six-protocol/gravity/v1/msgs";
 import {
   OutgoingTxBatch,
   OutgoingLogicCall,
   OutgoingTransferTx,
-} from "../../gravity/v1/batch";
-import { Attestation } from "../../gravity/v1/attestation";
+} from "../../thesixnetwork/six-protocol/gravity/v1/batch";
+import { Attestation } from "../../thesixnetwork/six-protocol/gravity/v1/attestation";
 
 export const protobufPackage = "gravity.v1";
 

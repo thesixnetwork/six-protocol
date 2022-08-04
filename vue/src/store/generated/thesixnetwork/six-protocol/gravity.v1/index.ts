@@ -1,45 +1,45 @@
 import { txClient, queryClient, MissingWalletError , registry} from './module'
 
-import { Attestation } from "./module/types/gravity/v1/attestation"
-import { ERC20Token } from "./module/types/gravity/v1/attestation"
-import { EventObservation } from "./module/types/gravity/v1/attestation"
-import { EventInvalidSendToCosmosReceiver } from "./module/types/gravity/v1/attestation"
-import { EventSendToCosmos } from "./module/types/gravity/v1/attestation"
-import { EventSendToCosmosLocal } from "./module/types/gravity/v1/attestation"
-import { EventSendToCosmosPendingIbcAutoForward } from "./module/types/gravity/v1/attestation"
-import { EventSendToCosmosExecutedIbcAutoForward } from "./module/types/gravity/v1/attestation"
-import { OutgoingTxBatch } from "./module/types/gravity/v1/batch"
-import { OutgoingTransferTx } from "./module/types/gravity/v1/batch"
-import { OutgoingLogicCall } from "./module/types/gravity/v1/batch"
-import { EventOutgoingBatchCanceled } from "./module/types/gravity/v1/batch"
-import { EventOutgoingBatch } from "./module/types/gravity/v1/batch"
-import { Params } from "./module/types/gravity/v1/genesis"
-import { GravityNonces } from "./module/types/gravity/v1/genesis"
-import { EventSetOperatorAddress } from "./module/types/gravity/v1/msgs"
-import { EventValsetConfirmKey } from "./module/types/gravity/v1/msgs"
-import { EventBatchCreated } from "./module/types/gravity/v1/msgs"
-import { EventBatchConfirmKey } from "./module/types/gravity/v1/msgs"
-import { EventBatchSendToEthClaim } from "./module/types/gravity/v1/msgs"
-import { EventClaim } from "./module/types/gravity/v1/msgs"
-import { EventBadSignatureEvidence } from "./module/types/gravity/v1/msgs"
-import { EventERC20DeployedClaim } from "./module/types/gravity/v1/msgs"
-import { EventValsetUpdatedClaim } from "./module/types/gravity/v1/msgs"
-import { EventMultisigUpdateRequest } from "./module/types/gravity/v1/msgs"
-import { EventOutgoingLogicCallCanceled } from "./module/types/gravity/v1/msgs"
-import { EventSignatureSlashing } from "./module/types/gravity/v1/msgs"
-import { EventOutgoingTxId } from "./module/types/gravity/v1/msgs"
-import { IDSet } from "./module/types/gravity/v1/pool"
-import { BatchFees } from "./module/types/gravity/v1/pool"
-import { EventWithdrawalReceived } from "./module/types/gravity/v1/pool"
-import { EventWithdrawCanceled } from "./module/types/gravity/v1/pool"
-import { BridgeValidator } from "./module/types/gravity/v1/types"
-import { Valset } from "./module/types/gravity/v1/types"
-import { LastObservedEthereumBlockHeight } from "./module/types/gravity/v1/types"
-import { ERC20ToDenom } from "./module/types/gravity/v1/types"
-import { UnhaltBridgeProposal } from "./module/types/gravity/v1/types"
-import { AirdropProposal } from "./module/types/gravity/v1/types"
-import { IBCMetadataProposal } from "./module/types/gravity/v1/types"
-import { PendingIbcAutoForward } from "./module/types/gravity/v1/types"
+import { Attestation } from "./module/types/thesixnetwork/six-protocol/gravity/v1/attestation"
+import { ERC20Token } from "./module/types/thesixnetwork/six-protocol/gravity/v1/attestation"
+import { EventObservation } from "./module/types/thesixnetwork/six-protocol/gravity/v1/attestation"
+import { EventInvalidSendToCosmosReceiver } from "./module/types/thesixnetwork/six-protocol/gravity/v1/attestation"
+import { EventSendToCosmos } from "./module/types/thesixnetwork/six-protocol/gravity/v1/attestation"
+import { EventSendToCosmosLocal } from "./module/types/thesixnetwork/six-protocol/gravity/v1/attestation"
+import { EventSendToCosmosPendingIbcAutoForward } from "./module/types/thesixnetwork/six-protocol/gravity/v1/attestation"
+import { EventSendToCosmosExecutedIbcAutoForward } from "./module/types/thesixnetwork/six-protocol/gravity/v1/attestation"
+import { OutgoingTxBatch } from "./module/types/thesixnetwork/six-protocol/gravity/v1/batch"
+import { OutgoingTransferTx } from "./module/types/thesixnetwork/six-protocol/gravity/v1/batch"
+import { OutgoingLogicCall } from "./module/types/thesixnetwork/six-protocol/gravity/v1/batch"
+import { EventOutgoingBatchCanceled } from "./module/types/thesixnetwork/six-protocol/gravity/v1/batch"
+import { EventOutgoingBatch } from "./module/types/thesixnetwork/six-protocol/gravity/v1/batch"
+import { Params } from "./module/types/thesixnetwork/six-protocol/gravity/v1/genesis"
+import { GravityNonces } from "./module/types/thesixnetwork/six-protocol/gravity/v1/genesis"
+import { EventSetOperatorAddress } from "./module/types/thesixnetwork/six-protocol/gravity/v1/msgs"
+import { EventValsetConfirmKey } from "./module/types/thesixnetwork/six-protocol/gravity/v1/msgs"
+import { EventBatchCreated } from "./module/types/thesixnetwork/six-protocol/gravity/v1/msgs"
+import { EventBatchConfirmKey } from "./module/types/thesixnetwork/six-protocol/gravity/v1/msgs"
+import { EventBatchSendToEthClaim } from "./module/types/thesixnetwork/six-protocol/gravity/v1/msgs"
+import { EventClaim } from "./module/types/thesixnetwork/six-protocol/gravity/v1/msgs"
+import { EventBadSignatureEvidence } from "./module/types/thesixnetwork/six-protocol/gravity/v1/msgs"
+import { EventERC20DeployedClaim } from "./module/types/thesixnetwork/six-protocol/gravity/v1/msgs"
+import { EventValsetUpdatedClaim } from "./module/types/thesixnetwork/six-protocol/gravity/v1/msgs"
+import { EventMultisigUpdateRequest } from "./module/types/thesixnetwork/six-protocol/gravity/v1/msgs"
+import { EventOutgoingLogicCallCanceled } from "./module/types/thesixnetwork/six-protocol/gravity/v1/msgs"
+import { EventSignatureSlashing } from "./module/types/thesixnetwork/six-protocol/gravity/v1/msgs"
+import { EventOutgoingTxId } from "./module/types/thesixnetwork/six-protocol/gravity/v1/msgs"
+import { IDSet } from "./module/types/thesixnetwork/six-protocol/gravity/v1/pool"
+import { BatchFees } from "./module/types/thesixnetwork/six-protocol/gravity/v1/pool"
+import { EventWithdrawalReceived } from "./module/types/thesixnetwork/six-protocol/gravity/v1/pool"
+import { EventWithdrawCanceled } from "./module/types/thesixnetwork/six-protocol/gravity/v1/pool"
+import { BridgeValidator } from "./module/types/thesixnetwork/six-protocol/gravity/v1/types"
+import { Valset } from "./module/types/thesixnetwork/six-protocol/gravity/v1/types"
+import { LastObservedEthereumBlockHeight } from "./module/types/thesixnetwork/six-protocol/gravity/v1/types"
+import { ERC20ToDenom } from "./module/types/thesixnetwork/six-protocol/gravity/v1/types"
+import { UnhaltBridgeProposal } from "./module/types/thesixnetwork/six-protocol/gravity/v1/types"
+import { AirdropProposal } from "./module/types/thesixnetwork/six-protocol/gravity/v1/types"
+import { IBCMetadataProposal } from "./module/types/thesixnetwork/six-protocol/gravity/v1/types"
+import { PendingIbcAutoForward } from "./module/types/thesixnetwork/six-protocol/gravity/v1/types"
 
 
 export { Attestation, ERC20Token, EventObservation, EventInvalidSendToCosmosReceiver, EventSendToCosmos, EventSendToCosmosLocal, EventSendToCosmosPendingIbcAutoForward, EventSendToCosmosExecutedIbcAutoForward, OutgoingTxBatch, OutgoingTransferTx, OutgoingLogicCall, EventOutgoingBatchCanceled, EventOutgoingBatch, Params, GravityNonces, EventSetOperatorAddress, EventValsetConfirmKey, EventBatchCreated, EventBatchConfirmKey, EventBatchSendToEthClaim, EventClaim, EventBadSignatureEvidence, EventERC20DeployedClaim, EventValsetUpdatedClaim, EventMultisigUpdateRequest, EventOutgoingLogicCallCanceled, EventSignatureSlashing, EventOutgoingTxId, IDSet, BatchFees, EventWithdrawalReceived, EventWithdrawCanceled, BridgeValidator, Valset, LastObservedEthereumBlockHeight, ERC20ToDenom, UnhaltBridgeProposal, AirdropProposal, IBCMetadataProposal, PendingIbcAutoForward };
@@ -1432,6 +1432,51 @@ export default {
 				}
 			}
 		},
+		async sendMsgERC20DeployedClaim({ rootGetters }, { value, fee = [], memo = '' }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgERC20DeployedClaim(value)
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+	gas: "200000" }, memo})
+				return result
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgERC20DeployedClaim:Init Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new Error('TxClient:MsgERC20DeployedClaim:Send Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
+		async sendMsgBatchSendToEthClaim({ rootGetters }, { value, fee = [], memo = '' }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgBatchSendToEthClaim(value)
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+	gas: "200000" }, memo})
+				return result
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgBatchSendToEthClaim:Init Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new Error('TxClient:MsgBatchSendToEthClaim:Send Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
+		async sendMsgValsetConfirm({ rootGetters }, { value, fee = [], memo = '' }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgValsetConfirm(value)
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+	gas: "200000" }, memo})
+				return result
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgValsetConfirm:Init Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new Error('TxClient:MsgValsetConfirm:Send Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
 		async sendMsgValsetUpdatedClaim({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
@@ -1444,6 +1489,66 @@ export default {
 					throw new Error('TxClient:MsgValsetUpdatedClaim:Init Could not initialize signing client. Wallet is required.')
 				}else{
 					throw new Error('TxClient:MsgValsetUpdatedClaim:Send Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
+		async sendMsgLogicCallExecutedClaim({ rootGetters }, { value, fee = [], memo = '' }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgLogicCallExecutedClaim(value)
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+	gas: "200000" }, memo})
+				return result
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgLogicCallExecutedClaim:Init Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new Error('TxClient:MsgLogicCallExecutedClaim:Send Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
+		async sendMsgSubmitBadSignatureEvidence({ rootGetters }, { value, fee = [], memo = '' }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgSubmitBadSignatureEvidence(value)
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+	gas: "200000" }, memo})
+				return result
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgSubmitBadSignatureEvidence:Init Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new Error('TxClient:MsgSubmitBadSignatureEvidence:Send Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
+		async sendMsgSendToCosmosClaim({ rootGetters }, { value, fee = [], memo = '' }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgSendToCosmosClaim(value)
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+	gas: "200000" }, memo})
+				return result
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgSendToCosmosClaim:Init Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new Error('TxClient:MsgSendToCosmosClaim:Send Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
+		async sendMsgCancelSendToEth({ rootGetters }, { value, fee = [], memo = '' }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgCancelSendToEth(value)
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+	gas: "200000" }, memo})
+				return result
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgCancelSendToEth:Init Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new Error('TxClient:MsgCancelSendToEth:Send Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
@@ -1477,81 +1582,6 @@ export default {
 				}
 			}
 		},
-		async sendMsgValsetConfirm({ rootGetters }, { value, fee = [], memo = '' }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgValsetConfirm(value)
-				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
-	gas: "200000" }, memo})
-				return result
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgValsetConfirm:Init Could not initialize signing client. Wallet is required.')
-				}else{
-					throw new Error('TxClient:MsgValsetConfirm:Send Could not broadcast Tx: '+ e.message)
-				}
-			}
-		},
-		async sendMsgSendToCosmosClaim({ rootGetters }, { value, fee = [], memo = '' }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgSendToCosmosClaim(value)
-				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
-	gas: "200000" }, memo})
-				return result
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgSendToCosmosClaim:Init Could not initialize signing client. Wallet is required.')
-				}else{
-					throw new Error('TxClient:MsgSendToCosmosClaim:Send Could not broadcast Tx: '+ e.message)
-				}
-			}
-		},
-		async sendMsgERC20DeployedClaim({ rootGetters }, { value, fee = [], memo = '' }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgERC20DeployedClaim(value)
-				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
-	gas: "200000" }, memo})
-				return result
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgERC20DeployedClaim:Init Could not initialize signing client. Wallet is required.')
-				}else{
-					throw new Error('TxClient:MsgERC20DeployedClaim:Send Could not broadcast Tx: '+ e.message)
-				}
-			}
-		},
-		async sendMsgSubmitBadSignatureEvidence({ rootGetters }, { value, fee = [], memo = '' }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgSubmitBadSignatureEvidence(value)
-				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
-	gas: "200000" }, memo})
-				return result
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgSubmitBadSignatureEvidence:Init Could not initialize signing client. Wallet is required.')
-				}else{
-					throw new Error('TxClient:MsgSubmitBadSignatureEvidence:Send Could not broadcast Tx: '+ e.message)
-				}
-			}
-		},
-		async sendMsgBatchSendToEthClaim({ rootGetters }, { value, fee = [], memo = '' }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgBatchSendToEthClaim(value)
-				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
-	gas: "200000" }, memo})
-				return result
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgBatchSendToEthClaim:Init Could not initialize signing client. Wallet is required.')
-				}else{
-					throw new Error('TxClient:MsgBatchSendToEthClaim:Send Could not broadcast Tx: '+ e.message)
-				}
-			}
-		},
 		async sendMsgConfirmBatch({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
@@ -1564,36 +1594,6 @@ export default {
 					throw new Error('TxClient:MsgConfirmBatch:Init Could not initialize signing client. Wallet is required.')
 				}else{
 					throw new Error('TxClient:MsgConfirmBatch:Send Could not broadcast Tx: '+ e.message)
-				}
-			}
-		},
-		async sendMsgCancelSendToEth({ rootGetters }, { value, fee = [], memo = '' }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgCancelSendToEth(value)
-				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
-	gas: "200000" }, memo})
-				return result
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgCancelSendToEth:Init Could not initialize signing client. Wallet is required.')
-				}else{
-					throw new Error('TxClient:MsgCancelSendToEth:Send Could not broadcast Tx: '+ e.message)
-				}
-			}
-		},
-		async sendMsgLogicCallExecutedClaim({ rootGetters }, { value, fee = [], memo = '' }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgLogicCallExecutedClaim(value)
-				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
-	gas: "200000" }, memo})
-				return result
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgLogicCallExecutedClaim:Init Could not initialize signing client. Wallet is required.')
-				}else{
-					throw new Error('TxClient:MsgLogicCallExecutedClaim:Send Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
@@ -1624,6 +1624,45 @@ export default {
 				}
 			}
 		},
+		async MsgERC20DeployedClaim({ rootGetters }, { value }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgERC20DeployedClaim(value)
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgERC20DeployedClaim:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgERC20DeployedClaim:Create Could not create message: ' + e.message)
+				}
+			}
+		},
+		async MsgBatchSendToEthClaim({ rootGetters }, { value }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgBatchSendToEthClaim(value)
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgBatchSendToEthClaim:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgBatchSendToEthClaim:Create Could not create message: ' + e.message)
+				}
+			}
+		},
+		async MsgValsetConfirm({ rootGetters }, { value }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgValsetConfirm(value)
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgValsetConfirm:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgValsetConfirm:Create Could not create message: ' + e.message)
+				}
+			}
+		},
 		async MsgValsetUpdatedClaim({ rootGetters }, { value }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
@@ -1634,6 +1673,58 @@ export default {
 					throw new Error('TxClient:MsgValsetUpdatedClaim:Init Could not initialize signing client. Wallet is required.')
 				} else{
 					throw new Error('TxClient:MsgValsetUpdatedClaim:Create Could not create message: ' + e.message)
+				}
+			}
+		},
+		async MsgLogicCallExecutedClaim({ rootGetters }, { value }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgLogicCallExecutedClaim(value)
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgLogicCallExecutedClaim:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgLogicCallExecutedClaim:Create Could not create message: ' + e.message)
+				}
+			}
+		},
+		async MsgSubmitBadSignatureEvidence({ rootGetters }, { value }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgSubmitBadSignatureEvidence(value)
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgSubmitBadSignatureEvidence:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgSubmitBadSignatureEvidence:Create Could not create message: ' + e.message)
+				}
+			}
+		},
+		async MsgSendToCosmosClaim({ rootGetters }, { value }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgSendToCosmosClaim(value)
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgSendToCosmosClaim:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgSendToCosmosClaim:Create Could not create message: ' + e.message)
+				}
+			}
+		},
+		async MsgCancelSendToEth({ rootGetters }, { value }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgCancelSendToEth(value)
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgCancelSendToEth:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgCancelSendToEth:Create Could not create message: ' + e.message)
 				}
 			}
 		},
@@ -1663,71 +1754,6 @@ export default {
 				}
 			}
 		},
-		async MsgValsetConfirm({ rootGetters }, { value }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgValsetConfirm(value)
-				return msg
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgValsetConfirm:Init Could not initialize signing client. Wallet is required.')
-				} else{
-					throw new Error('TxClient:MsgValsetConfirm:Create Could not create message: ' + e.message)
-				}
-			}
-		},
-		async MsgSendToCosmosClaim({ rootGetters }, { value }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgSendToCosmosClaim(value)
-				return msg
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgSendToCosmosClaim:Init Could not initialize signing client. Wallet is required.')
-				} else{
-					throw new Error('TxClient:MsgSendToCosmosClaim:Create Could not create message: ' + e.message)
-				}
-			}
-		},
-		async MsgERC20DeployedClaim({ rootGetters }, { value }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgERC20DeployedClaim(value)
-				return msg
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgERC20DeployedClaim:Init Could not initialize signing client. Wallet is required.')
-				} else{
-					throw new Error('TxClient:MsgERC20DeployedClaim:Create Could not create message: ' + e.message)
-				}
-			}
-		},
-		async MsgSubmitBadSignatureEvidence({ rootGetters }, { value }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgSubmitBadSignatureEvidence(value)
-				return msg
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgSubmitBadSignatureEvidence:Init Could not initialize signing client. Wallet is required.')
-				} else{
-					throw new Error('TxClient:MsgSubmitBadSignatureEvidence:Create Could not create message: ' + e.message)
-				}
-			}
-		},
-		async MsgBatchSendToEthClaim({ rootGetters }, { value }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgBatchSendToEthClaim(value)
-				return msg
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgBatchSendToEthClaim:Init Could not initialize signing client. Wallet is required.')
-				} else{
-					throw new Error('TxClient:MsgBatchSendToEthClaim:Create Could not create message: ' + e.message)
-				}
-			}
-		},
 		async MsgConfirmBatch({ rootGetters }, { value }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
@@ -1738,32 +1764,6 @@ export default {
 					throw new Error('TxClient:MsgConfirmBatch:Init Could not initialize signing client. Wallet is required.')
 				} else{
 					throw new Error('TxClient:MsgConfirmBatch:Create Could not create message: ' + e.message)
-				}
-			}
-		},
-		async MsgCancelSendToEth({ rootGetters }, { value }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgCancelSendToEth(value)
-				return msg
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgCancelSendToEth:Init Could not initialize signing client. Wallet is required.')
-				} else{
-					throw new Error('TxClient:MsgCancelSendToEth:Create Could not create message: ' + e.message)
-				}
-			}
-		},
-		async MsgLogicCallExecutedClaim({ rootGetters }, { value }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgLogicCallExecutedClaim(value)
-				return msg
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgLogicCallExecutedClaim:Init Could not initialize signing client. Wallet is required.')
-				} else{
-					throw new Error('TxClient:MsgLogicCallExecutedClaim:Create Could not create message: ' + e.message)
 				}
 			}
 		},

@@ -2,7 +2,7 @@
 import { Reader, util, configure, Writer } from "protobufjs/minimal";
 import * as Long from "long";
 import { Coin } from "../../cosmos/base/v1beta1/coin";
-import { BridgeValidator } from "../../gravity/v1/types";
+import { BridgeValidator } from "../../thesixnetwork/six-protocol/gravity/v1/types";
 import { Any } from "../../google/protobuf/any";
 
 export const protobufPackage = "gravity.v1";

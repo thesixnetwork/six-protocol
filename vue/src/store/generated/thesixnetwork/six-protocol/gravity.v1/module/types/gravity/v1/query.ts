@@ -1,20 +1,20 @@
 /* eslint-disable */
 import { Reader, util, configure, Writer } from "protobufjs/minimal";
 import * as Long from "long";
-import { Params } from "../../gravity/v1/genesis";
-import { Valset, PendingIbcAutoForward } from "../../gravity/v1/types";
+import { Params } from "../../thesixnetwork/six-protocol/gravity/v1/genesis";
+import { Valset, PendingIbcAutoForward } from "../../thesixnetwork/six-protocol/gravity/v1/types";
 import {
   MsgValsetConfirm,
   MsgConfirmBatch,
   MsgConfirmLogicCall,
-} from "../../gravity/v1/msgs";
-import { BatchFees } from "../../gravity/v1/pool";
+} from "../../thesixnetwork/six-protocol/gravity/v1/msgs";
+import { BatchFees } from "../../thesixnetwork/six-protocol/gravity/v1/pool";
 import {
   OutgoingTxBatch,
   OutgoingLogicCall,
   OutgoingTransferTx,
-} from "../../gravity/v1/batch";
-import { Attestation } from "../../gravity/v1/attestation";
+} from "../../thesixnetwork/six-protocol/gravity/v1/batch";
+import { Attestation } from "../../thesixnetwork/six-protocol/gravity/v1/attestation";
 
 export const protobufPackage = "gravity.v1";
 

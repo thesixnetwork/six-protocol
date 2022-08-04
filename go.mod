@@ -161,7 +161,7 @@ require (
 	github.com/tendermint/crypto v0.0.0-20191022145703-50d29ede1e15 // indirect
 	github.com/tendermint/fundraising v0.3.1-0.20220613014523-03b4a2d4481a // indirect
 	github.com/tendermint/go-amino v0.16.0 // indirect
-	github.com/tendermint/spn v0.2.1-0.20220708132853-26a17f03c072
+	github.com/tendermint/spn v0.2.1-0.20220708132853-26a17f03c072 // indirect
 	github.com/tomasen/realip v0.0.0-20180522021738-f0c99a92ddce // indirect
 	github.com/xanzy/ssh-agent v0.3.0 // indirect
 	github.com/xo/terminfo v0.0.0-20210125001918-ca9a967f8778 // indirect
@@ -184,7 +184,9 @@ require (
 require (
 	github.com/deckarep/golang-set v1.8.0 // indirect
 	github.com/go-stack/stack v1.8.0 // indirect
+	github.com/golang/glog v1.0.0 // indirect
 	github.com/google/uuid v1.3.0 // indirect
+	github.com/grpc-ecosystem/grpc-gateway/v2 v2.11.1 // indirect
 	github.com/rjeczalik/notify v0.9.1 // indirect
 	golang.org/x/net v0.0.0-20220624214902-1bab6f366d9e // indirect
 	golang.org/x/sys v0.0.0-20220610221304-9f5ed59c137d // indirect

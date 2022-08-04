@@ -837,7 +837,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Msg
    * @name MsgBatchSendToEthClaim
-   * @request POST:/gravity/v1/batch_send_to_eth_claim
+   * @request POST:/thesixnetwork/six-protocol/gravity/v1/batch_send_to_eth_claim
    */
   msgBatchSendToEthClaim = (
     query?: {
@@ -850,7 +850,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     params: RequestParams = {},
   ) =>
     this.request<GravityMsgBatchSendToEthClaimResponse, RpcStatus>({
-      path: `/gravity/v1/batch_send_to_eth_claim`,
+      path: `/thesixnetwork/six-protocol/gravity/v1/batch_send_to_eth_claim`,
       method: "POST",
       query: query,
       format: "json",
@@ -862,11 +862,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Msg
    * @name MsgCancelSendToEth
-   * @request POST:/gravity/v1/cancel_send_to_eth
+   * @request POST:/thesixnetwork/six-protocol/gravity/v1/cancel_send_to_eth
    */
   msgCancelSendToEth = (query?: { transaction_id?: string; sender?: string }, params: RequestParams = {}) =>
     this.request<GravityMsgCancelSendToEthResponse, RpcStatus>({
-      path: `/gravity/v1/cancel_send_to_eth`,
+      path: `/thesixnetwork/six-protocol/gravity/v1/cancel_send_to_eth`,
       method: "POST",
       query: query,
       format: "json",
@@ -878,7 +878,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Msg
    * @name MsgConfirmLogicCall
-   * @request POST:/gravity/v1/confim_logic
+   * @request POST:/thesixnetwork/six-protocol/gravity/v1/confim_logic
    */
   msgConfirmLogicCall = (
     query?: {
@@ -891,7 +891,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     params: RequestParams = {},
   ) =>
     this.request<GravityMsgConfirmLogicCallResponse, RpcStatus>({
-      path: `/gravity/v1/confim_logic`,
+      path: `/thesixnetwork/six-protocol/gravity/v1/confim_logic`,
       method: "POST",
       query: query,
       format: "json",
@@ -903,14 +903,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Msg
    * @name MsgConfirmBatch
-   * @request POST:/gravity/v1/confirm_batch
+   * @request POST:/thesixnetwork/six-protocol/gravity/v1/confirm_batch
    */
   msgConfirmBatch = (
     query?: { nonce?: string; token_contract?: string; eth_signer?: string; orchestrator?: string; signature?: string },
     params: RequestParams = {},
   ) =>
     this.request<GravityMsgConfirmBatchResponse, RpcStatus>({
-      path: `/gravity/v1/confirm_batch`,
+      path: `/thesixnetwork/six-protocol/gravity/v1/confirm_batch`,
       method: "POST",
       query: query,
       format: "json",
@@ -922,7 +922,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Msg
    * @name MsgErc20DeployedClaim
-   * @request POST:/gravity/v1/erc20_deployed_claim
+   * @request POST:/thesixnetwork/six-protocol/gravity/v1/erc20_deployed_claim
    */
   msgErc20DeployedClaim = (
     query?: {
@@ -938,7 +938,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     params: RequestParams = {},
   ) =>
     this.request<GravityMsgERC20DeployedClaimResponse, RpcStatus>({
-      path: `/gravity/v1/erc20_deployed_claim`,
+      path: `/thesixnetwork/six-protocol/gravity/v1/erc20_deployed_claim`,
       method: "POST",
       query: query,
       format: "json",
@@ -950,11 +950,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Msg
    * @name MsgExecuteIbcAutoForwards
-   * @request POST:/gravity/v1/execute_ibc_auto_forwards
+   * @request POST:/thesixnetwork/six-protocol/gravity/v1/execute_ibc_auto_forwards
    */
   msgExecuteIbcAutoForwards = (query?: { forwards_to_clear?: string; executor?: string }, params: RequestParams = {}) =>
     this.request<GravityMsgExecuteIbcAutoForwardsResponse, RpcStatus>({
-      path: `/gravity/v1/execute_ibc_auto_forwards`,
+      path: `/thesixnetwork/six-protocol/gravity/v1/execute_ibc_auto_forwards`,
       method: "POST",
       query: query,
       format: "json",
@@ -966,7 +966,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Msg
    * @name MsgLogicCallExecutedClaim
-   * @request POST:/gravity/v1/logic_call_executed_claim
+   * @request POST:/thesixnetwork/six-protocol/gravity/v1/logic_call_executed_claim
    */
   msgLogicCallExecutedClaim = (
     query?: {
@@ -979,7 +979,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     params: RequestParams = {},
   ) =>
     this.request<GravityMsgLogicCallExecutedClaimResponse, RpcStatus>({
-      path: `/gravity/v1/logic_call_executed_claim`,
+      path: `/thesixnetwork/six-protocol/gravity/v1/logic_call_executed_claim`,
       method: "POST",
       query: query,
       format: "json",
@@ -991,11 +991,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Msg
    * @name MsgRequestBatch
-   * @request POST:/gravity/v1/request_batch
+   * @request POST:/thesixnetwork/six-protocol/gravity/v1/request_batch
    */
   msgRequestBatch = (query?: { sender?: string; denom?: string }, params: RequestParams = {}) =>
     this.request<GravityMsgRequestBatchResponse, RpcStatus>({
-      path: `/gravity/v1/request_batch`,
+      path: `/thesixnetwork/six-protocol/gravity/v1/request_batch`,
       method: "POST",
       query: query,
       format: "json",
@@ -1007,7 +1007,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Msg
    * @name MsgSendToCosmosClaim
-   * @request POST:/gravity/v1/send_to_cosmos_claim
+   * @request POST:/thesixnetwork/six-protocol/gravity/v1/send_to_cosmos_claim
    */
   msgSendToCosmosClaim = (
     query?: {
@@ -1022,7 +1022,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     params: RequestParams = {},
   ) =>
     this.request<GravityMsgSendToCosmosClaimResponse, RpcStatus>({
-      path: `/gravity/v1/send_to_cosmos_claim`,
+      path: `/thesixnetwork/six-protocol/gravity/v1/send_to_cosmos_claim`,
       method: "POST",
       query: query,
       format: "json",
@@ -1034,7 +1034,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Msg
    * @name MsgSendToEth
-   * @request POST:/gravity/v1/send_to_eth
+   * @request POST:/thesixnetwork/six-protocol/gravity/v1/send_to_eth
    */
   msgSendToEth = (
     query?: {
@@ -1048,7 +1048,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     params: RequestParams = {},
   ) =>
     this.request<GravityMsgSendToEthResponse, RpcStatus>({
-      path: `/gravity/v1/send_to_eth`,
+      path: `/thesixnetwork/six-protocol/gravity/v1/send_to_eth`,
       method: "POST",
       query: query,
       format: "json",
@@ -1060,14 +1060,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Msg
    * @name MsgSetOrchestratorAddress
-   * @request POST:/gravity/v1/set_orchestrator_address
+   * @request POST:/thesixnetwork/six-protocol/gravity/v1/set_orchestrator_address
    */
   msgSetOrchestratorAddress = (
     query?: { validator?: string; orchestrator?: string; eth_address?: string },
     params: RequestParams = {},
   ) =>
     this.request<GravityMsgSetOrchestratorAddressResponse, RpcStatus>({
-      path: `/gravity/v1/set_orchestrator_address`,
+      path: `/thesixnetwork/six-protocol/gravity/v1/set_orchestrator_address`,
       method: "POST",
       query: query,
       format: "json",
@@ -1079,14 +1079,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Msg
    * @name MsgSubmitBadSignatureEvidence
-   * @request POST:/gravity/v1/submit_bad_signature_evidence
+   * @request POST:/thesixnetwork/six-protocol/gravity/v1/submit_bad_signature_evidence
    */
   msgSubmitBadSignatureEvidence = (
     query?: { "subject.type_url"?: string; "subject.value"?: string; signature?: string; sender?: string },
     params: RequestParams = {},
   ) =>
     this.request<GravityMsgSubmitBadSignatureEvidenceResponse, RpcStatus>({
-      path: `/gravity/v1/submit_bad_signature_evidence`,
+      path: `/thesixnetwork/six-protocol/gravity/v1/submit_bad_signature_evidence`,
       method: "POST",
       query: query,
       format: "json",
@@ -1098,14 +1098,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Msg
    * @name MsgValsetConfirm
-   * @request POST:/gravity/v1/valset_confirm
+   * @request POST:/thesixnetwork/six-protocol/gravity/v1/valset_confirm
    */
   msgValsetConfirm = (
     query?: { nonce?: string; orchestrator?: string; eth_address?: string; signature?: string },
     params: RequestParams = {},
   ) =>
     this.request<GravityMsgValsetConfirmResponse, RpcStatus>({
-      path: `/gravity/v1/valset_confirm`,
+      path: `/thesixnetwork/six-protocol/gravity/v1/valset_confirm`,
       method: "POST",
       query: query,
       format: "json",
@@ -1117,7 +1117,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Msg
    * @name MsgValsetUpdateClaim
-   * @request POST:/gravity/v1/valset_updated_claim
+   * @request POST:/thesixnetwork/six-protocol/gravity/v1/valset_updated_claim
    */
   msgValsetUpdateClaim = (
     query?: {
@@ -1131,7 +1131,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     params: RequestParams = {},
   ) =>
     this.request<GravityMsgValsetUpdatedClaimResponse, RpcStatus>({
-      path: `/gravity/v1/valset_updated_claim`,
+      path: `/thesixnetwork/six-protocol/gravity/v1/valset_updated_claim`,
       method: "POST",
       query: query,
       format: "json",
@@ -1143,11 +1143,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Query
    * @name QueryBatchConfirms
-   * @request GET:/gravity/v1beta/batch/confirms
+   * @request GET:/thesixnetwork/six-protocol/gravity/v1beta/batch/confirms
    */
   queryBatchConfirms = (query?: { nonce?: string; contract_address?: string }, params: RequestParams = {}) =>
     this.request<GravityQueryBatchConfirmsResponse, RpcStatus>({
-      path: `/gravity/v1beta/batch/confirms`,
+      path: `/thesixnetwork/six-protocol/gravity/v1beta/batch/confirms`,
       method: "GET",
       query: query,
       format: "json",
@@ -1159,11 +1159,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Query
    * @name QueryLastPendingBatchRequestByAddr
-   * @request GET:/gravity/v1beta/batch/last_pending_request_by_addr
+   * @request GET:/thesixnetwork/six-protocol/gravity/v1beta/batch/last_pending_request_by_addr
    */
   queryLastPendingBatchRequestByAddr = (query?: { address?: string }, params: RequestParams = {}) =>
     this.request<GravityQueryLastPendingBatchRequestByAddrResponse, RpcStatus>({
-      path: `/gravity/v1beta/batch/last_pending_request_by_addr`,
+      path: `/thesixnetwork/six-protocol/gravity/v1beta/batch/last_pending_request_by_addr`,
       method: "GET",
       query: query,
       format: "json",
@@ -1175,11 +1175,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Query
    * @name QueryOutgoingLogicCalls
-   * @request GET:/gravity/v1beta/batch/outgoinglogic
+   * @request GET:/thesixnetwork/six-protocol/gravity/v1beta/batch/outgoinglogic
    */
   queryOutgoingLogicCalls = (params: RequestParams = {}) =>
     this.request<GravityQueryOutgoingLogicCallsResponse, RpcStatus>({
-      path: `/gravity/v1beta/batch/outgoinglogic`,
+      path: `/thesixnetwork/six-protocol/gravity/v1beta/batch/outgoinglogic`,
       method: "GET",
       format: "json",
       ...params,
@@ -1190,11 +1190,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Query
    * @name QueryOutgoingTxBatches
-   * @request GET:/gravity/v1beta/batch/outgoingtx
+   * @request GET:/thesixnetwork/six-protocol/gravity/v1beta/batch/outgoingtx
    */
   queryOutgoingTxBatches = (params: RequestParams = {}) =>
     this.request<GravityQueryOutgoingTxBatchesResponse, RpcStatus>({
-      path: `/gravity/v1beta/batch/outgoingtx`,
+      path: `/thesixnetwork/six-protocol/gravity/v1beta/batch/outgoingtx`,
       method: "GET",
       format: "json",
       ...params,
@@ -1205,11 +1205,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Query
    * @name QueryBatchRequestByNonce
-   * @request GET:/gravity/v1beta/batch/request_by_nonce
+   * @request GET:/thesixnetwork/six-protocol/gravity/v1beta/batch/request_by_nonce
    */
   queryBatchRequestByNonce = (query?: { nonce?: string; contract_address?: string }, params: RequestParams = {}) =>
     this.request<GravityQueryBatchRequestByNonceResponse, RpcStatus>({
-      path: `/gravity/v1beta/batch/request_by_nonce`,
+      path: `/thesixnetwork/six-protocol/gravity/v1beta/batch/request_by_nonce`,
       method: "GET",
       query: query,
       format: "json",
@@ -1221,11 +1221,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Query
    * @name QueryBatchFees
-   * @request GET:/gravity/v1beta/batchfees
+   * @request GET:/thesixnetwork/six-protocol/gravity/v1beta/batchfees
    */
   queryBatchFees = (params: RequestParams = {}) =>
     this.request<GravityQueryBatchFeeResponse, RpcStatus>({
-      path: `/gravity/v1beta/batchfees`,
+      path: `/thesixnetwork/six-protocol/gravity/v1beta/batchfees`,
       method: "GET",
       format: "json",
       ...params,
@@ -1236,11 +1236,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Query
    * @name QueryValsetConfirmsByNonce
-   * @request GET:/gravity/v1beta/confirms/{nonce}
+   * @request GET:/thesixnetwork/six-protocol/gravity/v1beta/confirms/{nonce}
    */
   queryValsetConfirmsByNonce = (nonce: string, params: RequestParams = {}) =>
     this.request<GravityQueryValsetConfirmsByNonceResponse, RpcStatus>({
-      path: `/gravity/v1beta/confirms/${nonce}`,
+      path: `/thesixnetwork/six-protocol/gravity/v1beta/confirms/${nonce}`,
       method: "GET",
       format: "json",
       ...params,
@@ -1251,11 +1251,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Query
    * @name QueryDenomToErc20
-   * @request GET:/gravity/v1beta/cosmos_originated/denom_to_erc20
+   * @request GET:/thesixnetwork/six-protocol/gravity/v1beta/cosmos_originated/denom_to_erc20
    */
   queryDenomToErc20 = (query?: { denom?: string }, params: RequestParams = {}) =>
     this.request<GravityQueryDenomToERC20Response, RpcStatus>({
-      path: `/gravity/v1beta/cosmos_originated/denom_to_erc20`,
+      path: `/thesixnetwork/six-protocol/gravity/v1beta/cosmos_originated/denom_to_erc20`,
       method: "GET",
       query: query,
       format: "json",
@@ -1267,11 +1267,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Query
    * @name QueryErc20ToDenom
-   * @request GET:/gravity/v1beta/cosmos_originated/erc20_to_denom
+   * @request GET:/thesixnetwork/six-protocol/gravity/v1beta/cosmos_originated/erc20_to_denom
    */
   queryErc20ToDenom = (query?: { erc20?: string }, params: RequestParams = {}) =>
     this.request<GravityQueryERC20ToDenomResponse, RpcStatus>({
-      path: `/gravity/v1beta/cosmos_originated/erc20_to_denom`,
+      path: `/thesixnetwork/six-protocol/gravity/v1beta/cosmos_originated/erc20_to_denom`,
       method: "GET",
       query: query,
       format: "json",
@@ -1283,14 +1283,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Query
    * @name QueryLogicConfirms
-   * @request GET:/gravity/v1beta/logic/confirms
+   * @request GET:/thesixnetwork/six-protocol/gravity/v1beta/logic/confirms
    */
   queryLogicConfirms = (
     query?: { invalidation_id?: string; invalidation_nonce?: string },
     params: RequestParams = {},
   ) =>
     this.request<GravityQueryLogicConfirmsResponse, RpcStatus>({
-      path: `/gravity/v1beta/logic/confirms`,
+      path: `/thesixnetwork/six-protocol/gravity/v1beta/logic/confirms`,
       method: "GET",
       query: query,
       format: "json",
@@ -1302,11 +1302,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Query
    * @name QueryLastPendingLogicCallByAddr
-   * @request GET:/gravity/v1beta/logic/{address}
+   * @request GET:/thesixnetwork/six-protocol/gravity/v1beta/logic/{address}
    */
   queryLastPendingLogicCallByAddr = (address: string, params: RequestParams = {}) =>
     this.request<GravityQueryLastPendingLogicCallByAddrResponse, RpcStatus>({
-      path: `/gravity/v1beta/logic/${address}`,
+      path: `/thesixnetwork/six-protocol/gravity/v1beta/logic/${address}`,
       method: "GET",
       format: "json",
       ...params,
@@ -1317,11 +1317,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Query
    * @name QueryLastEventNonceByAddr
-   * @request GET:/gravity/v1beta/oracle/eventnonce/{address}
+   * @request GET:/thesixnetwork/six-protocol/gravity/v1beta/oracle/eventnonce/{address}
    */
   queryLastEventNonceByAddr = (address: string, params: RequestParams = {}) =>
     this.request<GravityQueryLastEventNonceByAddrResponse, RpcStatus>({
-      path: `/gravity/v1beta/oracle/eventnonce/${address}`,
+      path: `/thesixnetwork/six-protocol/gravity/v1beta/oracle/eventnonce/${address}`,
       method: "GET",
       format: "json",
       ...params,
@@ -1333,11 +1333,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    * @tags Query
    * @name QueryParams
    * @summary Deployments queries deployments
-   * @request GET:/gravity/v1beta/params
+   * @request GET:/thesixnetwork/six-protocol/gravity/v1beta/params
    */
   queryParams = (params: RequestParams = {}) =>
     this.request<GravityQueryParamsResponse, RpcStatus>({
-      path: `/gravity/v1beta/params`,
+      path: `/thesixnetwork/six-protocol/gravity/v1beta/params`,
       method: "GET",
       format: "json",
       ...params,
@@ -1348,14 +1348,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Query
    * @name QueryGetAttestations
-   * @request GET:/gravity/v1beta/query_attestations
+   * @request GET:/thesixnetwork/six-protocol/gravity/v1beta/query_attestations
    */
   queryGetAttestations = (
     query?: { limit?: string; order_by?: string; claim_type?: string; nonce?: string; height?: string },
     params: RequestParams = {},
   ) =>
     this.request<GravityQueryAttestationsResponse, RpcStatus>({
-      path: `/gravity/v1beta/query_attestations`,
+      path: `/thesixnetwork/six-protocol/gravity/v1beta/query_attestations`,
       method: "GET",
       query: query,
       format: "json",
@@ -1367,11 +1367,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Query
    * @name QueryGetDelegateKeyByEth
-   * @request GET:/gravity/v1beta/query_delegate_keys_by_eth
+   * @request GET:/thesixnetwork/six-protocol/gravity/v1beta/query_delegate_keys_by_eth
    */
   queryGetDelegateKeyByEth = (query?: { eth_address?: string }, params: RequestParams = {}) =>
     this.request<GravityQueryDelegateKeysByEthAddressResponse, RpcStatus>({
-      path: `/gravity/v1beta/query_delegate_keys_by_eth`,
+      path: `/thesixnetwork/six-protocol/gravity/v1beta/query_delegate_keys_by_eth`,
       method: "GET",
       query: query,
       format: "json",
@@ -1383,11 +1383,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Query
    * @name QueryGetDelegateKeyByOrchestrator
-   * @request GET:/gravity/v1beta/query_delegate_keys_by_orchestrator
+   * @request GET:/thesixnetwork/six-protocol/gravity/v1beta/query_delegate_keys_by_orchestrator
    */
   queryGetDelegateKeyByOrchestrator = (query?: { orchestrator_address?: string }, params: RequestParams = {}) =>
     this.request<GravityQueryDelegateKeysByOrchestratorAddressResponse, RpcStatus>({
-      path: `/gravity/v1beta/query_delegate_keys_by_orchestrator`,
+      path: `/thesixnetwork/six-protocol/gravity/v1beta/query_delegate_keys_by_orchestrator`,
       method: "GET",
       query: query,
       format: "json",
@@ -1399,11 +1399,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Query
    * @name QueryGetDelegateKeyByValidator
-   * @request GET:/gravity/v1beta/query_delegate_keys_by_validator
+   * @request GET:/thesixnetwork/six-protocol/gravity/v1beta/query_delegate_keys_by_validator
    */
   queryGetDelegateKeyByValidator = (query?: { validator_address?: string }, params: RequestParams = {}) =>
     this.request<GravityQueryDelegateKeysByValidatorAddressResponse, RpcStatus>({
-      path: `/gravity/v1beta/query_delegate_keys_by_validator`,
+      path: `/thesixnetwork/six-protocol/gravity/v1beta/query_delegate_keys_by_validator`,
       method: "GET",
       query: query,
       format: "json",
@@ -1415,11 +1415,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Query
    * @name QueryGetPendingIbcAutoForwards
-   * @request GET:/gravity/v1beta/query_pending_ibc_auto_forwards
+   * @request GET:/thesixnetwork/six-protocol/gravity/v1beta/query_pending_ibc_auto_forwards
    */
   queryGetPendingIbcAutoForwards = (query?: { limit?: string }, params: RequestParams = {}) =>
     this.request<GravityQueryPendingIbcAutoForwardsResponse, RpcStatus>({
-      path: `/gravity/v1beta/query_pending_ibc_auto_forwards`,
+      path: `/thesixnetwork/six-protocol/gravity/v1beta/query_pending_ibc_auto_forwards`,
       method: "GET",
       query: query,
       format: "json",
@@ -1431,11 +1431,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Query
    * @name QueryGetPendingSendToEth
-   * @request GET:/gravity/v1beta/query_pending_send_to_eth
+   * @request GET:/thesixnetwork/six-protocol/gravity/v1beta/query_pending_send_to_eth
    */
   queryGetPendingSendToEth = (query?: { sender_address?: string }, params: RequestParams = {}) =>
     this.request<GravityQueryPendingSendToEthResponse, RpcStatus>({
-      path: `/gravity/v1beta/query_pending_send_to_eth`,
+      path: `/thesixnetwork/six-protocol/gravity/v1beta/query_pending_send_to_eth`,
       method: "GET",
       query: query,
       format: "json",
@@ -1447,11 +1447,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Query
    * @name QueryValsetRequest
-   * @request GET:/gravity/v1beta/valset
+   * @request GET:/thesixnetwork/six-protocol/gravity/v1beta/valset
    */
   queryValsetRequest = (query?: { nonce?: string }, params: RequestParams = {}) =>
     this.request<GravityQueryValsetRequestResponse, RpcStatus>({
-      path: `/gravity/v1beta/valset`,
+      path: `/thesixnetwork/six-protocol/gravity/v1beta/valset`,
       method: "GET",
       query: query,
       format: "json",
@@ -1463,11 +1463,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Query
    * @name QueryValsetConfirm
-   * @request GET:/gravity/v1beta/valset/confirm
+   * @request GET:/thesixnetwork/six-protocol/gravity/v1beta/valset/confirm
    */
   queryValsetConfirm = (query?: { nonce?: string; address?: string }, params: RequestParams = {}) =>
     this.request<GravityQueryValsetConfirmResponse, RpcStatus>({
-      path: `/gravity/v1beta/valset/confirm`,
+      path: `/thesixnetwork/six-protocol/gravity/v1beta/valset/confirm`,
       method: "GET",
       query: query,
       format: "json",
@@ -1479,11 +1479,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Query
    * @name QueryCurrentValset
-   * @request GET:/gravity/v1beta/valset/current
+   * @request GET:/thesixnetwork/six-protocol/gravity/v1beta/valset/current
    */
   queryCurrentValset = (params: RequestParams = {}) =>
     this.request<GravityQueryCurrentValsetResponse, RpcStatus>({
-      path: `/gravity/v1beta/valset/current`,
+      path: `/thesixnetwork/six-protocol/gravity/v1beta/valset/current`,
       method: "GET",
       format: "json",
       ...params,
@@ -1494,11 +1494,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Query
    * @name QueryLastPendingValsetRequestByAddr
-   * @request GET:/gravity/v1beta/valset/last
+   * @request GET:/thesixnetwork/six-protocol/gravity/v1beta/valset/last
    */
   queryLastPendingValsetRequestByAddr = (query?: { address?: string }, params: RequestParams = {}) =>
     this.request<GravityQueryLastPendingValsetRequestByAddrResponse, RpcStatus>({
-      path: `/gravity/v1beta/valset/last`,
+      path: `/thesixnetwork/six-protocol/gravity/v1beta/valset/last`,
       method: "GET",
       query: query,
       format: "json",
@@ -1510,11 +1510,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Query
    * @name QueryLastValsetRequests
-   * @request GET:/gravity/v1beta/valset/requests
+   * @request GET:/thesixnetwork/six-protocol/gravity/v1beta/valset/requests
    */
   queryLastValsetRequests = (params: RequestParams = {}) =>
     this.request<GravityQueryLastValsetRequestsResponse, RpcStatus>({
-      path: `/gravity/v1beta/valset/requests`,
+      path: `/thesixnetwork/six-protocol/gravity/v1beta/valset/requests`,
       method: "GET",
       format: "json",
       ...params,
