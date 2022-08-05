@@ -184,9 +184,7 @@ require (
 require (
 	github.com/deckarep/golang-set v1.8.0 // indirect
 	github.com/go-stack/stack v1.8.0 // indirect
-	github.com/golang/glog v1.0.0 // indirect
 	github.com/google/uuid v1.3.0 // indirect
-	github.com/grpc-ecosystem/grpc-gateway/v2 v2.11.1 // indirect
 	github.com/rjeczalik/notify v0.9.1 // indirect
 	golang.org/x/net v0.0.0-20220624214902-1bab6f366d9e // indirect
 	golang.org/x/sys v0.0.0-20220610221304-9f5ed59c137d // indirect

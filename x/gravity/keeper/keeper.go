@@ -9,11 +9,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	distrkeeper "github.com/cosmos/cosmos-sdk/x/distribution/keeper"
 	distrtypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
-	slashingkeeper "github.com/cosmos/cosmos-sdk/x/slashing/keeper"
-	stakingkeeper "github.com/cosmos/cosmos-sdk/x/staking/keeper"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	ibctransferkeeper "github.com/cosmos/ibc-go/v3/modules/apps/transfer/keeper"
 	"github.com/tendermint/tendermint/libs/log"
@@ -23,24 +20,16 @@ import (
 	"github.com/thesixnetwork/six-protocol/x/gravity/types"
 )
 
-// Check that our expected keeper types are implemented
-var _ types.StakingKeeper = (*stakingkeeper.Keeper)(nil)
-var _ types.SlashingKeeper = (*slashingkeeper.Keeper)(nil)
-var _ types.DistributionKeeper = (*distrkeeper.Keeper)(nil)
-
-// Keeper maintains the link to storage and exposes getter/setter methods for the various parts of the state machine
 type Keeper struct {
-	// NOTE: If you add anything to this struct, add a nil check to ValidateMembers below!
-	storeKey   sdk.StoreKey // Unexposed key to access store from sdk.Context
+	cdc               codec.BinaryCodec 
+	storeKey   sdk.StoreKey 
 	paramSpace paramtypes.Subspace
 
-	// NOTE: If you add anything to this struct, add a nil check to ValidateMembers below!
-	cdc               codec.BinaryCodec // The wire codec for binary encoding/decoding.
-	bankKeeper        types.BankKeeper
+	accountKeeper     types.AccountKeeper
 	StakingKeeper     types.StakingKeeper
+	bankKeeper        types.BankKeeper
 	SlashingKeeper    types.SlashingKeeper
 	DistKeeper        types.DistributionKeeper
-	accountKeeper     types.AccountKeeper
 	ibcTransferKeeper *ibctransferkeeper.Keeper
 	bech32IbcKeeper   *bech32ibckeeper.Keeper
 
@@ -49,41 +38,16 @@ type Keeper struct {
 	}
 }
 
-// Check for nil members
-func (k Keeper) ValidateMembers() {
-	if k.bankKeeper == nil {
-		panic("Nil bankKeeper!")
-	}
-	if k.StakingKeeper == nil {
-		panic("Nil StakingKeeper!")
-	}
-	if k.SlashingKeeper == nil {
-		panic("Nil SlashingKeeper!")
-	}
-	if k.DistKeeper == nil {
-		panic("Nil DistKeeper!")
-	}
-	if k.accountKeeper == nil {
-		panic("Nil accountKeeper!")
-	}
-	if k.ibcTransferKeeper == nil {
-		panic("Nil ibcTransferKeeper!")
-	}
-	if k.bech32IbcKeeper == nil {
-		panic("Nil bech32IbcKeeper!")
-	}
-}
-
 // NewKeeper returns a new instance of the gravity keeper
 func NewKeeper(
+	cdc codec.BinaryCodec,
 	storeKey sdk.StoreKey,
 	paramSpace paramtypes.Subspace,
-	cdc codec.BinaryCodec,
-	bankKeeper types.BankKeeper,
+	accKeeper types.AccountKeeper,
 	stakingKeeper types.StakingKeeper,
+	bankKeeper types.BankKeeper,
 	slashingKeeper types.SlashingKeeper,
 	distKeeper types.DistributionKeeper,
-	accKeeper types.AccountKeeper,
 	ibcTransferKeeper *ibctransferkeeper.Keeper,
 	bech32IbcKeeper *bech32ibckeeper.Keeper,
 ) Keeper {
@@ -93,15 +57,15 @@ func NewKeeper(
 	}
 
 	k := Keeper{
+		cdc:                cdc,
 		storeKey:   storeKey,
 		paramSpace: paramSpace,
 
-		cdc:                cdc,
-		bankKeeper:         bankKeeper,
+		accountKeeper:      accKeeper,
 		StakingKeeper:      stakingKeeper,
+		bankKeeper:         bankKeeper,
 		SlashingKeeper:     slashingKeeper,
 		DistKeeper:         distKeeper,
-		accountKeeper:      accKeeper,
 		ibcTransferKeeper:  ibcTransferKeeper,
 		bech32IbcKeeper:    bech32IbcKeeper,
 		AttestationHandler: nil,
@@ -109,8 +73,6 @@ func NewKeeper(
 	attestationHandler := AttestationHandler{keeper: &k}
 	attestationHandler.ValidateMembers()
 	k.AttestationHandler = attestationHandler
-
-	k.ValidateMembers()
 
 	return k
 }

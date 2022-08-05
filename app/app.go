@@ -5,7 +5,6 @@ import (
 	"io"
 	"os"
 	"path/filepath"
-	"sync"
 
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	"github.com/cosmos/cosmos-sdk/client"
@@ -48,9 +47,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/evidence"
 	evidencekeeper "github.com/cosmos/cosmos-sdk/x/evidence/keeper"
 	evidencetypes "github.com/cosmos/cosmos-sdk/x/evidence/types"
-	"github.com/cosmos/cosmos-sdk/x/feegrant"
-	feegrantkeeper "github.com/cosmos/cosmos-sdk/x/feegrant/keeper"
-	feegrantmodule "github.com/cosmos/cosmos-sdk/x/feegrant/module"
 	"github.com/cosmos/cosmos-sdk/x/genutil"
 	genutiltypes "github.com/cosmos/cosmos-sdk/x/genutil/types"
 	"github.com/cosmos/cosmos-sdk/x/gov"
@@ -164,7 +160,6 @@ var (
 		params.AppModuleBasic{},
 		crisis.AppModuleBasic{},
 		slashing.AppModuleBasic{},
-		feegrantmodule.AppModuleBasic{},
 		ibc.AppModuleBasic{},
 		upgrade.AppModuleBasic{},
 		evidence.AppModuleBasic{},
@@ -193,6 +188,10 @@ var (
 		wasm.ModuleName:                 {authtypes.Burner},
 		// this line is used by starport scaffolding # stargate/app/maccPerms
 	}
+	// module accounts that are allowed to receive tokens
+	allowedReceivingModAcc = map[string]bool{
+		distrtypes.ModuleName: true,
+	}
 )
 
 var (
@@ -200,7 +199,6 @@ var (
 	_ servertypes.Application = (*App)(nil)
 	_ simapp.App              = (*App)(nil)
 
-	firstBlock sync.Once
 )
 
 func init() {
@@ -245,7 +243,6 @@ type App struct {
 	IBCKeeper        *ibckeeper.Keeper // IBC Keeper must be a pointer in the app, so we can SetRouter on it correctly
 	EvidenceKeeper   evidencekeeper.Keeper
 	TransferKeeper   ibctransferkeeper.Keeper
-	FeeGrantKeeper   feegrantkeeper.Keeper
 	WasmKeeper       wasm.Keeper
 
 	// make scoped keepers public for test purposes
@@ -300,11 +297,10 @@ func New(
 	bApp.SetInterfaceRegistry(interfaceRegistry)
 
 	keys := sdk.NewKVStoreKeys(
-		authtypes.StoreKey, banktypes.StoreKey, stakingtypes.StoreKey,
+		authtypes.StoreKey, authz.ModuleName, banktypes.StoreKey, stakingtypes.StoreKey,
 		minttypes.StoreKey, distrtypes.StoreKey, slashingtypes.StoreKey,
 		govtypes.StoreKey, paramstypes.StoreKey, upgradetypes.StoreKey,
 		evidencetypes.StoreKey, capabilitytypes.StoreKey,
-		feegrant.StoreKey, authzkeeper.StoreKey,
 		// ibc keys
 		ibchost.StoreKey, ibctransfertypes.StoreKey, 
 		// six keys
@@ -350,6 +346,10 @@ func New(
 	
 	// this line is used by starport scaffolding # stargate/app/scopedKeeper
 
+	// Applications that wish to enforce statically created ScopedKeepers should call `Seal` after creating
+	// their scoped modules in `NewApp` with `ScopeToModule`
+	// app.CapabilityKeeper.Seal()
+
 	// add keepers
 	app.AccountKeeper = authkeeper.NewAccountKeeper(
 		appCodec,
@@ -358,13 +358,21 @@ func New(
 		authtypes.ProtoBaseAccount,
 		maccPerms,
 	)
+
+	app.AuthzKeeper = authzkeeper.NewKeeper(
+		keys[authz.ModuleName],
+		appCodec,
+		app.MsgServiceRouter(),
+	)
+
 	app.BankKeeper = bankkeeper.NewBaseKeeper(
 		appCodec, 
 		keys[banktypes.StoreKey],
 		app.AccountKeeper,
 		app.GetSubspace(banktypes.ModuleName),
-		app.ModuleAccountAddrs(),
+		app.BlockedAddrs(),
 	)
+
 	stakingKeeper := stakingkeeper.NewKeeper(
 		appCodec,
 		keys[stakingtypes.StoreKey],
@@ -372,40 +380,42 @@ func New(
 		app.BankKeeper,
 		app.GetSubspace(stakingtypes.ModuleName),
 	)
+
 	app.MintKeeper = mintkeeper.NewKeeper(
-		appCodec, keys[minttypes.StoreKey],
+		appCodec, 
+		keys[minttypes.StoreKey],
 		app.GetSubspace(minttypes.ModuleName),
 		&stakingKeeper,
 		app.AccountKeeper,
 		app.BankKeeper,
 		authtypes.FeeCollectorName,
 	)
+
 	app.DistrKeeper = distrkeeper.NewKeeper(
 		appCodec,
 		keys[distrtypes.StoreKey],
 		app.GetSubspace(distrtypes.ModuleName),
-		app.AccountKeeper, app.BankKeeper,
+		app.AccountKeeper, 
+		app.BankKeeper,
 		&stakingKeeper, 
 		authtypes.FeeCollectorName,
 		app.ModuleAccountAddrs(),
 	)
+
 	app.SlashingKeeper = slashingkeeper.NewKeeper(
 		appCodec,
 		keys[slashingtypes.StoreKey],
 		&stakingKeeper, 
 		app.GetSubspace(slashingtypes.ModuleName),
 	)
+
 	app.CrisisKeeper = crisiskeeper.NewKeeper(
 		app.GetSubspace(crisistypes.ModuleName),
 		invCheckPeriod,
 		app.BankKeeper,
 		authtypes.FeeCollectorName,
 	)
-	app.FeeGrantKeeper = feegrantkeeper.NewKeeper(
-		appCodec,
-		keys[feegrant.StoreKey],
-		app.AccountKeeper,
-	)
+
 	app.UpgradeKeeper = upgradekeeper.NewKeeper(
 		skipUpgradeHeights,
 		keys[upgradetypes.StoreKey],
@@ -413,18 +423,19 @@ func New(
 		homePath,
 		app.BaseApp,
 	)
-	app.AuthzKeeper = authzkeeper.NewKeeper(
-		keys[authzkeeper.StoreKey], 
-		appCodec, 
-		app.BaseApp.MsgServiceRouter(),
-)
 
 	// ... other modules keepers
 
 	// Create IBC Keeper
 	app.IBCKeeper = ibckeeper.NewKeeper(
-		appCodec, keys[ibchost.StoreKey], app.GetSubspace(ibchost.ModuleName), stakingKeeper, app.UpgradeKeeper, scopedIBCKeeper,
+		appCodec, 
+		keys[ibchost.StoreKey], 
+		app.GetSubspace(ibchost.ModuleName),
+		 &stakingKeeper, 
+		 app.UpgradeKeeper, 
+		 scopedIBCKeeper,
 	)
+
 	// Create Transfer Keepers
 	app.TransferKeeper = ibctransferkeeper.NewKeeper(
 		appCodec,
@@ -439,7 +450,10 @@ func New(
 	)
 		// Create evidence Keeper for to register the IBC light client misbehaviour evidence route
 		evidenceKeeper := evidencekeeper.NewKeeper(
-			appCodec, keys[evidencetypes.StoreKey], &stakingKeeper, app.SlashingKeeper,
+			appCodec, 
+			keys[evidencetypes.StoreKey], 
+			&stakingKeeper, 
+			app.SlashingKeeper,
 		)
 		// If evidence needs to be handled for the app, set routes in router here and seal
 		app.EvidenceKeeper = *evidenceKeeper
@@ -458,10 +472,14 @@ func New(
 		transferModule    = transfer.NewAppModule(app.TransferKeeper)
 		transferIBCModule = transfer.NewIBCModule(app.TransferKeeper)
 	)
-
 	app.GovKeeper = govkeeper.NewKeeper(
-		appCodec, keys[govtypes.StoreKey], app.GetSubspace(govtypes.ModuleName), app.AccountKeeper, app.BankKeeper,
-		app.StakingKeeper, govRouter,
+		appCodec, 
+		keys[govtypes.StoreKey], 
+		app.GetSubspace(govtypes.ModuleName), 
+		app.AccountKeeper, 
+		app.BankKeeper,
+		&stakingKeeper,
+		govRouter,
 	)
 
 	scopedProtocoladminKeeper := app.CapabilityKeeper.ScopeToModule(protocoladminmoduletypes.ModuleName)
@@ -493,23 +511,22 @@ func New(
 		app.ProtocoladminKeeper,
 	)
 	tokenmngrModule := tokenmngrmodule.NewAppModule(appCodec, app.TokenmngrKeeper, app.AccountKeeper, app.BankKeeper)
+	app.ScopedTokenmngrKeeper = scopedTokenmngrKeeper
+
 	app.Bech32ibckeeper = *bech32ibckeeper.NewKeeper(
-		app.IBCKeeper.ChannelKeeper,
-		appCodec,
-		keys[bech32ibctypes.StoreKey],
-		&app.TransferKeeper,
+		app.IBCKeeper.ChannelKeeper,appCodec, keys[bech32ibctypes.StoreKey], 
+		app.TransferKeeper,
 	)
 
-	app.ScopedTokenmngrKeeper = scopedTokenmngrKeeper
 	app.GravityKeeper = gravitymodulekeeper.NewKeeper(
+		appCodec,
 		keys[gravitymoduletypes.StoreKey],
 		app.GetSubspace(gravitymoduletypes.ModuleName),
-		appCodec,
+		app.AccountKeeper,
+		&stakingKeeper,
 		app.BankKeeper,
-		&app.StakingKeeper,
 		app.SlashingKeeper,
 		app.DistrKeeper,
-		app.AccountKeeper,
 		&app.TransferKeeper,
 		&app.Bech32ibckeeper,
 	)
@@ -581,20 +598,16 @@ func New(
 	// NOTE: Any module instantiated in the module manager that is later modified
 	// must be passed by reference here.
 	app.mm = module.NewManager(
-		genutil.NewAppModule(
-			app.AccountKeeper,
-			app.StakingKeeper,
-			app.BaseApp.DeliverTx,
-			encodingConfig.TxConfig,
-		),
+		genutil.NewAppModule(app.AccountKeeper, app.StakingKeeper, app.BaseApp.DeliverTx, encodingConfig.TxConfig),
 		auth.NewAppModule(appCodec, app.AccountKeeper, nil),
+		authzmodule.NewAppModule(appCodec, app.AuthzKeeper, app.AccountKeeper, app.BankKeeper, app.InterfaceRegistry()),
 		vesting.NewAppModule(app.AccountKeeper, app.BankKeeper),
 		bank.NewAppModule(appCodec, app.BankKeeper, app.AccountKeeper),
 		capability.NewAppModule(appCodec, *app.CapabilityKeeper),
 		crisis.NewAppModule(&app.CrisisKeeper, skipGenesisInvariants),
 		gov.NewAppModule(appCodec, app.GovKeeper, app.AccountKeeper, app.BankKeeper),
 		mint.NewAppModule(appCodec, app.MintKeeper, app.AccountKeeper),
-		slashing.NewAppModule(appCodec, app.SlashingKeeper, app.AccountKeeper, app.BankKeeper, app.StakingKeeper),
+		slashing.NewAppModule(appCodec, app.SlashingKeeper, app.AccountKeeper, app.BankKeeper, stakingKeeper),
 		distr.NewAppModule(appCodec, app.DistrKeeper, app.AccountKeeper, app.BankKeeper, app.StakingKeeper),
 		staking.NewAppModule(appCodec, app.StakingKeeper, app.AccountKeeper, app.BankKeeper),
 		upgrade.NewAppModule(app.UpgradeKeeper),
@@ -602,14 +615,15 @@ func New(
 		evidence.NewAppModule(app.EvidenceKeeper),
 		ibc.NewAppModule(app.IBCKeeper),
 		params.NewAppModule(app.ParamsKeeper),
-		feegrantmodule.NewAppModule(appCodec, app.AccountKeeper, app.BankKeeper, app.FeeGrantKeeper, app.interfaceRegistry),
-		authzmodule.NewAppModule(appCodec, app.AuthzKeeper, app.AccountKeeper, app.BankKeeper, app.interfaceRegistry),
 		transferModule,
+		gravitymodule.NewAppModule(
+			app.GravityKeeper, 
+			app.BankKeeper,
+		),
 		bech32ibc.NewAppModule(
 			appCodec,
 			app.Bech32ibckeeper,
 		),
-		gravityModule,
 		protocoladminModule,
 		tokenmngrModule,
 		// this line is used by starport scaffolding # stargate/app/appModule
@@ -630,12 +644,11 @@ func New(
 		ibchost.ModuleName,
 		ibctransfertypes.ModuleName,
 		authtypes.ModuleName,
+		authz.ModuleName,
 		banktypes.ModuleName,
 		govtypes.ModuleName,
 		crisistypes.ModuleName,
 		genutiltypes.ModuleName,
-		authz.ModuleName,
-		feegrant.ModuleName,
 		paramstypes.ModuleName,
 		vestingtypes.ModuleName,
 		bech32ibctypes.ModuleName,
@@ -654,19 +667,18 @@ func New(
 		ibctransfertypes.ModuleName,
 		capabilitytypes.ModuleName,	
 		authtypes.ModuleName,
+		authz.ModuleName,
 		banktypes.ModuleName,
 		distrtypes.ModuleName,
 		slashingtypes.ModuleName,
 		minttypes.ModuleName,	
 		genutiltypes.ModuleName,
 		evidencetypes.ModuleName,
-		authz.ModuleName,
-		feegrant.ModuleName,
 		paramstypes.ModuleName,
 		upgradetypes.ModuleName,
 		vestingtypes.ModuleName,
-		bech32ibctypes.ModuleName,
 		gravitymoduletypes.ModuleName,
+		bech32ibctypes.ModuleName,
 		protocoladminmoduletypes.ModuleName,
 		tokenmngrmoduletypes.ModuleName,
 		wasm.ModuleName,
@@ -681,6 +693,7 @@ func New(
 	app.mm.SetOrderInitGenesis(
 		capabilitytypes.ModuleName,
 		authtypes.ModuleName,
+		authz.ModuleName,
 		banktypes.ModuleName,
 		distrtypes.ModuleName,
 		stakingtypes.ModuleName,
@@ -692,14 +705,11 @@ func New(
 		genutiltypes.ModuleName,
 		evidencetypes.ModuleName,
 		ibctransfertypes.ModuleName,
-		authz.ModuleName,
-		feegrant.ModuleName,
 		paramstypes.ModuleName,
 		upgradetypes.ModuleName,
+		vestingtypes.ModuleName,
 		gravitymoduletypes.ModuleName,
 		bech32ibctypes.ModuleName,
-		vestingtypes.ModuleName,
-
 		protocoladminmoduletypes.ModuleName,
 		tokenmngrmoduletypes.ModuleName,
 		wasm.ModuleName,
@@ -714,6 +724,7 @@ func New(
 	// create the simulation manager and define the order of the modules for deterministic simulations
 	app.sm = module.NewSimulationManager(
 		auth.NewAppModule(appCodec, app.AccountKeeper, authsims.RandomGenesisAccounts),
+		authzmodule.NewAppModule(appCodec, app.AuthzKeeper, app.AccountKeeper, app.BankKeeper, app.interfaceRegistry),
 		bank.NewAppModule(appCodec, app.BankKeeper, app.AccountKeeper),
 		capability.NewAppModule(appCodec, *app.CapabilityKeeper),
 		gov.NewAppModule(appCodec, app.GovKeeper, app.AccountKeeper, app.BankKeeper),
@@ -723,8 +734,6 @@ func New(
 		slashing.NewAppModule(appCodec, app.SlashingKeeper, app.AccountKeeper, app.BankKeeper, app.StakingKeeper),
 		params.NewAppModule(app.ParamsKeeper),
 		evidence.NewAppModule(app.EvidenceKeeper),
-		feegrantmodule.NewAppModule(appCodec, app.AccountKeeper, app.BankKeeper, app.FeeGrantKeeper, app.interfaceRegistry),
-		authzmodule.NewAppModule(appCodec, app.AuthzKeeper, app.AccountKeeper, app.BankKeeper, app.interfaceRegistry),
 		ibc.NewAppModule(app.IBCKeeper),
 		transferModule,
 		wasm.NewAppModule(appCodec, &app.WasmKeeper, app.StakingKeeper, app.AccountKeeper, app.BankKeeper),
@@ -741,14 +750,11 @@ func New(
 	app.MountTransientStores(tkeys)
 	app.MountMemoryStores(memKeys)
 
-	// initialize BaseApp
-	app.SetInitChainer(app.InitChainer)
-	app.SetBeginBlocker(app.BeginBlocker)
 
 	options := ante.HandlerOptions{
 		AccountKeeper:   app.AccountKeeper,
 		BankKeeper:      app.BankKeeper,
-		FeegrantKeeper:  app.FeeGrantKeeper,
+		FeegrantKeeper:  nil,
 		SignModeHandler: encodingConfig.TxConfig.SignModeHandler(),
 		SigGasConsumer:  ante.DefaultSigVerificationGasConsumer,
 	}
@@ -759,6 +765,8 @@ func New(
 	}
 
 	app.SetAnteHandler(*ah)
+	app.SetInitChainer(app.InitChainer)
+	app.SetBeginBlocker(app.BeginBlocker)
 	app.SetEndBlocker(app.EndBlocker)
 
 	if loadLatest {
@@ -784,19 +792,9 @@ func New(
 // Name returns the name of the App
 func (app *App) Name() string { return app.BaseApp.Name() }
 
-// Perform necessary checks at the start of this node's first BeginBlocker execution
-// Note: This should ONLY be called once, it should be called at the top of BeginBlocker guarded by firstBlock
-func (app *App) firstBeginBlocker(ctx sdk.Context) {
-	app.assertBech32PrefixMatches(ctx)
-}
-
 // BeginBlocker application updates every begin block
 func (app *App) BeginBlocker(ctx sdk.Context, req abci.RequestBeginBlock) abci.ResponseBeginBlock {
-	var out = app.mm.BeginBlock(ctx, req)
-	firstBlock.Do(func() { 
-		app.firstBeginBlocker(ctx)
-	})
-	return out
+	return app.mm.BeginBlock(ctx, req)
 }
 
 // EndBlocker application updates every end block
@@ -806,11 +804,13 @@ func (app *App) EndBlocker(ctx sdk.Context, req abci.RequestEndBlock) abci.Respo
 
 // InitChainer application update at chain initialization
 func (app *App) InitChainer(ctx sdk.Context, req abci.RequestInitChain) abci.ResponseInitChain {
-	var genesisState GenesisState
+	var genesisState simapp.GenesisState
 	if err := tmjson.Unmarshal(req.AppStateBytes, &genesisState); err != nil {
 		panic(err)
 	}
+
 	app.UpgradeKeeper.SetModuleVersionMap(ctx, app.mm.GetVersionMap())
+
 	return app.mm.InitGenesis(ctx, app.appCodec, genesisState)
 }
 
@@ -827,6 +827,17 @@ func (app *App) ModuleAccountAddrs() map[string]bool {
 	}
 
 	return modAccAddrs
+}
+
+// BlockedAddrs returns all the app's module account addresses that are not
+// allowed to receive external tokens.
+func (app *App) BlockedAddrs() map[string]bool {
+	blockedAddrs := make(map[string]bool)
+	for acc := range maccPerms {
+		blockedAddrs[authtypes.NewModuleAddress(acc).String()] = !allowedReceivingModAcc[acc]
+	}
+
+	return blockedAddrs
 }
 
 // LegacyAmino returns SimApp's amino codec.
