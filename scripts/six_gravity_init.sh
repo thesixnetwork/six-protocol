@@ -1,26 +1,27 @@
-export SIX_HOME=~/.sixgravity
 export CHAIN_ID=six
 export MONIKER=deenode
 export VALKEY=validator1
 export ORCKEY=orch1
+export SIX_HOME=~/.six_test
 
 rm -Rf ${SIX_HOME}
 
 sixd init ${MONIKER} --chain-id=${CHAIN_ID} --home ${SIX_HOME}
+
 sixd keys add ${VALKEY} --keyring-backend test --home ${SIX_HOME}
 sixd keys add ${ORCKEY} --keyring-backend test --home ${SIX_HOME}
-export VAL_ADDRESS="6x19969nczxykypml6awlgtn78djcu5d0vq5nxpde"
-export ORC_ADDRESS="6x1y9m7e3afdm2c7fkk7mzu0fxzn4apv0kjn9vzah"
+export VAL_ADDRESS="6x1fdts53zq5xtnmmap3a8enffjxzcuvv2tddldds"
+export ORC_ADDRESS="6x14kee3xxg6v88akhyu3ha3dwhctqm6ze4kkys9m"
 
 sixd eth_keys add --keyring-backend test --home ${SIX_HOME}
-export ETH_ADDRESS="0x194fAA3b6e8c19A0d6e530BCD1869Dc4569500C0"
+export ETH_ADDRESS="0xD224824bBE868095132ee2d3A50aE770D0DFbb8c"
 
 sixd add-genesis-account ${VALKEY} 1000000000000stake --keyring-backend test --home ${SIX_HOME}
 sixd add-genesis-account ${ORCKEY} 1000000000000stake --keyring-backend test --home ${SIX_HOME}
 
 # modify nativeHRP
 code ${SIX_HOME}/config/genesis.json
-
+# jq '.nativeHRP = "six"' ${SIX_HOME}/config/genesis.json > ${SIX_HOME}/config/genesis.json.tmp && mv ${SIX_HOME}/config/genesis.json.tmp ${SIX_HOME}/config/genesis.json
 sixd gengate --moniker=${MONIKER} ${VALKEY} 1000000000stake \
     ${ETH_ADDRESS} ${VAL_ADDRESS} --chain-id=${CHAIN_ID} \
     --keyring-backend test --home ${SIX_HOME}
