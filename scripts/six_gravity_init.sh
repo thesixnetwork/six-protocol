@@ -1,5 +1,4 @@
-
-export SIX_HOME=~/.sixtest
+export SIX_HOME=~/.sixgravity
 export CHAIN_ID=six
 export MONIKER=deenode
 export VALKEY=validator1
@@ -10,11 +9,11 @@ rm -Rf ${SIX_HOME}
 sixd init ${MONIKER} --chain-id=${CHAIN_ID} --home ${SIX_HOME}
 sixd keys add ${VALKEY} --keyring-backend test --home ${SIX_HOME}
 sixd keys add ${ORCKEY} --keyring-backend test --home ${SIX_HOME}
-export VAL_ADDRESS="6x1xj3muz3jt5f5ze7px3t5a3ly9cwpz68j4er9vp"
-export ORC_ADDRESS="6x1uavet0axk833y8wl67qmpamdmqe0tmrxrxzd8m"
+export VAL_ADDRESS="6x19969nczxykypml6awlgtn78djcu5d0vq5nxpde"
+export ORC_ADDRESS="6x1y9m7e3afdm2c7fkk7mzu0fxzn4apv0kjn9vzah"
 
 sixd eth_keys add --keyring-backend test --home ${SIX_HOME}
-export ETH_ADDRESS="0x645479015C528b33D657375B2198E69A66121c57"
+export ETH_ADDRESS="0x194fAA3b6e8c19A0d6e530BCD1869Dc4569500C0"
 
 sixd add-genesis-account ${VALKEY} 1000000000000stake --keyring-backend test --home ${SIX_HOME}
 sixd add-genesis-account ${ORCKEY} 1000000000000stake --keyring-backend test --home ${SIX_HOME}
