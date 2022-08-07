@@ -1,5 +1,5 @@
 export CHAIN_ID=six
-export MONIKER=deenode
+export MONIKER=mynode
 export VALKEY=validator1
 export ORCKEY=orch1
 export SIX_HOME=~/.six_test
@@ -10,17 +10,40 @@ sixd init ${MONIKER} --chain-id=${CHAIN_ID} --home ${SIX_HOME}
 
 sixd keys add ${VALKEY} --keyring-backend test --home ${SIX_HOME}
 sixd keys add ${ORCKEY} --keyring-backend test --home ${SIX_HOME}
-export VAL_ADDRESS="6x1fdts53zq5xtnmmap3a8enffjxzcuvv2tddldds"
-export ORC_ADDRESS="6x14kee3xxg6v88akhyu3ha3dwhctqm6ze4kkys9m"
+sixd keys add super-admin --keyring-backend test --home ${SIX_HOME}
+# replace address of val and orc here
+export VAL_ADDRESS="6x1fjy5cfjp2pqqt430lexalwtm872jjlfjy9qgzt" 
+export ORC_ADDRESS="6x1gvdc9zgc9m9ap5hgs2w7g4mcdsun93qzt84a2z"
+export SUPERADMIN_ADDRESS="6x1l0ceauyrkuhte463halxz8tawrlsv5vxc3jxer"
 
 sixd eth_keys add --keyring-backend test --home ${SIX_HOME}
-export ETH_ADDRESS="0xD224824bBE868095132ee2d3A50aE770D0DFbb8c"
+export ETH_ADDRESS="0xb1561B494fC1E99cd2353f773Baa7e7907a93d44"
 
 sixd add-genesis-account ${VALKEY} 1000000000000stake --keyring-backend test --home ${SIX_HOME}
 sixd add-genesis-account ${ORCKEY} 1000000000000stake --keyring-backend test --home ${SIX_HOME}
+sixd add-genesis-account super-admin 1000000000000stake --keyring-backend test --home ${SIX_HOME}
 
 # modify nativeHRP
 code ${SIX_HOME}/config/genesis.json
+# replave nativeHRP with 6x
+# add grouplist to genesis.json
+# add super.admin to grouplist
+"protocoladmin": {
+      "params": {},
+      "port_id": "protocoladmin",
+      "groupList": [
+        {
+          "name": "super.admin",
+          "owner": "genesis"
+        }
+      ],
+      "adminList": [
+        {
+          "admin": "{:\"${SUPERADMIN_ADDRESS}\"}"
+          "group": "super.admin"
+        }
+      ]
+    },
 # jq '.nativeHRP = "six"' ${SIX_HOME}/config/genesis.json > ${SIX_HOME}/config/genesis.json.tmp && mv ${SIX_HOME}/config/genesis.json.tmp ${SIX_HOME}/config/genesis.json
 sixd gengate --moniker=${MONIKER} ${VALKEY} 1000000000stake \
     ${ETH_ADDRESS} ${VAL_ADDRESS} --chain-id=${CHAIN_ID} \
@@ -29,11 +52,6 @@ sixd collect-gengate --home ${SIX_HOME}
 
 
  # init protocoladmin
-sixd keys add alice --keyring-backend test --home ${SIX_HOME}
-sixd keys add bob --keyring-backend test --home ${SIX_HOME}
-export ALICE_ADDRESS="6x1dhldndym6g543k980xp7wrpjk008z7j6p6nffr"
-export BOB_ADDRESS="6x1h29m0g35kjvgkar3fz7nsdq4g5656nlh4hhjlj"
-
 sixd tx protocoladmin add-admin-to-group token.admin ${ADDRESS} --from ${VAL_ADDRESS} --home ${SIX_HOME}--chain-id ${CHAIN_ID}
 
 
