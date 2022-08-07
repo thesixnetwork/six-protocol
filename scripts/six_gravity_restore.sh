@@ -1,11 +1,11 @@
-export SIX_HOME=~/.sixtest
+export SIX_HOME=~/.six_test
 export CHAIN_ID=six
 export MONIKER=deenode
 export VALKEY=validator1
 export ORCKEY=orch1
-export ETH_ADDRESS="0x645479015C528b33D657375B2198E69A66121c57"
-export VAL_ADDRESS="6x1xj3muz3jt5f5ze7px3t5a3ly9cwpz68j4er9vp"
-export ORC_ADDRESS="6x1uavet0axk833y8wl67qmpamdmqe0tmrxrxzd8m"
+export VAL_ADDRESS="6x1fdts53zq5xtnmmap3a8enffjxzcuvv2tddldds"
+export ORC_ADDRESS="6x14kee3xxg6v88akhyu3ha3dwhctqm6ze4kkys9m"
+export ETH_ADDRESS="0xD224824bBE868095132ee2d3A50aE770D0DFbb8c"
 
 rm -Rf ${SIX_HOME}
 cp -r ${SIX_HOME}_backup ${SIX_HOME}

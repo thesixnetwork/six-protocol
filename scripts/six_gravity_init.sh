@@ -27,6 +27,16 @@ sixd gengate --moniker=${MONIKER} ${VALKEY} 1000000000stake \
     --keyring-backend test --home ${SIX_HOME}
 sixd collect-gengate --home ${SIX_HOME}
 
+
+ # init protocoladmin
+sixd keys add alice --keyring-backend test --home ${SIX_HOME}
+sixd keys add bob --keyring-backend test --home ${SIX_HOME}
+export ALICE_ADDRESS="6x1dhldndym6g543k980xp7wrpjk008z7j6p6nffr"
+export BOB_ADDRESS="6x1h29m0g35kjvgkar3fz7nsdq4g5656nlh4hhjlj"
+
+sixd tx protocoladmin add-admin-to-group token.admin ${ADDRESS} --from ${VAL_ADDRESS} --home ${SIX_HOME}--chain-id ${CHAIN_ID}
+
+
 # backup
 cp -r ${SIX_HOME} ${SIX_HOME}_backup
 
