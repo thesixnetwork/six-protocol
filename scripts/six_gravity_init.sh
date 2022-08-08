@@ -24,27 +24,15 @@ sixd add-genesis-account ${ORCKEY} 1000000000000stake --keyring-backend test --h
 sixd add-genesis-account super-admin 1000000000000stake --keyring-backend test --home ${SIX_HOME}
 
 # modify nativeHRP
-code ${SIX_HOME}/config/genesis.json
+# code ${SIX_HOME}/config/genesis.json
+jq '.app_state.bech32ibc.nativeHRP = "6x"' ${SIX_HOME}/config/genesis.json | sponge ${SIX_HOME}/config/genesis.json
+
 # replave nativeHRP with 6x
 # add grouplist to genesis.json
 # add super.admin to grouplist
-"protocoladmin": {
-      "params": {},
-      "port_id": "protocoladmin",
-      "groupList": [
-        {
-          "name": "super.admin",
-          "owner": "genesis"
-        }
-      ],
-      "adminList": [
-        {
-          "admin": "{:\"${SUPERADMIN_ADDRESS}\"}"
-          "group": "super.admin"
-        }
-      ]
-    },
-# jq '.nativeHRP = "six"' ${SIX_HOME}/config/genesis.json > ${SIX_HOME}/config/genesis.json.tmp && mv ${SIX_HOME}/config/genesis.json.tmp ${SIX_HOME}/config/genesis.json
+jq '.app_state.protocoladmin.groupList[0] |= . + {"name": "super.admin", "owner": "genesis"}' ${SIX_HOME}/config/jq_genesis.json | sponge ${SIX_HOME}/config/jq_genesis.json
+jq '.app_state.protocoladmin.adminList[0] |= . + {"admin": "'"$SUPERADMIN_ADDRESS"'", "group": "super.admin"}' ${SIX_HOME}/config/jq_genesis.json | sponge ${SIX_HOME}/config/jq_genesis.json
+
 sixd gengate --moniker=${MONIKER} ${VALKEY} 1000000000stake \
     ${ETH_ADDRESS} ${VAL_ADDRESS} --chain-id=${CHAIN_ID} \
     --keyring-backend test --home ${SIX_HOME}
