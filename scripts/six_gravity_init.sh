@@ -30,8 +30,8 @@ jq '.app_state.bech32ibc.nativeHRP = "6x"' ${SIX_HOME}/config/genesis.json | spo
 # replave nativeHRP with 6x
 # add grouplist to genesis.json
 # add super.admin to grouplist
-jq '.app_state.protocoladmin.groupList[0] |= . + {"name": "super.admin", "owner": "genesis"}' ${SIX_HOME}/config/jq_genesis.json | sponge ${SIX_HOME}/config/jq_genesis.json
-jq '.app_state.protocoladmin.adminList[0] |= . + {"admin": "'"$SUPERADMIN_ADDRESS"'", "group": "super.admin"}' ${SIX_HOME}/config/jq_genesis.json | sponge ${SIX_HOME}/config/jq_genesis.json
+jq '.app_state.protocoladmin.groupList[0] |= . + {"name": "super.admin", "owner": "genesis"}' ${SIX_HOME}/config/genesis.json | sponge ${SIX_HOME}/config/genesis.json
+jq '.app_state.protocoladmin.adminList[0] |= . + {"admin": "'"$SUPERADMIN_ADDRESS"'", "group": "super.admin"}' ${SIX_HOME}/config/genesis.json | sponge ${SIX_HOME}/config/genesis.json
 
 sixd gengate --moniker=${MONIKER} ${VALKEY} 1000000000stake \
     ${ETH_ADDRESS} ${VAL_ADDRESS} --chain-id=${CHAIN_ID} \
