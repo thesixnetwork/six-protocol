@@ -1,0 +1,23 @@
+# venus.yml
+accounts:
+  - name: alice
+    coins: ["1000finix", "1000000000usix", "1000venuscoin"]
+  - name: bob
+    coins: ["500finix", "1000venuscoin", "100000000usix"]
+validator:
+  name: alice
+  usixd: "100000000usix"
+faucet:
+  host: ":4501"
+  name: bob
+  coins: ["5finix", "100000usix"]
+host:
+  rpc: ":26659"
+  p2p: ":26658"
+  prof: ":6061"
+  grpc: ":9091"
+  api: ":1318"
+genesis:
+  chain_id: "venus"
+init:
+  home: "$HOME/.venus"

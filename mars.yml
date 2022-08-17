@@ -1,0 +1,16 @@
+# mars.yml
+accounts:
+  - name: alice
+    coins: ["1000finix", "100000000usix", "1000marscoin"]
+  - name: bob
+    coins: ["500finix", "100000000usix", "1000marscoin",]
+validator:
+  name: alice
+  usixd: "100000000usix"
+faucet:
+  name: bob
+  coins: ["5finix", "100000usix"]
+genesis:
+  chain_id: "mars"
+init:
+  home: "$HOME/.mars"
