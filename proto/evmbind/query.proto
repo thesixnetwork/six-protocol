@@ -5,6 +5,7 @@ import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "evmbind/params.proto";
+import "evmbind/binding.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "github.com/thesixnetwork/six-protocol/x/evmbind/types";
@@ -15,7 +16,17 @@ service Query {
   rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get = "/thesixnetwork/six-protocol/evmbind/params";
   }
-  // this line is used by starport scaffolding # 2
+  // Queries a Binding by index.
+	rpc Binding(QueryGetBindingRequest) returns (QueryGetBindingResponse) {
+		option (google.api.http).get = "/thesixnetwork/six-protocol/evmbind/binding/{ethAddress}";
+	}
+
+	// Queries a list of Binding items.
+	rpc BindingAll(QueryAllBindingRequest) returns (QueryAllBindingResponse) {
+		option (google.api.http).get = "/thesixnetwork/six-protocol/evmbind/binding";
+	}
+
+// this line is used by starport scaffolding # 2
 }
 
 // QueryParamsRequest is request type for the Query/Params RPC method.
@@ -25,6 +36,24 @@ message QueryParamsRequest {}
 message QueryParamsResponse {
   // params holds all the parameters of this module.
   Params params = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryGetBindingRequest {
+	  string ethAddress = 1;
+
+}
+
+message QueryGetBindingResponse {
+	Binding binding = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllBindingRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllBindingResponse {
+	repeated Binding binding = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
 // this line is used by starport scaffolding # 3

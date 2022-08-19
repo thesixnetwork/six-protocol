@@ -3,6 +3,7 @@ package thesixnetwork.sixprotocol.evmbind;
 
 import "gogoproto/gogo.proto";
 import "evmbind/params.proto";
+import "evmbind/binding.proto";
 // this line is used by starport scaffolding # genesis/proto/import
 
 option go_package = "github.com/thesixnetwork/six-protocol/x/evmbind/types";
@@ -11,5 +12,6 @@ option go_package = "github.com/thesixnetwork/six-protocol/x/evmbind/types";
 message GenesisState {
   Params params = 1 [(gogoproto.nullable) = false];
   string port_id = 2;
+  repeated Binding bindingList = 3 [(gogoproto.nullable) = false];
   // this line is used by starport scaffolding # genesis/proto/state
 }

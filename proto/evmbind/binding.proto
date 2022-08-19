@@ -1,0 +1,12 @@
+syntax = "proto3";
+package thesixnetwork.sixprotocol.evmbind;
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/evmbind/types";
+
+message Binding {
+  string ethAddress = 1; 
+  string ethSignature = 2; 
+  string signMessage = 3;
+  string creator = 5;
+}
+

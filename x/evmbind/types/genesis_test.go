@@ -22,9 +22,31 @@ func TestGenesisState_Validate(t *testing.T) {
 			desc: "valid genesis state",
 			genState: &types.GenesisState{
 				PortId: types.PortID,
+				BindingList: []types.Binding{
+					{
+						EthAddress: "0",
+					},
+					{
+						EthAddress: "1",
+					},
+				},
 				// this line is used by starport scaffolding # types/genesis/validField
 			},
 			valid: true,
+		},
+		{
+			desc: "duplicated binding",
+			genState: &types.GenesisState{
+				BindingList: []types.Binding{
+					{
+						EthAddress: "0",
+					},
+					{
+						EthAddress: "0",
+					},
+				},
+			},
+			valid: false,
 		},
 		// this line is used by starport scaffolding # types/genesis/testcase
 	} {
