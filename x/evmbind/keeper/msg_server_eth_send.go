@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"bytes"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/thesixnetwork/six-protocol/x/evmbind/types"
@@ -19,13 +20,24 @@ func (k msgServer) EthSend(goCtx context.Context, msg *types.MsgEthSend) (*types
 	if !found {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "eth_reciever address not found")
 	}
-
 	eth_sender, found := k.GetBinding(
 		ctx,
 		msg.FromEth,
 	)
 	if !found {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "eth_sender address not found")
+	}
+
+	//match sender and creator
+	creator_match := bytes.Equal([]byte(eth_sender.Creator), []byte(msg.Creator))
+	if !creator_match {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "creator and creator do not match")
+	}
+
+	//match eth sender and creator
+	eth_matches := bytes.Equal([]byte(eth_sender.EthAddress), []byte(msg.FromEth))
+	if !eth_matches {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "creator_eth address does not match creator's from_address")
 	}
 
 	// Convert amount strings to sdk.Coins
