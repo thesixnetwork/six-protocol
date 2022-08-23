@@ -11,6 +11,7 @@ service Msg {
       rpc CreateBinding(MsgCreateBinding) returns (MsgCreateBindingResponse);
   rpc UpdateBinding(MsgUpdateBinding) returns (MsgUpdateBindingResponse);
   rpc DeleteBinding(MsgDeleteBinding) returns (MsgDeleteBindingResponse);
+  rpc EthSend(MsgEthSend) returns (MsgEthSendResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -37,5 +38,15 @@ message MsgDeleteBinding {
   string ethAddress = 2;
 }
 message MsgDeleteBindingResponse {}
+
+message MsgEthSend {
+  string creator = 1;
+  string fromEth = 2;
+  string toEth = 3;
+  string amount = 4;
+}
+
+message MsgEthSendResponse {
+}
 
 // this line is used by starport scaffolding # proto/tx/message

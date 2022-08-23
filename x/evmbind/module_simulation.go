@@ -36,6 +36,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgDeleteBinding int = 100
 
+	opWeightMsgEthSend = "op_weight_msg_eth_send"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgEthSend int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -112,6 +116,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 	operations = append(operations, simulation.NewWeightedOperation(
 		weightMsgDeleteBinding,
 		evmbindsimulation.SimulateMsgDeleteBinding(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgEthSend int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgEthSend, &weightMsgEthSend, nil,
+		func(_ *rand.Rand) {
+			weightMsgEthSend = defaultWeightMsgEthSend
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgEthSend,
+		evmbindsimulation.SimulateMsgEthSend(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
 	// this line is used by starport scaffolding # simapp/module/operation

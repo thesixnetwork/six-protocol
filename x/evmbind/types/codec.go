@@ -11,6 +11,7 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgCreateBinding{}, "evmbind/CreateBinding", nil)
 	cdc.RegisterConcrete(&MsgUpdateBinding{}, "evmbind/UpdateBinding", nil)
 	cdc.RegisterConcrete(&MsgDeleteBinding{}, "evmbind/DeleteBinding", nil)
+	cdc.RegisterConcrete(&MsgEthSend{}, "evmbind/EthSend", nil)
 	// this line is used by starport scaffolding # 2
 }
 
@@ -19,6 +20,9 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 		&MsgCreateBinding{},
 		&MsgUpdateBinding{},
 		&MsgDeleteBinding{},
+	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgEthSend{},
 	)
 	// this line is used by starport scaffolding # 3
 

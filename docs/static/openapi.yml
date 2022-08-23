@@ -33698,6 +33698,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/six-protocol/evmbind/binding/{ethAddress}':
@@ -57295,6 +57305,8 @@ definitions:
   thesixnetwork.sixprotocol.evmbind.MsgCreateBindingResponse:
     type: object
   thesixnetwork.sixprotocol.evmbind.MsgDeleteBindingResponse:
+    type: object
+  thesixnetwork.sixprotocol.evmbind.MsgEthSendResponse:
     type: object
   thesixnetwork.sixprotocol.evmbind.MsgUpdateBindingResponse:
     type: object

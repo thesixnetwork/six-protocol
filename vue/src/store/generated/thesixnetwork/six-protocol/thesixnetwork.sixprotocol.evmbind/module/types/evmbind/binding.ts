@@ -29,7 +29,7 @@ export const Binding = {
       writer.uint32(26).string(message.signMessage);
     }
     if (message.creator !== "") {
-      writer.uint32(34).string(message.creator);
+      writer.uint32(42).string(message.creator);
     }
     return writer;
   },
@@ -50,7 +50,7 @@ export const Binding = {
         case 3:
           message.signMessage = reader.string();
           break;
-        case 4:
+        case 5:
           message.creator = reader.string();
           break;
         default:
