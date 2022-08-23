@@ -31,13 +31,13 @@ func (k msgServer) EthSend(goCtx context.Context, msg *types.MsgEthSend) (*types
 	//match sender and creator
 	creator_match := bytes.Equal([]byte(eth_sender.Creator), []byte(msg.Creator))
 	if !creator_match {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "creator and creator do not match")
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "creator and sender do not match")
 	}
 
 	//match eth sender and creator
 	eth_matches := bytes.Equal([]byte(eth_sender.EthAddress), []byte(msg.FromEth))
 	if !eth_matches {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "creator_eth address does not match creator's from_address")
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "sender_eth address does not match creator's from_address")
 	}
 
 	// Convert amount strings to sdk.Coins
