@@ -100,9 +100,9 @@ import (
 	evmbindmodule "github.com/thesixnetwork/six-protocol/x/evmbind"
 	evmbindmodulekeeper "github.com/thesixnetwork/six-protocol/x/evmbind/keeper"
 	evmbindmoduletypes "github.com/thesixnetwork/six-protocol/x/evmbind/types"
-	nftmodule "github.com/thesixnetwork/six-protocol/x/nft"
-	nftmodulekeeper "github.com/thesixnetwork/six-protocol/x/nft/keeper"
-	nftmoduletypes "github.com/thesixnetwork/six-protocol/x/nft/types"
+	nftmodule 	"github.com/irisnet/irismod/modules/nft"
+	nftmodulekeeper "github.com/irisnet/irismod/modules/nft/keeper"
+	nftmoduletypes "github.com/irisnet/irismod/modules/nft/types"
 	protocoladminmodule "github.com/thesixnetwork/six-protocol/x/protocoladmin"
 	protocoladminmodulekeeper "github.com/thesixnetwork/six-protocol/x/protocoladmin/keeper"
 	protocoladminmoduletypes "github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
@@ -260,7 +260,6 @@ type App struct {
 	TokenmngrKeeper     tokenmngrmodulekeeper.Keeper
 	ScopedEvmbindKeeper capabilitykeeper.ScopedKeeper
 	EvmbindKeeper       evmbindmodulekeeper.Keeper
-	ScopedNftKeeper     capabilitykeeper.ScopedKeeper
 	NftKeeper           nftmodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
@@ -534,20 +533,9 @@ func New(
 	)
 	evmbindModule := evmbindmodule.NewAppModule(appCodec, app.EvmbindKeeper, app.AccountKeeper, app.BankKeeper)
 
-	scopedNftKeeper := app.CapabilityKeeper.ScopeToModule(nftmoduletypes.ModuleName)
-	app.ScopedNftKeeper = scopedNftKeeper
-	app.NftKeeper = *nftmodulekeeper.NewKeeper(
-		appCodec,
+	app.NftKeeper = nftmodulekeeper.NewKeeper(
+		appCodec, 
 		keys[nftmoduletypes.StoreKey],
-		keys[nftmoduletypes.MemStoreKey],
-		app.GetSubspace(nftmoduletypes.ModuleName),
-		app.IBCKeeper.ChannelKeeper,
-		&app.IBCKeeper.PortKeeper,
-		scopedNftKeeper,
-		app.BankKeeper,
-		app.AccountKeeper,
-		app.TokenmngrKeeper,
-		app.EvmbindKeeper,
 	)
 	nftModule := nftmodule.NewAppModule(appCodec, app.NftKeeper, app.AccountKeeper, app.BankKeeper)
 
@@ -595,9 +583,7 @@ func New(
 	// 	govRouter.AddRoute(wasm.RouterKey, wasm.NewWasmProposalHandler(app.WasmKeeper, enabledProposals))
 	// }
 	ibcRouter.AddRoute(wasm.ModuleName, wasm.NewIBCHandler(app.WasmKeeper, app.IBCKeeper.ChannelKeeper))
-
 	ibcRouter.AddRoute(evmbindmoduletypes.ModuleName, evmbindModule)
-	ibcRouter.AddRoute(nftmoduletypes.ModuleName, nftModule)
 	// this line is used by starport scaffolding # ibc/app/router
 	app.IBCKeeper.SetRouter(ibcRouter)
 
