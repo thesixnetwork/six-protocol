@@ -13,6 +13,7 @@ import CosmosCosmosSdkCosmosVestingV1Beta1 from './cosmos/cosmos-sdk/cosmos.vest
 import CosmosIbcGoIbcApplicationsTransferV1 from './cosmos/ibc-go/ibc.applications.transfer.v1'
 import ThesixnetworkSixProtocolThesixnetworkSixprotocolEvmbind from './thesixnetwork/six-protocol/thesixnetwork.sixprotocol.evmbind'
 import ThesixnetworkSixProtocolThesixnetworkSixprotocolGravity from './thesixnetwork/six-protocol/thesixnetwork.sixprotocol.gravity'
+import ThesixnetworkSixProtocolThesixnetworkSixprotocolNft from './thesixnetwork/six-protocol/thesixnetwork.sixprotocol.nft'
 import ThesixnetworkSixProtocolThesixnetworkSixprotocolProtocoladmin from './thesixnetwork/six-protocol/thesixnetwork.sixprotocol.protocoladmin'
 import ThesixnetworkSixProtocolThesixnetworkSixprotocolTokenmngr from './thesixnetwork/six-protocol/thesixnetwork.sixprotocol.tokenmngr'
 
@@ -31,6 +32,7 @@ export default {
   CosmosIbcGoIbcApplicationsTransferV1: load(CosmosIbcGoIbcApplicationsTransferV1, 'ibc.applications.transfer.v1'),
   ThesixnetworkSixProtocolThesixnetworkSixprotocolEvmbind: load(ThesixnetworkSixProtocolThesixnetworkSixprotocolEvmbind, 'thesixnetwork.sixprotocol.evmbind'),
   ThesixnetworkSixProtocolThesixnetworkSixprotocolGravity: load(ThesixnetworkSixProtocolThesixnetworkSixprotocolGravity, 'thesixnetwork.sixprotocol.gravity'),
+  ThesixnetworkSixProtocolThesixnetworkSixprotocolNft: load(ThesixnetworkSixProtocolThesixnetworkSixprotocolNft, 'thesixnetwork.sixprotocol.nft'),
   ThesixnetworkSixProtocolThesixnetworkSixprotocolProtocoladmin: load(ThesixnetworkSixProtocolThesixnetworkSixprotocolProtocoladmin, 'thesixnetwork.sixprotocol.protocoladmin'),
   ThesixnetworkSixProtocolThesixnetworkSixprotocolTokenmngr: load(ThesixnetworkSixProtocolThesixnetworkSixprotocolTokenmngr, 'thesixnetwork.sixprotocol.tokenmngr'),
   

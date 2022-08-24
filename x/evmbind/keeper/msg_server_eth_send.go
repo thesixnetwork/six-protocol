@@ -1,13 +1,12 @@
 package keeper
 
 import (
-	"context"
 	"bytes"
+	"context"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/thesixnetwork/six-protocol/x/evmbind/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-
+	"github.com/thesixnetwork/six-protocol/x/evmbind/types"
 )
 
 func (k msgServer) EthSend(goCtx context.Context, msg *types.MsgEthSend) (*types.MsgEthSendResponse, error) {
@@ -41,7 +40,7 @@ func (k msgServer) EthSend(goCtx context.Context, msg *types.MsgEthSend) (*types
 	}
 
 	// Convert amount strings to sdk.Coins
-    price, err := sdk.ParseCoinsNormalized(msg.Amount)
+	price, err := sdk.ParseCoinsNormalized(msg.Amount)
 	if err != nil {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid amount")
 	}

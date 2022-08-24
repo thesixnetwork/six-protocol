@@ -1,0 +1,15 @@
+syntax = "proto3";
+package thesixnetwork.sixprotocol.nft;
+
+import "gogoproto/gogo.proto";
+import "nft/params.proto";
+// this line is used by starport scaffolding # genesis/proto/import
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/nft/types";
+
+// GenesisState defines the nft module's genesis state.
+message GenesisState {
+  Params params = 1 [(gogoproto.nullable) = false];
+  string port_id = 2;
+  // this line is used by starport scaffolding # genesis/proto/state
+}
