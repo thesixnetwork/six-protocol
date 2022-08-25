@@ -5,15 +5,15 @@ import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
 import { MsgEthSend } from "./types/evmbind/tx";
-import { MsgDeleteBinding } from "./types/evmbind/tx";
 import { MsgCreateBinding } from "./types/evmbind/tx";
+import { MsgDeleteBinding } from "./types/evmbind/tx";
 import { MsgUpdateBinding } from "./types/evmbind/tx";
 
 
 const types = [
   ["/thesixnetwork.sixprotocol.evmbind.MsgEthSend", MsgEthSend],
-  ["/thesixnetwork.sixprotocol.evmbind.MsgDeleteBinding", MsgDeleteBinding],
   ["/thesixnetwork.sixprotocol.evmbind.MsgCreateBinding", MsgCreateBinding],
+  ["/thesixnetwork.sixprotocol.evmbind.MsgDeleteBinding", MsgDeleteBinding],
   ["/thesixnetwork.sixprotocol.evmbind.MsgUpdateBinding", MsgUpdateBinding],
   
 ];
@@ -48,8 +48,8 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
   return {
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
     msgEthSend: (data: MsgEthSend): EncodeObject => ({ typeUrl: "/thesixnetwork.sixprotocol.evmbind.MsgEthSend", value: MsgEthSend.fromPartial( data ) }),
-    msgDeleteBinding: (data: MsgDeleteBinding): EncodeObject => ({ typeUrl: "/thesixnetwork.sixprotocol.evmbind.MsgDeleteBinding", value: MsgDeleteBinding.fromPartial( data ) }),
     msgCreateBinding: (data: MsgCreateBinding): EncodeObject => ({ typeUrl: "/thesixnetwork.sixprotocol.evmbind.MsgCreateBinding", value: MsgCreateBinding.fromPartial( data ) }),
+    msgDeleteBinding: (data: MsgDeleteBinding): EncodeObject => ({ typeUrl: "/thesixnetwork.sixprotocol.evmbind.MsgDeleteBinding", value: MsgDeleteBinding.fromPartial( data ) }),
     msgUpdateBinding: (data: MsgUpdateBinding): EncodeObject => ({ typeUrl: "/thesixnetwork.sixprotocol.evmbind.MsgUpdateBinding", value: MsgUpdateBinding.fromPartial( data ) }),
     
   };

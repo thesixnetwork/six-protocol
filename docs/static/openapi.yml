@@ -34171,6 +34171,42 @@ paths:
           type: string
       tags:
         - Query
+  /thesixnetwork/six-protocol/consume/params:
+    get:
+      summary: Parameters queries the parameters of the module.
+      operationId: ThesixnetworkSixprotocolConsumeParams
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              params:
+                description: params holds all the parameters of this module.
+                type: object
+            description: >-
+              QueryParamsResponse is response type for the Query/Params RPC
+              method.
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      tags:
+        - Query
   /thesixnetwork/six-protocol/evmbind/binding:
     get:
       summary: Queries a list of Binding items.
@@ -34481,6 +34517,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/six-protocol/protocoladmin/admin/{group}/{admin}':
@@ -34640,6 +34686,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/six-protocol/protocoladmin/group/{name}':
@@ -34794,6 +34850,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   /thesixnetwork/six-protocol/protocoladmin/params:
@@ -34942,16 +35008,6 @@ paths:
             when key
 
             is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -35194,16 +35250,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/six-protocol/tokenmngr/token/{name}':
@@ -35374,16 +35420,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   /thesixnetwork/sixprotocol/tokenmngr/token_burn:
@@ -35495,16 +35531,6 @@ paths:
             when key
 
             is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -58226,6 +58252,16 @@ definitions:
         type: string
         format: uint64
     title: QuerySupplyResponse is the response type for the Query/Supply RPC method
+  thesixnetwork.sixprotocol.consume.Params:
+    type: object
+    description: Params defines the parameters for the module.
+  thesixnetwork.sixprotocol.consume.QueryParamsResponse:
+    type: object
+    properties:
+      params:
+        description: params holds all the parameters of this module.
+        type: object
+    description: QueryParamsResponse is response type for the Query/Params RPC method.
   thesixnetwork.sixprotocol.evmbind.Binding:
     type: object
     properties:
