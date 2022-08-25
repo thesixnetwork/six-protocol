@@ -9,6 +9,10 @@
  * ---------------------------------------------------------------
  */
 
+export type ConsumeMsgUseNftByEVMResponse = object;
+
+export type ConsumeMsgUseNftResponse = object;
+
 /**
  * Params defines the parameters for the module.
  */

@@ -58252,6 +58252,10 @@ definitions:
         type: string
         format: uint64
     title: QuerySupplyResponse is the response type for the Query/Supply RPC method
+  thesixnetwork.sixprotocol.consume.MsgUseNftByEVMResponse:
+    type: object
+  thesixnetwork.sixprotocol.consume.MsgUseNftResponse:
+    type: object
   thesixnetwork.sixprotocol.consume.Params:
     type: object
     description: Params defines the parameters for the module.

@@ -24,7 +24,15 @@ var (
 )
 
 const (
-// this line is used by starport scaffolding # simapp/module/const
+	opWeightMsgUseNft = "op_weight_msg_use_nft"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgUseNft int = 100
+
+	opWeightMsgUseNftByEVM = "op_weight_msg_use_nft_by_evm"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgUseNftByEVM int = 100
+
+	// this line is used by starport scaffolding # simapp/module/const
 )
 
 // GenerateGenesisState creates a randomized GenState of the module
@@ -58,6 +66,28 @@ func (am AppModule) RegisterStoreDecoder(_ sdk.StoreDecoderRegistry) {}
 // WeightedOperations returns the all the gov module operations with their respective weights.
 func (am AppModule) WeightedOperations(simState module.SimulationState) []simtypes.WeightedOperation {
 	operations := make([]simtypes.WeightedOperation, 0)
+
+	var weightMsgUseNft int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgUseNft, &weightMsgUseNft, nil,
+		func(_ *rand.Rand) {
+			weightMsgUseNft = defaultWeightMsgUseNft
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgUseNft,
+		consumesimulation.SimulateMsgUseNft(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgUseNftByEVM int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgUseNftByEVM, &weightMsgUseNftByEVM, nil,
+		func(_ *rand.Rand) {
+			weightMsgUseNftByEVM = defaultWeightMsgUseNftByEVM
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgUseNftByEVM,
+		consumesimulation.SimulateMsgUseNftByEVM(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
 
 	// this line is used by starport scaffolding # simapp/module/operation
 
