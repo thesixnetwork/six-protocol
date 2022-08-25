@@ -11,7 +11,10 @@
 
 export type ConsumeMsgUseNftByEVMResponse = object;
 
-export type ConsumeMsgUseNftResponse = object;
+export interface ConsumeMsgUseNftResponse {
+  /** @format uint64 */
+  Id?: string;
+}
 
 /**
  * Params defines the parameters for the module.

@@ -58256,6 +58256,10 @@ definitions:
     type: object
   thesixnetwork.sixprotocol.consume.MsgUseNftResponse:
     type: object
+    properties:
+      Id:
+        type: string
+        format: uint64
   thesixnetwork.sixprotocol.consume.Params:
     type: object
     description: Params defines the parameters for the module.

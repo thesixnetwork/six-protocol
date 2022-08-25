@@ -1,5 +1,6 @@
 /* eslint-disable */
-import { Reader, Writer } from "protobufjs/minimal";
+import { Reader, util, configure, Writer } from "protobufjs/minimal";
+import * as Long from "long";
 
 export const protobufPackage = "thesixnetwork.sixprotocol.consume";
 
@@ -8,13 +9,16 @@ export interface MsgUseNft {
   token: string;
 }
 
-export interface MsgUseNftResponse {}
+export interface MsgUseNftResponse {
+  Id: number;
+}
 
 export interface MsgUseNftByEVM {
   creator: string;
   token: string;
   ethSignature: string;
   signMessage: string;
+  ethAddress: string;
 }
 
 export interface MsgUseNftByEVMResponse {}
@@ -91,10 +95,13 @@ export const MsgUseNft = {
   },
 };
 
-const baseMsgUseNftResponse: object = {};
+const baseMsgUseNftResponse: object = { Id: 0 };
 
 export const MsgUseNftResponse = {
-  encode(_: MsgUseNftResponse, writer: Writer = Writer.create()): Writer {
+  encode(message: MsgUseNftResponse, writer: Writer = Writer.create()): Writer {
+    if (message.Id !== 0) {
+      writer.uint32(8).uint64(message.Id);
+    }
     return writer;
   },
 
@@ -105,6 +112,9 @@ export const MsgUseNftResponse = {
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
+        case 1:
+          message.Id = longToNumber(reader.uint64() as Long);
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -113,18 +123,29 @@ export const MsgUseNftResponse = {
     return message;
   },
 
-  fromJSON(_: any): MsgUseNftResponse {
+  fromJSON(object: any): MsgUseNftResponse {
     const message = { ...baseMsgUseNftResponse } as MsgUseNftResponse;
+    if (object.Id !== undefined && object.Id !== null) {
+      message.Id = Number(object.Id);
+    } else {
+      message.Id = 0;
+    }
     return message;
   },
 
-  toJSON(_: MsgUseNftResponse): unknown {
+  toJSON(message: MsgUseNftResponse): unknown {
     const obj: any = {};
+    message.Id !== undefined && (obj.Id = message.Id);
     return obj;
   },
 
-  fromPartial(_: DeepPartial<MsgUseNftResponse>): MsgUseNftResponse {
+  fromPartial(object: DeepPartial<MsgUseNftResponse>): MsgUseNftResponse {
     const message = { ...baseMsgUseNftResponse } as MsgUseNftResponse;
+    if (object.Id !== undefined && object.Id !== null) {
+      message.Id = object.Id;
+    } else {
+      message.Id = 0;
+    }
     return message;
   },
 };
@@ -134,6 +155,7 @@ const baseMsgUseNftByEVM: object = {
   token: "",
   ethSignature: "",
   signMessage: "",
+  ethAddress: "",
 };
 
 export const MsgUseNftByEVM = {
@@ -149,6 +171,9 @@ export const MsgUseNftByEVM = {
     }
     if (message.signMessage !== "") {
       writer.uint32(34).string(message.signMessage);
+    }
+    if (message.ethAddress !== "") {
+      writer.uint32(42).string(message.ethAddress);
     }
     return writer;
   },
@@ -171,6 +196,9 @@ export const MsgUseNftByEVM = {
           break;
         case 4:
           message.signMessage = reader.string();
+          break;
+        case 5:
+          message.ethAddress = reader.string();
           break;
         default:
           reader.skipType(tag & 7);
@@ -202,6 +230,11 @@ export const MsgUseNftByEVM = {
     } else {
       message.signMessage = "";
     }
+    if (object.ethAddress !== undefined && object.ethAddress !== null) {
+      message.ethAddress = String(object.ethAddress);
+    } else {
+      message.ethAddress = "";
+    }
     return message;
   },
 
@@ -213,6 +246,7 @@ export const MsgUseNftByEVM = {
       (obj.ethSignature = message.ethSignature);
     message.signMessage !== undefined &&
       (obj.signMessage = message.signMessage);
+    message.ethAddress !== undefined && (obj.ethAddress = message.ethAddress);
     return obj;
   },
 
@@ -237,6 +271,11 @@ export const MsgUseNftByEVM = {
       message.signMessage = object.signMessage;
     } else {
       message.signMessage = "";
+    }
+    if (object.ethAddress !== undefined && object.ethAddress !== null) {
+      message.ethAddress = object.ethAddress;
+    } else {
+      message.ethAddress = "";
     }
     return message;
   },
@@ -323,6 +362,16 @@ interface Rpc {
   ): Promise<Uint8Array>;
 }
 
+declare var self: any | undefined;
+declare var window: any | undefined;
+var globalThis: any = (() => {
+  if (typeof globalThis !== "undefined") return globalThis;
+  if (typeof self !== "undefined") return self;
+  if (typeof window !== "undefined") return window;
+  if (typeof global !== "undefined") return global;
+  throw "Unable to locate global object";
+})();
+
 type Builtin = Date | Function | Uint8Array | string | number | undefined;
 export type DeepPartial<T> = T extends Builtin
   ? T
@@ -333,3 +382,15 @@ export type DeepPartial<T> = T extends Builtin
   : T extends {}
   ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
+
+function longToNumber(long: Long): number {
+  if (long.gt(Number.MAX_SAFE_INTEGER)) {
+    throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
+  }
+  return long.toNumber();
+}
+
+if (util.Long !== Long) {
+  util.Long = Long as any;
+  configure();
+}
