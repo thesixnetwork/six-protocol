@@ -8,7 +8,7 @@ option go_package = "github.com/thesixnetwork/six-protocol/x/evmbind/types";
 
 // Msg defines the Msg service.
 service Msg {
-      rpc CreateBinding(MsgCreateBinding) returns (MsgCreateBindingResponse);
+  rpc CreateBinding(MsgCreateBinding) returns (MsgCreateBindingResponse);
   rpc UpdateBinding(MsgUpdateBinding) returns (MsgUpdateBindingResponse);
   rpc DeleteBinding(MsgDeleteBinding) returns (MsgDeleteBindingResponse);
   rpc EthSend(MsgEthSend) returns (MsgEthSendResponse);
