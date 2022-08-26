@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"strconv"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -9,6 +10,7 @@ import (
 
 	// "crypto/ecdsa"
 	"bytes"
+
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/crypto"
@@ -33,7 +35,8 @@ func (k msgServer) CreateBinding(goCtx context.Context, msg *types.MsgCreateBind
 	}
 
 	// hash the message
-	data := []byte(msg.SignMessage)
+	sign_msg := "\x19Ethereum Signed Message:\n" + strconv.FormatInt(int64(len(msg.SignMessage)), 10) + msg.SignMessage
+	data := []byte(sign_msg)
 	hash := crypto.Keccak256Hash(data)
 	var hash_bytes = hash.Bytes()
 
