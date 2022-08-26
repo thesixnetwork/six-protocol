@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"fmt"
 	"strconv"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -54,7 +55,8 @@ func (k msgServer) UseNftByEVM(goCtx context.Context, msg *types.MsgUseNftByEVM)
 
 	eth_address := common.HexToAddress(msg.EthAddress)
 	if matches := bytes.Equal([]byte(eth_address_from_pubkey.Hex()), []byte(eth_address.Hex())); !matches {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "fail to validate eth address, check signature and message are correct")
+		var ret = fmt.Sprintf("eth_address_from_pubkey: %s ,eth_address %s", eth_address_from_pubkey.Hex(), eth_address.Hex())
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, ret)
 	}
 
 	signatureNoRecoverID := signature_with_revocery_id[:len(signature_with_revocery_id)-1] // remove recovery id
@@ -66,6 +68,10 @@ func (k msgServer) UseNftByEVM(goCtx context.Context, msg *types.MsgUseNftByEVM)
 		Creator: msg.Creator,
 		Token:   msg.Token,
 	}
-	k.UseNft(goCtx,&spend)
+	_ , err = k.UseNft(goCtx,&spend)
+	if err != nil {
+		return nil, err
+	}
+	
 	return &types.MsgUseNftByEVMResponse{}, nil
 }

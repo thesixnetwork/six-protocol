@@ -19,6 +19,11 @@ func (k msgServer) UseNft(goCtx context.Context, msg *types.MsgUseNft) (*types.M
 		Amount:  1,
 	}
 
+	_, foundToken := k.tokenmngrKeeper.GetToken(ctx, msg.Token)
+	if !foundToken {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "token does not exist")
+	}
+
 	// Chect is this creator is exist
 	spender, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
