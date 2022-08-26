@@ -43,6 +43,9 @@ func (k msgServer) CreateBinding(goCtx context.Context, msg *types.MsgCreateBind
 		// log.Fatalf("Failed to decode signature: %v", msg.Signature)
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid signature")
 	}
+	signature_with_revocery_id := decode_signature
+	// remove last byte coz is is recovery id
+	decode_signature[64] -= 27 // this on should be checked whether it can be a weak point later // remove recovery id
 
 	// get pulic key from signature
 	sigPublicKey, err := crypto.Ecrecover(hash_bytes, decode_signature) //recover publickey from signature and hash
@@ -61,6 +64,11 @@ func (k msgServer) CreateBinding(goCtx context.Context, msg *types.MsgCreateBind
 	eth_address := common.HexToAddress(msg.EthAddress)
 	if matches := bytes.Equal([]byte(eth_address_from_pubkey.Hex()), []byte(eth_address.Hex())); !matches {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "fail to validate eth address, check signature and message are correct")
+	}
+
+	signatureNoRecoverID := signature_with_revocery_id[:len(signature_with_revocery_id)-1] // remove recovery id
+	if verified := crypto.VerifySignature(sigPublicKey, hash.Bytes(), signatureNoRecoverID); !verified {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "verify failed")
 	}
 
 	var binding = types.Binding{
