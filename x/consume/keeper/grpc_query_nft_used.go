@@ -48,6 +48,7 @@ func (k Keeper) NftUsed(c context.Context, req *types.QueryGetNftUsedRequest) (*
 	val, found := k.GetNftUsed(
 		ctx,
 		req.Token,
+		req.Creator,
 	)
 	if !found {
 		return nil, status.Error(codes.NotFound, "not found")

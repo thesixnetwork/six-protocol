@@ -8,9 +8,10 @@ export interface NftUsed {
   token: string;
   amount: number;
   updateAt: string;
+  creator: string;
 }
 
-const baseNftUsed: object = { token: "", amount: 0, updateAt: "" };
+const baseNftUsed: object = { token: "", amount: 0, updateAt: "", creator: "" };
 
 export const NftUsed = {
   encode(message: NftUsed, writer: Writer = Writer.create()): Writer {
@@ -22,6 +23,9 @@ export const NftUsed = {
     }
     if (message.updateAt !== "") {
       writer.uint32(26).string(message.updateAt);
+    }
+    if (message.creator !== "") {
+      writer.uint32(34).string(message.creator);
     }
     return writer;
   },
@@ -41,6 +45,9 @@ export const NftUsed = {
           break;
         case 3:
           message.updateAt = reader.string();
+          break;
+        case 4:
+          message.creator = reader.string();
           break;
         default:
           reader.skipType(tag & 7);
@@ -67,6 +74,11 @@ export const NftUsed = {
     } else {
       message.updateAt = "";
     }
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
     return message;
   },
 
@@ -75,6 +87,7 @@ export const NftUsed = {
     message.token !== undefined && (obj.token = message.token);
     message.amount !== undefined && (obj.amount = message.amount);
     message.updateAt !== undefined && (obj.updateAt = message.updateAt);
+    message.creator !== undefined && (obj.creator = message.creator);
     return obj;
   },
 
@@ -94,6 +107,11 @@ export const NftUsed = {
       message.updateAt = object.updateAt;
     } else {
       message.updateAt = "";
+    }
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
     }
     return message;
   },

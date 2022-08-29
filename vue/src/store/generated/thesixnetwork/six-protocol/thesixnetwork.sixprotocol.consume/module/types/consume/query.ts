@@ -30,6 +30,7 @@ export interface QueryConsumeNftsResponse {
 
 export interface QueryGetNftUsedRequest {
   token: string;
+  creator: string;
 }
 
 export interface QueryGetNftUsedResponse {
@@ -312,7 +313,7 @@ export const QueryConsumeNftsResponse = {
   },
 };
 
-const baseQueryGetNftUsedRequest: object = { token: "" };
+const baseQueryGetNftUsedRequest: object = { token: "", creator: "" };
 
 export const QueryGetNftUsedRequest = {
   encode(
@@ -321,6 +322,9 @@ export const QueryGetNftUsedRequest = {
   ): Writer {
     if (message.token !== "") {
       writer.uint32(10).string(message.token);
+    }
+    if (message.creator !== "") {
+      writer.uint32(18).string(message.creator);
     }
     return writer;
   },
@@ -334,6 +338,9 @@ export const QueryGetNftUsedRequest = {
       switch (tag >>> 3) {
         case 1:
           message.token = reader.string();
+          break;
+        case 2:
+          message.creator = reader.string();
           break;
         default:
           reader.skipType(tag & 7);
@@ -350,12 +357,18 @@ export const QueryGetNftUsedRequest = {
     } else {
       message.token = "";
     }
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
     return message;
   },
 
   toJSON(message: QueryGetNftUsedRequest): unknown {
     const obj: any = {};
     message.token !== undefined && (obj.token = message.token);
+    message.creator !== undefined && (obj.creator = message.creator);
     return obj;
   },
 
@@ -367,6 +380,11 @@ export const QueryGetNftUsedRequest = {
       message.token = object.token;
     } else {
       message.token = "";
+    }
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
     }
     return message;
   },

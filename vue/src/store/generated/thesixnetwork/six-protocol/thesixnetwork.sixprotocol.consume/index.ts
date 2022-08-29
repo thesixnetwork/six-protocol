@@ -199,9 +199,13 @@ export default {
 			try {
 				const key = params ?? {};
 				const queryClient=await initQueryClient(rootGetters)
-				let value= (await queryClient.queryNftUsed( key.token)).data
+				let value= (await queryClient.queryNftUsed( key.token, query)).data
 				
 					
+				while (all && (<any> value).pagination && (<any> value).pagination.next_key!=null) {
+					let next_values=(await queryClient.queryNftUsed( key.token, {...query, 'pagination.key':(<any> value).pagination.next_key})).data
+					value = mergeResults(value, next_values);
+				}
 				commit('QUERY', { query: 'NftUsed', key: { params: {...key}, query}, value })
 				if (subscribe) commit('SUBSCRIBE', { action: 'QueryNftUsed', payload: { options: { all }, params: {...key},query }})
 				return getters['getNftUsed']( { params: {...key}, query}) ?? {}

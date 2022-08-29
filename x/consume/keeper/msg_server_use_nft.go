@@ -20,7 +20,7 @@ func (k msgServer) UseNft(goCtx context.Context, msg *types.MsgUseNft) (*types.M
 		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "token does not exist")
 	}
 
-	last_spend, _ := k.GetNftUsed(ctx, msg.Token)
+	last_spend, _ := k.GetNftUsed(ctx, msg.Token, msg.Creator)
 	last_spend_time, _ := time.Parse(time.RFC3339, last_spend.UpdateAt) // to UTC
     expiredAt := last_spend_time.Add(5 * time.Minute)
 
@@ -29,13 +29,13 @@ func (k msgServer) UseNft(goCtx context.Context, msg *types.MsgUseNft) (*types.M
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid timestamp")
 	}
 
-	// date_now := time.Now().UTC().Local()
-    // date_now_str := date_now.Format("2006-01-02T15:04:05Z")
-    // date_now_UTC ,_ := time.Parse(time.RFC3339,date_now_str)
+	if last_spend.Creator == msg.Creator && msg_timestamp_UTC.Before(expiredAt) {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "you can only use this nft once every 5 minutes")
+	}	
 
-	if msg_timestamp_UTC.Before(expiredAt) {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Token is used recently")
-	}
+	// if msg_timestamp_UTC.Before(expiredAt) {
+	// 	return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Token is used recently")
+	// }
 
 	var spend = types.UseNft{
 		Creator:   msg.Creator,
@@ -79,12 +79,13 @@ func (k msgServer) UseNft(goCtx context.Context, msg *types.MsgUseNft) (*types.M
 	}
 
 	// Get burning history
-	prev, found := k.GetNftUsed(ctx, msg.Token)
+	prev, found := k.GetNftUsed(ctx, msg.Token , msg.Creator)
 	if !found {
 		var tokenBurn = types.NftUsed{
 			Token:  msg.Token,
 			Amount: 1,
 			UpdateAt: msg.Timestamp,
+			Creator: msg.Creator,
 		}
 		k.SetNftUsed(ctx, tokenBurn)
 	} else {
@@ -92,6 +93,7 @@ func (k msgServer) UseNft(goCtx context.Context, msg *types.MsgUseNft) (*types.M
 			Token:  msg.Token,
 			Amount: 1 + prev.Amount,
 			UpdateAt: msg.Timestamp,
+			Creator: msg.Creator,
 		}
 		k.SetNftUsed(ctx, tokenBurn)
 	}

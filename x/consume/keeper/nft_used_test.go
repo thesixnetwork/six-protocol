@@ -31,6 +31,7 @@ func TestNftUsedGet(t *testing.T) {
 	for _, item := range items {
 		rst, found := keeper.GetNftUsed(ctx,
 			item.Token,
+			item.Creator,
 		)
 		require.True(t, found)
 		require.Equal(t,
@@ -45,9 +46,11 @@ func TestNftUsedRemove(t *testing.T) {
 	for _, item := range items {
 		keeper.RemoveNftUsed(ctx,
 			item.Token,
+			item.Creator,
 		)
 		_, found := keeper.GetNftUsed(ctx,
 			item.Token,
+			item.Creator,
 		)
 		require.False(t, found)
 	}

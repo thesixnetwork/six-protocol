@@ -10,7 +10,7 @@ export const protobufPackage = "cosmos.base.query.v1beta1";
  *
  *  message SomeRequest {
  *          Foo some_parameter = 1;
- *          PageRequest pagination = 2;
+ *          PageRequest page = 2;
  *  }
  */
 export interface PageRequest {
@@ -33,22 +33,15 @@ export interface PageRequest {
   limit: number;
   /**
    * count_total is set to true  to indicate that the result set should include
-   * a count of the total number of items available for pagination in UIs.
-   * count_total is only respected when offset is used. It is ignored when key
-   * is set.
+   * a count of the total number of items available for pagination in UIs. count_total
+   * is only respected when offset is used. It is ignored when key is set.
    */
   count_total: boolean;
-  /**
-   * reverse is set to true if results are to be returned in the descending order.
-   *
-   * Since: cosmos-sdk 0.43
-   */
-  reverse: boolean;
 }
 
 /**
- * PageResponse is to be embedded in gRPC response messages where the
- * corresponding request message has used PageRequest.
+ * PageResponse is to be embedded in gRPC response messages where the corresponding
+ * request message has used PageRequest
  *
  *  message SomeResponse {
  *          repeated Bar results = 1;
@@ -68,12 +61,7 @@ export interface PageResponse {
   total: number;
 }
 
-const basePageRequest: object = {
-  offset: 0,
-  limit: 0,
-  count_total: false,
-  reverse: false,
-};
+const basePageRequest: object = { offset: 0, limit: 0, count_total: false };
 
 export const PageRequest = {
   encode(message: PageRequest, writer: Writer = Writer.create()): Writer {
@@ -88,9 +76,6 @@ export const PageRequest = {
     }
     if (message.count_total === true) {
       writer.uint32(32).bool(message.count_total);
-    }
-    if (message.reverse === true) {
-      writer.uint32(40).bool(message.reverse);
     }
     return writer;
   },
@@ -113,9 +98,6 @@ export const PageRequest = {
           break;
         case 4:
           message.count_total = reader.bool();
-          break;
-        case 5:
-          message.reverse = reader.bool();
           break;
         default:
           reader.skipType(tag & 7);
@@ -145,11 +127,6 @@ export const PageRequest = {
     } else {
       message.count_total = false;
     }
-    if (object.reverse !== undefined && object.reverse !== null) {
-      message.reverse = Boolean(object.reverse);
-    } else {
-      message.reverse = false;
-    }
     return message;
   },
 
@@ -163,7 +140,6 @@ export const PageRequest = {
     message.limit !== undefined && (obj.limit = message.limit);
     message.count_total !== undefined &&
       (obj.count_total = message.count_total);
-    message.reverse !== undefined && (obj.reverse = message.reverse);
     return obj;
   },
 
@@ -188,11 +164,6 @@ export const PageRequest = {
       message.count_total = object.count_total;
     } else {
       message.count_total = false;
-    }
-    if (object.reverse !== undefined && object.reverse !== null) {
-      message.reverse = object.reverse;
-    } else {
-      message.reverse = false;
     }
     return message;
   },

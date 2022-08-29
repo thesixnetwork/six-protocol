@@ -12,6 +12,7 @@ const (
 // NftUsedKey returns the store key to retrieve a NftUsed from the index fields
 func NftUsedKey(
 	token string,
+
 ) []byte {
 	var key []byte
 

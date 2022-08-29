@@ -19,6 +19,7 @@ func (k Keeper) SetNftUsed(ctx sdk.Context, nftUsed types.NftUsed) {
 func (k Keeper) GetNftUsed(
 	ctx sdk.Context,
 	token string,
+	creator string,
 
 ) (val types.NftUsed, found bool) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.NftUsedKeyPrefix))
@@ -38,6 +39,7 @@ func (k Keeper) GetNftUsed(
 func (k Keeper) RemoveNftUsed(
 	ctx sdk.Context,
 	token string,
+	creator string,
 
 ) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.NftUsedKeyPrefix))
