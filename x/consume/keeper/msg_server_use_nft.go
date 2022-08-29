@@ -27,6 +27,19 @@ func (k msgServer) UseNft(goCtx context.Context, msg *types.MsgUseNft) (*types.M
 		// Timestamp: strconv.FormatInt(int_now, 10),
 	}
 
+	last_spend, found := k.GetNftUsed(ctx, msg.Token)
+	last_updateAt_epoch, error := time.Parse("2006-01-02T15:04:05Z", last_spend.UpdateAt)
+
+	if found && error != nil {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid last update time")
+	}
+
+	if found && error == nil {
+		if date_now.Sub(last_updateAt_epoch).Minutes() < 5 {
+			return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "token has been used in 5 miniues")
+		}
+	}
+
 	_, foundToken := k.tokenmngrKeeper.GetToken(ctx, msg.Token)
 	if !foundToken {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "token does not exist")
