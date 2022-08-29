@@ -31,3 +31,7 @@ var (
 func KeyPrefix(p string) []byte {
 	return []byte(p)
 }
+const (
+	UseNftKey = "UseNft-value-"
+	UseNftCountKey = "UseNft-count-"
+)

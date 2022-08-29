@@ -7,7 +7,7 @@ option go_package = "github.com/thesixnetwork/six-protocol/x/consume/types";
 
 // Msg defines the Msg service.
 service Msg {
-      rpc UseNft(MsgUseNft) returns (MsgUseNftResponse);
+  rpc UseNft(MsgUseNft) returns (MsgUseNftResponse);
   rpc UseNftByEVM(MsgUseNftByEVM) returns (MsgUseNftByEVMResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
@@ -15,6 +15,7 @@ service Msg {
 message MsgUseNft {
   string creator = 1;
   string token = 2;
+  string timestamp = 3;
 }
 
 message MsgUseNftResponse {

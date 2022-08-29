@@ -1,0 +1,11 @@
+syntax = "proto3";
+package thesixnetwork.sixprotocol.consume;
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/consume/types";
+
+message UseNft {
+    uint64 id = 1;
+    string creator = 2;
+    string token = 3; 
+    string timestamp = 4;
+}
