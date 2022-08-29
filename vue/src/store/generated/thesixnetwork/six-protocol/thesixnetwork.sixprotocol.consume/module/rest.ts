@@ -21,6 +21,11 @@ export interface ConsumeMsgUseNftResponse {
  */
 export type ConsumeParams = object;
 
+export interface ConsumeQueryConsumeNftsResponse {
+  token?: string;
+  timestamp?: string;
+}
+
 /**
  * QueryParamsResponse is response type for the Query/Params RPC method.
  */
@@ -236,6 +241,22 @@ export class HttpClient<SecurityDataType = unknown> {
  * @version version not set
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryConsumeNfts
+   * @summary Queries a list of ConsumeNfts items.
+   * @request GET:/thesixnetwork/six-protocol/consume/consume_nfts
+   */
+  queryConsumeNfts = (params: RequestParams = {}) =>
+    this.request<ConsumeQueryConsumeNftsResponse, RpcStatus>({
+      path: `/thesixnetwork/six-protocol/consume/consume_nfts`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
   /**
    * No description
    *

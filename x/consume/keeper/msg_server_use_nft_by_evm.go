@@ -68,10 +68,10 @@ func (k msgServer) UseNftByEVM(goCtx context.Context, msg *types.MsgUseNftByEVM)
 		Creator: msg.Creator,
 		Token:   msg.Token,
 	}
-	_ , err = k.UseNft(goCtx,&spend)
+	_, err = k.UseNft(goCtx, &spend)
 	if err != nil {
 		return nil, err
 	}
-	
+
 	return &types.MsgUseNftByEVMResponse{}, nil
 }

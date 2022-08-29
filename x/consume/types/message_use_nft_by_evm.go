@@ -9,7 +9,7 @@ const TypeMsgUseNftByEVM = "use_nft_by_evm"
 
 var _ sdk.Msg = &MsgUseNftByEVM{}
 
-func NewMsgUseNftByEVM(creator string, token string,ethAddress string ,ethSignature string, signMessage string) *MsgUseNftByEVM {
+func NewMsgUseNftByEVM(creator string, token string, ethAddress string, ethSignature string, signMessage string) *MsgUseNftByEVM {
 	return &MsgUseNftByEVM{
 		Creator:      creator,
 		Token:        token,

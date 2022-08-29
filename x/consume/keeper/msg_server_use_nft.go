@@ -1,8 +1,8 @@
 package keeper
 
 import (
-	"fmt"
 	"context"
+	"fmt"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -13,10 +13,10 @@ import (
 func (k msgServer) UseNft(goCtx context.Context, msg *types.MsgUseNft) (*types.MsgUseNftResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	var spend = tkmtypes.Burn{
+	var spend = types.UseNft{
 		Creator: msg.Creator,
 		Token:   msg.Token,
-		Amount:  1,
+		Timestamp: msg.Timestamp,
 	}
 
 	_, foundToken := k.tokenmngrKeeper.GetToken(ctx, msg.Token)

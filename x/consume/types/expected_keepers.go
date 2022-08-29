@@ -9,7 +9,7 @@ import (
 
 type TokenmngrKeeper interface {
 	GetTokenBurn(ctx sdk.Context, token string) (val tkmtype.TokenBurn, found bool)
-	GetToken(ctx sdk.Context,name string) (val tkmtype.Token, found bool) 
+	GetToken(ctx sdk.Context, name string) (val tkmtype.Token, found bool)
 	SetTokenBurn(ctx sdk.Context, tokenBurn tkmtype.TokenBurn)
 	UpdateBurn(ctx sdk.Context, burn tkmtype.Burn) uint64
 	// Methods imported from tokenmngr should be defined here

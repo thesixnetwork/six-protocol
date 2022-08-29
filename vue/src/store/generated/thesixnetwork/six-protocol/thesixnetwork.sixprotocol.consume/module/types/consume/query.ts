@@ -13,6 +13,13 @@ export interface QueryParamsResponse {
   params: Params | undefined;
 }
 
+export interface QueryConsumeNftsRequest {}
+
+export interface QueryConsumeNftsResponse {
+  token: string;
+  timestamp: string;
+}
+
 const baseQueryParamsRequest: object = {};
 
 export const QueryParamsRequest = {
@@ -110,10 +117,146 @@ export const QueryParamsResponse = {
   },
 };
 
+const baseQueryConsumeNftsRequest: object = {};
+
+export const QueryConsumeNftsRequest = {
+  encode(_: QueryConsumeNftsRequest, writer: Writer = Writer.create()): Writer {
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryConsumeNftsRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryConsumeNftsRequest,
+    } as QueryConsumeNftsRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): QueryConsumeNftsRequest {
+    const message = {
+      ...baseQueryConsumeNftsRequest,
+    } as QueryConsumeNftsRequest;
+    return message;
+  },
+
+  toJSON(_: QueryConsumeNftsRequest): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(
+    _: DeepPartial<QueryConsumeNftsRequest>
+  ): QueryConsumeNftsRequest {
+    const message = {
+      ...baseQueryConsumeNftsRequest,
+    } as QueryConsumeNftsRequest;
+    return message;
+  },
+};
+
+const baseQueryConsumeNftsResponse: object = { token: "", timestamp: "" };
+
+export const QueryConsumeNftsResponse = {
+  encode(
+    message: QueryConsumeNftsResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.token !== "") {
+      writer.uint32(10).string(message.token);
+    }
+    if (message.timestamp !== "") {
+      writer.uint32(18).string(message.timestamp);
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryConsumeNftsResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryConsumeNftsResponse,
+    } as QueryConsumeNftsResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.token = reader.string();
+          break;
+        case 2:
+          message.timestamp = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryConsumeNftsResponse {
+    const message = {
+      ...baseQueryConsumeNftsResponse,
+    } as QueryConsumeNftsResponse;
+    if (object.token !== undefined && object.token !== null) {
+      message.token = String(object.token);
+    } else {
+      message.token = "";
+    }
+    if (object.timestamp !== undefined && object.timestamp !== null) {
+      message.timestamp = String(object.timestamp);
+    } else {
+      message.timestamp = "";
+    }
+    return message;
+  },
+
+  toJSON(message: QueryConsumeNftsResponse): unknown {
+    const obj: any = {};
+    message.token !== undefined && (obj.token = message.token);
+    message.timestamp !== undefined && (obj.timestamp = message.timestamp);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryConsumeNftsResponse>
+  ): QueryConsumeNftsResponse {
+    const message = {
+      ...baseQueryConsumeNftsResponse,
+    } as QueryConsumeNftsResponse;
+    if (object.token !== undefined && object.token !== null) {
+      message.token = object.token;
+    } else {
+      message.token = "";
+    }
+    if (object.timestamp !== undefined && object.timestamp !== null) {
+      message.timestamp = object.timestamp;
+    } else {
+      message.timestamp = "";
+    }
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
   Params(request: QueryParamsRequest): Promise<QueryParamsResponse>;
+  /** Queries a list of ConsumeNfts items. */
+  ConsumeNfts(
+    request: QueryConsumeNftsRequest
+  ): Promise<QueryConsumeNftsResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -129,6 +272,20 @@ export class QueryClientImpl implements Query {
       data
     );
     return promise.then((data) => QueryParamsResponse.decode(new Reader(data)));
+  }
+
+  ConsumeNfts(
+    request: QueryConsumeNftsRequest
+  ): Promise<QueryConsumeNftsResponse> {
+    const data = QueryConsumeNftsRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "thesixnetwork.sixprotocol.consume.Query",
+      "ConsumeNfts",
+      data
+    );
+    return promise.then((data) =>
+      QueryConsumeNftsResponse.decode(new Reader(data))
+    );
   }
 }
 

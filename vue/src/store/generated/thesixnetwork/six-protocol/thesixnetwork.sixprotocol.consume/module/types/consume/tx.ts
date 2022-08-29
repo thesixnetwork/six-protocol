@@ -7,6 +7,7 @@ export const protobufPackage = "thesixnetwork.sixprotocol.consume";
 export interface MsgUseNft {
   creator: string;
   token: string;
+  timestamp: string;
 }
 
 export interface MsgUseNftResponse {
@@ -23,7 +24,7 @@ export interface MsgUseNftByEVM {
 
 export interface MsgUseNftByEVMResponse {}
 
-const baseMsgUseNft: object = { creator: "", token: "" };
+const baseMsgUseNft: object = { creator: "", token: "", timestamp: "" };
 
 export const MsgUseNft = {
   encode(message: MsgUseNft, writer: Writer = Writer.create()): Writer {
@@ -32,6 +33,9 @@ export const MsgUseNft = {
     }
     if (message.token !== "") {
       writer.uint32(18).string(message.token);
+    }
+    if (message.timestamp !== "") {
+      writer.uint32(26).string(message.timestamp);
     }
     return writer;
   },
@@ -48,6 +52,9 @@ export const MsgUseNft = {
           break;
         case 2:
           message.token = reader.string();
+          break;
+        case 3:
+          message.timestamp = reader.string();
           break;
         default:
           reader.skipType(tag & 7);
@@ -69,6 +76,11 @@ export const MsgUseNft = {
     } else {
       message.token = "";
     }
+    if (object.timestamp !== undefined && object.timestamp !== null) {
+      message.timestamp = String(object.timestamp);
+    } else {
+      message.timestamp = "";
+    }
     return message;
   },
 
@@ -76,6 +88,7 @@ export const MsgUseNft = {
     const obj: any = {};
     message.creator !== undefined && (obj.creator = message.creator);
     message.token !== undefined && (obj.token = message.token);
+    message.timestamp !== undefined && (obj.timestamp = message.timestamp);
     return obj;
   },
 
@@ -90,6 +103,11 @@ export const MsgUseNft = {
       message.token = object.token;
     } else {
       message.token = "";
+    }
+    if (object.timestamp !== undefined && object.timestamp !== null) {
+      message.timestamp = object.timestamp;
+    } else {
+      message.timestamp = "";
     }
     return message;
   },

@@ -3,9 +3,10 @@ import { txClient, queryClient, MissingWalletError , registry} from './module'
 import { ConsumePacketData } from "./module/types/consume/packet"
 import { NoData } from "./module/types/consume/packet"
 import { Params } from "./module/types/consume/params"
+import { UseNft } from "./module/types/consume/use_nft"
 
 
-export { ConsumePacketData, NoData, Params };
+export { ConsumePacketData, NoData, Params, UseNft };
 
 async function initTxClient(vuexGetters) {
 	return await txClient(vuexGetters['common/wallet/signer'], {
@@ -44,11 +45,13 @@ function getStructure(template) {
 const getDefaultState = () => {
 	return {
 				Params: {},
+				ConsumeNfts: {},
 				
 				_Structure: {
 						ConsumePacketData: getStructure(ConsumePacketData.fromPartial({})),
 						NoData: getStructure(NoData.fromPartial({})),
 						Params: getStructure(Params.fromPartial({})),
+						UseNft: getStructure(UseNft.fromPartial({})),
 						
 		},
 		_Registry: registry,
@@ -82,6 +85,12 @@ export default {
 						(<any> params).query=null
 					}
 			return state.Params[JSON.stringify(params)] ?? {}
+		},
+				getConsumeNfts: (state) => (params = { params: {}}) => {
+					if (!(<any> params).query) {
+						(<any> params).query=null
+					}
+			return state.ConsumeNfts[JSON.stringify(params)] ?? {}
 		},
 				
 		getTypeStructure: (state) => (type) => {
@@ -134,6 +143,28 @@ export default {
 				return getters['getParams']( { params: {...key}, query}) ?? {}
 			} catch (e) {
 				throw new Error('QueryClient:QueryParams API Node Unavailable. Could not perform query: ' + e.message)
+				
+			}
+		},
+		
+		
+		
+		
+		 		
+		
+		
+		async QueryConsumeNfts({ commit, rootGetters, getters }, { options: { subscribe, all} = { subscribe:false, all:false}, params, query=null }) {
+			try {
+				const key = params ?? {};
+				const queryClient=await initQueryClient(rootGetters)
+				let value= (await queryClient.queryConsumeNfts()).data
+				
+					
+				commit('QUERY', { query: 'ConsumeNfts', key: { params: {...key}, query}, value })
+				if (subscribe) commit('SUBSCRIBE', { action: 'QueryConsumeNfts', payload: { options: { all }, params: {...key},query }})
+				return getters['getConsumeNfts']( { params: {...key}, query}) ?? {}
+			} catch (e) {
+				throw new Error('QueryClient:QueryConsumeNfts API Node Unavailable. Could not perform query: ' + e.message)
 				
 			}
 		},
