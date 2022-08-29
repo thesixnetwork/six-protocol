@@ -14,7 +14,7 @@ var _ = strconv.Itoa(0)
 
 func CmdUseNft() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "use-nft [token]",
+		Use:   "use-nft [token] [timestamp]",
 		Short: "Broadcast message useNft",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {

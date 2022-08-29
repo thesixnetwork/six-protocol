@@ -3,6 +3,8 @@ package keeper
 import (
 	"context"
 	"fmt"
+	"time"
+	// "strconv"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -13,10 +15,16 @@ import (
 func (k msgServer) UseNft(goCtx context.Context, msg *types.MsgUseNft) (*types.MsgUseNftResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
+	now := time.Now()
+	date_now := now.UTC().Local()
+	date_now_str := date_now.Format("2006-01-02T15:04:05Z")
+	// int_now := int64(now.Unix())
+
 	var spend = types.UseNft{
 		Creator:   msg.Creator,
 		Token:     msg.Token,
-		Timestamp: msg.Timestamp,
+		Timestamp: date_now_str,
+		// Timestamp: strconv.FormatInt(int_now, 10),
 	}
 
 	_, foundToken := k.tokenmngrKeeper.GetToken(ctx, msg.Token)
@@ -65,14 +73,14 @@ func (k msgServer) UseNft(goCtx context.Context, msg *types.MsgUseNft) (*types.M
 		var tokenBurn = types.NftUsed{
 			Token:  msg.Token,
 			Amount: 1,
-			UpdateAt: msg.Timestamp,
+			UpdateAt: date_now_str,
 		}
 		k.SetNftUsed(ctx, tokenBurn)
 	} else {
 		var tokenBurn = types.NftUsed{
 			Token:  msg.Token,
 			Amount: 1 + prev.Amount,
-			UpdateAt: msg.Timestamp,
+			UpdateAt: date_now_str,
 		}
 		k.SetNftUsed(ctx, tokenBurn)
 	}
