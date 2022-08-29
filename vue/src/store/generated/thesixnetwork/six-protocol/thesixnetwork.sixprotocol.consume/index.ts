@@ -1,12 +1,13 @@
 import { txClient, queryClient, MissingWalletError , registry} from './module'
 
+import { NftUsed } from "./module/types/consume/nft_used"
 import { ConsumePacketData } from "./module/types/consume/packet"
 import { NoData } from "./module/types/consume/packet"
 import { Params } from "./module/types/consume/params"
 import { UseNft } from "./module/types/consume/use_nft"
 
 
-export { ConsumePacketData, NoData, Params, UseNft };
+export { NftUsed, ConsumePacketData, NoData, Params, UseNft };
 
 async function initTxClient(vuexGetters) {
 	return await txClient(vuexGetters['common/wallet/signer'], {
@@ -46,8 +47,11 @@ const getDefaultState = () => {
 	return {
 				Params: {},
 				ConsumeNfts: {},
+				NftUsed: {},
+				NftUsedAll: {},
 				
 				_Structure: {
+						NftUsed: getStructure(NftUsed.fromPartial({})),
 						ConsumePacketData: getStructure(ConsumePacketData.fromPartial({})),
 						NoData: getStructure(NoData.fromPartial({})),
 						Params: getStructure(Params.fromPartial({})),
@@ -91,6 +95,18 @@ export default {
 						(<any> params).query=null
 					}
 			return state.ConsumeNfts[JSON.stringify(params)] ?? {}
+		},
+				getNftUsed: (state) => (params = { params: {}}) => {
+					if (!(<any> params).query) {
+						(<any> params).query=null
+					}
+			return state.NftUsed[JSON.stringify(params)] ?? {}
+		},
+				getNftUsedAll: (state) => (params = { params: {}}) => {
+					if (!(<any> params).query) {
+						(<any> params).query=null
+					}
+			return state.NftUsedAll[JSON.stringify(params)] ?? {}
 		},
 				
 		getTypeStructure: (state) => (type) => {
@@ -157,9 +173,13 @@ export default {
 			try {
 				const key = params ?? {};
 				const queryClient=await initQueryClient(rootGetters)
-				let value= (await queryClient.queryConsumeNfts()).data
+				let value= (await queryClient.queryConsumeNfts(query)).data
 				
 					
+				while (all && (<any> value).pagination && (<any> value).pagination.next_key!=null) {
+					let next_values=(await queryClient.queryConsumeNfts({...query, 'pagination.key':(<any> value).pagination.next_key})).data
+					value = mergeResults(value, next_values);
+				}
 				commit('QUERY', { query: 'ConsumeNfts', key: { params: {...key}, query}, value })
 				if (subscribe) commit('SUBSCRIBE', { action: 'QueryConsumeNfts', payload: { options: { all }, params: {...key},query }})
 				return getters['getConsumeNfts']( { params: {...key}, query}) ?? {}
@@ -170,21 +190,54 @@ export default {
 		},
 		
 		
-		async sendMsgUseNft({ rootGetters }, { value, fee = [], memo = '' }) {
+		
+		
+		 		
+		
+		
+		async QueryNftUsed({ commit, rootGetters, getters }, { options: { subscribe, all} = { subscribe:false, all:false}, params, query=null }) {
 			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgUseNft(value)
-				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
-	gas: "200000" }, memo})
-				return result
+				const key = params ?? {};
+				const queryClient=await initQueryClient(rootGetters)
+				let value= (await queryClient.queryNftUsed( key.token)).data
+				
+					
+				commit('QUERY', { query: 'NftUsed', key: { params: {...key}, query}, value })
+				if (subscribe) commit('SUBSCRIBE', { action: 'QueryNftUsed', payload: { options: { all }, params: {...key},query }})
+				return getters['getNftUsed']( { params: {...key}, query}) ?? {}
 			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new Error('TxClient:MsgUseNft:Init Could not initialize signing client. Wallet is required.')
-				}else{
-					throw new Error('TxClient:MsgUseNft:Send Could not broadcast Tx: '+ e.message)
-				}
+				throw new Error('QueryClient:QueryNftUsed API Node Unavailable. Could not perform query: ' + e.message)
+				
 			}
 		},
+		
+		
+		
+		
+		 		
+		
+		
+		async QueryNftUsedAll({ commit, rootGetters, getters }, { options: { subscribe, all} = { subscribe:false, all:false}, params, query=null }) {
+			try {
+				const key = params ?? {};
+				const queryClient=await initQueryClient(rootGetters)
+				let value= (await queryClient.queryNftUsedAll(query)).data
+				
+					
+				while (all && (<any> value).pagination && (<any> value).pagination.next_key!=null) {
+					let next_values=(await queryClient.queryNftUsedAll({...query, 'pagination.key':(<any> value).pagination.next_key})).data
+					value = mergeResults(value, next_values);
+				}
+				commit('QUERY', { query: 'NftUsedAll', key: { params: {...key}, query}, value })
+				if (subscribe) commit('SUBSCRIBE', { action: 'QueryNftUsedAll', payload: { options: { all }, params: {...key},query }})
+				return getters['getNftUsedAll']( { params: {...key}, query}) ?? {}
+			} catch (e) {
+				throw new Error('QueryClient:QueryNftUsedAll API Node Unavailable. Could not perform query: ' + e.message)
+				
+			}
+		},
+		
+		
 		async sendMsgUseNftByEVM({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
@@ -200,20 +253,22 @@ export default {
 				}
 			}
 		},
-		
-		async MsgUseNft({ rootGetters }, { value }) {
+		async sendMsgUseNft({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
 				const msg = await txClient.msgUseNft(value)
-				return msg
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+	gas: "200000" }, memo})
+				return result
 			} catch (e) {
 				if (e == MissingWalletError) {
 					throw new Error('TxClient:MsgUseNft:Init Could not initialize signing client. Wallet is required.')
-				} else{
-					throw new Error('TxClient:MsgUseNft:Create Could not create message: ' + e.message)
+				}else{
+					throw new Error('TxClient:MsgUseNft:Send Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
+		
 		async MsgUseNftByEVM({ rootGetters }, { value }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
@@ -224,6 +279,19 @@ export default {
 					throw new Error('TxClient:MsgUseNftByEVM:Init Could not initialize signing client. Wallet is required.')
 				} else{
 					throw new Error('TxClient:MsgUseNftByEVM:Create Could not create message: ' + e.message)
+				}
+			}
+		},
+		async MsgUseNft({ rootGetters }, { value }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgUseNft(value)
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgUseNft:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgUseNft:Create Could not create message: ' + e.message)
 				}
 			}
 		},

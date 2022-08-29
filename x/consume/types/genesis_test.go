@@ -22,9 +22,31 @@ func TestGenesisState_Validate(t *testing.T) {
 			desc: "valid genesis state",
 			genState: &types.GenesisState{
 				PortId: types.PortID,
+				NftUsedList: []types.NftUsed{
+					{
+						Token: "0",
+					},
+					{
+						Token: "1",
+					},
+				},
 				// this line is used by starport scaffolding # types/genesis/validField
 			},
 			valid: true,
+		},
+		{
+			desc: "duplicated nftUsed",
+			genState: &types.GenesisState{
+				NftUsedList: []types.NftUsed{
+					{
+						Token: "0",
+					},
+					{
+						Token: "0",
+					},
+				},
+			},
+			valid: false,
 		},
 		// this line is used by starport scaffolding # types/genesis/testcase
 	} {

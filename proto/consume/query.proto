@@ -6,6 +6,7 @@ import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "consume/params.proto";
 import "consume/use_nft.proto";
+import "consume/nft_used.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "github.com/thesixnetwork/six-protocol/x/consume/types";
@@ -19,6 +20,16 @@ service Query {
   // Queries a list of ConsumeNfts items.
 	rpc ConsumeNfts(QueryConsumeNftsRequest) returns (QueryConsumeNftsResponse) {
 		option (google.api.http).get = "/thesixnetwork/six-protocol/consume/consume_nfts";
+	}
+
+// Queries a NftUsed by index.
+	rpc NftUsed(QueryGetNftUsedRequest) returns (QueryGetNftUsedResponse) {
+		option (google.api.http).get = "/thesixnetwork/six-protocol/consume/nft_used/{token}";
+	}
+
+	// Queries a list of NftUsed items.
+	rpc NftUsedAll(QueryAllNftUsedRequest) returns (QueryAllNftUsedResponse) {
+		option (google.api.http).get = "/thesixnetwork/six-protocol/consume/nft_used";
 	}
 
 // this line is used by starport scaffolding # 2
@@ -40,6 +51,24 @@ message QueryConsumeNftsRequest {
 message QueryConsumeNftsResponse {
   repeated UseNft UseNft = 1;
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetNftUsedRequest {
+	  string token = 1;
+
+}
+
+message QueryGetNftUsedResponse {
+	NftUsed nftUsed = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllNftUsedRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllNftUsedResponse {
+	repeated NftUsed nftUsed = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
 // this line is used by starport scaffolding # 3

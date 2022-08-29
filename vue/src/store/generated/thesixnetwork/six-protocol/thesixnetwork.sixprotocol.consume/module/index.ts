@@ -4,13 +4,13 @@ import { StdFee } from "@cosmjs/launchpad";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
-import { MsgUseNft } from "./types/consume/tx";
 import { MsgUseNftByEVM } from "./types/consume/tx";
+import { MsgUseNft } from "./types/consume/tx";
 
 
 const types = [
-  ["/thesixnetwork.sixprotocol.consume.MsgUseNft", MsgUseNft],
   ["/thesixnetwork.sixprotocol.consume.MsgUseNftByEVM", MsgUseNftByEVM],
+  ["/thesixnetwork.sixprotocol.consume.MsgUseNft", MsgUseNft],
   
 ];
 export const MissingWalletError = new Error("wallet is required");
@@ -43,8 +43,8 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
 
   return {
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
-    msgUseNft: (data: MsgUseNft): EncodeObject => ({ typeUrl: "/thesixnetwork.sixprotocol.consume.MsgUseNft", value: MsgUseNft.fromPartial( data ) }),
     msgUseNftByEVM: (data: MsgUseNftByEVM): EncodeObject => ({ typeUrl: "/thesixnetwork.sixprotocol.consume.MsgUseNftByEVM", value: MsgUseNftByEVM.fromPartial( data ) }),
+    msgUseNft: (data: MsgUseNft): EncodeObject => ({ typeUrl: "/thesixnetwork.sixprotocol.consume.MsgUseNft", value: MsgUseNft.fromPartial( data ) }),
     
   };
 };

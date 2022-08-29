@@ -1,0 +1,12 @@
+syntax = "proto3";
+package thesixnetwork.sixprotocol.consume;
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/consume/types";
+
+message NftUsed {
+  string token = 1; 
+  uint64 amount = 2; 
+  string updateAt = 3; 
+  
+}
+

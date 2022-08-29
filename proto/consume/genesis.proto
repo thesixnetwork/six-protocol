@@ -3,6 +3,7 @@ package thesixnetwork.sixprotocol.consume;
 
 import "gogoproto/gogo.proto";
 import "consume/params.proto";
+import "consume/nft_used.proto";
 // this line is used by starport scaffolding # genesis/proto/import
 
 option go_package = "github.com/thesixnetwork/six-protocol/x/consume/types";
@@ -11,5 +12,6 @@ option go_package = "github.com/thesixnetwork/six-protocol/x/consume/types";
 message GenesisState {
   Params params = 1 [(gogoproto.nullable) = false];
   string port_id = 2;
+  repeated NftUsed nftUsedList = 3 [(gogoproto.nullable) = false];
   // this line is used by starport scaffolding # genesis/proto/state
 }

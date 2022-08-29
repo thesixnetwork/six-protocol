@@ -1,6 +1,12 @@
 /* eslint-disable */
 import { Reader, Writer } from "protobufjs/minimal";
 import { Params } from "../consume/params";
+import {
+  PageRequest,
+  PageResponse,
+} from "../cosmos/base/query/v1beta1/pagination";
+import { UseNft } from "../consume/use_nft";
+import { NftUsed } from "../consume/nft_used";
 
 export const protobufPackage = "thesixnetwork.sixprotocol.consume";
 
@@ -13,11 +19,30 @@ export interface QueryParamsResponse {
   params: Params | undefined;
 }
 
-export interface QueryConsumeNftsRequest {}
+export interface QueryConsumeNftsRequest {
+  pagination: PageRequest | undefined;
+}
 
 export interface QueryConsumeNftsResponse {
+  UseNft: UseNft[];
+  pagination: PageResponse | undefined;
+}
+
+export interface QueryGetNftUsedRequest {
   token: string;
-  timestamp: string;
+}
+
+export interface QueryGetNftUsedResponse {
+  nftUsed: NftUsed | undefined;
+}
+
+export interface QueryAllNftUsedRequest {
+  pagination: PageRequest | undefined;
+}
+
+export interface QueryAllNftUsedResponse {
+  nftUsed: NftUsed[];
+  pagination: PageResponse | undefined;
 }
 
 const baseQueryParamsRequest: object = {};
@@ -120,7 +145,13 @@ export const QueryParamsResponse = {
 const baseQueryConsumeNftsRequest: object = {};
 
 export const QueryConsumeNftsRequest = {
-  encode(_: QueryConsumeNftsRequest, writer: Writer = Writer.create()): Writer {
+  encode(
+    message: QueryConsumeNftsRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
+    }
     return writer;
   },
 
@@ -133,6 +164,9 @@ export const QueryConsumeNftsRequest = {
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
+        case 1:
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -141,40 +175,57 @@ export const QueryConsumeNftsRequest = {
     return message;
   },
 
-  fromJSON(_: any): QueryConsumeNftsRequest {
+  fromJSON(object: any): QueryConsumeNftsRequest {
     const message = {
       ...baseQueryConsumeNftsRequest,
     } as QueryConsumeNftsRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
     return message;
   },
 
-  toJSON(_: QueryConsumeNftsRequest): unknown {
+  toJSON(message: QueryConsumeNftsRequest): unknown {
     const obj: any = {};
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageRequest.toJSON(message.pagination)
+        : undefined);
     return obj;
   },
 
   fromPartial(
-    _: DeepPartial<QueryConsumeNftsRequest>
+    object: DeepPartial<QueryConsumeNftsRequest>
   ): QueryConsumeNftsRequest {
     const message = {
       ...baseQueryConsumeNftsRequest,
     } as QueryConsumeNftsRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
     return message;
   },
 };
 
-const baseQueryConsumeNftsResponse: object = { token: "", timestamp: "" };
+const baseQueryConsumeNftsResponse: object = {};
 
 export const QueryConsumeNftsResponse = {
   encode(
     message: QueryConsumeNftsResponse,
     writer: Writer = Writer.create()
   ): Writer {
-    if (message.token !== "") {
-      writer.uint32(10).string(message.token);
+    for (const v of message.UseNft) {
+      UseNft.encode(v!, writer.uint32(10).fork()).ldelim();
     }
-    if (message.timestamp !== "") {
-      writer.uint32(18).string(message.timestamp);
+    if (message.pagination !== undefined) {
+      PageResponse.encode(
+        message.pagination,
+        writer.uint32(18).fork()
+      ).ldelim();
     }
     return writer;
   },
@@ -188,14 +239,15 @@ export const QueryConsumeNftsResponse = {
     const message = {
       ...baseQueryConsumeNftsResponse,
     } as QueryConsumeNftsResponse;
+    message.UseNft = [];
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.token = reader.string();
+          message.UseNft.push(UseNft.decode(reader, reader.uint32()));
           break;
         case 2:
-          message.timestamp = reader.string();
+          message.pagination = PageResponse.decode(reader, reader.uint32());
           break;
         default:
           reader.skipType(tag & 7);
@@ -209,23 +261,33 @@ export const QueryConsumeNftsResponse = {
     const message = {
       ...baseQueryConsumeNftsResponse,
     } as QueryConsumeNftsResponse;
-    if (object.token !== undefined && object.token !== null) {
-      message.token = String(object.token);
-    } else {
-      message.token = "";
+    message.UseNft = [];
+    if (object.UseNft !== undefined && object.UseNft !== null) {
+      for (const e of object.UseNft) {
+        message.UseNft.push(UseNft.fromJSON(e));
+      }
     }
-    if (object.timestamp !== undefined && object.timestamp !== null) {
-      message.timestamp = String(object.timestamp);
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination);
     } else {
-      message.timestamp = "";
+      message.pagination = undefined;
     }
     return message;
   },
 
   toJSON(message: QueryConsumeNftsResponse): unknown {
     const obj: any = {};
-    message.token !== undefined && (obj.token = message.token);
-    message.timestamp !== undefined && (obj.timestamp = message.timestamp);
+    if (message.UseNft) {
+      obj.UseNft = message.UseNft.map((e) =>
+        e ? UseNft.toJSON(e) : undefined
+      );
+    } else {
+      obj.UseNft = [];
+    }
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageResponse.toJSON(message.pagination)
+        : undefined);
     return obj;
   },
 
@@ -235,15 +297,306 @@ export const QueryConsumeNftsResponse = {
     const message = {
       ...baseQueryConsumeNftsResponse,
     } as QueryConsumeNftsResponse;
+    message.UseNft = [];
+    if (object.UseNft !== undefined && object.UseNft !== null) {
+      for (const e of object.UseNft) {
+        message.UseNft.push(UseNft.fromPartial(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryGetNftUsedRequest: object = { token: "" };
+
+export const QueryGetNftUsedRequest = {
+  encode(
+    message: QueryGetNftUsedRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.token !== "") {
+      writer.uint32(10).string(message.token);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryGetNftUsedRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryGetNftUsedRequest } as QueryGetNftUsedRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.token = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetNftUsedRequest {
+    const message = { ...baseQueryGetNftUsedRequest } as QueryGetNftUsedRequest;
+    if (object.token !== undefined && object.token !== null) {
+      message.token = String(object.token);
+    } else {
+      message.token = "";
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetNftUsedRequest): unknown {
+    const obj: any = {};
+    message.token !== undefined && (obj.token = message.token);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryGetNftUsedRequest>
+  ): QueryGetNftUsedRequest {
+    const message = { ...baseQueryGetNftUsedRequest } as QueryGetNftUsedRequest;
     if (object.token !== undefined && object.token !== null) {
       message.token = object.token;
     } else {
       message.token = "";
     }
-    if (object.timestamp !== undefined && object.timestamp !== null) {
-      message.timestamp = object.timestamp;
+    return message;
+  },
+};
+
+const baseQueryGetNftUsedResponse: object = {};
+
+export const QueryGetNftUsedResponse = {
+  encode(
+    message: QueryGetNftUsedResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.nftUsed !== undefined) {
+      NftUsed.encode(message.nftUsed, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryGetNftUsedResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryGetNftUsedResponse,
+    } as QueryGetNftUsedResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.nftUsed = NftUsed.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetNftUsedResponse {
+    const message = {
+      ...baseQueryGetNftUsedResponse,
+    } as QueryGetNftUsedResponse;
+    if (object.nftUsed !== undefined && object.nftUsed !== null) {
+      message.nftUsed = NftUsed.fromJSON(object.nftUsed);
     } else {
-      message.timestamp = "";
+      message.nftUsed = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetNftUsedResponse): unknown {
+    const obj: any = {};
+    message.nftUsed !== undefined &&
+      (obj.nftUsed = message.nftUsed
+        ? NftUsed.toJSON(message.nftUsed)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryGetNftUsedResponse>
+  ): QueryGetNftUsedResponse {
+    const message = {
+      ...baseQueryGetNftUsedResponse,
+    } as QueryGetNftUsedResponse;
+    if (object.nftUsed !== undefined && object.nftUsed !== null) {
+      message.nftUsed = NftUsed.fromPartial(object.nftUsed);
+    } else {
+      message.nftUsed = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllNftUsedRequest: object = {};
+
+export const QueryAllNftUsedRequest = {
+  encode(
+    message: QueryAllNftUsedRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryAllNftUsedRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryAllNftUsedRequest } as QueryAllNftUsedRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllNftUsedRequest {
+    const message = { ...baseQueryAllNftUsedRequest } as QueryAllNftUsedRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllNftUsedRequest): unknown {
+    const obj: any = {};
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageRequest.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllNftUsedRequest>
+  ): QueryAllNftUsedRequest {
+    const message = { ...baseQueryAllNftUsedRequest } as QueryAllNftUsedRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllNftUsedResponse: object = {};
+
+export const QueryAllNftUsedResponse = {
+  encode(
+    message: QueryAllNftUsedResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    for (const v of message.nftUsed) {
+      NftUsed.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(
+        message.pagination,
+        writer.uint32(18).fork()
+      ).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryAllNftUsedResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryAllNftUsedResponse,
+    } as QueryAllNftUsedResponse;
+    message.nftUsed = [];
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.nftUsed.push(NftUsed.decode(reader, reader.uint32()));
+          break;
+        case 2:
+          message.pagination = PageResponse.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllNftUsedResponse {
+    const message = {
+      ...baseQueryAllNftUsedResponse,
+    } as QueryAllNftUsedResponse;
+    message.nftUsed = [];
+    if (object.nftUsed !== undefined && object.nftUsed !== null) {
+      for (const e of object.nftUsed) {
+        message.nftUsed.push(NftUsed.fromJSON(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllNftUsedResponse): unknown {
+    const obj: any = {};
+    if (message.nftUsed) {
+      obj.nftUsed = message.nftUsed.map((e) =>
+        e ? NftUsed.toJSON(e) : undefined
+      );
+    } else {
+      obj.nftUsed = [];
+    }
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageResponse.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllNftUsedResponse>
+  ): QueryAllNftUsedResponse {
+    const message = {
+      ...baseQueryAllNftUsedResponse,
+    } as QueryAllNftUsedResponse;
+    message.nftUsed = [];
+    if (object.nftUsed !== undefined && object.nftUsed !== null) {
+      for (const e of object.nftUsed) {
+        message.nftUsed.push(NftUsed.fromPartial(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
     }
     return message;
   },
@@ -257,6 +610,10 @@ export interface Query {
   ConsumeNfts(
     request: QueryConsumeNftsRequest
   ): Promise<QueryConsumeNftsResponse>;
+  /** Queries a NftUsed by index. */
+  NftUsed(request: QueryGetNftUsedRequest): Promise<QueryGetNftUsedResponse>;
+  /** Queries a list of NftUsed items. */
+  NftUsedAll(request: QueryAllNftUsedRequest): Promise<QueryAllNftUsedResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -285,6 +642,32 @@ export class QueryClientImpl implements Query {
     );
     return promise.then((data) =>
       QueryConsumeNftsResponse.decode(new Reader(data))
+    );
+  }
+
+  NftUsed(request: QueryGetNftUsedRequest): Promise<QueryGetNftUsedResponse> {
+    const data = QueryGetNftUsedRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "thesixnetwork.sixprotocol.consume.Query",
+      "NftUsed",
+      data
+    );
+    return promise.then((data) =>
+      QueryGetNftUsedResponse.decode(new Reader(data))
+    );
+  }
+
+  NftUsedAll(
+    request: QueryAllNftUsedRequest
+  ): Promise<QueryAllNftUsedResponse> {
+    const data = QueryAllNftUsedRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "thesixnetwork.sixprotocol.consume.Query",
+      "NftUsedAll",
+      data
+    );
+    return promise.then((data) =>
+      QueryAllNftUsedResponse.decode(new Reader(data))
     );
   }
 }

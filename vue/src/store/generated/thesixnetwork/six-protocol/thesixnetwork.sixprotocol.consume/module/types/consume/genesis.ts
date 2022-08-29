@@ -1,5 +1,6 @@
 /* eslint-disable */
 import { Params } from "../consume/params";
+import { NftUsed } from "../consume/nft_used";
 import { Writer, Reader } from "protobufjs/minimal";
 
 export const protobufPackage = "thesixnetwork.sixprotocol.consume";
@@ -7,8 +8,9 @@ export const protobufPackage = "thesixnetwork.sixprotocol.consume";
 /** GenesisState defines the consume module's genesis state. */
 export interface GenesisState {
   params: Params | undefined;
-  /** this line is used by starport scaffolding # genesis/proto/state */
   port_id: string;
+  /** this line is used by starport scaffolding # genesis/proto/state */
+  nftUsedList: NftUsed[];
 }
 
 const baseGenesisState: object = { port_id: "" };
@@ -21,6 +23,9 @@ export const GenesisState = {
     if (message.port_id !== "") {
       writer.uint32(18).string(message.port_id);
     }
+    for (const v of message.nftUsedList) {
+      NftUsed.encode(v!, writer.uint32(26).fork()).ldelim();
+    }
     return writer;
   },
 
@@ -28,6 +33,7 @@ export const GenesisState = {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = { ...baseGenesisState } as GenesisState;
+    message.nftUsedList = [];
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -36,6 +42,9 @@ export const GenesisState = {
           break;
         case 2:
           message.port_id = reader.string();
+          break;
+        case 3:
+          message.nftUsedList.push(NftUsed.decode(reader, reader.uint32()));
           break;
         default:
           reader.skipType(tag & 7);
@@ -47,6 +56,7 @@ export const GenesisState = {
 
   fromJSON(object: any): GenesisState {
     const message = { ...baseGenesisState } as GenesisState;
+    message.nftUsedList = [];
     if (object.params !== undefined && object.params !== null) {
       message.params = Params.fromJSON(object.params);
     } else {
@@ -57,6 +67,11 @@ export const GenesisState = {
     } else {
       message.port_id = "";
     }
+    if (object.nftUsedList !== undefined && object.nftUsedList !== null) {
+      for (const e of object.nftUsedList) {
+        message.nftUsedList.push(NftUsed.fromJSON(e));
+      }
+    }
     return message;
   },
 
@@ -65,11 +80,19 @@ export const GenesisState = {
     message.params !== undefined &&
       (obj.params = message.params ? Params.toJSON(message.params) : undefined);
     message.port_id !== undefined && (obj.port_id = message.port_id);
+    if (message.nftUsedList) {
+      obj.nftUsedList = message.nftUsedList.map((e) =>
+        e ? NftUsed.toJSON(e) : undefined
+      );
+    } else {
+      obj.nftUsedList = [];
+    }
     return obj;
   },
 
   fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = { ...baseGenesisState } as GenesisState;
+    message.nftUsedList = [];
     if (object.params !== undefined && object.params !== null) {
       message.params = Params.fromPartial(object.params);
     } else {
@@ -79,6 +102,11 @@ export const GenesisState = {
       message.port_id = object.port_id;
     } else {
       message.port_id = "";
+    }
+    if (object.nftUsedList !== undefined && object.nftUsedList !== null) {
+      for (const e of object.nftUsedList) {
+        message.nftUsedList.push(NftUsed.fromPartial(e));
+      }
     }
     return message;
   },

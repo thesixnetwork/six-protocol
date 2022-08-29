@@ -7,15 +7,15 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/thesixnetwork/six-protocol/x/consume/types"
-	tkmtypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+	// tkmtypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
 func (k msgServer) UseNft(goCtx context.Context, msg *types.MsgUseNft) (*types.MsgUseNftResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	var spend = types.UseNft{
-		Creator: msg.Creator,
-		Token:   msg.Token,
+		Creator:   msg.Creator,
+		Token:     msg.Token,
 		Timestamp: msg.Timestamp,
 	}
 
@@ -60,23 +60,25 @@ func (k msgServer) UseNft(goCtx context.Context, msg *types.MsgUseNft) (*types.M
 	}
 
 	// Get burning history
-	prev, found := k.tokenmngrKeeper.GetTokenBurn(ctx, msg.Token)
+	prev, found := k.GetNftUsed(ctx, msg.Token)
 	if !found {
-		var tokenBurn = tkmtypes.TokenBurn{
+		var tokenBurn = types.NftUsed{
 			Token:  msg.Token,
 			Amount: 1,
+			UpdateAt: msg.Timestamp,
 		}
-		k.tokenmngrKeeper.SetTokenBurn(ctx, tokenBurn)
+		k.SetNftUsed(ctx, tokenBurn)
 	} else {
-		var tokenBurn = tkmtypes.TokenBurn{
+		var tokenBurn = types.NftUsed{
 			Token:  msg.Token,
 			Amount: 1 + prev.Amount,
+			UpdateAt: msg.Timestamp,
 		}
-		k.tokenmngrKeeper.SetTokenBurn(ctx, tokenBurn)
+		k.SetNftUsed(ctx, tokenBurn)
 	}
 
 	// Update to history
-	id := k.tokenmngrKeeper.UpdateBurn(ctx, spend)
+	id := k.UpdateUseNft(ctx, spend)
 
 	return &types.MsgUseNftResponse{Id: id}, nil
 }
