@@ -12,6 +12,7 @@ func (k Keeper) SetNftUsed(ctx sdk.Context, nftUsed types.NftUsed) {
 	b := k.cdc.MustMarshal(&nftUsed)
 	store.Set(types.NftUsedKey(
 		nftUsed.Token,
+		nftUsed.Creator,
 	), b)
 }
 
@@ -26,6 +27,7 @@ func (k Keeper) GetNftUsed(
 
 	b := store.Get(types.NftUsedKey(
 		token,
+		creator,
 	))
 	if b == nil {
 		return val, false
@@ -45,6 +47,7 @@ func (k Keeper) RemoveNftUsed(
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.NftUsedKeyPrefix))
 	store.Delete(types.NftUsedKey(
 		token,
+		creator,
 	))
 }
 
