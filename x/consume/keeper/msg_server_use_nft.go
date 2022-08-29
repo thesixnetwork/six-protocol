@@ -15,34 +15,32 @@ import (
 func (k msgServer) UseNft(goCtx context.Context, msg *types.MsgUseNft) (*types.MsgUseNftResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	now := time.Now()
-	date_now := now.UTC().Local()
-	date_now_str := date_now.Format("2006-01-02T15:04:05Z")
-	// int_now := int64(now.Unix())
+	_, foundToken := k.tokenmngrKeeper.GetToken(ctx, msg.Token)
+	if !foundToken {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "token does not exist")
+	}
+
+	last_spend, _ := k.GetNftUsed(ctx, msg.Token)
+	last_spend_time, _ := time.Parse(time.RFC3339, last_spend.UpdateAt) // to UTC
+    expiredAt := last_spend_time.Add(5 * time.Minute)
+
+	msg_timestamp_UTC, error := time.Parse(time.RFC3339, msg.Timestamp) // to UTC
+	if error != nil {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid timestamp")
+	}
+
+	// date_now := time.Now().UTC().Local()
+    // date_now_str := date_now.Format("2006-01-02T15:04:05Z")
+    // date_now_UTC ,_ := time.Parse(time.RFC3339,date_now_str)
+
+	if msg_timestamp_UTC.Before(expiredAt) {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Token is used recently")
+	}
 
 	var spend = types.UseNft{
 		Creator:   msg.Creator,
 		Token:     msg.Token,
-		Timestamp: date_now_str,
-		// Timestamp: strconv.FormatInt(int_now, 10),
-	}
-
-	last_spend, found := k.GetNftUsed(ctx, msg.Token)
-	last_updateAt_epoch, error := time.Parse("2006-01-02T15:04:05Z", last_spend.UpdateAt)
-
-	if found && error != nil {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid last update time")
-	}
-
-	if found && error == nil {
-		if date_now.Sub(last_updateAt_epoch).Minutes() < 5 {
-			return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "token has been used in 5 miniues")
-		}
-	}
-
-	_, foundToken := k.tokenmngrKeeper.GetToken(ctx, msg.Token)
-	if !foundToken {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "token does not exist")
+		Timestamp: msg.Timestamp,
 	}
 
 	// Chect is this creator is exist
@@ -86,14 +84,14 @@ func (k msgServer) UseNft(goCtx context.Context, msg *types.MsgUseNft) (*types.M
 		var tokenBurn = types.NftUsed{
 			Token:  msg.Token,
 			Amount: 1,
-			UpdateAt: date_now_str,
+			UpdateAt: msg.Timestamp,
 		}
 		k.SetNftUsed(ctx, tokenBurn)
 	} else {
 		var tokenBurn = types.NftUsed{
 			Token:  msg.Token,
 			Amount: 1 + prev.Amount,
-			UpdateAt: date_now_str,
+			UpdateAt: msg.Timestamp,
 		}
 		k.SetNftUsed(ctx, tokenBurn)
 	}

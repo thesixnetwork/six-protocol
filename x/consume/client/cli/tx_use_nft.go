@@ -16,9 +16,10 @@ func CmdUseNft() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "use-nft [token] [timestamp]",
 		Short: "Broadcast message useNft",
-		Args:  cobra.ExactArgs(1),
+		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			argToken := args[0]
+			argTimestamp := args[1]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -28,6 +29,7 @@ func CmdUseNft() *cobra.Command {
 			msg := types.NewMsgUseNft(
 				clientCtx.GetFromAddress().String(),
 				argToken,
+				argTimestamp,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err

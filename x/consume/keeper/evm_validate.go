@@ -5,5 +5,7 @@ type Evm_Message struct{
     Timestamp string
 }
 
-func (k msgServer) ValidateEVM()
+func (k msgServer) ValidateEVM(){
+    return 
+}
 

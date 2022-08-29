@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	"strconv"
+	"time"
+	"encoding/json"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -17,6 +19,12 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 )
 
+
+type Message struct{
+    Msg string
+    Timestamp string
+}
+
 func (k msgServer) UseNftByEVM(goCtx context.Context, msg *types.MsgUseNftByEVM) (*types.MsgUseNftByEVMResponse, error) {
 	//chaeck creator is valid
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
@@ -24,8 +32,27 @@ func (k msgServer) UseNftByEVM(goCtx context.Context, msg *types.MsgUseNftByEVM)
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, err.Error())
 	}
 
+	var raw_sign_msg Message
+    json.Unmarshal([]byte(msg.SignMessage), &raw_sign_msg)
+
 	// hash the message
 	sign_msg := "\x19Ethereum Signed Message:\n" + strconv.FormatInt(int64(len(msg.SignMessage)), 10) + msg.SignMessage
+
+	 // getting timestamp from message and transforming it to UTC
+	time_stamp := raw_sign_msg.Timestamp
+	_ = raw_sign_msg.Msg
+	msg_timestamp_int, err := strconv.ParseInt(time_stamp[:len(time_stamp)-3], 10, 64)
+	if err != nil {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid message of timestamp")
+	}
+	msg_timestamp_epoch := time.Unix(msg_timestamp_int,0)
+
+	msg_timestamp_string := msg_timestamp_epoch.Format("2006-01-02T15:04:05Z")
+    _ ,error:= time.Parse(time.RFC3339,msg_timestamp_string)
+	if error != nil {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid timestamp")
+	}
+
 	data := []byte(sign_msg)
 	hash := crypto.Keccak256Hash(data)
 	var hash_bytes = hash.Bytes()
@@ -67,6 +94,7 @@ func (k msgServer) UseNftByEVM(goCtx context.Context, msg *types.MsgUseNftByEVM)
 	var spend = types.MsgUseNft{
 		Creator: msg.Creator,
 		Token:   msg.Token,
+		Timestamp: msg_timestamp_string,
 	}
 	_, err = k.UseNft(goCtx, &spend)
 	if err != nil {

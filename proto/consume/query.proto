@@ -55,6 +55,7 @@ message QueryConsumeNftsResponse {
 
 message QueryGetNftUsedRequest {
 	  string token = 1;
+	  string creator = 2;
 
 }
 

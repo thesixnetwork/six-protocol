@@ -9,10 +9,11 @@ const TypeMsgUseNft = "use_nft"
 
 var _ sdk.Msg = &MsgUseNft{}
 
-func NewMsgUseNft(creator string, token string) *MsgUseNft {
+func NewMsgUseNft(creator string, token string, timestamp string) *MsgUseNft {
 	return &MsgUseNft{
 		Creator: creator,
 		Token:   token,
+		Timestamp: timestamp,
 	}
 }
 
