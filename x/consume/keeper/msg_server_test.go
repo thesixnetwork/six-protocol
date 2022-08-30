@@ -10,7 +10,7 @@ import (
 	"github.com/thesixnetwork/six-protocol/x/consume/types"
 )
 
-func setupMsgServer(t testing.TB) (types.MsgServer, context.Context) {
+func _(t testing.TB) (types.MsgServer, context.Context) { //func setupMsgServer(t testing.TB) (types.MsgServer, context.Context) {
 	k, ctx := keepertest.ConsumeKeeper(t)
 	return keeper.NewMsgServerImpl(*k), sdk.WrapSDKContext(ctx)
 }
