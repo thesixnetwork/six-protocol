@@ -2,9 +2,6 @@ package keeper
 
 import (
 	"context"
-	// "fmt"
-	// "strconv"
-	// "time"
 	"encoding/json"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -12,12 +9,6 @@ import (
 	"github.com/thesixnetwork/six-protocol/x/consume/types"
 	handler "github.com/thesixnetwork/six-protocol/handler"
 
-	// "crypto/ecdsa"
-	// "bytes"
-
-	// "github.com/ethereum/go-ethereum/common"
-	// "github.com/ethereum/go-ethereum/common/hexutil"
-	// "github.com/ethereum/go-ethereum/crypto"
 )
 
 

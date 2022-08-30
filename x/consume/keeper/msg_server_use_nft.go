@@ -4,12 +4,10 @@ import (
 	"context"
 	"fmt"
 	"time"
-	// "strconv"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/thesixnetwork/six-protocol/x/consume/types"
-	// tkmtypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
 func (k msgServer) UseNft(goCtx context.Context, msg *types.MsgUseNft) (*types.MsgUseNftResponse, error) {
@@ -32,10 +30,6 @@ func (k msgServer) UseNft(goCtx context.Context, msg *types.MsgUseNft) (*types.M
 	if last_spend.Creator == msg.Creator && msg_timestamp_UTC.Before(expiredAt) {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "you can only use this nft once every 5 minutes")
 	}	
-
-	// if msg_timestamp_UTC.Before(expiredAt) {
-	// 	return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Token is used recently")
-	// }
 
 	var spend = types.UseNft{
 		Creator:   msg.Creator,
