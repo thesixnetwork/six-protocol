@@ -26,7 +26,17 @@ type Message struct{
 }
 
 func (k msgServer) UseNftByEVM(goCtx context.Context, msg *types.MsgUseNftByEVM) (*types.MsgUseNftByEVMResponse, error) {
-	//chaeck creator is valid
+	ctx := sdk.UnwrapSDKContext(goCtx)
+	// Check if the value already exists
+	_, isFound := k.evmbindKeeper.GetBinding(
+		ctx,
+		msg.EthAddress,
+	)
+
+	if !isFound {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Eth address not found in binding")
+	}
+
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, err.Error())

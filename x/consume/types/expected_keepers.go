@@ -5,6 +5,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	tkmtype "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+	evmbindtype "github.com/thesixnetwork/six-protocol/x/evmbind/types"
 )
 
 type TokenmngrKeeper interface {
@@ -16,6 +17,7 @@ type TokenmngrKeeper interface {
 }
 
 type EvmbindKeeper interface {
+	GetBinding(ctx sdk.Context,ethAddress string,) (val evmbindtype.Binding, found bool) 
 	// Methods imported from evmbind should be defined here
 }
 
