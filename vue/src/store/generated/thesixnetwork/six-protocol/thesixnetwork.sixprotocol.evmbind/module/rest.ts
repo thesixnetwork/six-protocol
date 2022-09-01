@@ -11,9 +11,8 @@
 
 export interface EvmbindBinding {
   ethAddress?: string;
-  ethSignature?: string;
-  signMessage?: string;
   creator?: string;
+  timestamp?: string;
 }
 
 export type EvmbindMsgCreateBindingResponse = object;

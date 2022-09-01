@@ -5,31 +5,22 @@ export const protobufPackage = "thesixnetwork.sixprotocol.evmbind";
 
 export interface Binding {
   ethAddress: string;
-  ethSignature: string;
-  signMessage: string;
   creator: string;
+  timestamp: string;
 }
 
-const baseBinding: object = {
-  ethAddress: "",
-  ethSignature: "",
-  signMessage: "",
-  creator: "",
-};
+const baseBinding: object = { ethAddress: "", creator: "", timestamp: "" };
 
 export const Binding = {
   encode(message: Binding, writer: Writer = Writer.create()): Writer {
     if (message.ethAddress !== "") {
       writer.uint32(10).string(message.ethAddress);
     }
-    if (message.ethSignature !== "") {
-      writer.uint32(18).string(message.ethSignature);
-    }
-    if (message.signMessage !== "") {
-      writer.uint32(26).string(message.signMessage);
-    }
     if (message.creator !== "") {
-      writer.uint32(42).string(message.creator);
+      writer.uint32(18).string(message.creator);
+    }
+    if (message.timestamp !== "") {
+      writer.uint32(26).string(message.timestamp);
     }
     return writer;
   },
@@ -45,13 +36,10 @@ export const Binding = {
           message.ethAddress = reader.string();
           break;
         case 2:
-          message.ethSignature = reader.string();
+          message.creator = reader.string();
           break;
         case 3:
-          message.signMessage = reader.string();
-          break;
-        case 5:
-          message.creator = reader.string();
+          message.timestamp = reader.string();
           break;
         default:
           reader.skipType(tag & 7);
@@ -68,20 +56,15 @@ export const Binding = {
     } else {
       message.ethAddress = "";
     }
-    if (object.ethSignature !== undefined && object.ethSignature !== null) {
-      message.ethSignature = String(object.ethSignature);
-    } else {
-      message.ethSignature = "";
-    }
-    if (object.signMessage !== undefined && object.signMessage !== null) {
-      message.signMessage = String(object.signMessage);
-    } else {
-      message.signMessage = "";
-    }
     if (object.creator !== undefined && object.creator !== null) {
       message.creator = String(object.creator);
     } else {
       message.creator = "";
+    }
+    if (object.timestamp !== undefined && object.timestamp !== null) {
+      message.timestamp = String(object.timestamp);
+    } else {
+      message.timestamp = "";
     }
     return message;
   },
@@ -89,11 +72,8 @@ export const Binding = {
   toJSON(message: Binding): unknown {
     const obj: any = {};
     message.ethAddress !== undefined && (obj.ethAddress = message.ethAddress);
-    message.ethSignature !== undefined &&
-      (obj.ethSignature = message.ethSignature);
-    message.signMessage !== undefined &&
-      (obj.signMessage = message.signMessage);
     message.creator !== undefined && (obj.creator = message.creator);
+    message.timestamp !== undefined && (obj.timestamp = message.timestamp);
     return obj;
   },
 
@@ -104,20 +84,15 @@ export const Binding = {
     } else {
       message.ethAddress = "";
     }
-    if (object.ethSignature !== undefined && object.ethSignature !== null) {
-      message.ethSignature = object.ethSignature;
-    } else {
-      message.ethSignature = "";
-    }
-    if (object.signMessage !== undefined && object.signMessage !== null) {
-      message.signMessage = object.signMessage;
-    } else {
-      message.signMessage = "";
-    }
     if (object.creator !== undefined && object.creator !== null) {
       message.creator = object.creator;
     } else {
       message.creator = "";
+    }
+    if (object.timestamp !== undefined && object.timestamp !== null) {
+      message.timestamp = object.timestamp;
+    } else {
+      message.timestamp = "";
     }
     return message;
   },

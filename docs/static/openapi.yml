@@ -34531,11 +34531,9 @@ paths:
                   properties:
                     ethAddress:
                       type: string
-                    ethSignature:
-                      type: string
-                    signMessage:
-                      type: string
                     creator:
+                      type: string
+                    timestamp:
                       type: string
               pagination:
                 type: object
@@ -34646,11 +34644,9 @@ paths:
                 properties:
                   ethAddress:
                     type: string
-                  ethSignature:
-                    type: string
-                  signMessage:
-                    type: string
                   creator:
+                    type: string
+                  timestamp:
                     type: string
         default:
           description: An unexpected error response.
@@ -58745,11 +58741,9 @@ definitions:
     properties:
       ethAddress:
         type: string
-      ethSignature:
-        type: string
-      signMessage:
-        type: string
       creator:
+        type: string
+      timestamp:
         type: string
   thesixnetwork.sixprotocol.evmbind.MsgCreateBindingResponse:
     type: object
@@ -58772,11 +58766,9 @@ definitions:
           properties:
             ethAddress:
               type: string
-            ethSignature:
-              type: string
-            signMessage:
-              type: string
             creator:
+              type: string
+            timestamp:
               type: string
       pagination:
         type: object
@@ -58811,11 +58803,9 @@ definitions:
         properties:
           ethAddress:
             type: string
-          ethSignature:
-            type: string
-          signMessage:
-            type: string
           creator:
+            type: string
+          timestamp:
             type: string
   thesixnetwork.sixprotocol.evmbind.QueryParamsResponse:
     type: object

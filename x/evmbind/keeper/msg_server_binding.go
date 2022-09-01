@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -32,11 +33,14 @@ func (k msgServer) CreateBinding(goCtx context.Context, msg *types.MsgCreateBind
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, err.Error())
 	}
 
+	timestamp := time.Now().Unix()
+	timestamp_epoch := time.Unix(timestamp,0)
+	timestamp_string := timestamp_epoch.Format("2006-01-02T15:04:05Z")
+
 	var binding = types.Binding{
 		Creator:      msg.Creator,
 		EthAddress:   msg.EthAddress,
-		EthSignature: msg.EthSignature,
-		SignMessage:  msg.SignMessage,
+		Timestamp:   timestamp_string,
 	}
 
 	k.SetBinding(
@@ -68,11 +72,15 @@ func (k msgServer) UpdateBinding(goCtx context.Context, msg *types.MsgUpdateBind
 		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
 	}
 
+	timestamp := time.Now().Unix()
+	timestamp_epoch := time.Unix(timestamp,0)
+	timestamp_string := timestamp_epoch.Format("2006-01-02T15:04:05Z")
+
+
 	var binding = types.Binding{
 		Creator:      msg.Creator,
 		EthAddress:   msg.EthAddress,
-		EthSignature: msg.EthSignature,
-		SignMessage:  msg.SignMessage,
+		Timestamp:   timestamp_string,
 	}
 
 	k.SetBinding(ctx, binding)
