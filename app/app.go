@@ -115,6 +115,9 @@ import (
 	nftmngrmodule "github.com/thesixnetwork/sixnft/x/nftmngr"
 	nftmngrmodulekeeper "github.com/thesixnetwork/sixnft/x/nftmngr/keeper"
 	nftmngrmoduletypes "github.com/thesixnetwork/sixnft/x/nftmngr/types"
+	nftoraclemodule "github.com/thesixnetwork/sixnft/x/nftoracle"
+	nftoraclemodulekeeper "github.com/thesixnetwork/sixnft/x/nftoracle/keeper"
+	nftoraclemoduletypes "github.com/thesixnetwork/sixnft/x/nftoracle/types"
 
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
@@ -179,6 +182,7 @@ var (
 		tokenmngrmodule.AppModuleBasic{},
 		evmsupportmodule.AppModuleBasic{},
 		nftnftadminmodule.AppModuleBasic{},
+		nftoraclemodule.AppModuleBasic{},
 		nftmngrmodule.AppModuleBasic{},
 		// this line is used by starport scaffolding # stargate/app/moduleBasic
 	)
@@ -263,12 +267,13 @@ type App struct {
 	// custom mudule keeper
 	ProtocoladminKeeper    protocoladminmodulekeeper.Keeper
 	TokenmngrKeeper        tokenmngrmodulekeeper.Keeper
+	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// module from data layer
 	EvmsupportKeeper evmsupportmodulekeeper.Keeper
 	NftadminKeeper nftadminmodulekeeper.Keeper
 	NftmngrKeeper nftmngrmodulekeeper.Keeper
-	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
+	NftoracleKeeper nftoraclemodulekeeper.Keeper
 
 	// mm is the module manager
 	mm *module.Manager
@@ -313,6 +318,7 @@ func New(
 		nftmngrmoduletypes.StoreKey,
 		evmsupportmoduletypes.StoreKey,
 		nftadminmoduletypes.StoreKey,
+		nftoraclemoduletypes.StoreKey,
 		wasm.StoreKey,
 		// this line is used by starport scaffolding # stargate/app/storeKey
 	)
@@ -550,7 +556,17 @@ func New(
 
 		app.BankKeeper,
 	)
-	nftnftadminmodule := nftnftadminmodule.NewAppModule(appCodec, app.NftadminKeeper, app.AccountKeeper, app.BankKeeper)
+	nftnftadminModule := nftnftadminmodule.NewAppModule(appCodec, app.NftadminKeeper, app.AccountKeeper, app.BankKeeper)
+
+	app.NftoracleKeeper = *nftoraclemodulekeeper.NewKeeper(
+		appCodec,
+		keys[nftoraclemoduletypes.StoreKey],
+		keys[nftoraclemoduletypes.MemStoreKey],
+		app.GetSubspace(nftoraclemoduletypes.ModuleName),
+		app.NftmngrKeeper,
+		app.NftadminKeeper,
+	)
+	nftoracleModule := nftoraclemodule.NewAppModule(appCodec, app.NftoracleKeeper, app.AccountKeeper, app.BankKeeper)
 	// this line is used by starport scaffolding # stargate/app/keeperDefinition
 
 	// Create static IBC router, add transfer route, then set and seal it
@@ -631,7 +647,8 @@ func New(
 		tokenmngrModule,
 		nftmngrModule,
 		evmsupportModule,
-		nftnftadminmodule,
+		nftnftadminModule,
+		nftoracleModule,
 		// this line is used by starport scaffolding # stargate/app/appModule
 	)
 
@@ -664,6 +681,7 @@ func New(
 		nftmngrmoduletypes.ModuleName,
 		evmsupportmoduletypes.ModuleName,
 		nftadminmoduletypes.ModuleName,
+		nftoraclemoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/beginBlockers
 	)
 
@@ -692,6 +710,7 @@ func New(
 		nftmngrmoduletypes.ModuleName,
 		evmsupportmoduletypes.ModuleName,
 		nftadminmoduletypes.ModuleName,
+		nftoraclemoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/endBlockers
 	)
 
@@ -725,6 +744,7 @@ func New(
 		nftmngrmoduletypes.ModuleName,
 		evmsupportmoduletypes.ModuleName,
 		nftadminmoduletypes.ModuleName,
+		nftoraclemoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	)
 
@@ -753,7 +773,8 @@ func New(
 		tokenmngrModule,
 		nftmngrModule,
 		evmsupportModule,
-		nftnftadminmodule,
+		nftnftadminModule,
+		nftoracleModule,
 		// this line is used by starport scaffolding # stargate/app/appModule
 	)
 
@@ -969,6 +990,7 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(nftmngrmoduletypes.ModuleName)
 	paramsKeeper.Subspace(evmsupportmoduletypes.ModuleName)
 	paramsKeeper.Subspace(nftadminmoduletypes.ModuleName)
+	paramsKeeper.Subspace(nftoraclemoduletypes.ModuleName)
 	// this line is used by starport scaffolding # stargate/app/paramSubspace
 
 	return paramsKeeper
