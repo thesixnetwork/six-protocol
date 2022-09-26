@@ -113,6 +113,10 @@ genesis:
             base: "usix",
           },
         ]
+    nftoracle:
+        params:
+            mint_request_active_duration: "120s"
+            action_request_active_duration: "120s"
     nftadmin:
         authorization:
             root_admin: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
