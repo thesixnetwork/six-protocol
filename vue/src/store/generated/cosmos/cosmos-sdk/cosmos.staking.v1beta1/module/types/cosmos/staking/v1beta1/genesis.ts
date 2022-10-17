@@ -3,6 +3,7 @@ import * as Long from "long";
 import { util, configure, Writer, Reader } from "protobufjs/minimal";
 import {
   Params,
+  ValidatorApproval,
   Validator,
   Delegation,
   UnbondingDelegation,
@@ -19,18 +20,20 @@ export interface GenesisState {
    * last_total_power tracks the total amounts of bonded tokens recorded during
    * the previous end block.
    */
-  lastTotalPower: Uint8Array;
+  last_total_power: Uint8Array;
   /**
    * last_validator_powers is a special index that provides a historical list
    * of the last-block's bonded validators.
    */
-  lastValidatorPowers: LastValidatorPower[];
+  last_validator_powers: LastValidatorPower[];
+  /** validator approval */
+  validator_approval: ValidatorApproval | undefined;
   /** delegations defines the validator set at genesis. */
   validators: Validator[];
   /** delegations defines the delegations active at genesis. */
   delegations: Delegation[];
   /** unbonding_delegations defines the unbonding delegations active at genesis. */
-  unbondingDelegations: UnbondingDelegation[];
+  unbonding_delegations: UnbondingDelegation[];
   /** redelegations defines the redelegations active at genesis. */
   redelegations: Redelegation[];
   exported: boolean;
@@ -51,26 +54,32 @@ export const GenesisState = {
     if (message.params !== undefined) {
       Params.encode(message.params, writer.uint32(10).fork()).ldelim();
     }
-    if (message.lastTotalPower.length !== 0) {
-      writer.uint32(18).bytes(message.lastTotalPower);
+    if (message.last_total_power.length !== 0) {
+      writer.uint32(18).bytes(message.last_total_power);
     }
-    for (const v of message.lastValidatorPowers) {
+    for (const v of message.last_validator_powers) {
       LastValidatorPower.encode(v!, writer.uint32(26).fork()).ldelim();
     }
+    if (message.validator_approval !== undefined) {
+      ValidatorApproval.encode(
+        message.validator_approval,
+        writer.uint32(34).fork()
+      ).ldelim();
+    }
     for (const v of message.validators) {
-      Validator.encode(v!, writer.uint32(34).fork()).ldelim();
+      Validator.encode(v!, writer.uint32(42).fork()).ldelim();
     }
     for (const v of message.delegations) {
-      Delegation.encode(v!, writer.uint32(42).fork()).ldelim();
+      Delegation.encode(v!, writer.uint32(50).fork()).ldelim();
     }
-    for (const v of message.unbondingDelegations) {
-      UnbondingDelegation.encode(v!, writer.uint32(50).fork()).ldelim();
+    for (const v of message.unbonding_delegations) {
+      UnbondingDelegation.encode(v!, writer.uint32(58).fork()).ldelim();
     }
     for (const v of message.redelegations) {
-      Redelegation.encode(v!, writer.uint32(58).fork()).ldelim();
+      Redelegation.encode(v!, writer.uint32(66).fork()).ldelim();
     }
     if (message.exported === true) {
-      writer.uint32(64).bool(message.exported);
+      writer.uint32(72).bool(message.exported);
     }
     return writer;
   },
@@ -79,10 +88,10 @@ export const GenesisState = {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = { ...baseGenesisState } as GenesisState;
-    message.lastValidatorPowers = [];
+    message.last_validator_powers = [];
     message.validators = [];
     message.delegations = [];
-    message.unbondingDelegations = [];
+    message.unbonding_delegations = [];
     message.redelegations = [];
     while (reader.pos < end) {
       const tag = reader.uint32();
@@ -91,30 +100,36 @@ export const GenesisState = {
           message.params = Params.decode(reader, reader.uint32());
           break;
         case 2:
-          message.lastTotalPower = reader.bytes();
+          message.last_total_power = reader.bytes();
           break;
         case 3:
-          message.lastValidatorPowers.push(
+          message.last_validator_powers.push(
             LastValidatorPower.decode(reader, reader.uint32())
           );
           break;
         case 4:
-          message.validators.push(Validator.decode(reader, reader.uint32()));
+          message.validator_approval = ValidatorApproval.decode(
+            reader,
+            reader.uint32()
+          );
           break;
         case 5:
-          message.delegations.push(Delegation.decode(reader, reader.uint32()));
+          message.validators.push(Validator.decode(reader, reader.uint32()));
           break;
         case 6:
-          message.unbondingDelegations.push(
+          message.delegations.push(Delegation.decode(reader, reader.uint32()));
+          break;
+        case 7:
+          message.unbonding_delegations.push(
             UnbondingDelegation.decode(reader, reader.uint32())
           );
           break;
-        case 7:
+        case 8:
           message.redelegations.push(
             Redelegation.decode(reader, reader.uint32())
           );
           break;
-        case 8:
+        case 9:
           message.exported = reader.bool();
           break;
         default:
@@ -127,26 +142,39 @@ export const GenesisState = {
 
   fromJSON(object: any): GenesisState {
     const message = { ...baseGenesisState } as GenesisState;
-    message.lastValidatorPowers = [];
+    message.last_validator_powers = [];
     message.validators = [];
     message.delegations = [];
-    message.unbondingDelegations = [];
+    message.unbonding_delegations = [];
     message.redelegations = [];
     if (object.params !== undefined && object.params !== null) {
       message.params = Params.fromJSON(object.params);
     } else {
       message.params = undefined;
     }
-    if (object.lastTotalPower !== undefined && object.lastTotalPower !== null) {
-      message.lastTotalPower = bytesFromBase64(object.lastTotalPower);
+    if (
+      object.last_total_power !== undefined &&
+      object.last_total_power !== null
+    ) {
+      message.last_total_power = bytesFromBase64(object.last_total_power);
     }
     if (
-      object.lastValidatorPowers !== undefined &&
-      object.lastValidatorPowers !== null
+      object.last_validator_powers !== undefined &&
+      object.last_validator_powers !== null
     ) {
-      for (const e of object.lastValidatorPowers) {
-        message.lastValidatorPowers.push(LastValidatorPower.fromJSON(e));
+      for (const e of object.last_validator_powers) {
+        message.last_validator_powers.push(LastValidatorPower.fromJSON(e));
       }
+    }
+    if (
+      object.validator_approval !== undefined &&
+      object.validator_approval !== null
+    ) {
+      message.validator_approval = ValidatorApproval.fromJSON(
+        object.validator_approval
+      );
+    } else {
+      message.validator_approval = undefined;
     }
     if (object.validators !== undefined && object.validators !== null) {
       for (const e of object.validators) {
@@ -159,11 +187,11 @@ export const GenesisState = {
       }
     }
     if (
-      object.unbondingDelegations !== undefined &&
-      object.unbondingDelegations !== null
+      object.unbonding_delegations !== undefined &&
+      object.unbonding_delegations !== null
     ) {
-      for (const e of object.unbondingDelegations) {
-        message.unbondingDelegations.push(UnbondingDelegation.fromJSON(e));
+      for (const e of object.unbonding_delegations) {
+        message.unbonding_delegations.push(UnbondingDelegation.fromJSON(e));
       }
     }
     if (object.redelegations !== undefined && object.redelegations !== null) {
@@ -183,19 +211,23 @@ export const GenesisState = {
     const obj: any = {};
     message.params !== undefined &&
       (obj.params = message.params ? Params.toJSON(message.params) : undefined);
-    message.lastTotalPower !== undefined &&
-      (obj.lastTotalPower = base64FromBytes(
-        message.lastTotalPower !== undefined
-          ? message.lastTotalPower
+    message.last_total_power !== undefined &&
+      (obj.last_total_power = base64FromBytes(
+        message.last_total_power !== undefined
+          ? message.last_total_power
           : new Uint8Array()
       ));
-    if (message.lastValidatorPowers) {
-      obj.lastValidatorPowers = message.lastValidatorPowers.map((e) =>
+    if (message.last_validator_powers) {
+      obj.last_validator_powers = message.last_validator_powers.map((e) =>
         e ? LastValidatorPower.toJSON(e) : undefined
       );
     } else {
-      obj.lastValidatorPowers = [];
+      obj.last_validator_powers = [];
     }
+    message.validator_approval !== undefined &&
+      (obj.validator_approval = message.validator_approval
+        ? ValidatorApproval.toJSON(message.validator_approval)
+        : undefined);
     if (message.validators) {
       obj.validators = message.validators.map((e) =>
         e ? Validator.toJSON(e) : undefined
@@ -210,12 +242,12 @@ export const GenesisState = {
     } else {
       obj.delegations = [];
     }
-    if (message.unbondingDelegations) {
-      obj.unbondingDelegations = message.unbondingDelegations.map((e) =>
+    if (message.unbonding_delegations) {
+      obj.unbonding_delegations = message.unbonding_delegations.map((e) =>
         e ? UnbondingDelegation.toJSON(e) : undefined
       );
     } else {
-      obj.unbondingDelegations = [];
+      obj.unbonding_delegations = [];
     }
     if (message.redelegations) {
       obj.redelegations = message.redelegations.map((e) =>
@@ -230,28 +262,41 @@ export const GenesisState = {
 
   fromPartial(object: DeepPartial<GenesisState>): GenesisState {
     const message = { ...baseGenesisState } as GenesisState;
-    message.lastValidatorPowers = [];
+    message.last_validator_powers = [];
     message.validators = [];
     message.delegations = [];
-    message.unbondingDelegations = [];
+    message.unbonding_delegations = [];
     message.redelegations = [];
     if (object.params !== undefined && object.params !== null) {
       message.params = Params.fromPartial(object.params);
     } else {
       message.params = undefined;
     }
-    if (object.lastTotalPower !== undefined && object.lastTotalPower !== null) {
-      message.lastTotalPower = object.lastTotalPower;
+    if (
+      object.last_total_power !== undefined &&
+      object.last_total_power !== null
+    ) {
+      message.last_total_power = object.last_total_power;
     } else {
-      message.lastTotalPower = new Uint8Array();
+      message.last_total_power = new Uint8Array();
     }
     if (
-      object.lastValidatorPowers !== undefined &&
-      object.lastValidatorPowers !== null
+      object.last_validator_powers !== undefined &&
+      object.last_validator_powers !== null
     ) {
-      for (const e of object.lastValidatorPowers) {
-        message.lastValidatorPowers.push(LastValidatorPower.fromPartial(e));
+      for (const e of object.last_validator_powers) {
+        message.last_validator_powers.push(LastValidatorPower.fromPartial(e));
       }
+    }
+    if (
+      object.validator_approval !== undefined &&
+      object.validator_approval !== null
+    ) {
+      message.validator_approval = ValidatorApproval.fromPartial(
+        object.validator_approval
+      );
+    } else {
+      message.validator_approval = undefined;
     }
     if (object.validators !== undefined && object.validators !== null) {
       for (const e of object.validators) {
@@ -264,11 +309,11 @@ export const GenesisState = {
       }
     }
     if (
-      object.unbondingDelegations !== undefined &&
-      object.unbondingDelegations !== null
+      object.unbonding_delegations !== undefined &&
+      object.unbonding_delegations !== null
     ) {
-      for (const e of object.unbondingDelegations) {
-        message.unbondingDelegations.push(UnbondingDelegation.fromPartial(e));
+      for (const e of object.unbonding_delegations) {
+        message.unbonding_delegations.push(UnbondingDelegation.fromPartial(e));
       }
     }
     if (object.redelegations !== undefined && object.redelegations !== null) {

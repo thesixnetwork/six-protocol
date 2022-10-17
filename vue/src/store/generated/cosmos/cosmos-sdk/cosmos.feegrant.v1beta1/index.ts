@@ -1,6 +1,4 @@
 import { txClient, queryClient, MissingWalletError , registry} from './module'
-// @ts-ignore
-import { SpVuexError } from '@starport/vuex'
 
 import { BasicAllowance } from "./module/types/cosmos/feegrant/v1beta1/feegrant"
 import { PeriodicAllowance } from "./module/types/cosmos/feegrant/v1beta1/feegrant"
@@ -48,6 +46,7 @@ const getDefaultState = () => {
 	return {
 				Allowance: {},
 				Allowances: {},
+				AllowancesByGranter: {},
 				
 				_Structure: {
 						BasicAllowance: getStructure(BasicAllowance.fromPartial({})),
@@ -94,6 +93,12 @@ export default {
 					}
 			return state.Allowances[JSON.stringify(params)] ?? {}
 		},
+				getAllowancesByGranter: (state) => (params = { params: {}}) => {
+					if (!(<any> params).query) {
+						(<any> params).query=null
+					}
+			return state.AllowancesByGranter[JSON.stringify(params)] ?? {}
+		},
 				
 		getTypeStructure: (state) => (type) => {
 			return state._Structure[type].fields
@@ -123,7 +128,7 @@ export default {
 					const sub=JSON.parse(subscription)
 					await dispatch(sub.action, sub.payload)
 				}catch(e) {
-					throw new SpVuexError('Subscriptions: ' + e.message)
+					throw new Error('Subscriptions: ' + e.message)
 				}
 			})
 		},
@@ -144,7 +149,7 @@ export default {
 				if (subscribe) commit('SUBSCRIBE', { action: 'QueryAllowance', payload: { options: { all }, params: {...key},query }})
 				return getters['getAllowance']( { params: {...key}, query}) ?? {}
 			} catch (e) {
-				throw new SpVuexError('QueryClient:QueryAllowance', 'API Node Unavailable. Could not perform query: ' + e.message)
+				throw new Error('QueryClient:QueryAllowance API Node Unavailable. Could not perform query: ' + e.message)
 				
 			}
 		},
@@ -170,27 +175,38 @@ export default {
 				if (subscribe) commit('SUBSCRIBE', { action: 'QueryAllowances', payload: { options: { all }, params: {...key},query }})
 				return getters['getAllowances']( { params: {...key}, query}) ?? {}
 			} catch (e) {
-				throw new SpVuexError('QueryClient:QueryAllowances', 'API Node Unavailable. Could not perform query: ' + e.message)
+				throw new Error('QueryClient:QueryAllowances API Node Unavailable. Could not perform query: ' + e.message)
 				
 			}
 		},
 		
 		
-		async sendMsgRevokeAllowance({ rootGetters }, { value, fee = [], memo = '' }) {
+		
+		
+		 		
+		
+		
+		async QueryAllowancesByGranter({ commit, rootGetters, getters }, { options: { subscribe, all} = { subscribe:false, all:false}, params, query=null }) {
 			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgRevokeAllowance(value)
-				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
-	gas: "200000" }, memo})
-				return result
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new SpVuexError('TxClient:MsgRevokeAllowance:Init', 'Could not initialize signing client. Wallet is required.')
-				}else{
-					throw new SpVuexError('TxClient:MsgRevokeAllowance:Send', 'Could not broadcast Tx: '+ e.message)
+				const key = params ?? {};
+				const queryClient=await initQueryClient(rootGetters)
+				let value= (await queryClient.queryAllowancesByGranter( key.granter, query)).data
+				
+					
+				while (all && (<any> value).pagination && (<any> value).pagination.next_key!=null) {
+					let next_values=(await queryClient.queryAllowancesByGranter( key.granter, {...query, 'pagination.key':(<any> value).pagination.next_key})).data
+					value = mergeResults(value, next_values);
 				}
+				commit('QUERY', { query: 'AllowancesByGranter', key: { params: {...key}, query}, value })
+				if (subscribe) commit('SUBSCRIBE', { action: 'QueryAllowancesByGranter', payload: { options: { all }, params: {...key},query }})
+				return getters['getAllowancesByGranter']( { params: {...key}, query}) ?? {}
+			} catch (e) {
+				throw new Error('QueryClient:QueryAllowancesByGranter API Node Unavailable. Could not perform query: ' + e.message)
+				
 			}
 		},
+		
+		
 		async sendMsgGrantAllowance({ rootGetters }, { value, fee = [], memo = '' }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
@@ -200,27 +216,28 @@ export default {
 				return result
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new SpVuexError('TxClient:MsgGrantAllowance:Init', 'Could not initialize signing client. Wallet is required.')
+					throw new Error('TxClient:MsgGrantAllowance:Init Could not initialize signing client. Wallet is required.')
 				}else{
-					throw new SpVuexError('TxClient:MsgGrantAllowance:Send', 'Could not broadcast Tx: '+ e.message)
+					throw new Error('TxClient:MsgGrantAllowance:Send Could not broadcast Tx: '+ e.message)
+				}
+			}
+		},
+		async sendMsgRevokeAllowance({ rootGetters }, { value, fee = [], memo = '' }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgRevokeAllowance(value)
+				const result = await txClient.signAndBroadcast([msg], {fee: { amount: fee, 
+	gas: "200000" }, memo})
+				return result
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgRevokeAllowance:Init Could not initialize signing client. Wallet is required.')
+				}else{
+					throw new Error('TxClient:MsgRevokeAllowance:Send Could not broadcast Tx: '+ e.message)
 				}
 			}
 		},
 		
-		async MsgRevokeAllowance({ rootGetters }, { value }) {
-			try {
-				const txClient=await initTxClient(rootGetters)
-				const msg = await txClient.msgRevokeAllowance(value)
-				return msg
-			} catch (e) {
-				if (e == MissingWalletError) {
-					throw new SpVuexError('TxClient:MsgRevokeAllowance:Init', 'Could not initialize signing client. Wallet is required.')
-				}else{
-					throw new SpVuexError('TxClient:MsgRevokeAllowance:Create', 'Could not create message: ' + e.message)
-					
-				}
-			}
-		},
 		async MsgGrantAllowance({ rootGetters }, { value }) {
 			try {
 				const txClient=await initTxClient(rootGetters)
@@ -228,10 +245,22 @@ export default {
 				return msg
 			} catch (e) {
 				if (e == MissingWalletError) {
-					throw new SpVuexError('TxClient:MsgGrantAllowance:Init', 'Could not initialize signing client. Wallet is required.')
-				}else{
-					throw new SpVuexError('TxClient:MsgGrantAllowance:Create', 'Could not create message: ' + e.message)
-					
+					throw new Error('TxClient:MsgGrantAllowance:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgGrantAllowance:Create Could not create message: ' + e.message)
+				}
+			}
+		},
+		async MsgRevokeAllowance({ rootGetters }, { value }) {
+			try {
+				const txClient=await initTxClient(rootGetters)
+				const msg = await txClient.msgRevokeAllowance(value)
+				return msg
+			} catch (e) {
+				if (e == MissingWalletError) {
+					throw new Error('TxClient:MsgRevokeAllowance:Init Could not initialize signing client. Wallet is required.')
+				} else{
+					throw new Error('TxClient:MsgRevokeAllowance:Create Could not create message: ' + e.message)
 				}
 			}
 		},

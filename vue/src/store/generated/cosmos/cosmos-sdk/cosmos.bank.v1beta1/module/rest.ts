@@ -65,7 +65,7 @@ a basic token.
 */
 export interface V1Beta1Metadata {
   description?: string;
-  denomUnits?: V1Beta1DenomUnit[];
+  denom_units?: V1Beta1DenomUnit[];
 
   /** base represents the base denom (should be the DenomUnit with exponent = 0). */
   base?: string;
@@ -142,7 +142,7 @@ export interface V1Beta1PageRequest {
    * count_total is only respected when offset is used. It is ignored when key
    * is set.
    */
-  countTotal?: boolean;
+  count_total?: boolean;
 
   /**
    * reverse is set to true if results are to be returned in the descending order.
@@ -163,7 +163,7 @@ corresponding request message has used PageRequest.
 */
 export interface V1Beta1PageResponse {
   /** @format byte */
-  nextKey?: string;
+  next_key?: string;
 
   /** @format uint64 */
   total?: string;
@@ -173,8 +173,8 @@ export interface V1Beta1PageResponse {
  * Params defines the parameters for the bank module.
  */
 export interface V1Beta1Params {
-  sendEnabled?: V1Beta1SendEnabled[];
-  defaultSendEnabled?: boolean;
+  send_enabled?: V1Beta1SendEnabled[];
+  default_send_enabled?: boolean;
 }
 
 /**
@@ -224,6 +224,18 @@ export interface V1Beta1QueryDenomsMetadataResponse {
 export interface V1Beta1QueryParamsResponse {
   /** Params defines the parameters for the bank module. */
   params?: V1Beta1Params;
+}
+
+/**
+* QuerySpendableBalancesResponse defines the gRPC response structure for querying
+an account's spendable balances.
+*/
+export interface V1Beta1QuerySpendableBalancesResponse {
+  /** balances is the spendable balances of all the coins. */
+  balances?: V1Beta1Coin[];
+
+  /** pagination defines the pagination in the response. */
+  pagination?: V1Beta1PageResponse;
 }
 
 /**
@@ -464,7 +476,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       "pagination.key"?: string;
       "pagination.offset"?: string;
       "pagination.limit"?: string;
-      "pagination.countTotal"?: boolean;
+      "pagination.count_total"?: boolean;
       "pagination.reverse"?: boolean;
     },
     params: RequestParams = {},
@@ -507,7 +519,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       "pagination.key"?: string;
       "pagination.offset"?: string;
       "pagination.limit"?: string;
-      "pagination.countTotal"?: boolean;
+      "pagination.count_total"?: boolean;
       "pagination.reverse"?: boolean;
     },
     params: RequestParams = {},
@@ -553,6 +565,34 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     });
 
   /**
+ * No description
+ * 
+ * @tags Query
+ * @name QuerySpendableBalances
+ * @summary SpendableBalances queries the spenable balance of all coins for a single
+account.
+ * @request GET:/cosmos/bank/v1beta1/spendable_balances/{address}
+ */
+  querySpendableBalances = (
+    address: string,
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.count_total"?: boolean;
+      "pagination.reverse"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<V1Beta1QuerySpendableBalancesResponse, RpcStatus>({
+      path: `/cosmos/bank/v1beta1/spendable_balances/${address}`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
    * No description
    *
    * @tags Query
@@ -565,7 +605,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       "pagination.key"?: string;
       "pagination.offset"?: string;
       "pagination.limit"?: string;
-      "pagination.countTotal"?: boolean;
+      "pagination.count_total"?: boolean;
       "pagination.reverse"?: boolean;
     },
     params: RequestParams = {},
