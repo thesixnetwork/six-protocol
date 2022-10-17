@@ -109,7 +109,7 @@ import (
 	evmsupportmodule "github.com/thesixnetwork/sixnft/x/evmsupport"
 	evmsupportmodulekeeper "github.com/thesixnetwork/sixnft/x/evmsupport/keeper"
 	evmsupportmoduletypes "github.com/thesixnetwork/sixnft/x/evmsupport/types"
-	nftnftadminmodule "github.com/thesixnetwork/sixnft/x/nftadmin"
+	nftadminmodule "github.com/thesixnetwork/sixnft/x/nftadmin"
 	nftadminmodulekeeper "github.com/thesixnetwork/sixnft/x/nftadmin/keeper"
 	nftadminmoduletypes "github.com/thesixnetwork/sixnft/x/nftadmin/types"
 	nftmngrmodule "github.com/thesixnetwork/sixnft/x/nftmngr"
@@ -181,7 +181,7 @@ var (
 		protocoladminmodule.AppModuleBasic{},
 		tokenmngrmodule.AppModuleBasic{},
 		evmsupportmodule.AppModuleBasic{},
-		nftnftadminmodule.AppModuleBasic{},
+		nftadminmodule.AppModuleBasic{},
 		nftoraclemodule.AppModuleBasic{},
 		nftmngrmodule.AppModuleBasic{},
 		// this line is used by starport scaffolding # stargate/app/moduleBasic
@@ -540,14 +540,6 @@ func New(
 	)
 	evmsupportModule := evmsupportmodule.NewAppModule(appCodec, app.EvmsupportKeeper, app.AccountKeeper, app.BankKeeper)
 
-	app.NftmngrKeeper = *nftmngrmodulekeeper.NewKeeper(
-		appCodec,
-		keys[nftmngrmoduletypes.StoreKey],
-		keys[nftmngrmoduletypes.MemStoreKey],
-		app.GetSubspace(nftmngrmoduletypes.ModuleName),
-		app.EvmsupportKeeper,
-	)
-	nftmngrModule := nftmngrmodule.NewAppModule(appCodec, app.NftmngrKeeper, app.AccountKeeper, app.BankKeeper, app.EvmsupportKeeper)
 	app.NftadminKeeper = *nftadminmodulekeeper.NewKeeper(
 		appCodec,
 		keys[nftadminmoduletypes.StoreKey],
@@ -556,7 +548,21 @@ func New(
 
 		app.BankKeeper,
 	)
-	nftnftadminModule := nftnftadminmodule.NewAppModule(appCodec, app.NftadminKeeper, app.AccountKeeper, app.BankKeeper)
+	nftadminModule := nftadminmodule.NewAppModule(appCodec, app.NftadminKeeper, app.AccountKeeper, app.BankKeeper)
+
+	app.NftmngrKeeper = *nftmngrmodulekeeper.NewKeeper(
+		appCodec,
+		keys[nftmngrmoduletypes.StoreKey],
+		keys[nftmngrmoduletypes.MemStoreKey],
+		app.GetSubspace(nftmngrmoduletypes.ModuleName),
+		app.EvmsupportKeeper,
+		app.NftadminKeeper,
+		app.BankKeeper,
+		app.StakingKeeper,
+		app.DistrKeeper,
+	)
+
+	nftmngrModule := nftmngrmodule.NewAppModule(appCodec, app.NftmngrKeeper, app.AccountKeeper, app.BankKeeper, app.EvmsupportKeeper)
 
 	app.NftoracleKeeper = *nftoraclemodulekeeper.NewKeeper(
 		appCodec,
@@ -647,7 +653,7 @@ func New(
 		tokenmngrModule,
 		nftmngrModule,
 		evmsupportModule,
-		nftnftadminModule,
+		nftadminModule,
 		nftoracleModule,
 		// this line is used by starport scaffolding # stargate/app/appModule
 	)
@@ -773,7 +779,7 @@ func New(
 		tokenmngrModule,
 		nftmngrModule,
 		evmsupportModule,
-		nftnftadminModule,
+		nftadminModule,
 		nftoracleModule,
 		// this line is used by starport scaffolding # stargate/app/appModule
 	)

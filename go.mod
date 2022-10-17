@@ -16,7 +16,7 @@ require (
 	github.com/stretchr/testify v1.7.5
 	github.com/tendermint/tendermint v0.34.20-0.20220517115723-e6f071164839
 	github.com/tendermint/tm-db v0.6.7
-	github.com/thesixnetwork/sixnft v0.1.0-alpha1.0.20220926044456-916d03861474
+	github.com/thesixnetwork/sixnft v0.5.0
 	google.golang.org/genproto v0.0.0-20220822174746-9e6da59bd2fc
 	google.golang.org/grpc v1.48.0
 	gopkg.in/yaml.v2 v2.4.0
@@ -179,7 +179,9 @@ require (
 	github.com/antlr/antlr4/runtime/Go/antlr v0.0.0-20220527190237-ee62e23da966 // indirect
 	github.com/bmatcuk/doublestar v1.3.2 // indirect
 	github.com/ethereum/go-ethereum v1.9.25 // indirect
+	github.com/golang/glog v1.0.0 // indirect
 	github.com/google/uuid v1.2.0 // indirect
+	github.com/grpc-ecosystem/grpc-gateway/v2 v2.11.3 // indirect
 	github.com/hyperjumptech/grule-rule-engine v1.11.0 // indirect
 	github.com/src-d/gcfg v1.4.0 // indirect
 	go.uber.org/atomic v1.9.0 // indirect
@@ -196,5 +198,6 @@ replace (
 	github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
 	github.com/keybase/go-keychain => github.com/99designs/go-keychain v0.0.0-20191008050251-8e49817e8af4
 	github.com/syndtr/goleveldb => github.com/syndtr/goleveldb v1.0.1-0.20200815110645-5c35d600f0ca
+	github.com/thesixnetwork/sixnft => /Users/hamdeeduere/Documents/Repositories/six-dev/thesixnetwork/sixnft
 	google.golang.org/grpc => google.golang.org/grpc v1.33.2
 )
