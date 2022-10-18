@@ -180,10 +180,10 @@ var (
 		wasm.AppModuleBasic{},
 		protocoladminmodule.AppModuleBasic{},
 		tokenmngrmodule.AppModuleBasic{},
-		evmsupportmodule.AppModuleBasic{},
-		nftadminmodule.AppModuleBasic{},
-		nftoraclemodule.AppModuleBasic{},
 		nftmngrmodule.AppModuleBasic{},
+		evmsupportmodule.AppModuleBasic{},
+		nftoraclemodule.AppModuleBasic{},
+		nftadminmodule.AppModuleBasic{},
 		// this line is used by starport scaffolding # stargate/app/moduleBasic
 	)
 
@@ -199,6 +199,7 @@ var (
 		tokenmngrmoduletypes.ModuleName: {authtypes.Minter, authtypes.Burner, authtypes.Staking},
 		protocoladminmoduletypes.ModuleName: {authtypes.Minter, authtypes.Burner, authtypes.Staking},
 		nftadminmoduletypes.ModuleName: {authtypes.Minter, authtypes.Burner, authtypes.Staking},
+		nftmngrmoduletypes.ModuleName:  {authtypes.Burner},
 		wasm.ModuleName:                 {authtypes.Burner},
 		// this line is used by starport scaffolding # stargate/app/maccPerms
 	}
@@ -315,11 +316,11 @@ func New(
 		// six keys
 		protocoladminmoduletypes.StoreKey,
 		tokenmngrmoduletypes.StoreKey,
+		wasm.StoreKey,
 		nftmngrmoduletypes.StoreKey,
 		evmsupportmoduletypes.StoreKey,
-		nftadminmoduletypes.StoreKey,
 		nftoraclemoduletypes.StoreKey,
-		wasm.StoreKey,
+		nftadminmoduletypes.StoreKey,
 		// this line is used by starport scaffolding # stargate/app/storeKey
 	)
 	tkeys := sdk.NewTransientStoreKeys(paramstypes.TStoreKey)
@@ -548,8 +549,7 @@ func New(
 
 		app.BankKeeper,
 	)
-	nftadminModule := nftadminmodule.NewAppModule(appCodec, app.NftadminKeeper, app.AccountKeeper, app.BankKeeper)
-
+	
 	app.NftmngrKeeper = *nftmngrmodulekeeper.NewKeeper(
 		appCodec,
 		keys[nftmngrmoduletypes.StoreKey],
@@ -561,9 +561,10 @@ func New(
 		app.StakingKeeper,
 		app.DistrKeeper,
 	)
-
+	
 	nftmngrModule := nftmngrmodule.NewAppModule(appCodec, app.NftmngrKeeper, app.AccountKeeper, app.BankKeeper, app.EvmsupportKeeper)
-
+	
+	nftadminModule := nftadminmodule.NewAppModule(appCodec, app.NftadminKeeper, app.AccountKeeper, app.BankKeeper)
 	app.NftoracleKeeper = *nftoraclemodulekeeper.NewKeeper(
 		appCodec,
 		keys[nftoraclemoduletypes.StoreKey],
@@ -653,8 +654,8 @@ func New(
 		tokenmngrModule,
 		nftmngrModule,
 		evmsupportModule,
-		nftadminModule,
 		nftoracleModule,
+		nftadminModule,
 		// this line is used by starport scaffolding # stargate/app/appModule
 	)
 
@@ -686,8 +687,8 @@ func New(
 		wasm.ModuleName,
 		nftmngrmoduletypes.ModuleName,
 		evmsupportmoduletypes.ModuleName,
-		nftadminmoduletypes.ModuleName,
 		nftoraclemoduletypes.ModuleName,
+		nftadminmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/beginBlockers
 	)
 
@@ -715,8 +716,8 @@ func New(
 		wasm.ModuleName,
 		nftmngrmoduletypes.ModuleName,
 		evmsupportmoduletypes.ModuleName,
-		nftadminmoduletypes.ModuleName,
 		nftoraclemoduletypes.ModuleName,
+		nftadminmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/endBlockers
 	)
 
@@ -749,8 +750,8 @@ func New(
 		wasm.ModuleName,
 		nftmngrmoduletypes.ModuleName,
 		evmsupportmoduletypes.ModuleName,
-		nftadminmoduletypes.ModuleName,
 		nftoraclemoduletypes.ModuleName,
+		nftadminmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	)
 
@@ -779,8 +780,8 @@ func New(
 		tokenmngrModule,
 		nftmngrModule,
 		evmsupportModule,
-		nftadminModule,
 		nftoracleModule,
+		nftadminModule,
 		// this line is used by starport scaffolding # stargate/app/appModule
 	)
 
@@ -995,8 +996,8 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(wasm.ModuleName)
 	paramsKeeper.Subspace(nftmngrmoduletypes.ModuleName)
 	paramsKeeper.Subspace(evmsupportmoduletypes.ModuleName)
-	paramsKeeper.Subspace(nftadminmoduletypes.ModuleName)
 	paramsKeeper.Subspace(nftoraclemoduletypes.ModuleName)
+	paramsKeeper.Subspace(nftadminmoduletypes.ModuleName)
 	// this line is used by starport scaffolding # stargate/app/paramSubspace
 
 	return paramsKeeper
