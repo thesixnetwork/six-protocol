@@ -26,8 +26,13 @@ else
     echo "remove-admin-from-group failed"
 fi
 
+#create for delete
+if sixd tx protocoladmin create-group artist_test --chain-id testnet --from super-admin -y | grep -q 'msg_index: 0'; then
+    echo " "
+else
+    echo " "
+fi
 # delete-group
-sixd tx protocoladmin create-group artist_test --chain-id testnet --from super-admin -y
 if sixd tx protocoladmin delete-group artist_test --chain-id testnet --from super-admin -y | grep -q 'msg_index: 0'; then
     echo "delete-group success"
 else
