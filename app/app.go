@@ -17,6 +17,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/server/config"
 	servertypes "github.com/cosmos/cosmos-sdk/server/types"
 	"github.com/cosmos/cosmos-sdk/simapp"
+	store "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	"github.com/cosmos/cosmos-sdk/version"
@@ -103,6 +104,7 @@ import (
 	tokenmngrmodule "github.com/thesixnetwork/six-protocol/x/tokenmngr"
 	tokenmngrmodulekeeper "github.com/thesixnetwork/six-protocol/x/tokenmngr/keeper"
 	tokenmngrmoduletypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
 	//module for six data layer
@@ -189,18 +191,18 @@ var (
 
 	// module account permissions
 	maccPerms = map[string][]string{
-		authtypes.FeeCollectorName:      nil,
-		distrtypes.ModuleName:           nil,
-		minttypes.ModuleName:            {authtypes.Minter},
-		stakingtypes.BondedPoolName:     {authtypes.Burner, authtypes.Staking},
-		stakingtypes.NotBondedPoolName:  {authtypes.Burner, authtypes.Staking},
-		govtypes.ModuleName:             {authtypes.Burner},
-		ibctransfertypes.ModuleName:     {authtypes.Minter, authtypes.Burner},
-		tokenmngrmoduletypes.ModuleName: {authtypes.Minter, authtypes.Burner, authtypes.Staking},
+		authtypes.FeeCollectorName:          nil,
+		distrtypes.ModuleName:               nil,
+		minttypes.ModuleName:                {authtypes.Minter},
+		stakingtypes.BondedPoolName:         {authtypes.Burner, authtypes.Staking},
+		stakingtypes.NotBondedPoolName:      {authtypes.Burner, authtypes.Staking},
+		govtypes.ModuleName:                 {authtypes.Burner},
+		ibctransfertypes.ModuleName:         {authtypes.Minter, authtypes.Burner},
+		tokenmngrmoduletypes.ModuleName:     {authtypes.Minter, authtypes.Burner, authtypes.Staking},
 		protocoladminmoduletypes.ModuleName: {authtypes.Minter, authtypes.Burner, authtypes.Staking},
-		nftadminmoduletypes.ModuleName: {authtypes.Minter, authtypes.Burner, authtypes.Staking},
-		nftmngrmoduletypes.ModuleName:  {authtypes.Burner},
-		wasm.ModuleName:                 {authtypes.Burner},
+		nftadminmoduletypes.ModuleName:      {authtypes.Minter, authtypes.Burner, authtypes.Staking},
+		nftmngrmoduletypes.ModuleName:       {authtypes.Burner},
+		wasm.ModuleName:                     {authtypes.Burner},
 		// this line is used by starport scaffolding # stargate/app/maccPerms
 	}
 )
@@ -257,24 +259,24 @@ type App struct {
 	WasmKeeper       wasm.Keeper
 
 	// make scoped keepers public for test purposes
-	ScopedIBCKeeper        capabilitykeeper.ScopedKeeper
-	ScopedTransferKeeper   capabilitykeeper.ScopedKeeper
-	ScopedWasmKeeper       capabilitykeeper.ScopedKeeper
+	ScopedIBCKeeper      capabilitykeeper.ScopedKeeper
+	ScopedTransferKeeper capabilitykeeper.ScopedKeeper
+	ScopedWasmKeeper     capabilitykeeper.ScopedKeeper
 
 	// make scoped keepers public for custom module
 	ScopedProtocoladminKeeper capabilitykeeper.ScopedKeeper
 	ScopedTokenmngrKeeper     capabilitykeeper.ScopedKeeper
 
 	// custom mudule keeper
-	ProtocoladminKeeper    protocoladminmodulekeeper.Keeper
-	TokenmngrKeeper        tokenmngrmodulekeeper.Keeper
+	ProtocoladminKeeper protocoladminmodulekeeper.Keeper
+	TokenmngrKeeper     tokenmngrmodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// module from data layer
 	EvmsupportKeeper evmsupportmodulekeeper.Keeper
-	NftadminKeeper nftadminmodulekeeper.Keeper
-	NftmngrKeeper nftmngrmodulekeeper.Keeper
-	NftoracleKeeper nftoraclemodulekeeper.Keeper
+	NftadminKeeper   nftadminmodulekeeper.Keeper
+	NftmngrKeeper    nftmngrmodulekeeper.Keeper
+	NftoracleKeeper  nftoraclemodulekeeper.Keeper
 
 	// mm is the module manager
 	mm *module.Manager
@@ -312,7 +314,7 @@ func New(
 		govtypes.StoreKey, paramstypes.StoreKey, upgradetypes.StoreKey, feegrant.StoreKey,
 		evidencetypes.StoreKey, capabilitytypes.StoreKey,
 		// ibc keys
-		ibchost.StoreKey, ibctransfertypes.StoreKey, 
+		ibchost.StoreKey, ibctransfertypes.StoreKey,
 		// six keys
 		protocoladminmoduletypes.StoreKey,
 		tokenmngrmoduletypes.StoreKey,
@@ -344,8 +346,8 @@ func New(
 
 	// add capability keeper and ScopeToModule for ibc module
 	app.CapabilityKeeper = capabilitykeeper.NewKeeper(
-		appCodec, 
-		keys[capabilitytypes.StoreKey], 
+		appCodec,
+		keys[capabilitytypes.StoreKey],
 		memKeys[capabilitytypes.MemStoreKey],
 	)
 
@@ -371,7 +373,7 @@ func New(
 	)
 
 	app.BankKeeper = bankkeeper.NewBaseKeeper(
-		appCodec, 
+		appCodec,
 		keys[banktypes.StoreKey],
 		app.AccountKeeper,
 		app.GetSubspace(banktypes.ModuleName),
@@ -387,7 +389,7 @@ func New(
 	)
 
 	app.MintKeeper = mintkeeper.NewKeeper(
-		appCodec, 
+		appCodec,
 		keys[minttypes.StoreKey],
 		app.GetSubspace(minttypes.ModuleName),
 		&stakingKeeper,
@@ -400,7 +402,7 @@ func New(
 		appCodec,
 		keys[distrtypes.StoreKey],
 		app.GetSubspace(distrtypes.ModuleName),
-		app.AccountKeeper, 
+		app.AccountKeeper,
 		app.BankKeeper,
 		&stakingKeeper,
 		authtypes.FeeCollectorName,
@@ -438,15 +440,30 @@ func New(
 	// Upgrade Handlers
 	cfg := module.NewConfigurator(appCodec, app.MsgServiceRouter(), app.GRPCQueryRouter())
 	app.RegisterUpgradeHandlers(cfg)
+
+	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
+	if err != nil {
+		panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
+	}
+
+	if upgradeInfo.Name == "v2.0.0" && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
+		storeUpgrades := store.StoreUpgrades{
+			Added: []string{nftmngrmoduletypes.StoreKey, evmsupportmoduletypes.StoreKey, nftoraclemoduletypes.StoreKey, nftadminmoduletypes.StoreKey},
+		}
+
+		// configure store loader that checks if version == upgradeHeight and applies store upgrades
+		app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
+	}
+
 	// ... other modules keepers
 
 	// Create IBC Keeper
 	app.IBCKeeper = ibckeeper.NewKeeper(
-		appCodec, 
-		keys[ibchost.StoreKey], 
-		app.GetSubspace(ibchost.ModuleName), 
-		&stakingKeeper, 
-		app.UpgradeKeeper, 
+		appCodec,
+		keys[ibchost.StoreKey],
+		app.GetSubspace(ibchost.ModuleName),
+		&stakingKeeper,
+		app.UpgradeKeeper,
 		scopedIBCKeeper,
 	)
 
@@ -464,9 +481,9 @@ func New(
 	)
 	// Create evidence Keeper for to register the IBC light client misbehaviour evidence route
 	evidenceKeeper := evidencekeeper.NewKeeper(
-		appCodec, 
-		keys[evidencetypes.StoreKey], 
-		&stakingKeeper, 
+		appCodec,
+		keys[evidencetypes.StoreKey],
+		&stakingKeeper,
 		app.SlashingKeeper,
 	)
 	// If evidence needs to be handled for the app, set routes in router here and seal
@@ -481,14 +498,14 @@ func New(
 		AddRoute(ibcclienttypes.RouterKey, ibcclient.NewClientProposalHandler(app.IBCKeeper.ClientKeeper))
 
 	var (
-			transferModule    = transfer.NewAppModule(app.TransferKeeper)
-			transferIBCModule = transfer.NewIBCModule(app.TransferKeeper)
+		transferModule    = transfer.NewAppModule(app.TransferKeeper)
+		transferIBCModule = transfer.NewIBCModule(app.TransferKeeper)
 	)
 	app.GovKeeper = govkeeper.NewKeeper(
-		appCodec, 
-		keys[govtypes.StoreKey], 
-		app.GetSubspace(govtypes.ModuleName), 
-		app.AccountKeeper, 
+		appCodec,
+		keys[govtypes.StoreKey],
+		app.GetSubspace(govtypes.ModuleName),
+		app.AccountKeeper,
 		app.BankKeeper,
 		&stakingKeeper,
 		govRouter,
@@ -529,9 +546,9 @@ func New(
 	// NOTE: stakingKeeper above is passed by reference, so that it will contain these hooks
 	app.StakingKeeper = *stakingKeeper.SetHooks(
 		stakingtypes.NewMultiStakingHooks(
-		app.DistrKeeper.Hooks(), 
-		app.SlashingKeeper.Hooks(),
-	),
+			app.DistrKeeper.Hooks(),
+			app.SlashingKeeper.Hooks(),
+		),
 	)
 	app.EvmsupportKeeper = *evmsupportmodulekeeper.NewKeeper(
 		appCodec,
@@ -549,7 +566,7 @@ func New(
 
 		app.BankKeeper,
 	)
-	
+
 	app.NftmngrKeeper = *nftmngrmodulekeeper.NewKeeper(
 		appCodec,
 		keys[nftmngrmoduletypes.StoreKey],
@@ -561,9 +578,9 @@ func New(
 		app.StakingKeeper,
 		app.DistrKeeper,
 	)
-	
+
 	nftmngrModule := nftmngrmodule.NewAppModule(appCodec, app.NftmngrKeeper, app.AccountKeeper, app.BankKeeper, app.EvmsupportKeeper)
-	
+
 	nftadminModule := nftadminmodule.NewAppModule(appCodec, app.NftadminKeeper, app.AccountKeeper, app.BankKeeper)
 	app.NftoracleKeeper = *nftoraclemodulekeeper.NewKeeper(
 		appCodec,
@@ -696,14 +713,14 @@ func New(
 		crisistypes.ModuleName,
 		govtypes.ModuleName,
 		stakingtypes.ModuleName,
-		capabilitytypes.ModuleName,	
+		capabilitytypes.ModuleName,
 		authtypes.ModuleName,
 		authz.ModuleName,
 		banktypes.ModuleName,
 		distrtypes.ModuleName,
 		slashingtypes.ModuleName,
 		vestingtypes.ModuleName,
-		minttypes.ModuleName,	
+		minttypes.ModuleName,
 		genutiltypes.ModuleName,
 		evidencetypes.ModuleName,
 		feegrant.ModuleName,
@@ -838,7 +855,7 @@ func New(
 }
 
 func (app *App) RegisterUpgradeHandlers(cfg module.Configurator) {
-	app.UpgradeKeeper.SetUpgradeHandler("v2.0.0-beta", func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
+	app.UpgradeKeeper.SetUpgradeHandler("v2.0.0", func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
 
 		return app.mm.RunMigrations(ctx, cfg, vm)
 	})
