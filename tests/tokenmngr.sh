@@ -14,14 +14,14 @@ else
 fi
 
 # mint
-if sixd tx tokenmngr mint 1000000000000 umango --chain-id testnet --from super-admin -y | grep -q 'msg_index: 0'; then
+if sixd tx tokenmngr mint 1000000000000 umango --chain-id testnet --from alice -y | grep -q 'msg_index: 0'; then
     echo "mint success"
 else
     echo "mint failed"
 fi
 
 # burn
-if sixd tx tokenmngr burn 500000000000 umango --chain-id testnet --from super-admin -y | grep -q 'msg_index: 0'; then
+if sixd tx tokenmngr burn 500000000000 umango --chain-id testnet --from alice -y | grep -q 'msg_index: 0'; then
     echo "burn success"
 else
     echo "burn failed"
