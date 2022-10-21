@@ -10,6 +10,27 @@ accounts: # mnemonic for development purpose
   - name: super-admin
     coins: ["10000finix", "300000000000000usix"]
     mnemonic: "expect peace defense conduct virtual flight flip unit equip solve broccoli protect shed group else useless tree such tornado minimum decade tower warfare galaxy"
+  - name: oracle1
+    coins: ["10000finix", "10000000000000usix"]
+    mnemonic: list split future remain scene cheap pledge forum siren purse bright ivory split morning swing dumb fabric rapid remove worth diary task island donkey
+  - name: oracle2
+    coins: ["10000finix", "10000000000000usix"]
+    mnemonic: achieve rice anger junk delay glove slam find poem feed emerge next core twice kitchen road proof remain notice slice walk super piece father
+  - name: oracle3
+    coins: ["10000finix", "10000000000000usix"]
+    mnemonic: hint expose mix lemon leave genuine host fiction peasant daughter enable region mixture bean soda auction armed turtle iron become bracket wasp drama front
+  - name: oracle4
+    coins: ["10000finix", "10000000000000usix"]
+    mnemonic: clown cabbage clean design mosquito surround citizen virus kite castle sponsor wife lesson coffee alien panel hand together good crazy fabric mouse hat town
+  - name: actioner1
+    coins: ["10000finix", "10000000000000usix"]
+    mnemonic: boost festival prize turn skate inspire alley opinion blush bright month weekend cage village refuse room remind resource legal favorite entire right convince prison
+  - name: actioner2
+    coins: ["10000finix", "10000000000000usix"]
+    mnemonic: oyster green arrange wave elegant oven jaguar pass quote profit miracle interest emotion match express merit clock wrestle reunion punch memory action upper draft
+  - name: actioner3
+    coins: ["10000finix", "10000000000000usix"]
+    mnemonic: first educate action fee physical seek recipe hub anxiety best mango measure chimney sphere once cabbage strike dizzy near knock correct answer skin inside
 validator:
   name: bob
   staked: "1000000000000usix"
@@ -25,7 +46,10 @@ build:
   binary: "sixd"
   main: "cmd/sixd"
   ldflags:
-    ["-X main.Version=development", "-X main.Version.BuildTags=netgo,ledger"]
+    - '-X "github.com/cosmos/cosmos-sdk/version.BuildTags=netgo,ledger"'
+  tags:
+    - netgo
+    - ledger
 init:
   home: "$HOME/.six"
   app:
@@ -98,7 +122,7 @@ genesis:
           {
             address: "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq",
             creator: "6x1eau6xz2kdv6wy7rhj2nxv0xrgnjy79hcm2tr9t",
-            token: "six",
+            token: "usix",
           },
         ]
       options: { defaultMintee: "6x1cws3ex5yqwlu4my49htq06nsnhuxw3v7rt20g6" }
@@ -109,7 +133,26 @@ genesis:
             creator: "6x1eau6xz2kdv6wy7rhj2nxv0xrgnjy79hcm2tr9t",
             maxSupply: 0,
             mintee: "6x1cws3ex5yqwlu4my49htq06nsnhuxw3v7rt20g6",
-            name: "six",
+            name: "usix",
             base: "usix",
           },
         ]
+    nftmngr:
+            nft_fee_config:
+              schema_fee:
+                fee_amount: "200000000usix"
+                fee_distributions:
+                  - method: "BURN"
+                    portion: 0.5
+                  - method: "REWARD_POOL"
+                    portion: 0.5
+    nftoracle:
+        oracle_config:
+                minimum_confirmation: 4
+        params:
+            mint_request_active_duration: "120s"
+            action_request_active_duration: "120s"
+            verify_request_active_duration: "120s"
+    nftadmin:
+        authorization:
+            root_admin: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
