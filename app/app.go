@@ -859,24 +859,28 @@ func (app *App) RegisterUpgradeHandlers(cfg module.Configurator) {
 	app.UpgradeKeeper.SetUpgradeHandler("v2.0.0", func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
 		// set state root admin
 		var admin nftadminmoduletypes.Authorization
-		super_admin,_ := app.ProtocoladminKeeper.GetGroup(ctx, "super.admin")
+		super_admin, _ := app.ProtocoladminKeeper.GetGroup(ctx, "super.admin")
 		admin.RootAdmin = super_admin.GetOwner()
 		app.NftadminKeeper.SetAuthorization(ctx, admin)
 
 		// set nftngr nft_fee_config
-		var nft_fee_config nftmngrmoduletypes.FeeConfig
-		nft_fee_config.FeeAmount = "200000000usix"
-		nft_fee_config.FeeDistributions = make([]*nftmngrmoduletypes.FeeDistribution, 0)
-		nft_fee_config.FeeDistributions = append(nft_fee_config.FeeDistributions, &nftmngrmoduletypes.FeeDistribution{
-			Method: nftmngrmoduletypes.FeeDistributionMethod_BURN,
+		var nft_fee_config nftmngrmoduletypes.NFTFeeConfig
+		var fee_config nftmngrmoduletypes.FeeConfig
+		fee_config.FeeAmount = "200000000usix"
+		fee_config.FeeDistributions = make([]*nftmngrmoduletypes.FeeDistribution, 0)
+		fee_config.FeeDistributions = append(fee_config.FeeDistributions, &nftmngrmoduletypes.FeeDistribution{
+			Method:  nftmngrmoduletypes.FeeDistributionMethod_BURN,
 			Portion: 0.5,
 		})
-		nft_fee_config.FeeDistributions = append(nft_fee_config.FeeDistributions, &nftmngrmoduletypes.FeeDistribution{
-			Method: nftmngrmoduletypes.FeeDistributionMethod_REWARD_POOL,
+		fee_config.FeeDistributions = append(fee_config.FeeDistributions, &nftmngrmoduletypes.FeeDistribution{
+			Method:  nftmngrmoduletypes.FeeDistributionMethod_REWARD_POOL,
 			Portion: 0.5,
 		})
 
-		// set nft duration 
+		nft_fee_config.SchemaFee = &fee_config
+		app.NftmngrKeeper.SetNFTFeeConfig(ctx, nft_fee_config)
+
+		// set nft duration
 		var oracle_params nftoraclemoduletypes.Params
 		oracle_params.MintRequestActiveDuration = 120 * time.Second
 		oracle_params.ActionRequestActiveDuration = 120 * time.Second
