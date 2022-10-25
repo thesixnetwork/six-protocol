@@ -856,7 +856,9 @@ func New(
 
 func (app *App) RegisterUpgradeHandlers(cfg module.Configurator) {
 	app.UpgradeKeeper.SetUpgradeHandler("v2.0.0", func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
-
+		var admin nftadminmoduletypes.Authorization
+		admin.RootAdmin = "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"
+		app.NftadminKeeper.SetAuthorization(ctx, admin)
 		return app.mm.RunMigrations(ctx, cfg, vm)
 	})
 }
