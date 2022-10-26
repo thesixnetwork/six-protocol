@@ -6,11 +6,18 @@ else
     echo "create-token failed"
 fi
 
-# create-mintperm
+# create-mintperm alice
 if sixd tx tokenmngr create-mintperm umango $(sixd keys show -a alice) --chain-id testnet --from super-admin -y | grep -q 'msg_index: 0'; then
-    echo "create-mintperm success"
+    echo "create-mintperm alice success"
 else
-    echo "create-mintperm failed"
+    echo "create-mintperm alice failed"
+fi
+
+# create-mintperm bob
+if sixd tx tokenmngr create-mintperm umango $(sixd keys show -a bob) --chain-id testnet --from super-admin -y | grep -q 'msg_index: 0'; then
+    echo "create-mintperm bob success"
+else
+    echo "create-mintperm bob failed"
 fi
 
 # mint
