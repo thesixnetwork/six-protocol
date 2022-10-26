@@ -22,7 +22,7 @@ func (app *App) RegisterUpgradeHandlers() {
 		// set nftngr nft_fee_config
 		var nft_fee_config nftmngrmoduletypes.NFTFeeConfig
 		var fee_config nftmngrmoduletypes.FeeConfig
-		fee_config.FeeAmount = "200000000usix"
+		fee_config.FeeAmount = "5555555555555usix"
 		fee_config.FeeDistributions = make([]*nftmngrmoduletypes.FeeDistribution, 0)
 		fee_config.FeeDistributions = append(fee_config.FeeDistributions, &nftmngrmoduletypes.FeeDistribution{
 			Method:  nftmngrmoduletypes.FeeDistributionMethod_BURN,
