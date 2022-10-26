@@ -2,6 +2,7 @@
 modules=(
     protocoladmin
     tokenmngr
+    nftadmin
 )
 
 for mod in ${modules[@]}
