@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"time"
 
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	"github.com/cosmos/cosmos-sdk/client"
@@ -284,6 +283,9 @@ type App struct {
 
 	// sm is the simulation manager
 	sm *module.SimulationManager
+
+	// module configurator
+	configurator module.Configurator
 }
 
 // New returns a reference to an initialized blockchain app
@@ -440,7 +442,6 @@ func New(
 
 	// Upgrade Handlers
 	cfg := module.NewConfigurator(appCodec, app.MsgServiceRouter(), app.GRPCQueryRouter())
-	app.RegisterUpgradeHandlers(cfg)
 
 	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
 	if err != nil {
@@ -775,7 +776,9 @@ func New(
 
 	app.mm.RegisterInvariants(&app.CrisisKeeper)
 	app.mm.RegisterRoutes(app.Router(), app.QueryRouter(), encodingConfig.Amino)
+	app.configurator = module.NewConfigurator(app.appCodec, app.MsgServiceRouter(), app.GRPCQueryRouter())
 	app.mm.RegisterServices(cfg)
+	app.RegisterUpgradeHandlers()
 
 	// create the simulation manager and define the order of the modules for deterministic simulations
 	app.sm = module.NewSimulationManager(
@@ -853,47 +856,6 @@ func New(
 	// this line is used by starport scaffolding # stargate/app/beforeInitReturn
 
 	return app
-}
-
-func (app *App) RegisterUpgradeHandlers(cfg module.Configurator) {
-	app.UpgradeKeeper.SetUpgradeHandler("v2.0.0", func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
-		// set state root admin
-		var admin nftadminmoduletypes.Authorization
-		super_admin, _ := app.ProtocoladminKeeper.GetGroup(ctx, "super.admin")
-		admin.RootAdmin = super_admin.GetOwner()
-		app.NftadminKeeper.SetAuthorization(ctx, admin)
-
-		// set nftngr nft_fee_config
-		var nft_fee_config nftmngrmoduletypes.NFTFeeConfig
-		var fee_config nftmngrmoduletypes.FeeConfig
-		fee_config.FeeAmount = "200000000usix"
-		fee_config.FeeDistributions = make([]*nftmngrmoduletypes.FeeDistribution, 0)
-		fee_config.FeeDistributions = append(fee_config.FeeDistributions, &nftmngrmoduletypes.FeeDistribution{
-			Method:  nftmngrmoduletypes.FeeDistributionMethod_BURN,
-			Portion: 0.5,
-		})
-		fee_config.FeeDistributions = append(fee_config.FeeDistributions, &nftmngrmoduletypes.FeeDistribution{
-			Method:  nftmngrmoduletypes.FeeDistributionMethod_REWARD_POOL,
-			Portion: 0.5,
-		})
-
-		nft_fee_config.SchemaFee = &fee_config
-		app.NftmngrKeeper.SetNFTFeeConfig(ctx, nft_fee_config)
-
-		// set nft duration
-		var oracle_params nftoraclemoduletypes.Params
-		oracle_params.MintRequestActiveDuration = 120 * time.Second
-		oracle_params.ActionRequestActiveDuration = 120 * time.Second
-		oracle_params.VerifyRequestActiveDuration = 120 * time.Second
-		app.NftoracleKeeper.SetParams(ctx, oracle_params)
-
-		// set oracle minimum_confirmations
-		app.NftoracleKeeper.SetOracleConfig(ctx, nftoraclemoduletypes.OracleConfig{
-			MinimumConfirmation: 4,
-		})
-
-		return app.mm.RunMigrations(ctx, cfg, vm)
-	})
 }
 
 // Name returns the name of the App
