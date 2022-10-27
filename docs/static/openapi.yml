@@ -34155,6 +34155,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/sixnft/nftmngr/action_by_ref_id/{refId}':
@@ -34719,6 +34729,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -35569,6 +35589,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/sixnft/nftmngr/nft_schema/{code}':
@@ -36340,6 +36370,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/sixnft/nftmngr/organization/{name}':
@@ -37039,6 +37079,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/metadata_creator/{nftSchemaCode}':
@@ -37611,6 +37661,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   /thesixnetwork/sixnft/nftmngr/nft_fee_balance:
@@ -38054,8 +38114,6 @@ paths:
                   properties:
                     originContractAddress:
                       type: string
-                    chain:
-                      type: string
                     schemaCodes:
                       type: array
                       items:
@@ -38319,9 +38377,19 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
-  '/thesixnetwork/sixnft/nftmngr/nft_schema_by_contract/{originContractAddress}/{chain}':
+  '/thesixnetwork/sixnft/nftmngr/nft_schema_by_contract/{originContractAddress}':
     get:
       summary: Queries a NFTSchemaByContract by index.
       operationId: ThesixnetworkSixnftNftmngrNFTSchemaByContract
@@ -38335,8 +38403,6 @@ paths:
                 type: object
                 properties:
                   originContractAddress:
-                    type: string
-                  chain:
                     type: string
                   schemaCodes:
                     type: array
@@ -38532,10 +38598,6 @@ paths:
           in: path
           required: true
           type: string
-        - name: chain
-          in: path
-          required: true
-          type: string
       tags:
         - Query
   /sixnft/nftoracle/action_request:
@@ -38718,6 +38780,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -39014,6 +39086,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/sixnft/nftoracle/mint_request/{id}':
@@ -39135,6 +39217,7 @@ paths:
             type: object
             properties:
               params:
+                description: params holds all the parameters of this module.
                 type: object
                 properties:
                   mint_request_active_duration:
@@ -39143,7 +39226,6 @@ paths:
                     type: string
                   verify_request_active_duration:
                     type: string
-                description: Params defines the parameters for the module.
             description: >-
               QueryParamsResponse is response type for the Query/Params RPC
               method.
@@ -39229,9 +39311,6 @@ paths:
                                 type: string
                               contract_owner:
                                 type: string
-                              request_expire:
-                                type: string
-                                format: date-time
                           hash:
                             type: string
                             format: byte
@@ -39334,6 +39413,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftoracle/collection_owner_request/{id}':
@@ -39396,9 +39485,6 @@ paths:
                               type: string
                             contract_owner:
                               type: string
-                            request_expire:
-                              type: string
-                              format: date-time
                         hash:
                           type: string
                           format: byte
@@ -64360,8 +64446,6 @@ definitions:
     properties:
       originContractAddress:
         type: string
-      chain:
-        type: string
       schemaCodes:
         type: array
         items:
@@ -64872,8 +64956,6 @@ definitions:
           type: object
           properties:
             originContractAddress:
-              type: string
-            chain:
               type: string
             schemaCodes:
               type: array
@@ -65445,8 +65527,6 @@ definitions:
         type: object
         properties:
           originContractAddress:
-            type: string
-          chain:
             type: string
           schemaCodes:
             type: array
@@ -66092,9 +66172,6 @@ definitions:
                   type: string
                 contract_owner:
                   type: string
-                request_expire:
-                  type: string
-                  format: date-time
             hash:
               type: string
               format: byte
@@ -66292,9 +66369,6 @@ definitions:
             type: string
           contract_owner:
             type: string
-          request_expire:
-            type: string
-            format: date-time
       hash:
         type: string
         format: byte
@@ -66311,9 +66385,6 @@ definitions:
         type: string
       contract_owner:
         type: string
-      request_expire:
-        type: string
-        format: date-time
   thesixnetwork.sixnft.nftoracle.Params:
     type: object
     properties:
@@ -66488,9 +66559,6 @@ definitions:
                         type: string
                       contract_owner:
                         type: string
-                      request_expire:
-                        type: string
-                        format: date-time
                   hash:
                     type: string
                     format: byte
@@ -66763,9 +66831,6 @@ definitions:
                       type: string
                     contract_owner:
                       type: string
-                    request_expire:
-                      type: string
-                      format: date-time
                 hash:
                   type: string
                   format: byte
@@ -66864,6 +66929,7 @@ definitions:
     type: object
     properties:
       params:
+        description: params holds all the parameters of this module.
         type: object
         properties:
           mint_request_active_duration:
@@ -66872,7 +66938,6 @@ definitions:
             type: string
           verify_request_active_duration:
             type: string
-        description: Params defines the parameters for the module.
     description: QueryParamsResponse is response type for the Query/Params RPC method.
   thesixnetwork.sixnft.nftoracle.RequestStatus:
     type: string
