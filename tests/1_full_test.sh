@@ -3,6 +3,7 @@ modules=(
     protocoladmin
     tokenmngr
     nftadmin
+    nftmngr
 )
 
 for mod in ${modules[@]}
