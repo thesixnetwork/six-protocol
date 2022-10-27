@@ -2,7 +2,10 @@ package app
 
 import (
 	"time"
+	"fmt"
 
+	store "github.com/cosmos/cosmos-sdk/store/types"
+	evmsupportmoduletypes "github.com/thesixnetwork/sixnft/x/evmsupport/types"
 	nftadminmoduletypes "github.com/thesixnetwork/sixnft/x/nftadmin/types"
 	nftmngrmoduletypes "github.com/thesixnetwork/sixnft/x/nftmngr/types"
 	nftoraclemoduletypes "github.com/thesixnetwork/sixnft/x/nftoracle/types"
@@ -11,7 +14,26 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 )
 
+// const UpgradeName = "v2.0.0"
+
+func (app *App) VersionTrigger(){
+	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
+	if err != nil {
+		panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
+	}
+
+	if upgradeInfo.Name == "v2.0.0" && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
+		storeUpgrades := store.StoreUpgrades{
+			Added: []string{nftmngrmoduletypes.StoreKey, evmsupportmoduletypes.StoreKey, nftoraclemoduletypes.StoreKey, nftadminmoduletypes.StoreKey},
+		}
+
+		// configure store loader that checks if version == upgradeHeight and applies store upgrades
+		app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
+	}
+}
+
 func (app *App) RegisterUpgradeHandlers() {
+	app.VersionTrigger();
 	app.UpgradeKeeper.SetUpgradeHandler("v2.0.0", func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
 		// set state root admin
 		var admin nftadminmoduletypes.Authorization
