@@ -1,22 +1,22 @@
 package app
 
 import (
-	"time"
 	"fmt"
+	"time"
 
 	store "github.com/cosmos/cosmos-sdk/store/types"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/types/module"
+	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 	evmsupportmoduletypes "github.com/thesixnetwork/sixnft/x/evmsupport/types"
 	nftadminmoduletypes "github.com/thesixnetwork/sixnft/x/nftadmin/types"
 	nftmngrmoduletypes "github.com/thesixnetwork/sixnft/x/nftmngr/types"
 	nftoraclemoduletypes "github.com/thesixnetwork/sixnft/x/nftoracle/types"
-	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/types/module"
 )
 
 // const UpgradeName = "v2.0.0"
 
-func (app *App) VersionTrigger(){
+func (app *App) VersionTrigger() {
 	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
 	if err != nil {
 		panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
@@ -33,7 +33,7 @@ func (app *App) VersionTrigger(){
 }
 
 func (app *App) RegisterUpgradeHandlers() {
-	app.VersionTrigger();
+	app.VersionTrigger()
 	app.UpgradeKeeper.SetUpgradeHandler("v2.0.0", func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
 		// set state root admin
 		var admin nftadminmoduletypes.Authorization
@@ -44,7 +44,7 @@ func (app *App) RegisterUpgradeHandlers() {
 		// set nftngr nft_fee_config
 		var nft_fee_config nftmngrmoduletypes.NFTFeeConfig
 		var fee_config nftmngrmoduletypes.FeeConfig
-		fee_config.FeeAmount = "2000000000usix"
+		fee_config.FeeAmount = "20000000000usix"
 		fee_config.FeeDistributions = make([]*nftmngrmoduletypes.FeeDistribution, 0)
 		fee_config.FeeDistributions = append(fee_config.FeeDistributions, &nftmngrmoduletypes.FeeDistribution{
 			Method:  nftmngrmoduletypes.FeeDistributionMethod_BURN,
