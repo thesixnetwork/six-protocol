@@ -8,7 +8,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
-	"github.com/tendermint/starport/starport/pkg/cosmosibckeeper"
+	"github.com/ignite/cli/ignite/pkg/cosmosibckeeper"
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
@@ -34,7 +34,9 @@ func NewKeeper(
 	channelKeeper cosmosibckeeper.ChannelKeeper,
 	portKeeper cosmosibckeeper.PortKeeper,
 	scopedKeeper cosmosibckeeper.ScopedKeeper,
-	bankKeeper types.BankKeeper, accountKeeper types.AccountKeeper, protocoladminKeeper types.ProtocoladminKeeper,
+	bankKeeper types.BankKeeper,
+	accountKeeper types.AccountKeeper,
+	protocoladminKeeper types.ProtocoladminKeeper,
 ) *Keeper {
 	// set KeyTable if it has not already been set
 	if !ps.HasKeyTable() {
