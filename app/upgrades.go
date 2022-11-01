@@ -48,11 +48,11 @@ func (app *App) RegisterUpgradeHandlers() {
 		fee_config.FeeDistributions = make([]*nftmngrmoduletypes.FeeDistribution, 0)
 		fee_config.FeeDistributions = append(fee_config.FeeDistributions, &nftmngrmoduletypes.FeeDistribution{
 			Method:  nftmngrmoduletypes.FeeDistributionMethod_BURN,
-			Portion: 0.5,
+			Portion: 0.1,
 		})
 		fee_config.FeeDistributions = append(fee_config.FeeDistributions, &nftmngrmoduletypes.FeeDistribution{
 			Method:  nftmngrmoduletypes.FeeDistributionMethod_REWARD_POOL,
-			Portion: 0.5,
+			Portion: 0.9,
 		})
 
 		nft_fee_config.SchemaFee = &fee_config
