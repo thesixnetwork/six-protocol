@@ -8,27 +8,21 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
-	"github.com/tendermint/starport/starport/pkg/cosmosibckeeper"
 	"github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
+	"github.com/ignite/cli/ignite/pkg/cosmosibckeeper"
 )
 
-var _ IKeeper = (*Keeper)(nil)
-
-type IKeeper interface {
-	GetAdmin(ctx sdk.Context, group string, admin string) (val types.Admin, found bool)
-	GetAllAdmin(ctx sdk.Context) (list []types.Admin)
-	Authenticate(ctx sdk.Context, group string, address string) bool
-}
-
-type Keeper struct {
-	*cosmosibckeeper.Keeper
-	cdc        codec.BinaryCodec
-	storeKey   sdk.StoreKey
-	memKey     sdk.StoreKey
-	paramstore paramtypes.Subspace
-
-	accountKeeper types.AccountKeeper
-}
+type (
+	Keeper struct {
+		*cosmosibckeeper.Keeper
+		cdc      	codec.BinaryCodec
+		storeKey 	sdk.StoreKey
+		memKey   	sdk.StoreKey
+		paramstore	paramtypes.Subspace
+		
+        accountKeeper types.AccountKeeper
+	}
+)
 
 func NewKeeper(
 	cdc codec.BinaryCodec,
