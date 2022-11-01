@@ -4,3 +4,7 @@ release/
 .idea/
 .vscode/
 .DS_Store
+
+ts-client/
+build/
+vue/src/store/generated/

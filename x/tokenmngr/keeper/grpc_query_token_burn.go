@@ -22,7 +22,7 @@ func (k Keeper) TokenBurnAll(c context.Context, req *types.QueryAllTokenBurnRequ
 	store := ctx.KVStore(k.storeKey)
 	tokenBurnStore := prefix.NewStore(store, types.KeyPrefix(types.TokenBurnKeyPrefix))
 	// TODO:: Check paginate limit
- 	pageRes, err := query.Paginate(tokenBurnStore, req.Pagination, func(key []byte, value []byte) error {
+	pageRes, err := query.Paginate(tokenBurnStore, req.Pagination, func(key []byte, value []byte) error {
 		var tokenBurn types.TokenBurn
 		if err := k.cdc.Unmarshal(value, &tokenBurn); err != nil {
 			return err
