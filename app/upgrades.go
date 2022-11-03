@@ -21,19 +21,19 @@ func (app *App) VersionTrigger() {
 	if err != nil {
 		panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
 	}
-
+	fmt.Println("##########upgradeInfo", upgradeInfo)
 	if upgradeInfo.Name == "v2.0.0" && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
 		storeUpgrades := store.StoreUpgrades{
-			Added: []string{nftmngrmoduletypes.StoreKey, evmsupportmoduletypes.StoreKey, nftoraclemoduletypes.StoreKey, nftadminmoduletypes.StoreKey},
+			Added: []string{nftmngrmoduletypes.StoreKey, evmsupportmoduletypes.StoreKey, nftoraclemoduletypes.StoreKey, nftadminmoduletypes.StoreKey, "authz"},
 		}
-
+		fmt.Println("##########storeUpgrades", storeUpgrades)
 		// configure store loader that checks if version == upgradeHeight and applies store upgrades
 		app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
 	}
+	fmt.Println("########## end of if")
 }
 
 func (app *App) RegisterUpgradeHandlers() {
-	app.VersionTrigger()
 	app.UpgradeKeeper.SetUpgradeHandler("v2.0.0", func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
 		// set state root admin
 		var admin nftadminmoduletypes.Authorization
