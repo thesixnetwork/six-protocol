@@ -7,7 +7,6 @@ import (
 	store "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
-	authz "github.com/cosmos/cosmos-sdk/x/authz"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 	evmsupportmoduletypes "github.com/thesixnetwork/sixnft/x/evmsupport/types"
 	nftadminmoduletypes "github.com/thesixnetwork/sixnft/x/nftadmin/types"
@@ -25,7 +24,7 @@ func (app *App) VersionTrigger() {
 	fmt.Println("##########upgradeInfo", upgradeInfo)
 	if upgradeInfo.Name == "v2.0.0" && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
 		storeUpgrades := store.StoreUpgrades{
-			Added: []string{nftmngrmoduletypes.StoreKey, evmsupportmoduletypes.StoreKey, nftoraclemoduletypes.StoreKey, nftadminmoduletypes.StoreKey, authz.ModuleName},
+			Added: []string{nftmngrmoduletypes.StoreKey, evmsupportmoduletypes.StoreKey, nftoraclemoduletypes.StoreKey, nftadminmoduletypes.StoreKey, "authz"},
 		}
 		fmt.Println("##########storeUpgrades", storeUpgrades)
 		// configure store loader that checks if version == upgradeHeight and applies store upgrades
