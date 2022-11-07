@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	wasmtypes "github.com/CosmWasm/wasmd/x/wasm/types"
 	store "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
@@ -68,6 +69,14 @@ func (app *App) RegisterUpgradeHandlers() {
 		// set oracle minimum_confirmations
 		app.NftoracleKeeper.SetOracleConfig(ctx, nftoraclemoduletypes.OracleConfig{
 			MinimumConfirmation: 4,
+		})
+
+		var access_config wasmtypes.AccessConfig
+		access_config.Permission = wasmtypes.AccessTypeEverybody
+		access_config.Address = ""
+		app.WasmKeeper.SetParams(ctx, wasmtypes.Params{
+			CodeUploadAccess:             access_config,
+			InstantiateDefaultPermission: wasmtypes.AccessTypeOnlyAddress,
 		})
 
 		return app.mm.RunMigrations(ctx, app.configurator, vm)
