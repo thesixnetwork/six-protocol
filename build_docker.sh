@@ -1,2 +1,7 @@
-GITHUB_TOKEN=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
-docker build . -t six/node --build-arg GITHUB_TOKEN=${GITHUB_TOKEN}
+read -p "Enter Github Token: " github_token 
+if [ -z "$github_token" ]
+then
+    echo "Schema Code is empty"
+    exit 1
+fi
+docker build . -t six/node --build-arg GITHUB_TOKEN=${github_token}

@@ -32,7 +32,7 @@ accounts: # mnemonic for development purpose
     coins: ["10000finix", "10000000000000usix"]
     mnemonic: first educate action fee physical seek recipe hub anxiety best mango measure chimney sphere once cabbage strike dizzy near knock correct answer skin inside
 validator:
-  name: bob
+  name: alice
   staked: "1000000000000usix"
 client:
   openapi:
@@ -51,7 +51,7 @@ build:
     - netgo
     - ledger
 init:
-  home: "$HOME/.six"
+  home: "./build/validator_1"
   app:
     grpc-web:
       enable: true

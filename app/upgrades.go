@@ -12,6 +12,7 @@ import (
 	nftadminmoduletypes "github.com/thesixnetwork/sixnft/x/nftadmin/types"
 	nftmngrmoduletypes "github.com/thesixnetwork/sixnft/x/nftmngr/types"
 	nftoraclemoduletypes "github.com/thesixnetwork/sixnft/x/nftoracle/types"
+	wasmtypes "github.com/CosmWasm/wasmd/x/wasm/types"
 )
 
 // const UpgradeName = "v2.0.0"
@@ -68,6 +69,14 @@ func (app *App) RegisterUpgradeHandlers() {
 		// set oracle minimum_confirmations
 		app.NftoracleKeeper.SetOracleConfig(ctx, nftoraclemoduletypes.OracleConfig{
 			MinimumConfirmation: 4,
+		})
+
+		var access_config wasmtypes.AccessConfig
+		access_config.Permission = wasmtypes.AccessTypeEverybody
+		access_config.Address = ""
+		app.WasmKeeper.SetParams(ctx, wasmtypes.Params{
+			CodeUploadAccess: access_config,
+			InstantiateDefaultPermission: wasmtypes.AccessTypeOnlyAddress,
 		})
 
 		return app.mm.RunMigrations(ctx, app.configurator, vm)
