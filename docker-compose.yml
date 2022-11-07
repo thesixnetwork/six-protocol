@@ -7,8 +7,9 @@ services:
     ports:
       - "26656-26657:26656-26657"
     volumes:
-      - ./build/sixnode0/sixd:/six:Z
-    command: bash run.sh
+      - ./build/sixnode0/:/opt/build/six_home/
+    # command: bash run.sh
+    command: bash start_chain.sh
     networks:
       localnet:
         ipv4_address: 192.167.10.2
@@ -19,8 +20,9 @@ services:
     ports:
       - "26659-26660:26656-26657"
     volumes:
-      - ./build/sixnode1/sixd:/six:Z
-    command: bash run.sh
+      - ./build/sixnode1/:/opt/build/six_home/
+    # command: bash run.sh
+    command: bash start_chain.sh
     networks:
       localnet:
         ipv4_address: 192.167.10.3
@@ -31,8 +33,9 @@ services:
     ports:
       - "26661-26662:26656-26657"
     volumes:
-      - ./build/sixnode2/sixd:/six:Z 
-    command: bash run.sh
+      - ./build/sixnode2/:/opt/build/six_home/
+    # command: bash run.sh
+    command: bash start_chain.sh
     networks:
       localnet:
         ipv4_address: 192.167.10.4
@@ -43,8 +46,9 @@ services:
     ports:
       - "26663-26664:26656-26657"
     volumes:
-      - ./build/sixnode3/sixd:/six:Z
-    command: bash run.sh
+      - ./build/sixnode3/:/opt/build/six_home/
+    # command: bash run.sh
+    command: bash start_chain.sh
     networks:
       localnet:
         ipv4_address: 192.167.10.5
