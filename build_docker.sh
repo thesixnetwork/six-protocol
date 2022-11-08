@@ -4,4 +4,4 @@ then
     echo "Schema Code is empty"
     exit 1
 fi
-docker build . -t six/node --build-arg GITHUB_TOKEN=${github_token}
+docker build . -t six/node:latest --build-arg GITHUB_TOKEN=${github_token}
