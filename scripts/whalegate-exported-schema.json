@@ -1,11 +1,11 @@
 {
-    "code": "watermelon.whalegate-test",
-    "name": "WHALEGATE TEST",
+    "code": "watermelon.whalegate-test-2",
+    "name": "WHALEGATE TEST 2",
     "owner": "",
     "system_actioners": [],
     "origin_data": {
-        "origin_chain": "KLAYTN",
-        "origin_contract_address": "0x898bb3b662419e79366046C625A213B83fB4809B",
+        "origin_chain": "BAOBAB",
+        "origin_contract_address": "0x9ec14dff0049f8de41fe106f3221a50313f941ab",
         "origin_base_uri": "https://ipfs.whalegate.sixprotocol.com/ipfs/Qmd9FJGWveLd1g6yZTDDNjxruVppyDtaUzrA2pkb2XAf8R/",
         "attribute_overriding": "CHAIN",
         "metadata_format": "opensea",
