@@ -14,7 +14,7 @@ validator_keys=(
 );
 echo "#############################################"
 echo "## 1. Build Docker Image                   ##"
-echo "## 2. Init and run chain validator         ##"
+echo "## 2. Docker Compose init chain            ##"
 echo "## 3. Run Start chain validator            ##"
 echo "## 4. Run Stop chain validator             ##"
 echo "## 5. Reset chain validator                ##"
