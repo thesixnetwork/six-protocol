@@ -3424,44 +3424,33 @@ paths:
                       last_commit_hash:
                         type: string
                         format: byte
-                        description: commit from validators from the last block
                         title: hashes of block data
                       data_hash:
                         type: string
                         format: byte
-                        title: transactions
                       validators_hash:
                         type: string
                         format: byte
-                        description: validators for the current block
                         title: hashes from the app output from the prev block
                       next_validators_hash:
                         type: string
                         format: byte
-                        title: validators for the next block
                       consensus_hash:
                         type: string
                         format: byte
-                        title: consensus params for current block
                       app_hash:
                         type: string
                         format: byte
-                        title: state after txs from the previous block
                       last_results_hash:
                         type: string
                         format: byte
-                        title: >-
-                          root hash of all results from the txs from the
-                          previous block
                       evidence_hash:
                         type: string
                         format: byte
-                        description: evidence included in the block
                         title: consensus info
                       proposer_address:
                         type: string
                         format: byte
-                        title: original proposer of the block
                     description: Header defines the structure of a Tendermint block header.
                   data:
                     type: object
@@ -3533,7 +3522,6 @@ paths:
                                               format: byte
                                           title: PartsetHeader
                                       title: BlockID
-                                      description: zero if vote is nil.
                                     timestamp:
                                       type: string
                                       format: date-time
@@ -3591,7 +3579,6 @@ paths:
                                               format: byte
                                           title: PartsetHeader
                                       title: BlockID
-                                      description: zero if vote is nil.
                                     timestamp:
                                       type: string
                                       format: date-time
@@ -3680,48 +3667,35 @@ paths:
                                             last_commit_hash:
                                               type: string
                                               format: byte
-                                              description: >-
-                                                commit from validators from the last
-                                                block
                                               title: hashes of block data
                                             data_hash:
                                               type: string
                                               format: byte
-                                              title: transactions
                                             validators_hash:
                                               type: string
                                               format: byte
-                                              description: validators for the current block
                                               title: >-
                                                 hashes from the app output from the prev
                                                 block
                                             next_validators_hash:
                                               type: string
                                               format: byte
-                                              title: validators for the next block
                                             consensus_hash:
                                               type: string
                                               format: byte
-                                              title: consensus params for current block
                                             app_hash:
                                               type: string
                                               format: byte
-                                              title: state after txs from the previous block
                                             last_results_hash:
                                               type: string
                                               format: byte
-                                              title: >-
-                                                root hash of all results from the txs
-                                                from the previous block
                                             evidence_hash:
                                               type: string
                                               format: byte
-                                              description: evidence included in the block
                                               title: consensus info
                                             proposer_address:
                                               type: string
                                               format: byte
-                                              title: original proposer of the block
                                           description: >-
                                             Header defines the structure of a
                                             Tendermint block header.
@@ -4204,44 +4178,33 @@ paths:
                       last_commit_hash:
                         type: string
                         format: byte
-                        description: commit from validators from the last block
                         title: hashes of block data
                       data_hash:
                         type: string
                         format: byte
-                        title: transactions
                       validators_hash:
                         type: string
                         format: byte
-                        description: validators for the current block
                         title: hashes from the app output from the prev block
                       next_validators_hash:
                         type: string
                         format: byte
-                        title: validators for the next block
                       consensus_hash:
                         type: string
                         format: byte
-                        title: consensus params for current block
                       app_hash:
                         type: string
                         format: byte
-                        title: state after txs from the previous block
                       last_results_hash:
                         type: string
                         format: byte
-                        title: >-
-                          root hash of all results from the txs from the
-                          previous block
                       evidence_hash:
                         type: string
                         format: byte
-                        description: evidence included in the block
                         title: consensus info
                       proposer_address:
                         type: string
                         format: byte
-                        title: original proposer of the block
                     description: Header defines the structure of a Tendermint block header.
                   data:
                     type: object
@@ -4313,7 +4276,6 @@ paths:
                                               format: byte
                                           title: PartsetHeader
                                       title: BlockID
-                                      description: zero if vote is nil.
                                     timestamp:
                                       type: string
                                       format: date-time
@@ -4371,7 +4333,6 @@ paths:
                                               format: byte
                                           title: PartsetHeader
                                       title: BlockID
-                                      description: zero if vote is nil.
                                     timestamp:
                                       type: string
                                       format: date-time
@@ -4460,48 +4421,35 @@ paths:
                                             last_commit_hash:
                                               type: string
                                               format: byte
-                                              description: >-
-                                                commit from validators from the last
-                                                block
                                               title: hashes of block data
                                             data_hash:
                                               type: string
                                               format: byte
-                                              title: transactions
                                             validators_hash:
                                               type: string
                                               format: byte
-                                              description: validators for the current block
                                               title: >-
                                                 hashes from the app output from the prev
                                                 block
                                             next_validators_hash:
                                               type: string
                                               format: byte
-                                              title: validators for the next block
                                             consensus_hash:
                                               type: string
                                               format: byte
-                                              title: consensus params for current block
                                             app_hash:
                                               type: string
                                               format: byte
-                                              title: state after txs from the previous block
                                             last_results_hash:
                                               type: string
                                               format: byte
-                                              title: >-
-                                                root hash of all results from the txs
-                                                from the previous block
                                             evidence_hash:
                                               type: string
                                               format: byte
-                                              description: evidence included in the block
                                               title: consensus info
                                             proposer_address:
                                               type: string
                                               format: byte
-                                              title: original proposer of the block
                                           description: >-
                                             Header defines the structure of a
                                             Tendermint block header.
@@ -12061,7 +12009,6 @@ paths:
                   delegation_responses defines all the delegations' info of a
                   delegator.
               pagination:
-                description: pagination defines the pagination in the response.
                 type: object
                 properties:
                   next_key:
@@ -12078,6 +12025,16 @@ paths:
                       PageRequest.count_total
 
                       was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
             description: |-
               QueryDelegatorDelegationsResponse is response type for the
               Query/DelegatorDelegations RPC method.
@@ -12394,10 +12351,7 @@ paths:
                             description: >-
                               RedelegationEntry defines a redelegation object
                               with relevant metadata.
-                          description: |-
-                            entries are the redelegation entries.
-
-                            redelegation entries
+                          description: entries are the redelegation entries.
                       description: >-
                         Redelegation contains the list of a particular
                         delegator's redelegating bonds
@@ -12457,7 +12411,6 @@ paths:
 
                     responses.
               pagination:
-                description: pagination defines the pagination in the response.
                 type: object
                 properties:
                   next_key:
@@ -12474,6 +12427,16 @@ paths:
                       PageRequest.count_total
 
                       was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
             description: >-
               QueryRedelegationsResponse is response type for the
               Query/Redelegations RPC
@@ -12797,17 +12760,13 @@ paths:
                         description: >-
                           UnbondingDelegationEntry defines an unbonding object
                           with relevant metadata.
-                      description: |-
-                        entries are the unbonding delegation entries.
-
-                        unbonding delegation entries
+                      description: entries are the unbonding delegation entries.
                   description: >-
                     UnbondingDelegation stores all of a single delegator's
                     unbonding bonds
 
                     for a single validator in an time-ordered list.
               pagination:
-                description: pagination defines the pagination in the response.
                 type: object
                 properties:
                   next_key:
@@ -12824,6 +12783,16 @@ paths:
                       PageRequest.count_total
 
                       was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
             description: >-
               QueryUnbondingDelegatorDelegationsResponse is response type for
               the
@@ -13281,9 +13250,6 @@ paths:
                         jailed defined whether the validator has been jailed
                         from bonded status or not.
                     status:
-                      description: >-
-                        status is the validator status
-                        (bonded/unbonding/unbonded).
                       type: string
                       enum:
                         - BOND_STATUS_UNSPECIFIED
@@ -13291,6 +13257,13 @@ paths:
                         - BOND_STATUS_UNBONDING
                         - BOND_STATUS_BONDED
                       default: BOND_STATUS_UNSPECIFIED
+                      description: |-
+                        BondStatus is the status of a validator.
+
+                         - BOND_STATUS_UNSPECIFIED: UNSPECIFIED defines an invalid validator status.
+                         - BOND_STATUS_UNBONDED: UNBONDED defines a validator that is not bonded.
+                         - BOND_STATUS_UNBONDING: UNBONDING defines a validator that is unbonding.
+                         - BOND_STATUS_BONDED: BONDED defines a validator that is bonded.
                     tokens:
                       type: string
                       description: >-
@@ -13302,9 +13275,6 @@ paths:
                         delegator_shares defines total shares issued to a
                         validator's delegators.
                     description:
-                      description: >-
-                        description defines the description terms for the
-                        validator.
                       type: object
                       properties:
                         moniker:
@@ -13328,6 +13298,7 @@ paths:
                         details:
                           type: string
                           description: details define other optional details.
+                      description: Description defines a validator description.
                     unbonding_height:
                       type: string
                       format: int64
@@ -13341,13 +13312,9 @@ paths:
                         unbonding_time defines, if unbonding, the min time for
                         the validator to complete unbonding.
                     commission:
-                      description: commission defines the commission parameters.
                       type: object
                       properties:
                         commission_rates:
-                          description: >-
-                            commission_rates defines the initial commission
-                            rates to be used for creating a validator.
                           type: object
                           properties:
                             rate:
@@ -13366,12 +13333,20 @@ paths:
                                 max_change_rate defines the maximum daily
                                 increase of the validator commission, as a
                                 fraction.
+                          description: >-
+                            CommissionRates defines the initial commission rates
+                            to be used for creating
+
+                            a validator.
                         update_time:
                           type: string
                           format: date-time
                           description: >-
                             update_time is the last time the commission rate was
                             changed.
+                      description: >-
+                        Commission defines commission parameters for a given
+                        validator.
                     min_self_delegation:
                       type: string
                       description: >-
@@ -13414,7 +13389,6 @@ paths:
                     multiplied by exchange rate.
                 description: validators defines the the validators' info of a delegator.
               pagination:
-                description: pagination defines the pagination in the response.
                 type: object
                 properties:
                   next_key:
@@ -13431,6 +13405,16 @@ paths:
                       PageRequest.count_total
 
                       was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
             description: |-
               QueryDelegatorValidatorsResponse is response type for the
               Query/DelegatorValidators RPC method.
@@ -13882,9 +13866,6 @@ paths:
                       jailed defined whether the validator has been jailed from
                       bonded status or not.
                   status:
-                    description: >-
-                      status is the validator status
-                      (bonded/unbonding/unbonded).
                     type: string
                     enum:
                       - BOND_STATUS_UNSPECIFIED
@@ -13892,6 +13873,13 @@ paths:
                       - BOND_STATUS_UNBONDING
                       - BOND_STATUS_BONDED
                     default: BOND_STATUS_UNSPECIFIED
+                    description: |-
+                      BondStatus is the status of a validator.
+
+                       - BOND_STATUS_UNSPECIFIED: UNSPECIFIED defines an invalid validator status.
+                       - BOND_STATUS_UNBONDED: UNBONDED defines a validator that is not bonded.
+                       - BOND_STATUS_UNBONDING: UNBONDING defines a validator that is unbonding.
+                       - BOND_STATUS_BONDED: BONDED defines a validator that is bonded.
                   tokens:
                     type: string
                     description: >-
@@ -13903,9 +13891,6 @@ paths:
                       delegator_shares defines total shares issued to a
                       validator's delegators.
                   description:
-                    description: >-
-                      description defines the description terms for the
-                      validator.
                     type: object
                     properties:
                       moniker:
@@ -13929,6 +13914,7 @@ paths:
                       details:
                         type: string
                         description: details define other optional details.
+                    description: Description defines a validator description.
                   unbonding_height:
                     type: string
                     format: int64
@@ -13942,13 +13928,9 @@ paths:
                       unbonding_time defines, if unbonding, the min time for the
                       validator to complete unbonding.
                   commission:
-                    description: commission defines the commission parameters.
                     type: object
                     properties:
                       commission_rates:
-                        description: >-
-                          commission_rates defines the initial commission rates
-                          to be used for creating a validator.
                         type: object
                         properties:
                           rate:
@@ -13966,12 +13948,20 @@ paths:
                             description: >-
                               max_change_rate defines the maximum daily increase
                               of the validator commission, as a fraction.
+                        description: >-
+                          CommissionRates defines the initial commission rates
+                          to be used for creating
+
+                          a validator.
                       update_time:
                         type: string
                         format: date-time
                         description: >-
                           update_time is the last time the commission rate was
                           changed.
+                    description: >-
+                      Commission defines commission parameters for a given
+                      validator.
                   min_self_delegation:
                     type: string
                     description: >-
@@ -14224,14 +14214,12 @@ paths:
             type: object
             properties:
               hist:
-                description: hist defines the historical info at the given height.
                 type: object
                 properties:
                   header:
                     type: object
                     properties:
                       version:
-                        title: basic block info
                         type: object
                         properties:
                           block:
@@ -14257,7 +14245,6 @@ paths:
                         type: string
                         format: date-time
                       last_block_id:
-                        title: prev block info
                         type: object
                         properties:
                           hash:
@@ -14273,47 +14260,37 @@ paths:
                                 type: string
                                 format: byte
                             title: PartsetHeader
+                        title: BlockID
                       last_commit_hash:
                         type: string
                         format: byte
-                        description: commit from validators from the last block
                         title: hashes of block data
                       data_hash:
                         type: string
                         format: byte
-                        title: transactions
                       validators_hash:
                         type: string
                         format: byte
-                        description: validators for the current block
                         title: hashes from the app output from the prev block
                       next_validators_hash:
                         type: string
                         format: byte
-                        title: validators for the next block
                       consensus_hash:
                         type: string
                         format: byte
-                        title: consensus params for current block
                       app_hash:
                         type: string
                         format: byte
-                        title: state after txs from the previous block
                       last_results_hash:
                         type: string
                         format: byte
-                        title: >-
-                          root hash of all results from the txs from the
-                          previous block
                       evidence_hash:
                         type: string
                         format: byte
-                        description: evidence included in the block
                         title: consensus info
                       proposer_address:
                         type: string
                         format: byte
-                        title: original proposer of the block
                     description: Header defines the structure of a Tendermint block header.
                   valset:
                     type: array
@@ -14507,9 +14484,6 @@ paths:
                             jailed defined whether the validator has been jailed
                             from bonded status or not.
                         status:
-                          description: >-
-                            status is the validator status
-                            (bonded/unbonding/unbonded).
                           type: string
                           enum:
                             - BOND_STATUS_UNSPECIFIED
@@ -14517,6 +14491,13 @@ paths:
                             - BOND_STATUS_UNBONDING
                             - BOND_STATUS_BONDED
                           default: BOND_STATUS_UNSPECIFIED
+                          description: |-
+                            BondStatus is the status of a validator.
+
+                             - BOND_STATUS_UNSPECIFIED: UNSPECIFIED defines an invalid validator status.
+                             - BOND_STATUS_UNBONDED: UNBONDED defines a validator that is not bonded.
+                             - BOND_STATUS_UNBONDING: UNBONDING defines a validator that is unbonding.
+                             - BOND_STATUS_BONDED: BONDED defines a validator that is bonded.
                         tokens:
                           type: string
                           description: >-
@@ -14528,9 +14509,6 @@ paths:
                             delegator_shares defines total shares issued to a
                             validator's delegators.
                         description:
-                          description: >-
-                            description defines the description terms for the
-                            validator.
                           type: object
                           properties:
                             moniker:
@@ -14554,6 +14532,7 @@ paths:
                             details:
                               type: string
                               description: details define other optional details.
+                          description: Description defines a validator description.
                         unbonding_height:
                           type: string
                           format: int64
@@ -14567,13 +14546,9 @@ paths:
                             unbonding_time defines, if unbonding, the min time
                             for the validator to complete unbonding.
                         commission:
-                          description: commission defines the commission parameters.
                           type: object
                           properties:
                             commission_rates:
-                              description: >-
-                                commission_rates defines the initial commission
-                                rates to be used for creating a validator.
                               type: object
                               properties:
                                 rate:
@@ -14593,12 +14568,20 @@ paths:
                                     max_change_rate defines the maximum daily
                                     increase of the validator commission, as a
                                     fraction.
+                              description: >-
+                                CommissionRates defines the initial commission
+                                rates to be used for creating
+
+                                a validator.
                             update_time:
                               type: string
                               format: date-time
                               description: >-
                                 update_time is the last time the commission rate
                                 was changed.
+                          description: >-
+                            Commission defines commission parameters for a given
+                            validator.
                         min_self_delegation:
                           type: string
                           description: >-
@@ -14639,6 +14622,17 @@ paths:
                         bonded shares
 
                         multiplied by exchange rate.
+                description: >-
+                  HistoricalInfo contains header and validator information for a
+                  given block.
+
+                  It is stored as part of staking module's state, which persists
+                  the `n` most
+
+                  recent HistoricalInfo
+
+                  (`n` is set by the staking module's `historical_entries`
+                  parameter).
             description: >-
               QueryHistoricalInfoResponse is response type for the
               Query/HistoricalInfo RPC
@@ -14849,7 +14843,6 @@ paths:
             type: object
             properties:
               params:
-                description: params holds all the parameters of this module.
                 type: object
                 properties:
                   unbonding_time:
@@ -14874,6 +14867,7 @@ paths:
                   bond_denom:
                     type: string
                     description: bond_denom defines the bondable coin denomination.
+                description: Params defines the parameters for the staking module.
             description: >-
               QueryParamsResponse is response type for the Query/Params RPC
               method.
@@ -15075,13 +15069,17 @@ paths:
             type: object
             properties:
               pool:
-                description: pool defines the pool info.
                 type: object
                 properties:
                   not_bonded_tokens:
                     type: string
                   bonded_tokens:
                     type: string
+                description: >-
+                  Pool is used for tracking bonded and not-bonded token supply
+                  of the bond
+
+                  denomination.
             description: QueryPoolResponse is response type for the Query/Pool RPC method.
         default:
           description: An unexpected error response.
@@ -15675,9 +15673,6 @@ paths:
                         jailed defined whether the validator has been jailed
                         from bonded status or not.
                     status:
-                      description: >-
-                        status is the validator status
-                        (bonded/unbonding/unbonded).
                       type: string
                       enum:
                         - BOND_STATUS_UNSPECIFIED
@@ -15685,6 +15680,13 @@ paths:
                         - BOND_STATUS_UNBONDING
                         - BOND_STATUS_BONDED
                       default: BOND_STATUS_UNSPECIFIED
+                      description: |-
+                        BondStatus is the status of a validator.
+
+                         - BOND_STATUS_UNSPECIFIED: UNSPECIFIED defines an invalid validator status.
+                         - BOND_STATUS_UNBONDED: UNBONDED defines a validator that is not bonded.
+                         - BOND_STATUS_UNBONDING: UNBONDING defines a validator that is unbonding.
+                         - BOND_STATUS_BONDED: BONDED defines a validator that is bonded.
                     tokens:
                       type: string
                       description: >-
@@ -15696,9 +15698,6 @@ paths:
                         delegator_shares defines total shares issued to a
                         validator's delegators.
                     description:
-                      description: >-
-                        description defines the description terms for the
-                        validator.
                       type: object
                       properties:
                         moniker:
@@ -15722,6 +15721,7 @@ paths:
                         details:
                           type: string
                           description: details define other optional details.
+                      description: Description defines a validator description.
                     unbonding_height:
                       type: string
                       format: int64
@@ -15735,13 +15735,9 @@ paths:
                         unbonding_time defines, if unbonding, the min time for
                         the validator to complete unbonding.
                     commission:
-                      description: commission defines the commission parameters.
                       type: object
                       properties:
                         commission_rates:
-                          description: >-
-                            commission_rates defines the initial commission
-                            rates to be used for creating a validator.
                           type: object
                           properties:
                             rate:
@@ -15760,12 +15756,20 @@ paths:
                                 max_change_rate defines the maximum daily
                                 increase of the validator commission, as a
                                 fraction.
+                          description: >-
+                            CommissionRates defines the initial commission rates
+                            to be used for creating
+
+                            a validator.
                         update_time:
                           type: string
                           format: date-time
                           description: >-
                             update_time is the last time the commission rate was
                             changed.
+                      description: >-
+                        Commission defines commission parameters for a given
+                        validator.
                     min_self_delegation:
                       type: string
                       description: >-
@@ -15808,7 +15812,6 @@ paths:
                     multiplied by exchange rate.
                 description: validators contains all the queried validators.
               pagination:
-                description: pagination defines the pagination in the response.
                 type: object
                 properties:
                   next_key:
@@ -15825,6 +15828,16 @@ paths:
                       PageRequest.count_total
 
                       was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
             title: >-
               QueryValidatorsResponse is response type for the Query/Validators
               RPC method
@@ -16274,9 +16287,6 @@ paths:
                       jailed defined whether the validator has been jailed from
                       bonded status or not.
                   status:
-                    description: >-
-                      status is the validator status
-                      (bonded/unbonding/unbonded).
                     type: string
                     enum:
                       - BOND_STATUS_UNSPECIFIED
@@ -16284,6 +16294,13 @@ paths:
                       - BOND_STATUS_UNBONDING
                       - BOND_STATUS_BONDED
                     default: BOND_STATUS_UNSPECIFIED
+                    description: |-
+                      BondStatus is the status of a validator.
+
+                       - BOND_STATUS_UNSPECIFIED: UNSPECIFIED defines an invalid validator status.
+                       - BOND_STATUS_UNBONDED: UNBONDED defines a validator that is not bonded.
+                       - BOND_STATUS_UNBONDING: UNBONDING defines a validator that is unbonding.
+                       - BOND_STATUS_BONDED: BONDED defines a validator that is bonded.
                   tokens:
                     type: string
                     description: >-
@@ -16295,9 +16312,6 @@ paths:
                       delegator_shares defines total shares issued to a
                       validator's delegators.
                   description:
-                    description: >-
-                      description defines the description terms for the
-                      validator.
                     type: object
                     properties:
                       moniker:
@@ -16321,6 +16335,7 @@ paths:
                       details:
                         type: string
                         description: details define other optional details.
+                    description: Description defines a validator description.
                   unbonding_height:
                     type: string
                     format: int64
@@ -16334,13 +16349,9 @@ paths:
                       unbonding_time defines, if unbonding, the min time for the
                       validator to complete unbonding.
                   commission:
-                    description: commission defines the commission parameters.
                     type: object
                     properties:
                       commission_rates:
-                        description: >-
-                          commission_rates defines the initial commission rates
-                          to be used for creating a validator.
                         type: object
                         properties:
                           rate:
@@ -16358,12 +16369,20 @@ paths:
                             description: >-
                               max_change_rate defines the maximum daily increase
                               of the validator commission, as a fraction.
+                        description: >-
+                          CommissionRates defines the initial commission rates
+                          to be used for creating
+
+                          a validator.
                       update_time:
                         type: string
                         format: date-time
                         description: >-
                           update_time is the last time the commission rate was
                           changed.
+                    description: >-
+                      Commission defines commission parameters for a given
+                      validator.
                   min_self_delegation:
                     type: string
                     description: >-
@@ -16661,7 +16680,6 @@ paths:
                     balance in addition to shares which is more suitable for
                     client responses.
               pagination:
-                description: pagination defines the pagination in the response.
                 type: object
                 properties:
                   next_key:
@@ -16678,6 +16696,16 @@ paths:
                       PageRequest.count_total
 
                       was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
             title: |-
               QueryValidatorDelegationsResponse is response type for the
               Query/ValidatorDelegations RPC method
@@ -17242,10 +17270,7 @@ paths:
                       description: >-
                         UnbondingDelegationEntry defines an unbonding object
                         with relevant metadata.
-                    description: |-
-                      entries are the unbonding delegation entries.
-
-                      unbonding delegation entries
+                    description: entries are the unbonding delegation entries.
                 description: >-
                   UnbondingDelegation stores all of a single delegator's
                   unbonding bonds
@@ -17511,17 +17536,13 @@ paths:
                         description: >-
                           UnbondingDelegationEntry defines an unbonding object
                           with relevant metadata.
-                      description: |-
-                        entries are the unbonding delegation entries.
-
-                        unbonding delegation entries
+                      description: entries are the unbonding delegation entries.
                   description: >-
                     UnbondingDelegation stores all of a single delegator's
                     unbonding bonds
 
                     for a single validator in an time-ordered list.
               pagination:
-                description: pagination defines the pagination in the response.
                 type: object
                 properties:
                   next_key:
@@ -17538,6 +17559,16 @@ paths:
                       PageRequest.count_total
 
                       was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
             description: >-
               QueryValidatorUnbondingDelegationsResponse is response type for
               the
@@ -17854,7 +17885,6 @@ paths:
                                 format: byte
                               index:
                                 type: boolean
-                                title: nondeterministic
                             description: >-
                               EventAttribute is a single key-value pair,
                               associated with an event.
@@ -18642,7 +18672,6 @@ paths:
                                 format: byte
                               index:
                                 type: boolean
-                                title: nondeterministic
                             description: >-
                               EventAttribute is a single key-value pair,
                               associated with an event.
@@ -20481,7 +20510,6 @@ paths:
                     code_id:
                       type: string
                       format: uint64
-                      title: id for legacy support
                     creator:
                       type: string
                     data_hash:
@@ -20790,7 +20818,6 @@ paths:
                   code_id:
                     type: string
                     format: uint64
-                    title: id for legacy support
                   creator:
                     type: string
                   data_hash:
@@ -21011,7 +21038,6 @@ paths:
                         }
       parameters:
         - name: code_id
-          description: grpc-gateway_out does not support Go style CodID
           in: path
           required: true
           type: string
@@ -21241,7 +21267,6 @@ paths:
                         }
       parameters:
         - name: code_id
-          description: grpc-gateway_out does not support Go style CodID
           in: path
           required: true
           type: string
@@ -23616,7 +23641,6 @@ paths:
                     source tracing information path.
                 description: denom_traces returns all denominations trace information.
               pagination:
-                description: pagination defines the pagination in the response.
                 type: object
                 properties:
                   next_key:
@@ -23633,6 +23657,16 @@ paths:
                       PageRequest.count_total
 
                       was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
             description: >-
               QueryConnectionsResponse is the response type for the
               Query/DenomTraces RPC
@@ -24111,7 +24145,6 @@ paths:
             type: object
             properties:
               params:
-                description: params defines the parameters of the module.
                 type: object
                 properties:
                   send_enabled:
@@ -24128,6 +24161,16 @@ paths:
                       transfers to this
 
                       chain.
+                description: >-
+                  Params defines the set of IBC transfer parameters.
+
+                  NOTE: To prevent a single token from being transferred, set
+                  the
+
+                  TransfersEnabled parameter to true and then set the bank
+                  module's SendEnabled
+
+                  parameter for the denomination to false.
             description: >-
               QueryParamsResponse is the response type for the Query/Params RPC
               method.
@@ -24334,7 +24377,6 @@ paths:
                   type: object
                   properties:
                     state:
-                      title: current state of the channel end
                       type: string
                       enum:
                         - STATE_UNINITIALIZED_UNSPECIFIED
@@ -24357,7 +24399,6 @@ paths:
                          - STATE_CLOSED: A channel has been closed and can no longer be used to send or receive
                         packets.
                     ordering:
-                      title: whether the channel is ordered or unordered
                       type: string
                       enum:
                         - ORDER_NONE_UNSPECIFIED
@@ -24370,8 +24411,8 @@ paths:
                          - ORDER_UNORDERED: packets can be delivered in any order, which may differ from the order in
                         which they were sent.
                          - ORDER_ORDERED: packets are delivered exactly in the order which they were sent
+                      title: Order defines if a channel is ORDERED or UNORDERED
                     counterparty:
-                      title: counterparty channel end
                       type: object
                       properties:
                         port_id:
@@ -24382,6 +24423,7 @@ paths:
                         channel_id:
                           type: string
                           title: channel end on the counterparty chain
+                      title: Counterparty defines a channel end counterparty
                     connection_hops:
                       type: array
                       items:
@@ -24409,7 +24451,6 @@ paths:
                     identifier fields.
                 description: list of stored channels of the chain.
               pagination:
-                title: pagination response
                 type: object
                 properties:
                   next_key:
@@ -24437,7 +24478,6 @@ paths:
                            PageResponse page = 2;
                    }
               height:
-                title: query block height
                 type: object
                 properties:
                   revision_number:
@@ -24465,6 +24505,13 @@ paths:
                   RevisionHeight
 
                   gets reset
+                title: >-
+                  Height is a monotonically increasing data type
+
+                  that can be compared against another Height for the purposes
+                  of updating and
+
+                  freezing clients
             description: >-
               QueryChannelsResponse is the response type for the Query/Channels
               RPC method.
@@ -24713,11 +24760,9 @@ paths:
             type: object
             properties:
               channel:
-                title: channel associated with the request identifiers
                 type: object
                 properties:
                   state:
-                    title: current state of the channel end
                     type: string
                     enum:
                       - STATE_UNINITIALIZED_UNSPECIFIED
@@ -24740,7 +24785,6 @@ paths:
                        - STATE_CLOSED: A channel has been closed and can no longer be used to send or receive
                       packets.
                   ordering:
-                    title: whether the channel is ordered or unordered
                     type: string
                     enum:
                       - ORDER_NONE_UNSPECIFIED
@@ -24752,8 +24796,8 @@ paths:
                        - ORDER_UNORDERED: packets can be delivered in any order, which may differ from the order in
                       which they were sent.
                        - ORDER_ORDERED: packets are delivered exactly in the order which they were sent
+                    title: Order defines if a channel is ORDERED or UNORDERED
                   counterparty:
-                    title: counterparty channel end
                     type: object
                     properties:
                       port_id:
@@ -24764,6 +24808,7 @@ paths:
                       channel_id:
                         type: string
                         title: channel end on the counterparty chain
+                    title: Counterparty defines a channel end counterparty
                   connection_hops:
                     type: array
                     items:
@@ -24791,7 +24836,6 @@ paths:
                 format: byte
                 title: merkle proof of existence
               proof_height:
-                title: height at which the proof was retrieved
                 type: object
                 properties:
                   revision_number:
@@ -24819,6 +24863,13 @@ paths:
                   RevisionHeight
 
                   gets reset
+                title: >-
+                  Height is a monotonically increasing data type
+
+                  that can be compared against another Height for the purposes
+                  of updating and
+
+                  freezing clients
             description: >-
               QueryChannelResponse is the response type for the Query/Channel
               RPC method.
@@ -25040,7 +25091,6 @@ paths:
             type: object
             properties:
               identified_client_state:
-                title: client state associated with the channel
                 type: object
                 properties:
                   client_id:
@@ -25219,7 +25269,6 @@ paths:
                             "@type": "type.googleapis.com/google.protobuf.Duration",
                             "value": "1.212s"
                           }
-                    title: client state
                 description: >-
                   IdentifiedClientState defines a client state with an
                   additional client
@@ -25230,7 +25279,6 @@ paths:
                 format: byte
                 title: merkle proof of existence
               proof_height:
-                title: height at which the proof was retrieved
                 type: object
                 properties:
                   revision_number:
@@ -25258,6 +25306,13 @@ paths:
                   RevisionHeight
 
                   gets reset
+                title: >-
+                  Height is a monotonically increasing data type
+
+                  that can be compared against another Height for the purposes
+                  of updating and
+
+                  freezing clients
             title: |-
               QueryChannelClientStateResponse is the Response type for the
               Query/QueryChannelClientState RPC method
@@ -25640,7 +25695,6 @@ paths:
                         "@type": "type.googleapis.com/google.protobuf.Duration",
                         "value": "1.212s"
                       }
-                title: consensus state associated with the channel
               client_id:
                 type: string
                 title: client ID associated with the consensus state
@@ -25649,7 +25703,6 @@ paths:
                 format: byte
                 title: merkle proof of existence
               proof_height:
-                title: height at which the proof was retrieved
                 type: object
                 properties:
                   revision_number:
@@ -25677,6 +25730,13 @@ paths:
                   RevisionHeight
 
                   gets reset
+                title: >-
+                  Height is a monotonically increasing data type
+
+                  that can be compared against another Height for the purposes
+                  of updating and
+
+                  freezing clients
             title: |-
               QueryChannelClientStateResponse is the Response type for the
               Query/QueryChannelClientState RPC method
@@ -25911,7 +25971,6 @@ paths:
                 format: byte
                 title: merkle proof of existence
               proof_height:
-                title: height at which the proof was retrieved
                 type: object
                 properties:
                   revision_number:
@@ -25939,6 +25998,13 @@ paths:
                   RevisionHeight
 
                   gets reset
+                title: >-
+                  Height is a monotonically increasing data type
+
+                  that can be compared against another Height for the purposes
+                  of updating and
+
+                  freezing clients
             title: |-
               QuerySequenceResponse is the request type for the
               Query/QueryNextSequenceReceiveResponse RPC method
@@ -26184,7 +26250,6 @@ paths:
 
                     state as a commitment, acknowledgement, or a receipt.
               pagination:
-                title: pagination response
                 type: object
                 properties:
                   next_key:
@@ -26212,7 +26277,6 @@ paths:
                            PageResponse page = 2;
                    }
               height:
-                title: query block height
                 type: object
                 properties:
                   revision_number:
@@ -26240,6 +26304,13 @@ paths:
                   RevisionHeight
 
                   gets reset
+                title: >-
+                  Height is a monotonically increasing data type
+
+                  that can be compared against another Height for the purposes
+                  of updating and
+
+                  freezing clients
             title: |-
               QueryPacketAcknowledgemetsResponse is the request type for the
               Query/QueryPacketAcknowledgements RPC method
@@ -26515,7 +26586,6 @@ paths:
                 format: byte
                 title: merkle proof of existence
               proof_height:
-                title: height at which the proof was retrieved
                 type: object
                 properties:
                   revision_number:
@@ -26543,6 +26613,13 @@ paths:
                   RevisionHeight
 
                   gets reset
+                title: >-
+                  Height is a monotonically increasing data type
+
+                  that can be compared against another Height for the purposes
+                  of updating and
+
+                  freezing clients
             title: >-
               QueryPacketAcknowledgementResponse defines the client query
               response for a
@@ -26796,7 +26873,6 @@ paths:
 
                     state as a commitment, acknowledgement, or a receipt.
               pagination:
-                title: pagination response
                 type: object
                 properties:
                   next_key:
@@ -26824,7 +26900,6 @@ paths:
                            PageResponse page = 2;
                    }
               height:
-                title: query block height
                 type: object
                 properties:
                   revision_number:
@@ -26852,6 +26927,13 @@ paths:
                   RevisionHeight
 
                   gets reset
+                title: >-
+                  Height is a monotonically increasing data type
+
+                  that can be compared against another Height for the purposes
+                  of updating and
+
+                  freezing clients
             title: |-
               QueryPacketCommitmentsResponse is the request type for the
               Query/QueryPacketCommitments RPC method
@@ -27120,7 +27202,6 @@ paths:
                   format: uint64
                 title: list of unreceived acknowledgement sequences
               height:
-                title: query block height
                 type: object
                 properties:
                   revision_number:
@@ -27148,6 +27229,13 @@ paths:
                   RevisionHeight
 
                   gets reset
+                title: >-
+                  Height is a monotonically increasing data type
+
+                  that can be compared against another Height for the purposes
+                  of updating and
+
+                  freezing clients
             title: |-
               QueryUnreceivedAcksResponse is the response type for the
               Query/UnreceivedAcks RPC method
@@ -27380,7 +27468,6 @@ paths:
                   format: uint64
                 title: list of unreceived packet sequences
               height:
-                title: query block height
                 type: object
                 properties:
                   revision_number:
@@ -27408,6 +27495,13 @@ paths:
                   RevisionHeight
 
                   gets reset
+                title: >-
+                  Height is a monotonically increasing data type
+
+                  that can be compared against another Height for the purposes
+                  of updating and
+
+                  freezing clients
             title: |-
               QueryUnreceivedPacketsResponse is the response type for the
               Query/UnreceivedPacketCommitments RPC method
@@ -27638,7 +27732,6 @@ paths:
                 format: byte
                 title: merkle proof of existence
               proof_height:
-                title: height at which the proof was retrieved
                 type: object
                 properties:
                   revision_number:
@@ -27666,6 +27759,13 @@ paths:
                   RevisionHeight
 
                   gets reset
+                title: >-
+                  Height is a monotonically increasing data type
+
+                  that can be compared against another Height for the purposes
+                  of updating and
+
+                  freezing clients
             title: >-
               QueryPacketCommitmentResponse defines the client query response
               for a packet
@@ -27900,7 +28000,6 @@ paths:
                 format: byte
                 title: merkle proof of existence
               proof_height:
-                title: height at which the proof was retrieved
                 type: object
                 properties:
                   revision_number:
@@ -27928,6 +28027,13 @@ paths:
                   RevisionHeight
 
                   gets reset
+                title: >-
+                  Height is a monotonically increasing data type
+
+                  that can be compared against another Height for the purposes
+                  of updating and
+
+                  freezing clients
             title: >-
               QueryPacketReceiptResponse defines the client query response for a
               packet
@@ -28158,7 +28264,6 @@ paths:
                   type: object
                   properties:
                     state:
-                      title: current state of the channel end
                       type: string
                       enum:
                         - STATE_UNINITIALIZED_UNSPECIFIED
@@ -28181,7 +28286,6 @@ paths:
                          - STATE_CLOSED: A channel has been closed and can no longer be used to send or receive
                         packets.
                     ordering:
-                      title: whether the channel is ordered or unordered
                       type: string
                       enum:
                         - ORDER_NONE_UNSPECIFIED
@@ -28194,8 +28298,8 @@ paths:
                          - ORDER_UNORDERED: packets can be delivered in any order, which may differ from the order in
                         which they were sent.
                          - ORDER_ORDERED: packets are delivered exactly in the order which they were sent
+                      title: Order defines if a channel is ORDERED or UNORDERED
                     counterparty:
-                      title: counterparty channel end
                       type: object
                       properties:
                         port_id:
@@ -28206,6 +28310,7 @@ paths:
                         channel_id:
                           type: string
                           title: channel end on the counterparty chain
+                      title: Counterparty defines a channel end counterparty
                     connection_hops:
                       type: array
                       items:
@@ -28233,7 +28338,6 @@ paths:
                     identifier fields.
                 description: list of channels associated with a connection.
               pagination:
-                title: pagination response
                 type: object
                 properties:
                   next_key:
@@ -28261,7 +28365,6 @@ paths:
                            PageResponse page = 2;
                    }
               height:
-                title: query block height
                 type: object
                 properties:
                   revision_number:
@@ -28289,6 +28392,13 @@ paths:
                   RevisionHeight
 
                   gets reset
+                title: >-
+                  Height is a monotonically increasing data type
+
+                  that can be compared against another Height for the purposes
+                  of updating and
+
+                  freezing clients
             title: |-
               QueryConnectionChannelsResponse is the Response type for the
               Query/QueryConnectionChannels RPC method
@@ -28542,7 +28652,6 @@ paths:
             type: object
             properties:
               params:
-                description: params defines the parameters of the module.
                 type: object
                 properties:
                   allowed_clients:
@@ -28552,6 +28661,7 @@ paths:
                     description: >-
                       allowed_clients defines the list of allowed client state
                       types.
+                description: Params defines the set of IBC light client parameters.
             description: >-
               QueryClientParamsResponse is the response type for the
               Query/ClientParams RPC
@@ -28937,7 +29047,6 @@ paths:
                               "@type": "type.googleapis.com/google.protobuf.Duration",
                               "value": "1.212s"
                             }
-                      title: client state
                   description: >-
                     IdentifiedClientState defines a client state with an
                     additional client
@@ -28945,7 +29054,6 @@ paths:
                     identifier field.
                 description: list of stored ClientStates of the chain.
               pagination:
-                title: pagination response
                 type: object
                 properties:
                   next_key:
@@ -29390,13 +29498,11 @@ paths:
                         "@type": "type.googleapis.com/google.protobuf.Duration",
                         "value": "1.212s"
                       }
-                title: client state associated with the request identifier
               proof:
                 type: string
                 format: byte
                 title: merkle proof of existence
               proof_height:
-                title: height at which the proof was retrieved
                 type: object
                 properties:
                   revision_number:
@@ -29424,6 +29530,13 @@ paths:
                   RevisionHeight
 
                   gets reset
+                title: >-
+                  Height is a monotonically increasing data type
+
+                  that can be compared against another Height for the purposes
+                  of updating and
+
+                  freezing clients
             description: >-
               QueryClientStateResponse is the response type for the
               Query/ClientState RPC
@@ -29853,7 +29966,6 @@ paths:
                   type: object
                   properties:
                     height:
-                      title: consensus state height
                       type: object
                       properties:
                         revision_number:
@@ -29881,6 +29993,13 @@ paths:
                         the RevisionHeight
 
                         gets reset
+                      title: >-
+                        Height is a monotonically increasing data type
+
+                        that can be compared against another Height for the
+                        purposes of updating and
+
+                        freezing clients
                     consensus_state:
                       type: object
                       properties:
@@ -30056,7 +30175,6 @@ paths:
                               "@type": "type.googleapis.com/google.protobuf.Duration",
                               "value": "1.212s"
                             }
-                      title: consensus state
                   description: >-
                     ConsensusStateWithHeight defines a consensus state with an
                     additional height
@@ -30064,7 +30182,6 @@ paths:
                     field.
                 title: consensus states associated with the identifier
               pagination:
-                title: pagination response
                 type: object
                 properties:
                   next_key:
@@ -30384,7 +30501,6 @@ paths:
                     freezing clients
                 title: consensus state heights
               pagination:
-                title: pagination response
                 type: object
                 properties:
                   next_key:
@@ -30836,9 +30952,6 @@ paths:
                         "@type": "type.googleapis.com/google.protobuf.Duration",
                         "value": "1.212s"
                       }
-                title: >-
-                  consensus state associated with the client identifier at the
-                  given height
               proof:
                 type: string
                 format: byte
@@ -31276,7 +31389,6 @@ paths:
                         "@type": "type.googleapis.com/google.protobuf.Duration",
                         "value": "1.212s"
                       }
-                title: client state associated with the request identifier
             description: |-
               QueryUpgradedClientStateResponse is the response type for the
               Query/UpgradedClientState RPC method.
@@ -31646,7 +31758,6 @@ paths:
                         "@type": "type.googleapis.com/google.protobuf.Duration",
                         "value": "1.212s"
                       }
-                title: Consensus state associated with the request identifier
             description: |-
               QueryUpgradedConsensusStateResponse is the response type for the
               Query/UpgradedConsensusState RPC method.
@@ -33775,6 +33886,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/evmsupport/address_binding/{ethAddress}/{nativeAddress}':
@@ -34228,6 +34349,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -34730,6 +34861,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -35305,6 +35446,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   /thesixnetwork/sixnft/nftmngr/nft_data:
@@ -35654,6 +35805,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -36930,6 +37091,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/nft_schema/{code}':
@@ -37704,6 +37875,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/nft_schema_by_contract/{originContractAddress}':
@@ -38192,6 +38373,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -39683,6 +39874,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/six-protocol/protocoladmin/admin/{group}/{admin}':
@@ -39842,6 +40043,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/six-protocol/protocoladmin/group/{name}':
@@ -39996,6 +40207,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   /thesixnetwork/six-protocol/protocoladmin/params:
@@ -40009,8 +40230,8 @@ paths:
             type: object
             properties:
               params:
-                description: params holds all the parameters of this module.
                 type: object
+                description: Params defines the parameters for the module.
             description: >-
               QueryParamsResponse is response type for the Query/Params RPC
               method.
@@ -40253,8 +40474,8 @@ paths:
             type: object
             properties:
               params:
-                description: params holds all the parameters of this module.
                 type: object
+                description: Params defines the parameters for the module.
             description: >-
               QueryParamsResponse is response type for the Query/Params RPC
               method.
@@ -40510,7 +40731,6 @@ paths:
                            repeated Bar results = 1;
                            PageResponse page = 2;
                    }
-                title: Adding pagination to response
         default:
           description: An unexpected error response.
           schema:
@@ -43140,42 +43360,33 @@ definitions:
               last_commit_hash:
                 type: string
                 format: byte
-                description: commit from validators from the last block
                 title: hashes of block data
               data_hash:
                 type: string
                 format: byte
-                title: transactions
               validators_hash:
                 type: string
                 format: byte
-                description: validators for the current block
                 title: hashes from the app output from the prev block
               next_validators_hash:
                 type: string
                 format: byte
-                title: validators for the next block
               consensus_hash:
                 type: string
                 format: byte
-                title: consensus params for current block
               app_hash:
                 type: string
                 format: byte
-                title: state after txs from the previous block
               last_results_hash:
                 type: string
                 format: byte
-                title: root hash of all results from the txs from the previous block
               evidence_hash:
                 type: string
                 format: byte
-                description: evidence included in the block
                 title: consensus info
               proposer_address:
                 type: string
                 format: byte
-                title: original proposer of the block
             description: Header defines the structure of a Tendermint block header.
           data:
             type: object
@@ -43244,7 +43455,6 @@ definitions:
                                       format: byte
                                   title: PartsetHeader
                               title: BlockID
-                              description: zero if vote is nil.
                             timestamp:
                               type: string
                               format: date-time
@@ -43302,7 +43512,6 @@ definitions:
                                       format: byte
                                   title: PartsetHeader
                               title: BlockID
-                              description: zero if vote is nil.
                             timestamp:
                               type: string
                               format: date-time
@@ -43391,48 +43600,35 @@ definitions:
                                     last_commit_hash:
                                       type: string
                                       format: byte
-                                      description: >-
-                                        commit from validators from the last
-                                        block
                                       title: hashes of block data
                                     data_hash:
                                       type: string
                                       format: byte
-                                      title: transactions
                                     validators_hash:
                                       type: string
                                       format: byte
-                                      description: validators for the current block
                                       title: >-
                                         hashes from the app output from the prev
                                         block
                                     next_validators_hash:
                                       type: string
                                       format: byte
-                                      title: validators for the next block
                                     consensus_hash:
                                       type: string
                                       format: byte
-                                      title: consensus params for current block
                                     app_hash:
                                       type: string
                                       format: byte
-                                      title: state after txs from the previous block
                                     last_results_hash:
                                       type: string
                                       format: byte
-                                      title: >-
-                                        root hash of all results from the txs
-                                        from the previous block
                                     evidence_hash:
                                       type: string
                                       format: byte
-                                      description: evidence included in the block
                                       title: consensus info
                                     proposer_address:
                                       type: string
                                       format: byte
-                                      title: original proposer of the block
                                   description: >-
                                     Header defines the structure of a Tendermint
                                     block header.
@@ -43715,42 +43911,33 @@ definitions:
               last_commit_hash:
                 type: string
                 format: byte
-                description: commit from validators from the last block
                 title: hashes of block data
               data_hash:
                 type: string
                 format: byte
-                title: transactions
               validators_hash:
                 type: string
                 format: byte
-                description: validators for the current block
                 title: hashes from the app output from the prev block
               next_validators_hash:
                 type: string
                 format: byte
-                title: validators for the next block
               consensus_hash:
                 type: string
                 format: byte
-                title: consensus params for current block
               app_hash:
                 type: string
                 format: byte
-                title: state after txs from the previous block
               last_results_hash:
                 type: string
                 format: byte
-                title: root hash of all results from the txs from the previous block
               evidence_hash:
                 type: string
                 format: byte
-                description: evidence included in the block
                 title: consensus info
               proposer_address:
                 type: string
                 format: byte
-                title: original proposer of the block
             description: Header defines the structure of a Tendermint block header.
           data:
             type: object
@@ -43819,7 +44006,6 @@ definitions:
                                       format: byte
                                   title: PartsetHeader
                               title: BlockID
-                              description: zero if vote is nil.
                             timestamp:
                               type: string
                               format: date-time
@@ -43877,7 +44063,6 @@ definitions:
                                       format: byte
                                   title: PartsetHeader
                               title: BlockID
-                              description: zero if vote is nil.
                             timestamp:
                               type: string
                               format: date-time
@@ -43966,48 +44151,35 @@ definitions:
                                     last_commit_hash:
                                       type: string
                                       format: byte
-                                      description: >-
-                                        commit from validators from the last
-                                        block
                                       title: hashes of block data
                                     data_hash:
                                       type: string
                                       format: byte
-                                      title: transactions
                                     validators_hash:
                                       type: string
                                       format: byte
-                                      description: validators for the current block
                                       title: >-
                                         hashes from the app output from the prev
                                         block
                                     next_validators_hash:
                                       type: string
                                       format: byte
-                                      title: validators for the next block
                                     consensus_hash:
                                       type: string
                                       format: byte
-                                      title: consensus params for current block
                                     app_hash:
                                       type: string
                                       format: byte
-                                      title: state after txs from the previous block
                                     last_results_hash:
                                       type: string
                                       format: byte
-                                      title: >-
-                                        root hash of all results from the txs
-                                        from the previous block
                                     evidence_hash:
                                       type: string
                                       format: byte
-                                      description: evidence included in the block
                                       title: consensus info
                                     proposer_address:
                                       type: string
                                       format: byte
-                                      title: original proposer of the block
                                   description: >-
                                     Header defines the structure of a Tendermint
                                     block header.
@@ -45049,42 +45221,33 @@ definitions:
           last_commit_hash:
             type: string
             format: byte
-            description: commit from validators from the last block
             title: hashes of block data
           data_hash:
             type: string
             format: byte
-            title: transactions
           validators_hash:
             type: string
             format: byte
-            description: validators for the current block
             title: hashes from the app output from the prev block
           next_validators_hash:
             type: string
             format: byte
-            title: validators for the next block
           consensus_hash:
             type: string
             format: byte
-            title: consensus params for current block
           app_hash:
             type: string
             format: byte
-            title: state after txs from the previous block
           last_results_hash:
             type: string
             format: byte
-            title: root hash of all results from the txs from the previous block
           evidence_hash:
             type: string
             format: byte
-            description: evidence included in the block
             title: consensus info
           proposer_address:
             type: string
             format: byte
-            title: original proposer of the block
         description: Header defines the structure of a Tendermint block header.
       data:
         type: object
@@ -45153,7 +45316,6 @@ definitions:
                                   format: byte
                               title: PartsetHeader
                           title: BlockID
-                          description: zero if vote is nil.
                         timestamp:
                           type: string
                           format: date-time
@@ -45211,7 +45373,6 @@ definitions:
                                   format: byte
                               title: PartsetHeader
                           title: BlockID
-                          description: zero if vote is nil.
                         timestamp:
                           type: string
                           format: date-time
@@ -45299,46 +45460,35 @@ definitions:
                                 last_commit_hash:
                                   type: string
                                   format: byte
-                                  description: commit from validators from the last block
                                   title: hashes of block data
                                 data_hash:
                                   type: string
                                   format: byte
-                                  title: transactions
                                 validators_hash:
                                   type: string
                                   format: byte
-                                  description: validators for the current block
                                   title: >-
                                     hashes from the app output from the prev
                                     block
                                 next_validators_hash:
                                   type: string
                                   format: byte
-                                  title: validators for the next block
                                 consensus_hash:
                                   type: string
                                   format: byte
-                                  title: consensus params for current block
                                 app_hash:
                                   type: string
                                   format: byte
-                                  title: state after txs from the previous block
                                 last_results_hash:
                                   type: string
                                   format: byte
-                                  title: >-
-                                    root hash of all results from the txs from
-                                    the previous block
                                 evidence_hash:
                                   type: string
                                   format: byte
-                                  description: evidence included in the block
                                   title: consensus info
                                 proposer_address:
                                   type: string
                                   format: byte
-                                  title: original proposer of the block
                               description: >-
                                 Header defines the structure of a Tendermint
                                 block header.
@@ -45705,7 +45855,6 @@ definitions:
                     format: byte
                 title: PartsetHeader
             title: BlockID
-            description: zero if vote is nil.
           timestamp:
             type: string
             format: date-time
@@ -45762,7 +45911,6 @@ definitions:
                     format: byte
                 title: PartsetHeader
             title: BlockID
-            description: zero if vote is nil.
           timestamp:
             type: string
             format: date-time
@@ -45837,7 +45985,6 @@ definitions:
                         format: byte
                     title: PartsetHeader
                 title: BlockID
-                description: zero if vote is nil.
               timestamp:
                 type: string
                 format: date-time
@@ -45894,7 +46041,6 @@ definitions:
                         format: byte
                     title: PartsetHeader
                 title: BlockID
-                description: zero if vote is nil.
               timestamp:
                 type: string
                 format: date-time
@@ -45982,44 +46128,33 @@ definitions:
                       last_commit_hash:
                         type: string
                         format: byte
-                        description: commit from validators from the last block
                         title: hashes of block data
                       data_hash:
                         type: string
                         format: byte
-                        title: transactions
                       validators_hash:
                         type: string
                         format: byte
-                        description: validators for the current block
                         title: hashes from the app output from the prev block
                       next_validators_hash:
                         type: string
                         format: byte
-                        title: validators for the next block
                       consensus_hash:
                         type: string
                         format: byte
-                        title: consensus params for current block
                       app_hash:
                         type: string
                         format: byte
-                        title: state after txs from the previous block
                       last_results_hash:
                         type: string
                         format: byte
-                        title: >-
-                          root hash of all results from the txs from the
-                          previous block
                       evidence_hash:
                         type: string
                         format: byte
-                        description: evidence included in the block
                         title: consensus info
                       proposer_address:
                         type: string
                         format: byte
-                        title: original proposer of the block
                     description: Header defines the structure of a Tendermint block header.
                   commit:
                     type: object
@@ -46223,7 +46358,6 @@ definitions:
                               format: byte
                           title: PartsetHeader
                       title: BlockID
-                      description: zero if vote is nil.
                     timestamp:
                       type: string
                       format: date-time
@@ -46281,7 +46415,6 @@ definitions:
                               format: byte
                           title: PartsetHeader
                       title: BlockID
-                      description: zero if vote is nil.
                     timestamp:
                       type: string
                       format: date-time
@@ -46369,44 +46502,33 @@ definitions:
                             last_commit_hash:
                               type: string
                               format: byte
-                              description: commit from validators from the last block
                               title: hashes of block data
                             data_hash:
                               type: string
                               format: byte
-                              title: transactions
                             validators_hash:
                               type: string
                               format: byte
-                              description: validators for the current block
                               title: hashes from the app output from the prev block
                             next_validators_hash:
                               type: string
                               format: byte
-                              title: validators for the next block
                             consensus_hash:
                               type: string
                               format: byte
-                              title: consensus params for current block
                             app_hash:
                               type: string
                               format: byte
-                              title: state after txs from the previous block
                             last_results_hash:
                               type: string
                               format: byte
-                              title: >-
-                                root hash of all results from the txs from the
-                                previous block
                             evidence_hash:
                               type: string
                               format: byte
-                              description: evidence included in the block
                               title: consensus info
                             proposer_address:
                               type: string
                               format: byte
-                              title: original proposer of the block
                           description: >-
                             Header defines the structure of a Tendermint block
                             header.
@@ -46610,42 +46732,33 @@ definitions:
       last_commit_hash:
         type: string
         format: byte
-        description: commit from validators from the last block
         title: hashes of block data
       data_hash:
         type: string
         format: byte
-        title: transactions
       validators_hash:
         type: string
         format: byte
-        description: validators for the current block
         title: hashes from the app output from the prev block
       next_validators_hash:
         type: string
         format: byte
-        title: validators for the next block
       consensus_hash:
         type: string
         format: byte
-        title: consensus params for current block
       app_hash:
         type: string
         format: byte
-        title: state after txs from the previous block
       last_results_hash:
         type: string
         format: byte
-        title: root hash of all results from the txs from the previous block
       evidence_hash:
         type: string
         format: byte
-        description: evidence included in the block
         title: consensus info
       proposer_address:
         type: string
         format: byte
-        title: original proposer of the block
     description: Header defines the structure of a Tendermint block header.
   tendermint.types.LightBlock:
     type: object
@@ -46702,42 +46815,33 @@ definitions:
               last_commit_hash:
                 type: string
                 format: byte
-                description: commit from validators from the last block
                 title: hashes of block data
               data_hash:
                 type: string
                 format: byte
-                title: transactions
               validators_hash:
                 type: string
                 format: byte
-                description: validators for the current block
                 title: hashes from the app output from the prev block
               next_validators_hash:
                 type: string
                 format: byte
-                title: validators for the next block
               consensus_hash:
                 type: string
                 format: byte
-                title: consensus params for current block
               app_hash:
                 type: string
                 format: byte
-                title: state after txs from the previous block
               last_results_hash:
                 type: string
                 format: byte
-                title: root hash of all results from the txs from the previous block
               evidence_hash:
                 type: string
                 format: byte
-                description: evidence included in the block
                 title: consensus info
               proposer_address:
                 type: string
                 format: byte
-                title: original proposer of the block
             description: Header defines the structure of a Tendermint block header.
           commit:
             type: object
@@ -46906,44 +47010,33 @@ definitions:
                   last_commit_hash:
                     type: string
                     format: byte
-                    description: commit from validators from the last block
                     title: hashes of block data
                   data_hash:
                     type: string
                     format: byte
-                    title: transactions
                   validators_hash:
                     type: string
                     format: byte
-                    description: validators for the current block
                     title: hashes from the app output from the prev block
                   next_validators_hash:
                     type: string
                     format: byte
-                    title: validators for the next block
                   consensus_hash:
                     type: string
                     format: byte
-                    title: consensus params for current block
                   app_hash:
                     type: string
                     format: byte
-                    title: state after txs from the previous block
                   last_results_hash:
                     type: string
                     format: byte
-                    title: >-
-                      root hash of all results from the txs from the previous
-                      block
                   evidence_hash:
                     type: string
                     format: byte
-                    description: evidence included in the block
                     title: consensus info
                   proposer_address:
                     type: string
                     format: byte
-                    title: original proposer of the block
                 description: Header defines the structure of a Tendermint block header.
               commit:
                 type: object
@@ -47156,42 +47249,33 @@ definitions:
           last_commit_hash:
             type: string
             format: byte
-            description: commit from validators from the last block
             title: hashes of block data
           data_hash:
             type: string
             format: byte
-            title: transactions
           validators_hash:
             type: string
             format: byte
-            description: validators for the current block
             title: hashes from the app output from the prev block
           next_validators_hash:
             type: string
             format: byte
-            title: validators for the next block
           consensus_hash:
             type: string
             format: byte
-            title: consensus params for current block
           app_hash:
             type: string
             format: byte
-            title: state after txs from the previous block
           last_results_hash:
             type: string
             format: byte
-            title: root hash of all results from the txs from the previous block
           evidence_hash:
             type: string
             format: byte
-            description: evidence included in the block
             title: consensus info
           proposer_address:
             type: string
             format: byte
-            title: original proposer of the block
         description: Header defines the structure of a Tendermint block header.
       commit:
         type: object
@@ -47378,7 +47462,6 @@ definitions:
                 format: byte
             title: PartsetHeader
         title: BlockID
-        description: zero if vote is nil.
       timestamp:
         type: string
         format: date-time
@@ -50120,9 +50203,6 @@ definitions:
     type: object
     properties:
       commission_rates:
-        description: >-
-          commission_rates defines the initial commission rates to be used for
-          creating a validator.
         type: object
         properties:
           rate:
@@ -50138,6 +50218,11 @@ definitions:
             description: >-
               max_change_rate defines the maximum daily increase of the
               validator commission, as a fraction.
+        description: >-
+          CommissionRates defines the initial commission rates to be used for
+          creating
+
+          a validator.
       update_time:
         type: string
         format: date-time
@@ -50242,7 +50327,6 @@ definitions:
         type: object
         properties:
           version:
-            title: basic block info
             type: object
             properties:
               block:
@@ -50268,7 +50352,6 @@ definitions:
             type: string
             format: date-time
           last_block_id:
-            title: prev block info
             type: object
             properties:
               hash:
@@ -50284,45 +50367,37 @@ definitions:
                     type: string
                     format: byte
                 title: PartsetHeader
+            title: BlockID
           last_commit_hash:
             type: string
             format: byte
-            description: commit from validators from the last block
             title: hashes of block data
           data_hash:
             type: string
             format: byte
-            title: transactions
           validators_hash:
             type: string
             format: byte
-            description: validators for the current block
             title: hashes from the app output from the prev block
           next_validators_hash:
             type: string
             format: byte
-            title: validators for the next block
           consensus_hash:
             type: string
             format: byte
-            title: consensus params for current block
           app_hash:
             type: string
             format: byte
-            title: state after txs from the previous block
           last_results_hash:
             type: string
             format: byte
-            title: root hash of all results from the txs from the previous block
           evidence_hash:
             type: string
             format: byte
-            description: evidence included in the block
             title: consensus info
           proposer_address:
             type: string
             format: byte
-            title: original proposer of the block
         description: Header defines the structure of a Tendermint block header.
       valset:
         type: array
@@ -50507,7 +50582,6 @@ definitions:
                 jailed defined whether the validator has been jailed from bonded
                 status or not.
             status:
-              description: status is the validator status (bonded/unbonding/unbonded).
               type: string
               enum:
                 - BOND_STATUS_UNSPECIFIED
@@ -50515,6 +50589,13 @@ definitions:
                 - BOND_STATUS_UNBONDING
                 - BOND_STATUS_BONDED
               default: BOND_STATUS_UNSPECIFIED
+              description: |-
+                BondStatus is the status of a validator.
+
+                 - BOND_STATUS_UNSPECIFIED: UNSPECIFIED defines an invalid validator status.
+                 - BOND_STATUS_UNBONDED: UNBONDED defines a validator that is not bonded.
+                 - BOND_STATUS_UNBONDING: UNBONDING defines a validator that is unbonding.
+                 - BOND_STATUS_BONDED: BONDED defines a validator that is bonded.
             tokens:
               type: string
               description: tokens define the delegated tokens (incl. self-delegation).
@@ -50524,7 +50605,6 @@ definitions:
                 delegator_shares defines total shares issued to a validator's
                 delegators.
             description:
-              description: description defines the description terms for the validator.
               type: object
               properties:
                 moniker:
@@ -50546,6 +50626,7 @@ definitions:
                 details:
                   type: string
                   description: details define other optional details.
+              description: Description defines a validator description.
             unbonding_height:
               type: string
               format: int64
@@ -50559,13 +50640,9 @@ definitions:
                 unbonding_time defines, if unbonding, the min time for the
                 validator to complete unbonding.
             commission:
-              description: commission defines the commission parameters.
               type: object
               properties:
                 commission_rates:
-                  description: >-
-                    commission_rates defines the initial commission rates to be
-                    used for creating a validator.
                   type: object
                   properties:
                     rate:
@@ -50583,12 +50660,18 @@ definitions:
                       description: >-
                         max_change_rate defines the maximum daily increase of
                         the validator commission, as a fraction.
+                  description: >-
+                    CommissionRates defines the initial commission rates to be
+                    used for creating
+
+                    a validator.
                 update_time:
                   type: string
                   format: date-time
                   description: >-
                     update_time is the last time the commission rate was
                     changed.
+              description: Commission defines commission parameters for a given validator.
             min_self_delegation:
               type: string
               description: >-
@@ -50805,7 +50888,6 @@ definitions:
             responses.
         description: delegation_responses defines all the delegations' info of a delegator.
       pagination:
-        description: pagination defines the pagination in the response.
         type: object
         properties:
           next_key:
@@ -50822,6 +50904,14 @@ definitions:
               PageRequest.count_total
 
               was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
     description: |-
       QueryDelegatorDelegationsResponse is response type for the
       Query/DelegatorDelegations RPC method.
@@ -50869,17 +50959,13 @@ definitions:
                 description: >-
                   UnbondingDelegationEntry defines an unbonding object with
                   relevant metadata.
-              description: |-
-                entries are the unbonding delegation entries.
-
-                unbonding delegation entries
+              description: entries are the unbonding delegation entries.
           description: >-
             UnbondingDelegation stores all of a single delegator's unbonding
             bonds
 
             for a single validator in an time-ordered list.
       pagination:
-        description: pagination defines the pagination in the response.
         type: object
         properties:
           next_key:
@@ -50896,6 +50982,14 @@ definitions:
               PageRequest.count_total
 
               was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
     description: |-
       QueryUnbondingDelegatorDelegationsResponse is response type for the
       Query/UnbondingDelegatorDelegations RPC method.
@@ -51079,7 +51173,6 @@ definitions:
               jailed defined whether the validator has been jailed from bonded
               status or not.
           status:
-            description: status is the validator status (bonded/unbonding/unbonded).
             type: string
             enum:
               - BOND_STATUS_UNSPECIFIED
@@ -51087,6 +51180,13 @@ definitions:
               - BOND_STATUS_UNBONDING
               - BOND_STATUS_BONDED
             default: BOND_STATUS_UNSPECIFIED
+            description: |-
+              BondStatus is the status of a validator.
+
+               - BOND_STATUS_UNSPECIFIED: UNSPECIFIED defines an invalid validator status.
+               - BOND_STATUS_UNBONDED: UNBONDED defines a validator that is not bonded.
+               - BOND_STATUS_UNBONDING: UNBONDING defines a validator that is unbonding.
+               - BOND_STATUS_BONDED: BONDED defines a validator that is bonded.
           tokens:
             type: string
             description: tokens define the delegated tokens (incl. self-delegation).
@@ -51096,7 +51196,6 @@ definitions:
               delegator_shares defines total shares issued to a validator's
               delegators.
           description:
-            description: description defines the description terms for the validator.
             type: object
             properties:
               moniker:
@@ -51118,6 +51217,7 @@ definitions:
               details:
                 type: string
                 description: details define other optional details.
+            description: Description defines a validator description.
           unbonding_height:
             type: string
             format: int64
@@ -51131,13 +51231,9 @@ definitions:
               unbonding_time defines, if unbonding, the min time for the
               validator to complete unbonding.
           commission:
-            description: commission defines the commission parameters.
             type: object
             properties:
               commission_rates:
-                description: >-
-                  commission_rates defines the initial commission rates to be
-                  used for creating a validator.
                 type: object
                 properties:
                   rate:
@@ -51155,10 +51251,16 @@ definitions:
                     description: >-
                       max_change_rate defines the maximum daily increase of the
                       validator commission, as a fraction.
+                description: >-
+                  CommissionRates defines the initial commission rates to be
+                  used for creating
+
+                  a validator.
               update_time:
                 type: string
                 format: date-time
                 description: update_time is the last time the commission rate was changed.
+            description: Commission defines commission parameters for a given validator.
           min_self_delegation:
             type: string
             description: >-
@@ -51386,7 +51488,6 @@ definitions:
                 jailed defined whether the validator has been jailed from bonded
                 status or not.
             status:
-              description: status is the validator status (bonded/unbonding/unbonded).
               type: string
               enum:
                 - BOND_STATUS_UNSPECIFIED
@@ -51394,6 +51495,13 @@ definitions:
                 - BOND_STATUS_UNBONDING
                 - BOND_STATUS_BONDED
               default: BOND_STATUS_UNSPECIFIED
+              description: |-
+                BondStatus is the status of a validator.
+
+                 - BOND_STATUS_UNSPECIFIED: UNSPECIFIED defines an invalid validator status.
+                 - BOND_STATUS_UNBONDED: UNBONDED defines a validator that is not bonded.
+                 - BOND_STATUS_UNBONDING: UNBONDING defines a validator that is unbonding.
+                 - BOND_STATUS_BONDED: BONDED defines a validator that is bonded.
             tokens:
               type: string
               description: tokens define the delegated tokens (incl. self-delegation).
@@ -51403,7 +51511,6 @@ definitions:
                 delegator_shares defines total shares issued to a validator's
                 delegators.
             description:
-              description: description defines the description terms for the validator.
               type: object
               properties:
                 moniker:
@@ -51425,6 +51532,7 @@ definitions:
                 details:
                   type: string
                   description: details define other optional details.
+              description: Description defines a validator description.
             unbonding_height:
               type: string
               format: int64
@@ -51438,13 +51546,9 @@ definitions:
                 unbonding_time defines, if unbonding, the min time for the
                 validator to complete unbonding.
             commission:
-              description: commission defines the commission parameters.
               type: object
               properties:
                 commission_rates:
-                  description: >-
-                    commission_rates defines the initial commission rates to be
-                    used for creating a validator.
                   type: object
                   properties:
                     rate:
@@ -51462,12 +51566,18 @@ definitions:
                       description: >-
                         max_change_rate defines the maximum daily increase of
                         the validator commission, as a fraction.
+                  description: >-
+                    CommissionRates defines the initial commission rates to be
+                    used for creating
+
+                    a validator.
                 update_time:
                   type: string
                   format: date-time
                   description: >-
                     update_time is the last time the commission rate was
                     changed.
+              description: Commission defines commission parameters for a given validator.
             min_self_delegation:
               type: string
               description: >-
@@ -51508,7 +51618,6 @@ definitions:
             multiplied by exchange rate.
         description: validators defines the the validators' info of a delegator.
       pagination:
-        description: pagination defines the pagination in the response.
         type: object
         properties:
           next_key:
@@ -51525,6 +51634,14 @@ definitions:
               PageRequest.count_total
 
               was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
     description: |-
       QueryDelegatorValidatorsResponse is response type for the
       Query/DelegatorValidators RPC method.
@@ -51532,14 +51649,12 @@ definitions:
     type: object
     properties:
       hist:
-        description: hist defines the historical info at the given height.
         type: object
         properties:
           header:
             type: object
             properties:
               version:
-                title: basic block info
                 type: object
                 properties:
                   block:
@@ -51565,7 +51680,6 @@ definitions:
                 type: string
                 format: date-time
               last_block_id:
-                title: prev block info
                 type: object
                 properties:
                   hash:
@@ -51581,45 +51695,37 @@ definitions:
                         type: string
                         format: byte
                     title: PartsetHeader
+                title: BlockID
               last_commit_hash:
                 type: string
                 format: byte
-                description: commit from validators from the last block
                 title: hashes of block data
               data_hash:
                 type: string
                 format: byte
-                title: transactions
               validators_hash:
                 type: string
                 format: byte
-                description: validators for the current block
                 title: hashes from the app output from the prev block
               next_validators_hash:
                 type: string
                 format: byte
-                title: validators for the next block
               consensus_hash:
                 type: string
                 format: byte
-                title: consensus params for current block
               app_hash:
                 type: string
                 format: byte
-                title: state after txs from the previous block
               last_results_hash:
                 type: string
                 format: byte
-                title: root hash of all results from the txs from the previous block
               evidence_hash:
                 type: string
                 format: byte
-                description: evidence included in the block
                 title: consensus info
               proposer_address:
                 type: string
                 format: byte
-                title: original proposer of the block
             description: Header defines the structure of a Tendermint block header.
           valset:
             type: array
@@ -51810,7 +51916,6 @@ definitions:
                     jailed defined whether the validator has been jailed from
                     bonded status or not.
                 status:
-                  description: status is the validator status (bonded/unbonding/unbonded).
                   type: string
                   enum:
                     - BOND_STATUS_UNSPECIFIED
@@ -51818,6 +51923,13 @@ definitions:
                     - BOND_STATUS_UNBONDING
                     - BOND_STATUS_BONDED
                   default: BOND_STATUS_UNSPECIFIED
+                  description: |-
+                    BondStatus is the status of a validator.
+
+                     - BOND_STATUS_UNSPECIFIED: UNSPECIFIED defines an invalid validator status.
+                     - BOND_STATUS_UNBONDED: UNBONDED defines a validator that is not bonded.
+                     - BOND_STATUS_UNBONDING: UNBONDING defines a validator that is unbonding.
+                     - BOND_STATUS_BONDED: BONDED defines a validator that is bonded.
                 tokens:
                   type: string
                   description: tokens define the delegated tokens (incl. self-delegation).
@@ -51827,7 +51939,6 @@ definitions:
                     delegator_shares defines total shares issued to a
                     validator's delegators.
                 description:
-                  description: description defines the description terms for the validator.
                   type: object
                   properties:
                     moniker:
@@ -51849,6 +51960,7 @@ definitions:
                     details:
                       type: string
                       description: details define other optional details.
+                  description: Description defines a validator description.
                 unbonding_height:
                   type: string
                   format: int64
@@ -51862,13 +51974,9 @@ definitions:
                     unbonding_time defines, if unbonding, the min time for the
                     validator to complete unbonding.
                 commission:
-                  description: commission defines the commission parameters.
                   type: object
                   properties:
                     commission_rates:
-                      description: >-
-                        commission_rates defines the initial commission rates to
-                        be used for creating a validator.
                       type: object
                       properties:
                         rate:
@@ -51886,12 +51994,20 @@ definitions:
                           description: >-
                             max_change_rate defines the maximum daily increase
                             of the validator commission, as a fraction.
+                      description: >-
+                        CommissionRates defines the initial commission rates to
+                        be used for creating
+
+                        a validator.
                     update_time:
                       type: string
                       format: date-time
                       description: >-
                         update_time is the last time the commission rate was
                         changed.
+                  description: >-
+                    Commission defines commission parameters for a given
+                    validator.
                 min_self_delegation:
                   type: string
                   description: >-
@@ -51932,6 +52048,16 @@ definitions:
                 shares
 
                 multiplied by exchange rate.
+        description: >-
+          HistoricalInfo contains header and validator information for a given
+          block.
+
+          It is stored as part of staking module's state, which persists the `n`
+          most
+
+          recent HistoricalInfo
+
+          (`n` is set by the staking module's `historical_entries` parameter).
     description: >-
       QueryHistoricalInfoResponse is response type for the Query/HistoricalInfo
       RPC
@@ -51941,7 +52067,6 @@ definitions:
     type: object
     properties:
       params:
-        description: params holds all the parameters of this module.
         type: object
         properties:
           unbonding_time:
@@ -51964,18 +52089,23 @@ definitions:
           bond_denom:
             type: string
             description: bond_denom defines the bondable coin denomination.
+        description: Params defines the parameters for the staking module.
     description: QueryParamsResponse is response type for the Query/Params RPC method.
   cosmos.staking.v1beta1.QueryPoolResponse:
     type: object
     properties:
       pool:
-        description: pool defines the pool info.
         type: object
         properties:
           not_bonded_tokens:
             type: string
           bonded_tokens:
             type: string
+        description: >-
+          Pool is used for tracking bonded and not-bonded token supply of the
+          bond
+
+          denomination.
     description: QueryPoolResponse is response type for the Query/Pool RPC method.
   cosmos.staking.v1beta1.QueryRedelegationsResponse:
     type: object
@@ -52033,10 +52163,7 @@ definitions:
                     description: >-
                       RedelegationEntry defines a redelegation object with
                       relevant metadata.
-                  description: |-
-                    entries are the redelegation entries.
-
-                    redelegation entries
+                  description: entries are the redelegation entries.
               description: >-
                 Redelegation contains the list of a particular delegator's
                 redelegating bonds
@@ -52095,7 +52222,6 @@ definitions:
 
             responses.
       pagination:
-        description: pagination defines the pagination in the response.
         type: object
         properties:
           next_key:
@@ -52112,6 +52238,14 @@ definitions:
               PageRequest.count_total
 
               was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
     description: >-
       QueryRedelegationsResponse is response type for the Query/Redelegations
       RPC
@@ -52155,10 +52289,7 @@ definitions:
               description: >-
                 UnbondingDelegationEntry defines an unbonding object with
                 relevant metadata.
-            description: |-
-              entries are the unbonding delegation entries.
-
-              unbonding delegation entries
+            description: entries are the unbonding delegation entries.
         description: |-
           UnbondingDelegation stores all of a single delegator's unbonding bonds
           for a single validator in an time-ordered list.
@@ -52229,7 +52360,6 @@ definitions:
             balance in addition to shares which is more suitable for client
             responses.
       pagination:
-        description: pagination defines the pagination in the response.
         type: object
         properties:
           next_key:
@@ -52246,6 +52376,14 @@ definitions:
               PageRequest.count_total
 
               was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
     title: |-
       QueryValidatorDelegationsResponse is response type for the
       Query/ValidatorDelegations RPC method
@@ -52429,7 +52567,6 @@ definitions:
               jailed defined whether the validator has been jailed from bonded
               status or not.
           status:
-            description: status is the validator status (bonded/unbonding/unbonded).
             type: string
             enum:
               - BOND_STATUS_UNSPECIFIED
@@ -52437,6 +52574,13 @@ definitions:
               - BOND_STATUS_UNBONDING
               - BOND_STATUS_BONDED
             default: BOND_STATUS_UNSPECIFIED
+            description: |-
+              BondStatus is the status of a validator.
+
+               - BOND_STATUS_UNSPECIFIED: UNSPECIFIED defines an invalid validator status.
+               - BOND_STATUS_UNBONDED: UNBONDED defines a validator that is not bonded.
+               - BOND_STATUS_UNBONDING: UNBONDING defines a validator that is unbonding.
+               - BOND_STATUS_BONDED: BONDED defines a validator that is bonded.
           tokens:
             type: string
             description: tokens define the delegated tokens (incl. self-delegation).
@@ -52446,7 +52590,6 @@ definitions:
               delegator_shares defines total shares issued to a validator's
               delegators.
           description:
-            description: description defines the description terms for the validator.
             type: object
             properties:
               moniker:
@@ -52468,6 +52611,7 @@ definitions:
               details:
                 type: string
                 description: details define other optional details.
+            description: Description defines a validator description.
           unbonding_height:
             type: string
             format: int64
@@ -52481,13 +52625,9 @@ definitions:
               unbonding_time defines, if unbonding, the min time for the
               validator to complete unbonding.
           commission:
-            description: commission defines the commission parameters.
             type: object
             properties:
               commission_rates:
-                description: >-
-                  commission_rates defines the initial commission rates to be
-                  used for creating a validator.
                 type: object
                 properties:
                   rate:
@@ -52505,10 +52645,16 @@ definitions:
                     description: >-
                       max_change_rate defines the maximum daily increase of the
                       validator commission, as a fraction.
+                description: >-
+                  CommissionRates defines the initial commission rates to be
+                  used for creating
+
+                  a validator.
               update_time:
                 type: string
                 format: date-time
                 description: update_time is the last time the commission rate was changed.
+            description: Commission defines commission parameters for a given validator.
           min_self_delegation:
             type: string
             description: >-
@@ -52592,17 +52738,13 @@ definitions:
                 description: >-
                   UnbondingDelegationEntry defines an unbonding object with
                   relevant metadata.
-              description: |-
-                entries are the unbonding delegation entries.
-
-                unbonding delegation entries
+              description: entries are the unbonding delegation entries.
           description: >-
             UnbondingDelegation stores all of a single delegator's unbonding
             bonds
 
             for a single validator in an time-ordered list.
       pagination:
-        description: pagination defines the pagination in the response.
         type: object
         properties:
           next_key:
@@ -52619,6 +52761,14 @@ definitions:
               PageRequest.count_total
 
               was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
     description: |-
       QueryValidatorUnbondingDelegationsResponse is response type for the
       Query/ValidatorUnbondingDelegations RPC method.
@@ -52808,7 +52958,6 @@ definitions:
                 jailed defined whether the validator has been jailed from bonded
                 status or not.
             status:
-              description: status is the validator status (bonded/unbonding/unbonded).
               type: string
               enum:
                 - BOND_STATUS_UNSPECIFIED
@@ -52816,6 +52965,13 @@ definitions:
                 - BOND_STATUS_UNBONDING
                 - BOND_STATUS_BONDED
               default: BOND_STATUS_UNSPECIFIED
+              description: |-
+                BondStatus is the status of a validator.
+
+                 - BOND_STATUS_UNSPECIFIED: UNSPECIFIED defines an invalid validator status.
+                 - BOND_STATUS_UNBONDED: UNBONDED defines a validator that is not bonded.
+                 - BOND_STATUS_UNBONDING: UNBONDING defines a validator that is unbonding.
+                 - BOND_STATUS_BONDED: BONDED defines a validator that is bonded.
             tokens:
               type: string
               description: tokens define the delegated tokens (incl. self-delegation).
@@ -52825,7 +52981,6 @@ definitions:
                 delegator_shares defines total shares issued to a validator's
                 delegators.
             description:
-              description: description defines the description terms for the validator.
               type: object
               properties:
                 moniker:
@@ -52847,6 +53002,7 @@ definitions:
                 details:
                   type: string
                   description: details define other optional details.
+              description: Description defines a validator description.
             unbonding_height:
               type: string
               format: int64
@@ -52860,13 +53016,9 @@ definitions:
                 unbonding_time defines, if unbonding, the min time for the
                 validator to complete unbonding.
             commission:
-              description: commission defines the commission parameters.
               type: object
               properties:
                 commission_rates:
-                  description: >-
-                    commission_rates defines the initial commission rates to be
-                    used for creating a validator.
                   type: object
                   properties:
                     rate:
@@ -52884,12 +53036,18 @@ definitions:
                       description: >-
                         max_change_rate defines the maximum daily increase of
                         the validator commission, as a fraction.
+                  description: >-
+                    CommissionRates defines the initial commission rates to be
+                    used for creating
+
+                    a validator.
                 update_time:
                   type: string
                   format: date-time
                   description: >-
                     update_time is the last time the commission rate was
                     changed.
+              description: Commission defines commission parameters for a given validator.
             min_self_delegation:
               type: string
               description: >-
@@ -52930,7 +53088,6 @@ definitions:
             multiplied by exchange rate.
         description: validators contains all the queried validators.
       pagination:
-        description: pagination defines the pagination in the response.
         type: object
         properties:
           next_key:
@@ -52947,6 +53104,14 @@ definitions:
               PageRequest.count_total
 
               was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
     title: >-
       QueryValidatorsResponse is response type for the Query/Validators RPC
       method
@@ -52996,10 +53161,7 @@ definitions:
           description: >-
             RedelegationEntry defines a redelegation object with relevant
             metadata.
-        description: |-
-          entries are the redelegation entries.
-
-          redelegation entries
+        description: entries are the redelegation entries.
     description: >-
       Redelegation contains the list of a particular delegator's redelegating
       bonds
@@ -53112,10 +53274,7 @@ definitions:
               description: >-
                 RedelegationEntry defines a redelegation object with relevant
                 metadata.
-            description: |-
-              entries are the redelegation entries.
-
-              redelegation entries
+            description: entries are the redelegation entries.
         description: >-
           Redelegation contains the list of a particular delegator's
           redelegating bonds
@@ -53205,10 +53364,7 @@ definitions:
           description: >-
             UnbondingDelegationEntry defines an unbonding object with relevant
             metadata.
-        description: |-
-          entries are the unbonding delegation entries.
-
-          unbonding delegation entries
+        description: entries are the unbonding delegation entries.
     description: |-
       UnbondingDelegation stores all of a single delegator's unbonding bonds
       for a single validator in an time-ordered list.
@@ -53405,7 +53561,6 @@ definitions:
           jailed defined whether the validator has been jailed from bonded
           status or not.
       status:
-        description: status is the validator status (bonded/unbonding/unbonded).
         type: string
         enum:
           - BOND_STATUS_UNSPECIFIED
@@ -53413,6 +53568,13 @@ definitions:
           - BOND_STATUS_UNBONDING
           - BOND_STATUS_BONDED
         default: BOND_STATUS_UNSPECIFIED
+        description: |-
+          BondStatus is the status of a validator.
+
+           - BOND_STATUS_UNSPECIFIED: UNSPECIFIED defines an invalid validator status.
+           - BOND_STATUS_UNBONDED: UNBONDED defines a validator that is not bonded.
+           - BOND_STATUS_UNBONDING: UNBONDING defines a validator that is unbonding.
+           - BOND_STATUS_BONDED: BONDED defines a validator that is bonded.
       tokens:
         type: string
         description: tokens define the delegated tokens (incl. self-delegation).
@@ -53422,7 +53584,6 @@ definitions:
           delegator_shares defines total shares issued to a validator's
           delegators.
       description:
-        description: description defines the description terms for the validator.
         type: object
         properties:
           moniker:
@@ -53442,6 +53603,7 @@ definitions:
           details:
             type: string
             description: details define other optional details.
+        description: Description defines a validator description.
       unbonding_height:
         type: string
         format: int64
@@ -53455,13 +53617,9 @@ definitions:
           unbonding_time defines, if unbonding, the min time for the validator
           to complete unbonding.
       commission:
-        description: commission defines the commission parameters.
         type: object
         properties:
           commission_rates:
-            description: >-
-              commission_rates defines the initial commission rates to be used
-              for creating a validator.
             type: object
             properties:
               rate:
@@ -53479,10 +53637,16 @@ definitions:
                 description: >-
                   max_change_rate defines the maximum daily increase of the
                   validator commission, as a fraction.
+            description: >-
+              CommissionRates defines the initial commission rates to be used
+              for creating
+
+              a validator.
           update_time:
             type: string
             format: date-time
             description: update_time is the last time the commission rate was changed.
+        description: Commission defines commission parameters for a given validator.
       min_self_delegation:
         type: string
         description: >-
@@ -53622,7 +53786,6 @@ definitions:
                     format: byte
                   index:
                     type: boolean
-                    title: nondeterministic
                 description: >-
                   EventAttribute is a single key-value pair, associated with an
                   event.
@@ -53930,7 +54093,6 @@ definitions:
                     format: byte
                   index:
                     type: boolean
-                    title: nondeterministic
                 description: >-
                   EventAttribute is a single key-value pair, associated with an
                   event.
@@ -54414,7 +54576,6 @@ definitions:
                         format: byte
                       index:
                         type: boolean
-                        title: nondeterministic
                     description: >-
                       EventAttribute is a single key-value pair, associated with
                       an event.
@@ -54579,42 +54740,33 @@ definitions:
               last_commit_hash:
                 type: string
                 format: byte
-                description: commit from validators from the last block
                 title: hashes of block data
               data_hash:
                 type: string
                 format: byte
-                title: transactions
               validators_hash:
                 type: string
                 format: byte
-                description: validators for the current block
                 title: hashes from the app output from the prev block
               next_validators_hash:
                 type: string
                 format: byte
-                title: validators for the next block
               consensus_hash:
                 type: string
                 format: byte
-                title: consensus params for current block
               app_hash:
                 type: string
                 format: byte
-                title: state after txs from the previous block
               last_results_hash:
                 type: string
                 format: byte
-                title: root hash of all results from the txs from the previous block
               evidence_hash:
                 type: string
                 format: byte
-                description: evidence included in the block
                 title: consensus info
               proposer_address:
                 type: string
                 format: byte
-                title: original proposer of the block
             description: Header defines the structure of a Tendermint block header.
           data:
             type: object
@@ -54683,7 +54835,6 @@ definitions:
                                       format: byte
                                   title: PartsetHeader
                               title: BlockID
-                              description: zero if vote is nil.
                             timestamp:
                               type: string
                               format: date-time
@@ -54741,7 +54892,6 @@ definitions:
                                       format: byte
                                   title: PartsetHeader
                               title: BlockID
-                              description: zero if vote is nil.
                             timestamp:
                               type: string
                               format: date-time
@@ -54830,48 +54980,35 @@ definitions:
                                     last_commit_hash:
                                       type: string
                                       format: byte
-                                      description: >-
-                                        commit from validators from the last
-                                        block
                                       title: hashes of block data
                                     data_hash:
                                       type: string
                                       format: byte
-                                      title: transactions
                                     validators_hash:
                                       type: string
                                       format: byte
-                                      description: validators for the current block
                                       title: >-
                                         hashes from the app output from the prev
                                         block
                                     next_validators_hash:
                                       type: string
                                       format: byte
-                                      title: validators for the next block
                                     consensus_hash:
                                       type: string
                                       format: byte
-                                      title: consensus params for current block
                                     app_hash:
                                       type: string
                                       format: byte
-                                      title: state after txs from the previous block
                                     last_results_hash:
                                       type: string
                                       format: byte
-                                      title: >-
-                                        root hash of all results from the txs
-                                        from the previous block
                                     evidence_hash:
                                       type: string
                                       format: byte
-                                      description: evidence included in the block
                                       title: consensus info
                                     proposer_address:
                                       type: string
                                       format: byte
-                                      title: original proposer of the block
                                   description: >-
                                     Header defines the structure of a Tendermint
                                     block header.
@@ -55386,7 +55523,6 @@ definitions:
                         format: byte
                       index:
                         type: boolean
-                        title: nondeterministic
                     description: >-
                       EventAttribute is a single key-value pair, associated with
                       an event.
@@ -55709,7 +55845,6 @@ definitions:
                           format: byte
                         index:
                           type: boolean
-                          title: nondeterministic
                       description: >-
                         EventAttribute is a single key-value pair, associated
                         with an event.
@@ -56158,7 +56293,6 @@ definitions:
                         format: byte
                       index:
                         type: boolean
-                        title: nondeterministic
                     description: >-
                       EventAttribute is a single key-value pair, associated with
                       an event.
@@ -57317,7 +57451,6 @@ definitions:
               format: byte
             index:
               type: boolean
-              title: nondeterministic
           description: 'EventAttribute is a single key-value pair, associated with an event.'
     description: >-
       Event allows application developers to attach additional information to
@@ -57337,7 +57470,6 @@ definitions:
         format: byte
       index:
         type: boolean
-        title: nondeterministic
     description: 'EventAttribute is a single key-value pair, associated with an event.'
   cosmos.upgrade.v1beta1.ModuleVersion:
     type: object
@@ -57896,7 +58028,6 @@ definitions:
       code_id:
         type: string
         format: uint64
-        title: id for legacy support
       creator:
         type: string
       data_hash:
@@ -58287,7 +58418,6 @@ definitions:
           code_id:
             type: string
             format: uint64
-            title: id for legacy support
           creator:
             type: string
           data_hash:
@@ -58330,7 +58460,6 @@ definitions:
             code_id:
               type: string
               format: uint64
-              title: id for legacy support
             creator:
               type: string
             data_hash:
@@ -58905,7 +59034,6 @@ definitions:
             source tracing information path.
         description: denom_traces returns all denominations trace information.
       pagination:
-        description: pagination defines the pagination in the response.
         type: object
         properties:
           next_key:
@@ -58922,6 +59050,14 @@ definitions:
               PageRequest.count_total
 
               was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
     description: >-
       QueryConnectionsResponse is the response type for the Query/DenomTraces
       RPC
@@ -58940,7 +59076,6 @@ definitions:
     type: object
     properties:
       params:
-        description: params defines the parameters of the module.
         type: object
         properties:
           send_enabled:
@@ -58957,6 +59092,15 @@ definitions:
               transfers to this
 
               chain.
+        description: >-
+          Params defines the set of IBC transfer parameters.
+
+          NOTE: To prevent a single token from being transferred, set the
+
+          TransfersEnabled parameter to true and then set the bank module's
+          SendEnabled
+
+          parameter for the denomination to false.
     description: QueryParamsResponse is the response type for the Query/Params RPC method.
   ibc.core.client.v1.Height:
     type: object
@@ -58987,7 +59131,6 @@ definitions:
     type: object
     properties:
       state:
-        title: current state of the channel end
         type: string
         enum:
           - STATE_UNINITIALIZED_UNSPECIFIED
@@ -59008,7 +59151,6 @@ definitions:
            - STATE_CLOSED: A channel has been closed and can no longer be used to send or receive
           packets.
       ordering:
-        title: whether the channel is ordered or unordered
         type: string
         enum:
           - ORDER_NONE_UNSPECIFIED
@@ -59020,8 +59162,8 @@ definitions:
            - ORDER_UNORDERED: packets can be delivered in any order, which may differ from the order in
           which they were sent.
            - ORDER_ORDERED: packets are delivered exactly in the order which they were sent
+        title: Order defines if a channel is ORDERED or UNORDERED
       counterparty:
-        title: counterparty channel end
         type: object
         properties:
           port_id:
@@ -59032,6 +59174,7 @@ definitions:
           channel_id:
             type: string
             title: channel end on the counterparty chain
+        title: Counterparty defines a channel end counterparty
       connection_hops:
         type: array
         items:
@@ -59062,7 +59205,6 @@ definitions:
     type: object
     properties:
       state:
-        title: current state of the channel end
         type: string
         enum:
           - STATE_UNINITIALIZED_UNSPECIFIED
@@ -59083,7 +59225,6 @@ definitions:
            - STATE_CLOSED: A channel has been closed and can no longer be used to send or receive
           packets.
       ordering:
-        title: whether the channel is ordered or unordered
         type: string
         enum:
           - ORDER_NONE_UNSPECIFIED
@@ -59095,8 +59236,8 @@ definitions:
            - ORDER_UNORDERED: packets can be delivered in any order, which may differ from the order in
           which they were sent.
            - ORDER_ORDERED: packets are delivered exactly in the order which they were sent
+        title: Order defines if a channel is ORDERED or UNORDERED
       counterparty:
-        title: counterparty channel end
         type: object
         properties:
           port_id:
@@ -59107,6 +59248,7 @@ definitions:
           channel_id:
             type: string
             title: channel end on the counterparty chain
+        title: Counterparty defines a channel end counterparty
       connection_hops:
         type: array
         items:
@@ -59275,7 +59417,6 @@ definitions:
         format: byte
         title: actual opaque bytes transferred directly to the application module
       timeout_height:
-        title: block height after which the packet times out
         type: object
         properties:
           revision_number:
@@ -59302,6 +59443,13 @@ definitions:
           RevisionHeight
 
           gets reset
+        title: >-
+          Height is a monotonically increasing data type
+
+          that can be compared against another Height for the purposes of
+          updating and
+
+          freezing clients
       timeout_timestamp:
         type: string
         format: uint64
@@ -59335,7 +59483,6 @@ definitions:
     type: object
     properties:
       identified_client_state:
-        title: client state associated with the channel
         type: object
         properties:
           client_id:
@@ -59504,7 +59651,6 @@ definitions:
                     "@type": "type.googleapis.com/google.protobuf.Duration",
                     "value": "1.212s"
                   }
-            title: client state
         description: |-
           IdentifiedClientState defines a client state with an additional client
           identifier field.
@@ -59513,7 +59659,6 @@ definitions:
         format: byte
         title: merkle proof of existence
       proof_height:
-        title: height at which the proof was retrieved
         type: object
         properties:
           revision_number:
@@ -59540,6 +59685,13 @@ definitions:
           RevisionHeight
 
           gets reset
+        title: >-
+          Height is a monotonically increasing data type
+
+          that can be compared against another Height for the purposes of
+          updating and
+
+          freezing clients
     title: |-
       QueryChannelClientStateResponse is the Response type for the
       Query/QueryChannelClientState RPC method
@@ -59703,7 +59855,6 @@ definitions:
                 "@type": "type.googleapis.com/google.protobuf.Duration",
                 "value": "1.212s"
               }
-        title: consensus state associated with the channel
       client_id:
         type: string
         title: client ID associated with the consensus state
@@ -59712,7 +59863,6 @@ definitions:
         format: byte
         title: merkle proof of existence
       proof_height:
-        title: height at which the proof was retrieved
         type: object
         properties:
           revision_number:
@@ -59739,6 +59889,13 @@ definitions:
           RevisionHeight
 
           gets reset
+        title: >-
+          Height is a monotonically increasing data type
+
+          that can be compared against another Height for the purposes of
+          updating and
+
+          freezing clients
     title: |-
       QueryChannelClientStateResponse is the Response type for the
       Query/QueryChannelClientState RPC method
@@ -59746,11 +59903,9 @@ definitions:
     type: object
     properties:
       channel:
-        title: channel associated with the request identifiers
         type: object
         properties:
           state:
-            title: current state of the channel end
             type: string
             enum:
               - STATE_UNINITIALIZED_UNSPECIFIED
@@ -59771,7 +59926,6 @@ definitions:
                - STATE_CLOSED: A channel has been closed and can no longer be used to send or receive
               packets.
           ordering:
-            title: whether the channel is ordered or unordered
             type: string
             enum:
               - ORDER_NONE_UNSPECIFIED
@@ -59783,8 +59937,8 @@ definitions:
                - ORDER_UNORDERED: packets can be delivered in any order, which may differ from the order in
               which they were sent.
                - ORDER_ORDERED: packets are delivered exactly in the order which they were sent
+            title: Order defines if a channel is ORDERED or UNORDERED
           counterparty:
-            title: counterparty channel end
             type: object
             properties:
               port_id:
@@ -59795,6 +59949,7 @@ definitions:
               channel_id:
                 type: string
                 title: channel end on the counterparty chain
+            title: Counterparty defines a channel end counterparty
           connection_hops:
             type: array
             items:
@@ -59819,7 +59974,6 @@ definitions:
         format: byte
         title: merkle proof of existence
       proof_height:
-        title: height at which the proof was retrieved
         type: object
         properties:
           revision_number:
@@ -59846,6 +60000,13 @@ definitions:
           RevisionHeight
 
           gets reset
+        title: >-
+          Height is a monotonically increasing data type
+
+          that can be compared against another Height for the purposes of
+          updating and
+
+          freezing clients
     description: >-
       QueryChannelResponse is the response type for the Query/Channel RPC
       method.
@@ -59862,7 +60023,6 @@ definitions:
           type: object
           properties:
             state:
-              title: current state of the channel end
               type: string
               enum:
                 - STATE_UNINITIALIZED_UNSPECIFIED
@@ -59883,7 +60043,6 @@ definitions:
                  - STATE_CLOSED: A channel has been closed and can no longer be used to send or receive
                 packets.
             ordering:
-              title: whether the channel is ordered or unordered
               type: string
               enum:
                 - ORDER_NONE_UNSPECIFIED
@@ -59895,8 +60054,8 @@ definitions:
                  - ORDER_UNORDERED: packets can be delivered in any order, which may differ from the order in
                 which they were sent.
                  - ORDER_ORDERED: packets are delivered exactly in the order which they were sent
+              title: Order defines if a channel is ORDERED or UNORDERED
             counterparty:
-              title: counterparty channel end
               type: object
               properties:
                 port_id:
@@ -59907,6 +60066,7 @@ definitions:
                 channel_id:
                   type: string
                   title: channel end on the counterparty chain
+              title: Counterparty defines a channel end counterparty
             connection_hops:
               type: array
               items:
@@ -59932,7 +60092,6 @@ definitions:
             identifier fields.
         description: list of stored channels of the chain.
       pagination:
-        title: pagination response
         type: object
         properties:
           next_key:
@@ -59958,7 +60117,6 @@ definitions:
                    PageResponse page = 2;
            }
       height:
-        title: query block height
         type: object
         properties:
           revision_number:
@@ -59985,6 +60143,13 @@ definitions:
           RevisionHeight
 
           gets reset
+        title: >-
+          Height is a monotonically increasing data type
+
+          that can be compared against another Height for the purposes of
+          updating and
+
+          freezing clients
     description: >-
       QueryChannelsResponse is the response type for the Query/Channels RPC
       method.
@@ -59997,7 +60162,6 @@ definitions:
           type: object
           properties:
             state:
-              title: current state of the channel end
               type: string
               enum:
                 - STATE_UNINITIALIZED_UNSPECIFIED
@@ -60018,7 +60182,6 @@ definitions:
                  - STATE_CLOSED: A channel has been closed and can no longer be used to send or receive
                 packets.
             ordering:
-              title: whether the channel is ordered or unordered
               type: string
               enum:
                 - ORDER_NONE_UNSPECIFIED
@@ -60030,8 +60193,8 @@ definitions:
                  - ORDER_UNORDERED: packets can be delivered in any order, which may differ from the order in
                 which they were sent.
                  - ORDER_ORDERED: packets are delivered exactly in the order which they were sent
+              title: Order defines if a channel is ORDERED or UNORDERED
             counterparty:
-              title: counterparty channel end
               type: object
               properties:
                 port_id:
@@ -60042,6 +60205,7 @@ definitions:
                 channel_id:
                   type: string
                   title: channel end on the counterparty chain
+              title: Counterparty defines a channel end counterparty
             connection_hops:
               type: array
               items:
@@ -60067,7 +60231,6 @@ definitions:
             identifier fields.
         description: list of channels associated with a connection.
       pagination:
-        title: pagination response
         type: object
         properties:
           next_key:
@@ -60093,7 +60256,6 @@ definitions:
                    PageResponse page = 2;
            }
       height:
-        title: query block height
         type: object
         properties:
           revision_number:
@@ -60120,6 +60282,13 @@ definitions:
           RevisionHeight
 
           gets reset
+        title: >-
+          Height is a monotonically increasing data type
+
+          that can be compared against another Height for the purposes of
+          updating and
+
+          freezing clients
     title: |-
       QueryConnectionChannelsResponse is the Response type for the
       Query/QueryConnectionChannels RPC method
@@ -60135,7 +60304,6 @@ definitions:
         format: byte
         title: merkle proof of existence
       proof_height:
-        title: height at which the proof was retrieved
         type: object
         properties:
           revision_number:
@@ -60162,6 +60330,13 @@ definitions:
           RevisionHeight
 
           gets reset
+        title: >-
+          Height is a monotonically increasing data type
+
+          that can be compared against another Height for the purposes of
+          updating and
+
+          freezing clients
     title: |-
       QuerySequenceResponse is the request type for the
       Query/QueryNextSequenceReceiveResponse RPC method
@@ -60177,7 +60352,6 @@ definitions:
         format: byte
         title: merkle proof of existence
       proof_height:
-        title: height at which the proof was retrieved
         type: object
         properties:
           revision_number:
@@ -60204,6 +60378,13 @@ definitions:
           RevisionHeight
 
           gets reset
+        title: >-
+          Height is a monotonically increasing data type
+
+          that can be compared against another Height for the purposes of
+          updating and
+
+          freezing clients
     title: |-
       QueryPacketAcknowledgementResponse defines the client query response for a
       packet which also includes a proof and the height from which the
@@ -60240,7 +60421,6 @@ definitions:
 
             state as a commitment, acknowledgement, or a receipt.
       pagination:
-        title: pagination response
         type: object
         properties:
           next_key:
@@ -60266,7 +60446,6 @@ definitions:
                    PageResponse page = 2;
            }
       height:
-        title: query block height
         type: object
         properties:
           revision_number:
@@ -60293,6 +60472,13 @@ definitions:
           RevisionHeight
 
           gets reset
+        title: >-
+          Height is a monotonically increasing data type
+
+          that can be compared against another Height for the purposes of
+          updating and
+
+          freezing clients
     title: |-
       QueryPacketAcknowledgemetsResponse is the request type for the
       Query/QueryPacketAcknowledgements RPC method
@@ -60308,7 +60494,6 @@ definitions:
         format: byte
         title: merkle proof of existence
       proof_height:
-        title: height at which the proof was retrieved
         type: object
         properties:
           revision_number:
@@ -60335,6 +60520,13 @@ definitions:
           RevisionHeight
 
           gets reset
+        title: >-
+          Height is a monotonically increasing data type
+
+          that can be compared against another Height for the purposes of
+          updating and
+
+          freezing clients
     title: >-
       QueryPacketCommitmentResponse defines the client query response for a
       packet
@@ -60374,7 +60566,6 @@ definitions:
 
             state as a commitment, acknowledgement, or a receipt.
       pagination:
-        title: pagination response
         type: object
         properties:
           next_key:
@@ -60400,7 +60591,6 @@ definitions:
                    PageResponse page = 2;
            }
       height:
-        title: query block height
         type: object
         properties:
           revision_number:
@@ -60427,6 +60617,13 @@ definitions:
           RevisionHeight
 
           gets reset
+        title: >-
+          Height is a monotonically increasing data type
+
+          that can be compared against another Height for the purposes of
+          updating and
+
+          freezing clients
     title: |-
       QueryPacketCommitmentsResponse is the request type for the
       Query/QueryPacketCommitments RPC method
@@ -60441,7 +60638,6 @@ definitions:
         format: byte
         title: merkle proof of existence
       proof_height:
-        title: height at which the proof was retrieved
         type: object
         properties:
           revision_number:
@@ -60468,6 +60664,13 @@ definitions:
           RevisionHeight
 
           gets reset
+        title: >-
+          Height is a monotonically increasing data type
+
+          that can be compared against another Height for the purposes of
+          updating and
+
+          freezing clients
     title: >-
       QueryPacketReceiptResponse defines the client query response for a packet
 
@@ -60485,7 +60688,6 @@ definitions:
           format: uint64
         title: list of unreceived acknowledgement sequences
       height:
-        title: query block height
         type: object
         properties:
           revision_number:
@@ -60512,6 +60714,13 @@ definitions:
           RevisionHeight
 
           gets reset
+        title: >-
+          Height is a monotonically increasing data type
+
+          that can be compared against another Height for the purposes of
+          updating and
+
+          freezing clients
     title: |-
       QueryUnreceivedAcksResponse is the response type for the
       Query/UnreceivedAcks RPC method
@@ -60525,7 +60734,6 @@ definitions:
           format: uint64
         title: list of unreceived packet sequences
       height:
-        title: query block height
         type: object
         properties:
           revision_number:
@@ -60552,6 +60760,13 @@ definitions:
           RevisionHeight
 
           gets reset
+        title: >-
+          Height is a monotonically increasing data type
+
+          that can be compared against another Height for the purposes of
+          updating and
+
+          freezing clients
     title: |-
       QueryUnreceivedPacketsResponse is the response type for the
       Query/UnreceivedPacketCommitments RPC method
@@ -60760,7 +60975,6 @@ definitions:
     type: object
     properties:
       height:
-        title: consensus state height
         type: object
         properties:
           revision_number:
@@ -60787,6 +61001,13 @@ definitions:
           RevisionHeight
 
           gets reset
+        title: >-
+          Height is a monotonically increasing data type
+
+          that can be compared against another Height for the purposes of
+          updating and
+
+          freezing clients
       consensus_state:
         type: object
         properties:
@@ -60944,7 +61165,6 @@ definitions:
                 "@type": "type.googleapis.com/google.protobuf.Duration",
                 "value": "1.212s"
               }
-        title: consensus state
     description: >-
       ConsensusStateWithHeight defines a consensus state with an additional
       height
@@ -60977,7 +61197,6 @@ definitions:
     type: object
     properties:
       params:
-        description: params defines the parameters of the module.
         type: object
         properties:
           allowed_clients:
@@ -60985,6 +61204,7 @@ definitions:
             items:
               type: string
             description: allowed_clients defines the list of allowed client state types.
+        description: Params defines the set of IBC light client parameters.
     description: >-
       QueryClientParamsResponse is the response type for the Query/ClientParams
       RPC
@@ -61150,13 +61370,11 @@ definitions:
                 "@type": "type.googleapis.com/google.protobuf.Duration",
                 "value": "1.212s"
               }
-        title: client state associated with the request identifier
       proof:
         type: string
         format: byte
         title: merkle proof of existence
       proof_height:
-        title: height at which the proof was retrieved
         type: object
         properties:
           revision_number:
@@ -61183,6 +61401,13 @@ definitions:
           RevisionHeight
 
           gets reset
+        title: >-
+          Height is a monotonically increasing data type
+
+          that can be compared against another Height for the purposes of
+          updating and
+
+          freezing clients
     description: >-
       QueryClientStateResponse is the response type for the Query/ClientState
       RPC
@@ -61368,7 +61593,6 @@ definitions:
                       "@type": "type.googleapis.com/google.protobuf.Duration",
                       "value": "1.212s"
                     }
-              title: client state
           description: >-
             IdentifiedClientState defines a client state with an additional
             client
@@ -61376,7 +61600,6 @@ definitions:
             identifier field.
         description: list of stored ClientStates of the chain.
       pagination:
-        title: pagination response
         type: object
         properties:
           next_key:
@@ -61458,7 +61681,6 @@ definitions:
             freezing clients
         title: consensus state heights
       pagination:
-        title: pagination response
         type: object
         properties:
           next_key:
@@ -61646,9 +61868,6 @@ definitions:
                 "@type": "type.googleapis.com/google.protobuf.Duration",
                 "value": "1.212s"
               }
-        title: >-
-          consensus state associated with the client identifier at the given
-          height
       proof:
         type: string
         format: byte
@@ -61701,7 +61920,6 @@ definitions:
           type: object
           properties:
             height:
-              title: consensus state height
               type: object
               properties:
                 revision_number:
@@ -61729,6 +61947,13 @@ definitions:
                 RevisionHeight
 
                 gets reset
+              title: >-
+                Height is a monotonically increasing data type
+
+                that can be compared against another Height for the purposes of
+                updating and
+
+                freezing clients
             consensus_state:
               type: object
               properties:
@@ -61896,7 +62121,6 @@ definitions:
                       "@type": "type.googleapis.com/google.protobuf.Duration",
                       "value": "1.212s"
                     }
-              title: consensus state
           description: >-
             ConsensusStateWithHeight defines a consensus state with an
             additional height
@@ -61904,7 +62128,6 @@ definitions:
             field.
         title: consensus states associated with the identifier
       pagination:
-        title: pagination response
         type: object
         properties:
           next_key:
@@ -62092,7 +62315,6 @@ definitions:
                 "@type": "type.googleapis.com/google.protobuf.Duration",
                 "value": "1.212s"
               }
-        title: client state associated with the request identifier
     description: |-
       QueryUpgradedClientStateResponse is the response type for the
       Query/UpgradedClientState RPC method.
@@ -62256,7 +62478,6 @@ definitions:
                 "@type": "type.googleapis.com/google.protobuf.Duration",
                 "value": "1.212s"
               }
-        title: Consensus state associated with the request identifier
     description: |-
       QueryUpgradedConsensusStateResponse is the response type for the
       Query/UpgradedConsensusState RPC method.
@@ -67371,8 +67592,8 @@ definitions:
     type: object
     properties:
       params:
-        description: params holds all the parameters of this module.
         type: object
+        description: Params defines the parameters for the module.
     description: QueryParamsResponse is response type for the Query/Params RPC method.
   thesixnetwork.sixprotocol.tokenmngr.Burn:
     type: object
@@ -67595,7 +67816,6 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-        title: Adding pagination to response
   thesixnetwork.sixprotocol.tokenmngr.QueryGetMintpermResponse:
     type: object
     properties:
@@ -67648,8 +67868,8 @@ definitions:
     type: object
     properties:
       params:
-        description: params holds all the parameters of this module.
         type: object
+        description: Params defines the parameters for the module.
     description: QueryParamsResponse is response type for the Query/Params RPC method.
   thesixnetwork.sixprotocol.tokenmngr.Token:
     type: object
