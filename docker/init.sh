@@ -19,15 +19,15 @@ echo $VAL1_MNEMONIC | sixd keys add val1 --recover --home ${SIX_HOME} --keyring-
 echo $VAL2_MNEMONIC | sixd keys add val2 --recover --home ${SIX_HOME} --keyring-backend test
 echo $VAL3_MNEMONIC | sixd keys add val3 --recover --home ${SIX_HOME} --keyring-backend test
 
-sixd add-genesis-account $(sixd keys show -a val0 --keyring-backend=test --home ${SIX_HOME}) 1000000000000stake --keyring-backend test --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a val1 --keyring-backend=test --home ${SIX_HOME}) 1000000000000stake --keyring-backend test --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a val2 --keyring-backend=test --home ${SIX_HOME}) 1000000000000stake --keyring-backend test --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a val3 --keyring-backend=test --home ${SIX_HOME}) 1000000000000stake --keyring-backend test --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a super-admin --keyring-backend=test --home ${SIX_HOME}) 1000000000000stake --keyring-backend test --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a val0 --keyring-backend=test --home ${SIX_HOME}) 1000000000000usix --keyring-backend test --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a val1 --keyring-backend=test --home ${SIX_HOME}) 1000000000000usix --keyring-backend test --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a val2 --keyring-backend=test --home ${SIX_HOME}) 1000000000000usix --keyring-backend test --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a val3 --keyring-backend=test --home ${SIX_HOME}) 1000000000000usix --keyring-backend test --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a super-admin --keyring-backend=test --home ${SIX_HOME}) 1000000000000usix --keyring-backend test --home ${SIX_HOME}
 
 # add super.admin to grouplist
 jq '.app_state.protocoladmin.groupList[0] |= . + {"name": "super.admin", "owner": "'`$SUPERADMIN_ADDRESS`'"}' ${SIX_HOME}/config/genesis.json | sponge ${SIX_HOME}/config/genesis.json
 jq '.app_state.protocoladmin.adminList[0] |= . + {"admin": "'"$SUPERADMIN_ADDRESS"'", "group": "super.admin"}' ${SIX_HOME}/config/genesis.json | sponge ${SIX_HOME}/config/genesis.json
 
-sixd gentx ${VALKEY} 100000000stake --chain-id=six --keyring-backend=test --home ${SIX_HOME}
+sixd gentx ${VALKEY} 100000000usix --chain-id=six --keyring-backend=test --home ${SIX_HOME}
 sixd collect-gentxs --home ${SIX_HOME}
