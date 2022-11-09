@@ -260,12 +260,6 @@
                 ]
             }
         ],
-        "on_off_switch": {
-            "active": true
-        },
-        "status": {
-            "first_mint_complete": false
-        },
         "nft_attributes_value": []
     },
     "mint_authorization": "system"
