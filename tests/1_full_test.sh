@@ -1,3 +1,4 @@
+RPC_ENDPOINT=$1
 # array
 modules=(
     protocoladmin
@@ -9,7 +10,7 @@ modules=(
 for mod in ${modules[@]}
 do
     echo "#######################################"
-    echo "Starting ${mod} tests..."
+    echo "Starting ${mod} tests on ${RPC_ENDPOINT}..."
     echo "#######################################"
     sh ${mod}.sh || exit 1
 done

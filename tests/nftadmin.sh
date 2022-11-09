@@ -1,14 +1,13 @@
-RPC_ENDPOINT=http://localhost:26657
 grantOracle()
 {
     echo "Grant 'oracle' to $1"
-    sixd tx nftadmin grant-permission oracle $1 --from super-admin --gas auto --gas-adjustment 1.5 --gas-prices 0.1usix -y \
+    sixd tx nftadmin grant-permission oracle $1 --from index0 --home ~/.fivenet --keyring-backend=file --gas auto --gas-adjustment 1.5 --gas-prices 0.1usix -y \
         --node ${RPC_ENDPOINT} --chain-id testnet
 }
 TOTAL=0
 PASSED=0
 
-if sixd tx nftadmin grant-permission oracle_admin $(sixd keys show alice -a) --from super-admin -y --node ${RPC_ENDPOINT} --chain-id testnet | grep -q 'msg_index: 0'; then
+if sixd tx nftadmin grant-permission oracle_admin $(sixd keys show alice -a) --from index0 --home ~/.fivenet --keyring-backend=file -y --node ${RPC_ENDPOINT} --chain-id testnet | grep -q 'msg_index: 0'; then
     echo "✅ grant-permission oracle_admin success"
     TOTAL=$(($TOTAL+1))
     PASSED=$(($PASSED+1))
@@ -52,7 +51,7 @@ fi
 
 # set minter
 if sixd tx nftadmin grant-permission minter $(sixd keys show alice -a) --gas auto --gas-adjustment 1.5 \
-    --gas-prices 0.1usix --from super-admin -y --node ${RPC_ENDPOINT} --chain-id testnet | grep -q 'msg_index: 0'; then
+    --gas-prices 0.1usix --from index0 --home ~/.fivenet --keyring-backend=file -y --node ${RPC_ENDPOINT} --chain-id testnet | grep -q 'msg_index: 0'; then
     echo "✅ Set minter success"
     TOTAL=$(($TOTAL+1))
     PASSED=$(($PASSED+1))
@@ -71,7 +70,7 @@ else
 fi
 
 # set burner
-if sixd tx nftadmin grant-permission burner $(sixd keys show alice -a) --from super-admin -y --gas auto --gas-adjustment 1.5 --gas-prices 0.1usix \
+if sixd tx nftadmin grant-permission burner $(sixd keys show alice -a) --from index0 --home ~/.fivenet --keyring-backend=file -y --gas auto --gas-adjustment 1.5 --gas-prices 0.1usix \
     --node ${RPC_ENDPOINT} --chain-id testnet | grep -q 'msg_index: 0'; then
     echo "✅ Set burner success"
     TOTAL=$(($TOTAL+1))
@@ -91,14 +90,14 @@ else
 fi
 
 # set test perm
-if sixd tx nftadmin grant-permission test-perm $(sixd keys show alice -a) --from super-admin -y --gas auto --gas-adjustment 1.5 --gas-prices 0.1usix \
+if sixd tx nftadmin grant-permission test-perm $(sixd keys show alice -a) --from index0 --home ~/.fivenet --keyring-backend=file -y --gas auto --gas-adjustment 1.5 --gas-prices 0.1usix \
     --chain-id testnet | grep -q 'msg_index: 0'; then
     echo
 else
     echo
 fi
 
-if sixd tx nftadmin revoke-permission test-perm $(sixd keys show alice -a) --from super-admin -y --gas auto --gas-adjustment 1.5 --gas-prices 0.1usix \
+if sixd tx nftadmin revoke-permission test-perm $(sixd keys show alice -a) --from index0 --home ~/.fivenet --keyring-backend=file -y --gas auto --gas-adjustment 1.5 --gas-prices 0.1usix \
     --chain-id testnet | grep -q 'msg_index: 0'; then
     echo "✅ Revoke test-perm success"
     TOTAL=$(($TOTAL+1))
