@@ -43,9 +43,5 @@ sixd add-genesis-account $(sixd keys show -a alice --keyring-backend=test --home
 sixd add-genesis-account $(sixd keys show -a bob --keyring-backend=test --home ${SIX_HOME}) 1000000000000usix --keyring-backend test --home ${SIX_HOME}
 sixd add-genesis-account $(sixd keys show -a super-admin --keyring-backend=test --home ${SIX_HOME}) 1000000000000usix --keyring-backend test --home ${SIX_HOME}
 
-# # add super.admin to grouplist
-# jq '.app_state.protocoladmin.groupList[0] |= . + {"name": "super.admin", "owner": "'`$SUPERADMIN_ADDRESS`'"}' ${SIX_HOME}/config/genesis.json | sponge ${SIX_HOME}/config/genesis.json
-# jq '.app_state.protocoladmin.adminList[0] |= . + {"admin": "'"$SUPERADMIN_ADDRESS"'", "group": "super.admin"}' ${SIX_HOME}/config/genesis.json | sponge ${SIX_HOME}/config/genesis.json
-
 sixd gentx ${VALKEY} 100000000usix --chain-id=six --keyring-backend=test --home ${SIX_HOME}
 sixd collect-gentxs --home ${SIX_HOME}
