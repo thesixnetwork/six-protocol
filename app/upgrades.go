@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	wasmtypes "github.com/CosmWasm/wasmd/x/wasm/types"
 	store "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
@@ -12,10 +13,9 @@ import (
 	nftadminmoduletypes "github.com/thesixnetwork/sixnft/x/nftadmin/types"
 	nftmngrmoduletypes "github.com/thesixnetwork/sixnft/x/nftmngr/types"
 	nftoraclemoduletypes "github.com/thesixnetwork/sixnft/x/nftoracle/types"
-	wasmtypes "github.com/CosmWasm/wasmd/x/wasm/types"
 )
 
-// const UpgradeName = "v2.0.0"
+const UpgradeName = "v2.0.2"
 
 func (app *App) VersionTrigger() {
 	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
@@ -23,7 +23,7 @@ func (app *App) VersionTrigger() {
 		panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
 	}
 	fmt.Println("##########upgradeInfo", upgradeInfo)
-	if upgradeInfo.Name == "v2.0.0" && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
+	if upgradeInfo.Name == UpgradeName && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
 		storeUpgrades := store.StoreUpgrades{
 			Added: []string{nftmngrmoduletypes.StoreKey, evmsupportmoduletypes.StoreKey, nftoraclemoduletypes.StoreKey, nftadminmoduletypes.StoreKey, "authz"},
 		}
@@ -35,7 +35,7 @@ func (app *App) VersionTrigger() {
 }
 
 func (app *App) RegisterUpgradeHandlers() {
-	app.UpgradeKeeper.SetUpgradeHandler("v2.0.0", func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
+	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
 		// set state root admin
 		var admin nftadminmoduletypes.Authorization
 		super_admin, _ := app.ProtocoladminKeeper.GetGroup(ctx, "super.admin")
@@ -75,7 +75,7 @@ func (app *App) RegisterUpgradeHandlers() {
 		access_config.Permission = wasmtypes.AccessTypeEverybody
 		access_config.Address = ""
 		app.WasmKeeper.SetParams(ctx, wasmtypes.Params{
-			CodeUploadAccess: access_config,
+			CodeUploadAccess:             access_config,
 			InstantiateDefaultPermission: wasmtypes.AccessTypeOnlyAddress,
 		})
 
