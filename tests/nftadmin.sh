@@ -1,4 +1,3 @@
-RPC_ENDPOINT=http://localhost:26657
 grantOracle()
 {
     echo "Grant 'oracle' to $1"

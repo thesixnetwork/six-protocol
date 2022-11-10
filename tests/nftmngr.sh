@@ -1,3 +1,4 @@
+RPC_ENDPOINT=$1
 # NFT Schema
 BASE64_SCHEMA=`cat ./mock-data/nft-schema.json | base64 | tr -d '\n'`
 # NFT Data
