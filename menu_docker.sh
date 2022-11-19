@@ -84,6 +84,7 @@ echo "## 4. Stop chain validator                 ##"
 echo "## 5. Config Genesis                       ##"
 echo "## 6. Reset chain validator                ##"
 echo "## 7. Staking validator                    ##"
+echo "## 8. Query Validator set                  ##"
 echo "#############################################"
 
 read -p "Enter your choice: " choice
@@ -170,6 +171,10 @@ case $choice in
             i=$((i+1))
             amount=$((amount+1))
         done
+        ;;
+    8)
+        echo "Query Validator set"
+        sixd q tendermint-validator-set --home ./build/sixnode0
         ;;
     *)
         echo "Invalid Choice"
