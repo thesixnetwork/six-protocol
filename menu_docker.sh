@@ -1,6 +1,6 @@
 default_github_token=$1
 default_six_home=six_home
-default_docker_tag="latest"
+default_docker_tag="3.0.0"
 node_homes=(
     sixnode0
     sixnode1
@@ -79,10 +79,10 @@ function setUpConfig() {
 echo "#############################################"
 echo "## 1. Build Docker Image                   ##"
 echo "## 2. Docker Compose init chain            ##"
-echo "## 3. Stop chain validator                 ##"
-echo "## 4. Start chain validator                ##"
-echo "## 5. Reset chain validator                ##"
-echo "## 6. Config Genesis                       ##"
+echo "## 3. Start chain validator                ##"
+echo "## 4. Stop chain validator                 ##"
+echo "## 5. Config Genesis                       ##"
+echo "## 6. Reset chain validator                ##"
 echo "## 7. Staking validator                    ##"
 echo "## 8. Query Validator set                  ##"
 echo "#############################################"
@@ -107,16 +107,30 @@ case $choice in
         docker compose -f ./docker-compose.yml up
         ;;
     3)
-        echo "Stop Docker Container"
-        export COMMAND="start_chain"
-        docker compose -f ./docker-compose.yml down
-        ;;
-    4)
         echo "Running Docker Container in Interactive Mode"
         export COMMAND="start_chain"
         docker compose -f ./docker-compose.yml up -d
         ;;
+    4)
+        echo "Stop Docker Container"
+        export COMMAND="start_chain"
+        docker compose -f ./docker-compose.yml down
+        ;;
     5) 
+        echo "Config Genesis"
+        for home in ${node_homes[@]}
+        do  
+            (
+            export SIX_HOME=${home}
+            if [[ ! -e ./build/sixnode0/config/genesis.json ]]; then
+                echo "File does not exist 🖕"
+            else
+                setUpConfig
+            fi 
+            )|| exit 1
+        done
+        ;;
+    6) 
         echo "Reset Docker Container"
         for home in ${node_homes[@]}
         do
@@ -135,20 +149,6 @@ case $choice in
             )|| exit 1
         done
         ;;
-    6) 
-        echo "Config Genesis"
-        for home in ${node_homes[@]}
-        do  
-            (
-            export SIX_HOME=${home}
-            if [[ ! -e ./build/sixnode0/config/genesis.json ]]; then
-                echo "File does not exist 🖕"
-            else
-                setUpConfig
-            fi 
-            )|| exit 1
-        done
-        ;;
     7)
         echo "Staking Docker Container"
         i=1
@@ -163,10 +163,10 @@ case $choice in
             echo ${node_homes[i]}
             export DAEMON_HOME=./build/${node_homes[i]}
             sixd tx staking create-validator --amount="${amount}usix" --from=${val} --moniker ${node_homes[i]} \
-                --pubkey $(sixd tendermint show-validator --home ./build/${node_homes[i]}) --home build/${node_homes[i]} \
+                --pubkey $(sixd tendermint show-validator --home ${DAEMON_HOME}) --home ${DAEMON_HOME} \
                 --keyring-backend test --commission-rate 0.1 --commission-max-rate 0.5 --commission-max-change-rate 0.1 \
-                --min-self-delegation 1000000 --node http://0.0.0.0:26662 -y --min-delegation 1000000 --delegation-increment 1000000 \
-                --chain-id six_666-1
+                --min-self-delegation 1000000 --node http://0.0.0.0:26657 -y --min-delegation 1000000 --delegation-increment 1000000 \
+                --chain-id six_666-1 --gas auto --gas-adjustment 1.5 --gas-prices 0.025usix
             echo "Config Genesis at ${home} Success 🟢"
             ) || exit 1
             i=$((i+1))
