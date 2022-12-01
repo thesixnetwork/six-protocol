@@ -180,18 +180,8 @@ case $choice in
         ;;
     9)
         echo "Set up Cosmovisor"
-        docker compose -f ./docker/docker-compose-genesis.yml up -d
-        docker compose -f ./docker/docker-compose-genesis.yml down 
-        docker compose -f ./docker/docker-compose-genesiscp.yml up -d
-        docker compose -f ./docker/docker-compose-genesiscp.yml down
-        docker compose -f ./docker/docker-compose-v2.0.0.yml up -d
-        docker compose -f ./docker/docker-compose-v2.0.0.yml down 
-        docker compose -f ./docker/docker-compose-v2.0.0cp.yml up -d
-        docker compose -f ./docker/docker-compose-v2.0.0cp.yml down
-        docker compose -f ./docker/docker-compose-v3.0.0.yml up -d
-        docker compose -f ./docker/docker-compose-v3.0.0.yml down 
-        docker compose -f ./docker/docker-compose-v3.0.0cp.yml up -d
-        docker compose -f ./docker/docker-compose-v3.0.0cp.yml down
+        export COMMAND="cosmovisor_setup"
+        docker compose -f ./docker-compose.yml up -d
         ;;
     *)
         echo "Invalid Choice"
