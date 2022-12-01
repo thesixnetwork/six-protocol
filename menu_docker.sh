@@ -79,10 +79,10 @@ function setUpConfig() {
 echo "#############################################"
 echo "## 1. Build Docker Image                   ##"
 echo "## 2. Docker Compose init chain            ##"
-echo "## 3. Start chain validator                ##"
-echo "## 4. Stop chain validator                 ##"
-echo "## 5. Config Genesis                       ##"
-echo "## 6. Reset chain validator                ##"
+echo "## 3. Stop chain validator                 ##"
+echo "## 4. Start chain validator                ##"
+echo "## 5. Reset chain validator                ##"
+echo "## 6. Config Genesis                       ##"
 echo "## 7. Staking validator                    ##"
 echo "## 8. Query Validator set                  ##"
 echo "#############################################"
@@ -107,30 +107,16 @@ case $choice in
         docker compose -f ./docker-compose.yml up
         ;;
     3)
-        echo "Running Docker Container in Interactive Mode"
-        export COMMAND="start_chain"
-        docker compose -f ./docker-compose.yml up -d
-        ;;
-    4)
         echo "Stop Docker Container"
         export COMMAND="start_chain"
         docker compose -f ./docker-compose.yml down
         ;;
-    5) 
-        echo "Config Genesis"
-        for home in ${node_homes[@]}
-        do  
-            (
-            export SIX_HOME=${home}
-            if [[ -e !./build/sixnode0/config/genesis.json ]]; then
-                echo "File does not exist 🖕"
-            else
-                setUpConfig
-            fi 
-            )|| exit 1
-        done
+    4)
+        echo "Running Docker Container in Interactive Mode"
+        export COMMAND="start_chain"
+        docker compose -f ./docker-compose.yml up -d
         ;;
-    6) 
+    5) 
         echo "Reset Docker Container"
         for home in ${node_homes[@]}
         do
@@ -146,6 +132,20 @@ case $choice in
             echo '{"height": "0", "round": 0,"step": 0}' > $DAEMON_HOME/data/priv_validator_state.json
 
             echo "Reset ${home} Success 🟢"
+            )|| exit 1
+        done
+        ;;
+    6) 
+        echo "Config Genesis"
+        for home in ${node_homes[@]}
+        do  
+            (
+            export SIX_HOME=${home}
+            if [[ ! -e ./build/sixnode0/config/genesis.json ]]; then
+                echo "File does not exist 🖕"
+            else
+                setUpConfig
+            fi 
             )|| exit 1
         done
         ;;
@@ -165,7 +165,8 @@ case $choice in
             sixd tx staking create-validator --amount="${amount}usix" --from=${val} --moniker ${node_homes[i]} \
                 --pubkey $(sixd tendermint show-validator --home ./build/${node_homes[i]}) --home build/${node_homes[i]} \
                 --keyring-backend test --commission-rate 0.1 --commission-max-rate 0.5 --commission-max-change-rate 0.1 \
-                --min-self-delegation 1000000 --node http://0.0.0.0:26662 -y --min-delegation 1000000 --delegation-increment 1000000
+                --min-self-delegation 1000000 --node http://0.0.0.0:26662 -y --min-delegation 1000000 --delegation-increment 1000000 \
+                --chain-id six_666-1
             echo "Config Genesis at ${home} Success 🟢"
             ) || exit 1
             i=$((i+1))

@@ -54,7 +54,7 @@ function setupGenesis() {
 
 }
 
-if [[ -e !./build/sixnode0/config/genesis.json ]]; then
+if [[ ! -e ./build/sixnode0/config/genesis.json ]]; then
     echo "File does not exist 🖕"
 else
     setupGenesis
