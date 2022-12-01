@@ -57,8 +57,11 @@ init:
       enable: true
     api:
       swagger: true
+    evm-rpc:
+      address: "0.0.0.0:8545"     # change the JSON-RPC address and port
+      ws-address: "0.0.0.0:8546"  # change the JSON-RPC websocket address and port
 genesis:
-  chain_id: "testnet"
+  chain_id: "six_666-1"
   app_state:
     staking: # Overwrite genesis for staking module
       params:
@@ -156,3 +159,6 @@ genesis:
     nftadmin:
         authorization:
             root_admin: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
+    evm:
+      params:
+        evm_denom: "umeow"

@@ -3,25 +3,28 @@ package main
 import (
 	"os"
 
+	"github.com/cosmos/cosmos-sdk/server"
 	svrcmd "github.com/cosmos/cosmos-sdk/server/cmd"
-	"github.com/ignite/cli/ignite/pkg/cosmoscmd"
+
 	"github.com/thesixnetwork/six-protocol/app"
+	"github.com/thesixnetwork/six-protocol/cmd/sixd/cmd"
 )
 
 func main() {
-	rootCmd, _ := cosmoscmd.NewRootCmd(
-		app.Name,
-		app.AccountAddressPrefix,
-		app.DefaultNodeHome,
-		app.Name,
-		app.ModuleBasics,
-		app.New,
-		// this line is used by starport scaffolding # root/arguments
-	)
+	app.SetConfig()
+
+	rootCmd, _ := cmd.NewRootCmd()
 	rootCmd.AddCommand(
-		AddGenesisWasmMsgCmd(app.DefaultNodeHome),
+		cmd.AddGenesisWasmMsgCmd(app.DefaultNodeHome),
 	)
+
 	if err := svrcmd.Execute(rootCmd, app.DefaultNodeHome); err != nil {
-		os.Exit(1)
+		switch e := err.(type) {
+		case server.ErrorCode:
+			os.Exit(e.Code)
+
+		default:
+			os.Exit(1)
+		}
 	}
 }
