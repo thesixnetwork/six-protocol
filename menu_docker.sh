@@ -85,6 +85,7 @@ echo "## 5. Config Genesis                       ##"
 echo "## 6. Reset chain validator                ##"
 echo "## 7. Staking validator                    ##"
 echo "## 8. Query Validator set                  ##"
+echo "## 9. Setup Cosmovisor                     ##"
 echo "#############################################"
 
 read -p "Enter your choice: " choice
@@ -176,6 +177,21 @@ case $choice in
     8)
         echo "Query Validator set"
         sixd q tendermint-validator-set --home ./build/sixnode0
+        ;;
+    9)
+        echo "Set up Cosmovisor"
+        docker compose -f ./docker/docker-compose-genesis.yml up -d
+        docker compose -f ./docker/docker-compose-genesis.yml down 
+        docker compose -f ./docker/docker-compose-genesiscp.yml up -d
+        docker compose -f ./docker/docker-compose-genesiscp.yml down
+        docker compose -f ./docker/docker-compose-v2.0.0.yml up -d
+        docker compose -f ./docker/docker-compose-v2.0.0.yml down 
+        docker compose -f ./docker/docker-compose-v2.0.0cp.yml up -d
+        docker compose -f ./docker/docker-compose-v2.0.0cp.yml down
+        docker compose -f ./docker/docker-compose-v3.0.0.yml up -d
+        docker compose -f ./docker/docker-compose-v3.0.0.yml down 
+        docker compose -f ./docker/docker-compose-v3.0.0cp.yml up -d
+        docker compose -f ./docker/docker-compose-v3.0.0cp.yml down
         ;;
     *)
         echo "Invalid Choice"
