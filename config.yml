@@ -161,4 +161,4 @@ genesis:
             root_admin: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
     evm:
       params:
-        evm_denom: "umeow"
+        evm_denom: "usix"
