@@ -1,6 +1,6 @@
 default_github_token=$1
 default_six_home=six_home
-default_docker_tag="latest"
+default_docker_tag="2.0.0"
 node_homes=(
     sixnode0
     sixnode1
@@ -165,7 +165,8 @@ case $choice in
             sixd tx staking create-validator --amount="${amount}usix" --from=${val} --moniker ${node_homes[i]} \
                 --pubkey $(sixd tendermint show-validator --home ./build/${node_homes[i]}) --home build/${node_homes[i]} \
                 --keyring-backend test --commission-rate 0.1 --commission-max-rate 0.5 --commission-max-change-rate 0.1 \
-                --min-self-delegation 1000000 --node http://0.0.0.0:26662 -y --min-delegation 1000000 --delegation-increment 1000000
+                --min-self-delegation 1000000 --node http://0.0.0.0:26662 -y --min-delegation 1000000 --delegation-increment 1000000 \
+                --chain-id six
             echo "Config Genesis at ${home} Success 🟢"
             ) || exit 1
             i=$((i+1))
