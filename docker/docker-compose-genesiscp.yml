@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  sixnode0:
+    container_name: sixnode0
+    image: "six/node:2.0.0"
+    volumes:
+      - .././build/sixnode0/:/opt/build/six_home/
+    command: cp /usr/bin/sixd /opt/build/six_home/cosmovisor/genesis/bin/
+
+  sixnode1:
+    container_name: sixnode1
+    image: "six/node:2.0.0"
+    volumes:
+      - .././build/sixnode1/:/opt/build/six_home/
+    command: cp /usr/bin/sixd /opt/build/six_home/cosmovisor/genesis/bin/
+
+  sixnode2:
+    container_name: sixnode2
+    image: "six/node:2.0.0"
+    volumes:
+      - .././build/sixnode2/:/opt/build/six_home/
+    command: cp /usr/bin/sixd /opt/build/six_home/cosmovisor/genesis/bin/ 
+
+  sixnode3:
+    container_name: sixnode3
+    image: "six/node:2.0.0"
+    volumes:
+      - .././build/sixnode3/:/opt/build/six_home/
+    command: cp /usr/bin/sixd /opt/build/six_home/cosmovisor/genesis/bin/ 
