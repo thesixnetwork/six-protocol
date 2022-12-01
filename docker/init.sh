@@ -1,5 +1,5 @@
 MONIKER=$1
-export CHAIN_ID=six
+export CHAIN_ID=six_666-1
 export VALKEY=val1 # should be: export as docker env var
 export SIX_HOME=./build/six_home
 ALICE_MNEMONIC="history perfect across group seek acoustic delay captain sauce audit carpet tattoo exhaust green there giant cluster want pond bulk close screen scissors remind"
@@ -18,18 +18,25 @@ rm -Rf ${SIX_HOME}
 
 sixd init ${MONIKER} --chain-id=${CHAIN_ID} --home ${SIX_HOME}
 
+# Change parameter token denominations to usix
+cat ${SIX_HOME}/config/genesis.json | jq '.app_state["staking"]["params"]["bond_denom"]="usix"' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
+cat ${SIX_HOME}/config/genesis.json | jq '.app_state["crisis"]["constant_fee"]["denom"]="usix"' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
+cat ${SIX_HOME}/config/genesis.json | jq '.app_state["gov"]["deposit_params"]["min_deposit"][0]["denom"]="usix"' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
+cat ${SIX_HOME}/config/genesis.json | jq '.app_state["evm"]["params"]["evm_denom"]="usix"' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
+cat ${SIX_HOME}/config/genesis.json | jq '.app_state["inflation"]["params"]["mint_denom"]="usix"' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
+
 # mint to validator
-echo $SUPER_ADMIN_MNEMONIC | sixd keys add super-admin --recover --home ${SIX_HOME} --keyring-backend test
-echo $ALICE_MNEMONIC | sixd keys add alice --recover --home ${SIX_HOME} --keyring-backend test
-echo $BOB_MNEMONIC | sixd keys add bob --recover --home ${SIX_HOME} --keyring-backend test
-echo $VAL1_MNEMONIC | sixd keys add val1 --recover --home ${SIX_HOME} --keyring-backend test
-echo $VAL2_MNEMONIC | sixd keys add val2 --recover --home ${SIX_HOME} --keyring-backend test
-echo $VAL3_MNEMONIC | sixd keys add val3 --recover --home ${SIX_HOME} --keyring-backend test
-echo $VAL4_MNEMONIC | sixd keys add val4 --recover --home ${SIX_HOME} --keyring-backend test
-echo $ORACLE1_MNEMONIC | sixd keys add oracle1 --recover --home ${SIX_HOME} --keyring-backend test
-echo $ORACLE2_MNEMONIC | sixd keys add oracle2 --recover --home ${SIX_HOME} --keyring-backend test
-echo $ORACLE3_MNEMONIC | sixd keys add oracle3 --recover --home ${SIX_HOME} --keyring-backend test
-echo $ORACLE4_MNEMONIC | sixd keys add oracle4 --recover --home ${SIX_HOME} --keyring-backend test
+echo $SUPER_ADMIN_MNEMONIC | sixd keys add super-admin --recover --home ${SIX_HOME} --keyring-backend test --algo eth_secp256k1
+echo $ALICE_MNEMONIC | sixd keys add alice --recover --home ${SIX_HOME} --keyring-backend test --algo eth_secp256k1
+echo $BOB_MNEMONIC | sixd keys add bob --recover --home ${SIX_HOME} --keyring-backend test --algo eth_secp256k1
+echo $VAL1_MNEMONIC | sixd keys add val1 --recover --home ${SIX_HOME} --keyring-backend test --algo eth_secp256k1
+echo $VAL2_MNEMONIC | sixd keys add val2 --recover --home ${SIX_HOME} --keyring-backend test --algo eth_secp256k1
+echo $VAL3_MNEMONIC | sixd keys add val3 --recover --home ${SIX_HOME} --keyring-backend test --algo eth_secp256k1
+echo $VAL4_MNEMONIC | sixd keys add val4 --recover --home ${SIX_HOME} --keyring-backend test --algo eth_secp256k1
+echo $ORACLE1_MNEMONIC | sixd keys add oracle1 --recover --home ${SIX_HOME} --keyring-backend test --algo eth_secp256k1
+echo $ORACLE2_MNEMONIC | sixd keys add oracle2 --recover --home ${SIX_HOME} --keyring-backend test --algo eth_secp256k1
+echo $ORACLE3_MNEMONIC | sixd keys add oracle3 --recover --home ${SIX_HOME} --keyring-backend test --algo eth_secp256k1
+echo $ORACLE4_MNEMONIC | sixd keys add oracle4 --recover --home ${SIX_HOME} --keyring-backend test --algo eth_secp256k1
 
 sixd add-genesis-account $(sixd keys show -a val1 --keyring-backend=test --home ${SIX_HOME}) 1000000000000usix --keyring-backend test --home ${SIX_HOME}
 sixd add-genesis-account $(sixd keys show -a val2 --keyring-backend=test --home ${SIX_HOME}) 1000000000000usix --keyring-backend test --home ${SIX_HOME}
@@ -43,5 +50,5 @@ sixd add-genesis-account $(sixd keys show -a alice --keyring-backend=test --home
 sixd add-genesis-account $(sixd keys show -a bob --keyring-backend=test --home ${SIX_HOME}) 1000000000000usix --keyring-backend test --home ${SIX_HOME}
 sixd add-genesis-account $(sixd keys show -a super-admin --keyring-backend=test --home ${SIX_HOME}) 1000000000000usix --keyring-backend test --home ${SIX_HOME}
 
-sixd gentx ${VALKEY} 100000000usix --chain-id=six --keyring-backend=test --home ${SIX_HOME}
+sixd gentx ${VALKEY} 100000000usix --chain-id=${CHAIN_ID} --keyring-backend=test --home ${SIX_HOME}
 sixd collect-gentxs --home ${SIX_HOME}
