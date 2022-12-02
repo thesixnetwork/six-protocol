@@ -86,6 +86,7 @@ echo "## 6. Reset chain validator                ##"
 echo "## 7. Staking validator                    ##"
 echo "## 8. Query Validator set                  ##"
 echo "## 9. Setup Cosmovisor                     ##"
+echo "## 10. Start Cosmovisor                    ##"
 echo "#############################################"
 
 read -p "Enter your choice: " choice
@@ -181,6 +182,11 @@ case $choice in
     9)
         echo "Set up Cosmovisor"
         export COMMAND="cosmovisor_setup"
+        docker compose -f ./docker-compose.yml up -d
+        ;;
+    10)
+        echo "Cosmovisor start"
+        export COMMAND="cosmovisor_start"
         docker compose -f ./docker-compose.yml up -d
         ;;
     *)
