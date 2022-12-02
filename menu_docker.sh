@@ -1,4 +1,4 @@
-default_github_token=$1
+default_github_token=$GIT_TOKEN
 default_six_home=six_home
 default_docker_tag="3.0.0"
 node_homes=(
