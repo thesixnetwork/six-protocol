@@ -42,6 +42,8 @@ FROM alpine:3.15
 WORKDIR /root
 COPY --from=go-builder /go/src/github.com/thesixnetwork/six-protocol/build/sixd /usr/bin/sixd
 COPY --from=go-builder /go/bin/cosmovisor /usr/bin/cosmovisor
+
+RUN chmod +x /usr/bin/cosmovisor
 # install necessary libraries for binary to run
 RUN apk upgrade --no-cache && apk add bash git libgcc jq curl
 # RUN mkdir -p /root/.six
