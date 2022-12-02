@@ -9,3 +9,5 @@ ts-client/
 build/
 vue/src/store/generated/
 .env
+
+/**/wasmvm/
