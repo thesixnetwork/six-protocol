@@ -50,6 +50,8 @@ const (
 // NewRootCmd creates a new root command for sixd. It is called once in the
 // main function.
 func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
+	// Set config for prefixes
+	app.SetConfig()
 	encodingConfig := encoding.MakeConfig(app.ModuleBasics)
 	initClientCtx := client.Context{}.
 		WithCodec(encodingConfig.Marshaler).
@@ -64,8 +66,8 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 		WithViper(EnvPrefix)
 
 	rootCmd := &cobra.Command{
-		Use:   app.Name,
-		Short: "sixd Daemon",
+		Use:   app.Name+"d",
+		Short: "Six Daemon",
 		PersistentPreRunE: func(cmd *cobra.Command, _ []string) error {
 			// set the default command outputs
 			cmd.SetOut(cmd.OutOrStdout())
@@ -103,16 +105,18 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 
 	rootCmd.AddCommand(
 		ethermintclient.ValidateChainID(
-			InitCmd(app.ModuleBasics, app.DefaultNodeHome),
+			genutilcli.InitCmd(app.ModuleBasics, app.DefaultNodeHome),
 		),
 		genutilcli.CollectGenTxsCmd(banktypes.GenesisBalancesIterator{}, app.DefaultNodeHome),
+		genutilcli.MigrateGenesisCmd(),
 		genutilcli.GenTxCmd(app.ModuleBasics, encodingConfig.TxConfig, banktypes.GenesisBalancesIterator{}, app.DefaultNodeHome),
 		genutilcli.ValidateGenesisCmd(app.ModuleBasics),
 		AddGenesisAccountCmd(app.DefaultNodeHome),
 		tmcli.NewCompletionCmd(rootCmd, true),
-		// NewTestnetCmd(app.ModuleBasics, banktypes.GenesisBalancesIterator{}),
+		ethermintclient.NewTestnetCmd(app.ModuleBasics, banktypes.GenesisBalancesIterator{}),
 		debug.Cmd(),
 		config.Cmd(),
+		// this line is used by starport scaffolding # stargate/root/commands
 	)
 
 	a := appCreator{encodingConfig}
@@ -138,6 +142,7 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 
 func addModuleInitFlags(startCmd *cobra.Command) {
 	crisis.AddModuleInitFlags(startCmd)
+	// this line is used by starport scaffolding # stargate/root/initFlags
 }
 
 func queryCommand() *cobra.Command {
@@ -238,11 +243,14 @@ func (a appCreator) newApp(logger log.Logger, db dbm.DB, traceStore io.Writer, a
 		panic(err)
 	}
 
+	// this line is used by starport scaffolding # stargate/root/appBeforeInit
+
 	sixApp := app.New(
 		logger, db, traceStore, true, skipUpgradeHeights,
 		cast.ToString(appOpts.Get(flags.FlagHome)),
 		cast.ToUint(appOpts.Get(sdkserver.FlagInvCheckPeriod)),
 		a.encCfg,
+		// this line is used by starport scaffolding # stargate/root/appArgument
 		appOpts,
 		baseapp.SetPruning(pruningOpts),
 		baseapp.SetMinGasPrices(cast.ToString(appOpts.Get(sdkserver.FlagMinGasPrices))),
