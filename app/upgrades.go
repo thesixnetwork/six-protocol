@@ -19,17 +19,14 @@ func (app *App) VersionTrigger() {
 	if err != nil {
 		panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
 	}
-	fmt.Println("##########upgradeInfo", upgradeInfo)
 	if upgradeInfo.Name == UpgradeName && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
 		storeUpgrades := store.StoreUpgrades{
 			Added: []string{evmtypes.StoreKey, feemarkettypes.StoreKey},
 			Deleted: []string{evmsupportmoduletypes.StoreKey},
 		}
-		fmt.Println("##########storeUpgrades", storeUpgrades)
 		// configure store loader that checks if version == upgradeHeight and applies store upgrades
 		app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
 	}
-	fmt.Println("########## end of if")
 }
 
 func (app *App) RegisterUpgradeHandlers() {

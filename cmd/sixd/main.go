@@ -11,8 +11,6 @@ import (
 )
 
 func main() {
-	app.SetConfig()
-
 	rootCmd, _ := cmd.NewRootCmd()
 	rootCmd.AddCommand(
 		cmd.AddGenesisWasmMsgCmd(app.DefaultNodeHome),
