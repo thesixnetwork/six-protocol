@@ -8,16 +8,16 @@ grantOracle()
 RPC_ENDPOINT=http://localhost:26657
 BASE64_SCHEMA=`cat nft-schema.json | base64 | tr -d '\n'`
 
-sixd tx nftadmin grant-permission oracle_admin $(sixd keys show alice -a) --from super-admin -y --node ${RPC_ENDPOINT} --chain-id testnet
-sixd tx nftoracle set-minimum-confirmation 1 --from super-admin --chain-id sixnft -y --node ${RPC_ENDPOINT} --chain-id testnet
+# sixd tx nftadmin grant-permission oracle_admin $(sixd keys show alice -a) --from super-admin -y --node ${RPC_ENDPOINT} --chain-id testnet
+# sixd tx nftoracle set-minimum-confirmation 1 --from super-admin --chain-id sixnft -y --node ${RPC_ENDPOINT} --chain-id testnet
 sixd tx nftmngr create-nft-schema --from alice --gas auto --gas-adjustment 1.5 --gas-prices 0.1usix -y --chain-id testnet \
     --node ${RPC_ENDPOINT} \
     ${BASE64_SCHEMA}
 
-grantOracle $(sixd keys show oracle1 -a --keyring-backend test)
-grantOracle $(sixd keys show oracle2 -a --keyring-backend test)
-grantOracle $(sixd keys show oracle3 -a --keyring-backend test)
-grantOracle $(sixd keys show oracle4 -a --keyring-backend test)
+# grantOracle $(sixd keys show oracle1 -a --keyring-backend test)
+# grantOracle $(sixd keys show oracle2 -a --keyring-backend test)
+# grantOracle $(sixd keys show oracle3 -a --keyring-backend test)
+# grantOracle $(sixd keys show oracle4 -a --keyring-backend test)
 
 # sixd q nftadmin show-authorization \
 #     --node ${RPC_ENDPOINT}
