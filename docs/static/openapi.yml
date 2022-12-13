@@ -6931,9 +6931,6 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -7384,9 +7381,6 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -11893,9 +11887,6 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -33775,6 +33766,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/evmsupport/address_binding/{ethAddress}/{nativeAddress}':
@@ -34228,6 +34229,13 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
           in: query
           required: false
           type: boolean
@@ -34730,6 +34738,13 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
           in: query
           required: false
           type: boolean
@@ -35305,6 +35320,13 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   /thesixnetwork/sixnft/nftmngr/nft_data:
@@ -35654,6 +35676,13 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
           in: query
           required: false
           type: boolean
@@ -36930,6 +36959,13 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/nft_schema/{code}':
@@ -37704,6 +37740,13 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/nft_schema_by_contract/{originContractAddress}':
@@ -38192,6 +38235,13 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
           in: query
           required: false
           type: boolean
@@ -38796,9 +38846,6 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -39090,9 +39137,6 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -39377,9 +39421,6 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -40147,6 +40188,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/six-protocol/tokenmngr/mintperm/{token}/{address}':
@@ -40386,6 +40437,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/six-protocol/tokenmngr/token/{name}':
@@ -40556,6 +40617,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   /thesixnetwork/sixprotocol/tokenmngr/token_burn:
@@ -40667,6 +40738,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
