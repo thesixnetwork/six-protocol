@@ -168,7 +168,7 @@ case $choice in
                 --pubkey $(sixd tendermint show-validator --home ./build/${node_homes[i]}) --home build/${node_homes[i]} \
                 --keyring-backend test --commission-rate 0.1 --commission-max-rate 0.5 --commission-max-change-rate 0.1 \
                 --min-self-delegation 1000000 --node http://0.0.0.0:26662 -y --min-delegation 1000000 --delegation-increment 1000000 \
-                --chain-id six
+                --chain-id six --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix
             echo "Config Genesis at ${home} Success 🟢"
             ) || exit 1
             i=$((i+1))
