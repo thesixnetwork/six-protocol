@@ -33655,211 +33655,6 @@ paths:
           format: uint64
       tags:
         - Query
-  /thesixnetwork/sixnft/evmsupport/address_binding:
-    get:
-      summary: Queries a list of AddressBinding items.
-      operationId: ThesixnetworkSixnftEvmsupportAddressBindingAll
-      responses:
-        '200':
-          description: A successful response.
-          schema:
-            type: object
-            properties:
-              addressBinding:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    ethAddress:
-                      type: string
-                    nativeAddress:
-                      type: string
-              pagination:
-                type: object
-                properties:
-                  next_key:
-                    type: string
-                    format: byte
-                    title: |-
-                      next_key is the key to be passed to PageRequest.key to
-                      query the next page most efficiently
-                  total:
-                    type: string
-                    format: uint64
-                    title: >-
-                      total is total number of results available if
-                      PageRequest.count_total
-
-                      was set, its value is undefined otherwise
-                description: >-
-                  PageResponse is to be embedded in gRPC response messages where
-                  the
-
-                  corresponding request message has used PageRequest.
-
-                   message SomeResponse {
-                           repeated Bar results = 1;
-                           PageResponse page = 2;
-                   }
-        default:
-          description: An unexpected error response.
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-              message:
-                type: string
-              details:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    '@type':
-                      type: string
-                  additionalProperties: {}
-      parameters:
-        - name: pagination.key
-          description: |-
-            key is a value returned in PageResponse.next_key to begin
-            querying the next page most efficiently. Only one of offset or key
-            should be set.
-          in: query
-          required: false
-          type: string
-          format: byte
-        - name: pagination.offset
-          description: >-
-            offset is a numeric offset that can be used when key is unavailable.
-
-            It is less efficient than using key. Only one of offset or key
-            should
-
-            be set.
-          in: query
-          required: false
-          type: string
-          format: uint64
-        - name: pagination.limit
-          description: >-
-            limit is the total number of results to be returned in the result
-            page.
-
-            If left empty it will default to a value to be set by each app.
-          in: query
-          required: false
-          type: string
-          format: uint64
-        - name: pagination.count_total
-          description: >-
-            count_total is set to true  to indicate that the result set should
-            include
-
-            a count of the total number of items available for pagination in
-            UIs.
-
-            count_total is only respected when offset is used. It is ignored
-            when key
-
-            is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
-          in: query
-          required: false
-          type: boolean
-      tags:
-        - Query
-  '/thesixnetwork/sixnft/evmsupport/address_binding/{ethAddress}/{nativeAddress}':
-    get:
-      summary: Queries a AddressBinding by index.
-      operationId: ThesixnetworkSixnftEvmsupportAddressBinding
-      responses:
-        '200':
-          description: A successful response.
-          schema:
-            type: object
-            properties:
-              addressBinding:
-                type: object
-                properties:
-                  ethAddress:
-                    type: string
-                  nativeAddress:
-                    type: string
-        default:
-          description: An unexpected error response.
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-              message:
-                type: string
-              details:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    '@type':
-                      type: string
-                  additionalProperties: {}
-      parameters:
-        - name: ethAddress
-          in: path
-          required: true
-          type: string
-        - name: nativeAddress
-          in: path
-          required: true
-          type: string
-      tags:
-        - Query
-  /thesixnetwork/sixnft/evmsupport/params:
-    get:
-      summary: Parameters queries the parameters of the module.
-      operationId: ThesixnetworkSixnftEvmsupportParams
-      responses:
-        '200':
-          description: A successful response.
-          schema:
-            type: object
-            properties:
-              params:
-                description: params holds all the parameters of this module.
-                type: object
-            description: >-
-              QueryParamsResponse is response type for the Query/Params RPC
-              method.
-        default:
-          description: An unexpected error response.
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-              message:
-                type: string
-              details:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    '@type':
-                      type: string
-                  additionalProperties: {}
-      tags:
-        - Query
   /thesixnetwork/sixnft/nftadmin/authorization:
     get:
       summary: Queries a Authorization by index.
@@ -34229,13 +34024,6 @@ paths:
             when key
 
             is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
           in: query
           required: false
           type: boolean
@@ -34741,13 +34529,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/metadata_creator/{nftSchemaCode}':
@@ -35028,6 +34809,8 @@ paths:
                               value:
                                 type: number
                                 format: double
+                          hidden_to_marketplace:
+                            type: boolean
                     onchain_attributes:
                       type: array
                       items:
@@ -35057,6 +34840,8 @@ paths:
                               value:
                                 type: number
                                 format: double
+                          hidden_to_marketplace:
+                            type: boolean
               pagination:
                 type: object
                 properties:
@@ -35320,13 +35105,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   /thesixnetwork/sixnft/nftmngr/nft_data:
@@ -35391,6 +35169,8 @@ paths:
                               value:
                                 type: number
                                 format: double
+                          hidden_to_marketplace:
+                            type: boolean
                     onchain_attributes:
                       type: array
                       items:
@@ -35420,6 +35200,8 @@ paths:
                               value:
                                 type: number
                                 format: double
+                          hidden_to_marketplace:
+                            type: boolean
               pagination:
                 type: object
                 properties:
@@ -35679,13 +35461,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/nft_data/{nftSchemaCode}/{tokenId}':
@@ -35748,6 +35523,8 @@ paths:
                             value:
                               type: number
                               format: double
+                        hidden_to_marketplace:
+                          type: boolean
                   onchain_attributes:
                     type: array
                     items:
@@ -35777,6 +35554,8 @@ paths:
                             value:
                               type: number
                               format: double
+                        hidden_to_marketplace:
+                          type: boolean
         default:
           description: An unexpected error response.
           schema:
@@ -36643,6 +36422,21 @@ paths:
                                 type: string
                               desc:
                                 type: string
+                              params:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    name:
+                                      type: string
+                                    desc:
+                                      type: string
+                                    data_type:
+                                      type: string
+                                    required:
+                                      type: boolean
+                                    default_value:
+                                      type: string
                               disable:
                                 type: boolean
                               when:
@@ -36696,6 +36490,8 @@ paths:
                                   value:
                                     type: number
                                     format: double
+                              hidden_to_marketplace:
+                                type: boolean
                     isVerified:
                       type: boolean
                     mint_authorization:
@@ -36959,13 +36755,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/nft_schema/{code}':
@@ -37211,6 +37000,21 @@ paths:
                               type: string
                             desc:
                               type: string
+                            params:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  name:
+                                    type: string
+                                  desc:
+                                    type: string
+                                  data_type:
+                                    type: string
+                                  required:
+                                    type: boolean
+                                  default_value:
+                                    type: string
                             disable:
                               type: boolean
                             when:
@@ -37264,6 +37068,8 @@ paths:
                                 value:
                                   type: number
                                   format: double
+                            hidden_to_marketplace:
+                              type: boolean
                   isVerified:
                     type: boolean
                   mint_authorization:
@@ -37737,13 +37543,6 @@ paths:
             when key
 
             is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
           in: query
           required: false
           type: boolean
@@ -38238,13 +38037,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/organization/{name}':
@@ -38669,7 +38461,7 @@ paths:
           schema:
             type: object
             properties:
-              ActionRequest:
+              ActionOracleRequest:
                 type: array
                 items:
                   type: object
@@ -38683,6 +38475,15 @@ paths:
                       type: string
                     action:
                       type: string
+                    params:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          value:
+                            type: string
                     caller:
                       type: string
                     ref_id:
@@ -38842,26 +38643,19 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftoracle/action_request/{id}':
     get:
       summary: Queries a ActionRequest by id.
-      operationId: ThesixnetworkSixnftNftoracleActionRequest
+      operationId: ThesixnetworkSixnftNftoracleActionOracleRequest
       responses:
         '200':
           description: A successful response.
           schema:
             type: object
             properties:
-              ActionRequest:
+              ActionOracleRequest:
                 type: object
                 properties:
                   id:
@@ -38873,6 +38667,15 @@ paths:
                     type: string
                   action:
                     type: string
+                  params:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        value:
+                          type: string
                   caller:
                     type: string
                   ref_id:
@@ -38964,6 +38767,173 @@ paths:
           required: true
           type: string
           format: uint64
+      tags:
+        - Query
+  /thesixnetwork/sixnft/nftoracle/action_signer:
+    get:
+      summary: Queries a list of ActionSigner items.
+      operationId: ThesixnetworkSixnftNftoracleActionSignerAll
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              actionSigner:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    actor_address:
+                      type: string
+                    owner_address:
+                      type: string
+                    created_at:
+                      type: string
+                      format: date-time
+                    expired_at:
+                      type: string
+                      format: date-time
+              pagination:
+                type: object
+                properties:
+                  next_key:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.count_total
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  '/thesixnetwork/sixnft/nftoracle/action_signer/{actorAddress}':
+    get:
+      summary: Queries a ActionSigner by index.
+      operationId: ThesixnetworkSixnftNftoracleActionSigner
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              actionSigner:
+                type: object
+                properties:
+                  actor_address:
+                    type: string
+                  owner_address:
+                    type: string
+                  created_at:
+                    type: string
+                    format: date-time
+                  expired_at:
+                    type: string
+                    format: date-time
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: actorAddress
+          in: path
+          required: true
+          type: string
       tags:
         - Query
   /thesixnetwork/sixnft/nftoracle/collection_owner_request:
@@ -39130,13 +39100,6 @@ paths:
             when key
 
             is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
           in: query
           required: false
           type: boolean
@@ -39417,13 +39380,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftoracle/mint_request/{id}':
@@ -39589,6 +39545,8 @@ paths:
                   action_request_active_duration:
                     type: string
                   verify_request_active_duration:
+                    type: string
+                  action_signer_active_duration:
                     type: string
             description: >-
               QueryParamsResponse is response type for the Query/Params RPC
@@ -63293,84 +63251,6 @@ definitions:
     description: |-
       Version defines the versioning scheme used to negotiate the IBC verison in
       the connection handshake.
-  thesixnetwork.sixnft.evmsupport.AddressBinding:
-    type: object
-    properties:
-      ethAddress:
-        type: string
-      nativeAddress:
-        type: string
-  thesixnetwork.sixnft.evmsupport.MsgBindAddressResponse:
-    type: object
-    properties:
-      ethAddress:
-        type: string
-      nativeAddress:
-        type: string
-  thesixnetwork.sixnft.evmsupport.MsgRemoveBindingResponse:
-    type: object
-    properties:
-      ethAddress:
-        type: string
-      nativeAddress:
-        type: string
-  thesixnetwork.sixnft.evmsupport.Params:
-    type: object
-    description: Params defines the parameters for the module.
-  thesixnetwork.sixnft.evmsupport.QueryAllAddressBindingResponse:
-    type: object
-    properties:
-      addressBinding:
-        type: array
-        items:
-          type: object
-          properties:
-            ethAddress:
-              type: string
-            nativeAddress:
-              type: string
-      pagination:
-        type: object
-        properties:
-          next_key:
-            type: string
-            format: byte
-            title: |-
-              next_key is the key to be passed to PageRequest.key to
-              query the next page most efficiently
-          total:
-            type: string
-            format: uint64
-            title: >-
-              total is total number of results available if
-              PageRequest.count_total
-
-              was set, its value is undefined otherwise
-        description: |-
-          PageResponse is to be embedded in gRPC response messages where the
-          corresponding request message has used PageRequest.
-
-           message SomeResponse {
-                   repeated Bar results = 1;
-                   PageResponse page = 2;
-           }
-  thesixnetwork.sixnft.evmsupport.QueryGetAddressBindingResponse:
-    type: object
-    properties:
-      addressBinding:
-        type: object
-        properties:
-          ethAddress:
-            type: string
-          nativeAddress:
-            type: string
-  thesixnetwork.sixnft.evmsupport.QueryParamsResponse:
-    type: object
-    properties:
-      params:
-        description: params holds all the parameters of this module.
-        type: object
-    description: QueryParamsResponse is response type for the Query/Params RPC method.
   thesixnetwork.sixnft.nftadmin.AddressList:
     type: object
     properties:
@@ -63495,6 +63375,21 @@ definitions:
         type: string
       desc:
         type: string
+      params:
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+            desc:
+              type: string
+            data_type:
+              type: string
+            required:
+              type: boolean
+            default_value:
+              type: string
       disable:
         type: boolean
       when:
@@ -63523,6 +63418,14 @@ definitions:
         type: string
       action:
         type: string
+  thesixnetwork.sixnft.nftmngr.ActionParameter:
+    type: object
+    properties:
+      name:
+        type: string
+      value:
+        type: string
+    title: ActionParameter
   thesixnetwork.sixnft.nftmngr.AllowedActioner:
     type: string
     enum:
@@ -63876,6 +63779,21 @@ definitions:
                   type: string
                 desc:
                   type: string
+                params:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      desc:
+                        type: string
+                      data_type:
+                        type: string
+                      required:
+                        type: boolean
+                      default_value:
+                        type: string
                 disable:
                   type: boolean
                 when:
@@ -63929,6 +63847,8 @@ definitions:
                     value:
                       type: number
                       format: double
+                hidden_to_marketplace:
+                  type: boolean
   thesixnetwork.sixnft.nftmngr.MsgAddAttributeResponse:
     type: object
     properties:
@@ -64073,6 +63993,21 @@ definitions:
                   type: string
                 desc:
                   type: string
+                params:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      desc:
+                        type: string
+                      data_type:
+                        type: string
+                      required:
+                        type: boolean
+                      default_value:
+                        type: string
                 disable:
                   type: boolean
                 when:
@@ -64126,12 +64061,23 @@ definitions:
                     value:
                       type: number
                       format: double
+                hidden_to_marketplace:
+                  type: boolean
   thesixnetwork.sixnft.nftmngr.MsgAddSystemActionerResponse:
     type: object
     properties:
       nftSchemaCode:
         type: string
       actioner:
+        type: string
+  thesixnetwork.sixnft.nftmngr.MsgChangeOrgOwnerResponse:
+    type: object
+    properties:
+      orgName:
+        type: string
+      oldOwner:
+        type: string
+      newOwner:
         type: string
   thesixnetwork.sixnft.nftmngr.MsgChangeSchemaOwnerResponse:
     type: object
@@ -64343,6 +64289,21 @@ definitions:
                   type: string
                 desc:
                   type: string
+                params:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      desc:
+                        type: string
+                      data_type:
+                        type: string
+                      required:
+                        type: boolean
+                      default_value:
+                        type: string
                 disable:
                   type: boolean
                 when:
@@ -64396,6 +64357,8 @@ definitions:
                     value:
                       type: number
                       format: double
+                hidden_to_marketplace:
+                  type: boolean
   thesixnetwork.sixnft.nftmngr.NFTFeeBalance:
     type: object
     properties:
@@ -64660,6 +64623,21 @@ definitions:
                   type: string
                 desc:
                   type: string
+                params:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      desc:
+                        type: string
+                      data_type:
+                        type: string
+                      required:
+                        type: boolean
+                      default_value:
+                        type: string
                 disable:
                   type: boolean
                 when:
@@ -64713,6 +64691,8 @@ definitions:
                     value:
                       type: number
                       format: double
+                hidden_to_marketplace:
+                  type: boolean
       isVerified:
         type: boolean
       mint_authorization:
@@ -64753,6 +64733,8 @@ definitions:
           value:
             type: number
             format: double
+      hidden_to_marketplace:
+        type: boolean
   thesixnetwork.sixnft.nftmngr.NftData:
     type: object
     properties:
@@ -64803,6 +64785,8 @@ definitions:
                 value:
                   type: number
                   format: double
+            hidden_to_marketplace:
+              type: boolean
       onchain_attributes:
         type: array
         items:
@@ -64832,6 +64816,8 @@ definitions:
                 value:
                   type: number
                   format: double
+            hidden_to_marketplace:
+              type: boolean
   thesixnetwork.sixnft.nftmngr.NumberAttributeValue:
     type: object
     properties:
@@ -64975,6 +64961,21 @@ definitions:
               type: string
             desc:
               type: string
+            params:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  desc:
+                    type: string
+                  data_type:
+                    type: string
+                  required:
+                    type: boolean
+                  default_value:
+                    type: string
             disable:
               type: boolean
             when:
@@ -65028,6 +65029,8 @@ definitions:
                 value:
                   type: number
                   format: double
+            hidden_to_marketplace:
+              type: boolean
   thesixnetwork.sixnft.nftmngr.OpenseaDisplayOption:
     type: object
     properties:
@@ -65501,6 +65504,21 @@ definitions:
                         type: string
                       desc:
                         type: string
+                      params:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            desc:
+                              type: string
+                            data_type:
+                              type: string
+                            required:
+                              type: boolean
+                            default_value:
+                              type: string
                       disable:
                         type: boolean
                       when:
@@ -65554,6 +65572,8 @@ definitions:
                           value:
                             type: number
                             format: double
+                      hidden_to_marketplace:
+                        type: boolean
             isVerified:
               type: boolean
             mint_authorization:
@@ -65638,6 +65658,8 @@ definitions:
                       value:
                         type: number
                         format: double
+                  hidden_to_marketplace:
+                    type: boolean
             onchain_attributes:
               type: array
               items:
@@ -65667,6 +65689,8 @@ definitions:
                       value:
                         type: number
                         format: double
+                  hidden_to_marketplace:
+                    type: boolean
       pagination:
         type: object
         properties:
@@ -66047,6 +66071,21 @@ definitions:
                       type: string
                     desc:
                       type: string
+                    params:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          desc:
+                            type: string
+                          data_type:
+                            type: string
+                          required:
+                            type: boolean
+                          default_value:
+                            type: string
                     disable:
                       type: boolean
                     when:
@@ -66100,6 +66139,8 @@ definitions:
                         value:
                           type: number
                           format: double
+                    hidden_to_marketplace:
+                      type: boolean
           isVerified:
             type: boolean
           mint_authorization:
@@ -66159,6 +66200,8 @@ definitions:
                       value:
                         type: number
                         format: double
+                  hidden_to_marketplace:
+                    type: boolean
             onchain_attributes:
               type: array
               items:
@@ -66188,6 +66231,8 @@ definitions:
                       value:
                         type: number
                         format: double
+                  hidden_to_marketplace:
+                    type: boolean
       pagination:
         type: object
         properties:
@@ -66266,6 +66311,8 @@ definitions:
                     value:
                       type: number
                       format: double
+                hidden_to_marketplace:
+                  type: boolean
           onchain_attributes:
             type: array
             items:
@@ -66295,6 +66342,8 @@ definitions:
                     value:
                       type: number
                       format: double
+                hidden_to_marketplace:
+                  type: boolean
   thesixnetwork.sixnft.nftmngr.QueryGetOrganizationResponse:
     type: object
     properties:
@@ -66323,7 +66372,20 @@ definitions:
       - BASE
       - TOKEN
     default: BASE
-  thesixnetwork.sixnft.nftoracle.ActionRequest:
+  thesixnetwork.sixnft.nftmngr.action_params:
+    type: object
+    properties:
+      name:
+        type: string
+      desc:
+        type: string
+      data_type:
+        type: string
+      required:
+        type: boolean
+      default_value:
+        type: string
+  thesixnetwork.sixnft.nftoracle.ActionOracleRequest:
     type: object
     properties:
       id:
@@ -66335,6 +66397,15 @@ definitions:
         type: string
       action:
         type: string
+      params:
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+            value:
+              type: string
       caller:
         type: string
       ref_id:
@@ -66402,6 +66473,26 @@ definitions:
         format: int64
       execution_error_message:
         type: string
+  thesixnetwork.sixnft.nftoracle.ActionParameter:
+    type: object
+    properties:
+      name:
+        type: string
+      value:
+        type: string
+  thesixnetwork.sixnft.nftoracle.ActionSigner:
+    type: object
+    properties:
+      actor_address:
+        type: string
+      owner_address:
+        type: string
+      created_at:
+        type: string
+        format: date-time
+      expired_at:
+        type: string
+        format: date-time
   thesixnetwork.sixnft.nftoracle.CollectionOwnerRequest:
     type: object
     properties:
@@ -66573,6 +66664,15 @@ definitions:
       id:
         type: string
         format: uint64
+  thesixnetwork.sixnft.nftoracle.MsgCreateActionSignerResponse:
+    type: object
+    properties:
+      ownerAddress:
+        type: string
+      signerAddress:
+        type: string
+      expireAt:
+        type: string
   thesixnetwork.sixnft.nftoracle.MsgCreateMintRequestResponse:
     type: object
     properties:
@@ -66592,6 +66692,13 @@ definitions:
       nftSchemaCode:
         type: string
       ownerAddress:
+        type: string
+  thesixnetwork.sixnft.nftoracle.MsgDeleteActionSignerResponse:
+    type: object
+    properties:
+      ownerAddress:
+        type: string
+      signerAddress:
         type: string
   thesixnetwork.sixnft.nftoracle.MsgSetMinimumConfirmationResponse:
     type: object
@@ -66614,6 +66721,15 @@ definitions:
       verifyRequestID:
         type: string
         format: uint64
+  thesixnetwork.sixnft.nftoracle.MsgUpdateActionSignerResponse:
+    type: object
+    properties:
+      ownerAddress:
+        type: string
+      signerAddress:
+        type: string
+      expireAt:
+        type: string
   thesixnetwork.sixnft.nftoracle.NftOriginData:
     type: object
     properties:
@@ -66683,11 +66799,13 @@ definitions:
         type: string
       verify_request_active_duration:
         type: string
+      action_signer_active_duration:
+        type: string
     description: Params defines the parameters for the module.
   thesixnetwork.sixnft.nftoracle.QueryAllActionRequestResponse:
     type: object
     properties:
-      ActionRequest:
+      ActionOracleRequest:
         type: array
         items:
           type: object
@@ -66701,6 +66819,15 @@ definitions:
               type: string
             action:
               type: string
+            params:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  value:
+                    type: string
             caller:
               type: string
             ref_id:
@@ -66768,6 +66895,49 @@ definitions:
               format: int64
             execution_error_message:
               type: string
+      pagination:
+        type: object
+        properties:
+          next_key:
+            type: string
+            format: byte
+            title: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
+  thesixnetwork.sixnft.nftoracle.QueryAllActionSignerResponse:
+    type: object
+    properties:
+      actionSigner:
+        type: array
+        items:
+          type: object
+          properties:
+            actor_address:
+              type: string
+            owner_address:
+              type: string
+            created_at:
+              type: string
+              format: date-time
+            expired_at:
+              type: string
+              format: date-time
       pagination:
         type: object
         properties:
@@ -66991,7 +67161,7 @@ definitions:
   thesixnetwork.sixnft.nftoracle.QueryGetActionRequestResponse:
     type: object
     properties:
-      ActionRequest:
+      ActionOracleRequest:
         type: object
         properties:
           id:
@@ -67003,6 +67173,15 @@ definitions:
             type: string
           action:
             type: string
+          params:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                value:
+                  type: string
           caller:
             type: string
           ref_id:
@@ -67070,6 +67249,22 @@ definitions:
             format: int64
           execution_error_message:
             type: string
+  thesixnetwork.sixnft.nftoracle.QueryGetActionSignerResponse:
+    type: object
+    properties:
+      actionSigner:
+        type: object
+        properties:
+          actor_address:
+            type: string
+          owner_address:
+            type: string
+          created_at:
+            type: string
+            format: date-time
+          expired_at:
+            type: string
+            format: date-time
   thesixnetwork.sixnft.nftoracle.QueryGetCollectionOwnerRequestResponse:
     type: object
     properties:
@@ -67232,6 +67427,8 @@ definitions:
           action_request_active_duration:
             type: string
           verify_request_active_duration:
+            type: string
+          action_signer_active_duration:
             type: string
     description: QueryParamsResponse is response type for the Query/Params RPC method.
   thesixnetwork.sixnft.nftoracle.RequestStatus:
