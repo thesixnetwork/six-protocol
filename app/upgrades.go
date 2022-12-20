@@ -2,11 +2,12 @@ package app
 
 import (
 	"fmt"
-	
+
 	store "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
+	nftmngrtypes "github.com/thesixnetwork/sixnft/x/nftmngr/types"
 )
 
 const UpgradeName = "v2.1.0"
@@ -29,14 +30,43 @@ func (app *App) VersionTrigger() {
 func (app *App) RegisterUpgradeHandlers() {
 	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
 
-		schema_list := app.NftmngrKeeper.GetAllNFTSchema(ctx)
-	
-		// set schema to new version
+		schema_list := app.NftmngrKeeper.GetAllNFTSchemaV063(ctx)
 		for _, schema := range schema_list {
-			app.NftmngrKeeper.SetNFTSchema(ctx, schema)
+			// get actions
+			var v063_actions []*nftmngrtypes.Action
+			for _, action := range schema.OnchainData.Actions {
+				v063_actions = append(v063_actions, &nftmngrtypes.Action{
+					Name:            action.Name,
+					Desc:            action.Desc,
+					Disable:         action.Disable,
+					When:            action.When,
+					Then:            action.Then,
+					AllowedActioner: action.AllowedActioner,
+					Params: make([]*nftmngrtypes.ActionParams, 0),
+				})
+			}
+
+			// build new schema verion
+			new_schema := nftmngrtypes.NFTSchema{
+				Code:            schema.Code,
+				Name:            schema.Name,
+				Owner:           schema.Owner,
+				SystemActioners: schema.SystemActioners,
+				OriginData:      schema.OriginData,
+				OnchainData: &nftmngrtypes.OnChainData{
+					RevealRequired:  schema.OnchainData.RevealRequired,
+					RevealSecret:    schema.OnchainData.RevealSecret,
+					NftAttributes:   schema.OnchainData.NftAttributes,
+					TokenAttributes: schema.OnchainData.TokenAttributes,
+					Actions: v063_actions,
+				},
+				IsVerified:        schema.IsVerified,
+				MintAuthorization: schema.MintAuthorization,
+			}
+
+			app.NftmngrKeeper.SetNFTSchema(ctx, new_schema)
 		}
-
-
+		
 		return app.mm.RunMigrations(ctx, app.configurator, vm)
 	})
 }
