@@ -28,6 +28,15 @@ func (app *App) VersionTrigger() {
 
 func (app *App) RegisterUpgradeHandlers() {
 	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
+
+		schema_list := app.NftmngrKeeper.GetAllNFTSchema(ctx)
+	
+		// set schema to new version
+		for _, schema := range schema_list {
+			app.NftmngrKeeper.SetNFTSchema(ctx, schema)
+		}
+
+
 		return app.mm.RunMigrations(ctx, app.configurator, vm)
 	})
 }
