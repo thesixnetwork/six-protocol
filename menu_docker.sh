@@ -1,6 +1,6 @@
 default_github_token=$GIT_TOKEN
 default_six_home=six_home
-default_docker_tag="2.0.0"
+default_docker_tag="2.1.0"
 node_homes=(
     sixnode0
     sixnode1
@@ -48,6 +48,9 @@ function setUpGenesis(){
     jq '.app_state.tokenmngr.options = {"defaultMintee": "6x1cws3ex5yqwlu4my49htq06nsnhuxw3v7rt20g6"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
     jq '.app_state.tokenmngr.tokenList[0] |= . +  {"base": "usix","creator": "6x1eau6xz2kdv6wy7rhj2nxv0xrgnjy79hcm2tr9t","maxSupply": 0,"mintee": "6x1cws3ex5yqwlu4my49htq06nsnhuxw3v7rt20g6","name": "usix"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json 
     
+    ## gov
+    jq '.app_state.gov.deposit_params.max_deposit_period = "300s"' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json
+    jq '.app_state.gov.voting_params.voting_period = "300s"' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json
 }
 
 function setUpConfig() {
@@ -168,7 +171,7 @@ case $choice in
                 --pubkey $(sixd tendermint show-validator --home ./build/${node_homes[i]}) --home build/${node_homes[i]} \
                 --keyring-backend test --commission-rate 0.1 --commission-max-rate 0.5 --commission-max-change-rate 0.1 \
                 --min-self-delegation 1000000 --node http://0.0.0.0:26662 -y --min-delegation 1000000 --delegation-increment 1000000 \
-                --chain-id six
+                --chain-id six --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix
             echo "Config Genesis at ${home} Success 🟢"
             ) || exit 1
             i=$((i+1))

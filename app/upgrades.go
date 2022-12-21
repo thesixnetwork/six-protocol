@@ -2,83 +2,71 @@ package app
 
 import (
 	"fmt"
-	"time"
 
-	wasmtypes "github.com/CosmWasm/wasmd/x/wasm/types"
 	store "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
-	evmsupportmoduletypes "github.com/thesixnetwork/sixnft/x/evmsupport/types"
-	nftadminmoduletypes "github.com/thesixnetwork/sixnft/x/nftadmin/types"
-	nftmngrmoduletypes "github.com/thesixnetwork/sixnft/x/nftmngr/types"
-	nftoraclemoduletypes "github.com/thesixnetwork/sixnft/x/nftoracle/types"
+	nftmngrtypes "github.com/thesixnetwork/sixnft/x/nftmngr/types"
 )
 
-const UpgradeName = "v2.0.2"
+const UpgradeName = "v2.1.0"
 
 func (app *App) VersionTrigger() {
 	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
 	if err != nil {
 		panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
 	}
-	fmt.Println("##########upgradeInfo", upgradeInfo)
+
 	if upgradeInfo.Name == UpgradeName && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
 		storeUpgrades := store.StoreUpgrades{
-			Added: []string{nftmngrmoduletypes.StoreKey, evmsupportmoduletypes.StoreKey, nftoraclemoduletypes.StoreKey, nftadminmoduletypes.StoreKey, "authz"},
+			Deleted: []string{"evmsupport"},
 		}
-		fmt.Println("##########storeUpgrades", storeUpgrades)
 		// configure store loader that checks if version == upgradeHeight and applies store upgrades
 		app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
 	}
-	fmt.Println("########## end of if")
 }
 
 func (app *App) RegisterUpgradeHandlers() {
 	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
-		// set state root admin
-		var admin nftadminmoduletypes.Authorization
-		super_admin, _ := app.ProtocoladminKeeper.GetGroup(ctx, "super.admin")
-		admin.RootAdmin = super_admin.GetOwner()
-		app.NftadminKeeper.SetAuthorization(ctx, admin)
 
-		// set nftngr nft_fee_config
-		var nft_fee_config nftmngrmoduletypes.NFTFeeConfig
-		var fee_config nftmngrmoduletypes.FeeConfig
-		fee_config.FeeAmount = "20000000000usix"
-		fee_config.FeeDistributions = make([]*nftmngrmoduletypes.FeeDistribution, 0)
-		fee_config.FeeDistributions = append(fee_config.FeeDistributions, &nftmngrmoduletypes.FeeDistribution{
-			Method:  nftmngrmoduletypes.FeeDistributionMethod_BURN,
-			Portion: 0.1,
-		})
-		fee_config.FeeDistributions = append(fee_config.FeeDistributions, &nftmngrmoduletypes.FeeDistribution{
-			Method:  nftmngrmoduletypes.FeeDistributionMethod_REWARD_POOL,
-			Portion: 0.9,
-		})
+		schema_list := app.NftmngrKeeper.GetAllNFTSchemaV063(ctx)
+		for _, schema := range schema_list {
+			// get actions
+			var v063_actions []*nftmngrtypes.Action
+			for _, action := range schema.OnchainData.Actions {
+				v063_actions = append(v063_actions, &nftmngrtypes.Action{
+					Name:            action.Name,
+					Desc:            action.Desc,
+					Disable:         action.Disable,
+					When:            action.When,
+					Then:            action.Then,
+					AllowedActioner: action.AllowedActioner,
+					Params: make([]*nftmngrtypes.ActionParams, 0),
+				})
+			}
 
-		nft_fee_config.SchemaFee = &fee_config
-		app.NftmngrKeeper.SetNFTFeeConfig(ctx, nft_fee_config)
+			// build new schema verion
+			new_schema := nftmngrtypes.NFTSchema{
+				Code:            schema.Code,
+				Name:            schema.Name,
+				Owner:           schema.Owner,
+				SystemActioners: schema.SystemActioners,
+				OriginData:      schema.OriginData,
+				OnchainData: &nftmngrtypes.OnChainData{
+					RevealRequired:  schema.OnchainData.RevealRequired,
+					RevealSecret:    schema.OnchainData.RevealSecret,
+					NftAttributes:   schema.OnchainData.NftAttributes,
+					TokenAttributes: schema.OnchainData.TokenAttributes,
+					Actions: v063_actions,
+				},
+				IsVerified:        schema.IsVerified,
+				MintAuthorization: schema.MintAuthorization,
+			}
 
-		// set nft duration
-		var oracle_params nftoraclemoduletypes.Params
-		oracle_params.MintRequestActiveDuration = 120 * time.Second
-		oracle_params.ActionRequestActiveDuration = 120 * time.Second
-		oracle_params.VerifyRequestActiveDuration = 120 * time.Second
-		app.NftoracleKeeper.SetParams(ctx, oracle_params)
-
-		// set oracle minimum_confirmations
-		app.NftoracleKeeper.SetOracleConfig(ctx, nftoraclemoduletypes.OracleConfig{
-			MinimumConfirmation: 4,
-		})
-
-		var access_config wasmtypes.AccessConfig
-		access_config.Permission = wasmtypes.AccessTypeEverybody
-		access_config.Address = ""
-		app.WasmKeeper.SetParams(ctx, wasmtypes.Params{
-			CodeUploadAccess:             access_config,
-			InstantiateDefaultPermission: wasmtypes.AccessTypeOnlyAddress,
-		})
-
+			app.NftmngrKeeper.SetNFTSchema(ctx, new_schema)
+		}
+		
 		return app.mm.RunMigrations(ctx, app.configurator, vm)
 	})
 }
