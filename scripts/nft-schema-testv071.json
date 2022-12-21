@@ -568,6 +568,66 @@
                 ]
             },
             {
+                "name": "test_utils_GetBlockHeight",
+                "desc": "To Disable Consequent",
+                "disable":false,
+                "params":[],
+                "when": "meta.GetBoolean('disable_tested') == true || meta.GetBoolean('disable_tested') == false",
+                "then": [
+                    "meta.SetString('start_block',meta.GetBlockHeight())"
+                ]
+            },
+            {
+                "name": "test_utils_GetUTCBlockTimestamp",
+                "desc": "To Disable Consequent",
+                "disable":false,
+                "params":[],
+                "when": "meta.GetBoolean('disable_tested') == true || meta.GetBoolean('disable_tested') == false",
+                "then": [
+                    "meta.SetString('start_time',meta.GetUTCBlockTimestamp('2006-01-02T15:04:05Z07:00'))"
+                ]
+            },
+            {
+                "name": "test_utils_GetBlockTimestampByZone",
+                "desc": "To Disable Consequent",
+                "disable":false,
+                "params":[],
+                "when": "meta.GetBoolean('disable_tested') == true || meta.GetBoolean('disable_tested') == false",
+                "then": [
+                    "meta.SetString('start_time_bangkok',meta.GetBlockTimestampByZone('America/New_York','2006-01-02T15:04:05Z07:00'))"
+                ]
+            },
+            {
+                "name": "test_utils_GetLocalBlockTimestamp",
+                "desc": "To Disable Consequent",
+                "disable":false,
+                "params":[],
+                "when": "meta.GetBoolean('disable_tested') == true || meta.GetBoolean('disable_tested') == false",
+                "then": [
+                    "meta.SetString('start_time_local',meta.GetLocalBlockTimestamp('2006-01-02T15:04:05Z07:00'))"
+                ]
+            },
+            {
+                "name": "test_utils_BlockTimeBeforeByZone",
+                "desc": "Claim Jan Mission",
+                "disable":false,
+                "params":[],
+                "when": "meta.BlockTimeBeforeByZone('2023-02-17T00:00:01Z','Asia/Bangkok','2006-01-02T15:04:05Z07:00')",
+                "then": [
+                    "meta.SetNumber('points', meta.GetNumber('points') + 11)"
+                ]
+            },
+            {
+                "name": "test_utils_BlockTimeAfterByZone",
+                "desc": "Claim Jan Mission",
+                "disable":false,
+                "params":[],
+                "when": "meta.BlockTimeAfterByZone('2022-2-17T00:00:01Z','Asia/Bangkok','2006-01-02T15:04:05Z07:00')",
+                "then": [
+                    "meta.SetNumber('points', meta.GetNumber('points') + 12)"
+                ]
+            },
+            {
                 "name": "start_mission",
                 "desc": "Start Mission",
                 "disable":false,
@@ -576,11 +636,7 @@
                 "then": [
                     "meta.SetBoolean('started', true)",
                     "meta.SetNumber('missions_passed', meta.GetNumber('missions_passed') + 1)",
-                    "meta.SetNumber('points', meta.GetNumber('points') + 300)",
-                    "meta.SetString('start_time',meta.GetUTCBlockTimestamp('2006-01-02T15:04:05Z07:00'))",
-                    "meta.SetString('start_time_local',meta.GetLocalBlockTimestamp('2006-01-02T15:04:05Z07:00'))",
-                    "meta.SetString('start_time_bangkok',meta.GetBlockTimestampByZone('Asia/Bangkok','2006-01-02T15:04:05Z07:00'))",
-                    "meta.SetString('start_block',meta.GetBlockHeight())"
+                    "meta.SetNumber('points', meta.GetNumber('points') + 300)"
                 ]
             },
             {
