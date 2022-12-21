@@ -69,9 +69,6 @@ func (app *App) RegisterUpgradeHandlers() {
 			app.NftmngrKeeper.SetNFTSchema(ctx, new_schema)
 		}
 
-		var nft_fee_config nftmngrtypes.NFTFeeConfig
-		app.NftmngrKeeper.SetNFTFeeConfig(ctx, nft_fee_config)
-
 		// set nft duration
 		var oracle_params nftoraclemoduletypes.Params
 		oracle_params.MintRequestActiveDuration = 120 * time.Second
