@@ -52,6 +52,13 @@
       "hidden_to_marketplace": false
     },
     {
+      "name": "consequent_disable",
+      "number_attribute_value": { 
+        "value": "0" 
+      },
+      "hidden_to_marketplace": false
+    },
+    {
       "name": "jan_claim",
       "boolean_attribute_value": {
         "value": false

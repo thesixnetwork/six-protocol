@@ -34086,6 +34086,8 @@ paths:
                     expired_at:
                       type: string
                       format: date-time
+                    creator:
+                      type: string
               pagination:
                 type: object
                 properties:
@@ -34203,6 +34205,8 @@ paths:
                   expired_at:
                     type: string
                     format: date-time
+                  creator:
+                    type: string
         default:
           description: An unexpected error response.
           schema:
@@ -34225,6 +34229,10 @@ paths:
         - name: actorAddress
           in: path
           required: true
+          type: string
+        - name: ownerAddress
+          in: query
+          required: false
           type: string
       tags:
         - Query
@@ -58768,6 +58776,8 @@ definitions:
       expired_at:
         type: string
         format: date-time
+      creator:
+        type: string
   thesixnetwork.sixnft.nftoracle.CollectionOwnerRequest:
     type: object
     properties:
@@ -59213,6 +59223,8 @@ definitions:
             expired_at:
               type: string
               format: date-time
+            creator:
+              type: string
       pagination:
         type: object
         properties:
@@ -59540,6 +59552,8 @@ definitions:
           expired_at:
             type: string
             format: date-time
+          creator:
+            type: string
   thesixnetwork.sixnft.nftoracle.QueryGetCollectionOwnerRequestResponse:
     type: object
     properties:
