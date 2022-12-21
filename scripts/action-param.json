@@ -2,6 +2,8 @@
     "nft_schema_code": "SCHEMA_CODE",
     "token_id": "TOKEN_ID",
     "action": "ACTION",
+    "params":"PARAMS",
     "expired_at": "2022-10-31T00:00:00.000Z",
-    "ref_id": "REFID"
+    "ref_id": "REFID",
+    "on_behalf_of": "ONBEHALFOF"
 }
