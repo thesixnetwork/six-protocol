@@ -144,7 +144,7 @@ fi
 
 # Test case 12: Default value of param when input of value unmet
 echo "perform-action-by-nftadmin token 0 - test_param (Test case 12)"
-if sixd tx nftmngr perform-action-by-nftadmin ${schema_code} 0 test_param ${schema_code}_tk0_burn "[{\"name\":\"points\",\"value\":\"\"}]" --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+if sixd tx nftmngr perform-action-by-nftadmin ${schema_code} 0 test_param ${schema_code}_tk0_burn_fail "[{\"name\":\"points\",\"value\":\"\"}]" --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
     --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}  | grep -q 'msg_index: 0'; then
     echo "✅ success"
 else
