@@ -1,8 +1,8 @@
 RPC_ENDPOINT=http://localhost:26657
-CHAIN_ID=testnet
+CHAIN_ID=six
 read -p "Enter Schema Code: " schema_code 
 if [ -z "$schema_code" ]; then
-    schema_code=six-protocol.test_v071
+    schema_code=six-protocol.test_v071_2
 fi
 
 for i in {0..6}
@@ -158,4 +158,54 @@ if sixd tx nftmngr perform-action-by-nftadmin ${schema_code} 0 check_in ${schema
     echo "🛑 failed"
 else
     echo "✅ success"
+fi
+
+# Test All Utils
+echo "Test All Utils"
+echo "Test GetBlockHeigh"
+if sixd tx nftmngr perform-action-by-nftadmin ${schema_code} 0 test_utils_GetBlockHeight ${schema_code}_tk0_GetBlockHeight "[]" --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} | grep -q 'msg_index: 0'; then
+    echo "✅ success"
+else
+    echo "🛑 failed"
+fi
+
+echo "Test test_utils_GetUTCBlockTimestamp"
+if sixd tx nftmngr perform-action-by-nftadmin ${schema_code} 0 test_utils_GetUTCBlockTimestamp ${schema_code}test_utils_GetUTCBlockTimestamp "[]" --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} | grep -q 'msg_index: 0'; then
+    echo "✅ success"
+else
+    echo "🛑 failed"
+fi
+
+echo "Test test_utils_GetBlockTimestampByZone"
+if sixd tx nftmngr perform-action-by-nftadmin ${schema_code} 0 test_utils_GetBlockTimestampByZone ${schema_code}test_utils_GetBlockTimestampByZone "[]" --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} | grep -q 'msg_index: 0'; then
+    echo "✅ success"
+else
+    echo "🛑 failed"
+fi
+
+echo "Test test_utils_GetLocalBlockTimestamp"
+if sixd tx nftmngr perform-action-by-nftadmin ${schema_code} 0 test_utils_GetLocalBlockTimestamp ${schema_code}test_utils_GetLocalBlockTimestamp "[]" --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} | grep -q 'msg_index: 0'; then
+    echo "✅ success"
+else
+    echo "🛑 failed"
+fi
+
+echo "Test test_utils_BlockTimeBeforeByZone"
+if sixd tx nftmngr perform-action-by-nftadmin ${schema_code} 0 test_utils_BlockTimeBeforeByZone ${schema_code}test_utils_BlockTimeBeforeByZone "[]" --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} | grep -q 'msg_index: 0'; then
+    echo "✅ success"
+else
+    echo "🛑 failed"
+fi
+
+echo "Test test_utils_BlockTimeAfterByZone"
+if sixd tx nftmngr perform-action-by-nftadmin ${schema_code} 0 test_utils_BlockTimeAfterByZone ${schema_code}test_utils_BlockTimeAfterByZone "[]" --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} | grep -q 'msg_index: 0'; then
+    echo "✅ success"
+else
+    echo "🛑 failed"
 fi
