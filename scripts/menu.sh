@@ -1,7 +1,7 @@
 EVMSIGN=./evmsign
 default_schema_code=$1
 RPC_ENDPOINT=http://localhost:26657
-CHAIN_ID=six
+CHAIN_ID=testnet
 timestamp=$(date -u +"%Y-%m-%dT%H:%M:%S.000z")
 echo "#############################################"
 echo "##                                         ##"
@@ -82,7 +82,7 @@ case $choice in
         fi
 
         sixd tx nftmngr perform-action-by-nftadmin ${schema_code} ${token_id} ${action} ${ref_id} ${required_params} --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-            --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
+            --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} -o json | grep -q 'Error:'
         ;;
     5) echo "Set NFT Attribute"
         read -p "Enter Schema Code: " schema_code 
