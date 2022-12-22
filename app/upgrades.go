@@ -2,12 +2,14 @@ package app
 
 import (
 	"fmt"
+	"time"
 
 	store "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 	nftmngrtypes "github.com/thesixnetwork/sixnft/x/nftmngr/types"
+	nftoraclemoduletypes "github.com/thesixnetwork/sixnft/x/nftoracle/types"
 )
 
 const UpgradeName = "v2.1.0"
@@ -66,6 +68,14 @@ func (app *App) RegisterUpgradeHandlers() {
 
 			app.NftmngrKeeper.SetNFTSchema(ctx, new_schema)
 		}
+
+		// set nft duration
+		var oracle_params nftoraclemoduletypes.Params
+		oracle_params.MintRequestActiveDuration = 120 * time.Second
+		oracle_params.ActionRequestActiveDuration = 120 * time.Second
+		oracle_params.VerifyRequestActiveDuration = 120 * time.Second
+		oracle_params.ActionSignerActiveDuration = 30 * (24 * time.Hour) 
+		app.NftoracleKeeper.SetParams(ctx, oracle_params)
 		
 		return app.mm.RunMigrations(ctx, app.configurator, vm)
 	})
