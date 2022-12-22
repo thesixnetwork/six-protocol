@@ -12,7 +12,7 @@ import (
 	nftoraclemoduletypes "github.com/thesixnetwork/sixnft/x/nftoracle/types"
 )
 
-const UpgradeName = "v2.1.1"
+const UpgradeName = "v2.1.2"
 
 func (app *App) VersionTrigger() {
 	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
