@@ -1,7 +1,4 @@
-read -p "Enter Github Token: " TOKEN
-if [ -z "$TOKEN"]; then
-    TOKEN=${GIT_TOKEN}
-fi
+TOKEN=$1
 rm go.sum
 touch go.sum
 export GOPRIVATE=github.com/thesixnetwork/sixnft ##! To make it able to download private repo
