@@ -12,7 +12,7 @@ import (
 	nftoraclemoduletypes "github.com/thesixnetwork/sixnft/x/nftoracle/types"
 )
 
-const UpgradeName = "v2.1.0"
+const UpgradeName = "v2.1.1"
 
 func (app *App) VersionTrigger() {
 	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
@@ -44,7 +44,7 @@ func (app *App) RegisterUpgradeHandlers() {
 					When:            action.When,
 					Then:            action.Then,
 					AllowedActioner: action.AllowedActioner,
-					Params: make([]*nftmngrtypes.ActionParams, 0),
+					Params:          make([]*nftmngrtypes.ActionParams, 0),
 				})
 			}
 
@@ -60,7 +60,7 @@ func (app *App) RegisterUpgradeHandlers() {
 					RevealSecret:    schema.OnchainData.RevealSecret,
 					NftAttributes:   schema.OnchainData.NftAttributes,
 					TokenAttributes: schema.OnchainData.TokenAttributes,
-					Actions: v063_actions,
+					Actions:         v063_actions,
 				},
 				IsVerified:        schema.IsVerified,
 				MintAuthorization: schema.MintAuthorization,
@@ -74,9 +74,9 @@ func (app *App) RegisterUpgradeHandlers() {
 		oracle_params.MintRequestActiveDuration = 120 * time.Second
 		oracle_params.ActionRequestActiveDuration = 120 * time.Second
 		oracle_params.VerifyRequestActiveDuration = 120 * time.Second
-		oracle_params.ActionSignerActiveDuration = 30 * (24 * time.Hour) 
+		oracle_params.ActionSignerActiveDuration = 30 * (24 * time.Hour)
 		app.NftoracleKeeper.SetParams(ctx, oracle_params)
-		
+
 		return app.mm.RunMigrations(ctx, app.configurator, vm)
 	})
 }
