@@ -47,7 +47,11 @@ COPY --from=go-builder /go/bin/cosmovisor /usr/bin/cosmovisor
 
 RUN chmod +x /usr/bin/cosmovisor
 # install necessary libraries for binary to run
-RUN apk upgrade --no-cache && apk add bash git libgcc jq curl
+RUN apk upgrade --no-cache && apk add bash git libgcc jq curl tzdata
+
+# Set timezone
+ENV TZ Asia/Bangkok
+
 # RUN mkdir -p /root/.six
 COPY docker/* /opt/
 RUN chmod +x /opt/*.sh
