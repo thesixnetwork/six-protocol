@@ -31,7 +31,6 @@ func (app *App) VersionTrigger() {
 
 func (app *App) RegisterUpgradeHandlers() {
 	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
-
 		schema_list := app.NftmngrKeeper.GetAllNFTSchemaV063(ctx)
 		for _, schema := range schema_list {
 			// get actions
