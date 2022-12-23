@@ -604,16 +604,6 @@
                 ]
             },
             {
-                "name": "test_utils_GetBlockTimestampByZoneOld",
-                "desc": "To Disable Consequent",
-                "disable":false,
-                "params":[],
-                "when": "meta.GetBoolean('disable_tested') == true || meta.GetBoolean('disable_tested') == false",
-                "then": [
-                    "meta.SetString('start_time_bangkok_old',meta.GetBlockTimestampByZoneOld('Asia/Bangkok','2006-01-02T15:04:05Z07:00'))"
-                ]
-            },
-            {
                 "name": "test_utils_GetBlockTimestampByZone",
                 "desc": "To Disable Consequent",
                 "disable":false,
