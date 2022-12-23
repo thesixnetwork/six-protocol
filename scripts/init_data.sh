@@ -5,13 +5,13 @@ grantOracle()
         --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID}
 }
 
-RPC_ENDPOINT=${FIVENET_RPC}
-CHAIN_ID=fivenet
+RPC_ENDPOINT=http://localhost:26657
+CHAIN_ID=six
 BASE64_SCHEMA=`cat nft-schema-testv071.json | base64 | tr -d '\n'`
 
 # sixd tx nftadmin grant-permission oracle_admin $(sixd keys show super-admin -a) --from super-admin -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID}
 # sixd tx nftoracle set-minimum-confirmation 1 --from super-admin  -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID}
-sixd tx nftmngr create-nft-schema --from dee_dev --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --chain-id ${CHAIN_ID} \
+sixd tx nftmngr create-nft-schema --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --chain-id ${CHAIN_ID} \
     --node ${RPC_ENDPOINT} ${BASE64_SCHEMA}
 
 # grantOracle $(sixd keys show oracle1 -a --keyring-backend test)
