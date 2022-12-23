@@ -113,7 +113,7 @@ done
 
 for i in {0..6}
 do
-_POINT=$(sixd query nftmngr show-nft-data ${schema_code} ${i} --output json | jq '.nftData.onchain_attributes[] | select(.name=="points").number_attribute_value.value')
+_POINT=$(sixd query nftmngr show-nft-data ${schema_code} ${i} --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} --output json | jq '.nftData.onchain_attributes[] | select(.name=="points").number_attribute_value.value')
 POINT=$(echo $_POINT | sed 's/\"//g')
 # if id = 0 point is 333 return success else 10 return success
 if [ $i -eq 0 ]; then
@@ -188,22 +188,6 @@ fi
 
 echo "Test test_utils_GetBlockTimestampByZone"
 if sixd tx nftmngr perform-action-by-nftadmin ${schema_code} 0 test_utils_GetBlockTimestampByZone ${schema_code}test_utils_GetBlockTimestampByZone "[]" --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} | grep -q 'msg_index: 0'; then
-    echo "✅ success"
-else
-    echo "🛑 failed"
-fi
-
-echo "Test test_utils_GetLocalBlockTimestamp"
-if sixd tx nftmngr perform-action-by-nftadmin ${schema_code} 0 test_utils_GetLocalBlockTimestamp ${schema_code}test_utils_GetLocalBlockTimestamp "[]" --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} | grep -q 'msg_index: 0'; then
-    echo "✅ success"
-else
-    echo "🛑 failed"
-fi
-
-echo "Test test_utils_BlockTimeBeforeByZone"
-if sixd tx nftmngr perform-action-by-nftadmin ${schema_code} 0 test_utils_BlockTimeBeforeByZone ${schema_code}test_utils_BlockTimeBeforeByZone "[]" --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
     --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} | grep -q 'msg_index: 0'; then
     echo "✅ success"
 else
