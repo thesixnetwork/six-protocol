@@ -10,6 +10,8 @@ services:
     volumes:
       - ./build/sixnode0/:/opt/build/six_home/
     command: bash ${COMMAND}.sh sixnode0
+    environment:
+      - TZ=Asia/Bangkok
     networks:
       localnet:
         ipv4_address: 192.167.10.2
@@ -22,6 +24,8 @@ services:
     volumes:
       - ./build/sixnode1/:/opt/build/six_home/
     command: bash ${COMMAND}.sh sixnode1
+    environment:
+      - TZ=Asia/Soul
     networks:
       localnet:
         ipv4_address: 192.167.10.3
@@ -34,6 +38,8 @@ services:
     volumes:
       - ./build/sixnode2/:/opt/build/six_home/
     command: bash ${COMMAND}.sh sixnode2
+    environment:
+      - TZ=America/New_York
     networks:
       localnet:
         ipv4_address: 192.167.10.4
@@ -46,6 +52,8 @@ services:
     volumes:
       - ./build/sixnode3/:/opt/build/six_home/
     command: bash ${COMMAND}.sh sixnode3
+    environment:
+      - TZ=Europe/London
     networks:
       localnet:
         ipv4_address: 192.167.10.5
