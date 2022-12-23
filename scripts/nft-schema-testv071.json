@@ -458,22 +458,6 @@
                 }
             },
             {
-                "name": "start_time_local",
-                "default_mint_value": {
-                    "string_attribute_value": {
-                        "value": ""
-                    }
-                },
-                "data_type": "string",
-                "required": true,
-                "display_value_field": "value",
-                "display_option": {
-                    "opensea": {
-                        "trait_type": "Start Local Time"
-                    }
-                }
-            },
-            {
                 "name": "start_time_bangkok_old",
                 "default_mint_value": {
                     "string_attribute_value": {
@@ -604,16 +588,6 @@
                 ]
             },
             {
-                "name": "test_utils_GetBlockTimestampByZoneOld",
-                "desc": "To Disable Consequent",
-                "disable":false,
-                "params":[],
-                "when": "meta.GetBoolean('disable_tested') == true || meta.GetBoolean('disable_tested') == false",
-                "then": [
-                    "meta.SetString('start_time_bangkok_old',meta.GetBlockTimestampByZoneOld('Asia/Bangkok','2006-01-02T15:04:05Z07:00'))"
-                ]
-            },
-            {
                 "name": "test_utils_GetBlockTimestampByZone",
                 "desc": "To Disable Consequent",
                 "disable":false,
@@ -621,16 +595,6 @@
                 "when": "meta.GetBoolean('disable_tested') == true || meta.GetBoolean('disable_tested') == false",
                 "then": [
                     "meta.SetString('start_time_bangkok',meta.GetBlockTimestampByZone('Asia/Bangkok','2006-01-02T15:04:05Z07:00'))"
-                ]
-            },
-            {
-                "name": "test_utils_GetLocalBlockTimestamp",
-                "desc": "To Disable Consequent",
-                "disable":false,
-                "params":[],
-                "when": "meta.GetBoolean('disable_tested') == true || meta.GetBoolean('disable_tested') == false",
-                "then": [
-                    "meta.SetString('start_time_local',meta.GetLocalBlockTimestamp('2006-01-02T15:04:05Z07:00'))"
                 ]
             },
             {
