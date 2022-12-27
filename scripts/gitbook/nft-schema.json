@@ -1,6 +1,6 @@
 {
-    "code": "<string_of_organization.schemacode>__example::six.rocket_ticket",
-    "name": "<string_of_name>__example::sixlauncher001",
+    "code": "six.rocket_ticket",
+    "name": "sixlauncher001",
     "owner": "0xNFTOWNER",
     "origin_data": {
         "origin_base_uri": "",
