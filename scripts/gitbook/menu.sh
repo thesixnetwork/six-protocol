@@ -8,8 +8,8 @@ echo "##                                         ##"
 echo "##  Please select an option                ##"
 echo "##                                         ##"
 echo "##  1. Show Schema                         ##"
-echo "##  2. Show NFTs                           ##"
-echo "##  3. Create NFT Metadata (mint)          ##"
+echo "##  2. Create NFT Metadata (mint)          ##"
+echo "##  3. Show NFTs                           ##"
 echo "##  4. Do Action                           ##"
 echo "##  5. Set NFT Attribute                   ##"
 echo "##  6. Add Attribute                       ##"
@@ -26,15 +26,7 @@ case $choice in
         fi
         sixd q nftmngr show-nft-schema ${schema_code} --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} --output json | jq .
         ;;
-    2) echo "Showing NFT"
-        read -p "Enter Schema Code: " schema_code 
-        read -p "Enter Token ID: " token_id
-        if [ -z "$schema_code" ]; then
-            schema_code=$default_schema_code
-        fi
-        sixd q nftmngr show-nft-data ${schema_code} ${token_id} --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} --output json | jq .
-        ;;
-    3) echo "Mockup Token"
+    2) echo "Mockup Token"
         read -p "Enter Schema Code: " schema_code 
         read -p "Enter Token ID: " token_id
         read -p "From (address or key) : " address_key
@@ -44,6 +36,14 @@ case $choice in
         BASE64_META=`cat nft-data.json | sed "s/TOKENID/${token_id}/g"  | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n'`
         sixd tx nftmngr create-metadata "${schema_code}" ${token_id} --from ${address_key} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             ${BASE64_META} --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
+        ;;
+    3) echo "Showing NFT"
+        read -p "Enter Schema Code: " schema_code 
+        read -p "Enter Token ID: " token_id
+        if [ -z "$schema_code" ]; then
+            schema_code=$default_schema_code
+        fi
+        sixd q nftmngr show-nft-data ${schema_code} ${token_id} --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} --output json | jq .
         ;;
     4) echo "Do Action"
         read -p "Enter Schema Code: " schema_code 
