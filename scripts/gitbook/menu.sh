@@ -34,7 +34,7 @@ case $choice in
             schema_code=$default_schema_code
         fi
         BASE64_META=`cat nft-data.json | sed "s/TOKENID/${token_id}/g"  | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n'`
-        sixd tx nftmngr create-metadata "${schema_code}" ${token_id} --from ${address_key} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+        sixd tx nftmngr create-metadata "${schema_code}" ${token_id} --from ${address_key} --keyring-backend=os --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             ${BASE64_META} --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
         ;;
     3) echo "Showing NFT"
@@ -69,58 +69,11 @@ case $choice in
             echo $required_params
         fi
 
-        sixd tx nftmngr perform-action-by-nftadmin ${schema_code} ${token_id} ${action} ${ref_id} ${required_params} --from ${address_key} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+        sixd tx nftmngr perform-action-by-nftadmin ${schema_code} ${token_id} ${action} ${ref_id} ${required_params} --from ${address_key} --keyring-backend=os \
+            --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} -o json | grep -q 'Error:'
         ;;
-    5) echo "Set NFT Attribute"
-        read -p "Enter Schema Code: " schema_code 
-        read -p "From (address or key) : " address_key
-        read -p "Enter Value (attribute_name=N[value]): " value
-        if [ -z "$schema_code" ]; then
-            schema_code=$default_schema_code
-        fi
-
-        ATTRIBUTE_NAME=`echo $value | cut -d'=' -f1`
-        ATTRIBUTE_VALUE_STRING=`echo $value | cut -d'=' -f2`
-        # get one character from ATTRIBUTE_VALUE
-        ATTRIBUTE_VALUE_CHAR=`echo $ATTRIBUTE_VALUE_STRING | cut -c1`
-        # get characters between [] from ATTRIBUTE_VALUE_CHAR
-        ATTRIBUTE_VALUE_VALUE=`echo $ATTRIBUTE_VALUE_STRING | cut -d'[' -f2 | cut -d']' -f1`
-
-        if [ "$ATTRIBUTE_VALUE_CHAR" = "N" ]; then
-            ATTRIBUTE_VALUE_TYPE="number"
-            ATTRIBUTE_VALUE_TYPE_VALUE=${ATTRIBUTE_VALUE_VALUE}
-        elif [ "$ATTRIBUTE_VALUE_CHAR" = "S" ]; then
-            ATTRIBUTE_VALUE_TYPE="string"
-            ATTRIBUTE_VALUE_TYPE_VALUE="\"${ATTRIBUTE_VALUE_VALUE}\""
-        elif [ "$ATTRIBUTE_VALUE_CHAR" = "B" ]; then
-            ATTRIBUTE_VALUE_TYPE="boolean"
-            # check if ATTRIBUTE_VALUE_VALUE is true or false
-            if [ "$ATTRIBUTE_VALUE_VALUE" = "true" ]; then
-                ATTRIBUTE_VALUE_TYPE_VALUE="true"
-            elif [ "$ATTRIBUTE_VALUE_VALUE" = "false" ]; then
-                ATTRIBUTE_VALUE_TYPE_VALUE="false"
-            else
-                echo "Invalid boolean value"
-                exit 1
-            fi
-        elif [ "$ATTRIBUTE_VALUE_CHAR" = "F" ]; then
-            ATTRIBUTE_VALUE_TYPE="float"
-            ATTRIBUTE_VALUE_TYPE_VALUE=${ATTRIBUTE_VALUE_VALUE}
-        fi
-
-        BASE64_ATTR=`cat nft-data.json \
-            | sed "s/#ATTRIBUTE_NAME#/${ATTRIBUTE_NAME}/g" \
-            | sed "s/#ATTRIBUTE_VALUE_TYPE#/${ATTRIBUTE_VALUE_TYPE}/g" \
-            | sed "s/#ATTRIBUTE_VALUE_TYPE_VALUE#/${ATTRIBUTE_VALUE_TYPE_VALUE}/g" \
-            | base64 | tr -d '\n'`
-
-        echo "BASE64_ATTR: ${BASE64_ATTR}"
-
-        sixd tx nftmngr set-nft-attribute ${schema_code} ${BASE64_ATTR} --from ${address_key} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-            --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
-        ;;
-     6) echo "Add Attribute"
+     5) echo "Add Attribute"
         read -p "Enter Schema Code: " schema_code 
         read -p "From (address or key) : " address_key
         if [ -z "$schema_code" ]; then
@@ -128,17 +81,19 @@ case $choice in
         fi
         read -p "Location of attribute (0 or 1): " location
         BASE64_ATTRIBUTE=`cat new-attribute.json | base64 | tr -d '\n'`
-        sixd tx nftmngr add-attribute ${schema_code} ${location} ${BASE64_ATTRIBUTE} --from ${address_key} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+        sixd tx nftmngr add-attribute ${schema_code} ${location} ${BASE64_ATTRIBUTE} --from ${address_key} --keyring-backend=os \
+            --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
         ;;
-     7) echo "Add Action"
+     6) echo "Add Action"
         read -p "Enter Schema Code: " schema_code 
         read -p "From (address or key) : " address_key
         if [ -z "$schema_code" ]; then
             schema_code=$default_schema_code
         fi
         BASE64_ACTION=`cat new-action.json | base64 | tr -d '\n'`
-        sixd tx nftmngr add-action ${schema_code} ${BASE64_ACTION} --from ${address_key} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+        sixd tx nftmngr add-action ${schema_code} ${BASE64_ACTION} --from ${address_key} --keyring-backend=os \
+            --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
         ;;
     *) echo "Invalid choice"
