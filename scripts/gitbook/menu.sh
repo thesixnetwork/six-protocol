@@ -1,8 +1,6 @@
-EVMSIGN=./evmsign
 default_schema_code=$1
 RPC_ENDPOINT=https://rpc1.fivenet.sixprotocol.net:443
 CHAIN_ID=fivenet
-timestamp=$(date -u +"%Y-%m-%dT%H:%M:%S.000z")
 echo "#############################################"
 echo "##                                         ##"
 echo "##  Welcome to the menu script             ##"
@@ -11,7 +9,7 @@ echo "##  Please select an option                ##"
 echo "##                                         ##"
 echo "##  1. Show Schema                         ##"
 echo "##  2. Show NFTs                           ##"
-echo "##  3. Mockup Token                        ##"
+echo "##  3. Create NFT Metadata (mint)          ##"
 echo "##  4. Do Action                           ##"
 echo "##  5. Set NFT Attribute                   ##"
 echo "##  6. Add Attribute                       ##"

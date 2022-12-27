@@ -1,6 +1,18 @@
 {
   "name": "new_action",
-  "desc": "Use Festival Pass2",
-  "when": "meta.GetNumber('some_attribute') == 0",
-  "then": ["meta.SetNumber('some_attribute',meta.GetNumber('some_attribute')  1)"]
+  "desc": "New Action",
+  "disable": false,
+  "params": [
+    {
+      "name": "param1",
+      "desc": "Param1",
+      "data_type": "number",
+      "required": true,
+      "default_value": "10"
+    }
+  ],
+  "when": "meta.GetBoolean('started') == true",
+  "then": [
+    "meta.SetNumber('points', meta.GetNumber('points') - params['param1'].GetNumber())"
+  ]
 }
