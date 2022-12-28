@@ -6,8 +6,11 @@ grantOracle()
 }
 
 RPC_ENDPOINT=http://localhost:26657
-CHAIN_ID=testnet
-BASE64_SCHEMA=`cat nft-schema.json | base64 | tr -d '\n'`
+CHAIN_ID=$1
+BASE64_SCHEMA=`cat nft-schema-test071.json | base64 | tr -d '\n'`
+if [ -z "$CHAIN_ID" ]; then
+    CHAIN_ID=testnet
+fi
 
 sixd tx nftadmin grant-permission oracle_admin $(sixd keys show super-admin -a) --from super-admin -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID}
 sixd tx nftoracle set-minimum-confirmation 1 --from super-admin  -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID}
