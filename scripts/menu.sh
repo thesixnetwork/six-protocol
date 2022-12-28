@@ -1,7 +1,7 @@
 EVMSIGN=./evmsign
 default_schema_code=$1
 RPC_ENDPOINT=http://localhost:26657
-CHAIN_ID=six
+CHAIN_ID=testnet
 timestamp=$(date -u +"%Y-%m-%dT%H:%M:%S.000z")
 echo "#############################################"
 echo "##                                         ##"
