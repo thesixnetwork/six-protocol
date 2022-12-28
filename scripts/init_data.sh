@@ -7,7 +7,7 @@ grantOracle()
 
 RPC_ENDPOINT=http://localhost:26657
 CHAIN_ID=$1
-BASE64_SCHEMA=`cat nft-schema-test071.json | base64 | tr -d '\n'`
+BASE64_SCHEMA=`cat nft-schema.json | base64 | tr -d '\n'`
 if [ -z "$CHAIN_ID" ]; then
     CHAIN_ID=testnet
 fi
