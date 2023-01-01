@@ -30,8 +30,7 @@ RUN cp /lib/libwasmvm_muslc.$(uname -m).a /lib/libwasmvm_muslc.a
 
 RUN git config --global url."https://${GITHUB_TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
 RUN export GOPRIVATE=github.com/thesixnetwork/sixnft 
-RUN go get github.com/thesixnetwork/sixnft@v0.7.1
-# RUN go get github.com/thesixnetwork/sixnft@bc1156a001f35e1b0e0ee9e86c50a5faae69e1d7
+RUN go get github.com/thesixnetwork/sixnft@v0.7.2
 
 # force it to use static lib (from above) not standard libgo_cosmwasm.so file
 RUN LEDGER_ENABLED=false BUILD_TAGS=muslc make build
