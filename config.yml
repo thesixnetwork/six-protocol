@@ -4,6 +4,9 @@ build:
   binary: sixd
   ldflags:
   - -X "github.com/cosmos/cosmos-sdk/version.BuildTags=netgo,ledger"
+  tags:
+  - netgo
+  - ledger
   proto:
     path: proto
     third_party_paths:
@@ -87,6 +90,8 @@ faucet:
   - 1000000000usix
   host: 0.0.0.0:4500
 client:
+  typescript:
+    path: ts-client
   vuex:
     path: vue/src/store
   openapi:
@@ -179,7 +184,7 @@ genesis:
         maxSupply: 0
         mintee: 6x1cws3ex5yqwlu4my49htq06nsnhuxw3v7rt20g6
         name: usix
-  chain_id: six_666-1
+  chain_id: sixnet_666-1
 validators:
 - name: bob
   bonded: 1000000000000usix
