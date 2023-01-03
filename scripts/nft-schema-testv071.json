@@ -1,9 +1,9 @@
 {
-    "code": "dee.Dee_Gen2",
-    "name": "NFTexpoGoerli",
+    "code": "six-protocol.test_v071",
+    "name": "SIX_TESTCASE",
     "owner": "0xNFTOWNER",
     "origin_data": {
-        "origin_base_uri": "https://dryotus.definix.com/ipfs/QmZc4kPjvz4M4SpNfRZme2gcVzbMQjDt76GsxvLqSexT8R/",
+        "origin_base_uri": "",
         "uri_retrieval_method": "BASE",
         "origin_chain": "GOERLI",
         "origin_contract_address": "0x9EC14dfF0049F8De41FE106f3221a50313F941aB",
@@ -122,6 +122,25 @@
                 "hidden_to_marketplace": false
             },
             {
+                "name": "checked_in",
+                "default_mint_value": {
+                    "boolean_attribute_value": {
+                        "value": false
+                    }
+                },
+                "data_type": "boolean",
+                "required": true,
+                "display_value_field": "value",
+                "display_option": {
+                    "bool_true_value": "Yes",
+                    "bool_false_value": "No",
+                    "opensea": {
+                        "trait_type": "checked_in"
+                    }
+                },
+                "hidden_to_marketplace": false
+            },
+            {
                 "name": "missions_passed",
                 "default_mint_value": {
                     "number_attribute_value": {
@@ -139,6 +158,61 @@
                 },
                 "hidden_to_marketplace": false
             },
+            {
+                "name": "hidden_tested",
+                "default_mint_value": {
+                    "boolean_attribute_value": {
+                        "value": false
+                    }
+                },
+                "data_type": "boolean",
+                "required": true,
+                "display_value_field": "value",
+                "display_option": {
+                    "bool_true_value": "Yes",
+                    "bool_false_value": "No",
+                    "opensea": {
+                        "trait_type": "hidden_tested"
+                    }
+                },
+                "hidden_to_marketplace": false
+            },
+            {
+                "name": "disable_tested",
+                "default_mint_value": {
+                    "boolean_attribute_value": {
+                        "value": false
+                    }
+                },
+                "data_type": "boolean",
+                "required": true,
+                "display_value_field": "value",
+                "display_option": {
+                    "bool_true_value": "Yes",
+                    "bool_false_value": "No",
+                    "opensea": {
+                        "trait_type": "Test Disable"
+                    }
+                },
+                "hidden_to_marketplace": false
+            },
+            {
+                "name": "consequent_disable",
+                "default_mint_value": {
+                    "number_attribute_value": {
+                        "value": 0
+                    }
+                },
+                "data_type": "number",
+                "required": true,
+                "display_value_field": "value",
+                "display_option": {
+                    "opensea": {
+                        "trait_type": "Test Consequent Disable"
+                    }
+                },
+                "hidden_to_marketplace": false
+            }, 
             {
                 "name": "jan_claim",
                 "default_mint_value": {
@@ -384,7 +458,7 @@
                 }
             },
             {
-                "name": "start_time_local",
+                "name": "start_time_bangkok_old",
                 "default_mint_value": {
                     "string_attribute_value": {
                         "value": ""
@@ -395,7 +469,7 @@
                 "display_value_field": "value",
                 "display_option": {
                     "opensea": {
-                        "trait_type": "Start Local Time"
+                        "trait_type": "Start Bangkok Time Old"
                     }
                 }
             },
@@ -434,23 +508,131 @@
         ],
         "actions": [
             {
+                "name": "check_in",
+                "desc": "Start Testing",
+                "disable":false,
+                "params":[],
+                "when": "meta.GetBoolean('checked_in') == false",
+                "then": [
+                    "meta.SetBoolean('checked_in', true)"
+                ]
+            },
+            {
+                "name": "test_disable",
+                "desc": "To Test Disable action",
+                "disable":false,
+                "params":[],
+                "when": "meta.GetBoolean('disable_tested') == false",
+                "then": [
+                    "meta.SetBoolean('disable_tested', true)"
+                ]
+            },
+            {
+                "name": "disable_consequent1",
+                "desc": "To Disable Consequent",
+                "disable":false,
+                "params":[],
+                "when": "meta.GetBoolean('disable_tested') == true || meta.GetBoolean('disable_tested') == false",
+                "then": [
+                    "meta.SetNumber('consequent_disable', meta.GetNumber('consequent_disable') + 1)"
+                ]
+            },
+            {
+                "name": "disable_consequent2",
+                "desc": "To Disable Consequent",
+                "disable":false,
+                "params":[],
+                "when": "meta.GetBoolean('disable_tested') == true || meta.GetBoolean('disable_tested') == false",
+                "then": [
+                    "meta.SetNumber('consequent_disable', meta.GetNumber('consequent_disable') + 1)"
+                ]
+            },
+            {
+                "name": "disable_consequent3",
+                "desc": "To Disable Consequent",
+                "disable":false,
+                "params":[],
+                "when": "meta.GetBoolean('disable_tested') == true || meta.GetBoolean('disable_tested') == false",
+                "then": [
+                    "meta.SetNumber('consequent_disable', meta.GetNumber('consequent_disable') + 1)"
+                ]
+            },
+            {
+                "name": "disable_consequent4",
+                "desc": "To Disable Consequent",
+                "disable":false,
+                "params":[],
+                "when": "meta.GetBoolean('disable_tested') == true || meta.GetBoolean('disable_tested') == false",
+                "then": [
+                    "meta.SetNumber('consequent_disable', meta.GetNumber('consequent_disable') + 1)"
+                ]
+            },
+            {
+                "name": "test_utils_GetBlockHeight",
+                "desc": "To Disable Consequent",
+                "disable":false,
+                "params":[],
+                "when": "meta.GetBoolean('disable_tested') == true || meta.GetBoolean('disable_tested') == false",
+                "then": [
+                    "meta.SetString('start_block',meta.GetBlockHeight())"
+                ]
+            },
+            {
+                "name": "test_utils_GetUTCBlockTimestamp",
+                "desc": "To Disable Consequent",
+                "disable":false,
+                "params":[],
+                "when": "meta.GetBoolean('disable_tested') == true || meta.GetBoolean('disable_tested') == false",
+                "then": [
+                    "meta.SetString('start_time',meta.GetUTCBlockTimestamp('2006-01-02T15:04:05Z07:00'))"
+                ]
+            },
+            {
+                "name": "test_utils_GetBlockTimestampByZone",
+                "desc": "To Disable Consequent",
+                "disable":false,
+                "params":[],
+                "when": "meta.GetBoolean('disable_tested') == true || meta.GetBoolean('disable_tested') == false",
+                "then": [
+                    "meta.SetString('start_time_bangkok',meta.GetBlockTimestampByZone('Asia/Bangkok','2006-01-02T15:04:05Z07:00'))"
+                ]
+            },
+            {
+                "name": "test_utils_BlockTimeBeforeByZone",
+                "desc": "Claim Jan Mission",
+                "disable":false,
+                "params":[],
+                "when": "meta.BlockTimeBeforeByZone('2023-02-17T00:00:01Z','Asia/Bangkok','2006-01-02T15:04:05Z07:00')",
+                "then": [
+                    "meta.SetNumber('points', meta.GetNumber('points') + 11)"
+                ]
+            },
+            {
+                "name": "test_utils_BlockTimeAfterByZone",
+                "desc": "Claim Jan Mission",
+                "disable":false,
+                "params":[],
+                "when": "meta.BlockTimeAfterByZone('2022-2-17T00:00:01Z','Asia/Bangkok','2006-01-02T15:04:05Z07:00')",
+                "then": [
+                    "meta.SetNumber('points', meta.GetNumber('points') + 12)"
+                ]
+            },
+            {
                 "name": "start_mission",
                 "desc": "Start Mission",
+                "disable":false,
                 "params":[],
                 "when": "meta.GetBoolean('started') == false",
                 "then": [
                     "meta.SetBoolean('started', true)",
                     "meta.SetNumber('missions_passed', meta.GetNumber('missions_passed') + 1)",
-                    "meta.SetNumber('points', meta.GetNumber('points') + 200)",
-                    "meta.SetString('start_time',meta.GetUTCBlockTimestamp('2006-01-02T15:04:05Z07:00'))",
-                    "meta.SetString('start_time_local',meta.GetLocalBlockTimestamp('2006-01-02T15:04:05Z07:00'))",
-                    "meta.SetString('start_time_bangkok',meta.GetBlockTimestampByZone('Asia/Bangkok','2006-01-02T15:04:05Z07:00'))",
-                    "meta.SetString('start_block',meta.GetBlockHeight())"
+                    "meta.SetNumber('points', meta.GetNumber('points') + 300)"
                 ]
             },
             {
                 "name": "claim_jan",
                 "desc": "Claim Jan Mission",
+                "disable":false,
                 "params":[],
                 "when": "meta.GetBoolean('jan_claim') == false && meta.BlockTimeUTCBefore('2022-02-17T00:00:01Z','2006-01-02T15:04:05Z07:00') && meta.BlockTimeUTCAfter('2022-01-01T00:01:00Z','2006-01-02T15:04:05Z07:00')",
                 "then": [
@@ -461,6 +643,7 @@
             {
                 "name": "claim_feb",
                 "desc": "Claim Feb Mission",
+                "disable":false,
                 "params":[],
                 "when": "meta.GetBoolean('feb_claim') == false && meta.BlockTimeUTCBefore('2022-03-17T00:00:01Z','2006-01-02T15:04:05Z07:00') && meta.BlockTimeUTCAfter('2022-02-01T00:01:00Z','2006-01-02T15:04:05Z07:00')",
                 "then": [
@@ -471,6 +654,7 @@
             {
                 "name": "claim_mar",
                 "desc": "Claim Mar Mission",
+                "disable":false,
                 "params":[],
                 "when": "meta.GetBoolean('mar_claim') == false && meta.BlockTimeUTCBefore('2022-04-17T00:00:01Z','2006-01-02T15:04:05Z07:00') && meta.BlockTimeUTCAfter('2022-03-01T00:01:00Z','2006-01-02T15:04:05Z07:00')",
                 "then": [
@@ -481,6 +665,7 @@
             {
                 "name": "claim_apr",
                 "desc": "Claim Apr Mission",
+                "disable":false,
                 "params":[],
                 "when": "meta.GetBoolean('apr_claim') == false && meta.BlockTimeUTCBefore('2022-05-17T00:00:01Z','2006-01-02T15:04:05Z07:00') && meta.BlockTimeUTCAfter('2022-04-01T00:01:00Z','2006-01-02T15:04:05Z07:00')",
                 "then": [
@@ -491,6 +676,7 @@
             {
                 "name": "claim_may",
                 "desc": "Claim May Mission",
+                "disable":false,
                 "params":[],
                 "when": "meta.GetBoolean('may_claim') == false && meta.BlockTimeUTCBefore('2022-06-17T00:00:01Z','2006-01-02T15:04:05Z07:00') && meta.BlockTimeUTCAfter('2022-05-01T00:01:00Z','2006-01-02T15:04:05Z07:00')",
                 "then": [
@@ -501,6 +687,7 @@
             {
                 "name": "claim_jun",
                 "desc": "Claim Jun Mission",
+                "disable":false,
                 "params":[],
                 "when": "meta.GetBoolean('jun_claim') == false && meta.BlockTimeUTCBefore('2022-07-17T00:00:01Z','2006-01-02T15:04:05Z07:00') && meta.BlockTimeUTCAfter('2022-06-01T00:01:00Z','2006-01-02T15:04:05Z07:00')",
                 "then": [
@@ -511,6 +698,7 @@
             {
                 "name": "claim_jul",
                 "desc": "Claim Jul Mission",
+                "disable":false,
                 "params":[],
                 "when": "meta.GetBoolean('jul_claim') == false && meta.BlockTimeUTCBefore('2022-08-17T00:00:01Z','2006-01-02T15:04:05Z07:00') && meta.BlockTimeUTCAfter('2022-07-01T00:01:00Z','2006-01-02T15:04:05Z07:00')",
                 "then": [
@@ -521,6 +709,7 @@
             {
                 "name": "claim_aug",
                 "desc": "Claim Aug Mission",
+                "disable":false,
                 "params":[],
                 "when": "meta.GetBoolean('aug_claim') == false && meta.BlockTimeUTCBefore('2022-09-17T00:00:01Z','2006-01-02T15:04:05Z07:00') && meta.BlockTimeUTCAfter('2022-08-01T00:01:00Z','2006-01-02T15:04:05Z07:00')",
                 "then": [
@@ -531,6 +720,7 @@
             {
                 "name": "claim_sep",
                 "desc": "Claim Sep Mission",
+                "disable":false,
                 "params":[],
                 "when": "meta.GetBoolean('sep_claim') == false && meta.BlockTimeUTCBefore('2022-10-17T00:00:01Z','2006-01-02T15:04:05Z07:00') && meta.BlockTimeUTCAfter('2022-09-01T00:01:00Z','2006-01-02T15:04:05Z07:00')",
                 "then": [
@@ -541,6 +731,7 @@
             {
                 "name": "claim_oct",
                 "desc": "Claim Oct Mission",
+                "disable":false,
                 "params":[],
                 "when": "meta.GetBoolean('oct_claim') == false && meta.BlockTimeUTCBefore('2022-11-17T00:00:01Z','2006-01-02T15:04:05Z07:00') && meta.BlockTimeUTCAfter('2022-10-01T00:01:00Z','2006-01-02T15:04:05Z07:00')",
                 "then": [
@@ -551,6 +742,7 @@
             {
                 "name": "claim_nov",
                 "desc": "Claim Nov Mission",
+                "disable":false,
                 "params":[],
                 "when": "meta.GetBoolean('nov_claim') == false && meta.BlockTimeUTCBefore('2022-12-17T00:00:01Z','2006-01-02T15:04:05Z07:00') && meta.BlockTimeUTCAfter('2022-11-01T00:01:00Z','2006-01-02T15:04:05Z07:00')",
                 "then": [
@@ -561,6 +753,7 @@
             {
                 "name": "claim_dec",
                 "desc": "Claim Dec Mission",
+                "disable":false,
                 "params":[],
                 "when": "meta.GetBoolean('dec_claim') == false && meta.BlockTimeUTCBefore('2023-01-17T00:00:01Z','2006-01-02T15:04:05Z07:00') && meta.BlockTimeUTCAfter('2022-12-01T00:01:00Z','2006-01-02T15:04:05Z07:00')",
                 "then": [
@@ -571,6 +764,7 @@
             {
                 "name": "transform",
                 "desc": "Transform",
+                "disable":false,
                 "params":[],
                 "when": "meta.GetBoolean('missions_completed') == false && meta.GetNumber('missions_passed') == 12",
                 "then": [
@@ -581,6 +775,7 @@
             {
                 "name": "test_param",
                 "desc": "Burn Points",
+                "disable":false,
                 "params" : [
                     {
                         "name": "points",
@@ -605,6 +800,7 @@
             {
                 "name": "test_hidden",
                 "desc": "Test Dyamic hidden to marketplace",
+                "disable":false,
                 "params" : [
                     {
                         "name": "attribute_name",
@@ -621,12 +817,13 @@
                 ],
                 "when": "meta.GetBoolean('started') == true || meta.GetBoolean('started') == false",
                 "then": [
-                    "meta.SetDisplayArribute(params['attibute_name'].GetString(), params['show'].GetString())"
+                    "meta.SetDisplayArribute(params['attribute_name'].GetString(), params['show'].GetString())"
                 ]
             },
             {
                 "name": "test_transfer",
                 "desc": "Test Transfer",
+                "disable":false,
                 "params" : [
                     {
                         "name": "points",
