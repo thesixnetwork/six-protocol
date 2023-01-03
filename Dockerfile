@@ -30,7 +30,7 @@ RUN cp /lib/libwasmvm_muslc.$(uname -m).a /lib/libwasmvm_muslc.a
 
 RUN git config --global url."https://${GITHUB_TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
 RUN export GOPRIVATE=github.com/thesixnetwork/sixnft 
-RUN go get github.com/thesixnetwork/sixnft@v0.6.3
+RUN go get github.com/thesixnetwork/sixnft@v0.7.1
 # RUN go get github.com/thesixnetwork/sixnft@bc1156a001f35e1b0e0ee9e86c50a5faae69e1d7
 
 # force it to use static lib (from above) not standard libgo_cosmwasm.so file
@@ -47,7 +47,11 @@ COPY --from=go-builder /go/bin/cosmovisor /usr/bin/cosmovisor
 
 RUN chmod +x /usr/bin/cosmovisor
 # install necessary libraries for binary to run
-RUN apk upgrade --no-cache && apk add bash git libgcc jq curl
+RUN apk upgrade --no-cache && apk add bash git libgcc jq curl tzdata
+
+# Set timezone
+ENV TZ Asia/Bangkok
+
 # RUN mkdir -p /root/.six
 COPY docker/* /opt/
 RUN chmod +x /opt/*.sh
