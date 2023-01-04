@@ -1,39 +1,39 @@
 accounts: # mnemonic for development purpose
   - name: alice
-    coins: ["10000finix", "100000000000000usix"]
+    coins: ["10000finix", "100000000000000000000000000asix"]
     mnemonic: "history perfect across group seek acoustic delay captain sauce audit carpet tattoo exhaust green there giant cluster want pond bulk close screen scissors remind"
   - name: bob
-    coins: ["20000finix", "200000000000000usix"]
+    coins: ["20000finix", "200000000000000000000000000asix"]
     mnemonic: "limb sister humor wisdom elephant weasel beyond must any desert glance stem reform soccer include chest chef clerk call popular display nerve priority venture"
   - name: faucet
-    coins: ["30000finix", "300000000000000usix"]
+    coins: ["30000finix", "300000000000000000000000000asix"]
   - name: super-admin
-    coins: ["10000finix", "300000000000000usix"]
+    coins: ["10000finix", "300000000000000000000000000asix"]
     mnemonic: "expect peace defense conduct virtual flight flip unit equip solve broccoli protect shed group else useless tree such tornado minimum decade tower warfare galaxy"
   - name: oracle1
-    coins: ["10000finix", "10000000000000usix"]
+    coins: ["10000finix", "10000000000000000000000000asix"]
     mnemonic: list split future remain scene cheap pledge forum siren purse bright ivory split morning swing dumb fabric rapid remove worth diary task island donkey
   - name: oracle2
-    coins: ["10000finix", "10000000000000usix"]
+    coins: ["10000finix", "10000000000000000000000000asix"]
     mnemonic: achieve rice anger junk delay glove slam find poem feed emerge next core twice kitchen road proof remain notice slice walk super piece father
   - name: oracle3
-    coins: ["10000finix", "10000000000000usix"]
+    coins: ["10000finix", "10000000000000000000000000asix"]
     mnemonic: hint expose mix lemon leave genuine host fiction peasant daughter enable region mixture bean soda auction armed turtle iron become bracket wasp drama front
   - name: oracle4
-    coins: ["10000finix", "10000000000000usix"]
+    coins: ["10000finix", "10000000000000000000000000asix"]
     mnemonic: clown cabbage clean design mosquito surround citizen virus kite castle sponsor wife lesson coffee alien panel hand together good crazy fabric mouse hat town
   - name: actioner1
-    coins: ["10000finix", "10000000000000usix"]
+    coins: ["10000finix", "10000000000000000000000000asix"]
     mnemonic: boost festival prize turn skate inspire alley opinion blush bright month weekend cage village refuse room remind resource legal favorite entire right convince prison
   - name: actioner2
-    coins: ["10000finix", "10000000000000usix"]
+    coins: ["10000finix", "10000000000000000000000000asix"]
     mnemonic: oyster green arrange wave elegant oven jaguar pass quote profit miracle interest emotion match express merit clock wrestle reunion punch memory action upper draft
   - name: actioner3
-    coins: ["10000finix", "10000000000000usix"]
+    coins: ["10000finix", "10000000000000000000000000asix"]
     mnemonic: first educate action fee physical seek recipe hub anxiety best mango measure chimney sphere once cabbage strike dizzy near knock correct answer skin inside
 validator:
   name: bob
-  staked: "1000000000000usix"
+  staked: "1000000000000000000000000asix"
 client:
   openapi:
     path: "docs/static/openapi.yml"
@@ -41,7 +41,7 @@ client:
     path: "vue/src/store"
 faucet:
   name: faucet
-  coins: ["10finix", "1000000000usix"]
+  coins: ["10finix", "10000000000000asix"]
 build:
   binary: "sixd"
   main: "cmd/sixd"
@@ -52,20 +52,27 @@ build:
     - ledger
 init:
   home: "$HOME/.six"
+  client:
+    chain-id: "six_666-1"
+    keyring-backend: "test"
+    node: "tcp://localhost:26657"
+    broadcast-mode: "block"
   app:
     grpc-web:
       enable: true
     api:
       swagger: true
+    json-rpc:
+      api: "eth,txpool,personal,net,debug,web3"
     evm-rpc:
-      address: "0.0.0.0:8545"     # change the JSON-RPC address and port
-      ws-address: "0.0.0.0:8546"  # change the JSON-RPC websocket address and port
+      address: "0.0.0.0:8545" # change the JSON-RPC address and port
+      ws-address: "0.0.0.0:8546" # change the JSON-RPC websocket address and port
 genesis:
   chain_id: "six_666-1"
   app_state:
     staking: # Overwrite genesis for staking module
       params:
-        bond_denom: "usix"
+        bond_denom: "asix"
         max_validators: 3
         unbonding_time: "300s"
       validator_approval:
@@ -73,13 +80,13 @@ genesis:
         enabled: false
     mint:
       params:
-        mint_denom: "usix"
+        mint_denom: "asix"
     crisis:
       constant_fee:
-        denom: "usix"
+        denom: "asix"
     gov:
       deposit_params:
-        min_deposit: [{ amount: "1000000", denom: "usix" }]
+        min_deposit: [{ amount: "1000000000000000000", denom: "asix" }]
       voting_params:
         voting_period: "300s"
     bank:
@@ -89,11 +96,12 @@ genesis:
             description: "The native staking token of the SIX Protocol.",
             denom_units:
               [
-                { denom: "usix", exponent: 0, aliases: ["microsix"] },
-                { denom: "msix", exponent: 3, aliases: ["millisix"] },
-                { denom: "six", exponent: 6 },
+                { denom: "asix", exponent: 0, aliases: ["attosix"] },
+                { denom: "usix", exponent: 12, aliases: ["microsix"] },
+                { denom: "msix", exponent: 15, aliases: ["millisix"] },
+                { denom: "six", exponent: 18 },
               ],
-            base: "usix",
+            base: "asix",
             display: "six",
             name: "Six token",
             symbol: "six",
@@ -125,7 +133,7 @@ genesis:
           {
             address: "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq",
             creator: "6x1eau6xz2kdv6wy7rhj2nxv0xrgnjy79hcm2tr9t",
-            token: "usix",
+            token: "asix",
           },
         ]
       options: { defaultMintee: "6x1cws3ex5yqwlu4my49htq06nsnhuxw3v7rt20g6" }
@@ -136,29 +144,29 @@ genesis:
             creator: "6x1eau6xz2kdv6wy7rhj2nxv0xrgnjy79hcm2tr9t",
             maxSupply: 0,
             mintee: "6x1cws3ex5yqwlu4my49htq06nsnhuxw3v7rt20g6",
-            name: "usix",
-            base: "usix",
+            name: "asix",
+            base: "asix",
           },
         ]
     nftmngr:
-            nft_fee_config:
-              schema_fee:
-                fee_amount: "200000000usix"
-                fee_distributions:
-                  - method: "BURN"
-                    portion: 0.5
-                  - method: "REWARD_POOL"
-                    portion: 0.5
+      nft_fee_config:
+        schema_fee:
+          fee_amount: "200000000000000000000000000000000asix"
+          fee_distributions:
+            - method: "BURN"
+              portion: 0.5
+            - method: "REWARD_POOL"
+              portion: 0.5
     nftoracle:
-        oracle_config:
-                minimum_confirmation: 4
-        params:
-            mint_request_active_duration: "120s"
-            action_request_active_duration: "120s"
-            verify_request_active_duration: "120s"
+      oracle_config:
+        minimum_confirmation: 4
+      params:
+        mint_request_active_duration: "120s"
+        action_request_active_duration: "120s"
+        verify_request_active_duration: "120s"
     nftadmin:
-        authorization:
-            root_admin: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
+      authorization:
+        root_admin: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
     evm:
       params:
-        evm_denom: "usix"
+        evm_denom: "asix"
