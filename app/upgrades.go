@@ -2,17 +2,17 @@ package app
 
 import (
 	"fmt"
-	"time"
-
 	store "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
-	nftmngrtypes "github.com/thesixnetwork/sixnft/x/nftmngr/types"
-	nftoraclemoduletypes "github.com/thesixnetwork/sixnft/x/nftoracle/types"
+	banktype "github.com/cosmos/cosmos-sdk/x/bank/types"
+
+	evmtypes "github.com/evmos/ethermint/x/evm/types"
+	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
 )
 
-const UpgradeName = "v2.1.2"
+const UpgradeName = "v3.0.0"
 
 func (app *App) VersionTrigger() {
 	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
@@ -22,7 +22,7 @@ func (app *App) VersionTrigger() {
 
 	if upgradeInfo.Name == UpgradeName && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
 		storeUpgrades := store.StoreUpgrades{
-			Deleted: []string{"evmsupport"},
+			Added: []string{evmtypes.ModuleName,feemarkettypes.ModuleName},
 		}
 		// configure store loader that checks if version == upgradeHeight and applies store upgrades
 		app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
@@ -31,50 +31,36 @@ func (app *App) VersionTrigger() {
 
 func (app *App) RegisterUpgradeHandlers() {
 	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
-		schema_list := app.NftmngrKeeper.GetAllNFTSchemaV063(ctx)
-		for _, schema := range schema_list {
-			// get actions
-			var v063_actions []*nftmngrtypes.Action
-			for _, action := range schema.OnchainData.Actions {
-				v063_actions = append(v063_actions, &nftmngrtypes.Action{
-					Name:            action.Name,
-					Desc:            action.Desc,
-					Disable:         action.Disable,
-					When:            action.When,
-					Then:            action.Then,
-					AllowedActioner: action.AllowedActioner,
-					Params:          make([]*nftmngrtypes.ActionParams, 0),
-				})
-			}
-
-			// build new schema verion
-			new_schema := nftmngrtypes.NFTSchema{
-				Code:            schema.Code,
-				Name:            schema.Name,
-				Owner:           schema.Owner,
-				SystemActioners: schema.SystemActioners,
-				OriginData:      schema.OriginData,
-				OnchainData: &nftmngrtypes.OnChainData{
-					RevealRequired:  schema.OnchainData.RevealRequired,
-					RevealSecret:    schema.OnchainData.RevealSecret,
-					NftAttributes:   schema.OnchainData.NftAttributes,
-					TokenAttributes: schema.OnchainData.TokenAttributes,
-					Actions:         v063_actions,
+		// set new denom metadata
+		app.BankKeeper.SetDenomMetaData(ctx, banktype.Metadata{
+			Description: "The native staking token of the SIX Protocol",
+			Base:        "asix",
+			Display:     "six",
+			Symbol:      "SIX",
+			DenomUnits: []*banktype.DenomUnit{
+				{
+					Denom:    "asix",
+					Exponent: 0,
+					Aliases:  []string{"attosix"},
 				},
-				IsVerified:        schema.IsVerified,
-				MintAuthorization: schema.MintAuthorization,
-			}
+				{
+					Denom:    "usix",
+					Exponent: 12,
+					Aliases:  []string{"usix"},
+				},
+				{
+					Denom:    "msix",
+					Exponent: 15,
+					Aliases:  []string{"millisix"},
+				},
+				{
+					Denom:    "six",
+					Exponent: 18,
+					Aliases:  []string{"six"},
+				},
+			},
 
-			app.NftmngrKeeper.SetNFTSchema(ctx, new_schema)
-		}
-
-		// set nft duration
-		var oracle_params nftoraclemoduletypes.Params
-		oracle_params.MintRequestActiveDuration = 120 * time.Second
-		oracle_params.ActionRequestActiveDuration = 120 * time.Second
-		oracle_params.VerifyRequestActiveDuration = 120 * time.Second
-		oracle_params.ActionSignerActiveDuration = 30 * (24 * time.Hour)
-		app.NftoracleKeeper.SetParams(ctx, oracle_params)
+		})
 
 		return app.mm.RunMigrations(ctx, app.configurator, vm)
 	})
