@@ -6931,6 +6931,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -7381,6 +7384,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -11887,6 +11893,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -39908,6 +39917,306 @@ paths:
           format: uint64
       tags:
         - Query
+  /thesixnetwork/sixnft/nftoracle/action_request_063:
+    get:
+      summary: Queries a list of ActionRequest items.
+      operationId: ThesixnetworkSixnftNftoracleActionRequestAllV063
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              ActionRequestV063:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      format: uint64
+                    nft_schema_code:
+                      type: string
+                    token_id:
+                      type: string
+                    action:
+                      type: string
+                    caller:
+                      type: string
+                    ref_id:
+                      type: string
+                    required_confirm:
+                      type: string
+                      format: uint64
+                    status:
+                      type: string
+                      enum:
+                        - PENDING
+                        - SUCCESS_WITH_CONSENSUS
+                        - FAILED_WITHOUT_CONCENSUS
+                        - EXPIRED
+                        - FAILED_ON_EXECUTION
+                        - FAILED_REJECT_BY_CONSENSUS
+                      default: PENDING
+                    current_confirm:
+                      type: string
+                      format: uint64
+                    confirmers:
+                      type: array
+                      items:
+                        type: string
+                    created_at:
+                      type: string
+                      format: date-time
+                    valid_until:
+                      type: string
+                      format: date-time
+                    data_hashes:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          origin_data:
+                            type: object
+                            properties:
+                              image:
+                                type: string
+                              holder_address:
+                                type: string
+                              traits:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    trait_type:
+                                      type: string
+                                    value:
+                                      type: string
+                                    display_type:
+                                      type: string
+                                    max_value:
+                                      type: string
+                          hash:
+                            type: string
+                            format: byte
+                          confirmers:
+                            type: array
+                            items:
+                              type: string
+                    expired_height:
+                      type: string
+                      format: int64
+                    execution_error_message:
+                      type: string
+              pagination:
+                type: object
+                properties:
+                  next_key:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.count_total
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  '/thesixnetwork/sixnft/nftoracle/action_request_063/{id}':
+    get:
+      summary: Queries a ActionRequest by id.
+      operationId: ThesixnetworkSixnftNftoracleActionOracleRequestV063
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              ActionRequestV063:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uint64
+                  nft_schema_code:
+                    type: string
+                  token_id:
+                    type: string
+                  action:
+                    type: string
+                  caller:
+                    type: string
+                  ref_id:
+                    type: string
+                  required_confirm:
+                    type: string
+                    format: uint64
+                  status:
+                    type: string
+                    enum:
+                      - PENDING
+                      - SUCCESS_WITH_CONSENSUS
+                      - FAILED_WITHOUT_CONCENSUS
+                      - EXPIRED
+                      - FAILED_ON_EXECUTION
+                      - FAILED_REJECT_BY_CONSENSUS
+                    default: PENDING
+                  current_confirm:
+                    type: string
+                    format: uint64
+                  confirmers:
+                    type: array
+                    items:
+                      type: string
+                  created_at:
+                    type: string
+                    format: date-time
+                  valid_until:
+                    type: string
+                    format: date-time
+                  data_hashes:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        origin_data:
+                          type: object
+                          properties:
+                            image:
+                              type: string
+                            holder_address:
+                              type: string
+                            traits:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  trait_type:
+                                    type: string
+                                  value:
+                                    type: string
+                                  display_type:
+                                    type: string
+                                  max_value:
+                                    type: string
+                        hash:
+                          type: string
+                          format: byte
+                        confirmers:
+                          type: array
+                          items:
+                            type: string
+                  expired_height:
+                    type: string
+                    format: int64
+                  execution_error_message:
+                    type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+          format: uint64
+      tags:
+        - Query
   /thesixnetwork/sixnft/nftoracle/action_signer:
     get:
       summary: Queries a list of ActionSigner items.
@@ -40829,6 +41138,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/six-protocol/protocoladmin/admin/{group}/{admin}':
@@ -40988,6 +41307,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/six-protocol/protocoladmin/group/{name}':
@@ -41139,6 +41468,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -68750,6 +69089,85 @@ definitions:
         type: string
       value:
         type: string
+  thesixnetwork.sixnft.nftoracle.ActionRequestV063:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uint64
+      nft_schema_code:
+        type: string
+      token_id:
+        type: string
+      action:
+        type: string
+      caller:
+        type: string
+      ref_id:
+        type: string
+      required_confirm:
+        type: string
+        format: uint64
+      status:
+        type: string
+        enum:
+          - PENDING
+          - SUCCESS_WITH_CONSENSUS
+          - FAILED_WITHOUT_CONCENSUS
+          - EXPIRED
+          - FAILED_ON_EXECUTION
+          - FAILED_REJECT_BY_CONSENSUS
+        default: PENDING
+      current_confirm:
+        type: string
+        format: uint64
+      confirmers:
+        type: array
+        items:
+          type: string
+      created_at:
+        type: string
+        format: date-time
+      valid_until:
+        type: string
+        format: date-time
+      data_hashes:
+        type: array
+        items:
+          type: object
+          properties:
+            origin_data:
+              type: object
+              properties:
+                image:
+                  type: string
+                holder_address:
+                  type: string
+                traits:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      trait_type:
+                        type: string
+                      value:
+                        type: string
+                      display_type:
+                        type: string
+                      max_value:
+                        type: string
+            hash:
+              type: string
+              format: byte
+            confirmers:
+              type: array
+              items:
+                type: string
+      expired_height:
+        type: string
+        format: int64
+      execution_error_message:
+        type: string
   thesixnetwork.sixnft.nftoracle.ActionSigner:
     type: object
     properties:
@@ -69192,6 +69610,115 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
+  thesixnetwork.sixnft.nftoracle.QueryAllActionRequestResponseV063:
+    type: object
+    properties:
+      ActionRequestV063:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uint64
+            nft_schema_code:
+              type: string
+            token_id:
+              type: string
+            action:
+              type: string
+            caller:
+              type: string
+            ref_id:
+              type: string
+            required_confirm:
+              type: string
+              format: uint64
+            status:
+              type: string
+              enum:
+                - PENDING
+                - SUCCESS_WITH_CONSENSUS
+                - FAILED_WITHOUT_CONCENSUS
+                - EXPIRED
+                - FAILED_ON_EXECUTION
+                - FAILED_REJECT_BY_CONSENSUS
+              default: PENDING
+            current_confirm:
+              type: string
+              format: uint64
+            confirmers:
+              type: array
+              items:
+                type: string
+            created_at:
+              type: string
+              format: date-time
+            valid_until:
+              type: string
+              format: date-time
+            data_hashes:
+              type: array
+              items:
+                type: object
+                properties:
+                  origin_data:
+                    type: object
+                    properties:
+                      image:
+                        type: string
+                      holder_address:
+                        type: string
+                      traits:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            trait_type:
+                              type: string
+                            value:
+                              type: string
+                            display_type:
+                              type: string
+                            max_value:
+                              type: string
+                  hash:
+                    type: string
+                    format: byte
+                  confirmers:
+                    type: array
+                    items:
+                      type: string
+            expired_height:
+              type: string
+              format: int64
+            execution_error_message:
+              type: string
+      pagination:
+        type: object
+        properties:
+          next_key:
+            type: string
+            format: byte
+            title: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
   thesixnetwork.sixnft.nftoracle.QueryAllActionSignerResponse:
     type: object
     properties:
@@ -69456,6 +69983,88 @@ definitions:
                   type: string
                 value:
                   type: string
+          caller:
+            type: string
+          ref_id:
+            type: string
+          required_confirm:
+            type: string
+            format: uint64
+          status:
+            type: string
+            enum:
+              - PENDING
+              - SUCCESS_WITH_CONSENSUS
+              - FAILED_WITHOUT_CONCENSUS
+              - EXPIRED
+              - FAILED_ON_EXECUTION
+              - FAILED_REJECT_BY_CONSENSUS
+            default: PENDING
+          current_confirm:
+            type: string
+            format: uint64
+          confirmers:
+            type: array
+            items:
+              type: string
+          created_at:
+            type: string
+            format: date-time
+          valid_until:
+            type: string
+            format: date-time
+          data_hashes:
+            type: array
+            items:
+              type: object
+              properties:
+                origin_data:
+                  type: object
+                  properties:
+                    image:
+                      type: string
+                    holder_address:
+                      type: string
+                    traits:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          trait_type:
+                            type: string
+                          value:
+                            type: string
+                          display_type:
+                            type: string
+                          max_value:
+                            type: string
+                hash:
+                  type: string
+                  format: byte
+                confirmers:
+                  type: array
+                  items:
+                    type: string
+          expired_height:
+            type: string
+            format: int64
+          execution_error_message:
+            type: string
+  thesixnetwork.sixnft.nftoracle.QueryGetActionRequestResponseV063:
+    type: object
+    properties:
+      ActionRequestV063:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uint64
+          nft_schema_code:
+            type: string
+          token_id:
+            type: string
+          action:
+            type: string
           caller:
             type: string
           ref_id:
