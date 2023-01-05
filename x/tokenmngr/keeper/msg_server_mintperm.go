@@ -16,9 +16,21 @@ func (k msgServer) CreateMintperm(goCtx context.Context, msg *types.MsgCreateMin
 		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "message creator is not token admin or super admin")
 	}
 
-	_, foundToken := k.GetToken(ctx, msg.Token)
+	tokenmngr_token, foundToken := k.GetToken(ctx, msg.Token)
 	if !foundToken {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "token does not existed")
+		// find from bank module
+		token, found := k.bankKeeper.GetDenomMetaData(ctx, msg.Token)
+		if !found {
+			return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "token not found")
+		}
+		tokenmngr_token = types.Token{
+			Name:      token.Display,
+			Base:      token.Base,
+			Mintee:    msg.Address,
+			Creator:   msg.Creator,
+			MaxSupply: 0,
+		}
+		k.SetToken(ctx, tokenmngr_token)
 	}
 
 	// Check if the value already exists
