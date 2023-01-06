@@ -14,9 +14,9 @@ import (
 func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBurnResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
+
 	var burn = types.Burn{
 		Creator: msg.Creator,
-		Token:   msg.Token,
 		Amount:  msg.Amount,
 	}
 	// Check is token exist
@@ -31,7 +31,7 @@ func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBu
 		return nil, err
 	}
 
-	if msg.Amount == 0 {
+	if msg.Amount.Amount.IsZero() {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is prohibit from module")
 	}
 	//TODO:: Make sure MaxSupply and totalSupply is Dupplicate or not
@@ -39,19 +39,19 @@ func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBu
 	// 	return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is higher than maximum supply")
 	// }
 
-	supply := k.bankKeeper.GetSupply(ctx, msg.Token)
-	if supply.Amount.Uint64() < msg.Amount {
+	supply := k.bankKeeper.GetSupply(ctx, msg.Amount.Denom)
+	if supply.Amount.LT(msg.Amount.Amount){
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is higher than current total supply")
 	}
 
-	var burnAmount uint64 = msg.Amount
+	var burnAmount uint64 = msg.Amount.Amount.Uint64()
 
 	tokens := sdk.Coin{
-		Denom:  msg.Token,
+		Denom:  msg.Amount.Denom,
 		Amount: sdk.NewIntFromUint64(burnAmount),
 	}
 
-	if balance := k.bankKeeper.GetBalance(ctx, burner, msg.Token); balance.Amount.Uint64() < msg.Amount {
+	if balance := k.bankKeeper.GetBalance(ctx, burner, msg.Amount.Denom); balance.Amount.LT(msg.Amount.Amount) {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Amount of token is too high than current balance")
 	}
 
@@ -69,17 +69,20 @@ func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBu
 	}
 
 	// Get burning history
-	prev, found := k.GetTokenBurn(ctx, msg.Token)
+	prev, found := k.GetTokenBurn(ctx, msg.Amount.Denom)
 	if !found {
 		var tokenBurn = types.TokenBurn{
-			Token:  msg.Token,
 			Amount: msg.Amount,
 		}
 		k.SetTokenBurn(ctx, tokenBurn)
 	} else {
+		new_burn_amount := prev.Amount.Amount.Add(msg.Amount.Amount)
+		new_burn_coin := sdk.Coin{
+			Denom:  msg.Amount.Denom,
+			Amount: new_burn_amount,
+		}
 		var tokenBurn = types.TokenBurn{
-			Token:  msg.Token,
-			Amount: msg.Amount + prev.Amount,
+			Amount: new_burn_coin,
 		}
 		k.SetTokenBurn(ctx, tokenBurn)
 	}

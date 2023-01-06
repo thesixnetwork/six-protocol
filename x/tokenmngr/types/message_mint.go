@@ -9,11 +9,10 @@ const TypeMsgMint = "mint"
 
 var _ sdk.Msg = &MsgMint{}
 
-func NewMsgMint(creator string, amount uint64, token string) *MsgMint {
+func NewMsgMint(creator string, amount sdk.Coin) *MsgMint {
 	return &MsgMint{
 		Creator: creator,
 		Amount:  amount,
-		Token:   token,
 	}
 }
 
