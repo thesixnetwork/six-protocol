@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strconv"
 	"testing"
-
+	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	clitestutil "github.com/cosmos/cosmos-sdk/testutil/cli"
 	"github.com/stretchr/testify/require"
@@ -29,7 +29,7 @@ func networkWithTokenBurnObjects(t *testing.T, n int) (*network.Network, []types
 
 	for i := 0; i < n; i++ {
 		tokenBurn := types.TokenBurn{
-			Token: strconv.Itoa(i),
+			Amount: sdk.NewCoin("test", sdk.NewInt(int64(i))),
 		}
 		nullify.Fill(&tokenBurn)
 		state.TokenBurnList = append(state.TokenBurnList, tokenBurn)
@@ -57,7 +57,7 @@ func TestShowTokenBurn(t *testing.T) {
 	}{
 		{
 			desc:    "found",
-			idToken: objs[0].Token,
+			idToken: objs[0].Amount.Denom,
 
 			args: common,
 			obj:  objs[0],
