@@ -104,7 +104,7 @@ genesis:
           { name: "super.admin", owner: "genesis" },
           {
             name: "token.admin",
-            owner: "6x1eau6xz2kdv6wy7rhj2nxv0xrgnjy79hcm2tr9t",
+            owner: "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv",
           },
         ]
       adminList:
@@ -114,7 +114,7 @@ genesis:
             admin: "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv",
           },
           {
-            admin: "6x1eau6xz2kdv6wy7rhj2nxv0xrgnjy79hcm2tr9t",
+            admin: "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv",
             group: "token.admin",
           },
         ]
@@ -123,19 +123,19 @@ genesis:
         [
           {
             address: "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq",
-            creator: "6x1eau6xz2kdv6wy7rhj2nxv0xrgnjy79hcm2tr9t",
+            creator: "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv",
             token: "usix",
           },
         ]
-      options: { defaultMintee: "6x1cws3ex5yqwlu4my49htq06nsnhuxw3v7rt20g6" }
+      options: { defaultMintee: "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq" }
       port_id: "tokenmngr"
       tokenList:
         [
           {
-            creator: "6x1eau6xz2kdv6wy7rhj2nxv0xrgnjy79hcm2tr9t",
+            creator: "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv",
             maxSupply: 0,
-            mintee: "6x1cws3ex5yqwlu4my49htq06nsnhuxw3v7rt20g6",
-            name: "usix",
+            mintee: "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq",
+            name: "Six token",
             base: "usix",
           },
         ]
