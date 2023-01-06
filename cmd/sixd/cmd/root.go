@@ -50,8 +50,7 @@ const (
 // NewRootCmd creates a new root command for sixd. It is called once in the
 // main function.
 func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
-	// Set config for prefixes
-	app.SetConfig()
+	// Set config for prefixer
 	encodingConfig := encoding.MakeConfig(app.ModuleBasics)
 	initClientCtx := client.Context{}.
 		WithCodec(encodingConfig.Marshaler).
