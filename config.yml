@@ -101,7 +101,10 @@ genesis:
     protocoladmin:
       groupList:
         [
-          { name: "super.admin", owner: "genesis" },
+          {
+            name: "super.admin",
+            owner: "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv",
+          },
           {
             name: "token.admin",
             owner: "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv",
@@ -140,21 +143,21 @@ genesis:
           },
         ]
     nftmngr:
-            nft_fee_config:
-              schema_fee:
-                fee_amount: "200000000usix"
-                fee_distributions:
-                  - method: "BURN"
-                    portion: 0.5
-                  - method: "REWARD_POOL"
-                    portion: 0.5
+      nft_fee_config:
+        schema_fee:
+          fee_amount: "200000000usix"
+          fee_distributions:
+            - method: "BURN"
+              portion: 0.5
+            - method: "REWARD_POOL"
+              portion: 0.5
     nftoracle:
-        oracle_config:
-                minimum_confirmation: 4
-        params:
-            mint_request_active_duration: "120s"
-            action_request_active_duration: "120s"
-            verify_request_active_duration: "120s"
+      oracle_config:
+        minimum_confirmation: 4
+      params:
+        mint_request_active_duration: "120s"
+        action_request_active_duration: "120s"
+        verify_request_active_duration: "120s"
     nftadmin:
-        authorization:
-            root_admin: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
+      authorization:
+        root_admin: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
