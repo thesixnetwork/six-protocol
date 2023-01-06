@@ -14,3 +14,14 @@ func SetConfig() {
 	config.SetAddressVerifier(VerifyAddressFormat)
 	config.Seal()
 }
+
+
+// set config for migration
+func (app *App) SetConfig() {
+	config := sdk.GetConfig()
+	cmdcfg.SetBech32Prefixes(config)
+	ethcfg.SetBip44CoinType(config)
+	// Make sure address is compatible with ethereum
+	config.SetAddressVerifier(VerifyAddressFormat)
+	config.Seal()
+}

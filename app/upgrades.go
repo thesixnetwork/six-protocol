@@ -7,7 +7,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 	banktype "github.com/cosmos/cosmos-sdk/x/bank/types"
-
+	// cmdcfg "github.com/thesixnetwork/six-protocol/cmd/sixd/config"
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
 	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
 )
@@ -33,11 +33,11 @@ func (app *App) RegisterUpgradeHandlers() {
 	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
 		// set new denom metadata
 		app.BankKeeper.SetDenomMetaData(ctx, banktype.Metadata{
-			Description: "The native staking token of the SIX Protocol",
-			Base:        "usix",
-			Display:     "usix",
-			Symbol:      "six",
-			Name: "six token",
+			Description: "The native evm token of the SIX Protocol",
+			Base:        "asix",
+			Display:     "asix",
+			Symbol:      "asix",
+			Name: "six evm token",
 			DenomUnits: []*banktype.DenomUnit{
 				{
 					Denom:    "asix",
@@ -62,6 +62,9 @@ func (app *App) RegisterUpgradeHandlers() {
 			},
 
 		})
+
+		app.SetConfig()
+		// cmdcfg.RegisterDenoms()
 
 		return app.mm.RunMigrations(ctx, app.configurator, vm)
 	})
