@@ -141,13 +141,6 @@
         "value": false
       },
       "hidden_to_marketplace": false
-    },
-    {
-      "name": "missions_completed",
-      "boolean_attribute_value": {
-        "value": false
-      },
-      "hidden_to_marketplace": false
     }
   ]
 }

@@ -178,14 +178,6 @@ else
     echo "🛑 failed"
 fi
 
-echo "Test test_utils_GetBlockTimestampByZoneOld"
-if sixd tx nftmngr perform-action-by-nftadmin ${schema_code} 0 test_utils_GetBlockTimestampByZoneOld ${schema_code}test_utils_GetBlockTimestampByZoneOld "[]" --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} | grep -q 'msg_index: 0'; then
-    echo "✅ success"
-else
-    echo "🛑 failed"
-fi
-
 echo "Test test_utils_GetBlockTimestampByZone"
 if sixd tx nftmngr perform-action-by-nftadmin ${schema_code} 0 test_utils_GetBlockTimestampByZone ${schema_code}test_utils_GetBlockTimestampByZone "[]" --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
     --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} | grep -q 'msg_index: 0'; then

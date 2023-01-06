@@ -1,7 +1,10 @@
 EVMSIGN=./evmsign
 default_schema_code=$1
 RPC_ENDPOINT=http://localhost:26657
-CHAIN_ID=six
+CHAIN_ID=$2
+if [ -z "$CHAIN_ID" ]; then
+    CHAIN_ID=testnet
+fi
 timestamp=$(date -u +"%Y-%m-%dT%H:%M:%S.000z")
 echo "#############################################"
 echo "##                                         ##"
@@ -120,7 +123,7 @@ case $choice in
             ATTRIBUTE_VALUE_TYPE_VALUE=${ATTRIBUTE_VALUE_VALUE}
         fi
 
-        BASE64_ATTR=`cat nft-data.json \
+        BASE64_ATTR=`cat nft-data-test071.json \
             | sed "s/#ATTRIBUTE_NAME#/${ATTRIBUTE_NAME}/g" \
             | sed "s/#ATTRIBUTE_VALUE_TYPE#/${ATTRIBUTE_VALUE_TYPE}/g" \
             | sed "s/#ATTRIBUTE_VALUE_TYPE_VALUE#/${ATTRIBUTE_VALUE_TYPE_VALUE}/g" \
