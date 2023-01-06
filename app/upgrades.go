@@ -34,9 +34,10 @@ func (app *App) RegisterUpgradeHandlers() {
 		// set new denom metadata
 		app.BankKeeper.SetDenomMetaData(ctx, banktype.Metadata{
 			Description: "The native staking token of the SIX Protocol",
-			Base:        "asix",
-			Display:     "six",
-			Symbol:      "SIX",
+			Base:        "usix",
+			Display:     "usix",
+			Symbol:      "six",
+			Name: "six token",
 			DenomUnits: []*banktype.DenomUnit{
 				{
 					Denom:    "asix",
@@ -46,7 +47,7 @@ func (app *App) RegisterUpgradeHandlers() {
 				{
 					Denom:    "usix",
 					Exponent: 12,
-					Aliases:  []string{"usix"},
+					Aliases:  []string{"microsix"},
 				},
 				{
 					Denom:    "msix",
