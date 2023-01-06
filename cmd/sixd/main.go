@@ -8,9 +8,12 @@ import (
 
 	"github.com/thesixnetwork/six-protocol/app"
 	"github.com/thesixnetwork/six-protocol/cmd/sixd/cmd"
+	cmdcfg "github.com/thesixnetwork/six-protocol/cmd/sixd/config"
 )
 
 func main() {
+	app.SetConfig()
+	cmdcfg.RegisterDenoms()
 	rootCmd, _ := cmd.NewRootCmd()
 	rootCmd.AddCommand(
 		cmd.AddGenesisWasmMsgCmd(app.DefaultNodeHome),
