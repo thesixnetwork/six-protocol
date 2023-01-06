@@ -8,6 +8,7 @@ import (
 	"github.com/thesixnetwork/six-protocol/testutil/nullify"
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr"
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 func TestGenesis(t *testing.T) {
@@ -37,10 +38,10 @@ func TestGenesis(t *testing.T) {
 		},
 		TokenBurnList: []types.TokenBurn{
 			{
-				Token: "0",
+				Amount: sdk.NewCoin("0", sdk.NewInt(0)),
 			},
 			{
-				Token: "1",
+				Amount: sdk.NewCoin("0", sdk.NewInt(1)),
 			},
 		},
 		// this line is used by starport scaffolding # genesis/test/state

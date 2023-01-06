@@ -11,7 +11,7 @@ func (k Keeper) SetTokenBurn(ctx sdk.Context, tokenBurn types.TokenBurn) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.TokenBurnKeyPrefix))
 	b := k.cdc.MustMarshal(&tokenBurn)
 	store.Set(types.TokenBurnKey(
-		tokenBurn.Token,
+		tokenBurn.Amount.Denom,
 	), b)
 }
 
