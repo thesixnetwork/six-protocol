@@ -138,7 +138,7 @@ genesis:
             creator: "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv",
             maxSupply: 0,
             mintee: "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq",
-            name: "Six token",
+            name: "usix",
             base: "usix",
           },
         ]
