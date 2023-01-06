@@ -2,12 +2,14 @@ package app
 
 import (
 	"fmt"
+
 	store "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	banktype "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
-	banktype "github.com/cosmos/cosmos-sdk/x/bank/types"
-	// cmdcfg "github.com/thesixnetwork/six-protocol/cmd/sixd/config"
+
+	tokenmngrtypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
 	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
 )
@@ -63,9 +65,28 @@ func (app *App) RegisterUpgradeHandlers() {
 
 		})
 
-		app.SetConfig()
-		// cmdcfg.RegisterDenoms()
+		// super admin address
+		token_admin, _ := app.ProtocoladminKeeper.GetGroup(ctx, "token.admin")
+		super_admin, _ := app.ProtocoladminKeeper.GetGroup(ctx, "super.admin")
+		app.TokenmngrKeeper.SetToken(ctx, tokenmngrtypes.Token{
+			Name: "asix",
+			Base: "asix",
+			MaxSupply: 0,
+			Mintee: token_admin.Owner,
+			Creator: super_admin.Owner,
 
+		})
+
+		// add mintperm
+		app.TokenmngrKeeper.SetMintperm(ctx, tokenmngrtypes.Mintperm{
+			Token: "asix",
+			Address: token_admin.Owner,
+			Creator: super_admin.Owner,
+		})
+
+		evm_param := evmtypes.DefaultParams()
+		evm_param.EvmDenom = "asix"
+		app.EVMKeeper.SetParams(ctx, evm_param)
 		return app.mm.RunMigrations(ctx, app.configurator, vm)
 	})
 }
