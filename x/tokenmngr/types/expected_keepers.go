@@ -13,6 +13,7 @@ type ProtocoladminKeeper interface {
 	GetAdmin(ctx sdk.Context, group string, admin string) (val protocoladminTypes.Admin, found bool)
 	GetAllAdmin(ctx sdk.Context) (list []protocoladminTypes.Admin)
 	Authenticate(ctx sdk.Context, group string, address string) bool
+	GetGroup(ctx sdk.Context, group string) (val protocoladminTypes.Group, found bool)
 }
 
 // AccountKeeper defines the expected account keeper used for simulations (noalias)
