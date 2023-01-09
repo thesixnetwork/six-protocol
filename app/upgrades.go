@@ -21,9 +21,7 @@ func (app *App) VersionTrigger() {
 	}
 
 	if upgradeInfo.Name == UpgradeName && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
-		storeUpgrades := store.StoreUpgrades{
-			Deleted: []string{"evmsupport"},
-		}
+		storeUpgrades := store.StoreUpgrades{}
 		// configure store loader that checks if version == upgradeHeight and applies store upgrades
 		app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
 	}
