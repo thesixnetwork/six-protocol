@@ -52,7 +52,7 @@ func (gs GenesisState) Validate() error {
 	tokenBurnIndexMap := make(map[string]struct{})
 
 	for _, elem := range gs.TokenBurnList {
-		index := string(TokenBurnKey(elem.Token))
+		index := string(TokenBurnKey(elem.Amount.Denom))
 		if _, ok := tokenBurnIndexMap[index]; ok {
 			return fmt.Errorf("duplicated index for tokenBurn")
 		}
