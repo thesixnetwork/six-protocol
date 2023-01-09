@@ -29,7 +29,8 @@ service Msg {
 message MsgCreateToken {
   string creator = 1;
   string name = 2;
-  uint64 maxSupply = 3;
+  cosmos.base.v1beta1.Coin maxSupply = 3
+  [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"];
   string denomMetaData = 4;
   string mintee = 5;
 }
@@ -38,7 +39,8 @@ message MsgCreateTokenResponse {}
 message MsgUpdateToken {
   string creator = 1;
   string name = 2;
-  uint64 maxSupply = 4;
+  cosmos.base.v1beta1.Coin maxSupply = 4
+  [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"];
   string mintee = 5;
 }
 message MsgUpdateTokenResponse {}

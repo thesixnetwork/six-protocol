@@ -179,7 +179,9 @@ require (
 	github.com/antlr/antlr4/runtime/Go/antlr v0.0.0-20220527190237-ee62e23da966 // indirect
 	github.com/bmatcuk/doublestar v1.3.2 // indirect
 	github.com/ethereum/go-ethereum v1.9.25 // indirect
+	github.com/golang/glog v1.0.0 // indirect
 	github.com/google/uuid v1.2.0 // indirect
+	github.com/grpc-ecosystem/grpc-gateway/v2 v2.15.0 // indirect
 	github.com/hyperjumptech/grule-rule-engine v1.11.0 // indirect
 	github.com/src-d/gcfg v1.4.0 // indirect
 	go.uber.org/atomic v1.9.0 // indirect
