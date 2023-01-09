@@ -5,13 +5,13 @@ import (
 
 	store "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	banktype "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
+	banktype "github.com/cosmos/cosmos-sdk/x/bank/types"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 
-	tokenmngrtypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
 	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
+	tokenmngrtypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 	// nftmngrtypes "github.com/thesixnetwork/sixnft/x/nftmngr/types"
 	tokenmngrmoduletypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 	nftoraclemoduletypes "github.com/thesixnetwork/sixnft/x/nftoracle/types"
@@ -27,7 +27,7 @@ func (app *App) VersionTrigger() {
 
 	if upgradeInfo.Name == UpgradeName && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
 		storeUpgrades := store.StoreUpgrades{
-			Added: []string{evmtypes.ModuleName,feemarkettypes.ModuleName},
+			Added: []string{evmtypes.ModuleName, feemarkettypes.ModuleName},
 		}
 		// configure store loader that checks if version == upgradeHeight and applies store upgrades
 		app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
@@ -36,13 +36,29 @@ func (app *App) VersionTrigger() {
 
 func (app *App) RegisterUpgradeHandlers() {
 	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
+		// Change token struct
+		tokens := app.TokenmngrKeeper.GetAllTokenV202(ctx)
+		for _, token := range tokens {
+			var token_v300 tokenmngrmoduletypes.Token
+			max_supply_v202_to_v300 := sdk.NewIntFromUint64(token.MaxSupply)
+			new_coin := sdk.NewCoin(token.Name, max_supply_v202_to_v300)
+			token_v300 = tokenmngrmoduletypes.Token{
+				Name:      token.Name,
+				Base:      token.Base,
+				MaxSupply: new_coin,
+				Mintee:    token.Mintee,
+				Creator:   token.Creator,
+			}
+			app.TokenmngrKeeper.SetToken(ctx, token_v300)
+		}
+
 		// set new denom metadata
 		app.BankKeeper.SetDenomMetaData(ctx, banktype.Metadata{
 			Description: "The native evm token of the SIX Protocol",
 			Base:        "asix",
 			Display:     "asix",
 			Symbol:      "asix",
-			Name: "six evm token",
+			Name:        "six evm token",
 			DenomUnits: []*banktype.DenomUnit{
 				{
 					Denom:    "asix",
@@ -65,23 +81,23 @@ func (app *App) RegisterUpgradeHandlers() {
 					Aliases:  []string{"six"},
 				},
 			},
-
 		})
 
 		// super admin address
 		token_admin, _ := app.ProtocoladminKeeper.GetGroup(ctx, "token.admin")
 		super_admin, _ := app.ProtocoladminKeeper.GetGroup(ctx, "super.admin")
+		asix_maxsupply := sdk.NewIntFromUint64(0)
+		asix_coin := sdk.NewCoin("asix", asix_maxsupply)
 		app.TokenmngrKeeper.SetToken(ctx, tokenmngrtypes.Token{
-			Name: "asix",
-			Base: "asix",
-			MaxSupply: 0,
-			Mintee: token_admin.Owner,
-			Creator: super_admin.Owner,
-
+			Name:      "asix",
+			Base:      "asix",
+			MaxSupply: asix_coin,
+			Mintee:    token_admin.Owner,
+			Creator:   super_admin.Owner,
 		})
 		// add mintperm
 		app.TokenmngrKeeper.SetMintperm(ctx, tokenmngrtypes.Mintperm{
-			Token: "asix",
+			Token:   "asix",
 			Address: token_admin.Owner,
 			Creator: super_admin.Owner,
 		})
@@ -89,28 +105,26 @@ func (app *App) RegisterUpgradeHandlers() {
 		evm_param := evmtypes.DefaultParams()
 		evm_param.EvmDenom = "asix"
 		app.EVMKeeper.SetParams(ctx, evm_param)
-
-		action_requests := app.NftoracleKeeper.GetAllActionRequestV603(ctx)
-
 		// bug from previous version
+		action_requests := app.NftoracleKeeper.GetAllActionRequestV603(ctx)
 		for _, action_request := range action_requests {
 			var action_request_v703 nftoraclemoduletypes.ActionOracleRequest
-			action_request_v703 =  nftoraclemoduletypes.ActionOracleRequest{
-				Id:          action_request.Id,
-				NftSchemaCode	: action_request.NftSchemaCode,
-				TokenId		: action_request.TokenId,
-				Action		: action_request.Action,
-				Params		: make([]*nftoraclemoduletypes.ActionParameter, 0),
-				Caller		: action_request.Caller,
-				RefId		: action_request.RefId,
-				RequiredConfirm	: action_request.RequiredConfirm,
-				Status		: action_request.Status,
-				CurrentConfirm	: action_request.CurrentConfirm,
-				Confirmers	: action_request.Confirmers,
-				CreatedAt	: action_request.CreatedAt,
-				ValidUntil	: action_request.ValidUntil,
-				DataHashes	: action_request.DataHashes,
-				ExpiredHeight	: action_request.ExpiredHeight,
+			action_request_v703 = nftoraclemoduletypes.ActionOracleRequest{
+				Id:                    action_request.Id,
+				NftSchemaCode:         action_request.NftSchemaCode,
+				TokenId:               action_request.TokenId,
+				Action:                action_request.Action,
+				Params:                make([]*nftoraclemoduletypes.ActionParameter, 0),
+				Caller:                action_request.Caller,
+				RefId:                 action_request.RefId,
+				RequiredConfirm:       action_request.RequiredConfirm,
+				Status:                action_request.Status,
+				CurrentConfirm:        action_request.CurrentConfirm,
+				Confirmers:            action_request.Confirmers,
+				CreatedAt:             action_request.CreatedAt,
+				ValidUntil:            action_request.ValidUntil,
+				DataHashes:            action_request.DataHashes,
+				ExpiredHeight:         action_request.ExpiredHeight,
 				ExecutionErrorMessage: action_request.ExecutionErrorMessage,
 			}
 			app.NftoracleKeeper.SetActionRequest(ctx, action_request_v703)
@@ -119,12 +133,11 @@ func (app *App) RegisterUpgradeHandlers() {
 		// Token-burn tokens
 		token_burn := app.TokenmngrKeeper.GetAllTokenBurnV202(ctx)
 		for _, burn := range token_burn {
-			var burn_v203 tokenmngrmoduletypes.TokenBurn
-			
-			burn_v203 = tokenmngrmoduletypes.TokenBurn{
+			var burn_v300 tokenmngrmoduletypes.TokenBurn
+			burn_v300 = tokenmngrmoduletypes.TokenBurn{
 				Amount: sdk.NewCoin(burn.Token, sdk.NewInt(int64(burn.Amount))),
 			}
-			app.TokenmngrKeeper.SetTokenBurn(ctx, burn_v203)
+			app.TokenmngrKeeper.SetTokenBurn(ctx, burn_v300)
 		}
 
 		// Burns
@@ -132,13 +145,13 @@ func (app *App) RegisterUpgradeHandlers() {
 		for _, burn := range burns {
 			var new_ver_burns tokenmngrmoduletypes.Burn
 			new_ver_burns = tokenmngrmoduletypes.Burn{
-				Id: burn.Id,
+				Id:      burn.Id,
 				Creator: burn.Creator,
-				Amount: sdk.NewCoin(burn.Token, sdk.NewInt(int64(burn.Amount))),
+				Amount:  sdk.NewCoin(burn.Token, sdk.NewInt(int64(burn.Amount))),
 			}
 			app.TokenmngrKeeper.UpdateBurn(ctx, new_ver_burns)
 		}
-		
+
 		return app.mm.RunMigrations(ctx, app.configurator, vm)
 	})
 }
