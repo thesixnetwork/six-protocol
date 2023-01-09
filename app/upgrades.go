@@ -2,13 +2,13 @@ package app
 
 import (
 	"fmt"
-	"time"
 
 	store "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
-	nftmngrtypes "github.com/thesixnetwork/sixnft/x/nftmngr/types"
+	// nftmngrtypes "github.com/thesixnetwork/sixnft/x/nftmngr/types"
+	tokenmngrmoduletypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 	nftoraclemoduletypes "github.com/thesixnetwork/sixnft/x/nftoracle/types"
 )
 
@@ -31,50 +31,54 @@ func (app *App) VersionTrigger() {
 
 func (app *App) RegisterUpgradeHandlers() {
 	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
-		schema_list := app.NftmngrKeeper.GetAllNFTSchemaV063(ctx)
-		for _, schema := range schema_list {
-			// get actions
-			var v063_actions []*nftmngrtypes.Action
-			for _, action := range schema.OnchainData.Actions {
-				v063_actions = append(v063_actions, &nftmngrtypes.Action{
-					Name:            action.Name,
-					Desc:            action.Desc,
-					Disable:         action.Disable,
-					When:            action.When,
-					Then:            action.Then,
-					AllowedActioner: action.AllowedActioner,
-					Params:          make([]*nftmngrtypes.ActionParams, 0),
-				})
-			}
+		action_requests := app.NftoracleKeeper.GetAllActionRequestV603(ctx)
 
-			// build new schema verion
-			new_schema := nftmngrtypes.NFTSchema{
-				Code:            schema.Code,
-				Name:            schema.Name,
-				Owner:           schema.Owner,
-				SystemActioners: schema.SystemActioners,
-				OriginData:      schema.OriginData,
-				OnchainData: &nftmngrtypes.OnChainData{
-					RevealRequired:  schema.OnchainData.RevealRequired,
-					RevealSecret:    schema.OnchainData.RevealSecret,
-					NftAttributes:   schema.OnchainData.NftAttributes,
-					TokenAttributes: schema.OnchainData.TokenAttributes,
-					Actions:         v063_actions,
-				},
-				IsVerified:        schema.IsVerified,
-				MintAuthorization: schema.MintAuthorization,
+		// bug from previous version
+		for _, action_request := range action_requests {
+			var action_request_v703 nftoraclemoduletypes.ActionOracleRequest
+			action_request_v703 =  nftoraclemoduletypes.ActionOracleRequest{
+				Id:          action_request.Id,
+				NftSchemaCode	: action_request.NftSchemaCode,
+				TokenId		: action_request.TokenId,
+				Action		: action_request.Action,
+				Params		: make([]*nftoraclemoduletypes.ActionParameter, 0),
+				Caller		: action_request.Caller,
+				RefId		: action_request.RefId,
+				RequiredConfirm	: action_request.RequiredConfirm,
+				Status		: action_request.Status,
+				CurrentConfirm	: action_request.CurrentConfirm,
+				Confirmers	: action_request.Confirmers,
+				CreatedAt	: action_request.CreatedAt,
+				ValidUntil	: action_request.ValidUntil,
+				DataHashes	: action_request.DataHashes,
+				ExpiredHeight	: action_request.ExpiredHeight,
+				ExecutionErrorMessage: action_request.ExecutionErrorMessage,
 			}
-
-			app.NftmngrKeeper.SetNFTSchema(ctx, new_schema)
+			app.NftoracleKeeper.SetActionRequest(ctx, action_request_v703)
 		}
 
-		// set nft duration
-		var oracle_params nftoraclemoduletypes.Params
-		oracle_params.MintRequestActiveDuration = 120 * time.Second
-		oracle_params.ActionRequestActiveDuration = 120 * time.Second
-		oracle_params.VerifyRequestActiveDuration = 120 * time.Second
-		oracle_params.ActionSignerActiveDuration = 30 * (24 * time.Hour)
-		app.NftoracleKeeper.SetParams(ctx, oracle_params)
+		// Token-burn tokens
+		token_burn := app.TokenmngrKeeper.GetAllTokenBurnV202(ctx)
+		for _, burn := range token_burn {
+			var burn_v203 tokenmngrmoduletypes.TokenBurn
+			
+			burn_v203 = tokenmngrmoduletypes.TokenBurn{
+				Amount: sdk.NewCoin(burn.Token, sdk.NewInt(int64(burn.Amount))),
+			}
+			app.TokenmngrKeeper.SetTokenBurn(ctx, burn_v203)
+		}
+
+		// Burns
+		burns := app.TokenmngrKeeper.GetAllBurnV202(ctx)
+		for _, burn := range burns {
+			var new_ver_burns tokenmngrmoduletypes.Burn
+			new_ver_burns = tokenmngrmoduletypes.Burn{
+				Id: burn.Id,
+				Creator: burn.Creator,
+				Amount: sdk.NewCoin(burn.Token, sdk.NewInt(int64(burn.Amount))),
+			}
+			app.TokenmngrKeeper.UpdateBurn(ctx, new_ver_burns)
+		}
 
 		return app.mm.RunMigrations(ctx, app.configurator, vm)
 	})
