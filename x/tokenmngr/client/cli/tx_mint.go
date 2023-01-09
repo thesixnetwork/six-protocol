@@ -25,7 +25,6 @@ func CmdMint() *cobra.Command {
 				return err
 			}
 
-
 			coins, err := sdk.ParseCoinNormalized(args[0])
 			if err != nil {
 				return err

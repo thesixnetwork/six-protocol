@@ -16,7 +16,7 @@ var _ sdk.Msg = &MsgCreateToken{}
 func NewMsgCreateToken(
 	creator string,
 	name string,
-	maxSupply uint64,
+	maxSupply sdk.Coin,
 	mintee string,
 	denomMetaData string,
 
@@ -64,7 +64,7 @@ var _ sdk.Msg = &MsgUpdateToken{}
 func NewMsgUpdateToken(
 	creator string,
 	name string,
-	maxSupply uint64,
+	maxSupply sdk.Coin,
 
 ) *MsgUpdateToken {
 	return &MsgUpdateToken{

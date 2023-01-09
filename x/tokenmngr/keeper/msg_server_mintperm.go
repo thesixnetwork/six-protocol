@@ -23,12 +23,14 @@ func (k msgServer) CreateMintperm(goCtx context.Context, msg *types.MsgCreateMin
 		if !found {
 			return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "token not found")
 		}
+		maxsupply := sdk.NewIntFromUint64(0)
+		asix_coin := sdk.NewCoin(token.Base, maxsupply)
 		tokenmngr_token = types.Token{
 			Name:      token.Display,
 			Base:      token.Base,
 			Mintee:    msg.Address,
 			Creator:   msg.Creator,
-			MaxSupply: 0,
+			MaxSupply: asix_coin,
 		}
 		k.SetToken(ctx, tokenmngr_token)
 	}

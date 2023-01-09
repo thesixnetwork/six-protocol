@@ -1,10 +1,11 @@
 package cli
 
 import (
+	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
-	"github.com/spf13/cast"
+	// "github.com/spf13/cast"
 	"github.com/spf13/cobra"
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
@@ -18,8 +19,7 @@ func CmdCreateToken() *cobra.Command {
 			// Get indexes
 			indexName := args[0]
 
-			// Get value arguments
-			argMaxSupply, err := cast.ToUint64E(args[1])
+			argMaxSupply, err := sdk.ParseCoinNormalized(args[1])
 			if err != nil {
 				return err
 			}
@@ -61,7 +61,7 @@ func CmdUpdateToken() *cobra.Command {
 			indexName := args[0]
 
 			// Get value arguments
-			argMaxSupply, err := cast.ToUint64E(args[1])
+			argMaxSupply, err := sdk.ParseCoinNormalized(args[1])
 			if err != nil {
 				return err
 			}
