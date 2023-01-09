@@ -23,13 +23,21 @@ func (k msgServer) CreateMintperm(goCtx context.Context, msg *types.MsgCreateMin
 		if !found {
 			return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "token not found")
 		}
+
+		// get token admin
+		token_admin, found := k.protocoladminKeeper.GetGroup(ctx, TOKEN_ADMIN)
+		if !found {
+			return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "token admin not found")
+		}
+		
+		// create token
 		maxsupply := sdk.NewIntFromUint64(0)
 		new_coin := sdk.NewCoin(token.Base, maxsupply)
 		tokenmngr_token = types.Token{
 			Name:      token.Display,
 			Base:      token.Base,
 			Mintee:    msg.Address,
-			Creator:   msg.Creator,
+			Creator:   token_admin.Owner,
 			MaxSupply: new_coin,
 		}
 		k.SetToken(ctx, tokenmngr_token)
