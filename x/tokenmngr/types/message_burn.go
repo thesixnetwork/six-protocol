@@ -9,10 +9,9 @@ const TypeMsgBurn = "burn"
 
 var _ sdk.Msg = &MsgBurn{}
 
-func NewMsgBurn(creator string, token string, amount uint64) *MsgBurn {
+func NewMsgBurn(creator string, amount sdk.Coin) *MsgBurn {
 	return &MsgBurn{
 		Creator: creator,
-		Token:   token,
 		Amount:  amount,
 	}
 }
