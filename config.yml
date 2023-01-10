@@ -136,7 +136,7 @@ genesis:
         [
           {
             creator: "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv",
-            maxSupply: "0usix",
+            maxSupply: { amount: "0", denom: "usix" },
             mintee: "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq",
             name: "usix",
             base: "usix",
