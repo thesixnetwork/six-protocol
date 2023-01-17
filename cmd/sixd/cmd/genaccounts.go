@@ -18,7 +18,7 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/cosmos/cosmos-sdk/x/genutil"
 	genutiltypes "github.com/cosmos/cosmos-sdk/x/genutil/types"
-	
+
 	"github.com/ethereum/go-ethereum/common"
 	// "github.com/evmos/ethermint/crypto/hd"
 	ethermint "github.com/evmos/ethermint/types"

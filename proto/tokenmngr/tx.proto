@@ -23,6 +23,7 @@ service Msg {
   rpc UpdateOptions(MsgUpdateOptions) returns (MsgUpdateOptionsResponse);
   rpc DeleteOptions(MsgDeleteOptions) returns (MsgDeleteOptionsResponse);
   rpc Burn(MsgBurn) returns (MsgBurnResponse);
+  rpc ConvertToAtto(MsgConvertToAtto) returns (MsgConvertToAttoResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -113,5 +114,18 @@ message MsgDeleteOptions {
   string creator = 1;
 }
 message MsgDeleteOptionsResponse {}
+
+message MsgConvertToAtto {
+  string creator = 1;
+  string coin = 2;
+  string receiver = 3;
+}
+
+message MsgConvertToAttoResponse {
+  string fromAddress = 1;
+  string toAddress = 2;
+  string fromAmount = 3;
+  string toAmount = 4;
+}
 
 // this line is used by starport scaffolding # proto/tx/message
