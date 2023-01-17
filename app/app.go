@@ -96,11 +96,11 @@ import (
 	tmos "github.com/tendermint/tendermint/libs/os"
 	dbm "github.com/tendermint/tm-db"
 
-	evmante "github.com/evmos/ethermint/app/ante"
 	ethermintapp "github.com/evmos/ethermint/app"
-	ethermint "github.com/evmos/ethermint/types"
-	srvflags "github.com/evmos/ethermint/server/flags"
+	evmante "github.com/evmos/ethermint/app/ante"
 	ethermintconfig "github.com/evmos/ethermint/server/config"
+	srvflags "github.com/evmos/ethermint/server/flags"
+	ethermint "github.com/evmos/ethermint/types"
 	"github.com/evmos/ethermint/x/evm"
 	evmrest "github.com/evmos/ethermint/x/evm/client/rest"
 	evmkeeper "github.com/evmos/ethermint/x/evm/keeper"
@@ -216,7 +216,7 @@ var (
 		nftadminmoduletypes.ModuleName:      {authtypes.Minter, authtypes.Burner, authtypes.Staking},
 		nftmngrmoduletypes.ModuleName:       {authtypes.Burner},
 		wasm.ModuleName:                     {authtypes.Burner},
-		evmtypes.ModuleName:            	{authtypes.Minter, authtypes.Burner}, // used for secure addition and subtraction of balance using module account
+		evmtypes.ModuleName:                 {authtypes.Minter, authtypes.Burner}, // used for secure addition and subtraction of balance using module account
 		// this line is used by starport scaffolding # stargate/app/maccPerms
 	}
 )
@@ -235,6 +235,7 @@ func init() {
 
 	DefaultNodeHome = filepath.Join(userHomeDir, "."+Name)
 }
+
 // Options bundles several configuration params for an App.
 type Options struct {
 	SkipLoadLatest        bool
@@ -306,9 +307,9 @@ type App struct {
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// module from data layer
-	NftadminKeeper   nftadminmodulekeeper.Keeper
-	NftmngrKeeper    nftmngrmodulekeeper.Keeper
-	NftoracleKeeper  nftoraclemodulekeeper.Keeper
+	NftadminKeeper  nftadminmodulekeeper.Keeper
+	NftmngrKeeper   nftmngrmodulekeeper.Keeper
+	NftoracleKeeper nftoraclemodulekeeper.Keeper
 
 	// mm is the module manager
 	mm *module.Manager
@@ -357,7 +358,7 @@ func New(
 		nftmngrmoduletypes.StoreKey,
 		nftoraclemoduletypes.StoreKey,
 		nftadminmoduletypes.StoreKey,
-		evmtypes.StoreKey, 
+		evmtypes.StoreKey,
 		feemarkettypes.StoreKey,
 		// this line is used by starport scaffolding # stargate/app/storeKey
 	)
@@ -396,7 +397,6 @@ func New(
 	// Applications that wish to enforce statically created ScopedKeepers should call `Seal` after creating
 	// their scoped modules in `NewApp` with `ScopeToModule`
 	// app.CapabilityKeeper.Seal()
-
 
 	// add keepers
 	app.AccountKeeper = authkeeper.NewAccountKeeper(
@@ -589,7 +589,6 @@ func New(
 	)
 	tokenmngrModule := tokenmngrmodule.NewAppModule(appCodec, app.TokenmngrKeeper, app.AccountKeeper, app.BankKeeper)
 	app.ScopedTokenmngrKeeper = scopedTokenmngrKeeper
-
 
 	app.NftadminKeeper = *nftadminmodulekeeper.NewKeeper(
 		appCodec,
@@ -861,21 +860,21 @@ func New(
 
 	maxGasWanted := cast.ToUint64(appOpts.Get(srvflags.EVMMaxTxGasWanted))
 	options := appante.HandlerOptions{
-		AccountKeeper:   app.AccountKeeper,
-		BankKeeper:      app.BankKeeper,
-		FeegrantKeeper:  app.FeeGrantKeeper,
-		SignModeHandler: encodingConfig.TxConfig.SignModeHandler(),
-		SigGasConsumer:  evmante.DefaultSigVerificationGasConsumer,
-		IBCKeeper:       app.IBCKeeper,
-		EvmKeeper:       app.EVMKeeper,
-		FeeMarketKeeper: app.FeeMarketKeeper,
+		AccountKeeper:     app.AccountKeeper,
+		BankKeeper:        app.BankKeeper,
+		FeegrantKeeper:    app.FeeGrantKeeper,
+		SignModeHandler:   encodingConfig.TxConfig.SignModeHandler(),
+		SigGasConsumer:    evmante.DefaultSigVerificationGasConsumer,
+		IBCKeeper:         app.IBCKeeper,
+		EvmKeeper:         app.EVMKeeper,
+		FeeMarketKeeper:   app.FeeMarketKeeper,
 		TxCounterStoreKey: keys[wasm.StoreKey],
-		MaxTxGasWanted:  maxGasWanted,
+		MaxTxGasWanted:    maxGasWanted,
 		WasmConfig:        wasmConfig,
-		Cdc:             appCodec,
+		Cdc:               appCodec,
 	}
 
-	if _,err := options.Validate(); err != nil {
+	if _, err := options.Validate(); err != nil {
 		panic(err)
 	}
 
@@ -1063,6 +1062,7 @@ func (app *App) SimulationManager() *module.SimulationManager {
 var (
 	AddrLen = 20
 )
+
 // VerifyAddressFormat verifis the address is compatible with ethereum
 func VerifyAddressFormat(bz []byte) error {
 	if len(bz) == 0 {

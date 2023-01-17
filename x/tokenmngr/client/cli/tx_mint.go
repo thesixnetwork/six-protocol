@@ -1,11 +1,11 @@
 package cli
 
 import (
-	"strconv"
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	"strconv"
 	// "github.com/spf13/cast"
 	"github.com/spf13/cobra"
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"

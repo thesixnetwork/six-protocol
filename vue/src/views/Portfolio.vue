@@ -13,14 +13,14 @@
 </template>
 
 <script>
-import { SpAssets, SpTx, SpTxList } from '@starport/vue'
+import { SpAssets, SpAcc, SpAmountSelect } from '@starport/vue'
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
   name: 'Portfolio',
 
-  components: { SpTx, SpAssets, SpTxList },
+  components: { SpAcc, SpAssets, SpAmountSelect },
 
   setup() {
     // store
