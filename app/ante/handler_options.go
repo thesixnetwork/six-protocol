@@ -1,17 +1,17 @@
 package ante
 
 import (
-	authsigning "github.com/cosmos/cosmos-sdk/x/auth/signing"
-	"github.com/cosmos/cosmos-sdk/types/tx/signing"
+	wasmkeeper "github.com/CosmWasm/wasmd/x/wasm/keeper"
+	wasmTypes "github.com/CosmWasm/wasmd/x/wasm/types"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	"github.com/cosmos/cosmos-sdk/types/tx/signing"
 	"github.com/cosmos/cosmos-sdk/x/auth/ante"
+	authsigning "github.com/cosmos/cosmos-sdk/x/auth/signing"
+	"github.com/cosmos/cosmos-sdk/x/auth/types"
 	ibcante "github.com/cosmos/ibc-go/v3/modules/core/ante"
 	ibckeeper "github.com/cosmos/ibc-go/v3/modules/core/keeper"
-	"github.com/cosmos/cosmos-sdk/x/auth/types"
-	wasmkeeper "github.com/CosmWasm/wasmd/x/wasm/keeper"
-	wasmTypes "github.com/CosmWasm/wasmd/x/wasm/types"
 
 	ethante "github.com/evmos/ethermint/app/ante"
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
@@ -20,16 +20,16 @@ import (
 // HandlerOptions extend the SDK's AnteHandler options by requiring the IBC
 // channel keeper.
 type HandlerOptions struct {
-	AccountKeeper   evmtypes.AccountKeeper
-	BankKeeper      evmtypes.BankKeeper
-	FeegrantKeeper  ante.FeegrantKeeper
-	SignModeHandler authsigning.SignModeHandler
-	SigGasConsumer  func(meter sdk.GasMeter, sig signing.SignatureV2, params types.Params) error
-	IBCKeeper       *ibckeeper.Keeper
-	EvmKeeper       ethante.EVMKeeper
-	FeeMarketKeeper evmtypes.FeeMarketKeeper
+	AccountKeeper     evmtypes.AccountKeeper
+	BankKeeper        evmtypes.BankKeeper
+	FeegrantKeeper    ante.FeegrantKeeper
+	SignModeHandler   authsigning.SignModeHandler
+	SigGasConsumer    func(meter sdk.GasMeter, sig signing.SignatureV2, params types.Params) error
+	IBCKeeper         *ibckeeper.Keeper
+	EvmKeeper         ethante.EVMKeeper
+	FeeMarketKeeper   evmtypes.FeeMarketKeeper
 	TxCounterStoreKey sdk.StoreKey
-	MaxTxGasWanted  uint64
+	MaxTxGasWanted    uint64
 	WasmConfig        wasmTypes.WasmConfig
 	Cdc               codec.BinaryCodec
 }
@@ -58,7 +58,6 @@ func (options HandlerOptions) Validate() (sdk.AnteHandler, error) {
 	if options.FeeMarketKeeper == nil {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrLogic, "fee market keeper is required for ante builder")
 	}
-
 
 	var sigGasConsumer = options.SigGasConsumer
 	if sigGasConsumer == nil {
