@@ -3,24 +3,24 @@
     <div class="row row-sm-revers">
       <div class="col-md-6">
         <SpAssets />
-        <SpTxList />
+        <SpAmountSelect />
       </div>
       <div class="col-md-5 col-lg-4 col-md-offset-1 col-lg-offset-2">
-        <SpTx />
+        <SpAcc />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { SpAssets, SpTx, SpTxList } from '@starport/vue'
+import { SpAssets, SpAcc, SpAmountSelect } from '@starport/vue'
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
   name: 'Portfolio',
 
-  components: { SpTx, SpAssets, SpTxList },
+  components: { SpAcc, SpAssets, SpAmountSelect },
 
   setup() {
     // store
