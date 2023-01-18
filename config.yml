@@ -1,6 +1,6 @@
 accounts: # mnemonic for development purpose
   - name: alice
-    coins: ["10000000000000000000000asix", "100000000000000usix"]
+    coins: ["1000000000000000000000asix", "1000000000usix"]
     mnemonic: "history perfect across group seek acoustic delay captain sauce audit carpet tattoo exhaust green there giant cluster want pond bulk close screen scissors remind"
   - name: bob
     coins: ["20000000000000000000000asix", "200000000000000usix"]
@@ -201,12 +201,12 @@ genesis:
     evm:
       params:
         evm_denom: "asix"
-    feemarket:
-      params:
-        base_fee: "1250000000000"
-        base_fee_change_denominator: 8
-        elasticity_multiplier: 2
-        enable_height: "0"
-        min_gas_multiplier: "0.500000000000000000"
-        min_gas_price: "0.000000000000000000"
-        no_base_fee: false
+    # feemarket:
+    #   params:
+    #     base_fee: "100000000000"
+    #     base_fee_change_denominator: 8
+    #     elasticity_multiplier: 2
+    #     enable_height: "0"
+    #     min_gas_multiplier: "0.500000000000000000"
+    #     min_gas_price: "0.000000000000000000"
+    #     no_base_fee: false
