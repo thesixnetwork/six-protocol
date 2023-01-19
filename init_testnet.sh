@@ -59,7 +59,7 @@ sixd init $MONIKER --chain-id $CHAINID
 cat $HOME/.six/config/genesis.json | jq '.app_state["staking"]["params"]["bond_denom"]="usix"' > $HOME/.six/config/tmp_genesis.json && mv $HOME/.six/config/tmp_genesis.json $HOME/.six/config/genesis.json
 cat $HOME/.six/config/genesis.json | jq '.app_state["crisis"]["constant_fee"]["denom"]="usix"' > $HOME/.six/config/tmp_genesis.json && mv $HOME/.six/config/tmp_genesis.json $HOME/.six/config/genesis.json
 cat $HOME/.six/config/genesis.json | jq '.app_state["gov"]["deposit_params"]["min_deposit"][0]["denom"]="usix"' > $HOME/.six/config/tmp_genesis.json && mv $HOME/.six/config/tmp_genesis.json $HOME/.six/config/genesis.json
-cat $HOME/.six/config/genesis.json | jq '.app_state["evm"]["params"]["evm_denom"]="usix"' > $HOME/.six/config/tmp_genesis.json && mv $HOME/.six/config/tmp_genesis.json $HOME/.six/config/genesis.json
+cat $HOME/.six/config/genesis.json | jq '.app_state["evm"]["params"]["evm_denom"]="asix"' > $HOME/.six/config/tmp_genesis.json && mv $HOME/.six/config/tmp_genesis.json $HOME/.six/config/genesis.json
 # cat $HOME/.six/config/genesis.json | jq '.app_state["inflation"]["params"]["mint_denom"]="usix"' > $HOME/.six/config/tmp_genesis.json && mv $HOME/.six/config/tmp_genesis.json $HOME/.six/config/genesis.json
 
 # Change voting params so that submitted proposals pass immediately for testing
@@ -98,29 +98,29 @@ if [[ $1 == "pending" ]]; then
 fi
 
 # Allocate genesis accounts (cosmos formatted addresses)
-sixd add-genesis-account $(sixd keys show -a val1 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 100000000000000000000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a val2 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 100000000000000000000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a val3 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 100000000000000000000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a val4 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 100000000000000000000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a oracle1 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 100000000000000000000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a oracle2 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 100000000000000000000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a oracle3 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 100000000000000000000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a oracle4 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 100000000000000000000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a alice --keyring-backend ${KEYRING} --home ${SIX_HOME}) 100000000000000000000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a bob --keyring-backend ${KEYRING} --home ${SIX_HOME}) 100000000000000000000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a super-admin --keyring-backend ${KEYRING} --home ${SIX_HOME}) 100000000000000000000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-                                 
+## denom usix
+sixd add-genesis-account $(sixd keys show -a val1 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 11000000000usix,1000000000000000000000asix --keyring-backend ${KEYRING} --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a val2 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix,1000000000000000000000asix --keyring-backend ${KEYRING} --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a val3 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix,1000000000000000000000asix --keyring-backend ${KEYRING} --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a val4 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix,1000000000000000000000asix --keyring-backend ${KEYRING} --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a oracle1 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix,1000000000000000000000asix --keyring-backend ${KEYRING} --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a oracle2 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix,1000000000000000000000asix --keyring-backend ${KEYRING} --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a oracle3 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix,1000000000000000000000asix --keyring-backend ${KEYRING} --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a oracle4 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix,1000000000000000000000asix --keyring-backend ${KEYRING} --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a alice --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix,1000000000000000000000asix --keyring-backend ${KEYRING} --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a bob --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix,1000000000000000000000asix --keyring-backend ${KEYRING} --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a super-admin --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix,1000000000000000000000asix --keyring-backend ${KEYRING} --home ${SIX_HOME}
 # Update total supply with claim values
 #validators_supply=$(cat $HOME/.six/config/genesis.json | jq -r '.app_state["bank"]["supply"][0]["amount"]')
 # Bc is required to add this big numbers
 # total_supply=$(bc <<< "$amount_to_claim+$validators_supply")
-total_supply=1100000000000000000000000000
-cat $HOME/.six/config/genesis.json | jq -r --arg total_supply "$total_supply" '.app_state["bank"]["supply"][0]["amount"]=$total_supply' > $HOME/.six/config/tmp_genesis.json && mv $HOME/.six/config/tmp_genesis.json $HOME/.six/config/genesis.json
+# total_supply=1100000000000000000000000000
+# cat $HOME/.six/config/genesis.json | jq -r --arg total_supply "$total_supply" '.app_state["bank"]["supply"][0]["amount"]=$total_supply' > $HOME/.six/config/tmp_genesis.json && mv $HOME/.six/config/tmp_genesis.json $HOME/.six/config/genesis.json
 
 echo $KEYRING
 echo $KEY
 # Sign genesis transaction
-sixd gentx val1 100000000000000000000000usix --keyring-backend $KEYRING --chain-id $CHAINID
+sixd gentx val1 1000000000usix --keyring-backend $KEYRING --chain-id $CHAINID
 #sixd gentx $KEY2 1000000000000000000000usix --keyring-backend $KEYRING --chain-id $CHAINID
 
 # Collect genesis tx
@@ -134,5 +134,5 @@ if [[ $1 == "pending" ]]; then
 fi
 
 # Start the node (remove the --pruning=nothing flag if historical queries are not needed)
-sixd start --pruning=nothing --trace --log_level info --minimum-gas-prices=0.0001usix --json-rpc.api eth,txpool,personal,net,debug,web3 --rpc.laddr "tcp://0.0.0.0:26657" --api.enable true
+sixd start --pruning=nothing --trace --log_level info --minimum-gas-prices=1.25usix --json-rpc.api eth,txpool,personal,net,debug,web3 --rpc.laddr "tcp://0.0.0.0:26657" --api.enable true
 
