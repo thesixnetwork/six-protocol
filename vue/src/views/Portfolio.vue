@@ -3,10 +3,10 @@
     <div class="row row-sm-revers">
       <div class="col-md-6">
         <SpAssets />
-        <SpTxList />
+        <SpAmountSelect />
       </div>
       <div class="col-md-5 col-lg-4 col-md-offset-1 col-lg-offset-2">
-        <SpTx />
+        <SpAcc />
       </div>
     </div>
   </div>
