@@ -37594,16 +37594,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftoracle/action_request/{id}':
@@ -37913,16 +37903,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftoracle/action_request_063/{id}':
@@ -38159,16 +38139,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftoracle/action_signer/{actorAddress}':
@@ -38222,6 +38192,59 @@ paths:
         - name: ownerAddress
           in: query
           required: false
+          type: string
+      tags:
+        - Query
+  '/thesixnetwork/sixnft/nftoracle/binded_signer/{ownerAddress}':
+    get:
+      summary: Queries a BindedSigner by index.
+      operationId: ThesixnetworkSixnftNftoracleBindedSigner
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              bindedSigner:
+                type: object
+                properties:
+                  ownerAddress:
+                    type: string
+                  signers:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        actor_address:
+                          type: string
+                        expired_at:
+                          type: string
+                          format: date-time
+                  actorCount:
+                    type: string
+                    format: uint64
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: ownerAddress
+          in: path
+          required: true
           type: string
       tags:
         - Query
@@ -38389,16 +38412,6 @@ paths:
             when key
 
             is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -38676,16 +38689,6 @@ paths:
             when key
 
             is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -64157,6 +64160,24 @@ definitions:
         format: date-time
       creator:
         type: string
+  thesixnetwork.sixnft.nftoracle.BindedSigner:
+    type: object
+    properties:
+      ownerAddress:
+        type: string
+      signers:
+        type: array
+        items:
+          type: object
+          properties:
+            actor_address:
+              type: string
+            expired_at:
+              type: string
+              format: date-time
+      actorCount:
+        type: string
+        format: uint64
   thesixnetwork.sixnft.nftoracle.CollectionOwnerRequest:
     type: object
     properties:
@@ -65124,6 +65145,27 @@ definitions:
             format: date-time
           creator:
             type: string
+  thesixnetwork.sixnft.nftoracle.QueryGetBindedSignerResponse:
+    type: object
+    properties:
+      bindedSigner:
+        type: object
+        properties:
+          ownerAddress:
+            type: string
+          signers:
+            type: array
+            items:
+              type: object
+              properties:
+                actor_address:
+                  type: string
+                expired_at:
+                  type: string
+                  format: date-time
+          actorCount:
+            type: string
+            format: uint64
   thesixnetwork.sixnft.nftoracle.QueryGetCollectionOwnerRequestResponse:
     type: object
     properties:
@@ -65311,6 +65353,14 @@ definitions:
         type: string
       max_value:
         type: string
+  thesixnetwork.sixnft.nftoracle._SetSignerParams:
+    type: object
+    properties:
+      actor_address:
+        type: string
+      expired_at:
+        type: string
+        format: date-time
   thesixnetwork.sixprotocol.protocoladmin.Admin:
     type: object
     properties:
