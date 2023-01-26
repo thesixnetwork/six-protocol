@@ -2,6 +2,7 @@ package app
 
 import (
 	"fmt"
+	"strings"
 
 	store "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -180,6 +181,13 @@ func (app *App) RegisterUpgradeHandlers() {
 				},
 				IsVerified:        schema.IsVerified,
 				MintAuthorization: schema.MintAuthorization,
+			}
+
+			// replace string in action[num].then[num]
+			for i, action := range new_schema.OnchainData.Actions {
+				for j, then := range action.Then {
+					new_schema.OnchainData.Actions[i].Then[j] = strings.ReplaceAll(then, "Arribute", "Attribute")
+				}
 			}
 
 			app.NftmngrKeeper.SetNFTSchema(ctx, new_schema)
