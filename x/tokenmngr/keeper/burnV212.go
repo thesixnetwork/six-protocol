@@ -9,14 +9,13 @@ import (
 )
 
 // History burn
-func (k Keeper) UpdateBurn(ctx sdk.Context, burn types.Burn) uint64 {
+func (k Keeper) UpdateBurnV212(ctx sdk.Context, burn types.Burn) uint64 {
 	// Get the current number of burns in the store
 	count := k.GetBurnCount(ctx)
 	// Assign an ID to the burn based on the number of burns in the store
 	burn.Id = count
 	// Get the store
-	// store := prefix.NewStore(ctx.KVStore(k.storeKey), []byte(types.BurnKey))
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.BurnKey))
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), []byte(types.BurnKey))
 	// Convert the burn ID into bytes
 	byteKey := make([]byte, 8)
 	binary.BigEndian.PutUint64(byteKey, burn.Id)
@@ -29,22 +28,7 @@ func (k Keeper) UpdateBurn(ctx sdk.Context, burn types.Burn) uint64 {
 	return count
 }
 
-// GetBurnIDBytes returns the byte representation of the ID
-func GetBurnIDBytes(id uint64) []byte {
-	bz := make([]byte, 8)
-	binary.BigEndian.PutUint64(bz, id)
-	return bz
-}
-
-func (k Keeper) SetBurns(ctx sdk.Context, burns []types.Burn) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.BurnKey))
-	for _, burn := range burns {
-		b := k.cdc.MustMarshal(&burn)
-		store.Set(GetBurnIDBytes(burn.Id), b)
-	}
-}
-
-func (k Keeper) GetBurnCount(ctx sdk.Context) uint64 {
+func (k Keeper) GetBurnCountV212(ctx sdk.Context) uint64 {
 	// Get the store using storeKey (which is "blog") and BurnCountKey (which is "Burn-count-")
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), []byte(types.BurnCountKey))
 	// Convert the BurnCountKey to bytes
@@ -59,7 +43,7 @@ func (k Keeper) GetBurnCount(ctx sdk.Context) uint64 {
 	return binary.BigEndian.Uint64(bz)
 }
 
-func (k Keeper) SetBurnCount(ctx sdk.Context, count uint64) {
+func (k Keeper) SetBurnCountV212(ctx sdk.Context, count uint64) {
 	// Get the store using storeKey (which is "burn") and BurnCountKey (which is "Burn-count-")
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), []byte(types.BurnCountKey))
 	// Convert the BurnCountKey to bytes
