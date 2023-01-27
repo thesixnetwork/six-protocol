@@ -36,6 +36,7 @@ func GetBurnIDBytes(id uint64) []byte {
 	return bz
 }
 
+// SetBurn is a special function used by upgrade module to set burns after upgrade
 func (k Keeper) SetBurns(ctx sdk.Context, burns []types.Burn) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.BurnKey))
 	for _, burn := range burns {
