@@ -62,6 +62,7 @@ func (app *App) RegisterUpgradeHandlers() {
 
 		// Burns
 		burns := app.TokenmngrKeeper.GetAllBurnV202(ctx)
+		list_burns := make([]tokenmngrmoduletypes.Burn, 0)
 		for _, burn := range burns {
 			var new_ver_burns tokenmngrmoduletypes.Burn
 			new_ver_burns = tokenmngrmoduletypes.Burn{
@@ -69,8 +70,11 @@ func (app *App) RegisterUpgradeHandlers() {
 				Creator: burn.Creator,
 				Amount:  sdk.NewCoin(burn.Token, sdk.NewInt(int64(burn.Amount))),
 			}
+			list_burns = append(list_burns, new_ver_burns)
 			app.TokenmngrKeeper.UpdateBurn(ctx, new_ver_burns)
 		}
+		// Set list burns
+		app.TokenmngrKeeper.SetBurns(ctx, list_burns)
 
 		// * Module NFTOracle *
 
