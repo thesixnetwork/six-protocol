@@ -73,7 +73,7 @@ func (k Keeper) BurnsV202(c context.Context, req *types.QueryBurnsRequest) (*typ
 }
 
 // GetAllTokenBurn returns all tokenBurn
-func (k Keeper) GetAllBurnV202(ctx sdk.Context) (list []types.BurnV202) {
+func (k Keeper) GetAllBurnV202(ctx sdk.Context) (list []*types.BurnV202) {
 	store := ctx.KVStore(k.storeKey)
 	burnStore := prefix.NewStore(store, []byte(types.BurnKey))
 	iterator := sdk.KVStorePrefixIterator(burnStore, []byte{})
@@ -83,7 +83,7 @@ func (k Keeper) GetAllBurnV202(ctx sdk.Context) (list []types.BurnV202) {
 	for ; iterator.Valid(); iterator.Next() {
 		var val types.BurnV202
 		k.cdc.MustUnmarshal(iterator.Value(), &val)
-		list = append(list, val)
+		list = append(list, &val)
 	}
 
 	return
