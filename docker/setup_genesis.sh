@@ -20,6 +20,9 @@ function setupGenesis() {
     ## replace to from 127.0.0.1 to 0.0.0.0
     sed -i '' "s/127.0.0.1/0.0.0.0/g" ./build/${SIX_HOME}/config/config.toml
 
+    ## replace consensus params
+    sed -i '' "s/timeout_propose = \"3s\"/timeout_propose = \"1s\"/g" ./build/${SIX_HOME}/config/config.toml
+    sed -i '' "s/timeout_commit = \"5s\"/timeout_commit = \"1s\"/g" ./build/${SIX_HOME}/config/config.toml
     ## config genesis.json
     jq '.app_state.bank.params.send_enabled[0] = {"denom": "usix","enabled": true}' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json
 
@@ -51,7 +54,7 @@ function setupGenesis() {
     ## tokenmngr
     jq '.app_state.tokenmngr.mintpermList[0] |= . + {"address": "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq","creator": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv","token": "usix"}' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json
     jq '.app_state.tokenmngr.options = {"defaultMintee": "6x1cws3ex5yqwlu4my49htq06nsnhuxw3v7rt20g6"}' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json
-    jq '.app_state.tokenmngr.tokenList[0] |= . +  {"base": "usix","creator": "6x1eau6xz2kdv6wy7rhj2nxv0xrgnjy79hcm2tr9t","maxSupply": 0,"mintee": "6x1cws3ex5yqwlu4my49htq06nsnhuxw3v7rt20g6","name": "usix"}' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json 
+    jq '.app_state.tokenmngr.tokenList[0] |= . +  {"base": "usix","creator": "6x1eau6xz2kdv6wy7rhj2nxv0xrgnjy79hcm2tr9t","maxSupply": { "amount": "0", "denom": "usix" },"mintee": "6x1cws3ex5yqwlu4my49htq06nsnhuxw3v7rt20g6","name": "usix"}' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json 
     
     ## gov
     jq '.app_state.gov.deposit_params.max_deposit_period = "300s"' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json
