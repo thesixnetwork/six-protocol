@@ -24,6 +24,10 @@ function setUpGenesis(){
     ## from stake to usix
     sed -i '' "s/stake/usix/g" ./build/sixnode0/config/genesis.json
 
+    ## replace consensus params
+    sed -i '' "s/timeout_propose = \"3s\"/timeout_propose = \"1s\"/g" ./build/${SIX_HOME}/config/config.toml
+    sed -i '' "s/timeout_commit = \"5s\"/timeout_commit = \"1s\"/g" ./build/${SIX_HOME}/config/config.toml
+
     ## nftadmin
     jq '.app_state.nftadmin.authorization = {"root_admin": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
 
