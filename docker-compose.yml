@@ -3,7 +3,7 @@ version: '3'
 services:
   sixnode0:
     container_name: sixnode0
-    image: "six/node:2.1.0"
+    image: "six/node:2.3.0"
     ports:
       - "26656-26657:26656-26657"
       - "1317:1317"
@@ -18,7 +18,7 @@ services:
 
   sixnode1:
     container_name: sixnode1
-    image: "six/node:2.1.0"
+    image: "six/node:2.3.0"
     ports:
       - "26659-26660:26656-26657"
     volumes:
@@ -32,7 +32,7 @@ services:
 
   sixnode2:
     container_name: sixnode2
-    image: "six/node:2.1.0"
+    image: "six/node:2.3.0"
     ports:
       - "26661-26662:26656-26657"
     volumes:
@@ -46,7 +46,7 @@ services:
 
   sixnode3:
     container_name: sixnode3
-    image: "six/node:2.1.0"
+    image: "six/node:2.3.0"
     ports:
       - "26663-26664:26656-26657"
     volumes:

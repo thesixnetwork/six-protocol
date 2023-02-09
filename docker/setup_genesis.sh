@@ -11,6 +11,9 @@ function setupGenesis() {
     ## replace NODE_PEER in config.toml to persistent_peers
     sed -i '' "s/persistent_peers = \"\"/persistent_peers = ${NODE_PEER}/g" ./build/${SIX_HOME}/config/config.toml
 
+    ## replace mininum gas price
+    sed -i '' "s/minimum-gas-prices = \"0stake\"/minimum-gas-prices = \"1.25usix\"/g" ./build/${SIX_HOME}/config/app.toml
+
     ## replace to enalbe api
     sed -i '' "108s/.*/enable = true/" ./build/${SIX_HOME}/config/app.toml
 
