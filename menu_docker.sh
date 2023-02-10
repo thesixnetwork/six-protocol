@@ -24,10 +24,6 @@ function setUpGenesis(){
     ## from stake to usix
     sed -i '' "s/stake/usix/g" ./build/sixnode0/config/genesis.json
 
-    ## replace consensus params
-    sed -i '' "s/timeout_propose = \"3s\"/timeout_propose = \"1s\"/g" ./build/${SIX_HOME}/config/config.toml
-    sed -i '' "s/timeout_commit = \"5s\"/timeout_commit = \"1s\"/g" ./build/${SIX_HOME}/config/config.toml
-
     ## nftadmin
     jq '.app_state.nftadmin.authorization = {"root_admin": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
 
@@ -35,7 +31,7 @@ function setUpGenesis(){
     jq '.app_state.nftmngr.nft_fee_config = {"schema_fee": {"fee_amount": "200000000usix","fee_distributions": [{"method": "BURN","portion": 0.5},{"method": "REWARD_POOL","portion": 0.5}]}}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
 
     ## nftoracle
-    jq '.app_state.nftoracle.params = {"action_request_active_duration": "120s","mint_request_active_duration": "120s","verify_request_active_duration": "120s", "action_signer_active_duration": "2592000s"}' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json
+    jq '.app_state.nftoracle.params = {"action_request_active_duration": "120s","mint_request_active_duration": "120s","verify_request_active_duration": "120s", "action_signer_active_duration": "2592000s"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
     jq '.app_state.nftoracle.oracle_config = {"minimum_confirmation": 4}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
 
     ## protocoladmin
@@ -53,8 +49,8 @@ function setUpGenesis(){
     jq '.app_state.tokenmngr.tokenList[0] |= . +  {"base": "usix","creator": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv","maxSupply": {"amount": "0","denom": "usix"},"mintee": "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq","name": "usix"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json 
     
     ## gov
-    jq '.app_state.gov.deposit_params.max_deposit_period = "300s"' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json
-    jq '.app_state.gov.voting_params.voting_period = "300s"' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json
+    jq '.app_state.gov.deposit_params.max_deposit_period = "300s"' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
+    jq '.app_state.gov.voting_params.voting_period = "300s"' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
 }
 
 function setUpConfig() {
@@ -63,8 +59,8 @@ function setUpConfig() {
 
     if [[ ${SIX_HOME} == "sixnode0" ]]; then
         echo "sixnode0"
-        NODE_PEER=$(jq '.app_state.genutil.gen_txs[0].body.memo' ./build/sixnode1/config/genesis.json)
-        sed -i '' "s/persistent_peers = \"\"/persistent_peers = ${NODE_PEER}/g" ./build/${SIX_HOME}/config/config.toml
+        # NODE_PEER=$(jq '.app_state.genutil.gen_txs[0].body.memo' ./build/sixnode1/config/genesis.json)
+        # sed -i '' "s/persistent_peers = \"\"/persistent_peers = ${NODE_PEER}/g" ./build/${SIX_HOME}/config/config.toml
         ## setup genesis of node0
         setUpGenesis
     else
@@ -74,6 +70,10 @@ function setUpConfig() {
             ## replace genesis of node0 to all node
         cp ./build/sixnode0/config/genesis.json ./build/${SIX_HOME}/config/genesis.json
     fi
+
+    ## replace consensus params
+    sed -i '' "s/timeout_propose = \"3s\"/timeout_propose = \"1s\"/g" ./build/${SIX_HOME}/config/config.toml
+    sed -i '' "s/timeout_commit = \"5s\"/timeout_commit = \"1s\"/g" ./build/${SIX_HOME}/config/config.toml
     ## replace to enalbe api
     sed -i '' "108s/.*/enable = true/" ./build/${SIX_HOME}/config/app.toml
     ## replace to from 127.0.0.1 to 0.0.0.0
