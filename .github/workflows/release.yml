@@ -36,13 +36,13 @@ jobs:
     - name: Download libwasmvm_muslc.aarch64.a from github
       run: wget https://github.com/CosmWasm/wasmvm/releases/download/v1.0.0/libwasmvm_muslc.aarch64.a
 
-    - name: Move to /lib
+    - name: Move to Path /lib
       run: mv libwasmvm_muslc.aarch64.a /lib/libwasmvm_muslc.aarch64.a
 
     - name: Download/lib/libwasmvm_muslc.x86_64.a from github
       run: wget https://github.com/CosmWasm/wasmvm/releases/download/v1.0.0/libwasmvm_muslc.x86_64.a
 
-    - name: Move to /lib
+    - name: Move to Path /lib
       run: mv libwasmvm_muslc.x86_64.a /lib/libwasmvm_muslc.x86_64.a
 
     - name: Export GOPRIVATE
