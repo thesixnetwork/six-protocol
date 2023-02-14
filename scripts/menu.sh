@@ -359,7 +359,7 @@ case $choice in
             all_required_params+=($required_params)
         done
         all_required_params="["$(echo ${all_required_params[@]} | tr ' ' ',')"]"
-        sixd tx nftmngr perform-multi-token-action ${schema_code} ${token_id} ${action} ${ref_id} ${all_required_params} --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+        echo sixd tx nftmngr perform-multi-token-action ${schema_code} ${token_id} ${action} ${ref_id} ${all_required_params} --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             --chain-id ${CHAIN_ID}
         ;;
     *) echo "Invalid choice"
