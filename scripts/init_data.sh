@@ -12,8 +12,8 @@ if [ -z "$CHAIN_ID" ]; then
     CHAIN_ID=testnet
 fi
 
-sixd tx nftadmin grant-permission oracle_admin $(sixd keys show super-admin -a) --from super-admin -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID}
-sixd tx nftoracle set-minimum-confirmation 1 --from super-admin  -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID}
+sixd tx nftadmin grant-permission oracle_admin $(sixd keys show super-admin -a) --from super-admin -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix
+sixd tx nftoracle set-minimum-confirmation 1 --from super-admin  -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix
 sixd tx nftmngr create-nft-schema --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --chain-id ${CHAIN_ID} \
     --node ${RPC_ENDPOINT} ${BASE64_SCHEMA}
 
