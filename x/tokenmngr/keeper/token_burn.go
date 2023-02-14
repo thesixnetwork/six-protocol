@@ -11,7 +11,7 @@ func (k Keeper) SetTokenBurn(ctx sdk.Context, tokenBurn types.TokenBurn) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.TokenBurnKeyPrefix))
 	b := k.cdc.MustMarshal(&tokenBurn)
 	store.Set(types.TokenBurnKey(
-		tokenBurn.Token,
+		tokenBurn.Amount.Denom,
 	), b)
 }
 
@@ -21,6 +21,26 @@ func (k Keeper) GetTokenBurn(
 	token string,
 
 ) (val types.TokenBurn, found bool) {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.TokenBurnKeyPrefix))
+
+	b := store.Get(types.TokenBurnKey(
+		token,
+	))
+	if b == nil {
+		return val, false
+	}
+
+	k.cdc.MustUnmarshal(b, &val)
+	return val, true
+}
+
+// GetTokenBurnV202 returns a tokenBurn from its index 
+// ? THIS IS FOR MIGRATION
+func (k Keeper) GetTokenBurnV202(
+	ctx sdk.Context,
+	token string,
+
+) (val types.TokenBurnV202, found bool) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.TokenBurnKeyPrefix))
 
 	b := store.Get(types.TokenBurnKey(
@@ -55,6 +75,22 @@ func (k Keeper) GetAllTokenBurn(ctx sdk.Context) (list []types.TokenBurn) {
 
 	for ; iterator.Valid(); iterator.Next() {
 		var val types.TokenBurn
+		k.cdc.MustUnmarshal(iterator.Value(), &val)
+		list = append(list, val)
+	}
+
+	return
+}
+
+// GetAllTokenBurn returns all tokenBurn
+func (k Keeper) GetAllTokenBurnV202(ctx sdk.Context) (list []types.TokenBurnV202) {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.TokenBurnKeyPrefix))
+	iterator := sdk.KVStorePrefixIterator(store, []byte{})
+
+	defer iterator.Close()
+
+	for ; iterator.Valid(); iterator.Next() {
+		var val types.TokenBurnV202
 		k.cdc.MustUnmarshal(iterator.Value(), &val)
 		list = append(list, val)
 	}

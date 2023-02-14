@@ -21,6 +21,37 @@ func (k msgServer) CreateMintperm(goCtx context.Context, msg *types.MsgCreateMin
 		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "token does not existed")
 	}
 
+	// ** Prepare this code for future but it might be bypass by bank module **
+	// ** Need to test and verify **
+	// ** But without this it is still working on testnet and mainnet **
+	// ** So it is not a priority **
+	// tokenmngr_token, foundToken := k.GetToken(ctx, msg.Token)
+	// if !foundToken {
+	// 	// find from bank module
+	// 	token, found := k.bankKeeper.GetDenomMetaData(ctx, msg.Token)
+	// 	if !found {
+	// 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "token not found")
+	// 	}
+
+	// 	// get token admin
+	// 	token_admin, found := k.protocoladminKeeper.GetGroup(ctx, TOKEN_ADMIN)
+	// 	if !found {
+	// 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "token admin not found")
+	// 	}
+		
+	// 	// create token
+	// 	maxsupply := sdk.NewIntFromUint64(0)
+	// 	new_coin := sdk.NewCoin(token.Base, maxsupply)
+	// 	tokenmngr_token = types.Token{
+	// 		Name:      token.Display,
+	// 		Base:      token.Base,
+	// 		Mintee:    msg.Address,
+	// 		Creator:   token_admin.Owner,
+	// 		MaxSupply: new_coin,
+	// 	}
+	// 	k.SetToken(ctx, tokenmngr_token)
+	// }
+
 	// Check if the value already exists
 	_, isFound := k.GetMintperm(
 		ctx,

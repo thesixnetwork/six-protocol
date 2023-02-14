@@ -37,6 +37,8 @@ validator:
 client:
   openapi:
     path: "docs/static/openapi.yml"
+  typescript:
+    path: "ts-client"
   vuex:
     path: "vue/src/store"
 faucet:
@@ -99,10 +101,13 @@ genesis:
     protocoladmin:
       groupList:
         [
-          { name: "super.admin", owner: "genesis" },
+          {
+            name: "super.admin",
+            owner: "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv",
+          },
           {
             name: "token.admin",
-            owner: "6x1eau6xz2kdv6wy7rhj2nxv0xrgnjy79hcm2tr9t",
+            owner: "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv",
           },
         ]
       adminList:
@@ -112,8 +117,8 @@ genesis:
             admin: "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv",
           },
           {
-            admin: "6x1eau6xz2kdv6wy7rhj2nxv0xrgnjy79hcm2tr9t",
             group: "token.admin",
+            admin: "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv",
           },
         ]
     tokenmngr:
@@ -121,38 +126,38 @@ genesis:
         [
           {
             address: "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq",
-            creator: "6x1eau6xz2kdv6wy7rhj2nxv0xrgnjy79hcm2tr9t",
+            creator: "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv",
             token: "usix",
           },
         ]
-      options: { defaultMintee: "6x1cws3ex5yqwlu4my49htq06nsnhuxw3v7rt20g6" }
+      options: { defaultMintee: "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq" }
       port_id: "tokenmngr"
       tokenList:
         [
           {
-            creator: "6x1eau6xz2kdv6wy7rhj2nxv0xrgnjy79hcm2tr9t",
-            maxSupply: 0,
-            mintee: "6x1cws3ex5yqwlu4my49htq06nsnhuxw3v7rt20g6",
+            creator: "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv",
+            maxSupply: { amount: "0", denom: "usix" },
+            mintee: "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq",
             name: "usix",
             base: "usix",
           },
         ]
     nftmngr:
-            nft_fee_config:
-              schema_fee:
-                fee_amount: "200000000usix"
-                fee_distributions:
-                  - method: "BURN"
-                    portion: 0.5
-                  - method: "REWARD_POOL"
-                    portion: 0.5
+      nft_fee_config:
+        schema_fee:
+          fee_amount: "200000000usix"
+          fee_distributions:
+            - method: "BURN"
+              portion: 0.5
+            - method: "REWARD_POOL"
+              portion: 0.5
     nftoracle:
-        oracle_config:
-                minimum_confirmation: 4
-        params:
-            mint_request_active_duration: "120s"
-            action_request_active_duration: "120s"
-            verify_request_active_duration: "120s"
+      oracle_config:
+        minimum_confirmation: 4
+      params:
+        mint_request_active_duration: "120s"
+        action_request_active_duration: "120s"
+        verify_request_active_duration: "120s"
     nftadmin:
-        authorization:
-            root_admin: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
+      authorization:
+        root_admin: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv

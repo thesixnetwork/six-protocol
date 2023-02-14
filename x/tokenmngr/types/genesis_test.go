@@ -2,7 +2,7 @@ package types_test
 
 import (
 	"testing"
-
+	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
@@ -45,10 +45,10 @@ func TestGenesisState_Validate(t *testing.T) {
 				},
 				TokenBurnList: []types.TokenBurn{
 					{
-						Token: "0",
+						Amount: sdk.NewCoin("test", sdk.NewInt(int64(1))),
 					},
 					{
-						Token: "1",
+						Amount: sdk.NewCoin("test", sdk.NewInt(int64(1))),
 					},
 				},
 				// this line is used by starport scaffolding # types/genesis/validField
@@ -90,10 +90,10 @@ func TestGenesisState_Validate(t *testing.T) {
 			genState: &types.GenesisState{
 				TokenBurnList: []types.TokenBurn{
 					{
-						Token: "0",
+						Amount: sdk.NewCoin("test", sdk.NewInt(int64(1))),
 					},
 					{
-						Token: "0",
+						Amount: sdk.NewCoin("test", sdk.NewInt(int64(1))),
 					},
 				},
 			},
