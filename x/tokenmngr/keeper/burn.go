@@ -15,7 +15,8 @@ func (k Keeper) UpdateBurn(ctx sdk.Context, burn types.Burn) uint64 {
 	// Assign an ID to the burn based on the number of burns in the store
 	burn.Id = count
 	// Get the store
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), []byte(types.BurnKey))
+	// store := prefix.NewStore(ctx.KVStore(k.storeKey), []byte(types.BurnKey))
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.BurnKey))
 	// Convert the burn ID into bytes
 	byteKey := make([]byte, 8)
 	binary.BigEndian.PutUint64(byteKey, burn.Id)
@@ -26,6 +27,22 @@ func (k Keeper) UpdateBurn(ctx sdk.Context, burn types.Burn) uint64 {
 	// Update the burn count
 	k.SetBurnCount(ctx, count+1)
 	return count
+}
+
+// GetBurnIDBytes returns the byte representation of the ID
+func GetBurnIDBytes(id uint64) []byte {
+	bz := make([]byte, 8)
+	binary.BigEndian.PutUint64(bz, id)
+	return bz
+}
+
+// SetBurn is a special function used by upgrade module to set burns after upgrade
+func (k Keeper) SetBurns(ctx sdk.Context, burns []types.Burn) {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.BurnKey))
+	for _, burn := range burns {
+		b := k.cdc.MustMarshal(&burn)
+		store.Set(GetBurnIDBytes(burn.Id), b)
+	}
 }
 
 func (k Keeper) GetBurnCount(ctx sdk.Context) uint64 {
