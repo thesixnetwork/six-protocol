@@ -16,7 +16,7 @@ require (
 	github.com/stretchr/testify v1.7.5
 	github.com/tendermint/tendermint v0.34.20-0.20220517115723-e6f071164839
 	github.com/tendermint/tm-db v0.6.7
-	github.com/thesixnetwork/sixnft v0.7.2
+	github.com/thesixnetwork/sixnft v0.7.3
 	google.golang.org/genproto v0.0.0-20221207170731-23e4bf6bdc37
 	google.golang.org/grpc v1.51.0
 	gopkg.in/yaml.v2 v2.4.0
@@ -138,7 +138,7 @@ require (
 	github.com/radovskyb/watcher v1.0.7 // indirect
 	github.com/rakyll/statik v0.1.7 // indirect
 	github.com/rcrowley/go-metrics v0.0.0-20200313005456-10cdbea86bc0 // indirect
-	github.com/regen-network/cosmos-proto v0.3.1 // indirect
+	github.com/regen-network/cosmos-proto v0.3.1
 	github.com/rs/cors v1.8.2 // indirect
 	github.com/rs/zerolog v1.26.1 // indirect
 	github.com/sasha-s/go-deadlock v0.2.1-0.20190427202633-1595213edefa // indirect
