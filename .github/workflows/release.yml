@@ -41,7 +41,11 @@ jobs:
 
     - name: 'Export GOPRIVATE'
       run: 'git config --global url."https://${{ secrets.GH_TOKEN }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"'
+      
+    - name: 'Export Path dependencies'
       run: 'export GOPRIVATE=github.com/thesixnetwork/sixnft'
+
+    - name: 'Install dependencies'  
       run: 'go get github.com/thesixnetwork/sixnft@latest'
 
     - name: 'Install dependencies'
