@@ -31,6 +31,8 @@ echo "##  16. Add Action                         ##"
 echo "##  17. Set Signer                         ##"
 echo "##  18. Show ActionSigner By Address       ##"
 echo "##  19. Oracle - Action Request By Signer  ##"
+echo "##  20. Mockup Multi Token                 ##"
+echo "##  21. Do Action Multi Tokens             ##"
 echo "##  Your choice:                           ##"
 echo "##                                         ##"
 echo "#############################################"
@@ -312,6 +314,53 @@ case $choice in
         # echo -n ${BASE64_MESSAGE} | $EVMSIGN ./.secret 1
         # echo  ${BASE64_ACTION_SIG} 
         sixd tx nftoracle create-action-request ethereum ${BASE64_ACTION_SIG} ${require_confirmations} --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} -y 
+        ;;
+    20)
+        echo "Mockup Multi Token"
+        read -p "Enter Schema Code: " schema_code
+        read -p "Enter Token IDs: " token_id
+        if [ -z "$schema_code" ]; then
+            schema_code=$default_schema_code
+        fi
+        BASE64_META=$(cat nft-data.json | sed "s/TOKENID/MULTIMINT/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n')
+        sixd tx nftmngr create-multi-metadata ${schema_code} ${token_id} --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+            ${BASE64_META} --chain-id ${CHAIN_ID}
+        ;;
+    21)
+        echo "Do Action Multi token"
+        read -p "Enter Schema Code: " schema_code 
+        read -p "Enter Token IDs: " token_id
+        read -p "Enter Action: " action
+        read -p "Enter Ref ID: " ref_id
+        if [ -z "$schema_code" ]; then
+            schema_code=$default_schema_code
+        fi
+        # array from action
+        arrAction=(${action//,/ })
+        all_required_params=()
+        # iterate through array using for loop
+        for i in "${arrAction[@]}"
+        do
+            echo "$i"
+            read -p "Enter number of Required Params of $i: " num_params
+            required_params=()
+            # check if required_params is empty
+            if [[ -z "$num_params" || "$num_params" -eq 0 ]]; then
+                required_params="[]"
+            else
+                for ((j=1; j<=num_params; j++)); do
+                    read -p "Enter name of param $j: " param_name
+                    read -p "Enter value of >> $param_name << : " param_value
+                    required_params+=( "{\"name\":\"$param_name\",\"value\":\"$param_value\"}" )
+                done
+                required_params="["$(echo ${required_params[@]} | tr ' ' ',')"]"
+                echo $required_params
+            fi
+            all_required_params+=($required_params)
+        done
+        all_required_params="["$(echo ${all_required_params[@]} | tr ' ' ',')"]"
+        echo sixd tx nftmngr perform-multi-token-action ${schema_code} ${token_id} ${action} ${ref_id} ${all_required_params} --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+            --chain-id ${CHAIN_ID}
         ;;
     *) echo "Invalid choice"
        ;;
