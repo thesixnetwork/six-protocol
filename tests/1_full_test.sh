@@ -12,5 +12,5 @@ do
     echo "#######################################"
     echo "Starting ${mod} tests on ${RPC_ENDPOINT}..."
     echo "#######################################"
-    sh ${mod}.sh || exit 1
+    bash ${mod}.sh || exit 1
 done
