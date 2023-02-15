@@ -309,7 +309,31 @@
           "then": [
             "meta.SetDisplayAttribute(params['attribute_name'].GetString(), params['show'].GetString())"
           ]
-        }
+        },
+        {
+          "name": "transfer",
+          "desc": "Transfer",
+          "params" : [
+              {
+                  "name": "points",
+                  "desc": "Points",
+                  "data_type": "number",
+                  "required" : true,
+                  "default_value": "10"
+              },
+              {
+                  "name": "token_id",
+                  "desc": "Token Id",
+                  "data_type": "string",
+                  "required" : true,
+                  "default_value": ""
+              }
+          ],
+          "when": "meta.GetNumber('points') > 0 && params['points'].GetNumber() > 0 ",
+          "then": [
+              "meta.TransferNumber('points',params['token_id'].GetString(),params['points'].GetNumber())"
+          ]
+      }
       ],
       "nft_attributes_value": [
         {
