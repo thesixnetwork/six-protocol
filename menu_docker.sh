@@ -71,9 +71,16 @@ function setUpConfig() {
         cp ./build/sixnode0/config/genesis.json ./build/${SIX_HOME}/config/genesis.json
     fi
 
-    ## replace consensus params
-    sed -i '' "s/timeout_propose = \"3s\"/timeout_propose = \"1s\"/g" ./build/${SIX_HOME}/config/config.toml
-    sed -i '' "s/timeout_commit = \"5s\"/timeout_commit = \"1s\"/g" ./build/${SIX_HOME}/config/config.toml
+    # if $TYPE = 0 then ignore this step
+    if [[ ${TYPE} == "1" ]]; then
+        echo "Running Fast Node"
+        ## replace consensus params
+        sed -i '' "s/timeout_propose = \"3s\"/timeout_propose = \"1s\"/g" ./build/${SIX_HOME}/config/config.toml
+        sed -i '' "s/timeout_commit = \"5s\"/timeout_commit = \"1s\"/g" ./build/${SIX_HOME}/config/config.toml
+    else
+        echo "Running Default Node"
+    fi
+    
     ## replace to enalbe api
     sed -i '' "108s/.*/enable = true/" ./build/${SIX_HOME}/config/app.toml
     ## replace to from 127.0.0.1 to 0.0.0.0
@@ -129,6 +136,10 @@ case $choice in
         ;;
     5) 
         echo "Config Genesis"
+        read -p "Enter Node Type [0:Default, 1:Fast] : " TYPE
+        if [ -z "$TYPE" ]; then
+            TYPE=0
+        fi
         for home in ${node_homes[@]}
         do  
             (
