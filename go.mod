@@ -196,6 +196,6 @@ replace (
 	github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
 	github.com/keybase/go-keychain => github.com/99designs/go-keychain v0.0.0-20191008050251-8e49817e8af4
 	github.com/syndtr/goleveldb => github.com/syndtr/goleveldb v1.0.1-0.20200815110645-5c35d600f0ca
-	github.com/thesixnetwork/sixnft => ../sixnft
+	github.com/thesixnetwork/sixnft => github.com/thesixnetwork/sixnft v0.8.1-0.20230222103755-2f244555d863
 	google.golang.org/grpc => google.golang.org/grpc v1.33.2
 )
