@@ -21,8 +21,5 @@ grantOracle $(sixd keys show oracle2 -a --keyring-backend test)
 grantOracle $(sixd keys show oracle3 -a --keyring-backend test)
 grantOracle $(sixd keys show oracle4 -a --keyring-backend test)
 
-sixd tx nftadmin grant-permission binder $(sixd keys show super-admin -a) --from super-admin --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix \
-    --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} -y
-
 sixd q nftadmin show-authorization \
     --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID}
