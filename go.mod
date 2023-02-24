@@ -17,8 +17,8 @@ require (
 	github.com/tendermint/tendermint v0.34.20-0.20220517115723-e6f071164839
 	github.com/tendermint/tm-db v0.6.7
 	github.com/thesixnetwork/sixnft v0.8.0
-	google.golang.org/genproto v0.0.0-20221207170731-23e4bf6bdc37
-	google.golang.org/grpc v1.51.0
+	google.golang.org/genproto v0.0.0-20230221151758-ace64dc21148
+	google.golang.org/grpc v1.53.0
 	gopkg.in/yaml.v2 v2.4.0
 )
 
@@ -165,8 +165,8 @@ require (
 	golang.org/x/crypto v0.0.0-20220411220226-7b82a4e95df4 // indirect
 	golang.org/x/mod v0.6.0-dev.0.20220419223038-86c51ed26bb4 // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
-	golang.org/x/term v0.3.0 // indirect
-	golang.org/x/text v0.5.0 // indirect
+	golang.org/x/term v0.5.0 // indirect
+	golang.org/x/text v0.7.0 // indirect
 	golang.org/x/xerrors v0.0.0-20220517211312-f3a8303e98df // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/ini.v1 v1.66.4 // indirect
@@ -185,8 +185,8 @@ require (
 	go.uber.org/atomic v1.9.0 // indirect
 	go.uber.org/multierr v1.7.0 // indirect
 	go.uber.org/zap v1.21.0 // indirect
-	golang.org/x/net v0.3.0 // indirect
-	golang.org/x/sys v0.3.0 // indirect
+	golang.org/x/net v0.7.0 // indirect
+	golang.org/x/sys v0.5.0 // indirect
 	gopkg.in/src-d/go-billy.v4 v4.3.2 // indirect
 	gopkg.in/src-d/go-git.v4 v4.13.1 // indirect
 )
@@ -196,6 +196,7 @@ replace (
 	github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
 	github.com/keybase/go-keychain => github.com/99designs/go-keychain v0.0.0-20191008050251-8e49817e8af4
 	github.com/syndtr/goleveldb => github.com/syndtr/goleveldb v1.0.1-0.20200815110645-5c35d600f0ca
-	github.com/thesixnetwork/sixnft => github.com/thesixnetwork/sixnft v0.8.1-0.20230222103755-2f244555d863
+	// github.com/thesixnetwork/sixnft => github.com/thesixnetwork/sixnft v0.8.1-0.20230223095309-c7b7a9b022c5
+	github.com/thesixnetwork/sixnft => ../sixnft
 	google.golang.org/grpc => google.golang.org/grpc v1.33.2
 )
