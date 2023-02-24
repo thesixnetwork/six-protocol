@@ -48,6 +48,10 @@ contract SixKubVaultSigner {
         return (actor, msg.sender, action_signer[actor][owner]);
     }
 
+    function getMyActionSigner(address actor) external view returns (address _actor, address _owner, ActionSigner memory) {
+        return (actor, msg.sender, action_signer[actor][msg.sender]);
+    }
+
     function removeActionSigner(address actor) external {
         ActionSigner memory signer = ActionSigner({
             created_epoch: block.timestamp,
@@ -66,42 +70,42 @@ contract SixKubVaultSigner {
     }
 
 
-    function verify(address actor, uint256 epoch, bytes memory signature) external view returns (bool) {
-        binedSigner[actor].signers[1].actor_address;
-        for (uint256 i = 0; i < binedSigner[actor].signers.length; i++) {
-            if (binedSigner[actor].signers[i].actor_address == msg.sender) {
-                break;
-            }
-            if (i == binedSigner[actor].signers.length - 1) {
-                return false;
-            }
-        }
-        if (action_signer[actor][msg.sender].expired_epoch < epoch) {
-            return false;
-        }
-        bytes32 message = keccak256(abi.encodePacked(actor, msg.sender, epoch));
-        return recoverSigner(message, signature) == msg.sender;
-    }
+    // function verify(address actor, uint256 epoch, bytes memory signature) external view returns (bool) {
+    //     binedSigner[actor].signers[1].actor_address;
+    //     for (uint256 i = 0; i < binedSigner[actor].signers.length; i++) {
+    //         if (binedSigner[actor].signers[i].actor_address == msg.sender) {
+    //             break;
+    //         }
+    //         if (i == binedSigner[actor].signers.length - 1) {
+    //             return false;
+    //         }
+    //     }
+    //     if (action_signer[actor][msg.sender].expired_epoch < epoch) {
+    //         return false;
+    //     }
+    //     bytes32 message = keccak256(abi.encodePacked(actor, msg.sender, epoch));
+    //     return recoverSigner(message, signature) == msg.sender;
+    // }
 
-    function recoverSigner(bytes32 message, bytes memory signature) public pure returns (address) {
-        require(signature.length == 65, "invalid signature length");
+    // function recoverSigner(bytes32 message, bytes memory signature) public pure returns (address) {
+    //     require(signature.length == 65, "invalid signature length");
 
-        bytes32 r;
-        bytes32 s;
-        uint8 v;
+    //     bytes32 r;
+    //     bytes32 s;
+    //     uint8 v;
 
-        assembly {
-            r := mload(add(signature, 0x20))
-            s := mload(add(signature, 0x40))
-            v := byte(0, mload(add(signature, 0x60)))
-        }
+    //     assembly {
+    //         r := mload(add(signature, 0x20))
+    //         s := mload(add(signature, 0x40))
+    //         v := byte(0, mload(add(signature, 0x60)))
+    //     }
 
-        if (v < 27) {
-            v += 27;
-        }
+    //     if (v < 27) {
+    //         v += 27;
+    //     }
 
-        require(v == 27 || v == 28, "invalid signature v value");
+    //     require(v == 27 || v == 28, "invalid signature v value");
 
-        return ecrecover(message, v, r, s);
-    }
+    //     return ecrecover(message, v, r, s);
+    // }
 }
