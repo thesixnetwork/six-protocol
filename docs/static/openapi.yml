@@ -41309,6 +41309,12 @@ paths:
                       format: date-time
                     creator:
                       type: string
+                    creation_flow:
+                      type: string
+                      enum:
+                        - ORACLE
+                        - INTERNAL_OWNER
+                      default: ORACLE
               pagination:
                 type: object
                 properties:
@@ -41428,6 +41434,12 @@ paths:
                     format: date-time
                   creator:
                     type: string
+                  creation_flow:
+                    type: string
+                    enum:
+                      - ORACLE
+                      - INTERNAL_OWNER
+                    default: ORACLE
         default:
           description: An unexpected error response.
           schema:
@@ -72440,6 +72452,12 @@ definitions:
         format: date-time
       creator:
         type: string
+      creation_flow:
+        type: string
+        enum:
+          - ORACLE
+          - INTERNAL_OWNER
+        default: ORACLE
   thesixnetwork.sixnft.nftoracle.ActionSignerConfig:
     type: object
     properties:
@@ -72553,6 +72571,12 @@ definitions:
         type: array
         items:
           type: string
+  thesixnetwork.sixnft.nftoracle.CreationFlow:
+    type: string
+    enum:
+      - ORACLE
+      - INTERNAL_OWNER
+    default: ORACLE
   thesixnetwork.sixnft.nftoracle.DataHash:
     type: object
     properties:
@@ -73159,6 +73183,12 @@ definitions:
               format: date-time
             creator:
               type: string
+            creation_flow:
+              type: string
+              enum:
+                - ORACLE
+                - INTERNAL_OWNER
+              default: ORACLE
       pagination:
         type: object
         properties:
@@ -73683,6 +73713,12 @@ definitions:
             format: date-time
           creator:
             type: string
+          creation_flow:
+            type: string
+            enum:
+              - ORACLE
+              - INTERNAL_OWNER
+            default: ORACLE
   thesixnetwork.sixnft.nftoracle.QueryGetBindedSignerResponse:
     type: object
     properties:
