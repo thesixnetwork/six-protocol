@@ -41309,6 +41309,12 @@ paths:
                       format: date-time
                     creator:
                       type: string
+                    creation_flow:
+                      type: string
+                      enum:
+                        - ORACLE
+                        - INTERNAL_OWNER
+                      default: ORACLE
               pagination:
                 type: object
                 properties:
@@ -41428,6 +41434,12 @@ paths:
                     format: date-time
                   creator:
                     type: string
+                  creation_flow:
+                    type: string
+                    enum:
+                      - ORACLE
+                      - INTERNAL_OWNER
+                    default: ORACLE
         default:
           description: An unexpected error response.
           schema:
@@ -41474,13 +41486,7 @@ paths:
                   properties:
                     chain:
                       type: string
-                    rpc_endpoint:
-                      type: string
                     contractAddress:
-                      type: string
-                    contractName:
-                      type: string
-                    contractOwner:
                       type: string
                     creator:
                       type: string
@@ -41593,13 +41599,7 @@ paths:
                 properties:
                   chain:
                     type: string
-                  rpc_endpoint:
-                    type: string
                   contractAddress:
-                    type: string
-                  contractName:
-                    type: string
-                  contractOwner:
                     type: string
                   creator:
                     type: string
@@ -72452,18 +72452,18 @@ definitions:
         format: date-time
       creator:
         type: string
+      creation_flow:
+        type: string
+        enum:
+          - ORACLE
+          - INTERNAL_OWNER
+        default: ORACLE
   thesixnetwork.sixnft.nftoracle.ActionSignerConfig:
     type: object
     properties:
       chain:
         type: string
-      rpc_endpoint:
-        type: string
       contractAddress:
-        type: string
-      contractName:
-        type: string
-      contractOwner:
         type: string
       creator:
         type: string
@@ -72571,6 +72571,12 @@ definitions:
         type: array
         items:
           type: string
+  thesixnetwork.sixnft.nftoracle.CreationFlow:
+    type: string
+    enum:
+      - ORACLE
+      - INTERNAL_OWNER
+    default: ORACLE
   thesixnetwork.sixnft.nftoracle.DataHash:
     type: object
     properties:
@@ -73128,13 +73134,7 @@ definitions:
           properties:
             chain:
               type: string
-            rpc_endpoint:
-              type: string
             contractAddress:
-              type: string
-            contractName:
-              type: string
-            contractOwner:
               type: string
             creator:
               type: string
@@ -73183,6 +73183,12 @@ definitions:
               format: date-time
             creator:
               type: string
+            creation_flow:
+              type: string
+              enum:
+                - ORACLE
+                - INTERNAL_OWNER
+              default: ORACLE
       pagination:
         type: object
         properties:
@@ -73685,13 +73691,7 @@ definitions:
         properties:
           chain:
             type: string
-          rpc_endpoint:
-            type: string
           contractAddress:
-            type: string
-          contractName:
-            type: string
-          contractOwner:
             type: string
           creator:
             type: string
@@ -73713,6 +73713,12 @@ definitions:
             format: date-time
           creator:
             type: string
+          creation_flow:
+            type: string
+            enum:
+              - ORACLE
+              - INTERNAL_OWNER
+            default: ORACLE
   thesixnetwork.sixnft.nftoracle.QueryGetBindedSignerResponse:
     type: object
     properties:

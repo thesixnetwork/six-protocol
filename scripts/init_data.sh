@@ -17,7 +17,7 @@ sixd tx nftoracle set-minimum-confirmation 1 --from super-admin -y --node ${RPC_
 sixd tx nftmngr create-nft-schema --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --chain-id ${CHAIN_ID} \
     --node ${RPC_ENDPOINT} ${BASE64_SCHEMA}
 
-sixd tx nftoracle create-action-signer-config baobab https://api.baobab.klaytn.net:8651 0x8e6b22a26d1dee08ae86f5574481f4291c719f7e idc idc --from super-admin -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix
+sixd tx nftoracle create-action-signer-config baobab 0xe2762507764fE0d20bfb490Fc6Eb3EB837042c35 --from super-admin -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix
 
 grantOracle $(sixd keys show oracle1 -a --keyring-backend test)
 grantOracle $(sixd keys show oracle2 -a --keyring-backend test)
