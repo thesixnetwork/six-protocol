@@ -17,7 +17,7 @@ require (
 	github.com/tendermint/tendermint v0.34.20-0.20220517115723-e6f071164839
 	github.com/tendermint/tm-db v0.6.7
 	github.com/thesixnetwork/sixnft v0.8.0
-	google.golang.org/genproto v0.0.0-20230221151758-ace64dc21148
+	google.golang.org/genproto v0.0.0-20230223222841-637eb2293923
 	google.golang.org/grpc v1.53.0
 	gopkg.in/yaml.v2 v2.4.0
 )
@@ -196,6 +196,6 @@ replace (
 	github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
 	github.com/keybase/go-keychain => github.com/99designs/go-keychain v0.0.0-20191008050251-8e49817e8af4
 	github.com/syndtr/goleveldb => github.com/syndtr/goleveldb v1.0.1-0.20200815110645-5c35d600f0ca
-	github.com/thesixnetwork/sixnft => github.com/thesixnetwork/sixnft v0.8.1-0.20230224072147-09c992ce4d64
+	github.com/thesixnetwork/sixnft => github.com/thesixnetwork/sixnft v0.8.1-0.20230228101742-c7f89f76fea7
 	google.golang.org/grpc => google.golang.org/grpc v1.33.2
 )
