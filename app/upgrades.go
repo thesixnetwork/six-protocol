@@ -37,6 +37,7 @@ func (app *App) RegisterUpgradeHandlers() {
 
 		// if chain id = "fivenet" then skip this upgrade
 		if ctx.ChainID() == "sixnet" {
+			fmt.Println("########################## SIXNET ##########################")
 			// Change token struct
 			tokens := app.TokenmngrKeeper.GetAllTokenV202(ctx)
 			for _, token := range tokens {
