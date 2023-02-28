@@ -41474,13 +41474,7 @@ paths:
                   properties:
                     chain:
                       type: string
-                    rpc_endpoint:
-                      type: string
                     contractAddress:
-                      type: string
-                    contractName:
-                      type: string
-                    contractOwner:
                       type: string
                     creator:
                       type: string
@@ -41593,13 +41587,7 @@ paths:
                 properties:
                   chain:
                     type: string
-                  rpc_endpoint:
-                    type: string
                   contractAddress:
-                    type: string
-                  contractName:
-                    type: string
-                  contractOwner:
                     type: string
                   creator:
                     type: string
@@ -72457,13 +72445,7 @@ definitions:
     properties:
       chain:
         type: string
-      rpc_endpoint:
-        type: string
       contractAddress:
-        type: string
-      contractName:
-        type: string
-      contractOwner:
         type: string
       creator:
         type: string
@@ -73128,13 +73110,7 @@ definitions:
           properties:
             chain:
               type: string
-            rpc_endpoint:
-              type: string
             contractAddress:
-              type: string
-            contractName:
-              type: string
-            contractOwner:
               type: string
             creator:
               type: string
@@ -73685,13 +73661,7 @@ definitions:
         properties:
           chain:
             type: string
-          rpc_endpoint:
-            type: string
           contractAddress:
-            type: string
-          contractName:
-            type: string
-          contractOwner:
             type: string
           creator:
             type: string
