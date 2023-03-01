@@ -1,5 +1,5 @@
 MONIKER=$1
-export CHAIN_ID=six
+export CHAIN_ID=sixnet
 export VALKEY=val1 # should be: export as docker env var
 export SIX_HOME=./build/six_home
 ALICE_MNEMONIC="history perfect across group seek acoustic delay captain sauce audit carpet tattoo exhaust green there giant cluster want pond bulk close screen scissors remind"
