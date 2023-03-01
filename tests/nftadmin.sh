@@ -1,13 +1,17 @@
+RPC_ENDPOINT=$1
+CHAIN_ID=$2
+key=$3
+
 grantOracle()
 {
     echo "Grant 'oracle' to $1"
-    sixd tx nftadmin grant-permission oracle $1 --from super-admin --gas auto --gas-adjustment 1.5 --gas-prices 0.1usix -y \
-        --node ${RPC_ENDPOINT} --chain-id testnet
+    sixd tx nftadmin grant-permission oracle $1 --from super-admin --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+        --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID}
 }
 TOTAL=0
 PASSED=0
 
-if sixd tx nftadmin grant-permission oracle_admin $(sixd keys show alice -a) --from super-admin -y --node ${RPC_ENDPOINT} --chain-id testnet | grep -q 'msg_index: 0'; then
+if sixd tx nftadmin grant-permission oracle_admin $(sixd keys show alice -a) --from super-admin -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
     echo "✅ grant-permission oracle_admin success"
     TOTAL=$(($TOTAL+1))
     PASSED=$(($PASSED+1))
@@ -51,7 +55,7 @@ fi
 
 # set minter
 if sixd tx nftadmin grant-permission minter $(sixd keys show alice -a) --gas auto --gas-adjustment 1.5 \
-    --gas-prices 0.1usix --from super-admin -y --node ${RPC_ENDPOINT} --chain-id testnet | grep -q 'msg_index: 0'; then
+    --gas-prices 1.25usix--from super-admin -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
     echo "✅ Set minter success"
     TOTAL=$(($TOTAL+1))
     PASSED=$(($PASSED+1))
@@ -60,8 +64,8 @@ else
 fi
 
 # Mint usix
-if sixd tx nftadmin mint 5 usix --from alice --chain-id testnet -y --gas auto --gas-adjustment 1.5 --gas-prices 0.1usix \
-    --node ${RPC_ENDPOINT} | grep -q 'msg_index: 0'; then
+if sixd tx nftadmin mint 5 usix --from alice -y --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix\
+    --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
     echo "✅ Mint success"
     TOTAL=$(($TOTAL+1))
     PASSED=$(($PASSED+1))
@@ -70,8 +74,8 @@ else
 fi
 
 # set burner
-if sixd tx nftadmin grant-permission burner $(sixd keys show alice -a) --from super-admin -y --gas auto --gas-adjustment 1.5 --gas-prices 0.1usix \
-    --node ${RPC_ENDPOINT} --chain-id testnet | grep -q 'msg_index: 0'; then
+if sixd tx nftadmin grant-permission burner $(sixd keys show alice -a) --from super-admin -y --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix\
+    --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
     echo "✅ Set burner success"
     TOTAL=$(($TOTAL+1))
     PASSED=$(($PASSED+1))
@@ -80,7 +84,7 @@ else
 fi
 
 # Burn usix
-if sixd tx nftadmin burn 5 usix --from alice --chain-id testnet -y --gas auto --gas-adjustment 1.5 --gas-prices 0.1usix \
+if sixd tx nftadmin burn 5 usix --from alice --chain-id ${CHAIN_ID} -y --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix\
     --node ${RPC_ENDPOINT} | grep -q 'msg_index: 0'; then
     echo "✅ Burn success"
     TOTAL=$(($TOTAL+1))
@@ -90,15 +94,15 @@ else
 fi
 
 # set test perm
-if sixd tx nftadmin grant-permission test-perm $(sixd keys show alice -a) --from super-admin -y --gas auto --gas-adjustment 1.5 --gas-prices 0.1usix \
-    --chain-id testnet | grep -q 'msg_index: 0'; then
+if sixd tx nftadmin grant-permission test-perm $(sixd keys show alice -a) --from super-admin -y --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix\
+    --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
     echo
 else
     echo
 fi
 
-if sixd tx nftadmin revoke-permission test-perm $(sixd keys show alice -a) --from super-admin -y --gas auto --gas-adjustment 1.5 --gas-prices 0.1usix \
-    --chain-id testnet | grep -q 'msg_index: 0'; then
+if sixd tx nftadmin revoke-permission test-perm $(sixd keys show alice -a) --from super-admin -y --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix\
+    --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
     echo "✅ Revoke test-perm success"
     TOTAL=$(($TOTAL+1))
     PASSED=$(($PASSED+1))
