@@ -31,7 +31,7 @@ function setUpGenesis(){
     jq '.app_state.nftmngr.nft_fee_config = {"schema_fee": {"fee_amount": "200000000usix","fee_distributions": [{"method": "BURN","portion": 0.5},{"method": "REWARD_POOL","portion": 0.5}]}}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
 
     ## nftoracle
-    jq '.app_state.nftoracle.params = {"action_request_active_duration": "120s","mint_request_active_duration": "120s","verify_request_active_duration": "120s", "action_signer_active_duration": "2592000s"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
+    jq '.app_state.nftoracle.params = {"action_request_active_duration": "120s","mint_request_active_duration": "120s","verify_request_active_duration": "120s", "action_signer_active_duration": "2592000s","sync_action_signer_active_duration": "300s"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
     jq '.app_state.nftoracle.oracle_config = {"minimum_confirmation": 4}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
 
     ## protocoladmin
