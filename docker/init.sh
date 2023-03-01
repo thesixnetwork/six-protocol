@@ -43,5 +43,5 @@ sixd add-genesis-account $(sixd keys show -a alice --keyring-backend=test --home
 sixd add-genesis-account $(sixd keys show -a bob --keyring-backend=test --home ${SIX_HOME}) 1000000000000usix --keyring-backend test --home ${SIX_HOME}
 sixd add-genesis-account $(sixd keys show -a super-admin --keyring-backend=test --home ${SIX_HOME}) 1000000000000usix --keyring-backend test --home ${SIX_HOME}
 
-sixd gentx ${VALKEY} 100000000usix --chain-id=six --keyring-backend=test --home ${SIX_HOME}
+sixd gentx ${VALKEY} 100000000usix --chain-id=${CHAIN_ID} --keyring-backend=test --home ${SIX_HOME}
 sixd collect-gentxs --home ${SIX_HOME}
