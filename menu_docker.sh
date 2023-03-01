@@ -15,7 +15,7 @@ validator_keys=(
 );
 
 function setUpGenesis(){
-    ## config genesis.json
+       ## config genesis.json
     jq '.app_state.bank.params.send_enabled[0] = {"denom": "usix","enabled": true}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
 
     ## demom metadata
@@ -24,15 +24,15 @@ function setUpGenesis(){
     ## from stake to usix
     sed -i '' "s/stake/usix/g" ./build/sixnode0/config/genesis.json
 
-    # ## nftadmin
-    # jq '.app_state.nftadmin.authorization = {"root_admin": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
+    ## nftadmin
+    jq '.app_state.nftadmin.authorization = {"root_admin": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
 
-    # ## nftmngr
-    # jq '.app_state.nftmngr.nft_fee_config = {"schema_fee": {"fee_amount": "200000000usix","fee_distributions": [{"method": "BURN","portion": 0.5},{"method": "REWARD_POOL","portion": 0.5}]}}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
+    ## nftmngr
+    jq '.app_state.nftmngr.nft_fee_config = {"schema_fee": {"fee_amount": "200000000usix","fee_distributions": [{"method": "BURN","portion": 0.5},{"method": "REWARD_POOL","portion": 0.5}]}}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
 
-    # ## nftoracle
-    # jq '.app_state.nftoracle.params = {"action_request_active_duration": "120s","mint_request_active_duration": "120s","verify_request_active_duration": "120s", "action_signer_active_duration": "2592000s"}' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json
-    # jq '.app_state.nftoracle.oracle_config = {"minimum_confirmation": 4}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
+    ## nftoracle
+    jq '.app_state.nftoracle.params = {"action_request_active_duration": "120s","mint_request_active_duration": "120s","verify_request_active_duration": "120s", "action_signer_active_duration": "2592000s","sync_action_signer_active_duration": "300s"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
+    jq '.app_state.nftoracle.oracle_config = {"minimum_confirmation": 4}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
 
     ## protocoladmin
     jq '.app_state.protocoladmin.adminList[0] |= . + {"admin": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv","group": "super.admin"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
@@ -46,7 +46,7 @@ function setUpGenesis(){
     ## tokenmngr
     jq '.app_state.tokenmngr.mintpermList[0] |= . + {"address": "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq","creator": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv","token": "usix"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
     jq '.app_state.tokenmngr.options = {"defaultMintee": "6x1cws3ex5yqwlu4my49htq06nsnhuxw3v7rt20g6"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
-    jq '.app_state.tokenmngr.tokenList[0] |= . +  {"base": "usix","creator": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv","maxSupply": 0,"mintee": "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq","name": "usix"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json 
+    jq '.app_state.tokenmngr.tokenList[0] |= . +  {"base": "usix","creator": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv","maxSupply": {"amount": "0","denom": "usix"},"mintee": "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq","name": "usix"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json 
     
     ## gov
     jq '.app_state.gov.deposit_params.max_deposit_period = "300s"' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
@@ -80,6 +80,7 @@ function setUpConfig() {
     else
         echo "Running Default Node"
     fi
+    
     ## replace to enalbe api
     sed -i '' "108s/.*/enable = true/" ./build/${SIX_HOME}/config/app.toml
     ## replace to from 127.0.0.1 to 0.0.0.0
