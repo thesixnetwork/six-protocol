@@ -117,7 +117,7 @@ case $choice in
         if [ -z "$docker_tag" ]; then
             docker_tag=$default_docker_tag
         fi
-        docker build . -t six/node:${docker_tag} --build-arg GITHUB_TOKEN=${github_token}
+        docker build . -t gcr.io/six-protocol/sixnode:${docker_tag} --build-arg GITHUB_TOKEN=${github_token}
         ;;
     2)
         echo "Run init Chain validator"
