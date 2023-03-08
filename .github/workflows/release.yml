@@ -9,56 +9,71 @@ on:
 jobs:
 
   release-linux-amd64-to-bucket:
-    name: 'release linux/amd64 to bucket'
-    runs-on: 'ubuntu-20.04'
+    name: release linux/amd64 to bucket
+    runs-on: ubuntu-20.04
     if: startsWith( github.ref, 'refs/tags/v')
     env:
-      GCS_BUCKET: '${{ secrets.SIXNET_BINARIES_BUCKET }}'
-      BINARY_VERSION: '${{ github.event.release.tag_name }}'
+      GCS_BUCKET: ${{ secrets.SIXNET_BINARIES_BUCKET }}
+      BINARY_VERSION: ${{ github.event.release.tag_name }}
     steps:
-    - name: 'Checkout'
-      uses: 'actions/checkout@v3'
+    - name: Checkout
+      uses: actions/checkout@v3
 
-    - name: 'Setup - gcloud / gsutil'
-      uses: 'google-github-actions/auth@v0'
+    - name: Setup - gcloud / gsutil
+      uses: google-github-actions/auth@v0
       with:
-        credentials_json: '${{ secrets.SIXNET_BINARIES_SA_KEY }}'
-        project_id: '${{ secrets.SIXNET_BINARIES_PROJECT }}'
+        credentials_json: ${{ secrets.SIXNET_BINARIES_SA_KEY }}
+        project_id: ${{ secrets.SIXNET_BINARIES_PROJECT }}
 
-    - name: 'Setup - golang'
-      uses: 'actions/setup-go@v3'
+    - name: Setup - golang
+      uses: actions/setup-go@v3
       with:
-        go-version: '1.17.6'
+        go-version: 1.18.1
 
-    - name: 'Set up GCC & Make'
-      run: 'sudo apt-get update && sudo apt-get install build-essential'
+    - name: Set up GCC & Make
+      run: sudo apt-get update && sudo apt-get install build-essential
     
-    - name: 'Download libwasmvm_muslc.aarch64.a from github'
-      run: 'wget https://github.com/CosmWasm/wasmvm/releases/download/v1.0.0/libwasmvm_muslc.aarch64.a /lib/libwasmvm_muslc.aarch64.a'
+    - name: Download libwasmvm_muslc.aarch64.a from github
+      run: wget https://github.com/CosmWasm/wasmvm/releases/download/v1.0.0/libwasmvm_muslc.aarch64.a
 
-    - name: 'Download/lib/libwasmvm_muslc.x86_64.a from github'
-      run: 'wget https://github.com/CosmWasm/wasmvm/releases/download/v1.0.0/libwasmvm_muslc.x86_64.a /lib/libwasmvm_muslc.x86_64.a'
+    - name: Move to Path /lib
+      run: sudo mv libwasmvm_muslc.aarch64.a /lib/libwasmvm_muslc.aarch64.a
 
-    - name: 'Build binary'
-      run: 'make build'
+    - name: Download/lib/libwasmvm_muslc.x86_64.a from github
+      run: wget https://github.com/CosmWasm/wasmvm/releases/download/v1.0.0/libwasmvm_muslc.x86_64.a
 
-    - name: 'Create binary folder'
+    - name: Move to Path /lib
+      run: sudo mv libwasmvm_muslc.x86_64.a /lib/libwasmvm_muslc.x86_64.a
+
+    - name: Export GOPRIVATE
+      run: git config --global url."https://${{ secrets.GH_TOKEN }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+      
+    - name: Export Path dependencies
+      run: export GOPRIVATE=github.com/thesixnetwork/sixnft
+
+    - name: Download dependencies  
+      run: go get github.com/thesixnetwork/sixnft@latest
+
+    - name: Build binary
+      run: make build
+
+    - name: Create binary folder
       run: mkdir $BINARY_VERSION
 
-    - name: 'Copy binary to version folder'
+    - name: Copy binary to version folder
       run: cp ./build/sixd ./$BINARY_VERSION/sixd
 
-    - name: 'Check architecture'
+    - name: Check architecture
       run: go env GOOS GOARCH
     
-    - name: 'Binary Test Version'
+    - name: Binary Test Version
       run: $BINARY_VERSION/sixd version
 
-    - name: 'Binary Test'
+    - name: Binary Test
       run: $BINARY_VERSION/sixd
 
-    - name: 'Upload to cloud storage'
-      uses: 'google-github-actions/upload-cloud-storage@v0'
+    - name: Upload to cloud storage
+      uses: google-github-actions/upload-cloud-storage@v0
       with:
         path: ${{ github.event.release.tag_name }}
         destination: ${{ secrets.SIXNET_BINARIES_BUCKET }}

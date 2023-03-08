@@ -2,6 +2,8 @@ package app
 
 import (
 	"fmt"
+	"strings"
+	"time"
 
 	store "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -14,10 +16,11 @@ import (
 	tokenmngrtypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 	// nftmngrtypes "github.com/thesixnetwork/sixnft/x/nftmngr/types"
 	tokenmngrmoduletypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+	nftmngrtypes "github.com/thesixnetwork/sixnft/x/nftmngr/types"
 	nftoraclemoduletypes "github.com/thesixnetwork/sixnft/x/nftoracle/types"
 )
 
-const UpgradeName = "v3.0.0"
+const UpgradeName = "v2.3.0"
 
 func (app *App) VersionTrigger() {
 	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
@@ -36,21 +39,6 @@ func (app *App) VersionTrigger() {
 
 func (app *App) RegisterUpgradeHandlers() {
 	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
-		// Change token struct
-		tokens := app.TokenmngrKeeper.GetAllTokenV202(ctx)
-		for _, token := range tokens {
-			var token_v300 tokenmngrmoduletypes.Token
-			max_supply_v202_to_v300 := sdk.NewIntFromUint64(token.MaxSupply)
-			new_coin := sdk.NewCoin(token.Name, max_supply_v202_to_v300)
-			token_v300 = tokenmngrmoduletypes.Token{
-				Name:      token.Name,
-				Base:      token.Base,
-				MaxSupply: new_coin,
-				Mintee:    token.Mintee,
-				Creator:   token.Creator,
-			}
-			app.TokenmngrKeeper.SetToken(ctx, token_v300)
-		}
 
 		// set new denom metadata
 		app.BankKeeper.SetDenomMetaData(ctx, banktype.Metadata{
@@ -129,29 +117,230 @@ func (app *App) RegisterUpgradeHandlers() {
 			}
 			app.NftoracleKeeper.SetActionRequest(ctx, action_request_v703)
 		}
+		// ** Migrate store keys from v2.1.0 to v2.2.0 **
+		// * Module Tokenmngr *
 
-		// Token-burn tokens
-		token_burn := app.TokenmngrKeeper.GetAllTokenBurnV202(ctx)
-		for _, burn := range token_burn {
-			var burn_v300 tokenmngrmoduletypes.TokenBurn
-			burn_v300 = tokenmngrmoduletypes.TokenBurn{
-				Amount: sdk.NewCoin(burn.Token, sdk.NewInt(int64(burn.Amount))),
+		// if chain id = "fivenet" then skip this upgrade
+		if ctx.ChainID() == "sixnet" {
+			fmt.Println("########################## SIXNET ##########################")
+			// Change token struct
+			tokens := app.TokenmngrKeeper.GetAllTokenV202(ctx)
+			for _, token := range tokens {
+				var token_v300 tokenmngrmoduletypes.Token
+				max_supply_v202_to_v300 := sdk.NewIntFromUint64(token.MaxSupply)
+				new_coin := sdk.NewCoin(token.Name, max_supply_v202_to_v300)
+				token_v300 = tokenmngrmoduletypes.Token{
+					Name:      token.Name,
+					Base:      token.Base,
+					MaxSupply: new_coin,
+					Mintee:    token.Mintee,
+					Creator:   token.Creator,
+				}
+				app.TokenmngrKeeper.SetToken(ctx, token_v300)
 			}
-			app.TokenmngrKeeper.SetTokenBurn(ctx, burn_v300)
-		}
 
-		// Burns
-		burns := app.TokenmngrKeeper.GetAllBurnV202(ctx)
-		for _, burn := range burns {
-			var new_ver_burns tokenmngrmoduletypes.Burn
-			new_ver_burns = tokenmngrmoduletypes.Burn{
-				Id:      burn.Id,
-				Creator: burn.Creator,
-				Amount:  sdk.NewCoin(burn.Token, sdk.NewInt(int64(burn.Amount))),
+			// Token-burn tokens
+			token_burn := app.TokenmngrKeeper.GetAllTokenBurnV202(ctx)
+			for _, burn := range token_burn {
+				var burn_v300 tokenmngrmoduletypes.TokenBurn
+				burn_v300 = tokenmngrmoduletypes.TokenBurn{
+					Amount: sdk.NewCoin(burn.Token, sdk.NewInt(int64(burn.Amount))),
+				}
+				app.TokenmngrKeeper.SetTokenBurn(ctx, burn_v300)
 			}
-			app.TokenmngrKeeper.UpdateBurn(ctx, new_ver_burns)
-		}
 
+			// Burns
+			burns := app.TokenmngrKeeper.GetAllBurnV202(ctx)
+			list_burns := make([]tokenmngrmoduletypes.Burn, 0)
+			for _, burn := range burns {
+				var new_ver_burns tokenmngrmoduletypes.Burn
+				new_ver_burns = tokenmngrmoduletypes.Burn{
+					Id:      burn.Id,
+					Creator: burn.Creator,
+					Amount:  sdk.NewCoin(burn.Token, sdk.NewInt(int64(burn.Amount))),
+				}
+				list_burns = append(list_burns, new_ver_burns)
+				app.TokenmngrKeeper.UpdateBurn(ctx, new_ver_burns)
+			}
+			// Set list burns
+			app.TokenmngrKeeper.SetBurns(ctx, list_burns)
+
+			// * Module NFTOracle *
+
+			// bug from previous version
+			action_requests, err := app.NftoracleKeeper.GetAllActionRequestV603(ctx)
+			if err != nil {
+				action_requests := app.NftoracleKeeper.GetAllActionRequest(ctx)
+				for _, action_request := range action_requests {
+					var action_request_v703 nftoraclemoduletypes.ActionOracleRequest
+					action_request_v703 = nftoraclemoduletypes.ActionOracleRequest{
+						Id:                    action_request.Id,
+						NftSchemaCode:         action_request.NftSchemaCode,
+						TokenId:               action_request.TokenId,
+						Action:                action_request.Action,
+						Params:                make([]*nftoraclemoduletypes.ActionParameter, 0),
+						Caller:                action_request.Caller,
+						RefId:                 action_request.RefId,
+						RequiredConfirm:       action_request.RequiredConfirm,
+						Status:                action_request.Status,
+						CurrentConfirm:        action_request.CurrentConfirm,
+						Confirmers:            action_request.Confirmers,
+						CreatedAt:             action_request.CreatedAt,
+						ValidUntil:            action_request.ValidUntil,
+						DataHashes:            action_request.DataHashes,
+						ExpiredHeight:         action_request.ExpiredHeight,
+						ExecutionErrorMessage: action_request.ExecutionErrorMessage,
+					}
+					app.NftoracleKeeper.SetActionRequest(ctx, action_request_v703)
+				}
+			} else {
+				for _, action_request := range action_requests {
+					var action_request_v703 nftoraclemoduletypes.ActionOracleRequest
+					action_request_v703 = nftoraclemoduletypes.ActionOracleRequest{
+						Id:                    action_request.Id,
+						NftSchemaCode:         action_request.NftSchemaCode,
+						TokenId:               action_request.TokenId,
+						Action:                action_request.Action,
+						Params:                make([]*nftoraclemoduletypes.ActionParameter, 0),
+						Caller:                action_request.Caller,
+						RefId:                 action_request.RefId,
+						RequiredConfirm:       action_request.RequiredConfirm,
+						Status:                action_request.Status,
+						CurrentConfirm:        action_request.CurrentConfirm,
+						Confirmers:            action_request.Confirmers,
+						CreatedAt:             action_request.CreatedAt,
+						ValidUntil:            action_request.ValidUntil,
+						DataHashes:            action_request.DataHashes,
+						ExpiredHeight:         action_request.ExpiredHeight,
+						ExecutionErrorMessage: action_request.ExecutionErrorMessage,
+					}
+					app.NftoracleKeeper.SetActionRequest(ctx, action_request_v703)
+				}
+			}
+
+			// ActionSigners => Append to new store
+			action_signers := app.NftoracleKeeper.GetAllActionSigner(ctx)
+			for _, action_signer := range action_signers {
+
+				// query binded signer
+				binded_signer, found := app.NftoracleKeeper.GetBindedSigner(ctx, action_signer.OwnerAddress)
+				if !found {
+					var list_signer []*nftoraclemoduletypes.XSetSignerParams
+					// var binded_signer nftoraclemoduletypes.BindedSigner
+					binded_signer = nftoraclemoduletypes.BindedSigner{
+						OwnerAddress: action_signer.OwnerAddress,
+						Signers: append(list_signer, &nftoraclemoduletypes.XSetSignerParams{
+							ActorAddress: action_signer.ActorAddress,
+							ExpiredAt:    action_signer.ExpiredAt,
+						}),
+					}
+					app.NftoracleKeeper.SetBindedSigner(ctx, binded_signer)
+				} else {
+					binded_signer = nftoraclemoduletypes.BindedSigner{
+						OwnerAddress: action_signer.OwnerAddress,
+						Signers: append(binded_signer.Signers, &nftoraclemoduletypes.XSetSignerParams{
+							ActorAddress: action_signer.ActorAddress,
+							ExpiredAt:    action_signer.ExpiredAt,
+						}),
+					}
+					app.NftoracleKeeper.SetBindedSigner(ctx, binded_signer)
+				}
+
+			}
+
+			// * Module NFTManager *
+
+			// NFTSchema and NFTCollection
+			schema_list := app.NftmngrKeeper.GetAllNFTSchemaV072(ctx)
+			for _, schema := range schema_list {
+
+				var new_nftattribute []*nftmngrtypes.AttributeDefinition
+				for _, nftattribute := range schema.OnchainData.NftAttributes {
+					new_nftattribute = append(new_nftattribute, &nftmngrtypes.AttributeDefinition{
+						Name:                nftattribute.Name,
+						DataType:            nftattribute.DataType,
+						Required:            nftattribute.Required,
+						DisplayValueField:   nftattribute.DisplayValueField,
+						DisplayOption:       nftattribute.DisplayOption,
+						DefaultMintValue:    nftattribute.DefaultMintValue,
+						HiddenOveride:       true,
+						HiddenToMarketplace: nftattribute.HiddenToMarketplace,
+						Index:               nftattribute.Index,
+					})
+				}
+
+				var new_tokenattribute []*nftmngrtypes.AttributeDefinition
+				for _, tokenattribute := range schema.OnchainData.TokenAttributes {
+					new_tokenattribute = append(new_tokenattribute, &nftmngrtypes.AttributeDefinition{
+						Name:                tokenattribute.Name,
+						DataType:            tokenattribute.DataType,
+						Required:            tokenattribute.Required,
+						DisplayValueField:   tokenattribute.DisplayValueField,
+						DisplayOption:       tokenattribute.DisplayOption,
+						DefaultMintValue:    tokenattribute.DefaultMintValue,
+						HiddenOveride:       true,
+						HiddenToMarketplace: tokenattribute.HiddenToMarketplace,
+						Index:               tokenattribute.Index,
+					})
+				}
+
+				// build new schema verion
+				new_schema := nftmngrtypes.NFTSchema{
+					Code:            schema.Code,
+					Name:            schema.Name,
+					Owner:           schema.Owner,
+					SystemActioners: schema.SystemActioners,
+					OriginData:      schema.OriginData,
+					OnchainData: &nftmngrtypes.OnChainData{
+						RevealRequired:  schema.OnchainData.RevealRequired,
+						RevealSecret:    schema.OnchainData.RevealSecret,
+						NftAttributes:   new_nftattribute,
+						TokenAttributes: new_tokenattribute,
+						Actions:         schema.OnchainData.Actions,
+					},
+					IsVerified:        schema.IsVerified,
+					MintAuthorization: schema.MintAuthorization,
+				}
+
+				// replace string in action[num].then[num]
+				for i, action := range new_schema.OnchainData.Actions {
+					for j, then := range action.Then {
+						new_schema.OnchainData.Actions[i].Then[j] = strings.ReplaceAll(then, "Arribute", "Attribute")
+					}
+				}
+
+				app.NftmngrKeeper.SetNFTSchema(ctx, new_schema)
+
+				// NFT Collection
+				// query all nft data
+				nft_list := app.NftmngrKeeper.GetAllNftData(ctx)
+				for _, nft := range nft_list {
+					// append to list of nft collection if schema is match
+					if nft.NftSchemaCode == schema.Code {
+						app.NftmngrKeeper.AddMetadataToCollection(ctx, &nft)
+					}
+				}
+
+			}
+
+		}
+		// * Module NFT ORACLE *
+		// set nft duration
+		var oracle_params nftoraclemoduletypes.Params
+		oracle_params.MintRequestActiveDuration = 120 * time.Second
+		oracle_params.ActionRequestActiveDuration = 120 * time.Second
+		oracle_params.VerifyRequestActiveDuration = 120 * time.Second
+		oracle_params.ActionSignerActiveDuration = 30 * (24 * time.Hour)
+		oracle_params.SyncActionSignerActiveDuration = 300 * time.Second // five minutes
+		app.NftoracleKeeper.SetParams(ctx, oracle_params)
+
+		// migrate action Signer
+		action_signers := app.NftoracleKeeper.GetAllActionSigner(ctx)
+		for _, action_signer := range action_signers {
+			action_signer.Creator = action_signer.OwnerAddress
+			action_signer.CreationFlow = nftoraclemoduletypes.CreationFlow_INTERNAL_OWNER
+			app.NftoracleKeeper.SetActionSigner(ctx, action_signer)
+		}
 		return app.mm.RunMigrations(ctx, app.configurator, vm)
 	})
 }
