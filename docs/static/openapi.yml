@@ -67634,6 +67634,13 @@ definitions:
     properties:
       nftSchemaCode:
         type: string
+  thesixnetwork.sixnft.nftmngr.MsgSetAttributeOveridingResponse:
+    type: object
+    properties:
+      schemaCode:
+        type: string
+      newOveriding:
+        type: string
   thesixnetwork.sixnft.nftmngr.MsgSetBaseUriResponse:
     type: object
     properties:
@@ -67643,6 +67650,13 @@ definitions:
         type: string
   thesixnetwork.sixnft.nftmngr.MsgSetFeeConfigResponse:
     type: object
+  thesixnetwork.sixnft.nftmngr.MsgSetMetadataFormatResponse:
+    type: object
+    properties:
+      schemaCode:
+        type: string
+      newFormat:
+        type: string
   thesixnetwork.sixnft.nftmngr.MsgSetMintauthResponse:
     type: object
     properties:
@@ -67656,6 +67670,27 @@ definitions:
       attribute_name:
         type: string
       nft_attribute_value:
+        type: string
+  thesixnetwork.sixnft.nftmngr.MsgSetOriginChainResponse:
+    type: object
+    properties:
+      schemaCode:
+        type: string
+      newOriginChain:
+        type: string
+  thesixnetwork.sixnft.nftmngr.MsgSetOriginContractResponse:
+    type: object
+    properties:
+      schemaCode:
+        type: string
+      newContractAddress:
+        type: string
+  thesixnetwork.sixnft.nftmngr.MsgSetUriRetrievalMethodResponse:
+    type: object
+    properties:
+      schemaCode:
+        type: string
+      newMethod:
         type: string
   thesixnetwork.sixnft.nftmngr.MsgShowAttributesResponse:
     type: object
