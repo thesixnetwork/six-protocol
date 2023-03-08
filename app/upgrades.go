@@ -93,31 +93,7 @@ func (app *App) RegisterUpgradeHandlers() {
 		evm_param := evmtypes.DefaultParams()
 		evm_param.EvmDenom = "asix"
 		app.EVMKeeper.SetParams(ctx, evm_param)
-		// bug from previous version
-		action_requests := app.NftoracleKeeper.GetAllActionRequestV603(ctx)
-		for _, action_request := range action_requests {
-			var action_request_v703 nftoraclemoduletypes.ActionOracleRequest
-			action_request_v703 = nftoraclemoduletypes.ActionOracleRequest{
-				Id:                    action_request.Id,
-				NftSchemaCode:         action_request.NftSchemaCode,
-				TokenId:               action_request.TokenId,
-				Action:                action_request.Action,
-				Params:                make([]*nftoraclemoduletypes.ActionParameter, 0),
-				Caller:                action_request.Caller,
-				RefId:                 action_request.RefId,
-				RequiredConfirm:       action_request.RequiredConfirm,
-				Status:                action_request.Status,
-				CurrentConfirm:        action_request.CurrentConfirm,
-				Confirmers:            action_request.Confirmers,
-				CreatedAt:             action_request.CreatedAt,
-				ValidUntil:            action_request.ValidUntil,
-				DataHashes:            action_request.DataHashes,
-				ExpiredHeight:         action_request.ExpiredHeight,
-				ExecutionErrorMessage: action_request.ExecutionErrorMessage,
-			}
-			app.NftoracleKeeper.SetActionRequest(ctx, action_request_v703)
-		}
-		// ** Migrate store keys from v2.1.0 to v2.2.0 **
+
 		// * Module Tokenmngr *
 
 		// if chain id = "fivenet" then skip this upgrade
