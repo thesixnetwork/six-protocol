@@ -252,7 +252,6 @@ func (app *App) RegisterUpgradeHandlers() {
 		// migrate action Signer
 		action_signers := app.NftoracleKeeper.GetAllActionSigner(ctx)
 		for _, action_signer := range action_signers {
-			action_signer.Creator = action_signer.OwnerAddress
 			action_signer.CreationFlow = nftoraclemoduletypes.CreationFlow_INTERNAL_OWNER
 			app.NftoracleKeeper.SetActionSigner(ctx, action_signer)
 		}
