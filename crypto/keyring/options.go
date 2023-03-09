@@ -3,16 +3,17 @@ package keyring
 import (
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 
-	"github.com/evmos/ethermint/crypto/hd"
+	etherminthd "github.com/evmos/ethermint/crypto/hd"
+	hd "github.com/cosmos/cosmos-sdk/crypto/hd"
 )
 
 var (
 	// SupportedAlgorithms defines the list of signing algorithms used on canto:
 	//  - eth_secp256k1 (Ethereum)
-	SupportedAlgorithms = keyring.SigningAlgoList{hd.EthSecp256k1}
+	SupportedAlgorithms = keyring.SigningAlgoList{etherminthd.EthSecp256k1, hd.Secp256k1}
 	// SupportedAlgorithmsLedger defines the list of signing algorithms used on canto for the Ledger device:
 	//  - eth_secp256k1 (Ethereum)
-	SupportedAlgorithmsLedger = keyring.SigningAlgoList{hd.EthSecp256k1}
+	SupportedAlgorithmsLedger = keyring.SigningAlgoList{etherminthd.EthSecp256k1, hd.Secp256k1}
 )
 
 // EthSecp256k1Option defines a function keys options for the ethereum Secp256k1 curve.
