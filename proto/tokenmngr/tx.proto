@@ -24,6 +24,7 @@ service Msg {
   rpc DeleteOptions(MsgDeleteOptions) returns (MsgDeleteOptionsResponse);
   rpc Burn(MsgBurn) returns (MsgBurnResponse);
   rpc ConvertToAtto(MsgConvertToAtto) returns (MsgConvertToAttoResponse);
+  rpc ConvertToMicro(MsgConvertToMicro) returns (MsgConvertToMicroResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -122,6 +123,17 @@ message MsgConvertToAtto {
 }
 
 message MsgConvertToAttoResponse {
+  cosmos.base.v1beta1.Coin amount = 1
+  [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"];
+}
+
+message MsgConvertToMicro {
+  string creator = 1;
+  cosmos.base.v1beta1.Coin amount = 2
+  [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"];
+}
+
+message MsgConvertToMicroResponse {
   cosmos.base.v1beta1.Coin amount = 1
   [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"];
 }

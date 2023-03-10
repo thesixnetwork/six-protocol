@@ -5,26 +5,26 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
-const TypeMsgConvertToAtto = "convert_to_atto"
+const TypeMsgConvertToMicro = "convert_to_micro"
 
-var _ sdk.Msg = &MsgConvertToAtto{}
+var _ sdk.Msg = &MsgConvertToMicro{}
 
-func NewMsgConvertToAtto(creator string, amount sdk.Coin) *MsgConvertToAtto {
-	return &MsgConvertToAtto{
+func NewMsgConvertToMicro(creator string, amount sdk.Coin) *MsgConvertToMicro {
+	return &MsgConvertToMicro{
 		Creator: creator,
 		Amount:  amount,
 	}
 }
 
-func (msg *MsgConvertToAtto) Route() string {
+func (msg *MsgConvertToMicro) Route() string {
 	return RouterKey
 }
 
-func (msg *MsgConvertToAtto) Type() string {
-	return TypeMsgConvertToAtto
+func (msg *MsgConvertToMicro) Type() string {
+	return TypeMsgConvertToMicro
 }
 
-func (msg *MsgConvertToAtto) GetSigners() []sdk.AccAddress {
+func (msg *MsgConvertToMicro) GetSigners() []sdk.AccAddress {
 	creator, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		panic(err)
@@ -32,12 +32,12 @@ func (msg *MsgConvertToAtto) GetSigners() []sdk.AccAddress {
 	return []sdk.AccAddress{creator}
 }
 
-func (msg *MsgConvertToAtto) GetSignBytes() []byte {
+func (msg *MsgConvertToMicro) GetSignBytes() []byte {
 	bz := ModuleCdc.MustMarshalJSON(msg)
 	return sdk.MustSortJSON(bz)
 }
 
-func (msg *MsgConvertToAtto) ValidateBasic() error {
+func (msg *MsgConvertToMicro) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
