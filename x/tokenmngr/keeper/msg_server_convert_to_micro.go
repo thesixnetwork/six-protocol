@@ -8,10 +8,15 @@ import (
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
-func (k msgServer) ConvertToAtto(goCtx context.Context, msg *types.MsgConvertToAtto) (*types.MsgConvertToAttoResponse, error) {
+func (k msgServer) ConvertToMicro(goCtx context.Context, msg *types.MsgConvertToMicro) (*types.MsgConvertToMicroResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	denom := msg.Amount.Denom
 	convertAmount := sdk.NewCoins(msg.Amount)
+
+	// accept only zero after decimal point (atto)
+	if !msg.Amount.Amount.ModRaw(1000000000000).IsZero() {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is prohibit from module")
+	}
 
 	// Check is this creator is exist
 	signer, err := sdk.AccAddressFromBech32(msg.Creator)
@@ -24,8 +29,8 @@ func (k msgServer) ConvertToAtto(goCtx context.Context, msg *types.MsgConvertToA
 		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "token does not exist")
 	}
 
-	if token.Base != "usix" {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "token is not usix")
+	if token.Base != "asix" {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "token is not asix")
 	}
 
 	if msg.Amount.Amount.IsZero() {
@@ -50,19 +55,20 @@ func (k msgServer) ConvertToAtto(goCtx context.Context, msg *types.MsgConvertToA
 		return nil, err
 	}
 
-	attoAmount := sdk.NewCoin("asix", msg.Amount.Amount.MulRaw(1000000000000))
-	if err := k.bankKeeper.MintCoins(ctx, types.ModuleName, sdk.NewCoins(attoAmount)); err != nil {
+	microSix := sdk.NewCoin("usix", msg.Amount.Amount.QuoRaw(1000000000000))
+	if err := k.bankKeeper.MintCoins(ctx, types.ModuleName, sdk.NewCoins(microSix)); err != nil {
 		return nil, err
 	}
 
 	// send to receiver
 	if err := k.bankKeeper.SendCoinsFromModuleToAccount(
-		ctx, types.ModuleName, signer, sdk.NewCoins(attoAmount),
+		ctx, types.ModuleName, signer, sdk.NewCoins(microSix),
 	); err != nil {
 		return nil, sdkerrors.Wrap(types.ErrSendCoinsFromAccountToModule, "unable to send msg.Amounts from module to account despite previously minting msg.Amounts to module account:"+err.Error())
 	}
 
-	return &types.MsgConvertToAttoResponse{
-		Amount: attoAmount,
+
+	return &types.MsgConvertToMicroResponse{
+		Amount: microSix,
 	}, nil
 }
