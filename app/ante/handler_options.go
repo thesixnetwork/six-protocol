@@ -28,7 +28,6 @@ type HandlerOptions struct {
 	IBCKeeper         *ibckeeper.Keeper
 	EvmKeeper         ethante.EVMKeeper
 	FeeMarketKeeper   evmtypes.FeeMarketKeeper
-	TxCounterStoreKey sdk.StoreKey
 	MaxTxGasWanted    uint64
 	WasmConfig        wasmTypes.WasmConfig
 	Cdc               codec.BinaryCodec
@@ -46,12 +45,6 @@ func (options HandlerOptions) Validate() (sdk.AnteHandler, error) {
 	if options.SignModeHandler == nil {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrLogic, "sign mode handler is required for ante builder")
 	}
-	// if options.WasmConfig == nil {
-	// 	return nil, sdkerrors.Wrap(sdkerrors.ErrLogic, "wasm config is required for ante builder")
-	// }
-	if options.TxCounterStoreKey == nil {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrLogic, "tx counter key is required for ante builder")
-	}
 	if options.EvmKeeper == nil {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrLogic, "evm keeper is required for ante builder")
 	}
@@ -66,7 +59,6 @@ func (options HandlerOptions) Validate() (sdk.AnteHandler, error) {
 	anteDecorators := []sdk.AnteDecorator{
 		ante.NewSetUpContextDecorator(), // outermost AnteDecorator. SetUpContext must be called first
 		wasmkeeper.NewLimitSimulationGasDecorator(options.WasmConfig.SimulationGasLimit),
-		wasmkeeper.NewCountTXDecorator(options.TxCounterStoreKey),
 		ante.NewRejectExtensionOptionsDecorator(),
 		ante.NewMempoolFeeDecorator(),
 		ante.NewValidateBasicDecorator(),
