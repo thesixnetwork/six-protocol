@@ -38,7 +38,7 @@ func (k msgServer) CreateMintperm(goCtx context.Context, msg *types.MsgCreateMin
 	// 	if !found {
 	// 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "token admin not found")
 	// 	}
-		
+
 	// 	// create token
 	// 	maxsupply := sdk.NewIntFromUint64(0)
 	// 	new_coin := sdk.NewCoin(token.Base, maxsupply)
