@@ -814,7 +814,7 @@ func New(
 		MaxTxGasWanted:    maxGasWanted,
 		Cdc:               appCodec,
 	}
-
+	
 	if _, err := options.Validate(); err != nil {
 		panic(err)
 	}
