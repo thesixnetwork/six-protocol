@@ -1,7 +1,6 @@
 package app
 
 import (
-	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -132,9 +131,6 @@ import (
 	nftoraclemoduletypes "github.com/thesixnetwork/sixnft/x/nftoracle/types"
 
 	// tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
-
-	wasm "github.com/CosmWasm/wasmd/x/wasm"
-	wasmclient "github.com/CosmWasm/wasmd/x/wasm/client"
 )
 
 const (
@@ -142,12 +138,9 @@ const (
 	Name                 = "six"
 )
 
-// this line is used by starport scaffolding # stargate/wasm/app/enabledProposals
-
 func getGovProposalHandlers() []govclient.ProposalHandler {
 	var govProposalHandlers []govclient.ProposalHandler
 	// this line is used by starport scaffolding # stargate/app/govProposalHandlers
-	govProposalHandlers = wasmclient.ProposalHandlers
 
 	govProposalHandlers = append(
 		govProposalHandlers,
@@ -189,7 +182,6 @@ var (
 		evidence.AppModuleBasic{},
 		transfer.AppModuleBasic{},
 		vesting.AppModuleBasic{},
-		wasm.AppModuleBasic{},
 		protocoladminmodule.AppModuleBasic{},
 		tokenmngrmodule.AppModuleBasic{},
 		nftmngrmodule.AppModuleBasic{},
@@ -215,7 +207,6 @@ var (
 		protocoladminmoduletypes.ModuleName: {authtypes.Minter, authtypes.Burner, authtypes.Staking},
 		nftadminmoduletypes.ModuleName:      {authtypes.Minter, authtypes.Burner, authtypes.Staking},
 		nftmngrmoduletypes.ModuleName:       {authtypes.Burner},
-		wasm.ModuleName:                     {authtypes.Burner},
 		evmtypes.ModuleName:                 {authtypes.Minter, authtypes.Burner}, // used for secure addition and subtraction of balance using module account
 		// this line is used by starport scaffolding # stargate/app/maccPerms
 	}
@@ -288,14 +279,12 @@ type App struct {
 	EvidenceKeeper   evidencekeeper.Keeper
 	TransferKeeper   ibctransferkeeper.Keeper
 	FeeGrantKeeper   feegrantkeeper.Keeper
-	WasmKeeper       wasm.Keeper
 	EVMKeeper        *evmkeeper.Keeper
 	FeeMarketKeeper  feemarketkeeper.Keeper
 
 	// make scoped keepers public for test purposes
 	ScopedIBCKeeper      capabilitykeeper.ScopedKeeper
 	ScopedTransferKeeper capabilitykeeper.ScopedKeeper
-	ScopedWasmKeeper     capabilitykeeper.ScopedKeeper
 
 	// make scoped keepers public for custom module
 	ScopedProtocoladminKeeper capabilitykeeper.ScopedKeeper
@@ -354,7 +343,6 @@ func New(
 		// six keys
 		protocoladminmoduletypes.StoreKey,
 		tokenmngrmoduletypes.StoreKey,
-		wasm.StoreKey,
 		nftmngrmoduletypes.StoreKey,
 		nftoraclemoduletypes.StoreKey,
 		nftadminmoduletypes.StoreKey,
@@ -391,7 +379,6 @@ func New(
 	// grant capabilities for the ibc and ibc-transfer modules
 	scopedIBCKeeper := app.CapabilityKeeper.ScopeToModule(ibchost.ModuleName)
 	scopedTransferKeeper := app.CapabilityKeeper.ScopeToModule(ibctransfertypes.ModuleName)
-	scopedWasmKeeper := app.CapabilityKeeper.ScopeToModule(wasm.ModuleName)
 	// this line is used by starport scaffolding # stargate/app/scopedKeeper
 
 	// Applications that wish to enforce statically created ScopedKeepers should call `Seal` after creating
@@ -628,45 +615,6 @@ func New(
 	ibcRouter := ibcporttypes.NewRouter()
 	ibcRouter.AddRoute(ibctransfertypes.ModuleName, transferIBCModule)
 
-	// Wasm
-	wasmDir := filepath.Join(homePath, "wasm")
-	wasmConfig, err := wasm.ReadWasmConfig(appOpts)
-	if err != nil {
-		panic(fmt.Sprintf("error while reading wasm config: %s", err))
-	}
-
-	// The last arguments can contain custom message handlers, and custom query handlers,
-	// if we want to allow any custom callbacks
-	supportedFeatures := "iterator,staking,stargate"
-
-	var emptyWasmOpts []wasm.Option
-
-	app.WasmKeeper = wasm.NewKeeper(
-		appCodec,
-		keys[wasm.StoreKey],
-		app.GetSubspace(wasm.ModuleName),
-		app.AccountKeeper,
-		app.BankKeeper,
-		app.StakingKeeper,
-		app.DistrKeeper,
-		app.IBCKeeper.ChannelKeeper,
-		&app.IBCKeeper.PortKeeper,
-		scopedWasmKeeper,
-		app.TransferKeeper,
-		app.MsgServiceRouter(),
-		app.GRPCQueryRouter(),
-		wasmDir,
-		wasmConfig,
-		supportedFeatures,
-		emptyWasmOpts...,
-	)
-
-	// The gov proposal types can be individually enabled
-	// if len(enabledProposals) != 0 {
-	// 	govRouter.AddRoute(wasm.RouterKey, wasm.NewWasmProposalHandler(app.WasmKeeper, enabledProposals))
-	// }
-	ibcRouter.AddRoute(wasm.ModuleName, wasm.NewIBCHandler(app.WasmKeeper, app.IBCKeeper.ChannelKeeper))
-
 	// this line is used by starport scaffolding # ibc/app/router
 	app.IBCKeeper.SetRouter(ibcRouter)
 
@@ -698,7 +646,6 @@ func New(
 		params.NewAppModule(app.ParamsKeeper),
 		ibc.NewAppModule(app.IBCKeeper),
 		transferModule,
-		wasm.NewAppModule(appCodec, &app.WasmKeeper, app.StakingKeeper, app.AccountKeeper, app.BankKeeper),
 		protocoladminModule,
 		tokenmngrModule,
 		nftmngrModule,
@@ -737,7 +684,6 @@ func New(
 		paramstypes.ModuleName,
 		protocoladminmoduletypes.ModuleName,
 		tokenmngrmoduletypes.ModuleName,
-		wasm.ModuleName,
 		nftmngrmoduletypes.ModuleName,
 		nftoraclemoduletypes.ModuleName,
 		nftadminmoduletypes.ModuleName,
@@ -767,7 +713,6 @@ func New(
 		ibctransfertypes.ModuleName,
 		protocoladminmoduletypes.ModuleName,
 		tokenmngrmoduletypes.ModuleName,
-		wasm.ModuleName,
 		nftmngrmoduletypes.ModuleName,
 		nftoraclemoduletypes.ModuleName,
 		nftadminmoduletypes.ModuleName,
@@ -806,7 +751,6 @@ func New(
 		feegrant.ModuleName,
 		protocoladminmoduletypes.ModuleName,
 		tokenmngrmoduletypes.ModuleName,
-		wasm.ModuleName,
 		nftmngrmoduletypes.ModuleName,
 		nftoraclemoduletypes.ModuleName,
 		nftadminmoduletypes.ModuleName,
@@ -836,7 +780,6 @@ func New(
 		evidence.NewAppModule(app.EvidenceKeeper),
 		ibc.NewAppModule(app.IBCKeeper),
 		transferModule,
-		wasm.NewAppModule(appCodec, &app.WasmKeeper, app.StakingKeeper, app.AccountKeeper, app.BankKeeper),
 		protocoladminModule,
 		tokenmngrModule,
 		nftmngrModule,
@@ -868,9 +811,7 @@ func New(
 		IBCKeeper:         app.IBCKeeper,
 		EvmKeeper:         app.EVMKeeper,
 		FeeMarketKeeper:   app.FeeMarketKeeper,
-		TxCounterStoreKey: keys[wasm.StoreKey],
 		MaxTxGasWanted:    maxGasWanted,
-		WasmConfig:        wasmConfig,
 		Cdc:               appCodec,
 	}
 
@@ -889,11 +830,11 @@ func New(
 
 	app.ScopedIBCKeeper = scopedIBCKeeper
 	app.ScopedTransferKeeper = scopedTransferKeeper
-	app.ScopedWasmKeeper = scopedWasmKeeper
 	// this line is used by starport scaffolding # stargate/app/beforeInitReturn
 
 	return app
 }
+
 
 // Name returns the name of the App
 func (app *App) Name() string { return app.BaseApp.Name() }
@@ -1042,7 +983,6 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(ibchost.ModuleName)
 	paramsKeeper.Subspace(protocoladminmoduletypes.ModuleName)
 	paramsKeeper.Subspace(tokenmngrmoduletypes.ModuleName)
-	paramsKeeper.Subspace(wasm.ModuleName)
 	paramsKeeper.Subspace(nftmngrmoduletypes.ModuleName)
 	paramsKeeper.Subspace(nftoraclemoduletypes.ModuleName)
 	paramsKeeper.Subspace(nftadminmoduletypes.ModuleName)
