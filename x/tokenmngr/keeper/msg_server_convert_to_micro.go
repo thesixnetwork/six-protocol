@@ -13,6 +13,11 @@ func (k msgServer) ConvertToMicro(goCtx context.Context, msg *types.MsgConvertTo
 	denom := msg.Amount.Denom
 	convertAmount := sdk.NewCoins(msg.Amount)
 
+	// reject if denom is zero
+	if msg.Amount.Amount.IsZero() {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is prohibit from module")
+	}
+
 	// accept only zero after decimal point (atto)
 	if !msg.Amount.Amount.ModRaw(1000000000000).IsZero() {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is prohibit from module")
