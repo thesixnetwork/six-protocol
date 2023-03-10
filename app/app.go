@@ -1046,10 +1046,10 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(nftmngrmoduletypes.ModuleName)
 	paramsKeeper.Subspace(nftoraclemoduletypes.ModuleName)
 	paramsKeeper.Subspace(nftadminmoduletypes.ModuleName)
+	// this line is used by starport scaffolding # stargate/app/paramSubspace
 	// ethermint subspaces
 	paramsKeeper.Subspace(evmtypes.ModuleName)
 	paramsKeeper.Subspace(feemarkettypes.ModuleName)
-	// this line is used by starport scaffolding # stargate/app/paramSubspace
 
 	return paramsKeeper
 }
