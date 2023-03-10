@@ -75809,14 +75809,18 @@ definitions:
   thesixnetwork.sixprotocol.tokenmngr.MsgConvertToAttoResponse:
     type: object
     properties:
-      fromAddress:
-        type: string
-      toAddress:
-        type: string
-      fromAmount:
-        type: string
-      toAmount:
-        type: string
+      amount:
+        type: object
+        properties:
+          denom:
+            type: string
+          amount:
+            type: string
+        description: |-
+          Coin defines a token with a denomination and an amount.
+
+          NOTE: The amount field is an Int which implements the custom method
+          signatures required by gogoproto.
   thesixnetwork.sixprotocol.tokenmngr.MsgCreateMintpermResponse:
     type: object
   thesixnetwork.sixprotocol.tokenmngr.MsgCreateOptionsResponse:

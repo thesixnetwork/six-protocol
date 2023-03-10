@@ -117,15 +117,13 @@ message MsgDeleteOptionsResponse {}
 
 message MsgConvertToAtto {
   string creator = 1;
-  string coin = 2;
-  string receiver = 3;
+  cosmos.base.v1beta1.Coin amount = 2
+  [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"];
 }
 
 message MsgConvertToAttoResponse {
-  string fromAddress = 1;
-  string toAddress = 2;
-  string fromAmount = 3;
-  string toAmount = 4;
+  cosmos.base.v1beta1.Coin amount = 1
+  [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"];
 }
 
 // this line is used by starport scaffolding # proto/tx/message
