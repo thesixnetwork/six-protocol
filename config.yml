@@ -1,6 +1,6 @@
 accounts: # mnemonic for development purpose
   - name: alice
-    coins: ["10000finix", "100000000000000usix"]
+    coins: ["10000finix", "100000000000000usix", "100000000000000000000asix"]
     mnemonic: "history perfect across group seek acoustic delay captain sauce audit carpet tattoo exhaust green there giant cluster want pond bulk close screen scissors remind"
   - name: bob
     coins: ["20000finix", "200000000000000usix"]
