@@ -19,7 +19,7 @@ func (k msgServer) ConvertToMicro(goCtx context.Context, msg *types.MsgConvertTo
 	}
 
 	// accept only zero after decimal point (atto)
-	if !msg.Amount.Amount.ModRaw(1000000000000).IsZero() {
+	if !msg.Amount.Amount.ModRaw(1_000_000_000_000).IsZero() {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is prohibit from module")
 	}
 
@@ -60,7 +60,7 @@ func (k msgServer) ConvertToMicro(goCtx context.Context, msg *types.MsgConvertTo
 		return nil, err
 	}
 
-	microSix := sdk.NewCoin("usix", msg.Amount.Amount.QuoRaw(1000000000000))
+	microSix := sdk.NewCoin("usix", msg.Amount.Amount.QuoRaw(1_000_000_000_000))
 	if err := k.bankKeeper.MintCoins(ctx, types.ModuleName, sdk.NewCoins(microSix)); err != nil {
 		return nil, err
 	}
