@@ -107,6 +107,10 @@ import (
 	"github.com/evmos/ethermint/x/feemarket"
 	feemarketkeeper "github.com/evmos/ethermint/x/feemarket/keeper"
 	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
+	"github.com/evmos/evmos/v6/x/erc20"
+	erc20client "github.com/evmos/evmos/v6/x/erc20/client"
+	erc20keeper "github.com/evmos/evmos/v6/x/erc20/keeper"
+	erc20types "github.com/evmos/evmos/v6/x/erc20/types"
 
 	"github.com/ignite/cli/ignite/pkg/openapiconsole"
 	"github.com/thesixnetwork/six-protocol/docs"
@@ -129,7 +133,6 @@ import (
 	nftoraclemodule "github.com/thesixnetwork/sixnft/x/nftoracle"
 	nftoraclemodulekeeper "github.com/thesixnetwork/sixnft/x/nftoracle/keeper"
 	nftoraclemoduletypes "github.com/thesixnetwork/sixnft/x/nftoracle/types"
-
 	// tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 )
 
@@ -150,6 +153,10 @@ func getGovProposalHandlers() []govclient.ProposalHandler {
 		upgradeclient.CancelProposalHandler,
 		ibcclientclient.UpdateClientProposalHandler,
 		ibcclientclient.UpgradeProposalHandler,
+		// evmos proposal handlers
+		erc20client.RegisterCoinProposalHandler,
+		erc20client.RegisterERC20ProposalHandler,
+		erc20client.ToggleTokenConversionProposalHandler,
 		// this line is used by starport scaffolding # stargate/app/govProposalHandler
 	)
 
@@ -191,6 +198,7 @@ var (
 		//evm
 		evm.AppModuleBasic{},
 		feemarket.AppModuleBasic{},
+		erc20.AppModuleBasic{},
 		// this line is used by starport scaffolding # stargate/app/moduleBasic
 	)
 
@@ -208,6 +216,7 @@ var (
 		nftadminmoduletypes.ModuleName:      {authtypes.Minter, authtypes.Burner, authtypes.Staking},
 		nftmngrmoduletypes.ModuleName:       {authtypes.Burner},
 		evmtypes.ModuleName:                 {authtypes.Minter, authtypes.Burner}, // used for secure addition and subtraction of balance using module account
+		erc20types.ModuleName:               {authtypes.Minter, authtypes.Burner},
 		// this line is used by starport scaffolding # stargate/app/maccPerms
 	}
 )
@@ -281,6 +290,7 @@ type App struct {
 	FeeGrantKeeper   feegrantkeeper.Keeper
 	EVMKeeper        *evmkeeper.Keeper
 	FeeMarketKeeper  feemarketkeeper.Keeper
+	Erc20Keeper      erc20keeper.Keeper // evmos module on experimental
 
 	// make scoped keepers public for test purposes
 	ScopedIBCKeeper      capabilitykeeper.ScopedKeeper
@@ -348,6 +358,7 @@ func New(
 		nftadminmoduletypes.StoreKey,
 		evmtypes.StoreKey,
 		feemarkettypes.StoreKey,
+		erc20types.StoreKey,
 		// this line is used by starport scaffolding # stargate/app/storeKey
 	)
 	// Add the EVM transient store key
@@ -477,12 +488,24 @@ func New(
 		tracer,
 	)
 
+
 	// register the staking hooks
 	// NOTE: stakingKeeper above is passed by reference, so that it will contain these hooks
 	app.StakingKeeper = *stakingKeeper.SetHooks(
 		stakingtypes.NewMultiStakingHooks(
 			app.DistrKeeper.Hooks(),
 			app.SlashingKeeper.Hooks(),
+		),
+	)
+
+	app.Erc20Keeper = erc20keeper.NewKeeper(
+		keys[erc20types.StoreKey], appCodec, app.GetSubspace(erc20types.ModuleName),
+		app.AccountKeeper, app.BankKeeper, app.EVMKeeper,
+	)
+
+	app.EVMKeeper = app.EVMKeeper.SetHooks(
+		evmkeeper.NewMultiEvmHooks(
+			app.Erc20Keeper.Hooks(),
 		),
 	)
 
@@ -507,7 +530,8 @@ func New(
 		AddRoute(paramproposal.RouterKey, params.NewParamChangeProposalHandler(app.ParamsKeeper)).
 		AddRoute(distrtypes.RouterKey, distr.NewCommunityPoolSpendProposalHandler(app.DistrKeeper)).
 		AddRoute(upgradetypes.RouterKey, upgrade.NewSoftwareUpgradeProposalHandler(app.UpgradeKeeper)).
-		AddRoute(ibcclienttypes.RouterKey, ibcclient.NewClientProposalHandler(app.IBCKeeper.ClientKeeper))
+		AddRoute(ibcclienttypes.RouterKey, ibcclient.NewClientProposalHandler(app.IBCKeeper.ClientKeeper)).
+		AddRoute(erc20types.RouterKey, erc20.NewErc20ProposalHandler(&app.Erc20Keeper))
 
 	// Create Transfer Keepers
 	app.TransferKeeper = ibctransferkeeper.NewKeeper(
@@ -654,6 +678,7 @@ func New(
 		// Ethermint app modules
 		evm.NewAppModule(app.EVMKeeper, app.AccountKeeper),
 		feemarket.NewAppModule(app.FeeMarketKeeper),
+		erc20.NewAppModule(app.Erc20Keeper, app.AccountKeeper),
 		// this line is used by starport scaffolding # stargate/app/appModule
 	)
 
@@ -687,6 +712,7 @@ func New(
 		nftmngrmoduletypes.ModuleName,
 		nftoraclemoduletypes.ModuleName,
 		nftadminmoduletypes.ModuleName,
+		erc20types.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/beginBlockers
 	)
 
@@ -716,6 +742,7 @@ func New(
 		nftmngrmoduletypes.ModuleName,
 		nftoraclemoduletypes.ModuleName,
 		nftadminmoduletypes.ModuleName,
+		erc20types.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/endBlockers
 	)
 
@@ -754,6 +781,7 @@ func New(
 		nftmngrmoduletypes.ModuleName,
 		nftoraclemoduletypes.ModuleName,
 		nftadminmoduletypes.ModuleName,
+		erc20types.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	)
 
@@ -787,6 +815,7 @@ func New(
 		nftadminModule,
 		evm.NewAppModule(app.EVMKeeper, app.AccountKeeper),
 		feemarket.NewAppModule(app.FeeMarketKeeper),
+		erc20.NewAppModule(app.Erc20Keeper, app.AccountKeeper),
 		// this line is used by starport scaffolding # stargate/app/appModule
 	)
 
@@ -803,18 +832,18 @@ func New(
 
 	maxGasWanted := cast.ToUint64(appOpts.Get(srvflags.EVMMaxTxGasWanted))
 	options := appante.HandlerOptions{
-		AccountKeeper:     app.AccountKeeper,
-		BankKeeper:        app.BankKeeper,
-		FeegrantKeeper:    app.FeeGrantKeeper,
-		SignModeHandler:   encodingConfig.TxConfig.SignModeHandler(),
-		SigGasConsumer:    evmante.DefaultSigVerificationGasConsumer,
-		IBCKeeper:         app.IBCKeeper,
-		EvmKeeper:         app.EVMKeeper,
-		FeeMarketKeeper:   app.FeeMarketKeeper,
-		MaxTxGasWanted:    maxGasWanted,
-		Cdc:               appCodec,
+		AccountKeeper:   app.AccountKeeper,
+		BankKeeper:      app.BankKeeper,
+		FeegrantKeeper:  app.FeeGrantKeeper,
+		SignModeHandler: encodingConfig.TxConfig.SignModeHandler(),
+		SigGasConsumer:  evmante.DefaultSigVerificationGasConsumer,
+		IBCKeeper:       app.IBCKeeper,
+		EvmKeeper:       app.EVMKeeper,
+		FeeMarketKeeper: app.FeeMarketKeeper,
+		MaxTxGasWanted:  maxGasWanted,
+		Cdc:             appCodec,
 	}
-	
+
 	if _, err := options.Validate(); err != nil {
 		panic(err)
 	}
@@ -834,7 +863,6 @@ func New(
 
 	return app
 }
-
 
 // Name returns the name of the App
 func (app *App) Name() string { return app.BaseApp.Name() }
@@ -990,6 +1018,7 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	// ethermint subspaces
 	paramsKeeper.Subspace(evmtypes.ModuleName)
 	paramsKeeper.Subspace(feemarkettypes.ModuleName)
+	paramsKeeper.Subspace(erc20types.ModuleName)
 
 	return paramsKeeper
 }
