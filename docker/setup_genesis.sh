@@ -8,29 +8,40 @@ fi
 function setupGenesis() {
     NODE_PEER=$(jq '.app_state.genutil.gen_txs[0].body.memo' ./build/sixnode0/config/genesis.json)
 
-    ## replace NODE_PEER in config.toml to persistent_peers
-    sed -i '' "s/persistent_peers = \"\"/persistent_peers = ${NODE_PEER}/g" ./build/${SIX_HOME}/config/config.toml
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        ## replace NODE_PEER in config.toml to persistent_peers
+        sed -i '' "s/persistent_peers = \"\"/persistent_peers = ${NODE_PEER}/g" ./build/${SIX_HOME}/config/config.toml
+        ## replace mininum gas price
+        sed -i '' "s/minimum-gas-prices = \"0stake\"/minimum-gas-prices = \"1.25usix\"/g" ./build/${SIX_HOME}/config/app.toml
+        ## replace to enalbe api
+        sed -i '' "108s/.*/enable = true/" ./build/${SIX_HOME}/config/app.toml
+        ## replace to from 127.0.0.1 to 0.0.0.0
+        sed -i '' "s/127.0.0.1/0.0.0.0/g" ./build/${SIX_HOME}/config/config.toml
+        ## replace consensus params
+        sed -i '' "s/timeout_propose = \"3s\"/timeout_propose = \"1s\"/g" ./build/${SIX_HOME}/config/config.toml
+        sed -i '' "s/timeout_commit = \"5s\"/timeout_commit = \"1s\"/g" ./build/${SIX_HOME}/config/config.toml
+           ## from stake to usix
+        sed -i '' "s/stake/usix/g" ./build/${SIX_HOME}/config/genesis.json
+    else 
+        ## replace NODE_PEER in config.toml to persistent_peers
+        sed -i "s/persistent_peers = \"\"/persistent_peers = ${NODE_PEER}/g" ./build/${SIX_HOME}/config/config.toml
+        ## replace mininum gas price
+        sed -i "s/minimum-gas-prices = \"0stake\"/minimum-gas-prices = \"1.25usix\"/g" ./build/${SIX_HOME}/config/app.toml
+        ## replace to enalbe api
+        sed -i "108s/.*/enable = true/" ./build/${SIX_HOME}/config/app.toml
+        ## replace to from 127.0.0.1 to 0.0.0.0
+        sed -i "s/127.0.0.1/0.0.0.0/g" ./build/${SIX_HOME}/config/config.toml
+        ## replace consensus params
+        sed -i "s/timeout_propose = \"3s\"/timeout_propose = \"1s\"/g" ./build/${SIX_HOME}/config/config.toml
+        sed -i "s/timeout_commit = \"5s\"/timeout_commit = \"1s\"/g" ./build/${SIX_HOME}/config/config.toml
+    fi 
 
-    ## replace mininum gas price
-    sed -i '' "s/minimum-gas-prices = \"0stake\"/minimum-gas-prices = \"1.25usix\"/g" ./build/${SIX_HOME}/config/app.toml
-
-    ## replace to enalbe api
-    sed -i '' "108s/.*/enable = true/" ./build/${SIX_HOME}/config/app.toml
-
-    ## replace to from 127.0.0.1 to 0.0.0.0
-    sed -i '' "s/127.0.0.1/0.0.0.0/g" ./build/${SIX_HOME}/config/config.toml
-
-    ## replace consensus params
-    sed -i '' "s/timeout_propose = \"3s\"/timeout_propose = \"1s\"/g" ./build/${SIX_HOME}/config/config.toml
-    sed -i '' "s/timeout_commit = \"5s\"/timeout_commit = \"1s\"/g" ./build/${SIX_HOME}/config/config.toml
     ## config genesis.json
     jq '.app_state.bank.params.send_enabled[0] = {"denom": "usix","enabled": true}' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json
 
     ## demom metadata
     jq '.app_state.bank.denom_metadata[0] =  {"description": "The native staking token of the SIX Protocol.","denom_units": [{"denom": "usix","exponent": 0,"aliases": ["microsix"]},{"denom": "msix","exponent": 3,"aliases": ["millisix"]},{"denom": "six","exponent": 6,"aliases": []}],"base": "usix","display": "six","name": "Six token","symbol": "six"}' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json
 
-    ## from stake to usix
-    sed -i '' "s/stake/usix/g" ./build/${SIX_HOME}/config/genesis.json
 
     ## nftadmin
     jq '.app_state.nftadmin.authorization = {"root_admin": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"}' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json

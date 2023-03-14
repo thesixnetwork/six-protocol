@@ -56,14 +56,30 @@ echo $ORACLE4_MNEMONIC | sixd keys add oracle4 --recover --home ${SIX_HOME} --ke
 sixd init $MONIKER --chain-id $CHAINID
 
 # Change parameter token denominations to usix
-cat $HOME/.six/config/genesis.json | jq '.app_state["staking"]["params"]["bond_denom"]="usix"' > $HOME/.six/config/tmp_genesis.json && mv $HOME/.six/config/tmp_genesis.json $HOME/.six/config/genesis.json
-cat $HOME/.six/config/genesis.json | jq '.app_state["crisis"]["constant_fee"]["denom"]="usix"' > $HOME/.six/config/tmp_genesis.json && mv $HOME/.six/config/tmp_genesis.json $HOME/.six/config/genesis.json
-cat $HOME/.six/config/genesis.json | jq '.app_state["gov"]["deposit_params"]["min_deposit"][0]["denom"]="usix"' > $HOME/.six/config/tmp_genesis.json && mv $HOME/.six/config/tmp_genesis.json $HOME/.six/config/genesis.json
-cat $HOME/.six/config/genesis.json | jq '.app_state["evm"]["params"]["evm_denom"]="asix"' > $HOME/.six/config/tmp_genesis.json && mv $HOME/.six/config/tmp_genesis.json $HOME/.six/config/genesis.json
-# cat $HOME/.six/config/genesis.json | jq '.app_state["inflation"]["params"]["mint_denom"]="usix"' > $HOME/.six/config/tmp_genesis.json && mv $HOME/.six/config/tmp_genesis.json $HOME/.six/config/genesis.json
-
-# Change voting params so that submitted proposals pass immediately for testing
-cat $HOME/.six/config/genesis.json| jq '.app_state.gov.voting_params.voting_period="600s"' > $HOME/.six/config/tmp_genesis.json && mv $HOME/.six/config/tmp_genesis.json $HOME/.six/config/genesis.json
+cat ${SIX_HOME}/config/genesis.json | jq '.app_state["staking"]["params"]["bond_denom"]="usix"' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
+cat ${SIX_HOME}/config/genesis.json | jq '.app_state["crisis"]["constant_fee"]["denom"]="usix"' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
+cat ${SIX_HOME}/config/genesis.json | jq '.app_state["gov"]["deposit_params"]["min_deposit"][0]["denom"]="usix"' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
+cat ${SIX_HOME}/config/genesis.json | jq '.app_state["evm"]["params"]["evm_denom"]="asix"' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
+cat ${SIX_HOME}/config/genesis.json | jq '.app_state["inflation"]["params"]["mint_denom"]="usix"' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
+cat ${SIX_HOME}/config/genesis.json | jq '.app_state["mint"]["params"]["mint_denom"]="usix"' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
+cat ${SIX_HOME}/config/genesis.json | jq '.app_state.bank.params.send_enabled[0] = {"denom": "usix","enabled": true}' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
+cat ${SIX_HOME}/config/genesis.json | jq '.app_state.bank.denom_metadata[0] =  {"description": "The native staking token of the SIX Protocol.","denom_units": [{"denom": "usix","exponent": 0,"aliases": ["microsix"]},{"denom": "msix","exponent": 3,"aliases": ["millisix"]},{"denom": "six","exponent": 6,"aliases": []}],"base": "usix","display": "six","name": "Six token","symbol": "six"}' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
+cat ${SIX_HOME}/config/genesis.json | jq '.app_state.bank.denom_metadata[1] =  {"description": "The native evm token of the SIX Protocol.","denom_units": [{"denom": "asix","exponent": 0,"aliases": ["attosix"]},{"denom": "usix","exponent": 12,"aliases": ["microsix"]},{"denom": "msix","exponent": 15,"aliases": ["millisix"]},{"denom": "six","exponent": 18,"aliases": []}],"base": "asix","display": "asix","name": "eSIX token","symbol": "asix"}' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
+cat ${SIX_HOME}/config/genesis.json | jq '.app_state.nftadmin.authorization = {"root_admin": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"}' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
+cat ${SIX_HOME}/config/genesis.json | jq '.app_state.nftmngr.nft_fee_config = {"schema_fee": {"fee_amount": "200000000usix","fee_distributions": [{"method": "BURN","portion": 0.5},{"method": "REWARD_POOL","portion": 0.5}]}}' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
+cat ${SIX_HOME}/config/genesis.json | jq '.app_state.nftoracle.params = {"action_request_active_duration": "120s","mint_request_active_duration": "120s","verify_request_active_duration": "120s", "action_signer_active_duration": "2592000s","sync_action_signer_active_duration": "300s"}' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
+cat ${SIX_HOME}/config/genesis.json | jq '.app_state.nftoracle.oracle_config = {"minimum_confirmation": 4}' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
+cat ${SIX_HOME}/config/genesis.json | jq '.app_state.protocoladmin.adminList[0] |= . + {"admin": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv","group": "super.admin"}' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
+cat ${SIX_HOME}/config/genesis.json | jq '.app_state.protocoladmin.adminList[1] |= . + {"admin": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv","group": "token.admin"}' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
+cat ${SIX_HOME}/config/genesis.json | jq '.app_state.protocoladmin.groupList[0] |= . + {"name": "super.admin","owner": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"}' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
+cat ${SIX_HOME}/config/genesis.json | jq '.app_state.protocoladmin.groupList[1] |= . + {"name": "token.admin","owner": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"}' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
+cat ${SIX_HOME}/config/genesis.json | jq '.app_state.staking.validator_approval.approver_address = "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
+cat ${SIX_HOME}/config/genesis.json | jq '.app_state.tokenmngr.mintpermList[0] |= . + {"address": "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq","creator": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv","token": "usix"}' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
+cat ${SIX_HOME}/config/genesis.json | jq '.app_state.tokenmngr.options = {"defaultMintee": "6x1cws3ex5yqwlu4my49htq06nsnhuxw3v7rt20g6"}' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
+cat ${SIX_HOME}/config/genesis.json | jq '.app_state.tokenmngr.tokenList[0] |= . +  {"base": "usix","creator": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv","maxSupply": { "amount": "0", "denom": "usix" },"mintee": "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq","name": "usix"}' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
+cat ${SIX_HOME}/config/genesis.json | jq '.app_state.tokenmngr.tokenList[1] |= . +  {"base": "asix","creator": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv","maxSupply": { "amount": "0", "denom": "asix" },"mintee": "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq","name": "asix"}' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
+cat ${SIX_HOME}/config/genesis.json | jq '.app_state.gov.deposit_params.max_deposit_period = "300s"' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
+cat ${SIX_HOME}/config/genesis.json | jq '.app_state.gov.voting_params.voting_period = "300s"' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
 
 
 # disable produce empty block
@@ -99,17 +115,17 @@ fi
 
 # Allocate genesis accounts (cosmos formatted addresses)
 ## denom usix
-sixd add-genesis-account $(sixd keys show -a val1 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 11000000000usix,1000000000000000000000asix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a val2 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix,1000000000000000000000asix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a val3 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix,1000000000000000000000asix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a val4 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix,1000000000000000000000asix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a oracle1 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix,1000000000000000000000asix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a oracle2 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix,1000000000000000000000asix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a oracle3 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix,1000000000000000000000asix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a oracle4 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix,1000000000000000000000asix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a alice --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix,1000000000000000000000asix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a bob --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix,1000000000000000000000asix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a super-admin --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix,1000000000000000000000asix --keyring-backend ${KEYRING} --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a val1 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 11000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a val2 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 11000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a val3 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 11000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a val4 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 11000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a oracle1 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a oracle2 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a oracle3 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a oracle4 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a alice --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a bob --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a super-admin --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
 # Update total supply with claim values
 #validators_supply=$(cat $HOME/.six/config/genesis.json | jq -r '.app_state["bank"]["supply"][0]["amount"]')
 # Bc is required to add this big numbers
@@ -134,5 +150,5 @@ if [[ $1 == "pending" ]]; then
 fi
 
 # Start the node (remove the --pruning=nothing flag if historical queries are not needed)
-sixd start --pruning=nothing --trace --log_level info --minimum-gas-prices=1.25usix --json-rpc.api eth,txpool,personal,net,debug,web3 --rpc.laddr "tcp://0.0.0.0:26657" --api.enable true
+sixd start --minimum-gas-prices=1.25usix,1250000000000asix --json-rpc.api eth,txpool,personal,net,debug,web3 --rpc.laddr "tcp://0.0.0.0:26657" --api.enable true
 
