@@ -56,6 +56,7 @@ echo $ORACLE4_MNEMONIC | sixd keys add oracle4 --recover --home ${SIX_HOME} --ke
 sixd init $MONIKER --chain-id $CHAINID
 
 # Change parameter token denominations to usix
+## from stake to usix
 cat ${SIX_HOME}/config/genesis.json | jq '.app_state["staking"]["params"]["bond_denom"]="usix"' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
 cat ${SIX_HOME}/config/genesis.json | jq '.app_state["crisis"]["constant_fee"]["denom"]="usix"' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
 cat ${SIX_HOME}/config/genesis.json | jq '.app_state["gov"]["deposit_params"]["min_deposit"][0]["denom"]="usix"' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
@@ -82,34 +83,29 @@ cat ${SIX_HOME}/config/genesis.json | jq '.app_state.gov.deposit_params.max_depo
 cat ${SIX_HOME}/config/genesis.json | jq '.app_state.gov.voting_params.voting_period = "300s"' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
 
 
-# disable produce empty block
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    sed -i '' 's/create_empty_blocks = true/create_empty_blocks = false/g' $HOME/.six/config/config.toml
-  else
-    sed -i 's/create_empty_blocks = true/create_empty_blocks = false/g' $HOME/.six/config/config.toml
-fi
-
 if [[ $1 == "pending" ]]; then
   if [[ "$OSTYPE" == "darwin"* ]]; then
-      sed -i '' 's/create_empty_blocks_interval = "0s"/create_empty_blocks_interval = "30s"/g' $HOME/.six/config/config.toml
-      sed -i '' 's/timeout_propose = "3s"/timeout_propose = "30s"/g' $HOME/.six/config/config.toml
-      sed -i '' 's/timeout_propose_delta = "500ms"/timeout_propose_delta = "5s"/g' $HOME/.six/config/config.toml
-      sed -i '' 's/timeout_prevote = "1s"/timeout_prevote = "10s"/g' $HOME/.six/config/config.toml
-      sed -i '' 's/timeout_prevote_delta = "500ms"/timeout_prevote_delta = "5s"/g' $HOME/.six/config/config.toml
-      sed -i '' 's/timeout_precommit = "1s"/timeout_precommit = "10s"/g' $HOME/.six/config/config.toml
-      sed -i '' 's/timeout_precommit_delta = "500ms"/timeout_precommit_delta = "5s"/g' $HOME/.six/config/config.toml
-      sed -i '' 's/timeout_commit = "5s"/timeout_commit = "150s"/g' $HOME/.six/config/config.toml
-      sed -i '' 's/timeout_broadcast_tx_commit = "10s"/timeout_broadcast_tx_commit = "150s"/g' $HOME/.six/config/config.toml
+      sed -i '' 's/stake/usix/g' ${SIX_HOME}/config/genesis.json
+      sed -i '' 's/create_empty_blocks_interval = "0s"/create_empty_blocks_interval = "30s"/g' ${SIX_HOME}/config/config.toml
+      sed -i '' 's/timeout_propose = "3s"/timeout_propose = "30s"/g' ${SIX_HOME}/config/config.toml
+      sed -i '' 's/timeout_propose_delta = "500ms"/timeout_propose_delta = "5s"/g' ${SIX_HOME}/config/config.toml
+      sed -i '' 's/timeout_prevote = "1s"/timeout_prevote = "10s"/g' ${SIX_HOME}/config/config.toml
+      sed -i '' 's/timeout_prevote_delta = "500ms"/timeout_prevote_delta = "5s"/g' ${SIX_HOME}/config/config.toml
+      sed -i '' 's/timeout_precommit = "1s"/timeout_precommit = "10s"/g' ${SIX_HOME}/config/config.toml
+      sed -i '' 's/timeout_precommit_delta = "500ms"/timeout_precommit_delta = "5s"/g' ${SIX_HOME}/config/config.toml
+      sed -i '' 's/timeout_commit = "5s"/timeout_commit = "150s"/g' ${SIX_HOME}/config/config.toml
+      sed -i '' 's/timeout_broadcast_tx_commit = "10s"/timeout_broadcast_tx_commit = "150s"/g' ${SIX_HOME}/config/config.toml
   else
-      sed -i 's/create_empty_blocks_interval = "0s"/create_empty_blocks_interval = "30s"/g' $HOME/.six/config/config.toml
-      sed -i 's/timeout_propose = "3s"/timeout_propose = "30s"/g' $HOME/.six/config/config.toml
-      sed -i 's/timeout_propose_delta = "500ms"/timeout_propose_delta = "5s"/g' $HOME/.six/config/config.toml
-      sed -i 's/timeout_prevote = "1s"/timeout_prevote = "10s"/g' $HOME/.six/config/config.toml
-      sed -i 's/timeout_prevote_delta = "500ms"/timeout_prevote_delta = "5s"/g' $HOME/.six/config/config.toml
-      sed -i 's/timeout_precommit = "1s"/timeout_precommit = "10s"/g' $HOME/.six/config/config.toml
-      sed -i 's/timeout_precommit_delta = "500ms"/timeout_precommit_delta = "5s"/g' $HOME/.six/config/config.toml
-      sed -i 's/timeout_commit = "5s"/timeout_commit = "150s"/g' $HOME/.six/config/config.toml
-      sed -i 's/timeout_broadcast_tx_commit = "10s"/timeout_broadcast_tx_commit = "150s"/g' $HOME/.six/config/config.toml
+      sed -i 's/stake/usix/g' ${SIX_HOME}/config/genesis.json
+      sed -i 's/create_empty_blocks_interval = "0s"/create_empty_blocks_interval = "30s"/g' ${SIX_HOME}/config/config.toml
+      sed -i 's/timeout_propose = "3s"/timeout_propose = "30s"/g' ${SIX_HOME}/config/config.toml
+      sed -i 's/timeout_propose_delta = "500ms"/timeout_propose_delta = "5s"/g' ${SIX_HOME}/config/config.toml
+      sed -i 's/timeout_prevote = "1s"/timeout_prevote = "10s"/g' ${SIX_HOME}/config/config.toml
+      sed -i 's/timeout_prevote_delta = "500ms"/timeout_prevote_delta = "5s"/g' ${SIX_HOME}/config/config.toml
+      sed -i 's/timeout_precommit = "1s"/timeout_precommit = "10s"/g' ${SIX_HOME}/config/config.toml
+      sed -i 's/timeout_precommit_delta = "500ms"/timeout_precommit_delta = "5s"/g' ${SIX_HOME}/config/config.toml
+      sed -i 's/timeout_commit = "5s"/timeout_commit = "150s"/g' ${SIX_HOME}/config/config.toml
+      sed -i 's/timeout_broadcast_tx_commit = "10s"/timeout_broadcast_tx_commit = "150s"/g' ${SIX_HOME}/config/config.toml
   fi
 fi
 
@@ -127,11 +123,11 @@ sixd add-genesis-account $(sixd keys show -a alice --keyring-backend ${KEYRING} 
 sixd add-genesis-account $(sixd keys show -a bob --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
 sixd add-genesis-account $(sixd keys show -a super-admin --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
 # Update total supply with claim values
-#validators_supply=$(cat $HOME/.six/config/genesis.json | jq -r '.app_state["bank"]["supply"][0]["amount"]')
+#validators_supply=$(cat ${SIX_HOME}/config/genesis.json | jq -r '.app_state["bank"]["supply"][0]["amount"]')
 # Bc is required to add this big numbers
 # total_supply=$(bc <<< "$amount_to_claim+$validators_supply")
 # total_supply=1100000000000000000000000000
-# cat $HOME/.six/config/genesis.json | jq -r --arg total_supply "$total_supply" '.app_state["bank"]["supply"][0]["amount"]=$total_supply' > $HOME/.six/config/tmp_genesis.json && mv $HOME/.six/config/tmp_genesis.json $HOME/.six/config/genesis.json
+# cat ${SIX_HOME}/config/genesis.json | jq -r --arg total_supply "$total_supply" '.app_state["bank"]["supply"][0]["amount"]=$total_supply' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
 
 echo $KEYRING
 echo $KEY
