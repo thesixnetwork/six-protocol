@@ -1,8 +1,6 @@
 package ante
 
 import (
-	wasmkeeper "github.com/CosmWasm/wasmd/x/wasm/keeper"
-	wasmTypes "github.com/CosmWasm/wasmd/x/wasm/types"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -29,7 +27,6 @@ type HandlerOptions struct {
 	EvmKeeper         ethante.EVMKeeper
 	FeeMarketKeeper   evmtypes.FeeMarketKeeper
 	MaxTxGasWanted    uint64
-	WasmConfig        wasmTypes.WasmConfig
 	Cdc               codec.BinaryCodec
 }
 
@@ -58,7 +55,6 @@ func (options HandlerOptions) Validate() (sdk.AnteHandler, error) {
 	}
 	anteDecorators := []sdk.AnteDecorator{
 		ante.NewSetUpContextDecorator(), // outermost AnteDecorator. SetUpContext must be called first
-		wasmkeeper.NewLimitSimulationGasDecorator(options.WasmConfig.SimulationGasLimit),
 		ante.NewRejectExtensionOptionsDecorator(),
 		ante.NewMempoolFeeDecorator(),
 		ante.NewValidateBasicDecorator(),

@@ -3,7 +3,6 @@ module github.com/thesixnetwork/six-protocol
 go 1.18
 
 require (
-	github.com/CosmWasm/wasmd v0.27.0
 	github.com/cosmos/cosmos-sdk v0.45.6
 	github.com/cosmos/ibc-go/v3 v3.1.1
 	github.com/ethereum/go-ethereum v1.10.16
@@ -29,7 +28,6 @@ require (
 	filippo.io/edwards25519 v1.0.0-beta.2 // indirect
 	github.com/99designs/keyring v1.1.6 // indirect
 	github.com/ChainSafe/go-schnorrkel v0.0.0-20200405005733-88cbf1b4c40d // indirect
-	github.com/CosmWasm/wasmvm v1.0.0 // indirect
 	github.com/DataDog/zstd v1.4.8 // indirect
 	github.com/Workiva/go-datastructures v1.0.53 // indirect
 	github.com/armon/go-metrics v0.4.0 // indirect
