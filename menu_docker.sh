@@ -1,6 +1,6 @@
 default_github_token=$GIT_TOKEN
 default_six_home=six_home
-default_docker_tag="2.3.0"
+default_docker_tag="2.3.0_evm"
 node_homes=(
     sixnode0
     sixnode1
@@ -65,8 +65,12 @@ function setUpConfig() {
         setUpGenesis
     else
         NODE_PEER=$(jq '.app_state.genutil.gen_txs[0].body.memo' ./build/sixnode0/config/genesis.json)
-        ## replace NODE_PEER in config.toml to persistent_peers
-        sed -i '' "s/persistent_peers = \"\"/persistent_peers = ${NODE_PEER}/g" ./build/${SIX_HOME}/config/config.toml
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+            ## replace NODE_PEER in config.toml to persistent_peers
+            sed -i '' "s/persistent_peers = \"\"/persistent_peers = ${NODE_PEER}/g" ./build/${SIX_HOME}/config/config.toml
+        else
+            sed -i "s/persistent_peers = \"\"/persistent_peers = ${NODE_PEER}/g" ./build/${SIX_HOME}/config/config.toml
+        fi
             ## replace genesis of node0 to all node
         cp ./build/sixnode0/config/genesis.json ./build/${SIX_HOME}/config/genesis.json
     fi
@@ -75,19 +79,33 @@ function setUpConfig() {
     if [[ ${TYPE} == "1" ]]; then
         echo "Running Fast Node"
         ## replace consensus params
-        sed -i '' "s/timeout_propose = \"3s\"/timeout_propose = \"1s\"/g" ./build/${SIX_HOME}/config/config.toml
-        sed -i '' "s/timeout_commit = \"5s\"/timeout_commit = \"1s\"/g" ./build/${SIX_HOME}/config/config.toml
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+            sed -i '' "s/timeout_propose = \"3s\"/timeout_propose = \"1s\"/g" ./build/${SIX_HOME}/config/config.toml
+            sed -i '' "s/timeout_commit = \"5s\"/timeout_commit = \"1s\"/g" ./build/${SIX_HOME}/config/config.toml
+        else
+            sed -i "s/timeout_propose = \"3s\"/timeout_propose = \"1s\"/g" ./build/${SIX_HOME}/config/config.toml
+            sed -i "s/timeout_commit = \"5s\"/timeout_commit = \"1s\"/g" ./build/${SIX_HOME}/config/config.toml
+        fi
     else
         echo "Running Default Node"
     fi
     
-    ## replace to enalbe api
-    sed -i '' "108s/.*/enable = true/" ./build/${SIX_HOME}/config/app.toml
-    ## replace to from 127.0.0.1 to 0.0.0.0
-    sed -i '' "s/127.0.0.1/0.0.0.0/g" ./build/${SIX_HOME}/config/config.toml
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        ## replace to enalbe api
+        sed -i '' "108s/.*/enable = true/" ./build/${SIX_HOME}/config/app.toml
+        ## replace to from 127.0.0.1 to 0.0.0.0
+        sed -i '' "s/127.0.0.1/0.0.0.0/g" ./build/${SIX_HOME}/config/config.toml
 
-    ## replace mininum gas price
-    sed -i '' "s/minimum-gas-prices = \"0stake\"/minimum-gas-prices = \"1.25usix\"/g" ./build/${SIX_HOME}/config/app.toml
+        ## replace mininum gas price
+        sed -i '' "s/minimum-gas-prices = \"0stake\"/minimum-gas-prices = \"1.25usix\"/g" ./build/${SIX_HOME}/config/app.toml
+    else
+        sed -i "108s/.*/enable = true/" ./build/${SIX_HOME}/config/app.toml
+        ## replace to from 127.0.0.1 to 0.0.0.0
+        sed -i "s/127.0.0.1/0.0.0.0/g" ./build/${SIX_HOME}/config/config.toml
+
+        ## replace mininum gas price
+        sed -i "s/minimum-gas-prices = \"0stake\"/minimum-gas-prices = \"1.25usix\"/g" ./build/${SIX_HOME}/config/app.toml
+    fi
 
     echo "Setup Genesis Success 🟢"
 
