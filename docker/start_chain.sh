@@ -1,2 +1,2 @@
 export SIX_HOME=/opt/build/six_home/
-sixd start --home ${SIX_HOME} --minimum-gas-prices 1.25usix
+sixd start --home ${SIX_HOME} --minimum-gas-prices=1.25usix,1250000000000asix --json-rpc.api eth,txpool,personal,net,debug,web3 --rpc.laddr "tcp://0.0.0.0:26657" --api.enable true
