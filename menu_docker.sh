@@ -25,7 +25,7 @@ function setUpGenesis(){
 
     ## from stake to usix
     sed -i '' "s/stake/usix/g" ./build/sixnode0/config/genesis.json
-    
+
     ## evm
     jq '.app_state.evm.params.evm_denom="asix"' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
     
@@ -213,7 +213,7 @@ case $choice in
                 sixd tx staking create-validator --amount 1000000usix --license-mode=true --max-license=1 --pubkey $(sixd tendermint show-validator --home ./build/${node_homes[i]}) --home build/${node_homes[i]} \
                     --min-delegation 1000000 --delegation-increment 1000000 --enable-redelegation=false --moniker ${node_homes[i]} --from=${val} \
                     --commission-rate "0.1" --commission-max-rate "0.1" \
-                    --commission-max-change-rate "0.1" --chain-id six \
+                    --commission-max-change-rate "0.1" --chain-id six_666-1 \
                     --sign-mode amino-json --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix --min-self-delegation 1000000 --keyring-backend test -y
                 echo "Config Genesis at ${home} Success 🟢"
                 ) || exit 1
@@ -227,7 +227,7 @@ case $choice in
                     --pubkey $(sixd tendermint show-validator --home ./build/${node_homes[i]}) --home build/${node_homes[i]} \
                     --keyring-backend test --commission-rate 0.1 --commission-max-rate 0.5 --commission-max-change-rate 0.1 \
                     --min-self-delegation 1000000 --node http://0.0.0.0:26662 -y --min-delegation 1000000 --delegation-increment 1000000 \
-                    --chain-id six --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y
+                    --chain-id six_666-1 --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y
                 echo "Config Genesis at ${home} Success 🟢"
                 ) || exit 1
             fi
