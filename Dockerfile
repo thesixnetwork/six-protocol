@@ -18,12 +18,9 @@ COPY . /go/src/github.com/thesixnetwork/six-protocol/
 # RUN go install github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@latest
 COPY ./build/bin/cosmovisor /go/bin/cosmovisor
 
-# Copy the library you want to the final location that will be found by the linker flag `-lwasmvm_muslc`
-RUN cp /lib/libwasmvm_muslc.$(uname -m).a /lib/libwasmvm_muslc.a
-
 RUN git config --global url."https://${GITHUB_TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
 RUN export GOPRIVATE=github.com/thesixnetwork/sixnft 
-RUN go get github.com/thesixnetwork/sixnft@v0.8.1-0.20230228101742-c7f89f76fea7
+RUN go get github.com/thesixnetwork/sixnft@v0.8.1-0.20230308101626-0f4bce94bd27
 
 # force it to use static lib (from above) not standard libgo_cosmwasm.so file
 RUN LEDGER_ENABLED=false BUILD_TAGS=muslc make build
