@@ -99,7 +99,7 @@ import (
 	evmante "github.com/evmos/ethermint/app/ante"
 	ethermintconfig "github.com/evmos/ethermint/server/config"
 	srvflags "github.com/evmos/ethermint/server/flags"
-	ethermint "github.com/evmos/ethermint/types"
+	// ethermint "github.com/evmos/ethermint/types"
 	"github.com/evmos/ethermint/x/evm"
 	evmrest "github.com/evmos/ethermint/x/evm/client/rest"
 	evmkeeper "github.com/evmos/ethermint/x/evm/keeper"
@@ -401,7 +401,7 @@ func New(
 		appCodec,
 		keys[authtypes.StoreKey],
 		app.GetSubspace(authtypes.ModuleName),
-		ethermint.ProtoAccount,
+		authtypes.ProtoBaseAccount,
 		maccPerms,
 	)
 
