@@ -15,7 +15,7 @@ fi
 case $PLATFORM in
 "local")
     RPC_ENDPOINT="http://localhost:26657"
-    CHAIN_ID="testnet"
+    CHAIN_ID="sixnet"
     ;;
 "docker")
     RPC_ENDPOINT="http://localhost:26657"

@@ -99,7 +99,7 @@ import (
 	evmante "github.com/evmos/ethermint/app/ante"
 	ethermintconfig "github.com/evmos/ethermint/server/config"
 	srvflags "github.com/evmos/ethermint/server/flags"
-	// ethermint "github.com/evmos/ethermint/types"
+	ethermint "github.com/evmos/ethermint/types"
 	"github.com/evmos/ethermint/x/evm"
 	evmrest "github.com/evmos/ethermint/x/evm/client/rest"
 	evmkeeper "github.com/evmos/ethermint/x/evm/keeper"
@@ -401,6 +401,7 @@ func New(
 		appCodec,
 		keys[authtypes.StoreKey],
 		app.GetSubspace(authtypes.ModuleName),
+		// ethermint.ProtoAccount,
 		authtypes.ProtoBaseAccount,
 		maccPerms,
 	)
@@ -481,10 +482,11 @@ func New(
 	app.FeeMarketKeeper = feemarketkeeper.NewKeeper(
 		appCodec, app.GetSubspace(feemarkettypes.ModuleName), keys[feemarkettypes.StoreKey], tkeys[feemarkettypes.TransientKey],
 	)
-
+	
 	app.EVMKeeper = evmkeeper.NewKeeper(
 		appCodec, keys[evmtypes.StoreKey], tkeys[evmtypes.TransientKey], app.GetSubspace(evmtypes.ModuleName),
-		app.AccountKeeper, app.BankKeeper, &stakingKeeper, app.FeeMarketKeeper,
+		authkeeper.NewAccountKeeper(appCodec,keys[authtypes.StoreKey],app.GetSubspace(authtypes.ModuleName),ethermint.ProtoAccount,maccPerms), 
+		app.BankKeeper, &stakingKeeper, app.FeeMarketKeeper,
 		tracer,
 	)
 
@@ -676,7 +678,7 @@ func New(
 		nftoracleModule,
 		nftadminModule,
 		// Ethermint app modules
-		evm.NewAppModule(app.EVMKeeper, app.AccountKeeper),
+		evm.NewAppModule(app.EVMKeeper, authkeeper.NewAccountKeeper(appCodec,keys[authtypes.StoreKey],app.GetSubspace(authtypes.ModuleName),ethermint.ProtoAccount,maccPerms)),
 		feemarket.NewAppModule(app.FeeMarketKeeper),
 		erc20.NewAppModule(app.Erc20Keeper, app.AccountKeeper),
 		// this line is used by starport scaffolding # stargate/app/appModule
@@ -813,7 +815,7 @@ func New(
 		nftmngrModule,
 		nftoracleModule,
 		nftadminModule,
-		evm.NewAppModule(app.EVMKeeper, app.AccountKeeper),
+		evm.NewAppModule(app.EVMKeeper, authkeeper.NewAccountKeeper(appCodec,keys[authtypes.StoreKey],app.GetSubspace(authtypes.ModuleName),ethermint.ProtoAccount,maccPerms)),
 		feemarket.NewAppModule(app.FeeMarketKeeper),
 		erc20.NewAppModule(app.Erc20Keeper, app.AccountKeeper),
 		// this line is used by starport scaffolding # stargate/app/appModule
@@ -860,7 +862,6 @@ func New(
 	app.ScopedIBCKeeper = scopedIBCKeeper
 	app.ScopedTransferKeeper = scopedTransferKeeper
 	// this line is used by starport scaffolding # stargate/app/beforeInitReturn
-
 	return app
 }
 
