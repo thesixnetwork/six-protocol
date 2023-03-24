@@ -1,0 +1,17 @@
+{
+  "title": "Parameter changes for feemarket module",
+  "description": "If passed, fee for evm will be decrease",
+  "changes": [
+    {
+      "subspace": "feemarket",
+      "key": "BaseFee",
+      "value": "1000000000000"
+    },
+    {
+      "subspace": "feemarket",
+      "key": "MinGasPrice",
+      "value": "1000000000000"
+    }
+  ],
+  "deposit": "100000000usix"
+}
