@@ -99,7 +99,7 @@ func newCosmosAnteHandler(options HandlerOptions) sdk.AnteHandler {
 		ante.NewRejectExtensionOptionsDecorator(),
 		ante.NewValidateBasicDecorator(),
 		ante.NewMempoolFeeDecorator(),
-		// ethante.NewMinGasPriceDecorator(options.FeeMarketKeeper, options.EvmKeeper),
+		// ethante.NewMinGasPriceDecorator(options.FeeMarketKeeper, options.EvmKeeper),  // ! remove this decorator to allow Cosmos txs to be included in blocks with low gas prices not use fee market
 		ante.NewTxTimeoutHeightDecorator(),
 		ante.NewValidateMemoDecorator(options.AccountKeeper),
 		ante.NewConsumeGasForTxSizeDecorator(options.AccountKeeper),
