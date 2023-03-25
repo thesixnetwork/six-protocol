@@ -12,9 +12,11 @@ function setupGenesis() {
         ## replace NODE_PEER in config.toml to persistent_peers
         sed -i '' "s/persistent_peers = \"\"/persistent_peers = ${NODE_PEER}/g" ./build/${SIX_HOME}/config/config.toml
         ## replace mininum gas price
-        sed -i '' "s/minimum-gas-prices = \"0stake\"/minimum-gas-prices = \"1.25usix\"/g" ./build/${SIX_HOME}/config/app.toml
+        sed -i '' "s/minimum-gas-prices = \"0stake\"/minimum-gas-prices = \"1.25usix,1250000000000asix\"/g" ./build/${SIX_HOME}/config/app.toml
         ## replace to enalbe api
-        sed -i '' "108s/.*/enable = true/" ./build/${SIX_HOME}/config/app.toml
+        sed -i '' '/^\[api\]$/,/^\[/ s/enable = false/enable = true/' ./build/${SIX_HOME}/config/app.toml
+        sed -i '' '/^\[api\]$/,/^[^[]/ s/^swagger = false$/swagger = true/' ./build/${SIX_HOME}/config/app.toml
+
         ## replace to from 127.0.0.1 to 0.0.0.0
         sed -i '' "s/127.0.0.1/0.0.0.0/g" ./build/${SIX_HOME}/config/config.toml
         ## replace consensus params
@@ -26,9 +28,10 @@ function setupGenesis() {
         ## replace NODE_PEER in config.toml to persistent_peers
         sed -i "s/persistent_peers = \"\"/persistent_peers = ${NODE_PEER}/g" ./build/${SIX_HOME}/config/config.toml
         ## replace mininum gas price
-        sed -i "s/minimum-gas-prices = \"0stake\"/minimum-gas-prices = \"1.25usix\"/g" ./build/${SIX_HOME}/config/app.toml
-        ## replace to enalbe api
-        sed -i "108s/.*/enable = true/" ./build/${SIX_HOME}/config/app.toml
+        sed -i "s/minimum-gas-prices = \"0stake\"/minimum-gas-prices = \"1.25usix,1250000000000asix\"/g" ./build/${SIX_HOME}/config/app.toml
+         ## replace to enalbe api
+        sed -i '/^\[api\]$/,/^\[/ s/enable = false/enable = true/' ./build/${SIX_HOME}/config/app.toml
+        sed -i '/^\[api\]$/,/^[^[]/ s/^swagger = false$/swagger = true/' ./build/${SIX_HOME}/config/app.toml
         ## replace to from 127.0.0.1 to 0.0.0.0
         sed -i "s/127.0.0.1/0.0.0.0/g" ./build/${SIX_HOME}/config/config.toml
         ## replace consensus params
@@ -37,13 +40,28 @@ function setupGenesis() {
     fi 
 
     ## config genesis.json
+
+    ## bank
     jq '.app_state.bank.params.send_enabled[0] = {"denom": "usix","enabled": true}' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json
+    jq '.app_state.bank.denom_metadata[0] =  {"description": "The native staking token of the SIX Protocol.","denom_units": [{"denom": "usix","exponent": 0,"aliases": .microsix},{"denom": "msix","exponent": 3,"aliases": .millisix},{"denom": "six","exponent": 6,"aliases": []}],"base": "usix","display": "six","name": "Six token","symbol": "six"}' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json
+    jq '.app_state.bank.denom_metadata[1] =  {"description": "The native evm token of the SIX Protocol.","denom_units": [{"denom": "asix","exponent": 0,"aliases": .attosix},{"denom": "usix","exponent": 12,"aliases": .microsix},{"denom": "msix","exponent": 15,"aliases": .millisix},{"denom": "six","exponent": 18,"aliases": []}],"base": "asix","display": "asix","name": "aSIX token","symbol": "asix"}' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json
 
-    ## demom metadata
-    jq '.app_state.bank.denom_metadata[0] =  {"description": "The native staking token of the SIX Protocol.","denom_units": [{"denom": "usix","exponent": 0,"aliases": ["microsix"]},{"denom": "msix","exponent": 3,"aliases": ["millisix"]},{"denom": "six","exponent": 6,"aliases": []}],"base": "usix","display": "six","name": "Six token","symbol": "six"}' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json
+    ## staking 
+    jq '.app_state.staking.validator_approval.approver_address = "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json
 
+    ## gov
+    jq '.app_state.gov.deposit_params.max_deposit_period = "300s"' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json
+    jq '.app_state.gov.voting_params.voting_period = "300s"' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json
 
-    ## nftadmin
+    ## evm
+    jq '.app_state.evm.params.evm_denom="asix"' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json
+
+    ## feemarket
+    jq '.app_state.feemarket.params.base_fee = "5000000000000"' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json
+    jq '.app_state.feemarket.params.elasticity_multiplier = 4' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json
+    jq '.app_state.feemarket.params.min_gas_price = "5000000000000.000000000000000000"' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json
+    
+    # nftadmin
     jq '.app_state.nftadmin.authorization = {"root_admin": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"}' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json
 
     ## nftmngr
@@ -59,17 +77,12 @@ function setupGenesis() {
     jq '.app_state.protocoladmin.groupList[0] |= . + {"name": "super.admin","owner": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"}' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json
     jq '.app_state.protocoladmin.groupList[1] |= . + {"name": "token.admin","owner": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"}' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json
 
-    ## staking 
-    jq '.app_state.staking.validator_approval.approver_address = "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json
-
     ## tokenmngr
     jq '.app_state.tokenmngr.mintpermList[0] |= . + {"address": "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq","creator": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv","token": "usix"}' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json
     jq '.app_state.tokenmngr.options = {"defaultMintee": "6x1cws3ex5yqwlu4my49htq06nsnhuxw3v7rt20g6"}' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json
     jq '.app_state.tokenmngr.tokenList[0] |= . +  {"base": "usix","creator": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv","maxSupply": { "amount": "0", "denom": "usix" },"mintee": "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq","name": "usix"}' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json 
-    
-    ## gov
-    jq '.app_state.gov.deposit_params.max_deposit_period = "300s"' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json
-    jq '.app_state.gov.voting_params.voting_period = "300s"' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json
+    jq '.app_state.tokenmngr.tokenList[1] |= . +  {"base": "asix","creator": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv","maxSupply": { "amount": "0", "denom": "asix" },"mintee": "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq","name": "asix"}' ./build/${SIX_HOME}/config/genesis.json | sponge ./build/${SIX_HOME}/config/genesis.json
+
     echo "Setup Genesis Success 🟢"
 
 }

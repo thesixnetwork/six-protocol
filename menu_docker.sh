@@ -19,15 +19,32 @@ function setUpGenesis(){
     jq '.app_state.bank.params.send_enabled[0] = {"denom": "usix","enabled": true}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
 
     ## bank
+    jq '.app_state.bank.params.send_enabled[0] = {"denom": "usix","enabled": true}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
     jq '.app_state.bank.denom_metadata[0] =  {"description": "The native staking token of the SIX Protocol.","denom_units": [{"denom": "usix","exponent": 0,"aliases": ["microsix"]},{"denom": "msix","exponent": 3,"aliases": ["millisix"]},{"denom": "six","exponent": 6,"aliases": []}],"base": "usix","display": "six","name": "Six token","symbol": "six"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
     jq '.app_state.bank.denom_metadata[1] =  {"description": "The native evm token of the SIX Protocol.","denom_units": [{"denom": "asix","exponent": 0,"aliases": ["attosix"]},{"denom": "usix","exponent": 12,"aliases": ["microsix"]},{"denom": "msix","exponent": 15,"aliases": ["millisix"]},{"denom": "six","exponent": 18,"aliases": []}],"base": "asix","display": "asix","name": "aSIX token","symbol": "asix"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
 
 
     ## from stake to usix
-    sed -i '' "s/stake/usix/g" ./build/sixnode0/config/genesis.json
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        sed -i '' "s/stake/usix/g" ./build/sixnode0/config/genesis.json
+    else
+        sed -i "s/stake/usix/g" ./build/sixnode0/config/genesis.json
+    fi
+
+    ## config genesis.json
+
+    ## bank
+    jq '.app_state.bank.params.send_enabled[0] = {"denom": "usix","enabled": true}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
+    jq '.app_state.bank.denom_metadata[0] =  {"description": "The native staking token of the SIX Protocol.","denom_units": [{"denom": "usix","exponent": 0,"aliases": .microsix},{"denom": "msix","exponent": 3,"aliases": .millisix},{"denom": "six","exponent": 6,"aliases": []}],"base": "usix","display": "six","name": "Six token","symbol": "six"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
+    jq '.app_state.bank.denom_metadata[1] =  {"description": "The native evm token of the SIX Protocol.","denom_units": [{"denom": "asix","exponent": 0,"aliases": .attosix},{"denom": "usix","exponent": 12,"aliases": .microsix},{"denom": "msix","exponent": 15,"aliases": .millisix},{"denom": "six","exponent": 18,"aliases": []}],"base": "asix","display": "asix","name": "aSIX token","symbol": "asix"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
 
     ## evm
     jq '.app_state.evm.params.evm_denom="asix"' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
+
+    ## feemarket
+    jq '.app_state.feemarket.params.base_fee = "5000000000000"' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
+    jq '.app_state.feemarket.params.elasticity_multiplier = 4' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
+    jq '.app_state.feemarket.params.min_gas_price = "5000000000000.000000000000000000"' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
     
     ## nftadmin
     jq '.app_state.nftadmin.authorization = {"root_admin": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
@@ -53,7 +70,7 @@ function setUpGenesis(){
     jq '.app_state.tokenmngr.options = {"defaultMintee": "6x1cws3ex5yqwlu4my49htq06nsnhuxw3v7rt20g6"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
     jq '.app_state.tokenmngr.tokenList[0] |= . +  {"base": "usix","creator": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv","maxSupply": {"amount": "0","denom": "usix"},"mintee": "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq","name": "usix"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json 
     jq '.app_state.tokenmngr.tokenList[1] |= . +  {"base": "asix","creator": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv","maxSupply": {"amount": "0","denom": "asix"},"mintee": "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq","name": "asix"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
-    
+
     ## gov
     jq '.app_state.gov.deposit_params.max_deposit_period = "300s"' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
     jq '.app_state.gov.voting_params.voting_period = "300s"' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
@@ -61,24 +78,24 @@ function setUpGenesis(){
 
 function setUpConfig() {
     echo "#######################################"
-    echo "Setup ${SIX_HOME} genesis..."
+    echo "Setup sixnode0 genesis..."
 
-    if [[ ${SIX_HOME} == "sixnode0" ]]; then
+    if [[ sixnode0 == "sixnode0" ]]; then
         echo "sixnode0"
         # NODE_PEER=$(jq '.app_state.genutil.gen_txs[0].body.memo' ./build/sixnode1/config/genesis.json)
-        # sed -i '' "s/persistent_peers = \"\"/persistent_peers = ${NODE_PEER}/g" ./build/${SIX_HOME}/config/config.toml
+        # sed -i '' "s/persistent_peers = \"\"/persistent_peers = ${NODE_PEER}/g" ./build/sixnode0/config/config.toml
         ## setup genesis of node0
         setUpGenesis
     else
         NODE_PEER=$(jq '.app_state.genutil.gen_txs[0].body.memo' ./build/sixnode0/config/genesis.json)
         if [[ "$OSTYPE" == "darwin"* ]]; then
             ## replace NODE_PEER in config.toml to persistent_peers
-            sed -i '' "s/persistent_peers = \"\"/persistent_peers = ${NODE_PEER}/g" ./build/${SIX_HOME}/config/config.toml
+            sed -i '' "s/persistent_peers = \"\"/persistent_peers = ${NODE_PEER}/g" ./build/sixnode0/config/config.toml
         else
-            sed -i "s/persistent_peers = \"\"/persistent_peers = ${NODE_PEER}/g" ./build/${SIX_HOME}/config/config.toml
+            sed -i "s/persistent_peers = \"\"/persistent_peers = ${NODE_PEER}/g" ./build/sixnode0/config/config.toml
         fi
             ## replace genesis of node0 to all node
-        cp ./build/sixnode0/config/genesis.json ./build/${SIX_HOME}/config/genesis.json
+        cp ./build/sixnode0/config/genesis.json ./build/sixnode0/config/genesis.json
     fi
 
     # if $TYPE = 0 then ignore this step
@@ -86,11 +103,11 @@ function setUpConfig() {
         echo "Running Fast Node"
         ## replace consensus params
         if [[ "$OSTYPE" == "darwin"* ]]; then
-            sed -i '' "s/timeout_propose = \"3s\"/timeout_propose = \"1s\"/g" ./build/${SIX_HOME}/config/config.toml
-            sed -i '' "s/timeout_commit = \"5s\"/timeout_commit = \"1s\"/g" ./build/${SIX_HOME}/config/config.toml
+            sed -i '' "s/timeout_propose = \"3s\"/timeout_propose = \"1s\"/g" ./build/sixnode0/config/config.toml
+            sed -i '' "s/timeout_commit = \"5s\"/timeout_commit = \"1s\"/g" ./build/sixnode0/config/config.toml
         else
-            sed -i "s/timeout_propose = \"3s\"/timeout_propose = \"1s\"/g" ./build/${SIX_HOME}/config/config.toml
-            sed -i "s/timeout_commit = \"5s\"/timeout_commit = \"1s\"/g" ./build/${SIX_HOME}/config/config.toml
+            sed -i "s/timeout_propose = \"3s\"/timeout_propose = \"1s\"/g" ./build/sixnode0/config/config.toml
+            sed -i "s/timeout_commit = \"5s\"/timeout_commit = \"1s\"/g" ./build/sixnode0/config/config.toml
         fi
     else
         echo "Running Default Node"
@@ -98,19 +115,21 @@ function setUpConfig() {
     
     if [[ "$OSTYPE" == "darwin"* ]]; then
         ## replace to enalbe api
-        sed -i '' "108s/.*/enable = true/" ./build/${SIX_HOME}/config/app.toml
+        sed -i '' '/^\[api\]$/,/^\[/ s/enable = false/enable = true/' ./build/${SIX_HOME}/config/app.toml
+        sed -i '' '/^\[api\]$/,/^[^[]/ s/^swagger = false$/swagger = true/' ./build/${SIX_HOME}/config/app.toml
         ## replace to from 127.0.0.1 to 0.0.0.0
         sed -i '' "s/127.0.0.1/0.0.0.0/g" ./build/${SIX_HOME}/config/config.toml
 
         ## replace mininum gas price
-        sed -i '' "s/minimum-gas-prices = \"0stake\"/minimum-gas-prices = \"1.25usix\"/g" ./build/${SIX_HOME}/config/app.toml
+        sed -i '' "s/minimum-gas-prices = \"0stake\"/minimum-gas-prices = \"1.25usix,1250000000000asix\"/g" ./build/${SIX_HOME}/config/app.toml
     else
-        sed -i "108s/.*/enable = true/" ./build/${SIX_HOME}/config/app.toml
+        sed -i '/^\[api\]$/,/^\[/ s/enable = false/enable = true/' ./build/${SIX_HOME}/config/app.toml
+        sed -i '/^\[api\]$/,/^[^[]/ s/^swagger = false$/swagger = true/' ./build/${SIX_HOME}/config/app.toml
         ## replace to from 127.0.0.1 to 0.0.0.0
         sed -i "s/127.0.0.1/0.0.0.0/g" ./build/${SIX_HOME}/config/config.toml
 
         ## replace mininum gas price
-        sed -i "s/minimum-gas-prices = \"0stake\"/minimum-gas-prices = \"1.25usix\"/g" ./build/${SIX_HOME}/config/app.toml
+        sed -i "s/minimum-gas-prices = \"0stake\"/minimum-gas-prices = \"1.25usix,1250000000000asix\"/g" ./build/${SIX_HOME}/config/app.toml
     fi
 
     echo "Setup Genesis Success 🟢"
