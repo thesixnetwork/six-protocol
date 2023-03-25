@@ -1,4 +1,4 @@
-package main
+package cmd
 
 import (
 	"bufio"
@@ -18,6 +18,13 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/cosmos/cosmos-sdk/x/genutil"
 	genutiltypes "github.com/cosmos/cosmos-sdk/x/genutil/types"
+
+	"github.com/ethereum/go-ethereum/common"
+	// "github.com/evmos/ethermint/crypto/hd"
+	ethermint "github.com/evmos/ethermint/types"
+	evmtypes "github.com/evmos/ethermint/x/evm/types"
+
+	sixkeysring "github.com/thesixnetwork/six-protocol/crypto/keyring"
 )
 
 const (
@@ -39,33 +46,36 @@ contain valid denominations. Accounts may optionally be supplied with vesting pa
 		Args: cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx := client.GetClientContextFromCmd(cmd)
+
 			serverCtx := server.GetServerContextFromCmd(cmd)
 			config := serverCtx.Config
 
 			config.SetRoot(clientCtx.HomeDir)
 
-			var kr keyring.Keyring
 			addr, err := sdk.AccAddressFromBech32(args[0])
 			if err != nil {
 				inBuf := bufio.NewReader(cmd.InOrStdin())
 				keyringBackend, err := cmd.Flags().GetString(flags.FlagKeyringBackend)
 				if err != nil {
-					return fmt.Errorf("failed to parse keyring backend: %w", err)
+					return err
 				}
-				if keyringBackend != "" && clientCtx.Keyring == nil {
-					var err error
-					kr, err = keyring.New(sdk.KeyringServiceName(), keyringBackend, clientCtx.HomeDir, inBuf)
-					if err != nil {
-						return err
-					}
-				} else {
-					kr = clientCtx.Keyring
+				// attempt to lookup address from Keybase if no address was provided
+				kb, err := keyring.New(
+					sdk.KeyringServiceName(),
+					keyringBackend,
+					clientCtx.HomeDir,
+					inBuf,
+					sixkeysring.Option(),
+				)
+				if err != nil {
+					return err
 				}
 
-				info, err := kr.Key(args[0])
+				info, err := kb.Key(args[0])
 				if err != nil {
-					return fmt.Errorf("failed to get address from Keyring: %w", err)
+					return fmt.Errorf("failed to get address from Keybase: %w", err)
 				}
+
 				addr = info.GetAddress()
 			}
 
@@ -76,15 +86,15 @@ contain valid denominations. Accounts may optionally be supplied with vesting pa
 
 			vestingStart, err := cmd.Flags().GetInt64(flagVestingStart)
 			if err != nil {
-				return fmt.Errorf("failed to parse vesting start: %w", err)
+				return err
 			}
 			vestingEnd, err := cmd.Flags().GetInt64(flagVestingEnd)
 			if err != nil {
-				return fmt.Errorf("failed to parse vesting end: %w", err)
+				return err
 			}
 			vestingAmtStr, err := cmd.Flags().GetString(flagVestingAmt)
 			if err != nil {
-				return fmt.Errorf("failed to parse vesting amount: %w", err)
+				return err
 			}
 
 			vestingAmt, err := sdk.ParseCoinsNormalized(vestingAmtStr)
@@ -117,7 +127,10 @@ contain valid denominations. Accounts may optionally be supplied with vesting pa
 					return errors.New("invalid vesting parameters; must supply start and end time or end time")
 				}
 			} else {
-				genAccount = baseAccount
+				genAccount = &ethermint.EthAccount{
+					BaseAccount: baseAccount,
+					CodeHash:    common.BytesToHash(evmtypes.EmptyCodeHash).Hex(),
+				}
 			}
 
 			if err := genAccount.Validate(); err != nil {
@@ -182,7 +195,7 @@ contain valid denominations. Accounts may optionally be supplied with vesting pa
 	}
 
 	cmd.Flags().String(flags.FlagHome, defaultNodeHome, "The application home directory")
-	cmd.Flags().String(flags.FlagKeyringBackend, flags.DefaultKeyringBackend, "Select keyring's backend (os|file|kwallet|pass|test)")
+	cmd.Flags().String(flags.FlagKeyringBackend, keyring.BackendFile, "Select keyring's backend (os|file|kwallet|pass|test)")
 	cmd.Flags().String(flagVestingAmt, "", "amount of coins for vesting accounts")
 	cmd.Flags().Int64(flagVestingStart, 0, "schedule start time (unix epoch) for vesting accounts")
 	cmd.Flags().Int64(flagVestingEnd, 0, "schedule end time (unix epoch) for vesting accounts")
