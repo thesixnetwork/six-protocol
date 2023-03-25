@@ -1,195 +1,592 @@
-RPC_ENDPOINT=http://localhost:26657
-CHAIN_ID=six
-read -p "Enter Schema Code: " schema_code 
-if [ -z "$schema_code" ]; then
-    schema_code=six-protocol.test_v071
+echo "Deploy Schema"
+read -p "Enter test platform: [local(defaule), docker, fivenet, sixnet] " _PLATFORM
+read -p "Enter key: [alice] " key
+PLATFORM=$(echo "$_PLATFORM" | tr '[:upper:]' '[:lower:]')
+# if platform is not set, set it to local
+if [ -z "$PLATFORM" ]; then
+    PLATFORM="local"
 fi
 
-for i in {0..6}
-do
-    echo "Mockup Token ${i}"
-    BASE64_META=`cat nft-data.json | sed "s/TOKENID/${i}/g"  | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n'`
-    sixd tx nftmngr create-metadata "${schema_code}" ${i} --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-        ${BASE64_META} --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
-done
+if [ -z "$key" ] && [ "$PLATFORM" == "local" ] || [ "$PLATFORM" == "docker" ]; then
+    key="alice"
+fi
 
-# Test case 1: Action with non-required param
-echo "Action with non-required param (Test case 1)"
-if sixd tx nftmngr perform-action-by-nftadmin ${schema_code} 0 check_in ${schema_code}_tk0_ci "[]" --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} | grep -q 'msg_index: 0'; then
-    echo "✅ success"
+# switch case
+case $PLATFORM in
+"local")
+    RPC_ENDPOINT="http://localhost:26657"
+    CHAIN_ID="sixnet"
+    ;;
+"docker")
+    RPC_ENDPOINT="http://localhost:26657"
+    CHAIN_ID="sixnet"
+    ;;
+"fivenet")
+    RPC_ENDPOINT="https://rpc1.fivenet.sixprotocol.net:443"
+    CHAIN_ID="fivenet"
+    ;;
+"sixnet")
+    RPC_ENDPOINT="https://sixnet-rpc.sixprotocol.net:443"
+    CHAIN_ID="sixnet"
+    ;;
+*)
+    echo "Error: unsupported PLATFORM '$PLATFORM'" >&2
+    exit 1
+    ;;
+esac
+
+grantOracle()
+{
+    echo "Grant 'oracle' to $1"
+    sixd tx nftadmin grant-permission oracle $1 --from super-admin --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+        --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'
+}
+
+## if plat from local
+if [ "$PLATFORM" == "local" ]; then
+    echo "INIT LOCAL ENV"
+    sixd tx nftadmin grant-permission oracle_admin $(sixd keys show super-admin -a) --from super-admin -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID}  --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix | grep -q 'msg_index: 0'
+    sixd tx nftoracle set-minimum-confirmation 4 --from super-admin  -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID}  --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix | grep -q 'msg_index: 0'
+    sixd tx nftadmin grant-permission admin_signer_config $(sixd keys show super-admin -a) --from super-admin -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix | grep -q 'msg_index: 0'
+    sixd tx nftoracle create-action-signer-config baobab 0x45AaF440FbA71E52cCb096D66230A7FaAd9b31ac --from super-admin -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix | grep -q 'msg_index: 0'
+    grantOracle $(sixd keys show oracle1 -a --keyring-backend test)
+    grantOracle $(sixd keys show oracle2 -a --keyring-backend test)
+    grantOracle $(sixd keys show oracle3 -a --keyring-backend test)
+    grantOracle $(sixd keys show oracle4 -a --keyring-backend test)
+fi
+
+TOTAL=0
+PASSED=0
+
+echo ""
+echo "############### TESTING NFT MANAGER MODULE ###############" 
+echo ""
+
+#read -p "Press enter to continue"
+BASE64_SCHEMA=$(cat ./mock-data/nft-schema.json | base64 | tr -d '\n')
+if sixd tx nftmngr create-nft-schema ${BASE64_SCHEMA} --from ${key} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+    --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
+    echo "✅ create-nft-schema"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
 else
-    echo "🛑 failed"
+    echo "❌ create-nft-schema 😭"
+    TOTAL=$((TOTAL+1))
 fi
 
-# Test case 2: Action that use utils function
-echo "perform-action-by-nftadmin token 0 - start_mission (Test case 2)"
-if sixd tx nftmngr perform-action-by-nftadmin ${schema_code} 0 start_mission ${schema_code}_tk0_sm "[]" --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}  | grep -q 'msg_index: 0'; then
-    echo "✅ success"
+echo "Create Multi NFT"
+#read -p "Press enter to continue"
+BASE64_META=$(cat ./mock-data/nft-data.json | sed "s/TOKENID/MULTIMINT/g" | sed "s/SCHEMA_CODE/six-protocol.develop_v220/g" | base64 | tr -d '\n')
+if sixd tx nftmngr create-multi-metadata six-protocol.develop_v220 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30 --from ${key} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+    ${BASE64_META} --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
+    echo "✅ create-multi-metadata"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
 else
-    echo "🛑 failed"
+    echo "❌ create-multi-metadata 😭" 
+    TOTAL=$((TOTAL+1))
 fi
 
-# Test case 3: Action with required param
-echo "perform-action-by-nftadmin token 0 - test_param (Test case 3)"
-if sixd tx nftmngr perform-action-by-nftadmin ${schema_code} 0 test_param ${schema_code}_tk0_burn "[{\"name\":\"points\",\"value\":\"7\"}]" --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}  | grep -q 'msg_index: 0'; then
-    echo "✅ success"
-else
-    echo "🛑 failed"
-fi
 
-# Test case 4: Using meta.{utils} as condition 
-echo "perform-action-by-nftadmin token 0 - Using meta.{utils} as condition to Pass (Test case 4)"
-if sixd tx nftmngr perform-action-by-nftadmin ${schema_code} 0 claim_dec ${schema_code}_tk0_dec "[]" --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} | grep -q 'msg_index: 0'; then
-    echo "✅ success"
-else
-    echo "🛑 failed"
-fi
-
-# Test cast 5: Using meta.{utils} as condition
-echo "perform-action-by-nftadmin token 0 - Using meta.{utils} as condition to Fail (Test case 5)"
-if sixd tx nftmngr perform-action-by-nftadmin ${schema_code} 0 claim_jan ${schema_code}_tk0_jan "[]" --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} | grep -q 'msg_index: 0'; then
-    echo "🛑 failed"
-else
-    echo "✅ success"
-fi
-
-# Test case 6: To disable action
-echo "perform-action-by-nftadmin token 0 - disable action (Test case 6)"
-if sixd tx nftmngr toggle-action ${schema_code} test_disable true --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} | grep -q 'msg_index: 0'; then
-    echo "✅ success"
-else
-    echo "🛑 failed"
-fi
-
-# Test case 7: Action to disable function
-echo "perform-action-by-nftadmin token 0 - Action to disable function (Test case 7)"
-if sixd tx nftmngr perform-action-by-nftadmin ${schema_code} 0 test_disable ${schema_code}_tk0_test_disable_action "[]" --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} | grep -q 'msg_index: 0'; then
-    echo "🛑 failed"
-else
-    echo "✅ success"
-fi
-
-# Test case 8: Perform action that locate after disabled action
-echo "perform-action-by-nftadmin token 0 - Perform action that locate after disabled action (Test case 8)"
-for i in {1..4}
-do
-    if sixd tx nftmngr perform-action-by-nftadmin ${schema_code} 0 disable_consequent${i} ${schema_code}_tk0_test_disable_bug${i} "[]" --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-        --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} | grep -q 'msg_index: 0'; then
-        echo "✅ success"
+action_list=("start_mission" "test_read_nft" "test_split" "test_lowercase" "test_uppercase" "test_hidden" "transfer")
+params_list=("[]" "[]" "[]" "[]" "[]" "[{\"name\":\"attribute_name\",\"value\":\"hide_pass\"},{\"name\":\"show\",\"value\":\"true\"}]" "[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"0\"}]")
+for i in "${!action_list[@]}"; do
+    action=${action_list[$i]}
+    params=${params_list[$i]}
+    echo "Perform Action: $action"
+    #read -p "Press enter to continue"
+    if sixd tx nftmngr perform-action-by-nftadmin six-protocol.develop_v220 1 $action six-protocol.develop_v220_TK1_${action} $params --from ${key} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+        --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
+        echo "✅ $action"
+        TOTAL=$((TOTAL+1))
+        PASSED=$((PASSED+1))
     else
-        echo "🛑 failed"
+        echo "❌ $action 😭"
+        TOTAL=$((TOTAL+1))
     fi
 done
 
-# Test case 9: Action with invalid param
-echo "perform-action-by-nftadmin token 0 - invalid param (Test case 9)"
-if sixd tx nftmngr perform-action-by-nftadmin ${schema_code} 0 test_param ${schema_code}_tk0_fail_param "[{\"name\":\"boints\",\"value\":\"7\"}]" --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}  | grep -q 'msg_index: 0'; then
-    echo "🛑 failed"
+# echo "Test Hide Fail"
+#read -p "Press enter to continue"
+if sixd tx nftmngr perform-action-by-nftadmin six-protocol.develop_v220 1 test_hidden hidden_fail "[{\"name\":\"attribute_name\",\"value\":\"hide_fail\"},{\"name\":\"show\",\"value\":\"false\"}]" \
+    --from ${key} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID}  2>&1 | grep -q 'Attribute overriding is not allowed'; then
+    echo "✅ test_hidden"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
 else
-    echo "✅ success"
+    echo "❌ test_hidden 😭"
+    TOTAL=$((TOTAL+1))
+fi
+echo "______________________________________________________________________________________________"
+
+# echo "Test Multi Action(one token one action) - Case param required = 0"
+#read -p "Press enter to continue"
+if sixd tx nftmngr perform-multi-token-action six-protocol.develop_v220 10 start_mission oneonezero "[[]]" --from ${key} \
+    --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
+    echo "✅ Test Multi Action(one token one action) - Case param required = 0"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
+else
+    echo "❌ Test Multi Action(one token one action) - Case param required = 0 😭"
+    TOTAL=$((TOTAL+1))
 fi
 
+# echo "Test Multi Action(one token one action) - Case param required > 0"
+#read -p "Press enter to continue"
+if sixd tx nftmngr perform-multi-token-action six-protocol.develop_v220 10 transfer oneonenonzero "[[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}]]" --from ${key} \
+    --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
+    echo "✅ Test Multi Action(one token one action) - Case param required > 0"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
+else
+    echo "❌ Test Multi Action(one token one action) - Case param required > 0 😭"
+    TOTAL=$((TOTAL+1))
+fi
 
-# Test case 10: Transfer point to another token_id
-echo "perform-action-by-nftadmin token 0 - test_transfer (Test case 10)"
-for i in {1..6}
-do
-    if sixd tx nftmngr perform-action-by-nftadmin ${schema_code} 0 test_transfer ${schema_code}_tk0_tf0-${i} "[{\"name\":\"points\",\"value\":\"10\"},{\"name\":\"token_id\",\"value\":\"${i}\"}]" \
-        --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-        --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} | grep -q 'msg_index: 0'; then
-        echo "✅ success"
+echo "______________________________________________________________________________________________"
+
+# echo "Test Multi Action(multi token one action) - Case param required = 0"
+#read -p "Press enter to continue"
+if sixd tx nftmngr perform-multi-token-action six-protocol.develop_v220 3,4,5 start_mission manyonezero "[[]]" --from ${key} \
+    --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
+    echo "✅ Test Multi Action(multi token one action) - Case param required = 0"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
+else
+    echo "❌ Test Multi Action(multi token one action) - Case param required = 0 😭"
+    TOTAL=$((TOTAL+1))
+fi
+
+# echo "Test Multi Action(multi token one action) - Case param required > 0"
+#read -p "Press enter to continue"
+if sixd tx nftmngr perform-multi-token-action six-protocol.develop_v220 3,4,5 transfer manyonenonzero "[[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}]]" --from ${key} \
+    --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
+    echo "✅ Test Multi Action(multi token one action) - Case param required > 0"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
+else
+    echo "❌ Test Multi Action(multi token one action) - Case param required > 0 😭"
+    TOTAL=$((TOTAL+1))
+fi
+
+echo "______________________________________________________________________________________________"
+
+# echo "Test Multi Action(one token multi action) - Case Fail"
+#read -p "Press enter to continue"
+if sixd tx nftmngr perform-multi-token-action six-protocol.develop_v220 11 start_mission,test_read_nft,test_hidden onemanyfail "[[],[],[],[],[],[{\"name\":\"attribute_name\",\"value\":\"hide_pass\"},{\"name\":\"show\",\"value\":\"true\"}]]" --from ${key} \
+    --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} 2>&1 | grep -q 'failed to execute message'; then
+    echo "✅ Test Multi Action(one token multi action) - Case Fail"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
+else
+    echo "❌ Test Multi Action(one token multi action) - Case Fail 😭"
+    TOTAL=$((TOTAL+1))
+fi
+
+# echo "Test Multi Action(one token multi action) - Case Pass"
+#read -p "Press enter to continue"
+if sixd tx nftmngr perform-multi-token-action six-protocol.develop_v220 11 start_mission,test_read_nft,test_split,test_lowercase,test_uppercase,test_hidden onemanypass "[[],[],[],[],[],[{\"name\":\"attribute_name\",\"value\":\"hide_pass\"},{\"name\":\"show\",\"value\":\"true\"}]]" --from ${key} \
+    --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
+    echo "✅ Test Multi Action(one token multi action) - Case Pass"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
+else
+    echo "❌ Test Multi Action(one token multi action) - Case Pass 😭"
+    TOTAL=$((TOTAL+1))
+fi
+
+# echo "Test Multi Action(one token multi action) - Case 202"
+#read -p "Press enter to continue"
+if sixd tx nftmngr perform-multi-token-action six-protocol.develop_v220 11 transfer,transfer onemany202 "[[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}],[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}]]" --from ${key} \
+    --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
+    echo "✅ Test Multi Action(one token multi action) - Case 202"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
+else
+    echo "❌ Test Multi Action(one token multi action) - Case 202 😭"
+    TOTAL=$((TOTAL+1))
+fi
+
+# echo "Test Multi Action(one token multi action) - Case 211"
+#read -p "Press enter to continue"
+if sixd tx nftmngr perform-multi-token-action six-protocol.develop_v220 12 start_mission,transfer onemany211 "[[],[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}]]" --from ${key} \
+    --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
+    echo "✅ Test Multi Action(one token multi action) - Case 211"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
+else
+    echo "❌ Test Multi Action(one token multi action) - Case 211 😭"
+    TOTAL=$((TOTAL+1))
+fi
+
+# echo "Test Multi Action(one token multi action) - Case 220"
+#read -p "Press enter to continue"
+if sixd tx nftmngr perform-multi-token-action six-protocol.develop_v220 13 start_mission,test_read_nft onemany220 "[[],[]]" --from ${key} \
+    --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
+    echo "✅ Test Multi Action(one token multi action) - Case 220"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
+else
+    echo "❌ Test Multi Action(one token multi action) - Case 220 😭"
+    TOTAL=$((TOTAL+1))
+fi
+
+echo "Test Multi Action(one token multi action) - Case 303"
+#read -p "Press enter to continue"
+if sixd tx nftmngr perform-multi-token-action six-protocol.develop_v220 13 transfer,transfer,transfer onemany303 "[[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}],[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}],[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}]]" --from ${key} \
+    --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
+    echo "✅ Test Multi Action(one token multi action) - Case 303"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
+else
+    echo "❌ Test Multi Action(one token multi action) - Case 303 😭"
+    TOTAL=$((TOTAL+1))
+fi
+
+# echo "Test Multi Action(one token multi action) - Case 312"
+#read -p "Press enter to continue"
+if sixd tx nftmngr perform-multi-token-action six-protocol.develop_v220 14 start_mission,transfer,transfer onemany312 "[[],[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}],[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}]]" --from ${key} \
+    --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
+    echo "✅ Test Multi Action(one token multi action) - Case 312"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
+else
+    echo "❌ Test Multi Action(one token multi action) - Case 312 😭"
+    TOTAL=$((TOTAL+1))
+fi
+
+# echo "Test Multi Action(one token multi action) - Case 321"
+#read -p "Press enter to continue"
+if sixd tx nftmngr perform-multi-token-action six-protocol.develop_v220 15 start_mission,test_read_nft,transfer onemany321 "[[],[],[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}]]" --from ${key} \
+    --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
+    echo "✅ Test Multi Action(one token multi action) - Case 321"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
+else
+    echo "❌ Test Multi Action(one token multi action) - Case 321 😭"
+    TOTAL=$((TOTAL+1))
+fi
+
+# echo "Test Multi Action(one token multi action) - Case 330"
+#read -p "Press enter to continue"
+if sixd tx nftmngr perform-multi-token-action six-protocol.develop_v220 16 start_mission,test_read_nft,test_split onemany330 "[[],[],[]]" --from ${key} \
+    --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
+    echo "✅ Test Multi Action(one token multi action) - Case 330"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
+else
+    echo "❌ Test Multi Action(one token multi action) - Case 330 😭"
+    TOTAL=$((TOTAL+1))
+fi
+
+# echo "Test Multi Action(one token multi action) - Case 404"
+#read -p "Press enter to continue"
+if sixd tx nftmngr perform-multi-token-action six-protocol.develop_v220 16 transfer,transfer,transfer,transfer onemany404 "[[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}],[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}],[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}],[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}]]" --from ${key} \
+    --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
+    echo "✅ Test Multi Action(one token multi action) - Case 404"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
+else
+    echo "❌ Test Multi Action(one token multi action) - Case 404 😭"
+    TOTAL=$((TOTAL+1))
+fi
+
+# echo "Test Multi Action(one token multi action) - Case 413"
+#read -p "Press enter to continue"
+if sixd tx nftmngr perform-multi-token-action six-protocol.develop_v220 17 start_mission,transfer,transfer,transfer onemany413 "[[],[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}],[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}],[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}]]" --from ${key} \
+    --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID}  | grep -q 'msg_index: 0'; then
+    echo "✅ Test Multi Action(one token multi action) - Case 413"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
+else
+    echo "❌ Test Multi Action(one token multi action) - Case 413 😭"
+    TOTAL=$((TOTAL+1))
+fi
+
+# echo "Test Multi Action(one token multi action) - Case 422"
+#read -p "Press enter to continue"
+if sixd tx nftmngr perform-multi-token-action six-protocol.develop_v220 18 start_mission,test_read_nft,transfer,transfer onemany422 "[[],[],[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}],[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}]]" --from ${key} \
+    --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
+    echo "✅ Test Multi Action(one token multi action) - Case 422"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
+else
+    echo "❌ Test Multi Action(one token multi action) - Case 422 😭"
+    TOTAL=$((TOTAL+1))
+fi
+
+# echo "Test Multi Action(one token multi action) - Case 431"
+#read -p "Press enter to continue"
+if sixd tx nftmngr perform-multi-token-action six-protocol.develop_v220 19 start_mission,test_read_nft,test_split,transfer onemany431 "[[],[],[],[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}]]" --from ${key} \
+    --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
+    echo "✅ Test Multi Action(one token multi action) - Case 431"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
+else
+    echo "❌ Test Multi Action(one token multi action) - Case 431 😭"
+    TOTAL=$((TOTAL+1))
+fi
+
+# echo "Test Multi Action(one token multi action) - Case 440"
+#read -p "Press enter to continue"
+if sixd tx nftmngr perform-multi-token-action six-protocol.develop_v220 20 start_mission,test_read_nft,test_split,test_lowercase onemany440 "[[],[],[],[]]" --from ${key} \
+    --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
+    echo "✅ Test Multi Action(one token multi action) - Case 440"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
+else
+    echo "❌ Test Multi Action(one token multi action) - Case 440 😭"
+    TOTAL=$((TOTAL+1))
+fi
+
+echo "______________________________________________________________________________________________"
+
+# echo "Test Multi Action(multi token multi action) - Case 202"
+#read -p "Press enter to continue"
+if sixd tx nftmngr perform-multi-token-action six-protocol.develop_v220 20,20 transfer,transfer manymany202 "[[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}],[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}]]" --from ${key} \
+    --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
+    echo "✅ Test Multi Action(multi token multi action) - Case 202"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
+else
+    echo "❌ Test Multi Action(multi token multi action) - Case 202 😭"
+    TOTAL=$((TOTAL+1))
+fi
+
+# echo "Test Multi Action(multi token multi action) - Case 211"
+#read -p "Press enter to continue"
+if sixd tx nftmngr perform-multi-token-action six-protocol.develop_v220 21,21 start_mission,transfer manymany211 "[[],[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}]]" --from ${key} \
+    --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
+    echo "✅ Test Multi Action(multi token multi action) - Case 211"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
+else
+    echo "❌ Test Multi Action(multi token multi action) - Case 211 😭"
+    TOTAL=$((TOTAL+1))
+fi
+
+# echo "Test Multi Action(multi token multi action) - Case 220"
+#read -p "Press enter to continue"
+if sixd tx nftmngr perform-multi-token-action six-protocol.develop_v220 22,22 start_mission,test_read_nft manymany220 "[[],[]]" --from ${key} \
+    --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT}  --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
+    echo "✅ Test Multi Action(multi token multi action) - Case 220"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
+else
+    echo "❌ Test Multi Action(multi token multi action) - Case 220 😭"
+    TOTAL=$((TOTAL+1))
+fi
+
+# echo "Test Multi Action(multi token multi action) - Case 303"
+#read -p "Press enter to continue"
+if sixd tx nftmngr perform-multi-token-action six-protocol.develop_v220 22,22,22 transfer,transfer,transfer manymany303 "[[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}],[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}],[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}]]" --from ${key} \
+    --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
+    echo "✅ Test Multi Action(multi token multi action) - Case 303"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
+else
+    echo "❌ Test Multi Action(multi token multi action) - Case 303 😭"
+    TOTAL=$((TOTAL+1))
+fi
+
+# echo "Test Multi Action(multi token multi action) - Case 312"
+#read -p "Press enter to continue"
+if sixd tx nftmngr perform-multi-token-action six-protocol.develop_v220 23,23,23 start_mission,transfer,transfer manymany312 "[[],[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}],[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}]]" --from ${key} \
+    --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
+    echo "✅ Test Multi Action(multi token multi action) - Case 312"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
+else
+    echo "❌ Test Multi Action(multi token multi action) - Case 312 😭"
+    TOTAL=$((TOTAL+1))
+fi
+
+# echo "Test Multi Action(multi token multi action) - Case 321"
+#read -p "Press enter to continue"
+if sixd tx nftmngr perform-multi-token-action six-protocol.develop_v220 24,24,24 start_mission,test_read_nft,transfer manymany321 "[[],[],[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}]]" --from ${key} \
+    --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
+    echo "✅ Test Multi Action(multi token multi action) - Case 321"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
+else
+    echo "❌ Test Multi Action(multi token multi action) - Case 321 😭"
+    TOTAL=$((TOTAL+1))
+fi
+
+# echo "Test Multi Action(multi token multi action) - Case 330"
+#read -p "Press enter to continue"
+if sixd tx nftmngr perform-multi-token-action six-protocol.develop_v220 25,25,25 start_mission,test_read_nft,test_split manymany330 "[[],[],[]]" --from ${key} \
+    --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then 
+    echo "✅ Test Multi Action(multi token multi action) - Case 330"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
+else
+    echo "❌ Test Multi Action(multi token multi action) - Case 330 😭"
+    TOTAL=$((TOTAL+1))
+fi
+
+# echo "Test Multi Action(multi token multi action) - Case 404"
+#read -p "Press enter to continue"
+if sixd tx nftmngr perform-multi-token-action six-protocol.develop_v220 25,25,25,25 transfer,transfer,transfer,transfer manymany404 "[[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}],[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}],[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}],[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}]]" --from ${key} \
+    --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
+    echo "✅ Test Multi Action(multi token multi action) - Case 404"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
+else
+    echo "❌ Test Multi Action(multi token multi action) - Case 404 😭"
+    TOTAL=$((TOTAL+1))
+fi
+
+# echo "Test Multi Action(multi token multi action) - Case 413"
+#read -p "Press enter to continue"
+if sixd tx nftmngr perform-multi-token-action six-protocol.develop_v220 26,26,26,26 start_mission,transfer,transfer,transfer manymany413 "[[],[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}],[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}],[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}]]" --from ${key} \
+    --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
+    echo "✅ Test Multi Action(multi token multi action) - Case 413"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
+else
+    echo "❌ Test Multi Action(multi token multi action) - Case 413 😭"
+    TOTAL=$((TOTAL+1))
+fi
+
+# echo "Test Multi Action(multi token multi action) - Case 422"
+#read -p "Press enter to continue"
+if sixd tx nftmngr perform-multi-token-action six-protocol.develop_v220 27,27,27,27 start_mission,test_read_nft,transfer,transfer manymany422 "[[],[],[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}],[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}]]" --from ${key} \
+    --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
+    echo "✅ Test Multi Action(multi token multi action) - Case 422"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
+else
+    echo "❌ Test Multi Action(multi token multi action) - Case 422 😭"
+    TOTAL=$((TOTAL+1))
+fi
+
+# echo "Test Multi Action(multi token multi action) - Case 431"
+#read -p "Press enter to continue"
+if sixd tx nftmngr perform-multi-token-action six-protocol.develop_v220 28,28,28,28 start_mission,test_read_nft,test_split,transfer manymany431 "[[],[],[],[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"1\"}]]" --from ${key} \
+    --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
+    echo "✅ Test Multi Action(multi token multi action) - Case 431"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
+else
+    echo "❌ Test Multi Action(multi token multi action) - Case 431 😭"
+    TOTAL=$((TOTAL+1))
+fi
+
+# echo "Test Multi Action(multi token multi action) - Case 440"
+#read -p "Press enter to continue"
+if sixd tx nftmngr perform-multi-token-action six-protocol.develop_v220 29 start_mission,test_read_nft,test_split,test_lowercase manymany440 "[[],[],[],[]]" --from ${key} \
+    --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
+    echo "✅ Test Multi Action(multi token multi action) - Case 440"
+    TOTAL=$((TOTAL+1))
+    PASSED=$((PASSED+1))
+else
+    echo "❌ Test Multi Action(multi token multi action) - Case 440 😭"
+    TOTAL=$((TOTAL+1))
+fi
+
+echo ""
+echo "############### TESTING NFT ORACLE MODULE ###############" 
+echo ""
+
+array_owner_request=()
+
+action_list=("start_mission" "test_read_nft" "test_split" "test_lowercase" "test_uppercase" "test_hidden" "transfer")
+params_list=("[]" "[]" "[]" "[]" "[]" "[{\"name\":\"attribute_name\",\"value\":\"hide_fail\"},{\"name\":\"show\",\"value\":\"false\"}]" "[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"0\"}]")
+for i in "${!action_list[@]}"; do
+    action=${action_list[$i]}
+    params=${params_list[$i]}
+    echo "Perform Action: $action"
+    BASE64JSON=`cat ./mock-data/action-param.json | sed "s/ACTION/${action}/g" | sed "s/TOKEN_ID/2/g" | sed "s/SCHEMA_CODE/six-protocol.develop_v220/g" | sed "s/REFID/six-protocol.develop_v220_TK2_${action}/g" | sed "s/\"PARAMS\"/${params}/g" | sed "s/ONBEHALFOF/""/g"`
+    BASE64_MESSAGE=`echo -n $BASE64JSON | base64 | tr -d '\n'`
+    MESSAGE_SIG=`echo -n ${BASE64_MESSAGE} | ./evmsign ./.secret`
+    BASE64_ACTION_SIG=`cat ./mock-data/action-signature.json | sed "s/SIGNATURE/${MESSAGE_SIG}/g" | sed "s/MESSAGE/${BASE64_MESSAGE}/g" | base64 | tr -d '\n'`
+    #read -p "Press enter to continue"
+    id=$(sixd tx nftoracle create-action-request ethereum ${BASE64_ACTION_SIG} 4 --from alice --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y | grep 'raw_log' | sed -n 's/.*"action_request_id","value":"\([0-9]*\)".*/\1/p')
+    if [ -n "$id" ]; then
+        echo "✅ create-action-request success"
+        TOTAL=$(($TOTAL+1))
+        PASSED=$(($PASSED+1))
+        array_owner_request+=($id)
     else
-        echo "🛑 failed"
+        echo "🛑 create-action-request failed 😭😭😭😭😭😭😭😭😭😭"
     fi
 done
 
-for i in {0..6}
+#read -p "Press enter to continue"
+oracles=(oracle1 oracle2 oracle3 oracle4)
+BASE64_ORIGINDATA=`cat ./mock-data/nft-origin-data.json | base64 | tr -d '\n'`
+for i in ${array_owner_request[@]}
 do
-_POINT=$(sixd query nftmngr show-nft-data ${schema_code} ${i} --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} --output json | jq '.nftData.onchain_attributes[] | select(.name=="points").number_attribute_value.value')
-POINT=$(echo $_POINT | sed 's/\"//g')
-# if id = 0 point is 333 return success else 10 return success
-if [ $i -eq 0 ]; then
-  if [ "$POINT" == "333" ]; then
-    echo "Success"
-  else
-    echo "Fail $POINT"
-  fi
-else
-  if [ "$POINT" == "10" ]; then
-    echo "Success"
-  else
-    echo "Fail $POINT"
-  fi
-fi
-
+    for j in ${oracles[@]}
+    do
+        echo "Confirm action request $i"
+        if sixd tx nftoracle submit-action-response $i ${BASE64_ORIGINDATA} --from $j --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y | grep -q 'msg_index: 0'; then
+            echo "✅ confirm-action-request $i completed"
+            TOTAL=$(($TOTAL+1))
+            PASSED=$(($PASSED+1))
+        else
+            echo "🛑 confirm-action-request $i failed "
+        fi
+    done
 done
 
-# Test case 11: meta.SetDisplayArribute
-echo "perform-action-by-nftadmin token 0 - meta.SetDisplayArribut (Test case 11)"
-if sixd tx nftmngr perform-action-by-nftadmin ${schema_code} 0 test_hidden ${schema_code}_tk0_th "[{\"name\":\"attribute_name\",\"value\":\"hidden_tested\"},{\"name\":\"show\",\"value\":\"true\"}]" \
-    --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} | grep -q 'msg_index: 0'; then
-    echo "✅ success"
-else
-    echo "🛑 failed"
-fi
 
-# Test case 12: Default value of param when input of value unmet
-echo "perform-action-by-nftadmin token 0 - test_param (Test case 12)"
-if sixd tx nftmngr perform-action-by-nftadmin ${schema_code} 0 test_param ${schema_code}_tk0_burn_fail "[{\"name\":\"points\",\"value\":\"\"}]" --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}  | grep -q 'msg_index: 0'; then
-    echo "✅ success"
-else
-    echo "🛑 failed"
-fi
+echo "______________________________________________________________________________________________"
+echo ""
+echo "############### TESTING SET ACTION SIGNER ###############" 
+echo ""
 
-# Test case 13: Perform start_mission once more (after checked_in = true)
-echo "Perform start_mission once more (after checked_in = true)"
-if sixd tx nftmngr perform-action-by-nftadmin ${schema_code} 0 check_in ${schema_code}_tk0_ci_willfail "[]" --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} | grep -q 'msg_index: 0'; then
-    echo "🛑 failed"
-else
-    echo "✅ success"
-fi
+#read -p "Press enter to continue"
+BASE64JSON=`cat ./mock-data/set-signer.json`
+BASE64_MESSAGE=`echo -n $BASE64JSON | base64 | tr -d '\n'`
+MESSAGE_SIG=`echo -n ${BASE64_MESSAGE} | ./evmsign ./.secret`
+BASE64_VERIFY_SIG=`cat ./mock-data/verify-signature.json | sed "s/SIGNATURE/${MESSAGE_SIG}/g" | sed "s/MESSAGE/${BASE64_MESSAGE}/g" | base64 | tr -d '\n'`
+sixd tx nftoracle create-action-signer ${BASE64_VERIFY_SIG} --from super-admin --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
 
-# Test All Utils
-echo "Test All Utils"
-echo "Test GetBlockHeigh"
-if sixd tx nftmngr perform-action-by-nftadmin ${schema_code} 0 test_utils_GetBlockHeight ${schema_code}_tk0_GetBlockHeight "[]" --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} | grep -q 'msg_index: 0'; then
-    echo "✅ success"
-else
-    echo "🛑 failed"
-fi
+echo "______________________________________________________________________________________________"
+echo ""
+echo "############### TESTING NFT ORACLE MODULE (ACTOR REQUEST) ###############" 
+echo ""
 
-echo "Test test_utils_GetUTCBlockTimestamp"
-if sixd tx nftmngr perform-action-by-nftadmin ${schema_code} 0 test_utils_GetUTCBlockTimestamp ${schema_code}test_utils_GetUTCBlockTimestamp "[]" --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} | grep -q 'msg_index: 0'; then
-    echo "✅ success"
-else
-    echo "🛑 failed"
-fi
+array_actor_request=()
+action_list=("start_mission" "test_read_nft" "test_split" "test_lowercase" "test_uppercase" "test_hidden" "transfer")
+params_list=("[]" "[]" "[]" "[]" "[]" "[{\"name\":\"attribute_name\",\"value\":\"hide_fail\"},{\"name\":\"show\",\"value\":\"false\"}]" "[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"0\"}]")
+for i in "${!action_list[@]}"; do
+    action=${action_list[$i]}
+    params=${params_list[$i]}
+    echo "Perform Action: $action"
+    BASE64JSON=`cat ./mock-data/action-param.json | sed "s/ACTION/${action}/g" | sed "s/TOKEN_ID/3/g" | sed "s/SCHEMA_CODE/six-protocol.develop_v220/g" | sed "s/REFID/six-protocol.develop_v220_TK3_${action}/g" | sed "s/\"PARAMS\"/${params}/g" | sed "s/ONBEHALFOF/0xb7c2468b9481CbDfD029998d6bA98c55072d932e/g"`
+    BASE64_MESSAGE=`echo -n $BASE64JSON | base64 | tr -d '\n'`
+    MESSAGE_SIG=`echo -n ${BASE64_MESSAGE} | ./evmsign ./.secret2`
+    BASE64_ACTION_SIG=`cat ./mock-data/action-signature.json | sed "s/SIGNATURE/${MESSAGE_SIG}/g" | sed "s/MESSAGE/${BASE64_MESSAGE}/g" | base64 | tr -d '\n'`
+    #read -p "Press enter to continue"
+    id=$(sixd tx nftoracle create-action-request ethereum ${BASE64_ACTION_SIG} 4 --from alice --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y | grep 'raw_log' | sed -n 's/.*"action_request_id","value":"\([0-9]*\)".*/\1/p')
+    if [ -n "$id" ]; then
+        echo "✅ create-action-request success"
+        TOTAL=$(($TOTAL+1))
+        PASSED=$(($PASSED+1))
+        array_actor_request+=($id)
+    else
+        echo "🛑 create-action-request failed 😭😭😭😭😭😭😭😭😭😭"
+    fi
+done
 
-echo "Test test_utils_GetBlockTimestampByZone"
-if sixd tx nftmngr perform-action-by-nftadmin ${schema_code} 0 test_utils_GetBlockTimestampByZone ${schema_code}test_utils_GetBlockTimestampByZone "[]" --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} | grep -q 'msg_index: 0'; then
-    echo "✅ success"
-else
-    echo "🛑 failed"
-fi
+BASE64_ORIGINDATA=`cat ./mock-data/nft-origin-data.json | base64 | tr -d '\n'`
+for i in ${array_actor_request[@]}
+do
+    for j in ${oracles[@]}
+    do
+        echo "Confirm action request $i"
+        if sixd tx nftoracle submit-action-response $i ${BASE64_ORIGINDATA} --from $j --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y | grep -q 'msg_index: 0'; then
+            echo "✅ confirm-action-request $i completed"
+            TOTAL=$(($TOTAL+1))
+            PASSED=$(($PASSED+1))
+        else
+            echo "🛑 confirm-action-request $i failed "
+        fi
+    done
+done
 
-echo "Test test_utils_BlockTimeAfterByZone"
-if sixd tx nftmngr perform-action-by-nftadmin ${schema_code} 0 test_utils_BlockTimeAfterByZone ${schema_code}test_utils_BlockTimeAfterByZone "[]" --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} | grep -q 'msg_index: 0'; then
-    echo "✅ success"
-else
-    echo "🛑 failed"
-fi
+echo "______________________________________________________________________________________________"
+echo "Test: Passed $PASSED out of $TOTAL tests"
