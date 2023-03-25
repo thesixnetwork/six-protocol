@@ -18,10 +18,6 @@ COPY . /go/src/github.com/thesixnetwork/six-protocol/
 # RUN go install github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@latest
 COPY ./build/bin/cosmovisor /go/bin/cosmovisor
 
-RUN git config --global url."https://${GITHUB_TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
-RUN export GOPRIVATE=github.com/thesixnetwork/sixnft 
-RUN go get github.com/thesixnetwork/sixnft@v0.8.1-0.20230309050716-72b3d1a3671b
-
 # force it to use static lib (from above) not standard libgo_cosmwasm.so file
 RUN LEDGER_ENABLED=false BUILD_TAGS=muslc make build
 # RUN file /go/src/github.com/thesixnetwork/six-protocol/build/sixd
