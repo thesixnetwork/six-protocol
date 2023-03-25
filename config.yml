@@ -55,22 +55,19 @@ build:
 init:
   home: "$HOME/.six"
   client:
-    chain-id: "testnet"
+    chain-id: "sixnet"
     keyring-backend: "test"
     node: "tcp://localhost:26657"
     broadcast-mode: "block"
   app:
     minimum-gas-prices: "1250000000000asix,1.25usix"
-    # fees: "200000usix,200000000000000000asix"
     grpc-web:
-      enable: true
+      enable: true # as default
     api:
-      swagger: true
-    json-rpc:
-      api: "eth,txpool,personal,net,debug,web3"
+      swagger: true # default is false
     evm-rpc:
-      address: "0.0.0.0:8545" # change the JSON-RPC address and port
-      ws-address: "0.0.0.0:8546" # change the JSON-RPC websocket address and port
+      address: "0.0.0.0:8545" # as default # change the JSON-RPC address and port
+      ws-address: "0.0.0.0:8546" # as default # change the JSON-RPC websocket address and port
 genesis:
   chain_id: "sixnet"
   app_state:
