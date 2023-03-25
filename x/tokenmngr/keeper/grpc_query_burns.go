@@ -41,7 +41,6 @@ func (k Keeper) Burns(c context.Context, req *types.QueryBurnsRequest) (*types.Q
 	return &types.QueryBurnsResponse{Burn: burns, Pagination: pageRes}, nil
 }
 
-
 func (k Keeper) BurnsV202(c context.Context, req *types.QueryBurnsRequest) (*types.QueryBurnsResponseV202, error) {
 	// Throw an error if request is nil
 	if req == nil {

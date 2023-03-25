@@ -8,13 +8,19 @@ import (
 	store "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
+	banktype "github.com/cosmos/cosmos-sdk/x/bank/types"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
+
+	evmtypes "github.com/evmos/ethermint/x/evm/types"
+	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
+	erc20types "github.com/evmos/evmos/v6/x/erc20/types"
+	tokenmngrtypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 	tokenmngrmoduletypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 	nftmngrtypes "github.com/thesixnetwork/sixnft/x/nftmngr/types"
 	nftoraclemoduletypes "github.com/thesixnetwork/sixnft/x/nftoracle/types"
 )
 
-const UpgradeName = "v2.2.0"
+const UpgradeName = "v2.3.0"
 
 func (app *App) VersionTrigger() {
 	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
@@ -23,20 +29,112 @@ func (app *App) VersionTrigger() {
 	}
 
 	if upgradeInfo.Name == UpgradeName && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
-		storeUpgrades := store.StoreUpgrades{}
+		storeUpgrades := store.StoreUpgrades{
+			Added: []string{evmtypes.ModuleName, feemarkettypes.ModuleName, erc20types.ModuleName},
+			Deleted: []string{"wasm"},
+		}
 		// configure store loader that checks if version == upgradeHeight and applies store upgrades
 		app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
 	}
 }
 
 func (app *App) RegisterUpgradeHandlers() {
-	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
+	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {		
+		//* Module Bank *
+		// register new denom metadata for using with evm
+		// the usix denom cannot be used with evm because it is a decimal denom
+		// then we need to create a new denom for evm
 
-		// ** Migrate store keys from v2.1.0 to v2.2.0 **
+		// set new denom metadata
+		app.BankKeeper.SetDenomMetaData(ctx, banktype.Metadata{
+			Description: "The native evm token of the SIX Protocol",
+			Base:        "asix",
+			Display:     "asix",
+			Symbol:      "asix",
+			Name:        "six evm token",
+			DenomUnits: []*banktype.DenomUnit{
+				{
+					Denom:    "asix",
+					Exponent: 0,
+					Aliases:  []string{"attosix"},
+				},
+				{
+					Denom:    "usix",
+					Exponent: 12,
+					Aliases:  []string{"microsix"},
+				},
+				{
+					Denom:    "msix",
+					Exponent: 15,
+					Aliases:  []string{"millisix"},
+				},
+				{
+					Denom:    "six",
+					Exponent: 18,
+					Aliases:  []string{"six"},
+				},
+			},
+		})
+
+		// * Module Protocaladmin *
+		// add existing address to super.admin group
+		// super admin to set token admin
+		// token admin to set mintperm
+		// mintperm to mint token
+		token_admin, _ := app.ProtocoladminKeeper.GetGroup(ctx, "token.admin")
+		super_admin, _ := app.ProtocoladminKeeper.GetGroup(ctx, "super.admin")
+		asix_maxsupply := sdk.NewIntFromUint64(0)
+		asix_coin := sdk.NewCoin("asix", asix_maxsupply)
+		app.TokenmngrKeeper.SetToken(ctx, tokenmngrtypes.Token{
+			Name:      "asix",
+			Base:      "asix",
+			MaxSupply: asix_coin,
+			Mintee:    token_admin.Owner,
+			Creator:   super_admin.Owner,
+		})
+		// add mintperm
+		app.TokenmngrKeeper.SetMintperm(ctx, tokenmngrtypes.Mintperm{
+			Token:   "asix",
+			Address: token_admin.Owner,
+			Creator: super_admin.Owner,
+		})
+
+		evm_param := evmtypes.DefaultParams()
+		evm_param.EvmDenom = "asix"
+		app.EVMKeeper.SetParams(ctx, evm_param)
+
+		// * Module Feemarket *
+		feermartket_param := feemarkettypes.DefaultParams()
+		feermartket_param.BaseFee = sdk.NewIntFromUint64(5000000000000)
+		feermartket_param.BaseFeeChangeDenominator = 8
+		feermartket_param.ElasticityMultiplier = 4
+		feermartket_param.MinGasPrice = sdk.NewDecFromInt(sdk.NewIntFromUint64(5000000000000))
+		app.FeeMarketKeeper.SetParams(ctx, feermartket_param)
+		
+		// * Module NFT ORACLE *
+		// set nft duration
+		var oracle_params nftoraclemoduletypes.Params
+		oracle_params.MintRequestActiveDuration = 120 * time.Second
+		oracle_params.ActionRequestActiveDuration = 120 * time.Second
+		oracle_params.VerifyRequestActiveDuration = 120 * time.Second
+		oracle_params.ActionSignerActiveDuration = 30 * (24 * time.Hour)
+		oracle_params.SyncActionSignerActiveDuration = 300 * time.Second // five minutes
+		app.NftoracleKeeper.SetParams(ctx, oracle_params)
+
+		// migrate action Signer
+		action_signers := app.NftoracleKeeper.GetAllActionSigner(ctx)
+		for _, action_signer := range action_signers {
+			action_signer.Creator = action_signer.OwnerAddress
+			action_signer.CreationFlow = nftoraclemoduletypes.CreationFlow_INTERNAL_OWNER
+			app.NftoracleKeeper.SetActionSigner(ctx, action_signer)
+		}
+
+		// * For MAINNET ONLY *
+		// * Becase TESTNET We already have this version of data *
 		// * Module Tokenmngr *
-
 		// if chain id = "fivenet" then skip this upgrade
 		if ctx.ChainID() == "sixnet" {
+			fmt.Println("########################## SIXNET ##########################")
 			// Change token struct
 			tokens := app.TokenmngrKeeper.GetAllTokenV202(ctx)
 			for _, token := range tokens {
@@ -236,24 +334,6 @@ func (app *App) RegisterUpgradeHandlers() {
 				}
 
 			}
-
-		}
-		// * Module NFT ORACLE *
-		// set nft duration
-		var oracle_params nftoraclemoduletypes.Params
-		oracle_params.MintRequestActiveDuration = 120 * time.Second
-		oracle_params.ActionRequestActiveDuration = 120 * time.Second
-		oracle_params.VerifyRequestActiveDuration = 120 * time.Second
-		oracle_params.ActionSignerActiveDuration = 30 * (24 * time.Hour)
-		oracle_params.SyncActionSignerActiveDuration = 300 * time.Second // five minutes
-		app.NftoracleKeeper.SetParams(ctx, oracle_params)
-
-		// migrate action Signer
-		action_signers := app.NftoracleKeeper.GetAllActionSigner(ctx)
-		for _, action_signer := range action_signers {
-			action_signer.Creator = action_signer.OwnerAddress
-			action_signer.CreationFlow = nftoraclemoduletypes.CreationFlow_INTERNAL_OWNER
-			app.NftoracleKeeper.SetActionSigner(ctx, action_signer)
 		}
 		return app.mm.RunMigrations(ctx, app.configurator, vm)
 	})
