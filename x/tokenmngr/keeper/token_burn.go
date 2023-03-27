@@ -34,7 +34,7 @@ func (k Keeper) GetTokenBurn(
 	return val, true
 }
 
-// GetTokenBurnV202 returns a tokenBurn from its index 
+// GetTokenBurnV202 returns a tokenBurn from its index
 // ? THIS IS FOR MIGRATION
 func (k Keeper) GetTokenBurnV202(
 	ctx sdk.Context,
