@@ -109,15 +109,19 @@ func (app *App) RegisterUpgradeHandlers() {
 		})
 
 		// * Module Feemarket *
+		// get block height
+		blockHeight := ctx.BlockHeight() + 5
+		// set new param for fee market
 		app.FeeMarketKeeper.SetParams(ctx, feemarkettypes.Params{
 			BaseFee: sdk.NewIntFromUint64(5000000000000),
 			BaseFeeChangeDenominator: 8,
 			ElasticityMultiplier: 4,
 			MinGasPrice: sdk.NewDecFromInt(sdk.NewIntFromUint64(5000000000000)),
 			NoBaseFee: false,
-			EnableHeight: 0,
+			EnableHeight: blockHeight,
 			MinGasMultiplier: sdk.NewDecWithPrec(50, 2),
 		})
+		
 		
 		// * Module NFT ORACLE *
 		// set nft duration
