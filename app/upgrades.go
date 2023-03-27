@@ -51,7 +51,7 @@ func (app *App) RegisterUpgradeHandlers() {
 			Base:        "asix",
 			Display:     "asix",
 			Symbol:      "asix",
-			Name:        "six evm token",
+			Name:        "evm six token",
 			DenomUnits: []*banktype.DenomUnit{
 				{
 					Denom:    "asix",
@@ -98,48 +98,6 @@ func (app *App) RegisterUpgradeHandlers() {
 			Address: token_admin.Owner,
 			Creator: super_admin.Owner,
 		})
-		
-		var evm_param evmtypes.Params
-		evm_param.ChainConfig = evmtypes.DefaultChainConfig()
-		evm_param.EvmDenom = "asix"
-		evm_param.EnableCall = true
-		evm_param.EnableCreate = true
-		evm_param.ExtraEIPs = []int64{}
-		evm_param.AllowUnprotectedTxs = false
-		app.EVMKeeper.SetParams(ctx, evm_param)
-		// app.EVMKeeper.SetParams(ctx, evmtypes.Params{
-		// 	EvmDenom: "asix",
-		// 	EnableCreate: true,
-		// 	EnableCall: true,
-		// 	ExtraEIPs: []int64{},
-		// 	ChainConfig: evmtypes.DefaultChainConfig(),
-		// 	AllowUnprotectedTxs: false,
-		// })
-
-		// * Module Feemarket *
-		// get block height
-		blockHeight := ctx.BlockHeight() + 5
-		// // set new param for fee market
-		// app.FeeMarketKeeper.SetParams(ctx, feemarkettypes.Params{
-		// 	BaseFee: sdk.NewIntFromUint64(5000000000000),
-		// 	BaseFeeChangeDenominator: 8,
-		// 	ElasticityMultiplier: 4,
-		// 	MinGasPrice: sdk.NewDecFromInt(sdk.NewIntFromUint64(5000000000000)),
-		// 	NoBaseFee: false,
-		// 	EnableHeight: blockHeight,
-		// 	MinGasMultiplier: sdk.NewDecWithPrec(50, 2),
-		// })
-
-		// set new param for fee market
-		var fee_market_params feemarkettypes.Params
-		fee_market_params.BaseFee = sdk.NewIntFromUint64(5000000000000)
-		fee_market_params.BaseFeeChangeDenominator = 8
-		fee_market_params.ElasticityMultiplier = 4
-		fee_market_params.MinGasPrice = sdk.NewDecFromInt(sdk.NewIntFromUint64(5000000000000))
-		fee_market_params.NoBaseFee = false
-		fee_market_params.EnableHeight = blockHeight
-		fee_market_params.MinGasMultiplier = sdk.NewDecWithPrec(50, 2)
-		app.FeeMarketKeeper.SetParams(ctx, fee_market_params)
 		
 		// * Module NFT ORACLE *
 		// set nft duration
