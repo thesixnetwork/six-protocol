@@ -99,24 +99,25 @@ func (app *App) RegisterUpgradeHandlers() {
 			Creator: super_admin.Owner,
 		})
 
-		evm_param := evmtypes.DefaultParams()
-		evm_param.EvmDenom = "asix"
 		app.EVMKeeper.SetParams(ctx, evmtypes.Params{
 			EvmDenom: "asix",
-			EnableCreate: evm_param.EnableCreate,
-			EnableCall: evm_param.EnableCall,
-			ExtraEIPs: evm_param.ExtraEIPs,
-			ChainConfig: evm_param.ChainConfig,
-			AllowUnprotectedTxs: evm_param.AllowUnprotectedTxs,
+			EnableCreate: true,
+			EnableCall: true,
+			ExtraEIPs: []int64{},
+			ChainConfig: evmtypes.DefaultChainConfig(),
+			AllowUnprotectedTxs: false,
 		})
 
 		// * Module Feemarket *
-		feermartket_param := feemarkettypes.DefaultParams()
-		feermartket_param.BaseFee = sdk.NewIntFromUint64(5000000000000)
-		feermartket_param.BaseFeeChangeDenominator = 8
-		feermartket_param.ElasticityMultiplier = 4
-		feermartket_param.MinGasPrice = sdk.NewDecFromInt(sdk.NewIntFromUint64(5000000000000))
-		app.FeeMarketKeeper.SetParams(ctx, feermartket_param)
+		app.FeeMarketKeeper.SetParams(ctx, feemarkettypes.Params{
+			BaseFee: sdk.NewIntFromUint64(5000000000000),
+			BaseFeeChangeDenominator: 8,
+			ElasticityMultiplier: 4,
+			MinGasPrice: sdk.NewDecFromInt(sdk.NewIntFromUint64(5000000000000)),
+			NoBaseFee: false,
+			EnableHeight: 0,
+			MinGasMultiplier: sdk.NewDecWithPrec(50, 2),
+		})
 		
 		// * Module NFT ORACLE *
 		// set nft duration
