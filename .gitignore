@@ -11,3 +11,5 @@ vue/src/store/generated/
 .env
 
 /**/wasmvm/
+
+/scripts/secret/*
