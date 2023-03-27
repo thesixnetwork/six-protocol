@@ -14,7 +14,6 @@ import (
 func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBurnResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-
 	var burn = types.Burn{
 		Creator: msg.Creator,
 		Amount:  msg.Amount,
@@ -40,7 +39,7 @@ func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBu
 	// }
 
 	supply := k.bankKeeper.GetSupply(ctx, msg.Amount.Denom)
-	if supply.Amount.LT(msg.Amount.Amount){
+	if supply.Amount.LT(msg.Amount.Amount) {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is higher than current total supply")
 	}
 

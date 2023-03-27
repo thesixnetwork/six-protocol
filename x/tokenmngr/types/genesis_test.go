@@ -1,10 +1,10 @@
 package types_test
 
 import (
-	"testing"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+	"testing"
 )
 
 func TestGenesisState_Validate(t *testing.T) {
