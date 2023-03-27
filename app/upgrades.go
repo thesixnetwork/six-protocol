@@ -20,7 +20,7 @@ import (
 	nftoraclemoduletypes "github.com/thesixnetwork/sixnft/x/nftoracle/types"
 )
 
-const UpgradeName = "v2.3.0"
+const UpgradeName = "v3.0.0"
 
 func (app *App) VersionTrigger() {
 	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
@@ -101,7 +101,14 @@ func (app *App) RegisterUpgradeHandlers() {
 
 		evm_param := evmtypes.DefaultParams()
 		evm_param.EvmDenom = "asix"
-		app.EVMKeeper.SetParams(ctx, evm_param)
+		app.EVMKeeper.SetParams(ctx, evmtypes.Params{
+			EvmDenom: "asix",
+			EnableCreate: evm_param.EnableCreate,
+			EnableCall: evm_param.EnableCall,
+			ExtraEIPs: evm_param.ExtraEIPs,
+			ChainConfig: evm_param.ChainConfig,
+			AllowUnprotectedTxs: evm_param.AllowUnprotectedTxs,
+		})
 
 		// * Module Feemarket *
 		feermartket_param := feemarkettypes.DefaultParams()
