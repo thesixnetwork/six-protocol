@@ -482,14 +482,13 @@ func New(
 	app.FeeMarketKeeper = feemarketkeeper.NewKeeper(
 		appCodec, app.GetSubspace(feemarkettypes.ModuleName), keys[feemarkettypes.StoreKey], tkeys[feemarkettypes.TransientKey],
 	)
-	
+
 	app.EVMKeeper = evmkeeper.NewKeeper(
 		appCodec, keys[evmtypes.StoreKey], tkeys[evmtypes.TransientKey], app.GetSubspace(evmtypes.ModuleName),
-		authkeeper.NewAccountKeeper(appCodec,keys[authtypes.StoreKey],app.GetSubspace(authtypes.ModuleName),ethermint.ProtoAccount,maccPerms), 
+		authkeeper.NewAccountKeeper(appCodec, keys[authtypes.StoreKey], app.GetSubspace(authtypes.ModuleName), ethermint.ProtoAccount, maccPerms),
 		app.BankKeeper, &stakingKeeper, app.FeeMarketKeeper,
 		tracer,
 	)
-
 
 	// register the staking hooks
 	// NOTE: stakingKeeper above is passed by reference, so that it will contain these hooks
@@ -678,7 +677,7 @@ func New(
 		nftoracleModule,
 		nftadminModule,
 		// Ethermint app modules
-		evm.NewAppModule(app.EVMKeeper, authkeeper.NewAccountKeeper(appCodec,keys[authtypes.StoreKey],app.GetSubspace(authtypes.ModuleName),ethermint.ProtoAccount,maccPerms)),
+		evm.NewAppModule(app.EVMKeeper, authkeeper.NewAccountKeeper(appCodec, keys[authtypes.StoreKey], app.GetSubspace(authtypes.ModuleName), ethermint.ProtoAccount, maccPerms)),
 		feemarket.NewAppModule(app.FeeMarketKeeper),
 		erc20.NewAppModule(app.Erc20Keeper, app.AccountKeeper),
 		// this line is used by starport scaffolding # stargate/app/appModule
@@ -815,7 +814,7 @@ func New(
 		nftmngrModule,
 		nftoracleModule,
 		nftadminModule,
-		evm.NewAppModule(app.EVMKeeper, authkeeper.NewAccountKeeper(appCodec,keys[authtypes.StoreKey],app.GetSubspace(authtypes.ModuleName),ethermint.ProtoAccount,maccPerms)),
+		evm.NewAppModule(app.EVMKeeper, authkeeper.NewAccountKeeper(appCodec, keys[authtypes.StoreKey], app.GetSubspace(authtypes.ModuleName), ethermint.ProtoAccount, maccPerms)),
 		feemarket.NewAppModule(app.FeeMarketKeeper),
 		erc20.NewAppModule(app.Erc20Keeper, app.AccountKeeper),
 		// this line is used by starport scaffolding # stargate/app/appModule

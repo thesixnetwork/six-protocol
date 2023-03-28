@@ -18,16 +18,16 @@ import (
 // HandlerOptions extend the SDK's AnteHandler options by requiring the IBC
 // channel keeper.
 type HandlerOptions struct {
-	AccountKeeper     evmtypes.AccountKeeper
-	BankKeeper        evmtypes.BankKeeper
-	FeegrantKeeper    ante.FeegrantKeeper
-	SignModeHandler   authsigning.SignModeHandler
-	SigGasConsumer    func(meter sdk.GasMeter, sig signing.SignatureV2, params types.Params) error
-	IBCKeeper         *ibckeeper.Keeper
-	EvmKeeper         ethante.EVMKeeper
-	FeeMarketKeeper   evmtypes.FeeMarketKeeper
-	MaxTxGasWanted    uint64
-	Cdc               codec.BinaryCodec
+	AccountKeeper   evmtypes.AccountKeeper
+	BankKeeper      evmtypes.BankKeeper
+	FeegrantKeeper  ante.FeegrantKeeper
+	SignModeHandler authsigning.SignModeHandler
+	SigGasConsumer  func(meter sdk.GasMeter, sig signing.SignatureV2, params types.Params) error
+	IBCKeeper       *ibckeeper.Keeper
+	EvmKeeper       ethante.EVMKeeper
+	FeeMarketKeeper evmtypes.FeeMarketKeeper
+	MaxTxGasWanted  uint64
+	Cdc             codec.BinaryCodec
 }
 
 func (options HandlerOptions) Validate() (sdk.AnteHandler, error) {

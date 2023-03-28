@@ -72,7 +72,6 @@ func (k msgServer) ConvertToMicro(goCtx context.Context, msg *types.MsgConvertTo
 		return nil, sdkerrors.Wrap(types.ErrSendCoinsFromAccountToModule, "unable to send msg.Amounts from module to account despite previously minting msg.Amounts to module account:"+err.Error())
 	}
 
-
 	return &types.MsgConvertToMicroResponse{
 		Amount: microSix,
 	}, nil
