@@ -14,8 +14,8 @@ import (
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
 	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
 	erc20types "github.com/evmos/evmos/v6/x/erc20/types"
-	tokenmngrtypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 	tokenmngrmoduletypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+	tokenmngrtypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 	nftmngrtypes "github.com/thesixnetwork/sixnft/x/nftmngr/types"
 	nftoraclemoduletypes "github.com/thesixnetwork/sixnft/x/nftoracle/types"
 )
@@ -30,7 +30,7 @@ func (app *App) VersionTrigger() {
 
 	if upgradeInfo.Name == UpgradeName && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
 		storeUpgrades := store.StoreUpgrades{
-			Added: []string{evmtypes.ModuleName, feemarkettypes.ModuleName, erc20types.ModuleName},
+			Added:   []string{evmtypes.ModuleName, feemarkettypes.ModuleName, erc20types.ModuleName},
 			Deleted: []string{"wasm"},
 		}
 		// configure store loader that checks if version == upgradeHeight and applies store upgrades
@@ -39,7 +39,7 @@ func (app *App) VersionTrigger() {
 }
 
 func (app *App) RegisterUpgradeHandlers() {
-	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {		
+	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
 		//* Module Bank *
 		// register new denom metadata for using with evm
 		// the usix denom cannot be used with evm because it is a decimal denom
@@ -98,7 +98,7 @@ func (app *App) RegisterUpgradeHandlers() {
 			Address: token_admin.Owner,
 			Creator: super_admin.Owner,
 		})
-		
+
 		// * Module NFT ORACLE *
 		// set nft duration
 		var oracle_params nftoraclemoduletypes.Params
