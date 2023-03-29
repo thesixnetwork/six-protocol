@@ -55,7 +55,7 @@ build:
 init:
   home: "$HOME/.six"
   client:
-    chain-id: "sixnet"
+    chain-id: "testnet"
     keyring-backend: "test"
     node: "tcp://localhost:26657"
     broadcast-mode: "block"
@@ -69,7 +69,7 @@ init:
       address: "0.0.0.0:8545" # as default # change the JSON-RPC address and port
       ws-address: "0.0.0.0:8546" # as default # change the JSON-RPC websocket address and port
 genesis:
-  chain_id: "sixnet"
+  chain_id: "testnet"
   app_state:
     staking: # Overwrite genesis for staking module
       params:
