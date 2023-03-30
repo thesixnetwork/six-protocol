@@ -120,6 +120,7 @@ message MsgConvertToAtto {
   string creator = 1;
   cosmos.base.v1beta1.Coin amount = 2
   [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"];
+  string receiver = 3;
 }
 
 message MsgConvertToAttoResponse {
@@ -131,6 +132,7 @@ message MsgConvertToMicro {
   string creator = 1;
   cosmos.base.v1beta1.Coin amount = 2
   [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"];
+  string receiver = 3;
 }
 
 message MsgConvertToMicroResponse {
