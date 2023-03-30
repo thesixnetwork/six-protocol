@@ -100,8 +100,8 @@ func newCosmosAnteHandler(options HandlerOptions) sdk.AnteHandler {
 		ante.NewValidateBasicDecorator(),
 		ante.NewMempoolFeeDecorator(),
 		// ethante.NewMinGasPriceDecorator(options.FeeMarketKeeper, options.EvmKeeper),  // ! remove this decorator to allow Cosmos txs to be included in blocks with low gas prices not use fee market
-		ante.NewTxTimeoutHeightDecorator(),
 		ante.NewValidateMemoDecorator(options.AccountKeeper),
+		ante.NewTxTimeoutHeightDecorator(),
 		ante.NewConsumeGasForTxSizeDecorator(options.AccountKeeper),
 		ante.NewDeductFeeDecorator(options.AccountKeeper, options.BankKeeper, options.FeegrantKeeper),
 		// SetPubKeyDecorator must be called before all signature verification decorators
