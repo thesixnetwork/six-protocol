@@ -29,6 +29,12 @@ func (k msgServer) ConvertToMicro(goCtx context.Context, msg *types.MsgConvertTo
 		return nil, err
 	}
 
+	// check that receiver is cosmos address or ethereum address
+	receiver, err := sdk.AccAddressFromBech32(msg.Receiver)
+	if err != nil {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "receiver address is not cosmos address")
+	}
+
 	token, foundToken := k.GetToken(ctx, msg.Amount.Denom)
 	if !foundToken {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "token does not exist")
@@ -67,7 +73,7 @@ func (k msgServer) ConvertToMicro(goCtx context.Context, msg *types.MsgConvertTo
 
 	// send to receiver
 	if err := k.bankKeeper.SendCoinsFromModuleToAccount(
-		ctx, types.ModuleName, signer, sdk.NewCoins(microSix),
+		ctx, types.ModuleName, receiver, sdk.NewCoins(microSix),
 	); err != nil {
 		return nil, sdkerrors.Wrap(types.ErrSendCoinsFromAccountToModule, "unable to send msg.Amounts from module to account despite previously minting msg.Amounts to module account:"+err.Error())
 	}
