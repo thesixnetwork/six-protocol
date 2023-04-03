@@ -23,7 +23,7 @@ type (
 		bankKeeper          types.BankKeeper
 		accountKeeper       types.AccountKeeper
 		protocoladminKeeper types.ProtocoladminKeeper
-		evmKeeper types.EVMKeeper
+		evmKeeper           types.EVMKeeper
 	}
 )
 
