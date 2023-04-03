@@ -21476,6 +21476,19 @@ paths:
                       (i.e non EIP155 
 
                       signed) transactions can be executed on the state machine.
+                  converter_params:
+                    type: object
+                    properties:
+                      converter_contract:
+                        type: string
+                      event_name:
+                        type: string
+                      event_tuple:
+                        type: string
+                      event_abi:
+                        type: string
+                      enable:
+                        type: boolean
                 title: Params defines the EVM module parameters
             description: >-
               QueryParamsResponse defines the response type for querying x/evm
@@ -43587,6 +43600,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/six-protocol/tokenmngr/mintperm/{token}/{address}':
@@ -43838,6 +43861,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/six-protocol/tokenmngr/token/{name}':
@@ -44030,6 +44063,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   /thesixnetwork/sixprotocol/tokenmngr/burns_v202:
@@ -44148,6 +44191,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -44272,6 +44325,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -44439,6 +44502,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -59961,6 +60034,19 @@ definitions:
       values
 
       instead of *big.Int.
+  ethermint.evm.v1.ConverterParams:
+    type: object
+    properties:
+      converter_contract:
+        type: string
+      event_name:
+        type: string
+      event_tuple:
+        type: string
+      event_abi:
+        type: string
+      enable:
+        type: boolean
   ethermint.evm.v1.EstimateGasResponse:
     type: object
     properties:
@@ -60276,6 +60362,19 @@ definitions:
           EIP155 
 
           signed) transactions can be executed on the state machine.
+      converter_params:
+        type: object
+        properties:
+          converter_contract:
+            type: string
+          event_name:
+            type: string
+          event_tuple:
+            type: string
+          event_abi:
+            type: string
+          enable:
+            type: boolean
     title: Params defines the EVM module parameters
   ethermint.evm.v1.QueryAccountResponse:
     type: object
@@ -60445,6 +60544,19 @@ definitions:
               non EIP155 
 
               signed) transactions can be executed on the state machine.
+          converter_params:
+            type: object
+            properties:
+              converter_contract:
+                type: string
+              event_name:
+                type: string
+              event_tuple:
+                type: string
+              event_abi:
+                type: string
+              enable:
+                type: boolean
         title: Params defines the EVM module parameters
     description: >-
       QueryParamsResponse defines the response type for querying x/evm
@@ -73119,6 +73231,13 @@ definitions:
     type: object
   thesixnetwork.sixprotocol.tokenmngr.MsgMintResponse:
     type: object
+  thesixnetwork.sixprotocol.tokenmngr.MsgSetConverterParamsResponse:
+    type: object
+    properties:
+      contractAddress:
+        type: string
+      abi:
+        type: string
   thesixnetwork.sixprotocol.tokenmngr.MsgUpdateMintpermResponse:
     type: object
   thesixnetwork.sixprotocol.tokenmngr.MsgUpdateOptionsResponse:
