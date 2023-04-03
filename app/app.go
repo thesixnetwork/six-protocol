@@ -598,6 +598,7 @@ func New(
 		app.BankKeeper,
 		app.AccountKeeper,
 		app.ProtocoladminKeeper,
+		app.EVMKeeper,
 	)
 	tokenmngrModule := tokenmngrmodule.NewAppModule(appCodec, app.TokenmngrKeeper, app.AccountKeeper, app.BankKeeper)
 	app.ScopedTokenmngrKeeper = scopedTokenmngrKeeper

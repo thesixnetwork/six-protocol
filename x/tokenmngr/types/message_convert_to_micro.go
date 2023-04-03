@@ -11,8 +11,8 @@ var _ sdk.Msg = &MsgConvertToMicro{}
 
 func NewMsgConvertToMicro(creator string, amount sdk.Coin, receiver string) *MsgConvertToMicro {
 	return &MsgConvertToMicro{
-		Creator: creator,
-		Amount:  amount,
+		Creator:  creator,
+		Amount:   amount,
 		Receiver: receiver,
 	}
 }

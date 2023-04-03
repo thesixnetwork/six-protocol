@@ -21,6 +21,7 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgBurn{}, "tokenmngr/Burn", nil)
 	cdc.RegisterConcrete(&MsgConvertToAtto{}, "tokenmngr/ConvertToAtto", nil)
 	cdc.RegisterConcrete(&MsgConvertToMicro{}, "tokenmngr/ConvertToMicro", nil)
+	cdc.RegisterConcrete(&MsgSetConverterParams{}, "tokenmngr/SetConverterParams", nil)
 	// this line is used by starport scaffolding # 2
 }
 
@@ -51,6 +52,9 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgConvertToMicro{},
+	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgSetConverterParams{},
 	)
 	// this line is used by starport scaffolding # 3
 
