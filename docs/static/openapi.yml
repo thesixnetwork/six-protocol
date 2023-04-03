@@ -73229,6 +73229,13 @@ definitions:
     type: object
   thesixnetwork.sixprotocol.tokenmngr.MsgDeleteTokenResponse:
     type: object
+  thesixnetwork.sixprotocol.tokenmngr.MsgEnableContractConverterResponse:
+    type: object
+    properties:
+      contractAddress:
+        type: string
+      enable:
+        type: boolean
   thesixnetwork.sixprotocol.tokenmngr.MsgMintResponse:
     type: object
   thesixnetwork.sixprotocol.tokenmngr.MsgSetConverterParamsResponse:
