@@ -197,9 +197,15 @@ genesis:
       authorization:
         root_admin: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
     ### THIS IS DEFAULT CONFIG ON ETHERMINT NO NEED TO SET IT JUST PUT IT HERE FOR REMINDER
-    # evm:
-    #   params:
-    #     evm_denom: "asix"
+    evm:
+      params:
+        evm_denom: "asix"
+        converter_params:
+          converter_contract: "0x7b70BAc782B1509de817F3552A145B12379aCbe8"
+          event_name: "TransferToCosmos"
+          event_tuple: "address,string,uint256"
+          event_abi: "[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"src\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"dst\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"TransferToCosmos\",\"type\":\"event\"}]"
+          enable: false
     # feemarket:
     #   params:
     #     base_fee: "5000000000000"
