@@ -29,7 +29,7 @@ func (k msgServer) ConvertToAtto(goCtx context.Context, msg *types.MsgConvertToA
 			return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "receiver address is not cosmos or ethereum address")
 		}
 
-		if common.IsHexAddress(msg.Receiver){
+		if common.IsHexAddress(msg.Receiver) {
 			addr = common.HexToAddress(msg.Receiver).Bytes()
 		}
 		receiver = sdk.AccAddress(addr)

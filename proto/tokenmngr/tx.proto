@@ -25,6 +25,7 @@ service Msg {
   rpc Burn(MsgBurn) returns (MsgBurnResponse);
   rpc ConvertToAtto(MsgConvertToAtto) returns (MsgConvertToAttoResponse);
   rpc ConvertToMicro(MsgConvertToMicro) returns (MsgConvertToMicroResponse);
+  rpc SetConverterParams(MsgSetConverterParams) returns (MsgSetConverterParamsResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -138,6 +139,19 @@ message MsgConvertToMicro {
 message MsgConvertToMicroResponse {
   cosmos.base.v1beta1.Coin amount = 1
   [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"];
+}
+
+message MsgSetConverterParams {
+  string creator = 1;
+  string contractAddress = 2;
+  string eventName = 3;
+  string eventTuple = 4;
+  string abi = 5;
+}
+
+message MsgSetConverterParamsResponse {
+  string contractAddress = 1;
+  string abi = 2;
 }
 
 // this line is used by starport scaffolding # proto/tx/message
