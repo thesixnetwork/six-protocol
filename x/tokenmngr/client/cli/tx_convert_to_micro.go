@@ -17,7 +17,7 @@ var _ = strconv.Itoa(0)
 func CmdConvertToMicro() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "convert-to-micro [amount] [RECEIVER(optional)]",
-		Short: "Convert native token from 10^6 to native token 10^18 for usign with Evm reject if 7th",
+		Short: "Convert native token from 10^18 to native token 10^6",
 		Args:  cobra.RangeArgs(1, 2),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			coins, err := sdk.ParseCoinNormalized(args[0])
