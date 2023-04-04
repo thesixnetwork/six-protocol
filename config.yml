@@ -2,9 +2,19 @@ accounts: # mnemonic for development purpose
   - name: alice
     coins: ["10000finix", "100000000000000usix", "100000000000000000000asix"]
     mnemonic: "history perfect across group seek acoustic delay captain sauce audit carpet tattoo exhaust green there giant cluster want pond bulk close screen scissors remind"
+  - name: alice-evm
+    coins: ["10000finix", "100000000000000usix", "100000000000000000000asix"]
+    mnemonic: "history perfect across group seek acoustic delay captain sauce audit carpet tattoo exhaust green there giant cluster want pond bulk close screen scissors remind"
+    cointype: 60
+    algo: eth_secp256k1
   - name: bob
     coins: ["20000finix", "200000000000000usix", "100000000000000000000asix"]
     mnemonic: "limb sister humor wisdom elephant weasel beyond must any desert glance stem reform soccer include chest chef clerk call popular display nerve priority venture"
+  - name: bob-evm
+    coins: ["100000000000000000000asix"]
+    mnemonic: "limb sister humor wisdom elephant weasel beyond must any desert glance stem reform soccer include chest chef clerk call popular display nerve priority venture"
+    cointype: 60
+    algo: eth_secp256k1
   - name: faucet
     coins: ["30000finix", "300000000000000usix"]
   - name: super-admin
