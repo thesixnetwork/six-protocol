@@ -43604,9 +43604,6 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -43865,9 +43862,6 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -44067,9 +44061,6 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -44198,9 +44189,6 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -44332,9 +44320,6 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -44509,9 +44494,6 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -73238,6 +73220,13 @@ definitions:
         type: boolean
   thesixnetwork.sixprotocol.tokenmngr.MsgMintResponse:
     type: object
+  thesixnetwork.sixprotocol.tokenmngr.MsgSendAsixResponse:
+    type: object
+    properties:
+      receiver:
+        type: string
+      amount:
+        type: string
   thesixnetwork.sixprotocol.tokenmngr.MsgSetConverterParamsResponse:
     type: object
     properties:
