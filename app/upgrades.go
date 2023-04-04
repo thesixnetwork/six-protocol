@@ -40,82 +40,6 @@ func (app *App) VersionTrigger() {
 
 func (app *App) RegisterUpgradeHandlers() {
 	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
-		//* Module Bank *
-		// register new denom metadata for using with evm
-		// the usix denom cannot be used with evm because it is a decimal denom
-		// then we need to create a new denom for evm
-
-		// set new denom metadata
-		app.BankKeeper.SetDenomMetaData(ctx, banktype.Metadata{
-			Description: "The native evm token of the SIX Protocol",
-			Base:        "asix",
-			Display:     "asix",
-			Symbol:      "asix",
-			Name:        "evm six token",
-			DenomUnits: []*banktype.DenomUnit{
-				{
-					Denom:    "asix",
-					Exponent: 0,
-					Aliases:  []string{"attosix"},
-				},
-				{
-					Denom:    "usix",
-					Exponent: 12,
-					Aliases:  []string{"microsix"},
-				},
-				{
-					Denom:    "msix",
-					Exponent: 15,
-					Aliases:  []string{"millisix"},
-				},
-				{
-					Denom:    "six",
-					Exponent: 18,
-					Aliases:  []string{"six"},
-				},
-			},
-		})
-
-		// * Module Protocaladmin *
-		// add existing address to super.admin group
-		// super admin to set token admin
-		// token admin to set mintperm
-		// mintperm to mint token
-		token_admin, _ := app.ProtocoladminKeeper.GetGroup(ctx, "token.admin")
-		super_admin, _ := app.ProtocoladminKeeper.GetGroup(ctx, "super.admin")
-		asix_maxsupply := sdk.NewIntFromUint64(0)
-		asix_coin := sdk.NewCoin("asix", asix_maxsupply)
-		app.TokenmngrKeeper.SetToken(ctx, tokenmngrtypes.Token{
-			Name:      "asix",
-			Base:      "asix",
-			MaxSupply: asix_coin,
-			Mintee:    token_admin.Owner,
-			Creator:   super_admin.Owner,
-		})
-		// add mintperm
-		app.TokenmngrKeeper.SetMintperm(ctx, tokenmngrtypes.Mintperm{
-			Token:   "asix",
-			Address: token_admin.Owner,
-			Creator: super_admin.Owner,
-		})
-
-		// * Module NFT ORACLE *
-		// set nft duration
-		var oracle_params nftoraclemoduletypes.Params
-		oracle_params.MintRequestActiveDuration = 120 * time.Second
-		oracle_params.ActionRequestActiveDuration = 120 * time.Second
-		oracle_params.VerifyRequestActiveDuration = 120 * time.Second
-		oracle_params.ActionSignerActiveDuration = 30 * (24 * time.Hour)
-		oracle_params.SyncActionSignerActiveDuration = 300 * time.Second // five minutes
-		app.NftoracleKeeper.SetParams(ctx, oracle_params)
-
-		// migrate action Signer
-		action_signers := app.NftoracleKeeper.GetAllActionSigner(ctx)
-		for _, action_signer := range action_signers {
-			action_signer.Creator = action_signer.OwnerAddress
-			action_signer.CreationFlow = nftoraclemoduletypes.CreationFlow_INTERNAL_OWNER
-			app.NftoracleKeeper.SetActionSigner(ctx, action_signer)
-		}
 
 		// * For MAINNET ONLY *
 		// * Becase TESTNET We already have this version of data *
@@ -123,6 +47,43 @@ func (app *App) RegisterUpgradeHandlers() {
 		// if chain id = "fivenet" then skip this upgrade
 		if ctx.ChainID() == "sixnet" {
 			fmt.Println("########################## SIXNET ##########################")
+
+			//* Module Bank *
+			// register new denom metadata for using with evm
+			// the usix denom cannot be used with evm because it is a decimal denom
+			// then we need to create a new denom for evm
+
+			// set new denom metadata
+			app.BankKeeper.SetDenomMetaData(ctx, banktype.Metadata{
+				Description: "The native evm token of the SIX Protocol",
+				Base:        "asix",
+				Display:     "asix",
+				Symbol:      "asix",
+				Name:        "evm six token",
+				DenomUnits: []*banktype.DenomUnit{
+					{
+						Denom:    "asix",
+						Exponent: 0,
+						Aliases:  []string{"attosix"},
+					},
+					{
+						Denom:    "usix",
+						Exponent: 12,
+						Aliases:  []string{"microsix"},
+					},
+					{
+						Denom:    "msix",
+						Exponent: 15,
+						Aliases:  []string{"millisix"},
+					},
+					{
+						Denom:    "six",
+						Exponent: 18,
+						Aliases:  []string{"six"},
+					},
+				},
+			})
+
 			// Change token struct
 			tokens := app.TokenmngrKeeper.GetAllTokenV202(ctx)
 			for _, token := range tokens {
@@ -165,7 +126,38 @@ func (app *App) RegisterUpgradeHandlers() {
 			// Set list burns
 			app.TokenmngrKeeper.SetBurns(ctx, list_burns)
 
-			// * Module NFTOracle *
+			// * Module Protocaladmin *
+			// add existing address to super.admin group
+			// super admin to set token admin
+			// token admin to set mintperm
+			// mintperm to mint token
+			token_admin, _ := app.ProtocoladminKeeper.GetGroup(ctx, "token.admin")
+			super_admin, _ := app.ProtocoladminKeeper.GetGroup(ctx, "super.admin")
+			asix_maxsupply := sdk.NewIntFromUint64(0)
+			asix_coin := sdk.NewCoin("asix", asix_maxsupply)
+			app.TokenmngrKeeper.SetToken(ctx, tokenmngrtypes.Token{
+				Name:      "asix",
+				Base:      "asix",
+				MaxSupply: asix_coin,
+				Mintee:    token_admin.Owner,
+				Creator:   super_admin.Owner,
+			})
+			// add mintperm
+			app.TokenmngrKeeper.SetMintperm(ctx, tokenmngrtypes.Mintperm{
+				Token:   "asix",
+				Address: token_admin.Owner,
+				Creator: super_admin.Owner,
+			})
+
+			// * Module NFT ORACLE *
+			// set nft duration
+			var oracle_params nftoraclemoduletypes.Params
+			oracle_params.MintRequestActiveDuration = 120 * time.Second
+			oracle_params.ActionRequestActiveDuration = 120 * time.Second
+			oracle_params.VerifyRequestActiveDuration = 120 * time.Second
+			oracle_params.ActionSignerActiveDuration = 30 * (24 * time.Hour)
+			oracle_params.SyncActionSignerActiveDuration = 300 * time.Second // five minutes
+			app.NftoracleKeeper.SetParams(ctx, oracle_params)
 
 			// bug from previous version
 			action_requests, err := app.NftoracleKeeper.GetAllActionRequestV603(ctx)
@@ -220,6 +212,12 @@ func (app *App) RegisterUpgradeHandlers() {
 
 			// ActionSigners => Append to new store
 			action_signers := app.NftoracleKeeper.GetAllActionSigner(ctx)
+
+			for _, action_signer := range action_signers {
+				action_signer.CreationFlow = nftoraclemoduletypes.CreationFlow_INTERNAL_OWNER
+				app.NftoracleKeeper.SetActionSigner(ctx, action_signer)
+			}
+
 			for _, action_signer := range action_signers {
 
 				// query binded signer
@@ -322,7 +320,9 @@ func (app *App) RegisterUpgradeHandlers() {
 				}
 
 			}
+			app.VersionTrigger()
 		}
+
 		return app.mm.RunMigrations(ctx, app.configurator, vm)
 	})
 }
