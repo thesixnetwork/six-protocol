@@ -38,6 +38,19 @@ func (app *App) VersionTrigger() {
 	}
 }
 
+func (app *App) VersionTriggerFivenet() {
+	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
+	if err != nil {
+		panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
+	}
+
+	if upgradeInfo.Name == UpgradeName && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
+		storeUpgrades := store.StoreUpgrades{}
+		// configure store loader that checks if version == upgradeHeight and applies store upgrades
+		app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
+	}
+}
+
 func (app *App) RegisterUpgradeHandlers() {
 	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
 
@@ -321,6 +334,10 @@ func (app *App) RegisterUpgradeHandlers() {
 
 			}
 			app.VersionTrigger()
+		}
+
+		if ctx.ChainID() == "fivenet" {
+			app.VersionTriggerFivenet()
 		}
 
 		return app.mm.RunMigrations(ctx, app.configurator, vm)
