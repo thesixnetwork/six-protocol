@@ -216,12 +216,12 @@ genesis:
           event_tuple: "address,string,uint256"
           event_abi: "[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"src\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"dst\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"TransferToCosmos\",\"type\":\"event\"}]"
           enable: false
-    # feemarket:
-    #   params:
-    #     base_fee: "5000000000000"
-    #     base_fee_change_denominator: 8
-    #     elasticity_multiplier: 4
-    #     enable_height: "0"
-    #     min_gas_multiplier: "0.500000000000000000"
-    #     min_gas_price: "5000000000000.000000000000000000"
-    #     no_base_fee: false
+    feemarket:
+      params:
+        base_fee: "10000000000000"
+        base_fee_change_denominator: 8
+        elasticity_multiplier: 4
+        enable_height: "0"
+        min_gas_multiplier: "0.500000000000000000"
+        min_gas_price: "10000000000000.000000000000000000"
+        no_base_fee: false
