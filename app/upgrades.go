@@ -22,10 +22,8 @@ import (
 
 const UpgradeName = "v3.1.0"
 
-var CHAIN_ID string
 
 func (app *App) VersionTrigger() {
-	fmt.Println("################### CHAIN_ID:", CHAIN_ID, "###################")
 	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
 	if err != nil {
 		panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
@@ -42,7 +40,6 @@ func (app *App) VersionTrigger() {
 }
 
 func (app *App) VersionTriggerFivenet() {
-	fmt.Println("################### CHAIN_ID:", CHAIN_ID, "###################")
 	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
 	if err != nil {
 		panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
@@ -57,7 +54,6 @@ func (app *App) VersionTriggerFivenet() {
 
 func (app *App) RegisterUpgradeHandlers() {
 	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
-		CHAIN_ID = ctx.ChainID()
 		// * For MAINNET ONLY *
 		// * Becase TESTNET We already have this version of data *
 		// * Module Tokenmngr *
