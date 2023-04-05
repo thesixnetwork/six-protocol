@@ -26,6 +26,7 @@ var CHAIN_ID string
 
 func (app *App) VersionTrigger() {
 	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
+	fmt.Println("################### CHAIN_ID:", CHAIN_ID, "###################")
 	if err != nil {
 		panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
 	}
