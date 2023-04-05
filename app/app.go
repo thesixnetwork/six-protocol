@@ -1,7 +1,6 @@
 package app
 
 import (
-	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -795,7 +794,7 @@ func New(
 	app.mm.RegisterServices(cfg)
 	app.RegisterUpgradeHandlers()
 	app.VersionTrigger()
-	
+
 	// create the simulation manager and define the order of the modules for deterministic simulations
 	app.sm = module.NewSimulationManager(
 		auth.NewAppModule(appCodec, app.AccountKeeper, ethermintapp.RandomGenesisAccounts),
