@@ -1,6 +1,7 @@
 package app
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -23,6 +24,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/version"
 	"github.com/cosmos/cosmos-sdk/x/auth"
 	appante "github.com/thesixnetwork/six-protocol/app/ante"
+
 	// authrest "github.com/cosmos/cosmos-sdk/x/auth/client/rest"
 	authkeeper "github.com/cosmos/cosmos-sdk/x/auth/keeper"
 	// authsims "github.com/cosmos/cosmos-sdk/x/auth/simulation"
@@ -792,9 +794,10 @@ func New(
 	app.configurator = module.NewConfigurator(app.appCodec, app.MsgServiceRouter(), app.GRPCQueryRouter())
 	app.mm.RegisterServices(cfg)
 	app.RegisterUpgradeHandlers()
+	fmt.Println("################### CHAIN_ID:", CHAIN_ID, "###################")
 	if CHAIN_ID == "fivenet" {
 		app.VersionTriggerFivenet()
-	}else if CHAIN_ID == "sixnet" {
+	} else if CHAIN_ID == "sixnet" {
 		app.VersionTrigger()
 	}
 
