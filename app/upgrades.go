@@ -22,6 +22,8 @@ import (
 
 const UpgradeName = "v3.1.0"
 
+var CHAIN_ID string
+
 func (app *App) VersionTrigger() {
 	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
 	if err != nil {
@@ -53,7 +55,7 @@ func (app *App) VersionTriggerFivenet() {
 
 func (app *App) RegisterUpgradeHandlers() {
 	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
-
+		CHAIN_ID = ctx.ChainID()
 		// * For MAINNET ONLY *
 		// * Becase TESTNET We already have this version of data *
 		// * Module Tokenmngr *
@@ -333,11 +335,6 @@ func (app *App) RegisterUpgradeHandlers() {
 				}
 
 			}
-			app.VersionTrigger()
-		}
-
-		if ctx.ChainID() == "fivenet" {
-			app.VersionTriggerFivenet()
 		}
 
 		return app.mm.RunMigrations(ctx, app.configurator, vm)

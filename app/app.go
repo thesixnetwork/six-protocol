@@ -792,7 +792,11 @@ func New(
 	app.configurator = module.NewConfigurator(app.appCodec, app.MsgServiceRouter(), app.GRPCQueryRouter())
 	app.mm.RegisterServices(cfg)
 	app.RegisterUpgradeHandlers()
-	// app.VersionTrigger()
+	if CHAIN_ID == "fivenet" {
+		app.VersionTriggerFivenet()
+	}else if CHAIN_ID == "sixnet" {
+		app.VersionTrigger()
+	}
 
 	// create the simulation manager and define the order of the modules for deterministic simulations
 	app.sm = module.NewSimulationManager(
