@@ -794,7 +794,7 @@ func New(
 	app.configurator = module.NewConfigurator(app.appCodec, app.MsgServiceRouter(), app.GRPCQueryRouter())
 	app.mm.RegisterServices(cfg)
 	app.RegisterUpgradeHandlers()
-	ctx := app.BaseApp.NewContext(true, tmproto.Header{Height: app.LastBlockHeight()})
+	ctx := app.BaseApp.NewContext(false, tmproto.Header{Height: app.LastBlockHeight()})
 	if ctx.ChainID() == "fivenet" {
 		app.VersionTriggerFivenet()
 	}else if ctx.ChainID() == "sixnet" {
