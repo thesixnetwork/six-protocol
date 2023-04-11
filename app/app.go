@@ -2,7 +2,6 @@ package app
 
 import (
 	"io"
-	"math/big"
 	"net/http"
 	"os"
 	"path/filepath"
