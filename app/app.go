@@ -2,6 +2,7 @@ package app
 
 import (
 	"io"
+	"math/big"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -94,7 +95,6 @@ import (
 	tmjson "github.com/tendermint/tendermint/libs/json"
 	"github.com/tendermint/tendermint/libs/log"
 	tmos "github.com/tendermint/tendermint/libs/os"
-	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 	dbm "github.com/tendermint/tm-db"
 
 	ethermintapp "github.com/evmos/ethermint/app"
@@ -794,10 +794,15 @@ func New(
 	app.configurator = module.NewConfigurator(app.appCodec, app.MsgServiceRouter(), app.GRPCQueryRouter())
 	app.mm.RegisterServices(cfg)
 	app.RegisterUpgradeHandlers()
-	ctx := app.BaseApp.NewContext(false, tmproto.Header{Height: app.LastBlockHeight()})
-	if ctx.ChainID() == "fivenet" {
+	// evm chain ID
+	chainNumber := app.EVMKeeper.ChainID()
+	// 150 to bigInt
+	fivnetChainID := big.NewInt(150)
+	sixnetChainID := big.NewInt(98)
+
+	if chainNumber == fivnetChainID {
 		app.VersionTriggerFivenet()
-	}else if ctx.ChainID() == "sixnet" {
+	} else if chainNumber == sixnetChainID {
 		app.VersionTrigger()
 	}
 
