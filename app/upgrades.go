@@ -31,18 +31,19 @@ func (app *App) VersionTrigger() {
 		if err != nil {
 			panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
 		}
-	
+
 		if upgradeInfo.Name == UpgradeName && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
 			storeUpgrades := store.StoreUpgrades{}
 			// configure store loader that checks if version == upgradeHeight and applies store upgrades
 			app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
 		}
-	}else if ctx.ChainID() == "sixnet" {
+		fmt.Println("########################## FIVENET ##########################")
+	} else if ctx.ChainID() == "sixnet" {
 		upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
 		if err != nil {
 			panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
 		}
-	
+
 		if upgradeInfo.Name == UpgradeName && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
 			storeUpgrades := store.StoreUpgrades{
 				Added:   []string{evmtypes.ModuleName, feemarkettypes.ModuleName, erc20types.ModuleName},
@@ -51,6 +52,7 @@ func (app *App) VersionTrigger() {
 			// configure store loader that checks if version == upgradeHeight and applies store upgrades
 			app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
 		}
+		fmt.Println("########################## FIVENET ##########################")
 	}
 }
 
