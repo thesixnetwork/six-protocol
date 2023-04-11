@@ -29,6 +29,7 @@ func (app *App) VersionTrigger() {
 	fivnetChainID := big.NewInt(etherminttypes.CHAINID_NUMBER_TESTNET)
 	chainNumber := app.EVMKeeper.ChainID()
 	if chainNumber == fivnetChainID {
+		fmt.Println("########################## FIVENET ##########################")
 		upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
 		if err != nil {
 			panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
@@ -40,6 +41,7 @@ func (app *App) VersionTrigger() {
 			app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
 		}
 	} else if chainNumber == sixnetChainID {
+		fmt.Println("########################## SIXNET ##########################")
 		upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
 		if err != nil {
 			panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
