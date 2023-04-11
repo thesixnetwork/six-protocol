@@ -54,12 +54,6 @@ func (app *App) VersionTriggerFivenet() {
 
 func (app *App) RegisterUpgradeHandlers() {
 	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
-
-		if ctx.ChainID() == "fivenet" {
-			app.VersionTriggerFivenet()
-		} else {
-			app.VersionTrigger()
-		}
 		// * For MAINNET ONLY *
 		// * Becase TESTNET We already have this version of data *
 		// * Module Tokenmngr *
