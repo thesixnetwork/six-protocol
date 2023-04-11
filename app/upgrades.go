@@ -10,7 +10,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 	banktype "github.com/cosmos/cosmos-sdk/x/bank/types"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
-	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
 	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
@@ -24,36 +23,33 @@ import (
 const UpgradeName = "v3.1.0"
 
 func (app *App) VersionTrigger() {
-	// get chain id
-	ctx := app.BaseApp.NewContext(true, tmproto.Header{Height: app.LastBlockHeight()-2})
-	if ctx.ChainID() == "fivenet" {
-		upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
-		if err != nil {
-			panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
-		}
-
-		if upgradeInfo.Name == UpgradeName && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
-			storeUpgrades := store.StoreUpgrades{}
-			// configure store loader that checks if version == upgradeHeight and applies store upgrades
-			app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
-		}
-		fmt.Println("########################## FIVENET ##########################")
-	} else if ctx.ChainID() == "sixnet" {
-		upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
-		if err != nil {
-			panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
-		}
-
-		if upgradeInfo.Name == UpgradeName && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
-			storeUpgrades := store.StoreUpgrades{
-				Added:   []string{evmtypes.ModuleName, feemarkettypes.ModuleName, erc20types.ModuleName},
-				Deleted: []string{"wasm"},
-			}
-			// configure store loader that checks if version == upgradeHeight and applies store upgrades
-			app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
-		}
-		fmt.Println("########################## SIXNET ##########################")
+	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
+	if err != nil {
+		panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
 	}
+
+	if upgradeInfo.Name == UpgradeName && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
+		storeUpgrades := store.StoreUpgrades{
+			Added:   []string{evmtypes.ModuleName, feemarkettypes.ModuleName, erc20types.ModuleName},
+			Deleted: []string{"wasm"},
+		}
+		// configure store loader that checks if version == upgradeHeight and applies store upgrades
+		app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
+	}
+}
+
+func (app *App) VersionTriggerFivenet() {
+	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
+	if err != nil {
+		panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
+	}
+
+	if upgradeInfo.Name == UpgradeName && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
+		storeUpgrades := store.StoreUpgrades{}
+		// configure store loader that checks if version == upgradeHeight and applies store upgrades
+		app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
+	}
+
 }
 
 func (app *App) RegisterUpgradeHandlers() {
