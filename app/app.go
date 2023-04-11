@@ -794,6 +794,7 @@ func New(
 	app.mm.RegisterServices(cfg)
 	app.RegisterUpgradeHandlers()
 	// app.VersionTrigger()
+	app.VersionTriggerFivenet()
 
 	// create the simulation manager and define the order of the modules for deterministic simulations
 	app.sm = module.NewSimulationManager(
