@@ -25,7 +25,7 @@ const UpgradeName = "v3.1.0"
 
 func (app *App) VersionTrigger() {
 	// get chain id
-	ctx := app.NewContext(true, tmproto.Header{Height: app.LastBlockHeight()})
+	ctx := app.BaseApp.NewContext(true, tmproto.Header{Height: app.LastBlockHeight()-2})
 	if ctx.ChainID() == "fivenet" {
 		upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
 		if err != nil {
@@ -52,7 +52,7 @@ func (app *App) VersionTrigger() {
 			// configure store loader that checks if version == upgradeHeight and applies store upgrades
 			app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
 		}
-		fmt.Println("########################## FIVENET ##########################")
+		fmt.Println("########################## SIXNET ##########################")
 	}
 }
 
