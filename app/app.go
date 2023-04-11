@@ -94,6 +94,7 @@ import (
 	tmjson "github.com/tendermint/tendermint/libs/json"
 	"github.com/tendermint/tendermint/libs/log"
 	tmos "github.com/tendermint/tendermint/libs/os"
+	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 	dbm "github.com/tendermint/tm-db"
 
 	ethermintapp "github.com/evmos/ethermint/app"
@@ -793,7 +794,12 @@ func New(
 	app.configurator = module.NewConfigurator(app.appCodec, app.MsgServiceRouter(), app.GRPCQueryRouter())
 	app.mm.RegisterServices(cfg)
 	app.RegisterUpgradeHandlers()
-	app.VersionTrigger()
+	ctx := app.BaseApp.NewContext(true, tmproto.Header{Height: app.LastBlockHeight()})
+	if ctx.ChainID() == "fivenet" {
+		app.VersionTriggerFivenet()
+	}else if ctx.ChainID() == "sixnet" {
+		app.VersionTrigger()
+	}
 
 	// create the simulation manager and define the order of the modules for deterministic simulations
 	app.sm = module.NewSimulationManager(
