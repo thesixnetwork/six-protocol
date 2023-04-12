@@ -23,12 +23,14 @@ import (
 )
 
 const UpgradeName = "v3.1.0"
-var CHAINID *big.Int
+// CHAIN ID will save pointer of string
+var CHAINID *string
 
 func (app *App) VersionTrigger() {
 	// sixnetChainID := big.NewInt(etherminttypes.CHAINID_NUMBER_MAINNET)
-	fivnetChainID := big.NewInt(etherminttypes.CHAINID_NUMBER_TESTNET)
-	if CHAINID == fivnetChainID {
+	// fivnetChainID := big.NewInt(etherminttypes.CHAINID_NUMBER_TESTNET)
+	fmt.Println("########################## CHAINID ##########################", *CHAINID)
+	if *CHAINID == "fivenet" {
 		fmt.Println("########################## FIVENET ##########################")
 		upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
 		if err != nil {
@@ -342,8 +344,9 @@ func (app *App) RegisterUpgradeHandlers() {
 			action_signer.CreationFlow = nftoraclemoduletypes.CreationFlow_INTERNAL_OWNER
 			app.NftoracleKeeper.SetActionSigner(ctx, action_signer)
 		}
-		
-		CHAINID = app.EVMKeeper.ChainID()
+
+		stringChainId := ctx.ChainID()
+		CHAINID = &stringChainId
 		return app.mm.RunMigrations(ctx, app.configurator, vm)
 	})
 }
