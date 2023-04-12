@@ -23,6 +23,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/version"
 	"github.com/cosmos/cosmos-sdk/x/auth"
 	appante "github.com/thesixnetwork/six-protocol/app/ante"
+
 	// authrest "github.com/cosmos/cosmos-sdk/x/auth/client/rest"
 	authkeeper "github.com/cosmos/cosmos-sdk/x/auth/keeper"
 	// authsims "github.com/cosmos/cosmos-sdk/x/auth/simulation"

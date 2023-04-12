@@ -1,26 +1,26 @@
 package cli
 
 import (
-	"fmt"
 	"strconv"
 
+	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/spf13/cobra"
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
 var _ = strconv.Itoa(0)
 
-func CmdConvertToMicro() *cobra.Command {
+func CmdSendAsix() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "convert-to-micro [amount] [RECEIVER(optional)]",
-		Short: "Convert native token from 10^18 to native token 10^6",
-		Args:  cobra.RangeArgs(1, 2),
+		Use:   "send-asix [eth-address] [amount]",
+		Short: "Send asix amount to Eth address",
+		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-			coins, err := sdk.ParseCoinNormalized(args[0])
+			argEthAddress := args[0]
+			coins, err := sdk.ParseCoinNormalized(args[1])
 			if err != nil {
 				return err
 			}
@@ -30,22 +30,10 @@ func CmdConvertToMicro() *cobra.Command {
 				return err
 			}
 
-			creator := clientCtx.GetFromAddress().String()
-			var receiver string
-			if len(args) == 2 {
-				receiver = args[1]
-				_, err := sdk.AccAddressFromBech32(receiver)
-				if err != nil {
-					return fmt.Errorf("invalid receiver address: %s", err)
-				}
-			} else {
-				receiver = creator
-			}
-
-			msg := types.NewMsgConvertToMicro(
+			msg := types.NewMsgSendAsix(
 				clientCtx.GetFromAddress().String(),
+				argEthAddress,
 				coins,
-				receiver,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err

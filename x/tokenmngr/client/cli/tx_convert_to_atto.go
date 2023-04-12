@@ -18,7 +18,7 @@ var _ = strconv.Itoa(0)
 func CmdConvertToAtto() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "convert-to-atto [amount] [RECEIVER(optional)]",
-		Short: "Convert native token from 10^6 to native token 10^18 for usign with Evm",
+		Short: "Convert native token from 10^6 to native token 10^18",
 		Args:  cobra.RangeArgs(1, 2),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			coins, err := sdk.ParseCoinNormalized(args[0])
