@@ -23,6 +23,6 @@ func (k msgServer) EnableContractConverter(goCtx context.Context, msg *types.Msg
 
 	return &types.MsgEnableContractConverterResponse{
 		ContractAddress: evmParams.ConverterParams.ConverterContract,
-		Enable: 		msg.Enable,
+		Enable:          msg.Enable,
 	}, nil
 }
