@@ -23,17 +23,12 @@ import (
 )
 
 const UpgradeName = "v3.1.0"
+var CHAINID *big.Int
 
 func (app *App) VersionTrigger() {
+	// sixnetChainID := big.NewInt(etherminttypes.CHAINID_NUMBER_MAINNET)
 	fivnetChainID := big.NewInt(etherminttypes.CHAINID_NUMBER_TESTNET)
-	chainNumber := app.EVMKeeper.ChainID()
-	// query keeper to get the current chainID
-	evm_denom, ok := app.ParamsKeeper.GetSubspace("evm")
-	if !ok {
-		panic("failed to get evm subspace")
-	}
-	fmt.Println("########################## EVM DENOM ##########################",evm_denom)
-	if chainNumber == fivnetChainID {
+	if CHAINID == fivnetChainID {
 		fmt.Println("########################## FIVENET ##########################")
 		upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
 		if err != nil {
@@ -51,7 +46,6 @@ func (app *App) VersionTrigger() {
 		if err != nil {
 			panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
 		}
-
 		if upgradeInfo.Name == UpgradeName && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
 			storeUpgrades := store.StoreUpgrades{
 				Added:   []string{evmtypes.ModuleName, feemarkettypes.ModuleName, erc20types.ModuleName},
@@ -348,6 +342,8 @@ func (app *App) RegisterUpgradeHandlers() {
 			action_signer.CreationFlow = nftoraclemoduletypes.CreationFlow_INTERNAL_OWNER
 			app.NftoracleKeeper.SetActionSigner(ctx, action_signer)
 		}
+		
+		CHAINID = app.EVMKeeper.ChainID()
 		return app.mm.RunMigrations(ctx, app.configurator, vm)
 	})
 }
