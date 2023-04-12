@@ -21,10 +21,11 @@ import (
 )
 
 const UpgradeName = "v3.1.0"
+
 // CHAIN ID will save pointer of string
 var CHAINID string
 
-func (app *App) RegisterUpgradeHandlers() {
+func (app *App) RegisterUpgradeHandlers() string {
 	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
 		if ctx.ChainID() == "fivenet" {
 			return app.mm.RunMigrations(ctx, app.configurator, vm)
@@ -313,38 +314,35 @@ func (app *App) RegisterUpgradeHandlers() {
 		CHAINID = ctx.ChainID()
 		return app.mm.RunMigrations(ctx, app.configurator, vm)
 	})
+
+	return CHAINID
 }
 
-
 func (app *App) VersionTrigger() {
-	// sixnetChainID := big.NewInt(etherminttypes.CHAINID_NUMBER_MAINNET)
-	// fivnetChainID := big.NewInt(etherminttypes.CHAINID_NUMBER_TESTNET)
-	fmt.Println("########################## CHAINID ##########################", CHAINID)
-	if CHAINID == "fivenet" {
-		fmt.Println("########################## FIVENET ##########################")
-		upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
-		if err != nil {
-			panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
+	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
+	if err != nil {
+		panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
+	}
+	if upgradeInfo.Name == UpgradeName && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
+		storeUpgrades := store.StoreUpgrades{
+			Added:   []string{evmtypes.ModuleName, feemarkettypes.ModuleName, erc20types.ModuleName},
+			Deleted: []string{"wasm"},
 		}
+		// configure store loader that checks if version == upgradeHeight and applies store upgrades
+		app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
+	}
+}
 
-		if upgradeInfo.Name == UpgradeName && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
-			storeUpgrades := store.StoreUpgrades{}
-			// configure store loader that checks if version == upgradeHeight and applies store upgrades
-			app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
-		}
-	} else {
-		fmt.Println("########################## SIXNET ##########################")
-		upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
-		if err != nil {
-			panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
-		}
-		if upgradeInfo.Name == UpgradeName && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
-			storeUpgrades := store.StoreUpgrades{
-				Added:   []string{evmtypes.ModuleName, feemarkettypes.ModuleName, erc20types.ModuleName},
-				Deleted: []string{"wasm"},
-			}
-			// configure store loader that checks if version == upgradeHeight and applies store upgrades
-			app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
-		}
+func (app *App) VersionTriggerFivenet() {
+	fmt.Println("########################## FIVENET ##########################")
+	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
+	if err != nil {
+		panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
+	}
+
+	if upgradeInfo.Name == UpgradeName && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
+		storeUpgrades := store.StoreUpgrades{}
+		// configure store loader that checks if version == upgradeHeight and applies store upgrades
+		app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
 	}
 }
