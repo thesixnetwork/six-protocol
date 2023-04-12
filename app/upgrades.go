@@ -22,10 +22,7 @@ import (
 
 const UpgradeName = "v3.1.0"
 
-// CHAIN ID will save pointer of string
-var CHAINID string
-
-func (app *App) RegisterUpgradeHandlers() string {
+func (app *App) RegisterUpgradeHandlers() {
 	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
 		if ctx.ChainID() == "fivenet" {
 			return app.mm.RunMigrations(ctx, app.configurator, vm)
@@ -311,11 +308,8 @@ func (app *App) RegisterUpgradeHandlers() string {
 			app.NftoracleKeeper.SetActionSigner(ctx, action_signer)
 		}
 
-		CHAINID = ctx.ChainID()
 		return app.mm.RunMigrations(ctx, app.configurator, vm)
 	})
-
-	return CHAINID
 }
 
 func (app *App) VersionTrigger() {
@@ -334,7 +328,6 @@ func (app *App) VersionTrigger() {
 }
 
 func (app *App) VersionTriggerFivenet() {
-	fmt.Println("########################## FIVENET ##########################")
 	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
 	if err != nil {
 		panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
