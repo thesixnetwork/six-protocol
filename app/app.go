@@ -792,12 +792,7 @@ func New(
 	app.mm.RegisterRoutes(app.Router(), app.QueryRouter(), encodingConfig.Amino)
 	app.configurator = module.NewConfigurator(app.appCodec, app.MsgServiceRouter(), app.GRPCQueryRouter())
 	app.mm.RegisterServices(cfg)
-	chainId := app.RegisterUpgradeHandlers()
-	if chainId == "fivent" {
-		app.VersionTriggerFivenet()
-	}else if chainId == "sixnet"{
-		app.VersionTrigger()
-	}
+	app.VersionTriggerFivenet()
 
 	// create the simulation manager and define the order of the modules for deterministic simulations
 	app.sm = module.NewSimulationManager(
