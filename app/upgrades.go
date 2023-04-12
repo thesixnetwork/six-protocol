@@ -2,7 +2,6 @@ package app
 
 import (
 	"fmt"
-	"math/big"
 	"strings"
 	"time"
 
@@ -12,7 +11,6 @@ import (
 	banktype "github.com/cosmos/cosmos-sdk/x/bank/types"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 
-	etherminttypes "github.com/evmos/ethermint/types"
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
 	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
 	erc20types "github.com/evmos/evmos/v6/x/erc20/types"
