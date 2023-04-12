@@ -25,7 +25,6 @@ import (
 const UpgradeName = "v3.1.0"
 
 func (app *App) VersionTrigger() {
-	sixnetChainID := big.NewInt(etherminttypes.CHAINID_NUMBER_MAINNET)
 	fivnetChainID := big.NewInt(etherminttypes.CHAINID_NUMBER_TESTNET)
 	chainNumber := app.EVMKeeper.ChainID()
 	if chainNumber == fivnetChainID {
@@ -40,7 +39,7 @@ func (app *App) VersionTrigger() {
 			// configure store loader that checks if version == upgradeHeight and applies store upgrades
 			app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
 		}
-	} else if chainNumber == sixnetChainID {
+	} else{
 		fmt.Println("########################## SIXNET ##########################")
 		upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
 		if err != nil {
