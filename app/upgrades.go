@@ -2,7 +2,7 @@ package app
 
 import (
 	"fmt"
-	// "math/big"
+	"math/big"
 	"strings"
 	"time"
 
@@ -12,7 +12,7 @@ import (
 	banktype "github.com/cosmos/cosmos-sdk/x/bank/types"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 
-	// etherminttypes "github.com/evmos/ethermint/types"
+	etherminttypes "github.com/evmos/ethermint/types"
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
 	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
 	erc20types "github.com/evmos/evmos/v6/x/erc20/types"
@@ -25,23 +25,45 @@ import (
 const UpgradeName = "v3.1.0"
 
 func (app *App) VersionTrigger() {
-	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
-	if err != nil {
-		panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
-	}
-
-	if upgradeInfo.Name == UpgradeName && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
-		storeUpgrades := store.StoreUpgrades{
-			Added:   []string{evmtypes.ModuleName, feemarkettypes.ModuleName, erc20types.ModuleName},
-			Deleted: []string{"wasm"},
+	sixnetChainID := big.NewInt(etherminttypes.CHAINID_NUMBER_MAINNET)
+	fivnetChainID := big.NewInt(etherminttypes.CHAINID_NUMBER_TESTNET)
+	chainNumber := app.EVMKeeper.ChainID()
+	if chainNumber == fivnetChainID {
+		fmt.Println("########################## FIVENET ##########################")
+		upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
+		if err != nil {
+			panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
 		}
-		// configure store loader that checks if version == upgradeHeight and applies store upgrades
-		app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
+
+		if upgradeInfo.Name == UpgradeName && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
+			storeUpgrades := store.StoreUpgrades{}
+			// configure store loader that checks if version == upgradeHeight and applies store upgrades
+			app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
+		}
+	} else if chainNumber == sixnetChainID {
+		fmt.Println("########################## SIXNET ##########################")
+		upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
+		if err != nil {
+			panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
+		}
+
+		if upgradeInfo.Name == UpgradeName && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
+			storeUpgrades := store.StoreUpgrades{
+				Added:   []string{evmtypes.ModuleName, feemarkettypes.ModuleName, erc20types.ModuleName},
+				Deleted: []string{"wasm"},
+			}
+			// configure store loader that checks if version == upgradeHeight and applies store upgrades
+			app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
+		}
 	}
 }
 
 func (app *App) RegisterUpgradeHandlers() {
 	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {		
+		if ctx.ChainID() == "fivenet" {
+			return app.mm.RunMigrations(ctx, app.configurator, vm)
+		}
+
 		// ** Migrate store keys from v2.1.0 to v2.2.0 **
 		// * Module Tokenmngr *
 
