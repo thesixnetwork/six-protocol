@@ -349,6 +349,13 @@ func (app *App) RegisterUpgradeHandlers() {
 
 		}
 
+		evm_params := app.EVMKeeper.GetParams(ctx)
+		evm_params.ConverterParams.ConverterContract = ""
+		evm_params.ConverterParams.Enable = false
+		evm_params.ConverterParams.EventAbi = ""
+		evm_params.ConverterParams.EventName = ""
+		evm_params.ConverterParams.EventTuple = ""
+		app.EVMKeeper.SetParams(ctx, evm_params)
 		return app.mm.RunMigrations(ctx, app.configurator, vm)
 	})
 }
