@@ -27,6 +27,12 @@ const UpgradeName = "v3.1.0"
 func (app *App) VersionTrigger() {
 	fivnetChainID := big.NewInt(etherminttypes.CHAINID_NUMBER_TESTNET)
 	chainNumber := app.EVMKeeper.ChainID()
+	// query keeper to get the current chainID
+	evm_denom, ok := app.ParamsKeeper.GetSubspace("evm")
+	if !ok {
+		panic("failed to get evm subspace")
+	}
+	fmt.Println("########################## EVM DENOM ##########################",evm_denom)
 	if chainNumber == fivnetChainID {
 		fmt.Println("########################## FIVENET ##########################")
 		upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
@@ -39,7 +45,7 @@ func (app *App) VersionTrigger() {
 			// configure store loader that checks if version == upgradeHeight and applies store upgrades
 			app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
 		}
-	} else{
+	} else {
 		fmt.Println("########################## SIXNET ##########################")
 		upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
 		if err != nil {
@@ -58,7 +64,7 @@ func (app *App) VersionTrigger() {
 }
 
 func (app *App) RegisterUpgradeHandlers() {
-	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {		
+	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
 		if ctx.ChainID() == "fivenet" {
 			return app.mm.RunMigrations(ctx, app.configurator, vm)
 		}
@@ -324,7 +330,7 @@ func (app *App) RegisterUpgradeHandlers() {
 			Address: token_admin.Owner,
 			Creator: super_admin.Owner,
 		})
-		
+
 		// * Module NFT ORACLE *
 		// set nft duration
 		var oracle_params nftoraclemoduletypes.Params
