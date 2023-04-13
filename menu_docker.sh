@@ -1,6 +1,6 @@
 default_github_token=$GIT_TOKEN
 default_six_home=six_home
-default_docker_tag="2.3.0"
+default_docker_tag="3.1.0"
 node_homes=(
     sixnode0
     sixnode1
@@ -34,7 +34,7 @@ function setUpGenesis(){
     ## config genesis.json
 
     ## bank
-    jq '.app_state.bank.params.send_enabled[0] = {"denom": "usix","enabled": true}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
+    jq '.app_state.bank.params.send_enabled[0] = {"denom": "usix","enabled": true}' ./build/sixnode0/config/genesiys.json | sponge ./build/sixnode0/config/genesis.json
     jq '.app_state.bank.denom_metadata[0] =  {"description": "The native staking token of the SIX Protocol.","denom_units": [{"denom": "usix","exponent": 0,"aliases": .microsix},{"denom": "msix","exponent": 3,"aliases": .millisix},{"denom": "six","exponent": 6,"aliases": []}],"base": "usix","display": "six","name": "Six token","symbol": "six"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
     jq '.app_state.bank.denom_metadata[1] =  {"description": "The native evm token of the SIX Protocol.","denom_units": [{"denom": "asix","exponent": 0,"aliases": .attosix},{"denom": "usix","exponent": 12,"aliases": .microsix},{"denom": "msix","exponent": 15,"aliases": .millisix},{"denom": "six","exponent": 18,"aliases": []}],"base": "asix","display": "asix","name": "aSIX token","symbol": "asix"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
 
