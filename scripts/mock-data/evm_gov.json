@@ -1,0 +1,13 @@
+{
+    "title": "Parameter changes for EVMDenom",
+    "description": "If passed, EVMDenom will be change",
+    "changes": [
+      {
+        "subspace": "evm",
+        "key": "EVMDenom",
+        "value": "asix"
+      }
+    ],
+    "deposit": "100000000usix"
+  }
+  
