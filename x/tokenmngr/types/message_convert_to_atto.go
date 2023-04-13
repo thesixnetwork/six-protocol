@@ -9,10 +9,11 @@ const TypeMsgConvertToAtto = "convert_to_atto"
 
 var _ sdk.Msg = &MsgConvertToAtto{}
 
-func NewMsgConvertToAtto(creator string, amount sdk.Coin) *MsgConvertToAtto {
+func NewMsgConvertToAtto(creator string, amount sdk.Coin, receiver string) *MsgConvertToAtto {
 	return &MsgConvertToAtto{
-		Creator: creator,
-		Amount:  amount,
+		Creator:  creator,
+		Amount:   amount,
+		Receiver: receiver,
 	}
 }
 

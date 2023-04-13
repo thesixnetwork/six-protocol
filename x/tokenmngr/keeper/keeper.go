@@ -23,6 +23,7 @@ type (
 		bankKeeper          types.BankKeeper
 		accountKeeper       types.AccountKeeper
 		protocoladminKeeper types.ProtocoladminKeeper
+		evmKeeper           types.EVMKeeper
 	}
 )
 
@@ -37,6 +38,7 @@ func NewKeeper(
 	bankKeeper types.BankKeeper,
 	accountKeeper types.AccountKeeper,
 	protocoladminKeeper types.ProtocoladminKeeper,
+	evmKeeper types.EVMKeeper,
 ) *Keeper {
 	// set KeyTable if it has not already been set
 	if !ps.HasKeyTable() {
@@ -55,7 +57,7 @@ func NewKeeper(
 		storeKey:   storeKey,
 		memKey:     memKey,
 		paramstore: ps,
-		bankKeeper: bankKeeper, accountKeeper: accountKeeper, protocoladminKeeper: protocoladminKeeper,
+		bankKeeper: bankKeeper, accountKeeper: accountKeeper, protocoladminKeeper: protocoladminKeeper, evmKeeper: evmKeeper,
 	}
 }
 
