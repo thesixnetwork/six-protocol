@@ -8,21 +8,21 @@ import (
 	"github.com/thesixnetwork/six-protocol/testutil/sample"
 )
 
-func TestMsgSendAsix_ValidateBasic(t *testing.T) {
+func TestMsgWrapToken_ValidateBasic(t *testing.T) {
 	tests := []struct {
 		name string
-		msg  MsgSendAsix
+		msg  MsgWrapToken
 		err  error
 	}{
 		{
 			name: "invalid address",
-			msg: MsgSendAsix{
+			msg: MsgWrapToken{
 				Creator: "invalid_address",
 			},
 			err: sdkerrors.ErrInvalidAddress,
 		}, {
 			name: "valid address",
-			msg: MsgSendAsix{
+			msg: MsgWrapToken{
 				Creator: sample.AccAddress(),
 			},
 		},

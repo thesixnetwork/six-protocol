@@ -8,21 +8,21 @@ import (
 	"github.com/thesixnetwork/six-protocol/testutil/sample"
 )
 
-func TestMsgConvertToMicro_ValidateBasic(t *testing.T) {
+func TestMsgSendWrapToken_ValidateBasic(t *testing.T) {
 	tests := []struct {
 		name string
-		msg  MsgConvertToMicro
+		msg  MsgSendWrapToken
 		err  error
 	}{
 		{
 			name: "invalid address",
-			msg: MsgConvertToMicro{
+			msg: MsgSendWrapToken{
 				Creator: "invalid_address",
 			},
 			err: sdkerrors.ErrInvalidAddress,
 		}, {
 			name: "valid address",
-			msg: MsgConvertToMicro{
+			msg: MsgSendWrapToken{
 				Creator: sample.AccAddress(),
 			},
 		},
