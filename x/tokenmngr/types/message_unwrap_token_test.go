@@ -8,21 +8,21 @@ import (
 	"github.com/thesixnetwork/six-protocol/testutil/sample"
 )
 
-func TestMsgConvertToAtto_ValidateBasic(t *testing.T) {
+func TestMsgUnwrapToken_ValidateBasic(t *testing.T) {
 	tests := []struct {
 		name string
-		msg  MsgConvertToAtto
+		msg  MsgUnwrapToken
 		err  error
 	}{
 		{
 			name: "invalid address",
-			msg: MsgConvertToAtto{
+			msg: MsgUnwrapToken{
 				Creator: "invalid_address",
 			},
 			err: sdkerrors.ErrInvalidAddress,
 		}, {
 			name: "valid address",
-			msg: MsgConvertToAtto{
+			msg: MsgUnwrapToken{
 				Creator: sample.AccAddress(),
 			},
 		},
