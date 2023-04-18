@@ -43604,6 +43604,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -43862,6 +43865,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -44061,6 +44067,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -44189,6 +44198,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -44320,6 +44332,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -44494,6 +44509,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -73169,36 +73187,6 @@ definitions:
       id:
         type: string
         format: uint64
-  thesixnetwork.sixprotocol.tokenmngr.MsgConvertToAttoResponse:
-    type: object
-    properties:
-      amount:
-        type: object
-        properties:
-          denom:
-            type: string
-          amount:
-            type: string
-        description: |-
-          Coin defines a token with a denomination and an amount.
-
-          NOTE: The amount field is an Int which implements the custom method
-          signatures required by gogoproto.
-  thesixnetwork.sixprotocol.tokenmngr.MsgConvertToMicroResponse:
-    type: object
-    properties:
-      amount:
-        type: object
-        properties:
-          denom:
-            type: string
-          amount:
-            type: string
-        description: |-
-          Coin defines a token with a denomination and an amount.
-
-          NOTE: The amount field is an Int which implements the custom method
-          signatures required by gogoproto.
   thesixnetwork.sixprotocol.tokenmngr.MsgCreateMintpermResponse:
     type: object
   thesixnetwork.sixprotocol.tokenmngr.MsgCreateOptionsResponse:
@@ -73220,7 +73208,7 @@ definitions:
         type: boolean
   thesixnetwork.sixprotocol.tokenmngr.MsgMintResponse:
     type: object
-  thesixnetwork.sixprotocol.tokenmngr.MsgSendAsixResponse:
+  thesixnetwork.sixprotocol.tokenmngr.MsgSendWrapTokenResponse:
     type: object
     properties:
       receiver:
@@ -73234,12 +73222,42 @@ definitions:
         type: string
       abi:
         type: string
+  thesixnetwork.sixprotocol.tokenmngr.MsgUnwrapTokenResponse:
+    type: object
+    properties:
+      amount:
+        type: object
+        properties:
+          denom:
+            type: string
+          amount:
+            type: string
+        description: |-
+          Coin defines a token with a denomination and an amount.
+
+          NOTE: The amount field is an Int which implements the custom method
+          signatures required by gogoproto.
   thesixnetwork.sixprotocol.tokenmngr.MsgUpdateMintpermResponse:
     type: object
   thesixnetwork.sixprotocol.tokenmngr.MsgUpdateOptionsResponse:
     type: object
   thesixnetwork.sixprotocol.tokenmngr.MsgUpdateTokenResponse:
     type: object
+  thesixnetwork.sixprotocol.tokenmngr.MsgWrapTokenResponse:
+    type: object
+    properties:
+      amount:
+        type: object
+        properties:
+          denom:
+            type: string
+          amount:
+            type: string
+        description: |-
+          Coin defines a token with a denomination and an amount.
+
+          NOTE: The amount field is an Int which implements the custom method
+          signatures required by gogoproto.
   thesixnetwork.sixprotocol.tokenmngr.Options:
     type: object
     properties:
