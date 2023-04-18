@@ -1,0 +1,251 @@
+{
+    "accounts": [
+        {
+            "@type": "/cosmos.auth.v1beta1.ModuleAccount",
+            "base_account": {
+                "address": "6x1ygd4j89shnape8haprhckg0jlr8xqajxhdd9h6",
+                "pub_key": null,
+                "account_number": "22",
+                "sequence": "0"
+            },
+            "name": "tokenmngr",
+            "permissions": [
+                "minter",
+                "burner",
+                "staking"
+            ]
+        },
+        {
+            "@type": "/cosmos.auth.v1beta1.ModuleAccount",
+            "base_account": {
+                "address": "6x1yl6hdjhmkf37639730gffanpzndzdpmhp3pur3",
+                "pub_key": null,
+                "account_number": "19",
+                "sequence": "0"
+            },
+            "name": "transfer",
+            "permissions": [
+                "minter",
+                "burner"
+            ]
+        },
+        {
+            "@type": "/cosmos.auth.v1beta1.ModuleAccount",
+            "base_account": {
+                "address": "6x1glht96kr2rseywuvhhay894qw7ekuc4q92y0a5",
+                "pub_key": null,
+                "account_number": "20",
+                "sequence": "0"
+            },
+            "name": "erc20",
+            "permissions": [
+                "minter",
+                "burner"
+            ]
+        },
+        {
+            "@type": "/cosmos.auth.v1beta1.BaseAccount",
+            "address": "6x1fra02rs0864jmw8z3kj2tf7njfdlq0yunnh6j6",
+            "pub_key": null,
+            "account_number": "11",
+            "sequence": "0"
+        },
+        {
+            "@type": "/cosmos.auth.v1beta1.ModuleAccount",
+            "base_account": {
+                "address": "6x1fl48vsnmsdzcv85q5d2q4z5ajdha8yu36476d9",
+                "pub_key": null,
+                "account_number": "15",
+                "sequence": "0"
+            },
+            "name": "bonded_tokens_pool",
+            "permissions": [
+                "burner",
+                "staking"
+            ]
+        },
+        {
+            "@type": "/cosmos.auth.v1beta1.BaseAccount",
+            "address": "6x12jdppkaq38jtl5ef4fexm95v3jjzyt68cntqnc",
+            "pub_key": null,
+            "account_number": "1",
+            "sequence": "1"
+        },
+        {
+            "@type": "/cosmos.auth.v1beta1.ModuleAccount",
+            "base_account": {
+                "address": "6x1tygms3xhhs3yv487phx3dw4a95jn7t7lw4ztm3",
+                "pub_key": null,
+                "account_number": "16",
+                "sequence": "0"
+            },
+            "name": "not_bonded_tokens_pool",
+            "permissions": [
+                "burner",
+                "staking"
+            ]
+        },
+        {
+            "@type": "/cosmos.auth.v1beta1.BaseAccount",
+            "address": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv",
+            "pub_key": {
+                "@type": "/cosmos.crypto.secp256k1.PubKey",
+                "key": "A7t5timxC3BgLj05BKgqnDPHeDpFtNZz8YpZ5rfwMbhR"
+            },
+            "account_number": "5",
+            "sequence": "3"
+        },
+        {
+            "@type": "/cosmos.auth.v1beta1.BaseAccount",
+            "address": "6x1v23u9k5c8pwm87jtvxwwmuzt8nj250xu4lr4vh",
+            "pub_key": {
+                "@type": "/cosmos.crypto.secp256k1.PubKey",
+                "key": "A/Z4mNtW9EtAXhGs0jaOEPmDxxbkoUqGvpmSOTRGampS"
+            },
+            "account_number": "23",
+            "sequence": "1"
+        },
+        {
+            "@type": "/cosmos.auth.v1beta1.BaseAccount",
+            "address": "6x1d5auhw4hfg49fmzfngpaz98vn4f59yazj4r4un",
+            "pub_key": null,
+            "account_number": "8",
+            "sequence": "0"
+        },
+        {
+            "@type": "/cosmos.auth.v1beta1.ModuleAccount",
+            "base_account": {
+                "address": "6x10d07y265gmmuvt4z0w9aw880jnsr700j4vyszp",
+                "pub_key": null,
+                "account_number": "17",
+                "sequence": "0"
+            },
+            "name": "gov",
+            "permissions": [
+                "burner"
+            ]
+        },
+        {
+            "@type": "/ethermint.types.v1.EthAccount",
+            "base_account": {
+                "address": "6x10dct43uzk9gfm6qh7d2j59zmzgme4jlgmyp9ur",
+                "pub_key": null,
+                "account_number": "21",
+                "sequence": "1"
+            },
+            "code_hash": "0xbdc7a0434d42f072ba49c59918cc17eb3d2aa276029a5353596198ed9a817eb7"
+        },
+        {
+            "@type": "/cosmos.auth.v1beta1.BaseAccount",
+            "address": "6x13g50hqdqsjk85fmgqz2h5xdxq49lsmjdwlemsp",
+            "pub_key": null,
+            "account_number": "2",
+            "sequence": "0"
+        },
+        {
+            "@type": "/cosmos.auth.v1beta1.ModuleAccount",
+            "base_account": {
+                "address": "6x1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8g3nfad",
+                "pub_key": null,
+                "account_number": "14",
+                "sequence": "0"
+            },
+            "name": "distribution",
+            "permissions": []
+        },
+        {
+            "@type": "/cosmos.auth.v1beta1.BaseAccount",
+            "address": "6x1kj9tl6pavd4825atx0e959unjt7g2l35knjtkm",
+            "pub_key": null,
+            "account_number": "12",
+            "sequence": "0"
+        },
+        {
+            "@type": "/cosmos.auth.v1beta1.BaseAccount",
+            "address": "6x1kch0sdjr5tuvjh0h3a55c6l5sr6m0phjeag9f2",
+            "pub_key": null,
+            "account_number": "24",
+            "sequence": "0"
+        },
+        {
+            "@type": "/cosmos.auth.v1beta1.BaseAccount",
+            "address": "6x1kl7qw9jw0zatph3jc7mdaf3xd5p7aw4ertkm6r",
+            "pub_key": null,
+            "account_number": "9",
+            "sequence": "0"
+        },
+        {
+            "@type": "/cosmos.auth.v1beta1.BaseAccount",
+            "address": "6x1clup6q6ucfdp4tg2r6zv82eu2m8xdegsu8qmqa",
+            "pub_key": null,
+            "account_number": "6",
+            "sequence": "0"
+        },
+        {
+            "@type": "/cosmos.auth.v1beta1.BaseAccount",
+            "address": "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq",
+            "pub_key": {
+                "@type": "/cosmos.crypto.secp256k1.PubKey",
+                "key": "A7ORN3A8TuvNIq3uzfJZn/aEntUXfK9/GKBfm7lZArwE"
+            },
+            "account_number": "0",
+            "sequence": "6"
+        },
+        {
+            "@type": "/cosmos.auth.v1beta1.BaseAccount",
+            "address": "6x1mvw6jk5wuhxmyd0edgj9d3d0nr5amrmx7krnwa",
+            "pub_key": null,
+            "account_number": "7",
+            "sequence": "0"
+        },
+        {
+            "@type": "/cosmos.auth.v1beta1.ModuleAccount",
+            "base_account": {
+                "address": "6x1m3h30wlvsf8llruxtpukdvsy0km2kum88lsdnj",
+                "pub_key": null,
+                "account_number": "18",
+                "sequence": "0"
+            },
+            "name": "mint",
+            "permissions": [
+                "minter"
+            ]
+        },
+        {
+            "@type": "/cosmos.auth.v1beta1.BaseAccount",
+            "address": "6x1u2sfj9h99mcrdzgvak2zz22g96a4qe5lmhhed0",
+            "pub_key": null,
+            "account_number": "10",
+            "sequence": "0"
+        },
+        {
+            "@type": "/cosmos.auth.v1beta1.BaseAccount",
+            "address": "6x1a6uh8ckjt9pxzl5kah3ng04f902f69scev8t2s",
+            "pub_key": null,
+            "account_number": "4",
+            "sequence": "0"
+        },
+        {
+            "@type": "/cosmos.auth.v1beta1.ModuleAccount",
+            "base_account": {
+                "address": "6x17xpfvakm2amg962yls6f84z3kell8c5llh54l0",
+                "pub_key": null,
+                "account_number": "13",
+                "sequence": "0"
+            },
+            "name": "fee_collector",
+            "permissions": []
+        },
+        {
+            "@type": "/cosmos.auth.v1beta1.BaseAccount",
+            "address": "6x1lfdxvzkkfehhnpwhzh6x56kv4szyx598p84rw6",
+            "pub_key": null,
+            "account_number": "3",
+            "sequence": "0"
+        }
+    ],
+    "pagination": {
+        "next_key": null,
+        "total": "0"
+    }
+}
