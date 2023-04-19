@@ -10,7 +10,7 @@ import (
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
-func (k msgServer) ConvertToAtto(goCtx context.Context, msg *types.MsgConvertToAtto) (*types.MsgConvertToAttoResponse, error) {
+func (k msgServer) WrapToken(goCtx context.Context, msg *types.MsgWrapToken) (*types.MsgWrapTokenResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	denom := msg.Amount.Denom
 	convertAmount := sdk.NewCoins(msg.Amount)
@@ -67,9 +67,9 @@ func (k msgServer) ConvertToAtto(goCtx context.Context, msg *types.MsgConvertToA
 		return nil, sdkerrors.Wrap(types.ErrSendCoinsFromAccountToModule, "Amount of token is too high than current balance due"+err.Error())
 	}
 
-	if err := k.bankKeeper.BurnCoins(ctx, types.ModuleName, convertAmount); err != nil {
-		return nil, err
-	}
+	// if err := k.bankKeeper.BurnCoins(ctx, types.ModuleName, convertAmount); err != nil {
+	// 	return nil, err
+	// }
 
 	attoAmount := sdk.NewCoin("asix", msg.Amount.Amount.MulRaw(1000000000000))
 	if err := k.bankKeeper.MintCoins(ctx, types.ModuleName, sdk.NewCoins(attoAmount)); err != nil {
@@ -83,7 +83,7 @@ func (k msgServer) ConvertToAtto(goCtx context.Context, msg *types.MsgConvertToA
 		return nil, sdkerrors.Wrap(types.ErrSendCoinsFromAccountToModule, "unable to send msg.Amounts from module to account despite previously minting msg.Amounts to module account:"+err.Error())
 	}
 
-	return &types.MsgConvertToAttoResponse{
+	return &types.MsgWrapTokenResponse{
 		Amount: attoAmount,
 	}, nil
 }
