@@ -8,10 +8,10 @@ import (
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
-func (k msgServer) ConvertToMicro(goCtx context.Context, msg *types.MsgConvertToMicro) (*types.MsgConvertToMicroResponse, error) {
+func (k msgServer) UnwrapToken(goCtx context.Context, msg *types.MsgUnwrapToken) (*types.MsgUnwrapTokenResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	denom := msg.Amount.Denom
-	convertAmount := sdk.NewCoins(msg.Amount)
+	convertAmount := sdk.NewCoins(msg.Amount) // asix
 
 	// reject if denom is zero
 	if msg.Amount.Amount.IsZero() {
@@ -67,8 +67,14 @@ func (k msgServer) ConvertToMicro(goCtx context.Context, msg *types.MsgConvertTo
 	}
 
 	microSix := sdk.NewCoin("usix", msg.Amount.Amount.QuoRaw(1_000_000_000_000))
-	if err := k.bankKeeper.MintCoins(ctx, types.ModuleName, sdk.NewCoins(microSix)); err != nil {
-		return nil, err
+
+	// get the module account balance
+	tokenmngrModuleAccount := k.accountKeeper.GetModuleAddress(types.ModuleName)
+	moduleBalance := k.bankKeeper.GetBalance(ctx, tokenmngrModuleAccount, "usix")
+
+	// check if module account balance is enough to send
+	if moduleBalance.Amount.LT(microSix.Amount) {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInsufficientFunds, "module account balance is not enough to send")
 	}
 
 	// send to receiver
@@ -78,7 +84,7 @@ func (k msgServer) ConvertToMicro(goCtx context.Context, msg *types.MsgConvertTo
 		return nil, sdkerrors.Wrap(types.ErrSendCoinsFromAccountToModule, "unable to send msg.Amounts from module to account despite previously minting msg.Amounts to module account:"+err.Error())
 	}
 
-	return &types.MsgConvertToMicroResponse{
+	return &types.MsgUnwrapTokenResponse{
 		Amount: microSix,
 	}, nil
 }
