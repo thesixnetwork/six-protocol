@@ -1033,24 +1033,24 @@ func (m *MsgDeleteOptionsResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgDeleteOptionsResponse proto.InternalMessageInfo
 
-type MsgConvertToAtto struct {
+type MsgWrapToken struct {
 	Creator  string     `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
 	Amount   types.Coin `protobuf:"bytes,2,opt,name=amount,proto3,castrepeated=github.com/cosmos/cosmos-sdk/types.Coin" json:"amount"`
 	Receiver string     `protobuf:"bytes,3,opt,name=receiver,proto3" json:"receiver,omitempty"`
 }
 
-func (m *MsgConvertToAtto) Reset()         { *m = MsgConvertToAtto{} }
-func (m *MsgConvertToAtto) String() string { return proto.CompactTextString(m) }
-func (*MsgConvertToAtto) ProtoMessage()    {}
-func (*MsgConvertToAtto) Descriptor() ([]byte, []int) {
+func (m *MsgWrapToken) Reset()         { *m = MsgWrapToken{} }
+func (m *MsgWrapToken) String() string { return proto.CompactTextString(m) }
+func (*MsgWrapToken) ProtoMessage()    {}
+func (*MsgWrapToken) Descriptor() ([]byte, []int) {
 	return fileDescriptor_bf890b7429de312b, []int{22}
 }
-func (m *MsgConvertToAtto) XXX_Unmarshal(b []byte) error {
+func (m *MsgWrapToken) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgConvertToAtto) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgWrapToken) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgConvertToAtto.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgWrapToken.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -1060,55 +1060,55 @@ func (m *MsgConvertToAtto) XXX_Marshal(b []byte, deterministic bool) ([]byte, er
 		return b[:n], nil
 	}
 }
-func (m *MsgConvertToAtto) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgConvertToAtto.Merge(m, src)
+func (m *MsgWrapToken) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgWrapToken.Merge(m, src)
 }
-func (m *MsgConvertToAtto) XXX_Size() int {
+func (m *MsgWrapToken) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgConvertToAtto) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgConvertToAtto.DiscardUnknown(m)
+func (m *MsgWrapToken) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgWrapToken.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgConvertToAtto proto.InternalMessageInfo
+var xxx_messageInfo_MsgWrapToken proto.InternalMessageInfo
 
-func (m *MsgConvertToAtto) GetCreator() string {
+func (m *MsgWrapToken) GetCreator() string {
 	if m != nil {
 		return m.Creator
 	}
 	return ""
 }
 
-func (m *MsgConvertToAtto) GetAmount() types.Coin {
+func (m *MsgWrapToken) GetAmount() types.Coin {
 	if m != nil {
 		return m.Amount
 	}
 	return types.Coin{}
 }
 
-func (m *MsgConvertToAtto) GetReceiver() string {
+func (m *MsgWrapToken) GetReceiver() string {
 	if m != nil {
 		return m.Receiver
 	}
 	return ""
 }
 
-type MsgConvertToAttoResponse struct {
+type MsgWrapTokenResponse struct {
 	Amount types.Coin `protobuf:"bytes,1,opt,name=amount,proto3,castrepeated=github.com/cosmos/cosmos-sdk/types.Coin" json:"amount"`
 }
 
-func (m *MsgConvertToAttoResponse) Reset()         { *m = MsgConvertToAttoResponse{} }
-func (m *MsgConvertToAttoResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgConvertToAttoResponse) ProtoMessage()    {}
-func (*MsgConvertToAttoResponse) Descriptor() ([]byte, []int) {
+func (m *MsgWrapTokenResponse) Reset()         { *m = MsgWrapTokenResponse{} }
+func (m *MsgWrapTokenResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgWrapTokenResponse) ProtoMessage()    {}
+func (*MsgWrapTokenResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_bf890b7429de312b, []int{23}
 }
-func (m *MsgConvertToAttoResponse) XXX_Unmarshal(b []byte) error {
+func (m *MsgWrapTokenResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgConvertToAttoResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgWrapTokenResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgConvertToAttoResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgWrapTokenResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -1118,43 +1118,43 @@ func (m *MsgConvertToAttoResponse) XXX_Marshal(b []byte, deterministic bool) ([]
 		return b[:n], nil
 	}
 }
-func (m *MsgConvertToAttoResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgConvertToAttoResponse.Merge(m, src)
+func (m *MsgWrapTokenResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgWrapTokenResponse.Merge(m, src)
 }
-func (m *MsgConvertToAttoResponse) XXX_Size() int {
+func (m *MsgWrapTokenResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgConvertToAttoResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgConvertToAttoResponse.DiscardUnknown(m)
+func (m *MsgWrapTokenResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgWrapTokenResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgConvertToAttoResponse proto.InternalMessageInfo
+var xxx_messageInfo_MsgWrapTokenResponse proto.InternalMessageInfo
 
-func (m *MsgConvertToAttoResponse) GetAmount() types.Coin {
+func (m *MsgWrapTokenResponse) GetAmount() types.Coin {
 	if m != nil {
 		return m.Amount
 	}
 	return types.Coin{}
 }
 
-type MsgConvertToMicro struct {
+type MsgUnwrapToken struct {
 	Creator  string     `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
 	Amount   types.Coin `protobuf:"bytes,2,opt,name=amount,proto3,castrepeated=github.com/cosmos/cosmos-sdk/types.Coin" json:"amount"`
 	Receiver string     `protobuf:"bytes,3,opt,name=receiver,proto3" json:"receiver,omitempty"`
 }
 
-func (m *MsgConvertToMicro) Reset()         { *m = MsgConvertToMicro{} }
-func (m *MsgConvertToMicro) String() string { return proto.CompactTextString(m) }
-func (*MsgConvertToMicro) ProtoMessage()    {}
-func (*MsgConvertToMicro) Descriptor() ([]byte, []int) {
+func (m *MsgUnwrapToken) Reset()         { *m = MsgUnwrapToken{} }
+func (m *MsgUnwrapToken) String() string { return proto.CompactTextString(m) }
+func (*MsgUnwrapToken) ProtoMessage()    {}
+func (*MsgUnwrapToken) Descriptor() ([]byte, []int) {
 	return fileDescriptor_bf890b7429de312b, []int{24}
 }
-func (m *MsgConvertToMicro) XXX_Unmarshal(b []byte) error {
+func (m *MsgUnwrapToken) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgConvertToMicro) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgUnwrapToken) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgConvertToMicro.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgUnwrapToken.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -1164,55 +1164,55 @@ func (m *MsgConvertToMicro) XXX_Marshal(b []byte, deterministic bool) ([]byte, e
 		return b[:n], nil
 	}
 }
-func (m *MsgConvertToMicro) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgConvertToMicro.Merge(m, src)
+func (m *MsgUnwrapToken) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgUnwrapToken.Merge(m, src)
 }
-func (m *MsgConvertToMicro) XXX_Size() int {
+func (m *MsgUnwrapToken) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgConvertToMicro) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgConvertToMicro.DiscardUnknown(m)
+func (m *MsgUnwrapToken) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgUnwrapToken.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgConvertToMicro proto.InternalMessageInfo
+var xxx_messageInfo_MsgUnwrapToken proto.InternalMessageInfo
 
-func (m *MsgConvertToMicro) GetCreator() string {
+func (m *MsgUnwrapToken) GetCreator() string {
 	if m != nil {
 		return m.Creator
 	}
 	return ""
 }
 
-func (m *MsgConvertToMicro) GetAmount() types.Coin {
+func (m *MsgUnwrapToken) GetAmount() types.Coin {
 	if m != nil {
 		return m.Amount
 	}
 	return types.Coin{}
 }
 
-func (m *MsgConvertToMicro) GetReceiver() string {
+func (m *MsgUnwrapToken) GetReceiver() string {
 	if m != nil {
 		return m.Receiver
 	}
 	return ""
 }
 
-type MsgConvertToMicroResponse struct {
+type MsgUnwrapTokenResponse struct {
 	Amount types.Coin `protobuf:"bytes,1,opt,name=amount,proto3,castrepeated=github.com/cosmos/cosmos-sdk/types.Coin" json:"amount"`
 }
 
-func (m *MsgConvertToMicroResponse) Reset()         { *m = MsgConvertToMicroResponse{} }
-func (m *MsgConvertToMicroResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgConvertToMicroResponse) ProtoMessage()    {}
-func (*MsgConvertToMicroResponse) Descriptor() ([]byte, []int) {
+func (m *MsgUnwrapTokenResponse) Reset()         { *m = MsgUnwrapTokenResponse{} }
+func (m *MsgUnwrapTokenResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgUnwrapTokenResponse) ProtoMessage()    {}
+func (*MsgUnwrapTokenResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_bf890b7429de312b, []int{25}
 }
-func (m *MsgConvertToMicroResponse) XXX_Unmarshal(b []byte) error {
+func (m *MsgUnwrapTokenResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgConvertToMicroResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgUnwrapTokenResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgConvertToMicroResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgUnwrapTokenResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -1222,19 +1222,19 @@ func (m *MsgConvertToMicroResponse) XXX_Marshal(b []byte, deterministic bool) ([
 		return b[:n], nil
 	}
 }
-func (m *MsgConvertToMicroResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgConvertToMicroResponse.Merge(m, src)
+func (m *MsgUnwrapTokenResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgUnwrapTokenResponse.Merge(m, src)
 }
-func (m *MsgConvertToMicroResponse) XXX_Size() int {
+func (m *MsgUnwrapTokenResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgConvertToMicroResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgConvertToMicroResponse.DiscardUnknown(m)
+func (m *MsgUnwrapTokenResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgUnwrapTokenResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgConvertToMicroResponse proto.InternalMessageInfo
+var xxx_messageInfo_MsgUnwrapTokenResponse proto.InternalMessageInfo
 
-func (m *MsgConvertToMicroResponse) GetAmount() types.Coin {
+func (m *MsgUnwrapTokenResponse) GetAmount() types.Coin {
 	if m != nil {
 		return m.Amount
 	}
@@ -1473,24 +1473,24 @@ func (m *MsgEnableContractConverterResponse) GetEnable() bool {
 	return false
 }
 
-type MsgSendAsix struct {
+type MsgSendWrapToken struct {
 	Creator    string     `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
 	EthAddress string     `protobuf:"bytes,2,opt,name=ethAddress,proto3" json:"ethAddress,omitempty"`
 	Amount     types.Coin `protobuf:"bytes,3,opt,name=amount,proto3,castrepeated=github.com/cosmos/cosmos-sdk/types.Coin" json:"amount"`
 }
 
-func (m *MsgSendAsix) Reset()         { *m = MsgSendAsix{} }
-func (m *MsgSendAsix) String() string { return proto.CompactTextString(m) }
-func (*MsgSendAsix) ProtoMessage()    {}
-func (*MsgSendAsix) Descriptor() ([]byte, []int) {
+func (m *MsgSendWrapToken) Reset()         { *m = MsgSendWrapToken{} }
+func (m *MsgSendWrapToken) String() string { return proto.CompactTextString(m) }
+func (*MsgSendWrapToken) ProtoMessage()    {}
+func (*MsgSendWrapToken) Descriptor() ([]byte, []int) {
 	return fileDescriptor_bf890b7429de312b, []int{30}
 }
-func (m *MsgSendAsix) XXX_Unmarshal(b []byte) error {
+func (m *MsgSendWrapToken) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgSendAsix) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgSendWrapToken) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgSendAsix.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgSendWrapToken.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -1500,56 +1500,56 @@ func (m *MsgSendAsix) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) 
 		return b[:n], nil
 	}
 }
-func (m *MsgSendAsix) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgSendAsix.Merge(m, src)
+func (m *MsgSendWrapToken) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgSendWrapToken.Merge(m, src)
 }
-func (m *MsgSendAsix) XXX_Size() int {
+func (m *MsgSendWrapToken) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgSendAsix) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgSendAsix.DiscardUnknown(m)
+func (m *MsgSendWrapToken) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgSendWrapToken.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgSendAsix proto.InternalMessageInfo
+var xxx_messageInfo_MsgSendWrapToken proto.InternalMessageInfo
 
-func (m *MsgSendAsix) GetCreator() string {
+func (m *MsgSendWrapToken) GetCreator() string {
 	if m != nil {
 		return m.Creator
 	}
 	return ""
 }
 
-func (m *MsgSendAsix) GetEthAddress() string {
+func (m *MsgSendWrapToken) GetEthAddress() string {
 	if m != nil {
 		return m.EthAddress
 	}
 	return ""
 }
 
-func (m *MsgSendAsix) GetAmount() types.Coin {
+func (m *MsgSendWrapToken) GetAmount() types.Coin {
 	if m != nil {
 		return m.Amount
 	}
 	return types.Coin{}
 }
 
-type MsgSendAsixResponse struct {
+type MsgSendWrapTokenResponse struct {
 	Receiver string `protobuf:"bytes,1,opt,name=receiver,proto3" json:"receiver,omitempty"`
 	Amount   string `protobuf:"bytes,2,opt,name=amount,proto3" json:"amount,omitempty"`
 }
 
-func (m *MsgSendAsixResponse) Reset()         { *m = MsgSendAsixResponse{} }
-func (m *MsgSendAsixResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgSendAsixResponse) ProtoMessage()    {}
-func (*MsgSendAsixResponse) Descriptor() ([]byte, []int) {
+func (m *MsgSendWrapTokenResponse) Reset()         { *m = MsgSendWrapTokenResponse{} }
+func (m *MsgSendWrapTokenResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgSendWrapTokenResponse) ProtoMessage()    {}
+func (*MsgSendWrapTokenResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_bf890b7429de312b, []int{31}
 }
-func (m *MsgSendAsixResponse) XXX_Unmarshal(b []byte) error {
+func (m *MsgSendWrapTokenResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgSendAsixResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgSendWrapTokenResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgSendAsixResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgSendWrapTokenResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -1559,26 +1559,26 @@ func (m *MsgSendAsixResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte,
 		return b[:n], nil
 	}
 }
-func (m *MsgSendAsixResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgSendAsixResponse.Merge(m, src)
+func (m *MsgSendWrapTokenResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgSendWrapTokenResponse.Merge(m, src)
 }
-func (m *MsgSendAsixResponse) XXX_Size() int {
+func (m *MsgSendWrapTokenResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgSendAsixResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgSendAsixResponse.DiscardUnknown(m)
+func (m *MsgSendWrapTokenResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgSendWrapTokenResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgSendAsixResponse proto.InternalMessageInfo
+var xxx_messageInfo_MsgSendWrapTokenResponse proto.InternalMessageInfo
 
-func (m *MsgSendAsixResponse) GetReceiver() string {
+func (m *MsgSendWrapTokenResponse) GetReceiver() string {
 	if m != nil {
 		return m.Receiver
 	}
 	return ""
 }
 
-func (m *MsgSendAsixResponse) GetAmount() string {
+func (m *MsgSendWrapTokenResponse) GetAmount() string {
 	if m != nil {
 		return m.Amount
 	}
@@ -1608,91 +1608,91 @@ func init() {
 	proto.RegisterType((*MsgUpdateOptionsResponse)(nil), "thesixnetwork.sixprotocol.tokenmngr.MsgUpdateOptionsResponse")
 	proto.RegisterType((*MsgDeleteOptions)(nil), "thesixnetwork.sixprotocol.tokenmngr.MsgDeleteOptions")
 	proto.RegisterType((*MsgDeleteOptionsResponse)(nil), "thesixnetwork.sixprotocol.tokenmngr.MsgDeleteOptionsResponse")
-	proto.RegisterType((*MsgConvertToAtto)(nil), "thesixnetwork.sixprotocol.tokenmngr.MsgConvertToAtto")
-	proto.RegisterType((*MsgConvertToAttoResponse)(nil), "thesixnetwork.sixprotocol.tokenmngr.MsgConvertToAttoResponse")
-	proto.RegisterType((*MsgConvertToMicro)(nil), "thesixnetwork.sixprotocol.tokenmngr.MsgConvertToMicro")
-	proto.RegisterType((*MsgConvertToMicroResponse)(nil), "thesixnetwork.sixprotocol.tokenmngr.MsgConvertToMicroResponse")
+	proto.RegisterType((*MsgWrapToken)(nil), "thesixnetwork.sixprotocol.tokenmngr.MsgWrapToken")
+	proto.RegisterType((*MsgWrapTokenResponse)(nil), "thesixnetwork.sixprotocol.tokenmngr.MsgWrapTokenResponse")
+	proto.RegisterType((*MsgUnwrapToken)(nil), "thesixnetwork.sixprotocol.tokenmngr.MsgUnwrapToken")
+	proto.RegisterType((*MsgUnwrapTokenResponse)(nil), "thesixnetwork.sixprotocol.tokenmngr.MsgUnwrapTokenResponse")
 	proto.RegisterType((*MsgSetConverterParams)(nil), "thesixnetwork.sixprotocol.tokenmngr.MsgSetConverterParams")
 	proto.RegisterType((*MsgSetConverterParamsResponse)(nil), "thesixnetwork.sixprotocol.tokenmngr.MsgSetConverterParamsResponse")
 	proto.RegisterType((*MsgEnableContractConverter)(nil), "thesixnetwork.sixprotocol.tokenmngr.MsgEnableContractConverter")
 	proto.RegisterType((*MsgEnableContractConverterResponse)(nil), "thesixnetwork.sixprotocol.tokenmngr.MsgEnableContractConverterResponse")
-	proto.RegisterType((*MsgSendAsix)(nil), "thesixnetwork.sixprotocol.tokenmngr.MsgSendAsix")
-	proto.RegisterType((*MsgSendAsixResponse)(nil), "thesixnetwork.sixprotocol.tokenmngr.MsgSendAsixResponse")
+	proto.RegisterType((*MsgSendWrapToken)(nil), "thesixnetwork.sixprotocol.tokenmngr.MsgSendWrapToken")
+	proto.RegisterType((*MsgSendWrapTokenResponse)(nil), "thesixnetwork.sixprotocol.tokenmngr.MsgSendWrapTokenResponse")
 }
 
 func init() { proto.RegisterFile("tokenmngr/tx.proto", fileDescriptor_bf890b7429de312b) }
 
 var fileDescriptor_bf890b7429de312b = []byte{
-	// 1100 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xcc, 0x58, 0x4f, 0x6f, 0x1b, 0x45,
-	0x14, 0xf7, 0x24, 0x6e, 0x1a, 0xbf, 0xa8, 0x69, 0xba, 0xb4, 0xa9, 0xbb, 0x80, 0x53, 0x16, 0x24,
-	0x72, 0x68, 0x77, 0x69, 0x4b, 0x02, 0x2a, 0xa2, 0x28, 0x49, 0x11, 0xe2, 0xe0, 0x02, 0x6e, 0xb8,
-	0x80, 0x38, 0xac, 0xed, 0xa9, 0xb3, 0xc4, 0xbb, 0x63, 0xed, 0x8c, 0x8d, 0x7b, 0x21, 0x27, 0xa4,
-	0x1e, 0x41, 0xe2, 0x03, 0x54, 0xe2, 0x46, 0xe1, 0x3b, 0x70, 0xec, 0xb1, 0x47, 0x4e, 0xfc, 0x49,
-	0x24, 0xc4, 0xc7, 0x40, 0x3b, 0x33, 0x3b, 0x9e, 0x71, 0x37, 0x66, 0xd7, 0xc4, 0xb4, 0xa7, 0xcc,
-	0xbc, 0x99, 0xf7, 0x7b, 0xbf, 0xf7, 0xe6, 0xcd, 0xf8, 0xb7, 0x01, 0x8b, 0x91, 0x7d, 0x1c, 0x85,
-	0x51, 0x27, 0xf6, 0xd8, 0xd0, 0xed, 0xc5, 0x84, 0x11, 0xeb, 0x55, 0xb6, 0x87, 0x69, 0x30, 0x8c,
-	0x30, 0xfb, 0x8a, 0xc4, 0xfb, 0x2e, 0x0d, 0x86, 0xdc, 0xde, 0x22, 0x5d, 0x57, 0xed, 0xb6, 0xcf,
-	0x77, 0x48, 0x87, 0x70, 0xbb, 0x97, 0x8c, 0x84, 0xab, 0x5d, 0x6b, 0x11, 0x1a, 0x12, 0xea, 0x35,
-	0x7d, 0x8a, 0xbd, 0xc1, 0xb5, 0x26, 0x66, 0xfe, 0x35, 0xaf, 0x45, 0x82, 0x48, 0xae, 0x5f, 0xd0,
-	0xc2, 0x25, 0x23, 0x69, 0xae, 0x8e, 0xcc, 0x61, 0x10, 0xb1, 0x1e, 0x8e, 0x43, 0xb9, 0x72, 0x71,
-	0xb4, 0x42, 0x7a, 0x2c, 0x20, 0x11, 0x15, 0x0b, 0xce, 0x5f, 0x08, 0x96, 0xeb, 0xb4, 0xb3, 0x13,
-	0x63, 0x9f, 0xe1, 0xdd, 0x64, 0x93, 0x55, 0x85, 0xd3, 0xad, 0x64, 0x4a, 0xe2, 0x2a, 0xba, 0x8c,
-	0xd6, 0x2b, 0x8d, 0x74, 0x6a, 0x59, 0x50, 0x8e, 0xfc, 0x10, 0x57, 0xe7, 0xb8, 0x99, 0x8f, 0xad,
-	0x3d, 0xa8, 0x84, 0xfe, 0xf0, 0x6e, 0xbf, 0xd7, 0xeb, 0xde, 0xaf, 0xce, 0x5f, 0x46, 0xeb, 0x4b,
-	0xd7, 0x2f, 0xb9, 0x82, 0xbe, 0x9b, 0xd0, 0x77, 0x25, 0x7d, 0x77, 0x87, 0x04, 0xd1, 0xb6, 0xf7,
-	0xf8, 0xb7, 0xb5, 0xd2, 0x8f, 0xbf, 0xaf, 0xbd, 0xde, 0x09, 0xd8, 0x5e, 0xbf, 0xe9, 0xb6, 0x48,
-	0xe8, 0xc9, 0x5c, 0xc5, 0x9f, 0xab, 0xb4, 0xbd, 0xef, 0xb1, 0xfb, 0x3d, 0x4c, 0xb9, 0x43, 0x63,
-	0x04, 0x6e, 0xbd, 0x06, 0x67, 0xda, 0x38, 0x22, 0x61, 0x1d, 0x33, 0xff, 0xb6, 0xcf, 0xfc, 0x6a,
-	0x99, 0xd3, 0x30, 0x8d, 0xd6, 0x2a, 0x2c, 0x24, 0xb9, 0x63, 0x5c, 0x3d, 0xc5, 0x97, 0xe5, 0xcc,
-	0xa9, 0xc2, 0xaa, 0x99, 0x67, 0x03, 0xd3, 0x1e, 0x89, 0x28, 0x76, 0x7e, 0x11, 0x25, 0xf8, 0xb4,
-	0xd7, 0x3e, 0x89, 0x12, 0x94, 0x67, 0x59, 0x82, 0xc9, 0xc9, 0x69, 0x19, 0xa8, 0xe4, 0x6e, 0xf1,
-	0xdc, 0x6e, 0xe3, 0x2e, 0x9e, 0x2a, 0x37, 0x89, 0xac, 0xf9, 0x2b, 0xe4, 0x2f, 0xe0, 0x9c, 0x2a,
-	0x68, 0x5d, 0x76, 0xdb, 0x04, 0xf0, 0xf3, 0x70, 0x8a, 0xf7, 0xa0, 0x44, 0x17, 0x93, 0x64, 0xbf,
-	0xdf, 0x6e, 0xc7, 0x98, 0x52, 0xde, 0x3b, 0x95, 0x46, 0x3a, 0x75, 0x5e, 0x84, 0x4b, 0x4f, 0xc1,
-	0x8f, 0xc5, 0x16, 0xf9, 0xce, 0x2c, 0xb6, 0x09, 0x3f, 0x16, 0x5b, 0x54, 0x64, 0x66, 0xb1, 0x4d,
-	0x78, 0x15, 0xfb, 0x3b, 0x04, 0xa7, 0xeb, 0xb4, 0x93, 0xd8, 0x27, 0x84, 0x6c, 0xc2, 0x82, 0x1f,
-	0x92, 0x7e, 0xc4, 0x78, 0xcc, 0x93, 0x6d, 0x46, 0x89, 0x7c, 0x73, 0xf1, 0xc1, 0xc3, 0xb5, 0xd2,
-	0xdf, 0x0f, 0xd7, 0x4a, 0xce, 0x39, 0x38, 0x2b, 0x29, 0x8d, 0xd3, 0xdc, 0xee, 0xc7, 0xd1, 0x73,
-	0x43, 0xf3, 0x15, 0x4e, 0x33, 0xa1, 0x94, 0xd2, 0xb4, 0x96, 0x61, 0x2e, 0x68, 0x73, 0x56, 0xe5,
-	0xc6, 0x5c, 0xd0, 0x76, 0x1a, 0xb0, 0xa2, 0x5a, 0xee, 0x23, 0xf1, 0x4a, 0x4e, 0xa0, 0xcf, 0x9f,
-	0xa3, 0x7b, 0x7e, 0xbf, 0xcb, 0xea, 0xe2, 0x4a, 0xce, 0xa5, 0xcf, 0x91, 0x66, 0x74, 0x6c, 0xa8,
-	0x8e, 0x63, 0xaa, 0x32, 0x89, 0x78, 0xa2, 0xcd, 0x4e, 0x36, 0x9e, 0x81, 0xa9, 0xe2, 0x5d, 0xe1,
-	0xf1, 0x44, 0x6b, 0xfd, 0x6b, 0x3c, 0x89, 0x64, 0xec, 0x56, 0x48, 0x3f, 0x21, 0x51, 0x2a, 0x12,
-	0x0d, 0x70, 0xcc, 0x76, 0xc9, 0x16, 0x63, 0xe4, 0xd9, 0x9e, 0xb4, 0x65, 0xc3, 0x62, 0x8c, 0x5b,
-	0x38, 0x18, 0xe0, 0x58, 0x5e, 0x29, 0x35, 0x77, 0xbe, 0x16, 0x87, 0xa0, 0xb3, 0x55, 0x4d, 0x30,
-	0xe2, 0x86, 0x66, 0xc5, 0xcd, 0xf9, 0x19, 0x89, 0xb7, 0x32, 0x25, 0x50, 0x0f, 0x5a, 0xf1, 0xf3,
-	0x5c, 0xaf, 0x03, 0xf1, 0xf6, 0x1a, 0x74, 0xff, 0xd7, 0x82, 0x3d, 0x42, 0x70, 0xa1, 0x4e, 0x3b,
-	0x77, 0x31, 0x93, 0x24, 0x70, 0xfc, 0xb1, 0x1f, 0xfb, 0xe1, 0xa4, 0xfb, 0xb1, 0x0e, 0x67, 0x5b,
-	0x24, 0x62, 0xb1, 0xdf, 0x62, 0x5b, 0xf2, 0x69, 0x15, 0x37, 0x64, 0xdc, 0x6c, 0xbd, 0x04, 0x15,
-	0x3c, 0xc0, 0x11, 0xbb, 0x93, 0xfc, 0xd8, 0x89, 0xdc, 0x47, 0x06, 0xab, 0x06, 0xc0, 0x27, 0xbb,
-	0xfd, 0x5e, 0x17, 0x4b, 0x8d, 0xa1, 0x59, 0xac, 0x15, 0x98, 0xf7, 0x9b, 0x81, 0xfc, 0x01, 0x4e,
-	0x86, 0xce, 0xe7, 0xf0, 0x72, 0x26, 0x59, 0x55, 0xb2, 0x0c, 0x6a, 0x28, 0x9b, 0x9a, 0x04, 0x9f,
-	0x1b, 0x81, 0xdf, 0x01, 0xbb, 0x4e, 0x3b, 0xef, 0x47, 0x7e, 0xb3, 0x8b, 0x77, 0xe4, 0x6e, 0x15,
-	0x67, 0x42, 0x39, 0x56, 0x61, 0x01, 0x73, 0x27, 0x0e, 0xb6, 0xd8, 0x90, 0x33, 0xe7, 0x1e, 0x38,
-	0xc7, 0xe3, 0x4d, 0xc1, 0xf8, 0xb8, 0x38, 0x8f, 0x10, 0x2c, 0xf1, 0xaa, 0x44, 0xed, 0x2d, 0x1a,
-	0x0c, 0x27, 0x30, 0x4d, 0x0a, 0xce, 0xf6, 0xcc, 0x33, 0xd3, 0x2c, 0x5a, 0xc3, 0xcd, 0xcf, 0xac,
-	0xe1, 0x3e, 0x84, 0x17, 0x34, 0xb2, 0xaa, 0x0c, 0xfa, 0x25, 0x41, 0xe6, 0x25, 0x49, 0x12, 0xd7,
-	0x2e, 0x69, 0x25, 0x85, 0xba, 0xfe, 0xe7, 0x0a, 0xcc, 0xd7, 0x69, 0xc7, 0x3a, 0x80, 0x25, 0x5d,
-	0x55, 0xdf, 0x70, 0x73, 0x7c, 0x0e, 0xb8, 0xa6, 0x44, 0xb5, 0xdf, 0x99, 0xc2, 0x49, 0x91, 0x3f,
-	0x80, 0x25, 0x5d, 0xd3, 0xe6, 0x26, 0xa0, 0x39, 0xe5, 0x27, 0x90, 0xa1, 0x3d, 0x13, 0x02, 0xba,
-	0xf0, 0xcc, 0x4d, 0x40, 0x73, 0xca, 0x4f, 0x20, 0x43, 0xa2, 0x5a, 0x0f, 0x10, 0x2c, 0x8f, 0x09,
-	0xd4, 0xcd, 0x62, 0x15, 0x4d, 0xfd, 0xec, 0x5b, 0xd3, 0xf9, 0x19, 0x54, 0xc6, 0xf4, 0xea, 0x66,
-	0xb1, 0xda, 0x16, 0xa7, 0x92, 0x2d, 0x60, 0x39, 0x95, 0x31, 0xf9, 0xba, 0x59, 0xac, 0xca, 0xc5,
-	0xa9, 0x64, 0xeb, 0x59, 0xeb, 0x4b, 0x28, 0x73, 0x2d, 0x7b, 0x25, 0x2f, 0x4e, 0xb2, 0xdb, 0x7e,
-	0xb3, 0xc8, 0x6e, 0x15, 0xeb, 0x1b, 0x04, 0x67, 0x4c, 0x6d, 0xb7, 0x51, 0xec, 0x4c, 0xa5, 0x9b,
-	0xfd, 0xee, 0x54, 0x6e, 0x06, 0x0f, 0x53, 0xf3, 0x6d, 0x14, 0x3b, 0xd0, 0xc2, 0x3c, 0x32, 0xd5,
-	0x20, 0xe7, 0x61, 0x6a, 0xc1, 0x8d, 0x62, 0xa7, 0x59, 0x98, 0x47, 0xa6, 0x96, 0x4c, 0x7a, 0x80,
-	0x7f, 0x28, 0xe4, 0xee, 0x81, 0x64, 0x77, 0xfe, 0x1e, 0x30, 0x14, 0x3f, 0xef, 0x01, 0x43, 0xb4,
-	0xe6, 0xef, 0x01, 0xdd, 0xad, 0x40, 0x0f, 0x64, 0x8a, 0x4e, 0xfe, 0x30, 0x99, 0x6a, 0x70, 0xb3,
-	0x30, 0x22, 0xf7, 0x2b, 0xf0, 0x30, 0x65, 0xcb, 0xb9, 0xef, 0x11, 0x58, 0x19, 0x3a, 0xeb, 0x66,
-	0x5e, 0xd8, 0xa7, 0x7d, 0xed, 0xed, 0xe9, 0x7d, 0x15, 0xad, 0x1f, 0x10, 0x5c, 0x3c, 0x4e, 0xf4,
-	0xbc, 0x97, 0x17, 0xff, 0x18, 0x00, 0xfb, 0x83, 0xff, 0x08, 0xa0, 0x58, 0x0e, 0x60, 0x51, 0x09,
-	0x9c, 0x37, 0xf2, 0x67, 0x2d, 0x3c, 0xec, 0xb7, 0x8b, 0x7a, 0xa4, 0x71, 0xb7, 0x3f, 0x79, 0x7c,
-	0x58, 0x43, 0x4f, 0x0e, 0x6b, 0xe8, 0x8f, 0xc3, 0x1a, 0xfa, 0xf6, 0xa8, 0x56, 0x7a, 0x72, 0x54,
-	0x2b, 0xfd, 0x7a, 0x54, 0x2b, 0x7d, 0xf6, 0x96, 0xa6, 0x7c, 0x0c, 0x74, 0x8f, 0x06, 0xc3, 0xab,
-	0x29, 0xbc, 0x37, 0xf4, 0xb4, 0xff, 0x20, 0x26, 0x72, 0xa8, 0xb9, 0xc0, 0xd7, 0x6e, 0xfc, 0x13,
-	0x00, 0x00, 0xff, 0xff, 0x27, 0x72, 0x82, 0x2e, 0xca, 0x14, 0x00, 0x00,
+	// 1098 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xd4, 0x58, 0x41, 0x6f, 0xdc, 0x44,
+	0x14, 0x5e, 0x27, 0xdb, 0x34, 0xfb, 0x42, 0xd3, 0xd4, 0x4a, 0xd3, 0xad, 0x81, 0x4d, 0x31, 0x48,
+	0xe4, 0xd0, 0xda, 0x4a, 0x4b, 0x82, 0x28, 0xa2, 0x88, 0xa4, 0x88, 0xd3, 0x06, 0xd8, 0x14, 0x21,
+	0x81, 0x38, 0x78, 0x77, 0xa7, 0x8e, 0xc9, 0xda, 0x63, 0x79, 0x66, 0xd3, 0x0d, 0x42, 0xea, 0x09,
+	0xa9, 0x47, 0x90, 0xf8, 0x01, 0x95, 0xb8, 0xa0, 0x72, 0xe1, 0x27, 0x70, 0xec, 0xb1, 0x47, 0xc4,
+	0x01, 0x50, 0x22, 0x21, 0x7e, 0x06, 0x9a, 0xf1, 0xec, 0x78, 0x66, 0xeb, 0x6c, 0xed, 0x25, 0x5b,
+	0xc1, 0x29, 0x9e, 0xe7, 0x79, 0xdf, 0xfb, 0xde, 0x9b, 0x37, 0xcf, 0xdf, 0x06, 0x4c, 0x8a, 0xf7,
+	0x51, 0x14, 0x46, 0x7e, 0xe2, 0xd2, 0x81, 0x13, 0x27, 0x98, 0x62, 0xf3, 0x55, 0xba, 0x87, 0x48,
+	0x30, 0x88, 0x10, 0xbd, 0x87, 0x93, 0x7d, 0x87, 0x04, 0x03, 0x6e, 0xef, 0xe0, 0x9e, 0x23, 0x77,
+	0x5b, 0xcb, 0x3e, 0xf6, 0x31, 0xb7, 0xbb, 0xec, 0x29, 0x75, 0xb5, 0x1a, 0x1d, 0x4c, 0x42, 0x4c,
+	0xdc, 0xb6, 0x47, 0x90, 0x7b, 0xb0, 0xde, 0x46, 0xd4, 0x5b, 0x77, 0x3b, 0x38, 0x88, 0xc4, 0xfb,
+	0x8b, 0x4a, 0x38, 0xf6, 0x24, 0xcc, 0xf5, 0xcc, 0x1c, 0x06, 0x11, 0x8d, 0x51, 0x12, 0x8a, 0x37,
+	0x97, 0xb2, 0x37, 0x38, 0xa6, 0x01, 0x8e, 0x48, 0xfa, 0xc2, 0xfe, 0xcb, 0x80, 0xc5, 0x26, 0xf1,
+	0xb7, 0x13, 0xe4, 0x51, 0x74, 0x87, 0x6d, 0x32, 0xeb, 0x70, 0xb6, 0xc3, 0x96, 0x38, 0xa9, 0x1b,
+	0x57, 0x8c, 0xb5, 0x5a, 0x6b, 0xb8, 0x34, 0x4d, 0xa8, 0x46, 0x5e, 0x88, 0xea, 0x33, 0xdc, 0xcc,
+	0x9f, 0xcd, 0x3d, 0xa8, 0x85, 0xde, 0x60, 0xb7, 0x1f, 0xc7, 0xbd, 0xc3, 0xfa, 0xec, 0x15, 0x63,
+	0x6d, 0xe1, 0xfa, 0x65, 0x27, 0xa5, 0xef, 0x30, 0xfa, 0x8e, 0xa0, 0xef, 0x6c, 0xe3, 0x20, 0xda,
+	0x72, 0x1f, 0xff, 0xbe, 0x5a, 0x79, 0xf4, 0xc7, 0xea, 0xeb, 0x7e, 0x40, 0xf7, 0xfa, 0x6d, 0xa7,
+	0x83, 0x43, 0x57, 0xe4, 0x9a, 0xfe, 0xb9, 0x46, 0xba, 0xfb, 0x2e, 0x3d, 0x8c, 0x11, 0xe1, 0x0e,
+	0xad, 0x0c, 0xdc, 0x7c, 0x0d, 0xce, 0x75, 0x51, 0x84, 0xc3, 0x26, 0xa2, 0xde, 0x6d, 0x8f, 0x7a,
+	0xf5, 0x2a, 0xa7, 0xa1, 0x1b, 0xcd, 0x15, 0x98, 0x63, 0xb9, 0x23, 0x54, 0x3f, 0xc3, 0x5f, 0x8b,
+	0x95, 0x5d, 0x87, 0x15, 0x3d, 0xcf, 0x16, 0x22, 0x31, 0x8e, 0x08, 0xb2, 0x7f, 0x49, 0x4b, 0xf0,
+	0x49, 0xdc, 0x3d, 0x8d, 0x12, 0x54, 0xa7, 0x59, 0x82, 0xf1, 0xc9, 0x29, 0x19, 0xc8, 0xe4, 0x6e,
+	0xf1, 0xdc, 0x6e, 0xa3, 0x1e, 0x9a, 0x28, 0x37, 0x81, 0xac, 0xf8, 0x4b, 0xe4, 0x2f, 0xe0, 0x82,
+	0x2c, 0x68, 0x53, 0x74, 0xdb, 0x18, 0xf0, 0x65, 0x38, 0xc3, 0x7b, 0x50, 0xa0, 0xa7, 0x0b, 0xb6,
+	0xdf, 0xeb, 0x76, 0x13, 0x44, 0x08, 0xef, 0x9d, 0x5a, 0x6b, 0xb8, 0xb4, 0x5f, 0x84, 0xcb, 0x4f,
+	0xc1, 0x8f, 0xc4, 0x4e, 0xf3, 0x9d, 0x5a, 0x6c, 0x1d, 0x7e, 0x24, 0x76, 0x5a, 0x91, 0xa9, 0xc5,
+	0xd6, 0xe1, 0x65, 0xec, 0xef, 0x0c, 0x38, 0xdb, 0x24, 0x3e, 0xb3, 0x8f, 0x09, 0xd9, 0x86, 0x39,
+	0x2f, 0xc4, 0xfd, 0x88, 0xf2, 0x98, 0xa7, 0xdb, 0x8c, 0x02, 0xf9, 0xe6, 0xfc, 0x83, 0x87, 0xab,
+	0x95, 0xbf, 0x1f, 0xae, 0x56, 0xec, 0x0b, 0x70, 0x5e, 0x50, 0x1a, 0xa5, 0xb9, 0xd5, 0x4f, 0xa2,
+	0xff, 0x0c, 0xcd, 0x57, 0x38, 0x4d, 0x46, 0x69, 0x48, 0xd3, 0x5c, 0x84, 0x99, 0xa0, 0xcb, 0x59,
+	0x55, 0x5b, 0x33, 0x41, 0xd7, 0x6e, 0xc1, 0x92, 0x6c, 0xb9, 0x0f, 0xd3, 0x29, 0x39, 0x86, 0x3e,
+	0x1f, 0x47, 0x77, 0xbd, 0x7e, 0x8f, 0x36, 0xd3, 0x2b, 0x39, 0x33, 0x1c, 0x47, 0x8a, 0xd1, 0xb6,
+	0xa0, 0x3e, 0x8a, 0x29, 0xcb, 0x94, 0xc6, 0x4b, 0xdb, 0xec, 0x74, 0xe3, 0x69, 0x98, 0x32, 0xde,
+	0x55, 0x1e, 0x2f, 0x6d, 0xad, 0x67, 0xc6, 0x13, 0x48, 0xda, 0x6e, 0x89, 0xf4, 0xa3, 0x01, 0x2f,
+	0x34, 0x89, 0xff, 0x69, 0xe2, 0xc5, 0xcf, 0x1a, 0x2a, 0xcf, 0xe1, 0x94, 0x4d, 0x0b, 0xe6, 0x13,
+	0xd4, 0x41, 0xc1, 0x01, 0x4a, 0xc4, 0x75, 0x92, 0x6b, 0xfb, 0x2b, 0x58, 0x56, 0x99, 0xca, 0xc3,
+	0xcf, 0x78, 0x19, 0xd3, 0xe2, 0x65, 0x3f, 0x12, 0x5f, 0x96, 0xe8, 0xde, 0xff, 0xa0, 0x50, 0x5f,
+	0xa7, 0xdf, 0x90, 0x8c, 0xeb, 0x73, 0x2d, 0xd5, 0x4f, 0x06, 0x5c, 0x6c, 0x12, 0x7f, 0x17, 0xd1,
+	0x6d, 0x1c, 0x1d, 0xa0, 0x84, 0xa2, 0xe4, 0x23, 0x2f, 0xf1, 0xc2, 0x71, 0x37, 0x62, 0x0d, 0xce,
+	0x77, 0x70, 0x44, 0x13, 0xaf, 0x43, 0xdf, 0x13, 0xc3, 0x34, 0xbd, 0x13, 0xa3, 0x66, 0xf3, 0x25,
+	0xa8, 0xa1, 0x03, 0x14, 0xd1, 0x1d, 0xf6, 0x79, 0x4b, 0x13, 0xcf, 0x0c, 0x66, 0x03, 0x80, 0x2f,
+	0xee, 0xf4, 0xe3, 0x1e, 0x12, 0xaa, 0x42, 0xb1, 0x98, 0x4b, 0x30, 0xeb, 0xb5, 0x03, 0xf1, 0xc9,
+	0x65, 0x8f, 0xf6, 0xe7, 0xf0, 0x72, 0x2e, 0x59, 0x59, 0xb2, 0x1c, 0x6a, 0x46, 0x3e, 0x35, 0x01,
+	0x3e, 0x93, 0x81, 0xef, 0x80, 0xd5, 0x24, 0xfe, 0xfb, 0x91, 0xd7, 0xee, 0xa1, 0x6d, 0xb1, 0x5b,
+	0xc6, 0x19, 0x53, 0x8e, 0x15, 0x98, 0x43, 0xdc, 0x89, 0x83, 0xcd, 0xb7, 0xc4, 0xca, 0xbe, 0x0b,
+	0xf6, 0xc9, 0x78, 0x13, 0x30, 0x3e, 0x29, 0xce, 0xcf, 0x06, 0x9f, 0x2f, 0xbb, 0x28, 0xea, 0x16,
+	0x19, 0x0c, 0xac, 0xea, 0x74, 0x4f, 0x3f, 0x38, 0xc5, 0xa2, 0x74, 0xdd, 0xec, 0xd4, 0xba, 0x6e,
+	0x87, 0xcf, 0x38, 0x8d, 0xb1, 0x2c, 0x88, 0x7a, 0x57, 0x0c, 0xfd, 0xae, 0xb0, 0x12, 0x28, 0x77,
+	0xb5, 0x36, 0xc4, 0xbb, 0xfe, 0xdb, 0x12, 0xcc, 0x36, 0x89, 0x6f, 0xde, 0x87, 0x05, 0x55, 0x51,
+	0xdf, 0x70, 0x0a, 0xfc, 0x14, 0x70, 0x74, 0x79, 0x6a, 0xbd, 0x3d, 0x81, 0x93, 0x24, 0x7f, 0x1f,
+	0x16, 0x54, 0x3d, 0x5b, 0x98, 0x80, 0xe2, 0x54, 0x9c, 0x40, 0x8e, 0xee, 0x64, 0x04, 0x54, 0xd1,
+	0x59, 0x98, 0x80, 0xe2, 0x54, 0x9c, 0x40, 0x8e, 0x3c, 0x35, 0x1f, 0x18, 0xb0, 0x38, 0x22, 0x4e,
+	0x37, 0xcb, 0x55, 0x74, 0xe8, 0x67, 0xdd, 0x9a, 0xcc, 0x4f, 0xa3, 0x32, 0xa2, 0x55, 0x37, 0xcb,
+	0xd5, 0xb6, 0x3c, 0x95, 0x7c, 0xf1, 0xca, 0xa9, 0x8c, 0x48, 0xd7, 0xcd, 0x72, 0x55, 0x2e, 0x4f,
+	0x25, 0x5f, 0xcb, 0x9a, 0x5f, 0x42, 0x95, 0xeb, 0xd8, 0xab, 0x45, 0x71, 0xd8, 0x6e, 0xeb, 0x8d,
+	0x32, 0xbb, 0x65, 0xac, 0x6f, 0x0c, 0x38, 0xa7, 0xeb, 0xba, 0x8d, 0x72, 0x67, 0x2a, 0xdc, 0xac,
+	0x77, 0x26, 0x72, 0xd3, 0x78, 0xe8, 0x7a, 0x6f, 0xa3, 0xdc, 0x81, 0x96, 0xe6, 0x91, 0xab, 0x04,
+	0x39, 0x0f, 0x5d, 0x07, 0x6e, 0x94, 0x3b, 0xcd, 0xd2, 0x3c, 0x72, 0x75, 0x24, 0xeb, 0x01, 0xfe,
+	0x23, 0xa1, 0x70, 0x0f, 0xb0, 0xdd, 0xc5, 0x7b, 0x40, 0x53, 0xfb, 0x87, 0x50, 0xcb, 0x3e, 0x4b,
+	0xeb, 0x45, 0x21, 0xa4, 0x8b, 0xf5, 0x56, 0x69, 0x17, 0x6d, 0x1a, 0x2b, 0x1a, 0xb0, 0xf8, 0x34,
+	0xce, 0x9c, 0x4a, 0x4c, 0xe3, 0x1c, 0x05, 0xf7, 0xbd, 0x01, 0x66, 0x8e, 0xb4, 0xba, 0x59, 0x14,
+	0xf3, 0x69, 0x5f, 0x6b, 0x6b, 0x72, 0x5f, 0x49, 0xeb, 0x07, 0x03, 0x2e, 0x9d, 0xa4, 0x73, 0xde,
+	0x2d, 0x8a, 0x7f, 0x02, 0x80, 0xf5, 0xc1, 0xbf, 0x04, 0xd0, 0x2e, 0x8b, 0x2e, 0x6a, 0x36, 0x8a,
+	0xe7, 0xae, 0xb8, 0x15, 0xbf, 0x2c, 0xb9, 0x82, 0x64, 0xeb, 0xe3, 0xc7, 0x47, 0x0d, 0xe3, 0xc9,
+	0x51, 0xc3, 0xf8, 0xf3, 0xa8, 0x61, 0x7c, 0x7b, 0xdc, 0xa8, 0x3c, 0x39, 0x6e, 0x54, 0x7e, 0x3d,
+	0x6e, 0x54, 0x3e, 0x7b, 0x53, 0xd1, 0x3d, 0x5a, 0x08, 0x97, 0x04, 0x83, 0x6b, 0xc3, 0x18, 0xee,
+	0xc0, 0x55, 0xfe, 0x6d, 0xc8, 0xc4, 0x50, 0x7b, 0x8e, 0xbf, 0xbb, 0xf1, 0x4f, 0x00, 0x00, 0x00,
+	0xff, 0xff, 0xa3, 0x82, 0x0a, 0x37, 0xbf, 0x14, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -1718,11 +1718,11 @@ type MsgClient interface {
 	UpdateOptions(ctx context.Context, in *MsgUpdateOptions, opts ...grpc.CallOption) (*MsgUpdateOptionsResponse, error)
 	DeleteOptions(ctx context.Context, in *MsgDeleteOptions, opts ...grpc.CallOption) (*MsgDeleteOptionsResponse, error)
 	Burn(ctx context.Context, in *MsgBurn, opts ...grpc.CallOption) (*MsgBurnResponse, error)
-	ConvertToAtto(ctx context.Context, in *MsgConvertToAtto, opts ...grpc.CallOption) (*MsgConvertToAttoResponse, error)
-	ConvertToMicro(ctx context.Context, in *MsgConvertToMicro, opts ...grpc.CallOption) (*MsgConvertToMicroResponse, error)
+	WrapToken(ctx context.Context, in *MsgWrapToken, opts ...grpc.CallOption) (*MsgWrapTokenResponse, error)
+	UnwrapToken(ctx context.Context, in *MsgUnwrapToken, opts ...grpc.CallOption) (*MsgUnwrapTokenResponse, error)
 	SetConverterParams(ctx context.Context, in *MsgSetConverterParams, opts ...grpc.CallOption) (*MsgSetConverterParamsResponse, error)
 	EnableContractConverter(ctx context.Context, in *MsgEnableContractConverter, opts ...grpc.CallOption) (*MsgEnableContractConverterResponse, error)
-	SendAsix(ctx context.Context, in *MsgSendAsix, opts ...grpc.CallOption) (*MsgSendAsixResponse, error)
+	SendWrapToken(ctx context.Context, in *MsgSendWrapToken, opts ...grpc.CallOption) (*MsgSendWrapTokenResponse, error)
 }
 
 type msgClient struct {
@@ -1832,18 +1832,18 @@ func (c *msgClient) Burn(ctx context.Context, in *MsgBurn, opts ...grpc.CallOpti
 	return out, nil
 }
 
-func (c *msgClient) ConvertToAtto(ctx context.Context, in *MsgConvertToAtto, opts ...grpc.CallOption) (*MsgConvertToAttoResponse, error) {
-	out := new(MsgConvertToAttoResponse)
-	err := c.cc.Invoke(ctx, "/thesixnetwork.sixprotocol.tokenmngr.Msg/ConvertToAtto", in, out, opts...)
+func (c *msgClient) WrapToken(ctx context.Context, in *MsgWrapToken, opts ...grpc.CallOption) (*MsgWrapTokenResponse, error) {
+	out := new(MsgWrapTokenResponse)
+	err := c.cc.Invoke(ctx, "/thesixnetwork.sixprotocol.tokenmngr.Msg/WrapToken", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *msgClient) ConvertToMicro(ctx context.Context, in *MsgConvertToMicro, opts ...grpc.CallOption) (*MsgConvertToMicroResponse, error) {
-	out := new(MsgConvertToMicroResponse)
-	err := c.cc.Invoke(ctx, "/thesixnetwork.sixprotocol.tokenmngr.Msg/ConvertToMicro", in, out, opts...)
+func (c *msgClient) UnwrapToken(ctx context.Context, in *MsgUnwrapToken, opts ...grpc.CallOption) (*MsgUnwrapTokenResponse, error) {
+	out := new(MsgUnwrapTokenResponse)
+	err := c.cc.Invoke(ctx, "/thesixnetwork.sixprotocol.tokenmngr.Msg/UnwrapToken", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1868,9 +1868,9 @@ func (c *msgClient) EnableContractConverter(ctx context.Context, in *MsgEnableCo
 	return out, nil
 }
 
-func (c *msgClient) SendAsix(ctx context.Context, in *MsgSendAsix, opts ...grpc.CallOption) (*MsgSendAsixResponse, error) {
-	out := new(MsgSendAsixResponse)
-	err := c.cc.Invoke(ctx, "/thesixnetwork.sixprotocol.tokenmngr.Msg/SendAsix", in, out, opts...)
+func (c *msgClient) SendWrapToken(ctx context.Context, in *MsgSendWrapToken, opts ...grpc.CallOption) (*MsgSendWrapTokenResponse, error) {
+	out := new(MsgSendWrapTokenResponse)
+	err := c.cc.Invoke(ctx, "/thesixnetwork.sixprotocol.tokenmngr.Msg/SendWrapToken", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1890,11 +1890,11 @@ type MsgServer interface {
 	UpdateOptions(context.Context, *MsgUpdateOptions) (*MsgUpdateOptionsResponse, error)
 	DeleteOptions(context.Context, *MsgDeleteOptions) (*MsgDeleteOptionsResponse, error)
 	Burn(context.Context, *MsgBurn) (*MsgBurnResponse, error)
-	ConvertToAtto(context.Context, *MsgConvertToAtto) (*MsgConvertToAttoResponse, error)
-	ConvertToMicro(context.Context, *MsgConvertToMicro) (*MsgConvertToMicroResponse, error)
+	WrapToken(context.Context, *MsgWrapToken) (*MsgWrapTokenResponse, error)
+	UnwrapToken(context.Context, *MsgUnwrapToken) (*MsgUnwrapTokenResponse, error)
 	SetConverterParams(context.Context, *MsgSetConverterParams) (*MsgSetConverterParamsResponse, error)
 	EnableContractConverter(context.Context, *MsgEnableContractConverter) (*MsgEnableContractConverterResponse, error)
-	SendAsix(context.Context, *MsgSendAsix) (*MsgSendAsixResponse, error)
+	SendWrapToken(context.Context, *MsgSendWrapToken) (*MsgSendWrapTokenResponse, error)
 }
 
 // UnimplementedMsgServer can be embedded to have forward compatible implementations.
@@ -1934,11 +1934,11 @@ func (*UnimplementedMsgServer) DeleteOptions(ctx context.Context, req *MsgDelete
 func (*UnimplementedMsgServer) Burn(ctx context.Context, req *MsgBurn) (*MsgBurnResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Burn not implemented")
 }
-func (*UnimplementedMsgServer) ConvertToAtto(ctx context.Context, req *MsgConvertToAtto) (*MsgConvertToAttoResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ConvertToAtto not implemented")
+func (*UnimplementedMsgServer) WrapToken(ctx context.Context, req *MsgWrapToken) (*MsgWrapTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method WrapToken not implemented")
 }
-func (*UnimplementedMsgServer) ConvertToMicro(ctx context.Context, req *MsgConvertToMicro) (*MsgConvertToMicroResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ConvertToMicro not implemented")
+func (*UnimplementedMsgServer) UnwrapToken(ctx context.Context, req *MsgUnwrapToken) (*MsgUnwrapTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UnwrapToken not implemented")
 }
 func (*UnimplementedMsgServer) SetConverterParams(ctx context.Context, req *MsgSetConverterParams) (*MsgSetConverterParamsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetConverterParams not implemented")
@@ -1946,8 +1946,8 @@ func (*UnimplementedMsgServer) SetConverterParams(ctx context.Context, req *MsgS
 func (*UnimplementedMsgServer) EnableContractConverter(ctx context.Context, req *MsgEnableContractConverter) (*MsgEnableContractConverterResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method EnableContractConverter not implemented")
 }
-func (*UnimplementedMsgServer) SendAsix(ctx context.Context, req *MsgSendAsix) (*MsgSendAsixResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SendAsix not implemented")
+func (*UnimplementedMsgServer) SendWrapToken(ctx context.Context, req *MsgSendWrapToken) (*MsgSendWrapTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendWrapToken not implemented")
 }
 
 func RegisterMsgServer(s grpc1.Server, srv MsgServer) {
@@ -2152,38 +2152,38 @@ func _Msg_Burn_Handler(srv interface{}, ctx context.Context, dec func(interface{
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Msg_ConvertToAtto_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgConvertToAtto)
+func _Msg_WrapToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgWrapToken)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServer).ConvertToAtto(ctx, in)
+		return srv.(MsgServer).WrapToken(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/thesixnetwork.sixprotocol.tokenmngr.Msg/ConvertToAtto",
+		FullMethod: "/thesixnetwork.sixprotocol.tokenmngr.Msg/WrapToken",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).ConvertToAtto(ctx, req.(*MsgConvertToAtto))
+		return srv.(MsgServer).WrapToken(ctx, req.(*MsgWrapToken))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Msg_ConvertToMicro_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgConvertToMicro)
+func _Msg_UnwrapToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgUnwrapToken)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServer).ConvertToMicro(ctx, in)
+		return srv.(MsgServer).UnwrapToken(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/thesixnetwork.sixprotocol.tokenmngr.Msg/ConvertToMicro",
+		FullMethod: "/thesixnetwork.sixprotocol.tokenmngr.Msg/UnwrapToken",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).ConvertToMicro(ctx, req.(*MsgConvertToMicro))
+		return srv.(MsgServer).UnwrapToken(ctx, req.(*MsgUnwrapToken))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2224,20 +2224,20 @@ func _Msg_EnableContractConverter_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Msg_SendAsix_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgSendAsix)
+func _Msg_SendWrapToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgSendWrapToken)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServer).SendAsix(ctx, in)
+		return srv.(MsgServer).SendWrapToken(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/thesixnetwork.sixprotocol.tokenmngr.Msg/SendAsix",
+		FullMethod: "/thesixnetwork.sixprotocol.tokenmngr.Msg/SendWrapToken",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).SendAsix(ctx, req.(*MsgSendAsix))
+		return srv.(MsgServer).SendWrapToken(ctx, req.(*MsgSendWrapToken))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -2291,12 +2291,12 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 			Handler:    _Msg_Burn_Handler,
 		},
 		{
-			MethodName: "ConvertToAtto",
-			Handler:    _Msg_ConvertToAtto_Handler,
+			MethodName: "WrapToken",
+			Handler:    _Msg_WrapToken_Handler,
 		},
 		{
-			MethodName: "ConvertToMicro",
-			Handler:    _Msg_ConvertToMicro_Handler,
+			MethodName: "UnwrapToken",
+			Handler:    _Msg_UnwrapToken_Handler,
 		},
 		{
 			MethodName: "SetConverterParams",
@@ -2307,8 +2307,8 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 			Handler:    _Msg_EnableContractConverter_Handler,
 		},
 		{
-			MethodName: "SendAsix",
-			Handler:    _Msg_SendAsix_Handler,
+			MethodName: "SendWrapToken",
+			Handler:    _Msg_SendWrapToken_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -3041,7 +3041,7 @@ func (m *MsgDeleteOptionsResponse) MarshalToSizedBuffer(dAtA []byte) (int, error
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgConvertToAtto) Marshal() (dAtA []byte, err error) {
+func (m *MsgWrapToken) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -3051,12 +3051,12 @@ func (m *MsgConvertToAtto) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgConvertToAtto) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgWrapToken) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgConvertToAtto) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgWrapToken) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -3088,7 +3088,7 @@ func (m *MsgConvertToAtto) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgConvertToAttoResponse) Marshal() (dAtA []byte, err error) {
+func (m *MsgWrapTokenResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -3098,12 +3098,12 @@ func (m *MsgConvertToAttoResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgConvertToAttoResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgWrapTokenResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgConvertToAttoResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgWrapTokenResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -3121,7 +3121,7 @@ func (m *MsgConvertToAttoResponse) MarshalToSizedBuffer(dAtA []byte) (int, error
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgConvertToMicro) Marshal() (dAtA []byte, err error) {
+func (m *MsgUnwrapToken) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -3131,12 +3131,12 @@ func (m *MsgConvertToMicro) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgConvertToMicro) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgUnwrapToken) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgConvertToMicro) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgUnwrapToken) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -3168,7 +3168,7 @@ func (m *MsgConvertToMicro) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgConvertToMicroResponse) Marshal() (dAtA []byte, err error) {
+func (m *MsgUnwrapTokenResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -3178,12 +3178,12 @@ func (m *MsgConvertToMicroResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgConvertToMicroResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgUnwrapTokenResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgConvertToMicroResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgUnwrapTokenResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -3376,7 +3376,7 @@ func (m *MsgEnableContractConverterResponse) MarshalToSizedBuffer(dAtA []byte) (
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgSendAsix) Marshal() (dAtA []byte, err error) {
+func (m *MsgSendWrapToken) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -3386,12 +3386,12 @@ func (m *MsgSendAsix) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgSendAsix) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgSendWrapToken) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgSendAsix) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgSendWrapToken) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -3423,7 +3423,7 @@ func (m *MsgSendAsix) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgSendAsixResponse) Marshal() (dAtA []byte, err error) {
+func (m *MsgSendWrapTokenResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -3433,12 +3433,12 @@ func (m *MsgSendAsixResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgSendAsixResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgSendWrapTokenResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgSendAsixResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgSendWrapTokenResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -3780,7 +3780,7 @@ func (m *MsgDeleteOptionsResponse) Size() (n int) {
 	return n
 }
 
-func (m *MsgConvertToAtto) Size() (n int) {
+func (m *MsgWrapToken) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -3799,7 +3799,7 @@ func (m *MsgConvertToAtto) Size() (n int) {
 	return n
 }
 
-func (m *MsgConvertToAttoResponse) Size() (n int) {
+func (m *MsgWrapTokenResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -3810,7 +3810,7 @@ func (m *MsgConvertToAttoResponse) Size() (n int) {
 	return n
 }
 
-func (m *MsgConvertToMicro) Size() (n int) {
+func (m *MsgUnwrapToken) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -3829,7 +3829,7 @@ func (m *MsgConvertToMicro) Size() (n int) {
 	return n
 }
 
-func (m *MsgConvertToMicroResponse) Size() (n int) {
+func (m *MsgUnwrapTokenResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -3918,7 +3918,7 @@ func (m *MsgEnableContractConverterResponse) Size() (n int) {
 	return n
 }
 
-func (m *MsgSendAsix) Size() (n int) {
+func (m *MsgSendWrapToken) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -3937,7 +3937,7 @@ func (m *MsgSendAsix) Size() (n int) {
 	return n
 }
 
-func (m *MsgSendAsixResponse) Size() (n int) {
+func (m *MsgSendWrapTokenResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -6011,7 +6011,7 @@ func (m *MsgDeleteOptionsResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgConvertToAtto) Unmarshal(dAtA []byte) error {
+func (m *MsgWrapToken) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -6034,10 +6034,10 @@ func (m *MsgConvertToAtto) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgConvertToAtto: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgWrapToken: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgConvertToAtto: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgWrapToken: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -6158,7 +6158,7 @@ func (m *MsgConvertToAtto) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgConvertToAttoResponse) Unmarshal(dAtA []byte) error {
+func (m *MsgWrapTokenResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -6181,10 +6181,10 @@ func (m *MsgConvertToAttoResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgConvertToAttoResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgWrapTokenResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgConvertToAttoResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgWrapTokenResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -6241,7 +6241,7 @@ func (m *MsgConvertToAttoResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgConvertToMicro) Unmarshal(dAtA []byte) error {
+func (m *MsgUnwrapToken) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -6264,10 +6264,10 @@ func (m *MsgConvertToMicro) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgConvertToMicro: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgUnwrapToken: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgConvertToMicro: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgUnwrapToken: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -6388,7 +6388,7 @@ func (m *MsgConvertToMicro) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgConvertToMicroResponse) Unmarshal(dAtA []byte) error {
+func (m *MsgUnwrapTokenResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -6411,10 +6411,10 @@ func (m *MsgConvertToMicroResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgConvertToMicroResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgUnwrapTokenResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgConvertToMicroResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgUnwrapTokenResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -6999,7 +6999,7 @@ func (m *MsgEnableContractConverterResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgSendAsix) Unmarshal(dAtA []byte) error {
+func (m *MsgSendWrapToken) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -7022,10 +7022,10 @@ func (m *MsgSendAsix) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgSendAsix: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgSendWrapToken: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgSendAsix: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgSendWrapToken: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -7146,7 +7146,7 @@ func (m *MsgSendAsix) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgSendAsixResponse) Unmarshal(dAtA []byte) error {
+func (m *MsgSendWrapTokenResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -7169,10 +7169,10 @@ func (m *MsgSendAsixResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgSendAsixResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgSendWrapTokenResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgSendAsixResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgSendWrapTokenResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
