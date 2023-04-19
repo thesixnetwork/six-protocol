@@ -8,7 +8,7 @@ import (
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
-func (k msgServer) ConvertToMicro(goCtx context.Context, msg *types.MsgConvertToMicro) (*types.MsgConvertToMicroResponse, error) {
+func (k msgServer) UnwrapToken(goCtx context.Context, msg *types.MsgUnwrapToken) (*types.MsgUnwrapTokenResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	denom := msg.Amount.Denom
 	convertAmount := sdk.NewCoins(msg.Amount) // asix
@@ -84,7 +84,7 @@ func (k msgServer) ConvertToMicro(goCtx context.Context, msg *types.MsgConvertTo
 		return nil, sdkerrors.Wrap(types.ErrSendCoinsFromAccountToModule, "unable to send msg.Amounts from module to account despite previously minting msg.Amounts to module account:"+err.Error())
 	}
 
-	return &types.MsgConvertToMicroResponse{
+	return &types.MsgUnwrapTokenResponse{
 		Amount: microSix,
 	}, nil
 }

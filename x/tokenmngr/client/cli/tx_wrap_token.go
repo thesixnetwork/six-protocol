@@ -8,16 +8,17 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	ethermint "github.com/evmos/ethermint/types"
 	"github.com/spf13/cobra"
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
 var _ = strconv.Itoa(0)
 
-func CmdConvertToMicro() *cobra.Command {
+func CmdWrapToken() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "convert-to-micro [amount] [RECEIVER(optional)]",
-		Short: "Convert native token from 10^18 to native token 10^6",
+		Use:   "wrap-token [amount] [RECEIVER(optional)]",
+		Short: "Wrap native token to evm token (and send to receiver if specified(0x or 6x address))",
 		Args:  cobra.RangeArgs(1, 2),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			coins, err := sdk.ParseCoinNormalized(args[0])
@@ -34,16 +35,18 @@ func CmdConvertToMicro() *cobra.Command {
 			var receiver string
 			if len(args) == 2 {
 				receiver = args[1]
-				_, err := sdk.AccAddressFromBech32(receiver)
-				if err != nil {
-					return fmt.Errorf("invalid receiver address: %s", err)
+				if err := ethermint.ValidateAddress(receiver); err != nil {
+					_, err := sdk.AccAddressFromBech32(receiver)
+					if err != nil {
+						return fmt.Errorf("invalid receiver address: %s", err)
+					}
 				}
 			} else {
 				receiver = creator
 			}
 
-			msg := types.NewMsgConvertToMicro(
-				clientCtx.GetFromAddress().String(),
+			msg := types.NewMsgWrapToken(
+				creator,
 				coins,
 				receiver,
 			)

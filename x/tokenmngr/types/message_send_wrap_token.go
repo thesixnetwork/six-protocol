@@ -5,27 +5,27 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
-const TypeMsgSendAsix = "send_asix"
+const TypeMsgSendWrapToken = "send_wrap_token"
 
-var _ sdk.Msg = &MsgSendAsix{}
+var _ sdk.Msg = &MsgSendWrapToken{}
 
-func NewMsgSendAsix(creator string, ethAddress string, amount sdk.Coin) *MsgSendAsix {
-	return &MsgSendAsix{
+func NewMsgSendWrapToken(creator string, ethAddress string, amount sdk.Coin) *MsgSendWrapToken {
+	return &MsgSendWrapToken{
 		Creator:    creator,
 		EthAddress: ethAddress,
 		Amount:     amount,
 	}
 }
 
-func (msg *MsgSendAsix) Route() string {
+func (msg *MsgSendWrapToken) Route() string {
 	return RouterKey
 }
 
-func (msg *MsgSendAsix) Type() string {
-	return TypeMsgSendAsix
+func (msg *MsgSendWrapToken) Type() string {
+	return TypeMsgSendWrapToken
 }
 
-func (msg *MsgSendAsix) GetSigners() []sdk.AccAddress {
+func (msg *MsgSendWrapToken) GetSigners() []sdk.AccAddress {
 	creator, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		panic(err)
@@ -33,12 +33,12 @@ func (msg *MsgSendAsix) GetSigners() []sdk.AccAddress {
 	return []sdk.AccAddress{creator}
 }
 
-func (msg *MsgSendAsix) GetSignBytes() []byte {
+func (msg *MsgSendWrapToken) GetSignBytes() []byte {
 	bz := ModuleCdc.MustMarshalJSON(msg)
 	return sdk.MustSortJSON(bz)
 }
 
-func (msg *MsgSendAsix) ValidateBasic() error {
+func (msg *MsgSendWrapToken) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
