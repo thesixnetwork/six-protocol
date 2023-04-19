@@ -4,13 +4,13 @@ import (
 	"context"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	ethermint "github.com/evmos/ethermint/types"
 	"github.com/ethereum/go-ethereum/common"
+	ethermint "github.com/evmos/ethermint/types"
+	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
-func (k msgServer) SendAsix(goCtx context.Context, msg *types.MsgSendAsix) (*types.MsgSendAsixResponse, error) {
+func (k msgServer) SendWrapToken(goCtx context.Context, msg *types.MsgSendWrapToken) (*types.MsgSendWrapTokenResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	denom := msg.Amount.Denom
 
@@ -24,7 +24,7 @@ func (k msgServer) SendAsix(goCtx context.Context, msg *types.MsgSendAsix) (*typ
 		addr = common.HexToAddress(msg.EthAddress).Bytes()
 	}
 	receiver = sdk.AccAddress(addr)
-	
+
 	token, foundToken := k.GetToken(ctx, msg.Amount.Denom)
 	if !foundToken {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "token does not exist")
@@ -37,7 +37,6 @@ func (k msgServer) SendAsix(goCtx context.Context, msg *types.MsgSendAsix) (*typ
 	if msg.Amount.Amount.IsZero() {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is prohibit from module")
 	}
-
 
 	// Check is this creator is exist
 	sender, err := sdk.AccAddressFromBech32(msg.Creator)
@@ -55,7 +54,7 @@ func (k msgServer) SendAsix(goCtx context.Context, msg *types.MsgSendAsix) (*typ
 	}
 
 	if !msg.Amount.IsValid() {
-		return nil,sdkerrors.Wrap(sdkerrors.ErrInvalidCoins, msg.Amount.String())
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidCoins, msg.Amount.String())
 	}
 
 	// send amount to receiver
@@ -63,5 +62,5 @@ func (k msgServer) SendAsix(goCtx context.Context, msg *types.MsgSendAsix) (*typ
 		return nil, err
 	}
 
-	return &types.MsgSendAsixResponse{}, nil
+	return &types.MsgSendWrapTokenResponse{}, nil
 }
