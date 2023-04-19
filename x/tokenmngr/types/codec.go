@@ -19,11 +19,11 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgUpdateOptions{}, "tokenmngr/UpdateOptions", nil)
 	cdc.RegisterConcrete(&MsgDeleteOptions{}, "tokenmngr/DeleteOptions", nil)
 	cdc.RegisterConcrete(&MsgBurn{}, "tokenmngr/Burn", nil)
-	cdc.RegisterConcrete(&MsgConvertToAtto{}, "tokenmngr/ConvertToAtto", nil)
-	cdc.RegisterConcrete(&MsgConvertToMicro{}, "tokenmngr/ConvertToMicro", nil)
+	cdc.RegisterConcrete(&MsgWrapToken{}, "tokenmngr/WrapToken", nil)
+	cdc.RegisterConcrete(&MsgUnwrapToken{}, "tokenmngr/UnwrapToken", nil)
 	cdc.RegisterConcrete(&MsgSetConverterParams{}, "tokenmngr/SetConverterParams", nil)
 	cdc.RegisterConcrete(&MsgEnableContractConverter{}, "tokenmngr/EnableContractConverter", nil)
-	cdc.RegisterConcrete(&MsgSendAsix{}, "tokenmngr/SendAsix", nil)
+	cdc.RegisterConcrete(&MsgSendWrapToken{}, "tokenmngr/SendWrapToken", nil)
 	// this line is used by starport scaffolding # 2
 }
 
@@ -50,10 +50,10 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 		&MsgBurn{},
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgConvertToAtto{},
+		&MsgWrapToken{},
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgConvertToMicro{},
+		&MsgUnwrapToken{},
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgSetConverterParams{},
@@ -62,7 +62,7 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 		&MsgEnableContractConverter{},
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgSendAsix{},
+		&MsgSendWrapToken{},
 	)
 	// this line is used by starport scaffolding # 3
 

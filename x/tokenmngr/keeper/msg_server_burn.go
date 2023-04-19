@@ -43,11 +43,15 @@ func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBu
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is higher than current total supply")
 	}
 
-	var burnAmount uint64 = msg.Amount.Amount.Uint64()
+	burnAmount, ok := sdk.NewIntFromString(msg.Amount.Amount.String())
+	if !ok {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token out of range of uint256")
+	}
+
 
 	tokens := sdk.Coin{
 		Denom:  msg.Amount.Denom,
-		Amount: sdk.NewIntFromUint64(burnAmount),
+		Amount: burnAmount,
 	}
 
 	if balance := k.bankKeeper.GetBalance(ctx, burner, msg.Amount.Denom); balance.Amount.LT(msg.Amount.Amount) {
