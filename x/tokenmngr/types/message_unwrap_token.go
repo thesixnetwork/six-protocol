@@ -5,27 +5,27 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
-const TypeMsgConvertToMicro = "convert_to_micro"
+const TypeMsgUnwrapToken = "unwrap_token"
 
-var _ sdk.Msg = &MsgConvertToMicro{}
+var _ sdk.Msg = &MsgUnwrapToken{}
 
-func NewMsgConvertToMicro(creator string, amount sdk.Coin, receiver string) *MsgConvertToMicro {
-	return &MsgConvertToMicro{
+func NewMsgUnwrapToken(creator string, amount sdk.Coin, receiver string) *MsgUnwrapToken {
+	return &MsgUnwrapToken{
 		Creator:  creator,
 		Amount:   amount,
 		Receiver: receiver,
 	}
 }
 
-func (msg *MsgConvertToMicro) Route() string {
+func (msg *MsgUnwrapToken) Route() string {
 	return RouterKey
 }
 
-func (msg *MsgConvertToMicro) Type() string {
-	return TypeMsgConvertToMicro
+func (msg *MsgUnwrapToken) Type() string {
+	return TypeMsgUnwrapToken
 }
 
-func (msg *MsgConvertToMicro) GetSigners() []sdk.AccAddress {
+func (msg *MsgUnwrapToken) GetSigners() []sdk.AccAddress {
 	creator, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		panic(err)
@@ -33,12 +33,12 @@ func (msg *MsgConvertToMicro) GetSigners() []sdk.AccAddress {
 	return []sdk.AccAddress{creator}
 }
 
-func (msg *MsgConvertToMicro) GetSignBytes() []byte {
+func (msg *MsgUnwrapToken) GetSignBytes() []byte {
 	bz := ModuleCdc.MustMarshalJSON(msg)
 	return sdk.MustSortJSON(bz)
 }
 
-func (msg *MsgConvertToMicro) ValidateBasic() error {
+func (msg *MsgUnwrapToken) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)

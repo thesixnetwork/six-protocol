@@ -50,11 +50,11 @@ func NewHandler(k keeper.Keeper) sdk.Handler {
 		case *types.MsgBurn:
 			res, err := msgServer.Burn(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
-		case *types.MsgConvertToAtto:
-			res, err := msgServer.ConvertToAtto(sdk.WrapSDKContext(ctx), msg)
+		case *types.MsgWrapToken:
+			res, err := msgServer.WrapToken(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
-		case *types.MsgConvertToMicro:
-			res, err := msgServer.ConvertToMicro(sdk.WrapSDKContext(ctx), msg)
+		case *types.MsgUnwrapToken:
+			res, err := msgServer.UnwrapToken(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
 		case *types.MsgSetConverterParams:
 			res, err := msgServer.SetConverterParams(sdk.WrapSDKContext(ctx), msg)
@@ -62,8 +62,8 @@ func NewHandler(k keeper.Keeper) sdk.Handler {
 		case *types.MsgEnableContractConverter:
 			res, err := msgServer.EnableContractConverter(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
-		case *types.MsgSendAsix:
-			res, err := msgServer.SendAsix(sdk.WrapSDKContext(ctx), msg)
+		case *types.MsgSendWrapToken:
+			res, err := msgServer.SendWrapToken(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
 			// this line is used by starport scaffolding # 1
 		default:
