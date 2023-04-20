@@ -283,12 +283,6 @@ func (app *App) RegisterUpgradeHandlers() {
 			Mintee:    token_admin.Owner,
 			Creator:   super_admin.Owner,
 		})
-		// add mintperm
-		app.TokenmngrKeeper.SetMintperm(ctx, tokenmngrtypes.Mintperm{
-			Token:   "asix",
-			Address: token_admin.Owner,
-			Creator: super_admin.Owner,
-		})
 
 		// * Module NFT ORACLE *
 		// set nft duration
