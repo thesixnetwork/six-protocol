@@ -36,25 +36,6 @@ func (k Keeper) GetToken(
 	return val, true
 }
 
-// GetToken returns a token from its index
-func (k Keeper) GetTokenV202(
-	ctx sdk.Context,
-	name string,
-
-) (val types.TokenV202, found bool) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.TokenKeyPrefix))
-
-	b := store.Get(types.TokenKey(
-		name,
-	))
-	if b == nil {
-		return val, false
-	}
-
-	k.cdc.MustUnmarshal(b, &val)
-	return val, true
-}
-
 // RemoveToken removes a token from the store
 func (k Keeper) RemoveToken(
 	ctx sdk.Context,
@@ -76,22 +57,6 @@ func (k Keeper) GetAllToken(ctx sdk.Context) (list []types.Token) {
 
 	for ; iterator.Valid(); iterator.Next() {
 		var val types.Token
-		k.cdc.MustUnmarshal(iterator.Value(), &val)
-		list = append(list, val)
-	}
-
-	return
-}
-
-// GetAllToken returns all token
-func (k Keeper) GetAllTokenV202(ctx sdk.Context) (list []types.TokenV202) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.TokenKeyPrefix))
-	iterator := sdk.KVStorePrefixIterator(store, []byte{})
-
-	defer iterator.Close()
-
-	for ; iterator.Valid(); iterator.Next() {
-		var val types.TokenV202
 		k.cdc.MustUnmarshal(iterator.Value(), &val)
 		list = append(list, val)
 	}
