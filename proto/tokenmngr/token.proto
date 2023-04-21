@@ -20,14 +20,6 @@ message Token {
   string creator = 5;
 }
 
-message TokenV202 {
-  string name = 1;
-  string base = 2;
-  uint64 maxSupply = 3;
-  string mintee = 4;
-  string creator = 5;
-}
-
 // DenomUnit represents a struct that describes a given
 // denomination unit of the basic token.
 message DenomUnit {

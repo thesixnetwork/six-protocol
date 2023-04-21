@@ -49,19 +49,9 @@ service Query {
 		option (google.api.http).get = "/thesixnetwork/sixprotocol/tokenmngr/burns";
 	}
 
-	// Queries a list of Burns items.
-	rpc BurnsV202(QueryBurnsRequest) returns (QueryBurnsResponseV202) {
-		option (google.api.http).get = "/thesixnetwork/sixprotocol/tokenmngr/burns_v202";
-	}
-
 	// Queries a TokenBurn by index.
 	rpc TokenBurn(QueryGetTokenBurnRequest) returns (QueryGetTokenBurnResponse) {
 		option (google.api.http).get = "/thesixnetwork/sixprotocol/tokenmngr/token_burn/{token}";
-	}
-
-	// Queries a TokenBurn by index.
-	rpc TokenBurnV202(QueryGetTokenBurnRequest) returns (QueryGetTokenBurnResponseV202) {
-		option (google.api.http).get = "/thesixnetwork/sixprotocol/tokenmngr/token_burn_v202/{token}";
 	}
 
 	// Queries a list of TokenBurn items.
@@ -69,10 +59,6 @@ service Query {
 		option (google.api.http).get = "/thesixnetwork/sixprotocol/tokenmngr/token_burn";
 	}
 
-	// Queries a list of TokenBurn items.
-	rpc TokenBurnAllV202(QueryAllTokenBurnRequest) returns (QueryAllTokenBurnResponseV202) {
-		option (google.api.http).get = "/thesixnetwork/sixprotocol/tokenmngr/token_burn_v202";
-	}
 
 // this line is used by starport scaffolding # 2
 }
@@ -139,13 +125,6 @@ message QueryBurnsResponse {
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
-message QueryBurnsResponseV202 {
-	// Returning a list of posts
-	repeated BurnV202 Burn = 1;
-	// Adding pagination to response
-	cosmos.base.query.v1beta1.PageResponse pagination = 2;
-}
-
 message QueryGetTokenBurnRequest {
 	  string token = 1;
 
@@ -155,21 +134,12 @@ message QueryGetTokenBurnResponse {
 	TokenBurn tokenBurn = 1 [(gogoproto.nullable) = false];
 }
 
-message QueryGetTokenBurnResponseV202 {
-	TokenBurnV202 tokenBurn = 1 [(gogoproto.nullable) = false];
-}
-
 message QueryAllTokenBurnRequest {
 	cosmos.base.query.v1beta1.PageRequest pagination = 1;
 }
 
 message QueryAllTokenBurnResponse {
 	repeated TokenBurn tokenBurn = 1 [(gogoproto.nullable) = false];
-	cosmos.base.query.v1beta1.PageResponse pagination = 2;
-}
-
-message QueryAllTokenBurnResponseV202 {
-	repeated TokenBurnV202 tokenBurn = 1 [(gogoproto.nullable) = false];
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
