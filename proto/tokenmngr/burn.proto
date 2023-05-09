@@ -12,10 +12,3 @@ message Burn {
     cosmos.base.v1beta1.Coin amount = 3
     [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"];
 }
-
-message BurnV202 {
-    uint64 id = 1;
-    string creator = 2;
-    string token = 3; 
-    uint64 amount = 4;
-}
