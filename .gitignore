@@ -13,3 +13,5 @@ vue/src/store/generated/
 /**/wasmvm/
 
 /scripts/secret/*
+/scripts/.secret
+/scripts/.secret2
