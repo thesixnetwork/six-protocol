@@ -12,8 +12,3 @@ message TokenBurn {
   
 }
 
-message TokenBurnV202 {
-  string token = 1; 
-  uint64 amount = 2; 
-  
-}
