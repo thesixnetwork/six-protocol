@@ -1,6 +1,6 @@
 default_github_token=$GIT_TOKEN
 default_six_home=six_home
-default_docker_tag="3.1.0"
+default_docker_tag="3.1.1"
 node_homes=(
     sixnode0
     sixnode1
@@ -18,25 +18,14 @@ function setUpGenesis(){
        ## config genesis.json
     jq '.app_state.bank.params.send_enabled[0] = {"denom": "usix","enabled": true}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
 
+    ## demom metadata
     ## bank
     jq '.app_state.bank.params.send_enabled[0] = {"denom": "usix","enabled": true}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
     jq '.app_state.bank.denom_metadata[0] =  {"description": "The native staking token of the SIX Protocol.","denom_units": [{"denom": "usix","exponent": 0,"aliases": ["microsix"]},{"denom": "msix","exponent": 3,"aliases": ["millisix"]},{"denom": "six","exponent": 6,"aliases": []}],"base": "usix","display": "six","name": "Six token","symbol": "six"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
     jq '.app_state.bank.denom_metadata[1] =  {"description": "The native evm token of the SIX Protocol.","denom_units": [{"denom": "asix","exponent": 0,"aliases": ["attosix"]},{"denom": "usix","exponent": 12,"aliases": ["microsix"]},{"denom": "msix","exponent": 15,"aliases": ["millisix"]},{"denom": "six","exponent": 18,"aliases": []}],"base": "asix","display": "asix","name": "aSIX token","symbol": "asix"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
 
-
     ## from stake to usix
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-        sed -i '' "s/stake/usix/g" ./build/sixnode0/config/genesis.json
-    else
-        sed -i "s/stake/usix/g" ./build/sixnode0/config/genesis.json
-    fi
-
-    ## config genesis.json
-
-    ## bank
-    jq '.app_state.bank.params.send_enabled[0] = {"denom": "usix","enabled": true}' ./build/sixnode0/config/genesiys.json | sponge ./build/sixnode0/config/genesis.json
-    jq '.app_state.bank.denom_metadata[0] =  {"description": "The native staking token of the SIX Protocol.","denom_units": [{"denom": "usix","exponent": 0,"aliases": .microsix},{"denom": "msix","exponent": 3,"aliases": .millisix},{"denom": "six","exponent": 6,"aliases": []}],"base": "usix","display": "six","name": "Six token","symbol": "six"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
-    jq '.app_state.bank.denom_metadata[1] =  {"description": "The native evm token of the SIX Protocol.","denom_units": [{"denom": "asix","exponent": 0,"aliases": .attosix},{"denom": "usix","exponent": 12,"aliases": .microsix},{"denom": "msix","exponent": 15,"aliases": .millisix},{"denom": "six","exponent": 18,"aliases": []}],"base": "asix","display": "asix","name": "aSIX token","symbol": "asix"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
+    sed -i '' "s/stake/usix/g" ./build/sixnode0/config/genesis.json
 
     ## evm
     jq '.app_state.evm.params.evm_denom="asix"' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
@@ -78,36 +67,36 @@ function setUpGenesis(){
 
 function setUpConfig() {
     echo "#######################################"
-    echo "Setup sixnode0 genesis..."
+    echo "Setup ${SIX_HOME} genesis..."
 
-    if [[ sixnode0 == "sixnode0" ]]; then
+    if [[ ${SIX_HOME} == "sixnode0" ]]; then
         echo "sixnode0"
         # NODE_PEER=$(jq '.app_state.genutil.gen_txs[0].body.memo' ./build/sixnode1/config/genesis.json)
-        # sed -i '' "s/persistent_peers = \"\"/persistent_peers = ${NODE_PEER}/g" ./build/sixnode0/config/config.toml
+        # sed -i '' "s/persistent_peers = \"\"/persistent_peers = ${NODE_PEER}/g" ./build/${SIX_HOME}/config/config.toml
         ## setup genesis of node0
         setUpGenesis
     else
         NODE_PEER=$(jq '.app_state.genutil.gen_txs[0].body.memo' ./build/sixnode0/config/genesis.json)
         if [[ "$OSTYPE" == "darwin"* ]]; then
             ## replace NODE_PEER in config.toml to persistent_peers
-            sed -i '' "s/persistent_peers = \"\"/persistent_peers = ${NODE_PEER}/g" ./build/sixnode0/config/config.toml
+            sed -i '' "s/persistent_peers = \"\"/persistent_peers = ${NODE_PEER}/g" ./build/${SIX_HOME}/config/config.toml
         else
-            sed -i "s/persistent_peers = \"\"/persistent_peers = ${NODE_PEER}/g" ./build/sixnode0/config/config.toml
+            sed -i "s/persistent_peers = \"\"/persistent_peers = ${NODE_PEER}/g" ./build/${SIX_HOME}/config/config.toml
         fi
             ## replace genesis of node0 to all node
-        cp ./build/sixnode0/config/genesis.json ./build/sixnode0/config/genesis.json
+        cp ./build/sixnode0/config/genesis.json ./build/${SIX_HOME}/config/genesis.json
     fi
 
-    # if $TYPE = 0 then ignore this step
+   # if $TYPE = 0 then ignore this step
     if [[ ${TYPE} == "1" ]]; then
         echo "Running Fast Node"
         ## replace consensus params
         if [[ "$OSTYPE" == "darwin"* ]]; then
-            sed -i '' "s/timeout_propose = \"3s\"/timeout_propose = \"1s\"/g" ./build/sixnode0/config/config.toml
-            sed -i '' "s/timeout_commit = \"5s\"/timeout_commit = \"1s\"/g" ./build/sixnode0/config/config.toml
+            sed -i '' "s/timeout_propose = \"3s\"/timeout_propose = \"1s\"/g" ./build/${SIX_HOME}/config/config.toml
+            sed -i '' "s/timeout_commit = \"5s\"/timeout_commit = \"1s\"/g" ./build/${SIX_HOME}/config/config.toml
         else
-            sed -i "s/timeout_propose = \"3s\"/timeout_propose = \"1s\"/g" ./build/sixnode0/config/config.toml
-            sed -i "s/timeout_commit = \"5s\"/timeout_commit = \"1s\"/g" ./build/sixnode0/config/config.toml
+            sed -i "s/timeout_propose = \"3s\"/timeout_propose = \"1s\"/g" ./build/${SIX_HOME}/config/config.toml
+            sed -i "s/timeout_commit = \"5s\"/timeout_commit = \"1s\"/g" ./build/${SIX_HOME}/config/config.toml
         fi
     else
         echo "Running Default Node"
@@ -187,7 +176,7 @@ case $choice in
         do  
             (
             export SIX_HOME=${home}
-            if [[ ! -e ./build/sixnode0/config/genesis.json ]]; then
+            if [[ -e !./build/sixnode0/config/genesis.json ]]; then
                 echo "File does not exist 🖕"
             else
                 setUpConfig
@@ -216,6 +205,10 @@ case $choice in
         ;;
     7)
         echo "Staking Docker Container"
+        read -p "Chain ID [sixnet] : " CHAIN_ID
+        if [ -z "$CHAIN_ID" ]; then
+            CHAIN_ID="sixnet"
+        fi
         i=1
         amount=100000001
         # i=0
@@ -232,7 +225,7 @@ case $choice in
                 sixd tx staking create-validator --amount 1000000usix --license-mode=true --max-license=1 --pubkey $(sixd tendermint show-validator --home ./build/${node_homes[i]}) --home build/${node_homes[i]} \
                     --min-delegation 1000000 --delegation-increment 1000000 --enable-redelegation=false --moniker ${node_homes[i]} --from=${val} \
                     --commission-rate "0.1" --commission-max-rate "0.1" \
-                    --commission-max-change-rate "0.1" --chain-id six_666-1 \
+                    --commission-max-change-rate "0.1" --chain-id six \
                     --sign-mode amino-json --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix --min-self-delegation 1000000 --keyring-backend test -y
                 echo "Config Genesis at ${home} Success 🟢"
                 ) || exit 1
@@ -246,7 +239,7 @@ case $choice in
                     --pubkey $(sixd tendermint show-validator --home ./build/${node_homes[i]}) --home build/${node_homes[i]} \
                     --keyring-backend test --commission-rate 0.1 --commission-max-rate 0.5 --commission-max-change-rate 0.1 \
                     --min-self-delegation 1000000 --node http://0.0.0.0:26662 -y --min-delegation 1000000 --delegation-increment 1000000 \
-                    --chain-id six_666-1 --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y
+                    --chain-id six --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y
                 echo "Config Genesis at ${home} Success 🟢"
                 ) || exit 1
             fi

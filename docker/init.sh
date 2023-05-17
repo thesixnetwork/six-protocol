@@ -2,7 +2,7 @@ MONIKER=$1
 if [ -z "$MONIKER" ]; then
   MONIKER="mynode"
 fi
-export CHAIN_ID=sixnet
+export CHAIN_ID=testnet
 export VALKEY=val1 # should be: export as docker env var
 export SIX_HOME=./build/six_home
 ALICE_MNEMONIC="history perfect across group seek acoustic delay captain sauce audit carpet tattoo exhaust green there giant cluster want pond bulk close screen scissors remind"
@@ -73,17 +73,8 @@ sixd add-genesis-account $(sixd keys show -a bob --keyring-backend=test --home $
 sixd add-genesis-account $(sixd keys show -a super-admin --keyring-backend=test --home ${SIX_HOME}) 1000000000000usix --keyring-backend test --home ${SIX_HOME}
 
 # eth_secp256k1 address
-echo $SUPER_ADMIN_MNEMONIC | sixd keys add super-admin_eth --recover --home ${SIX_HOME} --keyring-backend test --algo eth_secp256k1
-echo $ALICE_MNEMONIC | sixd keys add alice_eth --recover --home ${SIX_HOME} --keyring-backend test --algo eth_secp256k1
-echo $BOB_MNEMONIC | sixd keys add bob_eth --recover --home ${SIX_HOME} --keyring-backend test --algo eth_secp256k1
-echo $VAL1_MNEMONIC | sixd keys add val1_eth --recover --home ${SIX_HOME} --keyring-backend test --algo eth_secp256k1
-echo $VAL2_MNEMONIC | sixd keys add val2_eth --recover --home ${SIX_HOME} --keyring-backend test --algo eth_secp256k1
-echo $VAL3_MNEMONIC | sixd keys add val3_eth --recover --home ${SIX_HOME} --keyring-backend test --algo eth_secp256k1
-echo $VAL4_MNEMONIC | sixd keys add val4_eth --recover --home ${SIX_HOME} --keyring-backend test --algo eth_secp256k1
-echo $ORACLE1_MNEMONIC | sixd keys add oracle1_eth --recover --home ${SIX_HOME} --keyring-backend test --algo eth_secp256k1
-echo $ORACLE2_MNEMONIC | sixd keys add oracle2_eth --recover --home ${SIX_HOME} --keyring-backend test --algo eth_secp256k1
-echo $ORACLE3_MNEMONIC | sixd keys add oracle3_eth --recover --home ${SIX_HOME} --keyring-backend test --algo eth_secp256k1
-echo $ORACLE4_MNEMONIC | sixd keys add oracle4_eth --recover --home ${SIX_HOME} --keyring-backend test --algo eth_secp256k1
+echo $ALICE_MNEMONIC | sixd keys add alice_eth --recover --home ${SIX_HOME} --keyring-backend test --algo eth_secp256k1 --coin-type 60
+echo $BOB_MNEMONIC | sixd keys add bob_eth --recover --home ${SIX_HOME} --keyring-backend test --algo eth_secp256k1 --coin-type 60
 
 sixd gentx ${VALKEY} 100000000usix --chain-id=${CHAIN_ID} --keyring-backend=test --home ${SIX_HOME}
 sixd collect-gentxs --home ${SIX_HOME}
