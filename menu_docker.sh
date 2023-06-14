@@ -53,6 +53,8 @@ function setUpGenesis(){
 
     ## staking 
     jq '.app_state.staking.validator_approval.approver_address = "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
+    jq '.app_state.staking.params.unbonding_time = "300s"' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
+    
 
     ## tokenmngr
     jq '.app_state.tokenmngr.mintpermList[0] |= . + {"address": "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq","creator": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv","token": "usix"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
@@ -205,12 +207,12 @@ case $choice in
         ;;
     7)
         echo "Staking Docker Container"
-        read -p "Chain ID [sixnet] : " CHAIN_ID
+        read -p "Chain ID [testnet] : " CHAIN_ID
         if [ -z "$CHAIN_ID" ]; then
-            CHAIN_ID="sixnet"
+            CHAIN_ID="testnet"
         fi
         i=1
-        amount=100000001
+        amount=100000000
         # i=0
         # for val in ${validator_keys[@]}
         for val in ${validator_keys[@]:1:3}
@@ -225,7 +227,7 @@ case $choice in
                 sixd tx staking create-validator --amount 1000000usix --license-mode=true --max-license=1 --pubkey $(sixd tendermint show-validator --home ./build/${node_homes[i]}) --home build/${node_homes[i]} \
                     --min-delegation 1000000 --delegation-increment 1000000 --enable-redelegation=false --moniker ${node_homes[i]} --from=${val} \
                     --commission-rate "0.1" --commission-max-rate "0.1" \
-                    --commission-max-change-rate "0.1" --chain-id six \
+                    --commission-max-change-rate "0.1" --chain-id $CHAIN_ID \
                     --sign-mode amino-json --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix --min-self-delegation 1000000 --keyring-backend test -y
                 echo "Config Genesis at ${home} Success 🟢"
                 ) || exit 1
@@ -239,12 +241,11 @@ case $choice in
                     --pubkey $(sixd tendermint show-validator --home ./build/${node_homes[i]}) --home build/${node_homes[i]} \
                     --keyring-backend test --commission-rate 0.1 --commission-max-rate 0.5 --commission-max-change-rate 0.1 \
                     --min-self-delegation 1000000 --node http://0.0.0.0:26662 -y --min-delegation 1000000 --delegation-increment 1000000 \
-                    --chain-id six --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y
+                    --chain-id $CHAIN_ID --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y
                 echo "Config Genesis at ${home} Success 🟢"
                 ) || exit 1
             fi
             i=$((i+1))
-            amount=$((amount+1))
         done
         ;;
     8)
