@@ -82,7 +82,7 @@
             }
           },
           "hidden_overide": false,
-          "hidden_to_marketplace": false
+          "hidden_to_marketplace": true
         },
         {
           "name": "stock_2",
@@ -100,7 +100,7 @@
             }
           },
           "hidden_overide": false,
-          "hidden_to_marketplace": false
+          "hidden_to_marketplace": true
         },
         {
           "name": "stock_3",
@@ -118,7 +118,7 @@
             }
           },
           "hidden_overide": false,
-          "hidden_to_marketplace": false
+          "hidden_to_marketplace": true
         },
         {
           "name": "redemtion_stock_1",
