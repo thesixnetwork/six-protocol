@@ -170,7 +170,7 @@ case $choice in
         done
         all_required_params="["$(echo ${all_required_params[@]} | tr ' ' ',')"]"
         sixd tx nftmngr perform-multi-token-action ${schema_code} ${token_id} ${action} ${ref_id} ${all_required_params} --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-            --chain-id ${CHAIN_ID}
+            --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} -o json
         ;;
     7) 
         echo "Set NFT Attribute"
