@@ -10,46 +10,52 @@
     {
       "name": "background",
       "string_attribute_value": {
-        "value": "Blue"
+        "value": "Gradient_Orange"
       },
       "hidden_to_marketplace": false
     },
     {
-      "name": "moon",
+      "name": "caption",
       "string_attribute_value": {
-        "value": "White"
+        "value": "Exhibitor"
       },
       "hidden_to_marketplace": false
     },
     {
-      "name": "plate",
+      "name": "skin",
       "string_attribute_value": {
-        "value": "Red"
+        "value": "Rainbow"
       },
       "hidden_to_marketplace": false
     },
     {
-      "name": "tail",
+      "name": "hair",
       "string_attribute_value": {
-        "value": "Red"
+        "value": "Medium_Purple"
       },
       "hidden_to_marketplace": false
     },
     {
-      "name": "whale",
+      "name": "mouth",
       "string_attribute_value": {
-        "value": "Whale"
+        "value": "Mouth_D"
+      },
+      "hidden_to_marketplace": false
+    },
+    {
+      "name": "costume",
+      "string_attribute_value": {
+        "value": "Exhibitor_E"
       },
       "hidden_to_marketplace": false
     }
   ],
   "onchain_attributes": [
     {
-      "name": "started",
+      "name": "vip",
       "boolean_attribute_value": {
-        "value": false
-      },
-      "hidden_to_marketplace": false
+        "value": true
+      }
     }
   ]
 }
