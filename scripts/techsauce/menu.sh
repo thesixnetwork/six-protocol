@@ -119,6 +119,10 @@ case $choice in
         if [ -z "$schema_code" ]; then
             schema_code=$default_schema_code
         fi
+        if [ -z "$ref_id" ]; then
+            uuid=$(uuidgen)
+            ref_id=${uuid}
+        fi
         # check if required_params is empty
         if [[ -z "$num_params" || "$num_params" -eq 0 ]]; then
             required_params="[]"
@@ -134,7 +138,7 @@ case $choice in
         fi
 
         sixd tx nftmngr perform-action-by-nftadmin ${schema_code} ${token_id} ${action} ${ref_id} ${required_params} --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-            --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} -o json
+            --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} -o json 
         ;;
     6) 
         echo "Do Action Multi token"
