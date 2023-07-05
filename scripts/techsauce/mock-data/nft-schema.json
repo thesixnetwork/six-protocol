@@ -183,9 +183,45 @@
         },
         "hidden_overide": false,
         "hidden_to_marketplace": true
+      },
+      {
+        "name": "after_party_claimed",
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": 0
+          }
+        },
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Claimed"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": true
       }
     ],
     "token_attributes": [
+      {
+        "name": "caption",
+        "default_mint_value": {
+          "string_attribute_value": {
+            "value": ""
+          }
+        },
+        "data_type": "string",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Caption"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
+      },
       {
         "name": "points",
         "default_mint_value": {
@@ -219,26 +255,6 @@
           "bool_false_value": "No",
           "opensea": {
             "trait_type": "Checked in at Techsauce Booth"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": false
-      },
-      {
-        "name": "vip",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
-        "data_type": "boolean",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "bool_true_value": "Yes",
-          "bool_false_value": "No",
-          "opensea": {
-            "trait_type": "Vip Ticket"
           }
         },
         "hidden_overide": false,
@@ -808,7 +824,7 @@
         ],
         "when": "meta.GetBoolean(params['stage'].GetString()) == false",
         "then": [
-          "meta.SetNumber('points', meta.GetNumber('points') + 100)",
+          "meta.GetNumber('points') >= 0 ? meta.SetNumber('points', meta.GetNumber('points') + 100) : meta.SetNumber('points', meta.GetNumber('points') + 100)",
           "meta.SetBoolean(params['stage'].GetString(), true)",
           "meta.SetNumber('stage_count', meta.GetNumber('stage_count') + 1)"
         ]
@@ -878,10 +894,11 @@
         "name": "transform",
         "desc": "Transform",
         "params":[],
-        "when": "meta.GetBoolean('techsauce_booth') == true && meta.GetNumber('partner_count') >= 4 && meta.GetNumber('stage_count') >= 5 && meta.GetNumber('session_count') >= 10  || meta.GetBoolean('vip') == true",
+        "when": "meta.GetBoolean('techsauce_booth') == true && meta.GetNumber('partner_count') >= 4 && meta.GetNumber('stage_count') >= 5 && meta.GetNumber('session_count') >= 10  || meta.GetString('caption') == 'VIP' ",
         "then": [
             "meta.SetBoolean('after_party', true)",
-            "meta.SetImage(meta.ReplaceAllString(meta.GetImage(),'.jpeg','-t.jpeg'))"
+            "meta.SetImage(meta.ReplaceAllString(meta.GetImage(),'.jpeg','-t.jpeg'))",
+            "meta.SetNumber('after_party_claimed', math.Max(10,20))"
         ]
       }
     ],
