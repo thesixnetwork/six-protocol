@@ -77,7 +77,7 @@
     "reveal_secret": "",
     "nft_attributes": [
       {
-        "name": "stock_1",
+        "name": "tumbler",
         "default_mint_value": {
           "number_attribute_value": {
             "value": 10
@@ -88,14 +88,14 @@
         "display_value_field": "value",
         "display_option": {
           "opensea": {
-            "trait_type": "Stock1"
+            "trait_type": "Tumbler"
           }
         },
         "hidden_overide": false,
         "hidden_to_marketplace": true
       },
       {
-        "name": "stock_2",
+        "name": "cap",
         "default_mint_value": {
           "number_attribute_value": {
             "value": 10
@@ -106,14 +106,14 @@
         "display_value_field": "value",
         "display_option": {
           "opensea": {
-            "trait_type": "Stock2"
+            "trait_type": "Cap"
           }
         },
         "hidden_overide": false,
         "hidden_to_marketplace": true
       },
       {
-        "name": "stock_3",
+        "name": "namecard",
         "default_mint_value": {
           "number_attribute_value": {
             "value": 10
@@ -124,17 +124,17 @@
         "display_value_field": "value",
         "display_option": {
           "opensea": {
-            "trait_type": "Stock3"
+            "trait_type": "Namecard"
           }
         },
         "hidden_overide": false,
         "hidden_to_marketplace": true
       },
       {
-        "name": "redemtion_stock_1",
+        "name": "g_namecard",
         "default_mint_value": {
           "number_attribute_value": {
-            "value": 25
+            "value": 10
           }
         },
         "data_type": "number",
@@ -142,17 +142,17 @@
         "display_value_field": "value",
         "display_option": {
           "opensea": {
-            "trait_type": "Redemtion_Points"
+            "trait_type": "Geo-Namecard"
           }
         },
         "hidden_overide": false,
         "hidden_to_marketplace": true
       },
       {
-        "name": "redemtion_stock_2",
+        "name": "tshirt",
         "default_mint_value": {
           "number_attribute_value": {
-            "value": 50
+            "value": 10
           }
         },
         "data_type": "number",
@@ -160,25 +160,97 @@
         "display_value_field": "value",
         "display_option": {
           "opensea": {
-            "trait_type": "Redemtion_Points"
+            "trait_type": "T-Shirt"
           }
         },
         "hidden_overide": false,
         "hidden_to_marketplace": true
       },
       {
-        "name": "redemtion_stock_3",
+        "name": "redemtion_tumbler",
         "default_mint_value": {
-          "number_attribute_value": {
-            "value": 100
+          "float_attribute_value": {
+            "value": 600.0
           }
         },
-        "data_type": "number",
+        "data_type": "float",
         "required": true,
         "display_value_field": "value",
         "display_option": {
           "opensea": {
-            "trait_type": "Redemtion_Points"
+            "trait_type": "Tumbler Price"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": true
+      },
+      {
+        "name": "redemtion_cap",
+        "default_mint_value": {
+          "float_attribute_value": {
+            "value": 300.0
+          }
+        },
+        "data_type": "float",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Cap Price"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": true
+      },
+      {
+        "name": "redemtion_namecard",
+        "default_mint_value": {
+          "float_attribute_value": {
+            "value": 200.0
+          }
+        },
+        "data_type": "float",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Namecard Price"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": true
+      },
+      {
+        "name": "redemtion_g_namecard",
+        "default_mint_value": {
+          "float_attribute_value": {
+            "value": 200.0
+          }
+        },
+        "data_type": "float",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Geo-Namecard Price"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": true
+      },
+      {
+        "name": "redemtion_tshirt",
+        "default_mint_value": {
+          "float_attribute_value": {
+            "value": 250.0
+          }
+        },
+        "data_type": "float",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "T-Shirt Price"
           }
         },
         "hidden_overide": false,
@@ -196,7 +268,25 @@
         "display_value_field": "value",
         "display_option": {
           "opensea": {
-            "trait_type": "Claimed"
+            "trait_type": "After Party Claimed"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": true
+      },
+      {
+        "name": "voucher_claimed",
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": 0
+          }
+        },
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Voucher Claimed"
           }
         },
         "hidden_overide": false,
@@ -225,16 +315,54 @@
       {
         "name": "points",
         "default_mint_value": {
-          "number_attribute_value": {
+          "float_attribute_value": {
             "value": 0
           }
         },
-        "data_type": "number",
+        "data_type": "float",
         "required": true,
         "display_value_field": "value",
         "display_option": {
           "opensea": {
             "trait_type": "Points"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
+      },
+      {
+        "name": "stage_points",
+        "default_mint_value": {
+          "float_attribute_value": {
+            "value": 0
+          }
+        },
+        "data_type": "float",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Points From Stage"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": true
+      },
+      {
+        "name": "redemtion_used",
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
+          }
+        },
+        "data_type": "boolean",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "Yes",
+          "bool_false_value": "No",
+          "opensea": {
+            "trait_type": "Redeemed Prize"
           }
         },
         "hidden_overide": false,
@@ -261,6 +389,86 @@
         "hidden_to_marketplace": false
       },
       {
+        "name": "bussiness_zone",
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
+          }
+        },
+        "data_type": "boolean",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "Yes",
+          "bool_false_value": "No",
+          "opensea": {
+            "trait_type": "Checked in at Bussiness Matching Zone"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
+      },
+      {
+        "name": "relax_zone",
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
+          }
+        },
+        "data_type": "boolean",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "Yes",
+          "bool_false_value": "No",
+          "opensea": {
+            "trait_type": "Checked in at Relaxing Zone"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
+      },
+      {
+        "name": "exp_zone",
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
+          }
+        },
+        "data_type": "boolean",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "Yes",
+          "bool_false_value": "No",
+          "opensea": {
+            "trait_type": "Checked in at Experiencing Zone"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
+      },
+      {
+        "name": "cvc_zone",
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
+          }
+        },
+        "data_type": "boolean",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "Yes",
+          "bool_false_value": "No",
+          "opensea": {
+            "trait_type": "Checked in at CVC Zone"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
+      },
+      {
         "name": "after_party",
         "default_mint_value": {
           "boolean_attribute_value": {
@@ -281,7 +489,27 @@
         "hidden_to_marketplace": false
       },
       {
-        "name": "partner_count",
+        "name": "voucher",
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
+          }
+        },
+        "data_type": "boolean",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "Yes",
+          "bool_false_value": "No",
+          "opensea": {
+            "trait_type": "Claimed Voucher Privileges"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
+      },
+      {
+        "name": "booth_count",
         "default_mint_value": {
           "number_attribute_value": {
             "value": 0
@@ -301,7 +529,7 @@
         "hidden_to_marketplace": true
       },
       {
-        "name": "partner_1",
+        "name": "booth_1",
         "default_mint_value": {
           "boolean_attribute_value": {
             "value": false
@@ -314,14 +542,14 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Checked in at Partner 1"
+            "trait_type": "Checked in at Booth 1"
           }
         },
         "hidden_overide": false,
         "hidden_to_marketplace": false
       },
       {
-        "name": "partner_2",
+        "name": "booth_2",
         "default_mint_value": {
           "boolean_attribute_value": {
             "value": false
@@ -334,14 +562,14 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Checked in at Partner 2"
+            "trait_type": "Checked in at Booth 2"
           }
         },
         "hidden_overide": false,
         "hidden_to_marketplace": false
       },
       {
-        "name": "partner_3",
+        "name": "booth_3",
         "default_mint_value": {
           "boolean_attribute_value": {
             "value": false
@@ -354,72 +582,12 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Checked in at Partner 3"
+            "trait_type": "Checked in at Booth 3"
           }
         },
         "hidden_overide": false,
         "hidden_to_marketplace": false
-      },
-      {
-        "name": "partner_4",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
-        "data_type": "boolean",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "bool_true_value": "Yes",
-          "bool_false_value": "No",
-          "opensea": {
-            "trait_type": "Checked in at Partner 4"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": false
-      },
-      {
-        "name": "partner_5",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
-        "data_type": "boolean",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "bool_true_value": "Yes",
-          "bool_false_value": "No",
-          "opensea": {
-            "trait_type": "Checked in at Partner 5"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": false
-      },
-      {
-        "name": "partner_6",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
-        "data_type": "boolean",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "bool_true_value": "Yes",
-          "bool_false_value": "No",
-          "opensea": {
-            "trait_type": "Checked in at Partner 6"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": false
-      },        
+      },       
       {
         "name": "stage_count",
         "default_mint_value": {
@@ -554,34 +722,14 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Checked in at Partner 6"
+            "trait_type": "Checked in at stage 6"
           }
         },
         "hidden_overide": false,
         "hidden_to_marketplace": false
       },
       {
-        "name": "session_count",
-        "default_mint_value": {
-          "number_attribute_value": {
-            "value": 0
-          }
-        },
-        "data_type": "number",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "bool_true_value": "Yes",
-          "bool_false_value": "No",
-          "opensea": {
-            "trait_type": "Number Participate at Session Events"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": true
-      },
-      {
-        "name": "session_1",
+        "name": "stage_7",
         "default_mint_value": {
           "boolean_attribute_value": {
             "value": false
@@ -594,14 +742,14 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Session One Attendance"
+            "trait_type": "Checked in at stage 7"
           }
         },
         "hidden_overide": false,
         "hidden_to_marketplace": false
       },
       {
-        "name": "session_2",
+        "name": "stage_8",
         "default_mint_value": {
           "boolean_attribute_value": {
             "value": false
@@ -614,14 +762,14 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Session Two Attendance"
+            "trait_type": "Checked in at stage 2"
           }
         },
         "hidden_overide": false,
         "hidden_to_marketplace": false
       },
       {
-        "name": "session_3",
+        "name": "stage_9",
         "default_mint_value": {
           "boolean_attribute_value": {
             "value": false
@@ -634,15 +782,14 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Session Three Attendance"
+            "trait_type": "Checked in at stage 9"
           }
         },
         "hidden_overide": false,
         "hidden_to_marketplace": false
-      }
-      ,
+      },
       {
-        "name": "session_4",
+        "name": "stage_10",
         "default_mint_value": {
           "boolean_attribute_value": {
             "value": false
@@ -655,14 +802,14 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Session Four Attendance"
+            "trait_type": "Checked in at stage 10"
           }
         },
         "hidden_overide": false,
         "hidden_to_marketplace": false
       },
       {
-        "name": "session_5",
+        "name": "stage_11",
         "default_mint_value": {
           "boolean_attribute_value": {
             "value": false
@@ -675,14 +822,14 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Session Five Attendance"
+            "trait_type": "Checked in at stage 11"
           }
         },
         "hidden_overide": false,
         "hidden_to_marketplace": false
       },
       {
-        "name": "session_6",
+        "name": "stage_12",
         "default_mint_value": {
           "boolean_attribute_value": {
             "value": false
@@ -695,14 +842,14 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Session SIX Attendance"
+            "trait_type": "Checked in at stage 12"
           }
         },
         "hidden_overide": false,
         "hidden_to_marketplace": false
       },
       {
-        "name": "session_7",
+        "name": "stage_13",
         "default_mint_value": {
           "boolean_attribute_value": {
             "value": false
@@ -715,14 +862,14 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Session Seven Attendance"
+            "trait_type": "Checked in at stage 13"
           }
         },
         "hidden_overide": false,
         "hidden_to_marketplace": false
       },
       {
-        "name": "session_8",
+        "name": "stage_14",
         "default_mint_value": {
           "boolean_attribute_value": {
             "value": false
@@ -735,32 +882,14 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Session Eight Attendance"
+            "trait_type": "Checked in at stage 14"
           }
         },
         "hidden_overide": false,
         "hidden_to_marketplace": false
       },
       {
-        "name": "session_9",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
-        "data_type": "boolean",
-        "display_option": {
-          "bool_true_value": "Yes",
-          "bool_false_value": "No",
-          "opensea": {
-            "trait_type": "Session Nine Attendance"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": false
-      },
-      {
-        "name": "session_10",
+        "name": "stage_15",
         "default_mint_value": {
           "boolean_attribute_value": {
             "value": false
@@ -773,7 +902,107 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Session Ten Attendance"
+            "trait_type": "Checked in at stage 15"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
+      },
+      {
+        "name": "stage_16",
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
+          }
+        },
+        "data_type": "boolean",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "Yes",
+          "bool_false_value": "No",
+          "opensea": {
+            "trait_type": "Checked in at stage 16"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
+      },
+      {
+        "name": "stage_17",
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
+          }
+        },
+        "data_type": "boolean",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "Yes",
+          "bool_false_value": "No",
+          "opensea": {
+            "trait_type": "Checked in at stage 17"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
+      },
+      {
+        "name": "stage_18",
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
+          }
+        },
+        "data_type": "boolean",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "Yes",
+          "bool_false_value": "No",
+          "opensea": {
+            "trait_type": "Checked in at stage 18"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
+      },
+      {
+        "name": "stage_19",
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
+          }
+        },
+        "data_type": "boolean",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "Yes",
+          "bool_false_value": "No",
+          "opensea": {
+            "trait_type": "Checked in at stage 19"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
+      },
+      {
+        "name": "stage_20",
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
+          }
+        },
+        "data_type": "boolean",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "Yes",
+          "bool_false_value": "No",
+          "opensea": {
+            "trait_type": "Checked in at stage 20"
           }
         },
         "hidden_overide": false,
@@ -783,31 +1012,49 @@
     "actions": [
       {
         "name": "check_in",
-        "desc": "Check in booth event",
+        "desc": "Attend to TechSauce Booth",
         "params": [],
         "when": "meta.GetBoolean('techsauce_booth') == false",
         "then": [
-          "meta.SetBoolean('techsauce_booth', true)",
-          "meta.SetNumber('points', meta.GetNumber('points') + 200)"
+          "meta.SetFloat('points', meta.GetFloat('points') + 50.0)",
+          "meta.SetBoolean('techsauce_booth', true)"
         ]
       },
       {
-        "name": "attend_partner",
-        "desc": "Attend partner event",
+        "name": "attend_zone",
+        "desc": "Attend to zone",
+        "params": [
+          {
+            "name": "zone",
+            "desc": "zone attribute",
+            "data_type": "string",
+            "required" : true,
+            "default_value": ""
+          }
+        ],
+        "when": "meta.GetBoolean(params['zone'].GetString()) == false",
+        "then": [
+          "meta.SetFloat('points', meta.GetFloat('points') + 70.0)",
+          "meta.SetBoolean(params['zone'].GetString(), true)"
+        ]
+      },
+      {
+        "name": "attend_booth",
+        "desc": "Attend partner booth",
         "params": [
         {
-            "name": "partner",
-            "desc": "Partner attribute",
+            "name": "booth",
+            "desc": "booth attribute",
             "data_type": "string",
             "required" : true,
             "default_value": ""
         }
         ],
-        "when": "meta.GetBoolean(params['partner'].GetString()) == false",
+        "when": "meta.GetBoolean(params['booth'].GetString()) == false",
         "then": [
-          "meta.SetNumber('points', meta.GetNumber('points') + 100)",
-          "meta.SetBoolean(params['partner'].GetString(), true)",
-          "meta.SetNumber('partner_count', meta.GetNumber('partner_count') + 1)"
+          "meta.SetFloat('points', meta.GetFloat('points') + 50.0)",
+          "meta.SetBoolean(params['booth'].GetString(), true)",
+          "meta.SetNumber('booth_count', meta.GetNumber('booth_count') + 1)"
         ]
       },
       {
@@ -824,28 +1071,11 @@
         ],
         "when": "meta.GetBoolean(params['stage'].GetString()) == false",
         "then": [
-          "meta.GetNumber('points') >= 0 ? meta.SetNumber('points', meta.GetNumber('points') + 100) : meta.SetNumber('points', meta.GetNumber('points') + 100)",
+          "max_ = Max(meta.GetFloat('stage_points')-400.0,-100.0)",
+          "meta.SetFloat('stage_points', meta.GetFloat('stage_points')+Abs(max_))",
+          "meta.SetFloat('points', meta.GetFloat('points')+Abs(max_))",
           "meta.SetBoolean(params['stage'].GetString(), true)",
           "meta.SetNumber('stage_count', meta.GetNumber('stage_count') + 1)"
-        ]
-      },
-      {
-        "name": "attend_session",
-        "desc": "Attend session event",
-        "params": [
-        {
-            "name": "session",
-            "desc": "Session attribute",
-            "data_type": "string",
-            "required" : true,
-            "default_value": ""
-        }
-        ],
-        "when": "meta.GetBoolean(params['session'].GetString()) == false",
-        "then": [
-          "meta.SetNumber('points', meta.GetNumber('points') + 100)",
-          "meta.SetBoolean(params['session'].GetString(), true)",
-          "meta.SetNumber('session_count', meta.GetNumber('session_count') + 1)"
         ]
       },
       {
@@ -860,45 +1090,20 @@
               "default_value": ""
           }
         ],
-        "when": "meta.GetNumber(params['stock'].GetString()) > 1 && meta.GetNumber('points') > meta.GetNumber('redemtion_'+ params['stock'].GetString())",
+        "when": "meta.GetBoolean('redemtion_used') == false && meta.GetNumber(params['stock'].GetString()) > 1 && meta.GetFloat('points') > meta.GetFloat('redemtion_'+ params['stock'].GetString())",
         "then": [
-          "meta.SetNumber('points', meta.GetNumber('points') - meta.GetNumber('redemtion_'+ params['stock'].GetString()))",
+          "meta.SetBoolean('redemtion_used', true)",
+          "meta.SetFloat('points', meta.GetFloat('points') - meta.GetFloat('redemtion_'+ params['stock'].GetString()))",
           "meta.SetNumber(params['stock'].GetString(), meta.GetNumber(params['stock'].GetString()) - 1)"
-        ]
-      },
-      {
-        "name": "transfer",
-        "desc": "Transfer",
-        "params" : [
-            {
-                "name": "points",
-                "desc": "Points",
-                "data_type": "number",
-                "required" : true,
-                "default_value": "10"
-            },
-            {
-                "name": "token_id",
-                "desc": "Token Id",
-                "data_type": "string",
-                "required" : true,
-                "default_value": ""
-            }
-        ],
-        "when": "meta.GetNumber('points') > 0 && params['points'].GetNumber() > 0 ",
-        "then": [
-            "meta.TransferNumber('points',params['token_id'].GetString(),params['points'].GetNumber())"
         ]
       },
       {
         "name": "transform",
         "desc": "Transform",
         "params":[],
-        "when": "meta.GetBoolean('techsauce_booth') == true && meta.GetNumber('partner_count') >= 4 && meta.GetNumber('stage_count') >= 5 && meta.GetNumber('session_count') >= 10  || meta.GetString('caption') == 'VIP' ",
+        "when": "meta.GetBoolean('after_party') == false && meta.GetBoolean('techsauce_booth') == true && meta.GetBoolean('bussiness_zone') == true && meta.GetBoolean('relax_zone') == true  && meta.GetBoolean('exp_zone') == true && meta.GetBoolean('cvc_zone') == true && meta.GetNumber('booth_count') >= 3 && meta.GetNumber('stage_count') >= 4 || meta.GetString('caption') == 'VIP'",
         "then": [
-            "meta.SetBoolean('after_party', true)",
-            "meta.SetImage(meta.ReplaceAllString(meta.GetImage(),'.jpeg','-t.jpeg'))",
-            "meta.SetNumber('after_party_claimed', math.Max(10,20))"
+            "meta.SetBoolean('after_party', true)"
         ]
       }
     ],

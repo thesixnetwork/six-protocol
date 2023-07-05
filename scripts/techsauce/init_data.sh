@@ -42,18 +42,11 @@ esac
 
 BASE64_SCHEMA=`cat ./mock-data/nft-schema.json | base64 | tr -d '\n'`
 
-# sixd tx nftadmin grant-permission oracle_admin $(sixd keys show super-admin -a) --from super-admin -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix
-# sixd tx nftadmin grant-permission admin_signer_config $(sixd keys show super-admin -a) --from super-admin -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix
-# sixd tx nftoracle set-minimum-confirmation 1 --from super-admin -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix
 sixd tx nftmngr create-nft-schema --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --chain-id ${CHAIN_ID} \
     --node ${RPC_ENDPOINT} ${BASE64_SCHEMA}
 
-# sixd tx nftoracle create-action-signer-config baobab 0x45AaF440FbA71E52cCb096D66230A7FaAd9b31ac --from super-admin -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix
-# sixd tx nftoracle create-action-signer-config goerli 0x4aEe985A876Deb8413c8ee509a8803bF634A247f --from super-admin -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix
-# grantOracle $(sixd keys show oracle1 -a --keyring-backend test)
-# grantOracle $(sixd keys show oracle2 -a --keyring-backend test)
-# grantOracle $(sixd keys show oracle3 -a --keyring-backend test)
-# grantOracle $(sixd keys show oracle4 -a --keyring-backend test)
-
-# sixd q nftadmin show-authorization \
-#     --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID}
+schema_code=techsauce.eventname
+token_id=1
+BASE64_META=`cat ./mock-data/nft-data.json | sed "s/TOKENID/${token_id}/g"  | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n'`
+sixd tx nftmngr create-metadata "${schema_code}" ${token_id} --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+    ${BASE64_META} --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
