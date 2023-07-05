@@ -134,7 +134,7 @@ case $choice in
         fi
 
         sixd tx nftmngr perform-action-by-nftadmin ${schema_code} ${token_id} ${action} ${ref_id} ${required_params} --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-            --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} -o json | grep -q 'Error:'
+            --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} -o json
         ;;
     6) 
         echo "Do Action Multi token"
@@ -209,7 +209,7 @@ case $choice in
             ATTRIBUTE_VALUE_TYPE_VALUE=${ATTRIBUTE_VALUE_VALUE}
         fi
 
-        BASE64_ATTR=`cat ./mock-data/nft-data-test071.json \
+        BASE64_ATTR=`cat ./mock-data/attribute.json \
             | sed "s/#ATTRIBUTE_NAME#/${ATTRIBUTE_NAME}/g" \
             | sed "s/#ATTRIBUTE_VALUE_TYPE#/${ATTRIBUTE_VALUE_TYPE}/g" \
             | sed "s/#ATTRIBUTE_VALUE_TYPE_VALUE#/${ATTRIBUTE_VALUE_TYPE_VALUE}/g" \
