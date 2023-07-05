@@ -257,7 +257,7 @@
         "hidden_to_marketplace": true
       },
       {
-        "name": "after_party_claimed",
+        "name": "general_after_party_count",
         "default_mint_value": {
           "number_attribute_value": {
             "value": 0
@@ -269,6 +269,60 @@
         "display_option": {
           "opensea": {
             "trait_type": "After Party Claimed"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": true
+      },
+      {
+        "name": "vip_after_party_count",
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": 0
+          }
+        },
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "VIP After Party Claimed"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": true
+      },
+      {
+        "name": "speaker_after_party_count",
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": 0
+          }
+        },
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Speaker After Party Claimed"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": true
+      },
+      {
+        "name": "investor_after_party_count",
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": 0
+          }
+        },
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Investor After Party Claimed"
           }
         },
         "hidden_overide": false,
@@ -469,7 +523,7 @@
         "hidden_to_marketplace": false
       },
       {
-        "name": "after_party",
+        "name": "after_party_claimed",
         "default_mint_value": {
           "boolean_attribute_value": {
             "value": false
@@ -1098,10 +1152,21 @@
         ]
       },
       {
-        "name": "transform",
+        "name": "claim_after_party",
+        "desc": "Claim After Party",
+        "params":[],
+        "when": "meta.GetNumber('general_after_party_count') <= 500 && meta.GetBoolean('after_party_claimed') == false && meta.GetBoolean('techsauce_booth') == true && meta.GetBoolean('bussiness_zone') == true && meta.GetBoolean('relax_zone') == true  && meta.GetBoolean('exp_zone') == true && meta.GetBoolean('cvc_zone') == true && meta.GetNumber('booth_count') >= 3 && meta.GetNumber('stage_count') >= 4 || meta.GetString('caption') == 'VIP' || meta.GetString('caption') == 'Speaker'|| meta.GetString('caption') == 'Investor'",
+        "then": [
+            "meta.SetBoolean('after_party_claimed', true)",
+            "caption_ = meta.GetString('caption')+'_after_party_count'",
+            "meta.SetNumber(caption_.ToLower() , meta.GetNumber(caption_.ToLower()) + 1)"
+        ]
+      },
+      {
+        "name": "claim_voucher",
         "desc": "Transform",
         "params":[],
-        "when": "meta.GetBoolean('after_party') == false && meta.GetBoolean('techsauce_booth') == true && meta.GetBoolean('bussiness_zone') == true && meta.GetBoolean('relax_zone') == true  && meta.GetBoolean('exp_zone') == true && meta.GetBoolean('cvc_zone') == true && meta.GetNumber('booth_count') >= 3 && meta.GetNumber('stage_count') >= 4 || meta.GetString('caption') == 'VIP'",
+        "when": "meta.GetBooler('after_party_') && meta.GetBoolean('after_party') == false && meta.GetBoolean('techsauce_booth') == true && meta.GetBoolean('bussiness_zone') == true && meta.GetBoolean('relax_zone') == true  && meta.GetBoolean('exp_zone') == true && meta.GetBoolean('cvc_zone') == true && meta.GetNumber('booth_count') >= 3 && meta.GetNumber('stage_count') >= 4 || meta.GetString('caption') == 'VIP'",
         "then": [
             "meta.SetBoolean('after_party', true)"
         ]
