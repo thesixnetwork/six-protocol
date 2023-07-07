@@ -80,7 +80,7 @@
         "name": "tumbler",
         "default_mint_value": {
           "number_attribute_value": {
-            "value": 10
+            "value": 65
           }
         },
         "data_type": "number",
@@ -98,7 +98,7 @@
         "name": "cap",
         "default_mint_value": {
           "number_attribute_value": {
-            "value": 10
+            "value": 130
           }
         },
         "data_type": "number",
@@ -116,7 +116,7 @@
         "name": "namecard",
         "default_mint_value": {
           "number_attribute_value": {
-            "value": 10
+            "value": 65
           }
         },
         "data_type": "number",
@@ -134,7 +134,7 @@
         "name": "g_namecard",
         "default_mint_value": {
           "number_attribute_value": {
-            "value": 10
+            "value": 70
           }
         },
         "data_type": "number",
@@ -152,7 +152,7 @@
         "name": "tshirt",
         "default_mint_value": {
           "number_attribute_value": {
-            "value": 10
+            "value": 65
           }
         },
         "data_type": "number",
