@@ -29,9 +29,16 @@
       "hidden_to_marketplace": false
     },
     {
-      "name": "hair",
+      "name": "costume",
       "string_attribute_value": {
-        "value": "Medium_Purple"
+        "value": "Exhibitor_E"
+      },
+      "hidden_to_marketplace": false
+    },
+    {
+      "name": "eyes",
+      "string_attribute_value": {
+        "value": "Round Glasses"
       },
       "hidden_to_marketplace": false
     },
@@ -43,18 +50,18 @@
       "hidden_to_marketplace": false
     },
     {
-      "name": "costume",
+      "name": "hair",
       "string_attribute_value": {
-        "value": "Exhibitor_E"
+        "value": "Medium_Purple"
       },
       "hidden_to_marketplace": false
     }
   ],
   "onchain_attributes": [
     {
-      "name": "vip",
-      "boolean_attribute_value": {
-        "value": true
+      "name": "caption",
+      "string_attribute_value": {
+        "value": "Exhibitor"
       }
     }
   ]

@@ -53,9 +53,9 @@
   "onchain_attributes": [
     {
       "name": "caption",
-        "string_attribute_value": {
-          "value": "VIP"
-        }
+      "string_attribute_value": {
+        "value": "VIP"
+      }
     }
   ]
 }
