@@ -1165,7 +1165,7 @@
         "name": "claim_after_party",
         "desc": "Claim After Party",
         "params": [],
-        "when": "meta.GetString('caption') != 'Staff' && meta.GetString('caption') != 'Organizer' && meta.GetNumber('general_after_party_count') <= 500 && meta.GetBoolean('after_party_claimed') == false && meta.GetBoolean('techsauce_booth') == true && meta.GetBoolean('bussiness_zone') == true && meta.GetBoolean('relax_zone') == true  && meta.GetBoolean('exp_zone') == true && meta.GetBoolean('cvc_zone') == true && meta.GetNumber('booth_count') >= 3 && meta.GetNumber('stage_count') >= 4 || meta.GetString('caption') == 'VIP' || meta.GetString('caption') == 'Speaker'|| meta.GetString('caption') == 'Investor'",
+        "when": "meta.GetString('caption') != 'Staff' && meta.GetString('caption') != 'Organizer' && meta.GetNumber('general_after_party_count') < 500 && meta.GetBoolean('after_party_claimed') == false && meta.GetBoolean('techsauce_booth') == true && meta.GetBoolean('bussiness_zone') == true && meta.GetBoolean('relax_zone') == true  && meta.GetBoolean('exp_zone') == true && meta.GetBoolean('cvc_zone') == true && meta.GetNumber('booth_count') >= 3 && meta.GetNumber('stage_count') >= 4 || meta.GetString('caption') == 'VIP' || meta.GetString('caption') == 'Speaker'|| meta.GetString('caption') == 'Investor'",
         "then": [
           "meta.SetBoolean('after_party_claimed', true)",
           "caption_ = meta.GetString('caption')+'_after_party_count'",
