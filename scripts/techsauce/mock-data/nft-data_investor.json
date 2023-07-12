@@ -17,44 +17,51 @@
     {
       "name": "caption",
       "string_attribute_value": {
-        "value": "Exhibitor"
+        "value": "Investor"
       },
       "hidden_to_marketplace": false
     },
     {
       "name": "skin",
       "string_attribute_value": {
-        "value": "Rainbow"
-      },
-      "hidden_to_marketplace": false
-    },
-    {
-      "name": "hair",
-      "string_attribute_value": {
-        "value": "Medium_Purple"
-      },
-      "hidden_to_marketplace": false
-    },
-    {
-      "name": "mouth",
-      "string_attribute_value": {
-        "value": "Mouth_D"
+        "value": "White"
       },
       "hidden_to_marketplace": false
     },
     {
       "name": "costume",
       "string_attribute_value": {
-        "value": "Exhibitor_E"
+        "value": "Investor_A"
+      },
+      "hidden_to_marketplace": false
+    },
+    {
+      "name": "eyes",
+      "string_attribute_value": {
+        "value": "Big Eyes"
+      },
+      "hidden_to_marketplace": false
+    },
+    {
+      "name": "mouth",
+      "string_attribute_value": {
+        "value": "Mouth_E"
+      },
+      "hidden_to_marketplace": false
+    },
+    {
+      "name": "hair",
+      "string_attribute_value": {
+        "value": "Long Brown"
       },
       "hidden_to_marketplace": false
     }
   ],
   "onchain_attributes": [
     {
-      "name": "vip",
-      "boolean_attribute_value": {
-        "value": true
+      "name": "caption",
+      "string_attribute_value": {
+        "value": "Investor"
       }
     }
   ]

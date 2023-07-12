@@ -1,13 +1,11 @@
 token_id=$1
 # if token_id is not provided, ask for it
-if [ -z "$token_id" ]
-then
+if [ -z "$token_id" ]; then
     read -p "Enter Token ID: " token_id
 fi
 action=$2
 # if action is not provided, ask for it
-if [ -z "$action" ]
-then
+if [ -z "$action" ]; then
     read -p "Enter Action: " action
 fi
 uuid=$(uuidgen)

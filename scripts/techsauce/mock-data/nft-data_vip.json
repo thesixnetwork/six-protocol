@@ -10,51 +10,58 @@
     {
       "name": "background",
       "string_attribute_value": {
-        "value": "Gradient_Orange"
-      },
-      "hidden_to_marketplace": false
-    },
-    {
-      "name": "caption",
-      "string_attribute_value": {
-        "value": "Exhibitor"
+        "value": "Gradient_Blue"
       },
       "hidden_to_marketplace": false
     },
     {
       "name": "skin",
       "string_attribute_value": {
-        "value": "Rainbow"
-      },
-      "hidden_to_marketplace": false
-    },
-    {
-      "name": "hair",
-      "string_attribute_value": {
-        "value": "Medium_Purple"
-      },
-      "hidden_to_marketplace": false
-    },
-    {
-      "name": "mouth",
-      "string_attribute_value": {
-        "value": "Mouth_D"
+        "value": "Yellow"
       },
       "hidden_to_marketplace": false
     },
     {
       "name": "costume",
       "string_attribute_value": {
-        "value": "Exhibitor_E"
+        "value": "VIP_A"
+      },
+      "hidden_to_marketplace": false
+    },
+    {
+      "name": "eyes",
+      "string_attribute_value": {
+        "value": "VR"
+      },
+      "hidden_to_marketplace": false
+    },
+    {
+      "name": "mouth",
+      "string_attribute_value": {
+        "value": "Mouth_A"
+      },
+      "hidden_to_marketplace": false
+    },
+    {
+      "name": "hair",
+      "string_attribute_value": {
+        "value": "Long Brown"
+      },
+      "hidden_to_marketplace": false
+    },
+    {
+      "name": "caption",
+      "string_attribute_value": {
+        "value": "VIP"
       },
       "hidden_to_marketplace": false
     }
   ],
   "onchain_attributes": [
     {
-      "name": "vip",
-      "boolean_attribute_value": {
-        "value": true
+      "name": "caption",
+      "string_attribute_value": {
+        "value": "VIP"
       }
     }
   ]

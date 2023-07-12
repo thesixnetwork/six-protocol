@@ -1,6 +1,5 @@
 token_id=$1
-if [ -z "$token_id" ]
-then
+if [ -z "$token_id" ]; then
     read -p "Enter Token ID: " token_id
 fi
 uuid=$(uuidgen)

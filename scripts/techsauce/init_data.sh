@@ -20,10 +20,12 @@ case $PLATFORM in
 "local")
     RPC_ENDPOINT="http://localhost:26657"
     CHAIN_ID=testnet
+    KEY_NAME=alice
     ;;
 "docker")
     RPC_ENDPOINT="http://localhost:26657"
     CHAIN_ID=testnet
+    KEY_NAME=alice
     ;;
 "fivenet")
     RPC_ENDPOINT="https://rpc1.fivenet.sixprotocol.net:443"
@@ -39,14 +41,52 @@ case $PLATFORM in
     ;;
 esac
 
+# if platform is not local or docker then input key
+if [ "$PLATFORM" != "local" ] && [ "$PLATFORM" != "docker" ]; then
+    read -p "Enter your key name: " KEY_NAME
+fi
 
-BASE64_SCHEMA=`cat ./mock-data/nft-schema.json | base64 | tr -d '\n'`
+BASE64_SCHEMA=$(cat ./mock-data/nft-schema.json | base64 | tr -d '\n')
 
-sixd tx nftmngr create-nft-schema --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --chain-id ${CHAIN_ID} \
+sixd tx nftmngr create-nft-schema --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --chain-id ${CHAIN_ID} \
     --node ${RPC_ENDPOINT} ${BASE64_SCHEMA}
 
-schema_code=techsauce.eventname
-token_id=1
-BASE64_META=`cat ./mock-data/nft-data.json | sed "s/TOKENID/${token_id}/g"  | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n'`
-sixd tx nftmngr create-metadata "${schema_code}" ${token_id} --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-    ${BASE64_META} --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
+schema_code=$2
+if [ -z "$schema_code" ]; then
+    read -p "Enter schema code: " schema_code
+fi
+
+token_id=1,2,3,4,5,6,7,8,9,10
+BASE64_META=$(cat ./mock-data/nft-data_vip.json | sed "s/TOKENID/MULTIMINT/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n')
+sixd tx nftmngr create-multi-metadata ${schema_code} ${token_id} ${BASE64_META} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
+
+token_id=11,12,13,14,15,16,17,18,19,20
+BASE64_META=$(cat ./mock-data/nft-data_speaker.json | sed "s/TOKENID/MULTIMINT/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n')
+sixd tx nftmngr create-multi-metadata ${schema_code} ${token_id} ${BASE64_META} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
+
+token_id=21,22,23,24,25,26,27,28,29,30
+BASE64_META=$(cat ./mock-data/nft-data_investor.json | sed "s/TOKENID/MULTIMINT/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n')
+sixd tx nftmngr create-multi-metadata ${schema_code} ${token_id} ${BASE64_META} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
+
+token_id=31,32,33,34,35,36,37,38,39,40
+BASE64_META=$(cat ./mock-data/nft-data_partner.json | sed "s/TOKENID/MULTIMINT/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n')
+sixd tx nftmngr create-multi-metadata ${schema_code} ${token_id} ${BASE64_META} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
+
+token_id=41,42,43,44,45,46,47,48,49,50
+BASE64_META=$(cat ./mock-data/nft-data_media.json | sed "s/TOKENID/MULTIMINT/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n')
+sixd tx nftmngr create-multi-metadata ${schema_code} ${token_id} ${BASE64_META} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
+
+token_id=51,52,53,54,55,56,57,58,59,60
+BASE64_META=$(cat ./mock-data/nft-data_exhibitor.json | sed "s/TOKENID/MULTIMINT/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n')
+sixd tx nftmngr create-multi-metadata ${schema_code} ${token_id} ${BASE64_META} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
+
+token_id=61,62,63,64,65,66,67,68,69,70
+BASE64_META=$(cat ./mock-data/nft-data_general.json | sed "s/TOKENID/MULTIMINT/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n')
+sixd tx nftmngr create-multi-metadata ${schema_code} ${token_id} ${BASE64_META} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}

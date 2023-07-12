@@ -14,11 +14,13 @@ fi
 case $PLATFORM in
 "local")
     RPC_ENDPOINT="http://localhost:26657"
-    CHAIN_ID="testnet"
+    CHAIN_ID=testnet
+    KEY_NAME=alice
     ;;
 "docker")
     RPC_ENDPOINT="http://localhost:26657"
-    CHAIN_ID="sixnet"
+    CHAIN_ID=testnet
+    KEY_NAME=alice
     ;;
 "fivenet")
     RPC_ENDPOINT="https://rpc1.fivenet.sixprotocol.net:443"
@@ -33,6 +35,11 @@ case $PLATFORM in
     exit 1
     ;;
 esac
+
+# if platform is not local or docker then input key
+if [ "$PLATFORM" != "local" ] && [ "$PLATFORM" != "docker" ]; then
+    read -p "Enter your key name: " KEY_NAME
+fi
 
 timestamp=$(date -u +"%Y-%m-%dT%H:%M:%S.000z")
 echo "#############################################"
@@ -95,7 +102,7 @@ case $choice in
             schema_code=$default_schema_code
         fi
         BASE64_META=`cat ./mock-data/nft-data.json | sed "s/TOKENID/${token_id}/g"  | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n'`
-        sixd tx nftmngr create-metadata "${schema_code}" ${token_id} --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+        sixd tx nftmngr create-metadata "${schema_code}" ${token_id} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             ${BASE64_META} --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
         ;;
     4) 
@@ -106,8 +113,8 @@ case $choice in
             schema_code=$default_schema_code
         fi
         BASE64_META=$(cat ./mock-data/nft-data.json | sed "s/TOKENID/MULTIMINT/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n')
-        sixd tx nftmngr create-multi-metadata ${schema_code} ${token_id} --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-            ${BASE64_META} --chain-id ${CHAIN_ID}
+        sixd tx nftmngr create-multi-metadata ${schema_code} ${token_id} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+            ${BASE64_META} --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
         ;;
     5) 
         echo "Do Action"
@@ -137,7 +144,7 @@ case $choice in
             echo $required_params
         fi
 
-        sixd tx nftmngr perform-action-by-nftadmin ${schema_code} ${token_id} ${action} ${ref_id} ${required_params} --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+        sixd tx nftmngr perform-action-by-nftadmin ${schema_code} ${token_id} ${action} ${ref_id} ${required_params} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} -o json 
         ;;
     6) 
@@ -173,7 +180,7 @@ case $choice in
             all_required_params+=($required_params)
         done
         all_required_params="["$(echo ${all_required_params[@]} | tr ' ' ',')"]"
-        sixd tx nftmngr perform-multi-token-action ${schema_code} ${token_id} ${action} ${ref_id} ${all_required_params} --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+        sixd tx nftmngr perform-multi-token-action ${schema_code} ${token_id} ${action} ${ref_id} ${all_required_params} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} -o json
         ;;
     7) 
@@ -221,7 +228,7 @@ case $choice in
 
         echo "BASE64_ATTR: ${BASE64_ATTR}"
 
-        sixd tx nftmngr set-nft-attribute ${schema_code} ${BASE64_ATTR} --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+        sixd tx nftmngr set-nft-attribute ${schema_code} ${BASE64_ATTR} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
         ;;
     8) 
@@ -232,7 +239,7 @@ case $choice in
         if [ -z "$schema_code" ]; then
             schema_code=$default_schema_code
         fi
-        sixd tx nftoracle create-mint-request ${schema_code} ${token_id} ${require_confirmations} --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+        sixd tx nftoracle create-mint-request ${schema_code} ${token_id} ${require_confirmations} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
         ;;
     9) 
@@ -285,7 +292,7 @@ case $choice in
 
         # echo -n ${BASE64_MESSAGE} | $EVMSIGN ./.secret 1
         # echo  ${BASE64_ACTION_SIG} 
-        sixd tx nftoracle create-action-request ethereum ${BASE64_ACTION_SIG} ${require_confirmations} --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+        sixd tx nftoracle create-action-request ethereum ${BASE64_ACTION_SIG} ${require_confirmations} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
         ;;
     12) 
@@ -319,7 +326,7 @@ case $choice in
 
         BASE64_VERIFY_SIG=`cat ./mock-data/verify-signature.json | sed "s/SIGNATURE/${MESSAGE_SIG}/g" | sed "s/MESSAGE/${BASE64_MESSAGE}/g" | base64 | tr -d '\n'`
 
-        sixd tx nftoracle create-verify-collection-owner-request ${schema_code} ${BASE64_VERIFY_SIG} ${require_confirmations} --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+        sixd tx nftoracle create-verify-collection-owner-request ${schema_code} ${BASE64_VERIFY_SIG} ${require_confirmations} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
         ;;
     15) 
@@ -348,7 +355,7 @@ case $choice in
         fi
         read -p "Location of attribute (0 or 1): " location
         BASE64_ATTRIBUTE=`cat ./mock-data/new-attribute.json | base64 | tr -d '\n'`
-        sixd tx nftmngr add-attribute ${schema_code} ${location} ${BASE64_ATTRIBUTE} --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+        sixd tx nftmngr add-attribute ${schema_code} ${location} ${BASE64_ATTRIBUTE} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
         ;;
     18) 
@@ -358,7 +365,7 @@ case $choice in
             schema_code=$default_schema_code
         fi
         BASE64_ACTION=`cat ./mock-data/new-action.json | base64 | tr -d '\n'`
-        sixd tx nftmngr add-action ${schema_code} ${BASE64_ACTION} --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+        sixd tx nftmngr add-action ${schema_code} ${BASE64_ACTION} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
         ;;
     19) 
@@ -416,7 +423,7 @@ case $choice in
 
         # echo -n ${BASE64_MESSAGE} | $EVMSIGN ./.secret 1
         # echo  ${BASE64_ACTION_SIG} 
-        sixd tx nftoracle create-action-request ethereum ${BASE64_ACTION_SIG} ${require_confirmations} --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} -y 
+        sixd tx nftoracle create-action-request ethereum ${BASE64_ACTION_SIG} ${require_confirmations} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} -y 
         ;;
     22) 
         echo "Oracle - Request Sync Signer"
@@ -424,7 +431,7 @@ case $choice in
         read -p "Enter Owner Address (ETH): " owner_address 
         read -p "Enter Chain: " chain
         read -p "Enter Required Confirmations: " required_confirmations
-        sixd tx nftoracle create-sync-action-signer ${chain} ${signer_address} ${owner_address} ${required_confirmations} --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} -y
+        sixd tx nftoracle create-sync-action-signer ${chain} ${signer_address} ${owner_address} ${required_confirmations} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} -y
         ;;
     23) 
         echo "Oracle - Submit Sync Signer"
@@ -443,7 +450,7 @@ case $choice in
         ;;
     24) 
         echo "Proposal change feemarket parameter"
-        sixd tx gov submit-proposal param-change ./mock-data/feemarket.json --from alice --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} --gas auto --gas-prices 1.25usix --gas-adjustment 1.5 -y
+        sixd tx gov submit-proposal param-change ./mock-data/feemarket.json --from $KEY_NAME --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} --gas auto --gas-prices 1.25usix --gas-adjustment 1.5 -y
         ;;
     *) echo "Invalid choice"
        ;;

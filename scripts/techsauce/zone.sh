@@ -1,9 +1,8 @@
 token_id=$1
 # if token_id is not provided, ask for it
-if [ -z "$token_id" ]
-then
+if [ -z "$token_id" ]; then
     read -p "Enter Token ID: " token_id
-fi    
+fi
 uuid=$(uuidgen)
 sixd tx nftmngr perform-multi-token-action techsauce.eventname ${token_id} \
     attend_zone,attend_zone,attend_zone,attend_zone multi_${uuid} \

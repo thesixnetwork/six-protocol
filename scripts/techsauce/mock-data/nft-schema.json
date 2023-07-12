@@ -1,12 +1,12 @@
 {
-  "code": "techsauce.eventname",
+  "code": "techsauce.mocking2",
   "name": "TechSuace",
   "owner": "0xNFTOWNER",
   "origin_data": {
     "origin_base_uri": "",
     "uri_retrieval_method": "BASE",
     "origin_chain": "SIX",
-    "origin_contract_address": "0x78d819EAbA9164040cd05D586C110d53AF3E487f",
+    "origin_contract_address": "0x18Af374bA2E005881E31BD59788BE3969fb5c857",
     "attribute_overriding": "CHAIN",
     "metadata_format": "opensea",
     "origin_attributes": [
@@ -67,6 +67,16 @@
         "display_option": {
           "opensea": {
             "trait_type": "Costume"
+          }
+        }
+      },
+      {
+        "name": "eyes",
+        "data_type": "string",
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Eyes"
           }
         }
       }
@@ -641,7 +651,7 @@
         },
         "hidden_overide": false,
         "hidden_to_marketplace": false
-      },       
+      },
       {
         "name": "stage_count",
         "default_mint_value": {
@@ -1082,7 +1092,7 @@
             "name": "zone",
             "desc": "zone attribute",
             "data_type": "string",
-            "required" : true,
+            "required": true,
             "default_value": ""
           }
         ],
@@ -1096,13 +1106,13 @@
         "name": "attend_booth",
         "desc": "Attend partner booth",
         "params": [
-        {
+          {
             "name": "booth",
             "desc": "booth attribute",
             "data_type": "string",
-            "required" : true,
+            "required": true,
             "default_value": ""
-        }
+          }
         ],
         "when": "meta.GetBoolean(params['booth'].GetString()) == false",
         "then": [
@@ -1115,13 +1125,13 @@
         "name": "attend_stage",
         "desc": "Attend stage event",
         "params": [
-        {
+          {
             "name": "stage",
             "desc": "Stage attribute",
             "data_type": "string",
-            "required" : true,
+            "required": true,
             "default_value": ""
-        }
+          }
         ],
         "when": "meta.GetBoolean(params['stage'].GetString()) == false",
         "then": [
@@ -1137,11 +1147,11 @@
         "desc": "Redemtion points for prize",
         "params": [
           {
-              "name": "stock",
-              "desc": "redemtion stock",
-              "data_type": "string",
-              "required" : true,
-              "default_value": ""
+            "name": "stock",
+            "desc": "redemtion stock",
+            "data_type": "string",
+            "required": true,
+            "default_value": ""
           }
         ],
         "when": "meta.GetString('caption') != 'Staff' && meta.GetString('caption') != 'Organizer' && meta.GetBoolean('redemtion_used') == false && meta.GetNumber(params['stock'].GetString()) > 1 && meta.GetFloat('points') > meta.GetFloat('redemtion_'+ params['stock'].GetString())",
@@ -1154,18 +1164,18 @@
       {
         "name": "claim_after_party",
         "desc": "Claim After Party",
-        "params":[],
+        "params": [],
         "when": "meta.GetString('caption') != 'Staff' && meta.GetString('caption') != 'Organizer' && meta.GetNumber('general_after_party_count') <= 500 && meta.GetBoolean('after_party_claimed') == false && meta.GetBoolean('techsauce_booth') == true && meta.GetBoolean('bussiness_zone') == true && meta.GetBoolean('relax_zone') == true  && meta.GetBoolean('exp_zone') == true && meta.GetBoolean('cvc_zone') == true && meta.GetNumber('booth_count') >= 3 && meta.GetNumber('stage_count') >= 4 || meta.GetString('caption') == 'VIP' || meta.GetString('caption') == 'Speaker'|| meta.GetString('caption') == 'Investor'",
         "then": [
-            "meta.SetBoolean('after_party_claimed', true)",
-            "caption_ = meta.GetString('caption')+'_after_party_count'",
-            "meta.SetNumber(caption_.ToLower() , meta.GetNumber(caption_.ToLower()) + 1)"
+          "meta.SetBoolean('after_party_claimed', true)",
+          "caption_ = meta.GetString('caption')+'_after_party_count'",
+          "meta.SetNumber(caption_.ToLower() , meta.GetNumber(caption_.ToLower()) + 1)"
         ]
       },
       {
         "name": "claim_voucher",
         "desc": "Voucher Redeemtion",
-        "params":[],
+        "params": [],
         "when": "meta.GetString('caption') != 'Staff' && meta.GetString('caption') != 'Organizer' && meta.GetBoolean('voucher_claimed') == false",
         "then": [
           "meta.SetBoolean('voucher_claimed', true)",
@@ -1175,19 +1185,19 @@
       {
         "name": "change_price",
         "desc": "Change Price of Redemtion",
-        "params":[
+        "params": [
           {
             "name": "stock",
             "desc": "redemtion stock",
             "data_type": "string",
-            "required" : true,
+            "required": true,
             "default_value": ""
           },
           {
             "name": "points",
             "desc": "New Point Value",
             "data_type": "number",
-            "required" : true,
+            "required": true,
             "default_value": ""
           }
         ],
