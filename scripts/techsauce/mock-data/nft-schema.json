@@ -1,5 +1,5 @@
 {
-  "code": "techsauce.mocking2",
+  "code": "techsauce.mocking4",
   "name": "TechSuace",
   "owner": "0xNFTOWNER",
   "origin_data": {
@@ -395,44 +395,6 @@
         "hidden_to_marketplace": false
       },
       {
-        "name": "stage_points",
-        "default_mint_value": {
-          "float_attribute_value": {
-            "value": 0
-          }
-        },
-        "data_type": "float",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "opensea": {
-            "trait_type": "Points From Stage"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": true
-      },
-      {
-        "name": "redemtion_used",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
-        "data_type": "boolean",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "bool_true_value": "Yes",
-          "bool_false_value": "No",
-          "opensea": {
-            "trait_type": "Redeemed Prize"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": false
-      },
-      {
         "name": "techsauce_booth",
         "default_mint_value": {
           "boolean_attribute_value": {
@@ -446,7 +408,7 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Checked in at Techsauce Booth"
+            "trait_type": "Booth Techsauce"
           }
         },
         "hidden_overide": false,
@@ -466,7 +428,7 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Checked in at Bussiness Matching Zone"
+            "trait_type": "Bussiness Matching Zone"
           }
         },
         "hidden_overide": false,
@@ -486,7 +448,7 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Checked in at Relaxing Zone"
+            "trait_type": "Relaxing Zone"
           }
         },
         "hidden_overide": false,
@@ -506,7 +468,207 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Checked in at Experiencing Zone"
+            "trait_type": "Experiencing Zone"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
+      },
+      {
+        "name": "stage_count",
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": 0
+          }
+        },
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "Yes",
+          "bool_false_value": "No",
+          "opensea": {
+            "trait_type": "Attend Stage"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
+      },
+      {
+        "name": "stage_1",
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
+          }
+        },
+        "data_type": "boolean",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "Yes",
+          "bool_false_value": "No",
+          "opensea": {
+            "trait_type": "Main Stage"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
+      },
+      {
+        "name": "stage_2",
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
+          }
+        },
+        "data_type": "boolean",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "Yes",
+          "bool_false_value": "No",
+          "opensea": {
+            "trait_type": "Climate Tech/FinTech Stage"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
+      },
+      {
+        "name": "stage_3",
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
+          }
+        },
+        "data_type": "boolean",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "Yes",
+          "bool_false_value": "No",
+          "opensea": {
+            "trait_type": "FoodTech/ HealthTech/ Starup Stage"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
+      },
+      {
+        "name": "stage_4",
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
+          }
+        },
+        "data_type": "boolean",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "Yes",
+          "bool_false_value": "No",
+          "opensea": {
+            "trait_type": "Digital Tranformation Stage"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
+      },
+      {
+        "name": "stage_5",
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
+          }
+        },
+        "data_type": "boolean",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "Yes",
+          "bool_false_value": "No",
+          "opensea": {
+            "trait_type": "Corporate Innovation/ Web3 Stage"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
+      },
+      {
+        "name": "exhibition_count",
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": 0
+          }
+        },
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "Yes",
+          "bool_false_value": "No",
+          "opensea": {
+            "trait_type": "Exhibition Zone"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
+      },
+      {
+        "name": "exhibition_a",
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
+          }
+        },
+        "data_type": "boolean",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "Yes",
+          "bool_false_value": "No",
+          "opensea": {
+            "trait_type": "Exhibition Zone A"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
+      },
+      {
+        "name": "exhibition_b",
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
+          }
+        },
+        "data_type": "boolean",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "Yes",
+          "bool_false_value": "No",
+          "opensea": {
+            "trait_type": "Exhibition Zone B"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
+      },
+      {
+        "name": "exhibition_c",
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
+          }
+        },
+        "data_type": "boolean",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "Yes",
+          "bool_false_value": "No",
+          "opensea": {
+            "trait_type": "Exhibition Zone C"
           }
         },
         "hidden_overide": false,
@@ -526,7 +688,7 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Checked in at CVC Zone"
+            "trait_type": "CVC Zone"
           }
         },
         "hidden_overide": false,
@@ -573,107 +735,45 @@
         "hidden_to_marketplace": false
       },
       {
-        "name": "booth_count",
+        "name": "minor_count",
         "default_mint_value": {
-          "number_attribute_value": {
-            "value": 0
+          "float_attribute_value": {
+            "value": 0.0
           }
         },
-        "data_type": "number",
+        "data_type": "float",
         "required": true,
         "display_value_field": "value",
         "display_option": {
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Number Participate at Partner Booths"
+            "trait_type": "Number Of Minors events"
           }
         },
         "hidden_overide": false,
         "hidden_to_marketplace": true
       },
       {
-        "name": "booth_1",
+        "name": "stage_points",
         "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
-        "data_type": "boolean",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "bool_true_value": "Yes",
-          "bool_false_value": "No",
-          "opensea": {
-            "trait_type": "Checked in at Booth 1"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": false
-      },
-      {
-        "name": "booth_2",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
-        "data_type": "boolean",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "bool_true_value": "Yes",
-          "bool_false_value": "No",
-          "opensea": {
-            "trait_type": "Checked in at Booth 2"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": false
-      },
-      {
-        "name": "booth_3",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
-        "data_type": "boolean",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "bool_true_value": "Yes",
-          "bool_false_value": "No",
-          "opensea": {
-            "trait_type": "Checked in at Booth 3"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": false
-      },
-      {
-        "name": "stage_count",
-        "default_mint_value": {
-          "number_attribute_value": {
+          "float_attribute_value": {
             "value": 0
           }
         },
-        "data_type": "number",
+        "data_type": "float",
         "required": true,
         "display_value_field": "value",
         "display_option": {
-          "bool_true_value": "Yes",
-          "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Number Participate at Main Stage Events"
+            "trait_type": "Points From Stage"
           }
         },
         "hidden_overide": false,
         "hidden_to_marketplace": true
       },
       {
-        "name": "stage_1",
+        "name": "redemtion_used",
         "default_mint_value": {
           "boolean_attribute_value": {
             "value": false
@@ -686,387 +786,7 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Checked in at stage 1"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": false
-      },
-      {
-        "name": "stage_2",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
-        "data_type": "boolean",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "bool_true_value": "Yes",
-          "bool_false_value": "No",
-          "opensea": {
-            "trait_type": "Checked in at stage 2"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": false
-      },
-      {
-        "name": "stage_3",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
-        "data_type": "boolean",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "bool_true_value": "Yes",
-          "bool_false_value": "No",
-          "opensea": {
-            "trait_type": "Checked in at stage 3"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": false
-      },
-      {
-        "name": "stage_4",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
-        "data_type": "boolean",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "bool_true_value": "Yes",
-          "bool_false_value": "No",
-          "opensea": {
-            "trait_type": "Checked in at stage 4"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": false
-      },
-      {
-        "name": "stage_5",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
-        "data_type": "boolean",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "bool_true_value": "Yes",
-          "bool_false_value": "No",
-          "opensea": {
-            "trait_type": "Checked in at stage 5"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": false
-      },
-      {
-        "name": "stage_6",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
-        "data_type": "boolean",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "bool_true_value": "Yes",
-          "bool_false_value": "No",
-          "opensea": {
-            "trait_type": "Checked in at stage 6"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": false
-      },
-      {
-        "name": "stage_7",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
-        "data_type": "boolean",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "bool_true_value": "Yes",
-          "bool_false_value": "No",
-          "opensea": {
-            "trait_type": "Checked in at stage 7"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": false
-      },
-      {
-        "name": "stage_8",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
-        "data_type": "boolean",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "bool_true_value": "Yes",
-          "bool_false_value": "No",
-          "opensea": {
-            "trait_type": "Checked in at stage 2"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": false
-      },
-      {
-        "name": "stage_9",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
-        "data_type": "boolean",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "bool_true_value": "Yes",
-          "bool_false_value": "No",
-          "opensea": {
-            "trait_type": "Checked in at stage 9"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": false
-      },
-      {
-        "name": "stage_10",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
-        "data_type": "boolean",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "bool_true_value": "Yes",
-          "bool_false_value": "No",
-          "opensea": {
-            "trait_type": "Checked in at stage 10"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": false
-      },
-      {
-        "name": "stage_11",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
-        "data_type": "boolean",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "bool_true_value": "Yes",
-          "bool_false_value": "No",
-          "opensea": {
-            "trait_type": "Checked in at stage 11"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": false
-      },
-      {
-        "name": "stage_12",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
-        "data_type": "boolean",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "bool_true_value": "Yes",
-          "bool_false_value": "No",
-          "opensea": {
-            "trait_type": "Checked in at stage 12"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": false
-      },
-      {
-        "name": "stage_13",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
-        "data_type": "boolean",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "bool_true_value": "Yes",
-          "bool_false_value": "No",
-          "opensea": {
-            "trait_type": "Checked in at stage 13"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": false
-      },
-      {
-        "name": "stage_14",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
-        "data_type": "boolean",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "bool_true_value": "Yes",
-          "bool_false_value": "No",
-          "opensea": {
-            "trait_type": "Checked in at stage 14"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": false
-      },
-      {
-        "name": "stage_15",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
-        "data_type": "boolean",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "bool_true_value": "Yes",
-          "bool_false_value": "No",
-          "opensea": {
-            "trait_type": "Checked in at stage 15"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": false
-      },
-      {
-        "name": "stage_16",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
-        "data_type": "boolean",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "bool_true_value": "Yes",
-          "bool_false_value": "No",
-          "opensea": {
-            "trait_type": "Checked in at stage 16"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": false
-      },
-      {
-        "name": "stage_17",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
-        "data_type": "boolean",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "bool_true_value": "Yes",
-          "bool_false_value": "No",
-          "opensea": {
-            "trait_type": "Checked in at stage 17"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": false
-      },
-      {
-        "name": "stage_18",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
-        "data_type": "boolean",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "bool_true_value": "Yes",
-          "bool_false_value": "No",
-          "opensea": {
-            "trait_type": "Checked in at stage 18"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": false
-      },
-      {
-        "name": "stage_19",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
-        "data_type": "boolean",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "bool_true_value": "Yes",
-          "bool_false_value": "No",
-          "opensea": {
-            "trait_type": "Checked in at stage 19"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": false
-      },
-      {
-        "name": "stage_20",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
-        "data_type": "boolean",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "bool_true_value": "Yes",
-          "bool_false_value": "No",
-          "opensea": {
-            "trait_type": "Checked in at stage 20"
+            "trait_type": "Redemption Used"
           }
         },
         "hidden_overide": false,
@@ -1081,7 +801,9 @@
         "when": "meta.GetBoolean('techsauce_booth') == false",
         "then": [
           "meta.SetFloat('points', meta.GetFloat('points') + 50.0)",
-          "meta.SetBoolean('techsauce_booth', true)"
+          "meta.SetBoolean('techsauce_booth', true)",
+          "max_minor = Max(meta.GetFloat('minor_count')-5.0,-1.0)",
+          "meta.SetFloat('minor_count', meta.GetFloat('minor_count')+Abs(max_minor))"
         ]
       },
       {
@@ -1099,26 +821,31 @@
         "when": "meta.GetBoolean(params['zone'].GetString()) == false",
         "then": [
           "meta.SetFloat('points', meta.GetFloat('points') + 70.0)",
-          "meta.SetBoolean(params['zone'].GetString(), true)"
+          "meta.SetBoolean(params['zone'].GetString(), true)",
+          "max_minor = Max(meta.GetFloat('minor_count')-5.0,-1.0)",
+          "meta.SetFloat('minor_count', meta.GetFloat('minor_count')+Abs(max_minor))"
         ]
       },
       {
-        "name": "attend_booth",
-        "desc": "Attend partner booth",
+        "name": "attend_exhibition",
+        "desc": "Attend partner exhibition",
         "params": [
           {
-            "name": "booth",
-            "desc": "booth attribute",
+            "name": "exhibition",
+            "desc": "exhibition attribute",
             "data_type": "string",
             "required": true,
             "default_value": ""
           }
         ],
-        "when": "meta.GetBoolean(params['booth'].GetString()) == false",
+        "when": "meta.GetBoolean(params['exhibition'].GetString()) == false",
         "then": [
           "meta.SetFloat('points', meta.GetFloat('points') + 50.0)",
-          "meta.SetBoolean(params['booth'].GetString(), true)",
-          "meta.SetNumber('booth_count', meta.GetNumber('booth_count') + 1)"
+          "meta.SetBoolean(params['exhibition'].GetString(), true)",
+          "meta.SetNumber('exhibition_count', meta.GetNumber('exhibition_count') + 1)",
+          "max_booth = Max(meta.GetNumber('exhibition_count')-2.0,0.0)",
+          "max_minor = Max(meta.GetFloat('minor_count')-3.0, max_booth)",
+          "meta.SetFloat('minor_count', meta.GetFloat('minor_count')+Abs(max_minor))"
         ]
       },
       {
@@ -1165,7 +892,7 @@
         "name": "claim_after_party",
         "desc": "Claim After Party",
         "params": [],
-        "when": "meta.GetString('caption') != 'Staff' && meta.GetString('caption') != 'Organizer' && meta.GetNumber('general_after_party_count') < 500 && meta.GetBoolean('after_party_claimed') == false && meta.GetBoolean('techsauce_booth') == true && meta.GetBoolean('bussiness_zone') == true && meta.GetBoolean('relax_zone') == true  && meta.GetBoolean('exp_zone') == true && meta.GetBoolean('cvc_zone') == true && meta.GetNumber('booth_count') >= 3 && meta.GetNumber('stage_count') >= 4 || meta.GetString('caption') == 'VIP' || meta.GetString('caption') == 'Speaker'|| meta.GetString('caption') == 'Investor'",
+        "when": "meta.GetString('caption') == 'VIP' || meta.GetString('caption') == 'Speaker'|| meta.GetString('caption') == 'Investor' || meta.GetString('caption') != 'Staff' && meta.GetString('caption') != 'Organizer' && meta.GetNumber('general_after_party_count') < 300 && meta.GetBoolean('after_party_claimed') == false && meta.GetNumber('stage_count') >= 4 && meta.GetFloat('minor_count') >= 4.0",
         "then": [
           "meta.SetBoolean('after_party_claimed', true)",
           "caption_ = meta.GetString('caption')+'_after_party_count'",

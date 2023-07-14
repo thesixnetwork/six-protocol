@@ -9,7 +9,7 @@ if [ -z "$action" ]; then
     read -p "Enter Action: " action
 fi
 uuid=$(uuidgen)
-sixd tx nftmngr perform-action-by-nftadmin techsauce.eventname ${token_id} \
+sixd tx nftmngr perform-action-by-nftadmin techsauce.mocking3 ${token_id} \
     ${action} ${uuid} '[]' \
     --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
     --node http://localhost:26657 --chain-id testnet
