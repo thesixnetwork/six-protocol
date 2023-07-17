@@ -8,8 +8,41 @@ action=$2
 if [ -z "$action" ]; then
     read -p "Enter Action: " action
 fi
+
+PLATFORM=$3
+case $PLATFORM in
+"local")
+    RPC_ENDPOINT="http://localhost:26657"
+    CHAIN_ID=testnet
+    KEY_NAME=alice
+    ;;
+"docker")
+    RPC_ENDPOINT="http://localhost:26657"
+    CHAIN_ID=testnet
+    KEY_NAME=alice
+    ;;
+"fivenet")
+    RPC_ENDPOINT="https://rpc1.fivenet.sixprotocol.net:443"
+    CHAIN_ID=fivenet
+    ;;
+"sixnet")
+    RPC_ENDPOINT="https://sixnet-rpc.sixprotocol.net:443"
+    CHAIN_ID=sixnet
+    ;;
+*)
+    echo "Error: unsupported PLATFORM '$PLATFORM'" >&2
+    exit 1
+    ;;
+esac
+
+schema=$4
+
+# if platform is not local or docker then input key
+if [ "$PLATFORM" != "local" ] && [ "$PLATFORM" != "docker" ]; then
+    read -p "Enter your key name: " KEY_NAME
+fi
+
 uuid=$(uuidgen)
-sixd tx nftmngr perform-action-by-nftadmin techsauce.mocking3 ${token_id} \
+sixd tx nftmngr perform-action-by-nftadmin ${schema} ${token_id} \
     ${action} ${uuid} '[]' \
-    --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-    --node http://localhost:26657 --chain-id testnet
+    --from ${KEY_NAME} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID}

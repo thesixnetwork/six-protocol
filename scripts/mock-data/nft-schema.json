@@ -333,7 +333,7 @@
         "then": [
             "meta.TransferNumber('points',params['token_id'].GetString(),params['points'].GetNumber())"
         ]
-    }
+      }
     ],
     "nft_attributes_value": [
       {

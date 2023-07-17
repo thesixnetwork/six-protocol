@@ -87,7 +87,7 @@
     "reveal_secret": "",
     "nft_attributes": [
       {
-        "name": "tumbler",
+        "name": "tumbler_stock",
         "default_mint_value": {
           "number_attribute_value": {
             "value": 65
@@ -98,14 +98,14 @@
         "display_value_field": "value",
         "display_option": {
           "opensea": {
-            "trait_type": "Tumbler"
+            "trait_type": "Tumbler Stock"
           }
         },
         "hidden_overide": false,
         "hidden_to_marketplace": true
       },
       {
-        "name": "cap",
+        "name": "cap_stock",
         "default_mint_value": {
           "number_attribute_value": {
             "value": 130
@@ -116,14 +116,14 @@
         "display_value_field": "value",
         "display_option": {
           "opensea": {
-            "trait_type": "Cap"
+            "trait_type": "Cap Stock"
           }
         },
         "hidden_overide": false,
         "hidden_to_marketplace": true
       },
       {
-        "name": "namecard",
+        "name": "namecard_stock",
         "default_mint_value": {
           "number_attribute_value": {
             "value": 65
@@ -134,14 +134,14 @@
         "display_value_field": "value",
         "display_option": {
           "opensea": {
-            "trait_type": "Namecard"
+            "trait_type": "Namecard Stock"
           }
         },
         "hidden_overide": false,
         "hidden_to_marketplace": true
       },
       {
-        "name": "g_namecard",
+        "name": "g_namecard_stock",
         "default_mint_value": {
           "number_attribute_value": {
             "value": 70
@@ -152,14 +152,14 @@
         "display_value_field": "value",
         "display_option": {
           "opensea": {
-            "trait_type": "Geo-Namecard"
+            "trait_type": "Geo-Namecard Stock"
           }
         },
         "hidden_overide": false,
         "hidden_to_marketplace": true
       },
       {
-        "name": "tshirt",
+        "name": "tshirt_stock",
         "default_mint_value": {
           "number_attribute_value": {
             "value": 65
@@ -170,7 +170,7 @@
         "display_value_field": "value",
         "display_option": {
           "opensea": {
-            "trait_type": "T-Shirt"
+            "trait_type": "T-Shirt Stock"
           }
         },
         "hidden_overide": false,
@@ -791,6 +791,96 @@
         },
         "hidden_overide": false,
         "hidden_to_marketplace": false
+      },
+      {
+        "name": "tumbler",
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": 0
+          }
+        },
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Tumbler"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": true
+      },
+      {
+        "name": "cap",
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": 0
+          }
+        },
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Cap"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": true
+      },
+      {
+        "name": "namecard",
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": 0
+          }
+        },
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Namecard"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": true
+      },
+      {
+        "name": "g_namecard",
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": 0
+          }
+        },
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Geo-Namecard"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": true
+      },
+      {
+        "name": "tshirt",
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": 0
+          }
+        },
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "T-Shirt"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": true
       }
     ],
     "actions": [
@@ -884,8 +974,7 @@
         "when": "meta.GetString('caption') != 'Staff' && meta.GetString('caption') != 'Organizer' && meta.GetBoolean('redemtion_used') == false && meta.GetNumber(params['stock'].GetString()) > 1 && meta.GetFloat('points') > meta.GetFloat('redemtion_'+ params['stock'].GetString())",
         "then": [
           "meta.SetBoolean('redemtion_used', true)",
-          "meta.SetFloat('points', meta.GetFloat('points') - meta.GetFloat('redemtion_'+ params['stock'].GetString()))",
-          "meta.SetNumber(params['stock'].GetString(), meta.GetNumber(params['stock'].GetString()) - 1)"
+          "meta.SetFloat('points', meta.GetFloat('points') - meta.GetFloat('redemtion_'+ params['stock'].GetString()))"
         ]
       },
       {
@@ -907,6 +996,30 @@
         "then": [
           "meta.SetBoolean('voucher_claimed', true)",
           "meta.SetNumber('voucher_claimed' , meta.GetNumber('voucher_claimed') + 1)"
+        ]
+      },
+      {
+        "name": "transfer",
+        "desc": "Transfer",
+        "params": [
+          {
+            "name": "prize",
+            "desc": "Prize",
+            "data_type": "number",
+            "required": true,
+            "default_value": "1"
+          },
+          {
+            "name": "token_id",
+            "desc": "Token Id",
+            "data_type": "string",
+            "required": true,
+            "default_value": ""
+          }
+        ],
+        "when": "meta.GetNumber('prize') > 0 && params['points'].GetNumber() > 0 ",
+        "then": [
+          "meta.TransferNumber('prize',params['token_id'].GetString(),params['prize'].GetNumber())"
         ]
       },
       {
