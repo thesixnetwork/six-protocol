@@ -1,0 +1,97 @@
+{
+  "nft_schema_code": "SCHEMA_CODE",
+  "token_id": "0",
+  "token_owner": "0xB62ef83643A2F8c95dF78F694C6Bf480f5b786f2",
+  "owner_address_type": "ORIGIN_ADDRESS",
+  "origin_image": "https://ipfs.io/ipfs/QmUd5xBxZucHQyUkqkCCtfZ3iktSSmEEyhuX1u48bP4WE7/whale.jpeg",
+  "onchain_image": "",
+  "token_uri": "",
+  "origin_attributes": [
+    {
+      "name": "background",
+      "string_attribute_value": {
+        "value": "Gradient_Orange"
+      },
+      "hidden_to_marketplace": false
+    },
+    {
+      "name": "caption",
+      "string_attribute_value": {
+        "value": "Exhibitor"
+      },
+      "hidden_to_marketplace": false
+    },
+    {
+      "name": "skin",
+      "string_attribute_value": {
+        "value": "Rainbow"
+      },
+      "hidden_to_marketplace": false
+    },
+    {
+      "name": "hair",
+      "string_attribute_value": {
+        "value": "Medium_Purple"
+      },
+      "hidden_to_marketplace": false
+    },
+    {
+      "name": "mouth",
+      "string_attribute_value": {
+        "value": "Mouth_D"
+      },
+      "hidden_to_marketplace": false
+    },
+    {
+      "name": "costume",
+      "string_attribute_value": {
+        "value": "Exhibitor_E"
+      },
+      "hidden_to_marketplace": false
+    }
+  ],
+  "onchain_attributes": [
+    {
+      "name": "caption",
+      "string_attribute_value": {
+        "value": "VIP"
+      }
+    },
+    {
+      "name": "caption",
+      "string_attribute_value": {
+        "value": "VIP"
+      }
+    },
+    {
+      "name": "tumbler",
+      "number_attribute_value": {
+        "value": 65
+      }
+    },
+    {
+      "name": "cap",
+      "number_attribute_value": {
+        "value": 130
+      }
+    },
+    {
+      "name": "namecard",
+      "number_attribute_value": {
+        "value": 65
+      }
+    },
+    {
+      "name": "g_namecard",
+      "number_attribute_value": {
+        "value": 70
+      }
+    },
+    {
+      "name": "tshirt",
+      "number_attribute_value": {
+        "value": 65
+      }
+    }
+  ]
+}
