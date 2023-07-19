@@ -56,57 +56,66 @@ if [ -z "$schema_code" ]; then
     read -p "Enter schema code: " schema_code
 fi
 
-token_id=0
-BASE64_META=$(cat ./mock-data/nft-data_0.json | sed "s/TOKENID/${token_id}/g"  | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n')
-sixd tx nftmngr create-metadata "${schema_code}" ${token_id} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-    ${BASE64_META} --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
+# token_id=0
+# BASE64_META=$(cat ./mock-data/nft-data_0.json | sed "s/TOKENID/${token_id}/g"  | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n')
+# sixd tx nftmngr create-metadata "${schema_code}" ${token_id} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+#     ${BASE64_META} --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
 
 token_id=1,2,3,4,5,6,7,8,9,10
 BASE64_META=$(cat ./mock-data/nft-data_vip.json | sed "s/TOKENID/MULTIMINT/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n')
 sixd tx nftmngr create-multi-metadata ${schema_code} ${token_id} ${BASE64_META} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
     --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
 
-token_id=11,12,13,14,15,16,17,18,19,20
-BASE64_META=$(cat ./mock-data/nft-data_speaker.json | sed "s/TOKENID/MULTIMINT/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n')
-sixd tx nftmngr create-multi-metadata ${schema_code} ${token_id} ${BASE64_META} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
+# token_id=11,12,13,14,15,16,17,18,19,20
+# BASE64_META=$(cat ./mock-data/nft-data_speaker.json | sed "s/TOKENID/MULTIMINT/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n')
+# sixd tx nftmngr create-multi-metadata ${schema_code} ${token_id} ${BASE64_META} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+#     --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
 
-token_id=21,22,23,24,25,26,27,28,29,30
-BASE64_META=$(cat ./mock-data/nft-data_investor.json | sed "s/TOKENID/MULTIMINT/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n')
-sixd tx nftmngr create-multi-metadata ${schema_code} ${token_id} ${BASE64_META} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
+# token_id=21,22,23,24,25,26,27,28,29,30
+# BASE64_META=$(cat ./mock-data/nft-data_investor.json | sed "s/TOKENID/MULTIMINT/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n')
+# sixd tx nftmngr create-multi-metadata ${schema_code} ${token_id} ${BASE64_META} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+#     --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
 
-token_id=31,32,33,34,35,36,37,38,39,40
-BASE64_META=$(cat ./mock-data/nft-data_partner.json | sed "s/TOKENID/MULTIMINT/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n')
-sixd tx nftmngr create-multi-metadata ${schema_code} ${token_id} ${BASE64_META} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
+# token_id=31,32,33,34,35,36,37,38,39,40
+# BASE64_META=$(cat ./mock-data/nft-data_partner.json | sed "s/TOKENID/MULTIMINT/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n')
+# sixd tx nftmngr create-multi-metadata ${schema_code} ${token_id} ${BASE64_META} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+#     --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
 
-token_id=41,42,43,44,45,46,47,48,49,50
-BASE64_META=$(cat ./mock-data/nft-data_media.json | sed "s/TOKENID/MULTIMINT/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n')
-sixd tx nftmngr create-multi-metadata ${schema_code} ${token_id} ${BASE64_META} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
+# token_id=41,42,43,44,45,46,47,48,49,50
+# BASE64_META=$(cat ./mock-data/nft-data_media.json | sed "s/TOKENID/MULTIMINT/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n')
+# sixd tx nftmngr create-multi-metadata ${schema_code} ${token_id} ${BASE64_META} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+#     --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
 
-token_id=51,52,53,54,55,56,57,58,59,60
-BASE64_META=$(cat ./mock-data/nft-data_exhibitor.json | sed "s/TOKENID/MULTIMINT/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n')
-sixd tx nftmngr create-multi-metadata ${schema_code} ${token_id} ${BASE64_META} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
+# token_id=51,52,53,54,55,56,57,58,59,60
+# BASE64_META=$(cat ./mock-data/nft-data_exhibitor.json | sed "s/TOKENID/MULTIMINT/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n')
+# sixd tx nftmngr create-multi-metadata ${schema_code} ${token_id} ${BASE64_META} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+#     --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
 
-token_id=61,62,63,64,65,66,67,68,69,70
-BASE64_META=$(cat ./mock-data/nft-data_general.json | sed "s/TOKENID/MULTIMINT/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n')
-sixd tx nftmngr create-multi-metadata ${schema_code} ${token_id} ${BASE64_META} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
+# token_id=61,62,63,64,65,66,67,68,69,70
+# BASE64_META=$(cat ./mock-data/nft-data_organizer.json | sed "s/TOKENID/MULTIMINT/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n')
+# sixd tx nftmngr create-multi-metadata ${schema_code} ${token_id} ${BASE64_META} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+#     --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
 
-token_id=71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90
-BASE64_META=$(cat ./mock-data/nft-data_general.json | sed "s/TOKENID/MULTIMINT/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n')
-sixd tx nftmngr create-multi-metadata ${schema_code} ${token_id} ${BASE64_META} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
+# token_id=71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90
+# BASE64_META=$(cat ./mock-data/nft-data_staff.json | sed "s/TOKENID/MULTIMINT/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n')
+# sixd tx nftmngr create-multi-metadata ${schema_code} ${token_id} ${BASE64_META} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+#     --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
 
-token_id=91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110
-BASE64_META=$(cat ./mock-data/nft-data_general.json | sed "s/TOKENID/MULTIMINT/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n')
-sixd tx nftmngr create-multi-metadata ${schema_code} ${token_id} ${BASE64_META} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
+# token_id=91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110
+# BASE64_META=$(cat ./mock-data/nft-data_general.json | sed "s/TOKENID/MULTIMINT/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n')
+# sixd tx nftmngr create-multi-metadata ${schema_code} ${token_id} ${BASE64_META} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+#     --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
 
-token_id=111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130
-BASE64_META=$(cat ./mock-data/nft-data_general.json | sed "s/TOKENID/MULTIMINT/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n')
-sixd tx nftmngr create-multi-metadata ${schema_code} ${token_id} ${BASE64_META} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-    --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
+# token_id=111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130
+# BASE64_META=$(cat ./mock-data/nft-data_general.json | sed "s/TOKENID/MULTIMINT/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n')
+# sixd tx nftmngr create-multi-metadata ${schema_code} ${token_id} ${BASE64_META} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+#     --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
+
+
+# # mint for token_id= 130...500
+# for ((i=130;i<=500;i++));
+# do  
+#     BASE64_META=$(cat ./mock-data/nft-data_general.json | sed "s/TOKENID/${i}/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n')
+#     sixd tx nftmngr create-multi-metadata ${schema_code} ${i} ${BASE64_META} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+#         --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
+# done
