@@ -1,5 +1,5 @@
 {
-  "code": "techsauce.mocking4",
+  "code": "techsauce.mocking5",
   "name": "TechSuace",
   "owner": "0xNFTOWNER",
   "origin_data": {
@@ -87,96 +87,6 @@
     "reveal_secret": "",
     "nft_attributes": [
       {
-        "name": "tumbler_stock",
-        "default_mint_value": {
-          "number_attribute_value": {
-            "value": 65
-          }
-        },
-        "data_type": "number",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "opensea": {
-            "trait_type": "Tumbler Stock"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": true
-      },
-      {
-        "name": "cap_stock",
-        "default_mint_value": {
-          "number_attribute_value": {
-            "value": 130
-          }
-        },
-        "data_type": "number",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "opensea": {
-            "trait_type": "Cap Stock"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": true
-      },
-      {
-        "name": "namecard_stock",
-        "default_mint_value": {
-          "number_attribute_value": {
-            "value": 65
-          }
-        },
-        "data_type": "number",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "opensea": {
-            "trait_type": "Namecard Stock"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": true
-      },
-      {
-        "name": "g_namecard_stock",
-        "default_mint_value": {
-          "number_attribute_value": {
-            "value": 70
-          }
-        },
-        "data_type": "number",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "opensea": {
-            "trait_type": "Geo-Namecard Stock"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": true
-      },
-      {
-        "name": "tshirt_stock",
-        "default_mint_value": {
-          "number_attribute_value": {
-            "value": 65
-          }
-        },
-        "data_type": "number",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "opensea": {
-            "trait_type": "T-Shirt Stock"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": true
-      },
-      {
         "name": "redemtion_tumbler",
         "default_mint_value": {
           "float_attribute_value": {
@@ -261,96 +171,6 @@
         "display_option": {
           "opensea": {
             "trait_type": "T-Shirt Price"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": true
-      },
-      {
-        "name": "general_after_party_count",
-        "default_mint_value": {
-          "number_attribute_value": {
-            "value": 0
-          }
-        },
-        "data_type": "number",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "opensea": {
-            "trait_type": "After Party Claimed"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": true
-      },
-      {
-        "name": "vip_after_party_count",
-        "default_mint_value": {
-          "number_attribute_value": {
-            "value": 0
-          }
-        },
-        "data_type": "number",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "opensea": {
-            "trait_type": "VIP After Party Claimed"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": true
-      },
-      {
-        "name": "speaker_after_party_count",
-        "default_mint_value": {
-          "number_attribute_value": {
-            "value": 0
-          }
-        },
-        "data_type": "number",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "opensea": {
-            "trait_type": "Speaker After Party Claimed"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": true
-      },
-      {
-        "name": "investor_after_party_count",
-        "default_mint_value": {
-          "number_attribute_value": {
-            "value": 0
-          }
-        },
-        "data_type": "number",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "opensea": {
-            "trait_type": "Investor After Party Claimed"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": true
-      },
-      {
-        "name": "voucher_count",
-        "default_mint_value": {
-          "number_attribute_value": {
-            "value": 0
-          }
-        },
-        "data_type": "number",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "opensea": {
-            "trait_type": "Voucher Claimed Count"
           }
         },
         "hidden_overide": false,
@@ -791,96 +611,6 @@
         },
         "hidden_overide": false,
         "hidden_to_marketplace": false
-      },
-      {
-        "name": "tumbler",
-        "default_mint_value": {
-          "number_attribute_value": {
-            "value": 0
-          }
-        },
-        "data_type": "number",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "opensea": {
-            "trait_type": "Tumbler"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": true
-      },
-      {
-        "name": "cap",
-        "default_mint_value": {
-          "number_attribute_value": {
-            "value": 0
-          }
-        },
-        "data_type": "number",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "opensea": {
-            "trait_type": "Cap"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": true
-      },
-      {
-        "name": "namecard",
-        "default_mint_value": {
-          "number_attribute_value": {
-            "value": 0
-          }
-        },
-        "data_type": "number",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "opensea": {
-            "trait_type": "Namecard"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": true
-      },
-      {
-        "name": "g_namecard",
-        "default_mint_value": {
-          "number_attribute_value": {
-            "value": 0
-          }
-        },
-        "data_type": "number",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "opensea": {
-            "trait_type": "Geo-Namecard"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": true
-      },
-      {
-        "name": "tshirt",
-        "default_mint_value": {
-          "number_attribute_value": {
-            "value": 0
-          }
-        },
-        "data_type": "number",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "opensea": {
-            "trait_type": "T-Shirt"
-          }
-        },
-        "hidden_overide": false,
-        "hidden_to_marketplace": true
       }
     ],
     "actions": [
@@ -971,7 +701,7 @@
             "default_value": ""
           }
         ],
-        "when": "meta.GetString('caption') != 'Staff' && meta.GetString('caption') != 'Organizer' && meta.GetBoolean('redemtion_used') == false && meta.GetNumber(params['stock'].GetString()) > 1 && meta.GetFloat('points') > meta.GetFloat('redemtion_'+ params['stock'].GetString())",
+        "when": "meta.GetString('caption') != 'Staff' && meta.GetString('caption') != 'Organizer' && meta.GetBoolean('redemtion_used') == false && meta.GetFloat('points') >= meta.GetFloat('redemtion_'+ params['stock'].GetString())",
         "then": [
           "meta.SetBoolean('redemtion_used', true)",
           "meta.SetFloat('points', meta.GetFloat('points') - meta.GetFloat('redemtion_'+ params['stock'].GetString()))"
@@ -981,11 +711,9 @@
         "name": "claim_after_party",
         "desc": "Claim After Party",
         "params": [],
-        "when": "meta.GetString('caption') == 'VIP' || meta.GetString('caption') == 'Speaker'|| meta.GetString('caption') == 'Investor' || meta.GetString('caption') != 'Staff' && meta.GetString('caption') != 'Organizer' && meta.GetNumber('general_after_party_count') < 300 && meta.GetBoolean('after_party_claimed') == false && meta.GetNumber('stage_count') >= 4 && meta.GetFloat('minor_count') >= 4.0",
+        "when": "(meta.GetString('caption') == 'VIP' || meta.GetString('caption') == 'Speaker'|| meta.GetString('caption') == 'Investor') && meta.GetBoolean('after_party_claimed') == false || meta.GetString('caption') != 'Staff' && meta.GetString('caption') != 'Organizer' && meta.GetBoolean('after_party_claimed') == false && meta.GetNumber('stage_count') >= 4 && meta.GetFloat('minor_count') >= 4.0",
         "then": [
-          "meta.SetBoolean('after_party_claimed', true)",
-          "caption_ = meta.GetString('caption')+'_after_party_count'",
-          "meta.SetNumber(caption_.ToLower() , meta.GetNumber(caption_.ToLower()) + 1)"
+          "meta.SetBoolean('after_party_claimed', true)"
         ]
       },
       {
@@ -994,32 +722,7 @@
         "params": [],
         "when": "meta.GetString('caption') != 'Staff' && meta.GetString('caption') != 'Organizer' && meta.GetBoolean('voucher_claimed') == false",
         "then": [
-          "meta.SetBoolean('voucher_claimed', true)",
-          "meta.SetNumber('voucher_claimed' , meta.GetNumber('voucher_claimed') + 1)"
-        ]
-      },
-      {
-        "name": "transfer",
-        "desc": "Transfer",
-        "params": [
-          {
-            "name": "prize",
-            "desc": "Prize",
-            "data_type": "number",
-            "required": true,
-            "default_value": "1"
-          },
-          {
-            "name": "token_id",
-            "desc": "Token Id",
-            "data_type": "string",
-            "required": true,
-            "default_value": ""
-          }
-        ],
-        "when": "meta.GetNumber('prize') > 0 && params['points'].GetNumber() > 0 ",
-        "then": [
-          "meta.TransferNumber('prize',params['token_id'].GetString(),params['prize'].GetNumber())"
+          "meta.SetBoolean('voucher_claimed', true)"
         ]
       },
       {

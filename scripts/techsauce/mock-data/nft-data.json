@@ -43,6 +43,13 @@
       "hidden_to_marketplace": false
     },
     {
+      "name": "eyes",
+      "string_attribute_value": {
+        "value": "Eye Mask"
+      },
+      "hidden_to_marketplace": false
+    },
+    {
       "name": "costume",
       "string_attribute_value": {
         "value": "Exhibitor_E"
