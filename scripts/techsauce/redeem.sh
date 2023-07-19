@@ -43,6 +43,6 @@ fi
 
 uuid=$(uuidgen)
 params='[{"name":"stock","value":"'$stock'"}]'
-echo sixd tx nftmngr perform-action-by-nftadmin ${schema} ${token_id} \
+sixd tx nftmngr perform-action-by-nftadmin ${schema} ${token_id} \
     redeem_prize ${uuid} ${params} \
     --from ${KEY_NAME} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID}

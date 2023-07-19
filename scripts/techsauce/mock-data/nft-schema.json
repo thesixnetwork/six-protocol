@@ -1,5 +1,5 @@
 {
-  "code": "techsauce.mocking5",
+  "code": "techsauce.mocking7",
   "name": "TechSuace",
   "owner": "0xNFTOWNER",
   "origin_data": {
@@ -663,8 +663,9 @@
           "meta.SetFloat('points', meta.GetFloat('points') + 50.0)",
           "meta.SetBoolean(params['exhibition'].GetString(), true)",
           "meta.SetNumber('exhibition_count', meta.GetNumber('exhibition_count') + 1)",
-          "max_booth = Max(meta.GetNumber('exhibition_count')-2.0,0.0)",
-          "max_minor = Max(meta.GetFloat('minor_count')-3.0, max_booth)",
+          "booth_count = Max(meta.GetNumber('exhibition_count')-2.0,0.0)",
+          "max_booth = Max(booth_count-2.0,-1.0)",
+          "max_minor = Max(meta.GetFloat('minor_count')-5.0,max_booth)",
           "meta.SetFloat('minor_count', meta.GetFloat('minor_count')+Abs(max_minor))"
         ]
       },
