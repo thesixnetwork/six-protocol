@@ -44,6 +44,6 @@ sixd tx nftmngr perform-action-by-nftadmin ${schema} ${token_id} \
 
 uuid=$(uuidgen)
 sixd tx nftmngr perform-multi-token-action ${schema} ${token_id} \
-    attend_exhibition,attend_exhibition,attend_exhibition multi_${uuid} \
-    '[[{"name":"exhibition","value":"exhibition_a"}],[{"name":"exhibition","value":"exhibition_b"}],[{"name":"exhibition","value":"exhibition_c"}]]' \
+    attend_exhibition,attend_exhibition,attend_exhibition,attend_exhibition multi_${uuid} \
+    '[[{"name":"exhibition","value":"exhibition_a"}],[{"name":"exhibition","value":"exhibition_b"}],[{"name":"exhibition","value":"exhibition_c"}],[{"name":"exhibition","value":"exhibition_d"}]]' \
     --from ${KEY_NAME} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID}

@@ -1,9 +1,9 @@
 {
-  "code": "techsauce.mocking7",
-  "name": "TechSuace",
+  "code": "TechSauce.GlobalSummit2023Mockingv10",
+  "name": "Techsauce Global Summit 2023 | NFT Treasure Hunt",
   "owner": "0xNFTOWNER",
   "origin_data": {
-    "origin_base_uri": "",
+    "origin_base_uri": "https://ipfsgw.sixnetwork.io/ipfs/QmZvQMoiZzLdcdFAoWYj8tMchZNsyL3qMBKmxjUU164ibL/",
     "uri_retrieval_method": "BASE",
     "origin_chain": "SIX",
     "origin_contract_address": "0x18Af374bA2E005881E31BD59788BE3969fb5c857",
@@ -572,7 +572,7 @@
           }
         },
         "hidden_overide": false,
-        "hidden_to_marketplace": true
+        "hidden_to_marketplace": false
       },
       {
         "name": "stage_points",
