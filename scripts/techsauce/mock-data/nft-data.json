@@ -1,9 +1,9 @@
 {
   "nft_schema_code": "SCHEMA_CODE",
   "token_id": "TOKENID",
-  "token_owner": "0xB62ef83643A2F8c95dF78F694C6Bf480f5b786f2",
-  "owner_address_type": "ORIGIN_ADDRESS",
-  "origin_image": "https://ipfs.io/ipfs/QmUd5xBxZucHQyUkqkCCtfZ3iktSSmEEyhuX1u48bP4WE7/whale.jpeg",
+  "token_owner": "6x19gurh7vpy920hfc8t7vhmygx0zd62mrl6hht8e",
+  "owner_address_type": "INTERNAL_ADDRESS",
+  "origin_image": "",
   "onchain_image": "",
   "token_uri": "",
   "origin_attributes": [

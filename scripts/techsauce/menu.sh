@@ -144,7 +144,7 @@ case $choice in
             echo $required_params
         fi
 
-        sixd tx nftmngr perform-action-by-nftadmin ${schema_code} ${token_id} ${action} ${ref_id} ${required_params} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
+        echo sixd tx nftmngr perform-action-by-nftadmin ${schema_code} ${token_id} ${action} ${ref_id} ${required_params} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} -o json 
         ;;
     6) 
