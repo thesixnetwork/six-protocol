@@ -1,9 +1,9 @@
 {
   "nft_schema_code": "SCHEMA_CODE",
   "token_id": "TOKENID",
-  "token_owner": "6x19gurh7vpy920hfc8t7vhmygx0zd62mrl6hht8e",
+  "token_owner": "6x1dk4vh8x995dcrqxr7ku25ykp7nc6g6f7nx6yuh",
   "owner_address_type": "INTERNAL_ADDRESS",
-  "origin_image": "",
+  "origin_image": "https://ipfs.io/ipfs/QmUd5xBxZucHQyUkqkCCtfZ3iktSSmEEyhuX1u48bP4WE7/whale.jpeg",
   "onchain_image": "",
   "token_uri": "",
   "origin_attributes": [
@@ -61,8 +61,31 @@
     {
       "name": "caption",
       "string_attribute_value": {
-        "value": "VIP"
-      }
+        "value": "Exhibitor"
+      },
+      "hidden_to_marketplace": false
+    },
+    {
+      "name": "minor_count",
+      "float_attribute_value": {
+        "value": 0
+      },
+      "hidden_to_marketplace": false
+    },
+    {
+      "name": "stage_points",
+      "float_attribute_value": {
+        "value": 0
+      },
+      "hidden_to_marketplace": true
+    },
+    {
+      "name":"after_party_claimed",
+      "boolean_attribute_value": {
+        "value": false
+      },
+      "hidden_to_marketplace": false
     }
+
   ]
 }
