@@ -5,7 +5,7 @@
   "origin_data": {
     "origin_base_uri": "https://ipfsgw.sixnetwork.io/ipfs/QmZvQMoiZzLdcdFAoWYj8tMchZNsyL3qMBKmxjUU164ibL/",
     "uri_retrieval_method": "BASE",
-    "origin_chain": "SIX",
+    "origin_chain": "SIXNET",
     "origin_contract_address": "0x18Af374bA2E005881E31BD59788BE3969fb5c857",
     "attribute_overriding": "CHAIN",
     "metadata_format": "opensea",
