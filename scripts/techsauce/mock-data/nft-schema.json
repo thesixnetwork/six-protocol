@@ -1,5 +1,5 @@
 {
-  "code": "TechSauce.GlobalSummit2023Mockingv11",
+  "code": "TechSauce.GlobalSummit2023",
   "name": "Techsauce Global Summit 2023 | NFT Treasure Hunt",
   "owner": "0xNFTOWNER",
   "origin_data": {
@@ -663,11 +663,9 @@
           "meta.SetFloat('points', meta.GetFloat('points') + 50.0)",
           "meta.SetBoolean(params['exhibition'].GetString(), true)",
           "meta.SetNumber('exhibition_count', meta.GetNumber('exhibition_count') + 1)",
-          "booth_count = Max(meta.GetNumber('exhibition_count')-2.0,0.0)",
-          "max_booth = Max(booth_count-2.0,-1.0)",
-          "max_minor = Max(meta.GetFloat('minor_count')-5.0,max_booth)",
-          "minor_count_increase = Max(meta.GetNumber('exhibition_count')-2.0,0.0)",
-          "meta.SetFloat('minor_count', meta.GetFloat('minor_count')+minor_count_increase)"
+          "booth_count = Max(meta.GetNumber('exhibition_count')-1.0,0.0)",
+          "max_minor = Max(meta.GetFloat('minor_count')-5.0,0-booth_count)",
+          "meta.SetFloat('minor_count', meta.GetFloat('minor_count')+Abs(max_minor))"
         ]
       },
       {
