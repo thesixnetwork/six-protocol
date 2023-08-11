@@ -663,7 +663,8 @@
           "meta.SetFloat('points', meta.GetFloat('points') + 50.0)",
           "meta.SetBoolean(params['exhibition'].GetString(), true)",
           "meta.SetNumber('exhibition_count', meta.GetNumber('exhibition_count') + 1)",
-          "booth_count = Max(meta.GetNumber('exhibition_count')-1.0,0.0)",
+          "actual_exhibition_count = meta.GetNumber('exhibition_count') + 1",
+          "booth_count = Max(actual_exhibition_count-2.0,0.0)",
           "max_minor = Max(meta.GetFloat('minor_count')-5.0,0-booth_count)",
           "meta.SetFloat('minor_count', meta.GetFloat('minor_count')+Abs(max_minor))"
         ]
