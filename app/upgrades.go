@@ -15,6 +15,7 @@ const UpgradeName = "v3.1.1"
 func (app *App) RegisterUpgradeHandlers() {
 	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
 
+		app.SIXNFTMigrationFromV1ToV2Handlers(ctx)
 		return app.mm.RunMigrations(ctx, app.configurator, vm)
 	})
 }
