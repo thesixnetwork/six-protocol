@@ -44,7 +44,7 @@ func (app *App) MigrationFromV1ToV2Handlers(ctx sdk.Context) {
 			schemaAttibuteConverted, _ := NftmngrKeeper.ConvertDefaultMintValueToSchemaAttributeValue(nftAttribute.DefaultMintValue)
 			app.NftmngrKeeper.SetSchemaAttribute(ctx, nftmngrtypes.SchemaAttribute{
 				NftSchemaCode:       nftSchemaV1.Code,
-				Name:                nftSchemaV1.Name,
+				Name:                nftAttribute.Name,
 				DataType:            nftAttribute.DataType,
 				Required:            nftAttribute.Required,
 				DisplayValueField:   nftAttribute.DisplayValueField,
@@ -60,8 +60,8 @@ func (app *App) MigrationFromV1ToV2Handlers(ctx sdk.Context) {
 		for i, nftAction := range nftSchemaV1.OnchainData.Actions {
 			app.NftmngrKeeper.SetActionOfSchema(ctx, nftmngrtypes.ActionOfSchema{
 				NftSchemaCode: nftSchemaV1.Code,
-				Name: 		nftAction.Name,
-				Index: 		uint64(i),
+				Name:          nftAction.Name,
+				Index:         uint64(i),
 			})
 		}
 	}
