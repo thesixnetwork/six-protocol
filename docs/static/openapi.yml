@@ -34459,6 +34459,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/action_by_ref_id/{refId}':
@@ -34956,6 +34966,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/action_executor/{nftSchemaCode}/{executorAddress}':
@@ -35235,6 +35255,14 @@ paths:
                       ignored when key
 
                       is set.
+                  reverse:
+                    type: boolean
+                    description: >-
+                      reverse is set to true if results are to be returned in
+                      the descending order.
+
+
+                      Since: cosmos-sdk 0.43
                 description: |-
                   message SomeRequest {
                            Foo some_parameter = 1;
@@ -35478,6 +35506,874 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  /thesixnetwork/sixnft/nftmngr/action_of_schema:
+    get:
+      summary: Queries a list of ActionOfSchema items.
+      operationId: ThesixnetworkSixnftNftmngrActionOfSchemaAll
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              actionOfSchema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    nftSchemaCode:
+                      type: string
+                    name:
+                      type: string
+                    index:
+                      type: string
+                      format: uint64
+              pagination:
+                type: object
+                properties:
+                  next_key:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                      description: >-
+                        A URL/resource name that uniquely identifies the type of
+                        the serialized
+
+                        protocol buffer message. This string must contain at
+                        least
+
+                        one "/" character. The last segment of the URL's path
+                        must represent
+
+                        the fully qualified name of the type (as in
+
+                        `path/google.protobuf.Duration`). The name should be in
+                        a canonical form
+
+                        (e.g., leading "." is not accepted).
+
+
+                        In practice, teams usually precompile into the binary
+                        all types that they
+
+                        expect it to use in the context of Any. However, for
+                        URLs which use the
+
+                        scheme `http`, `https`, or no scheme, one can optionally
+                        set up a type
+
+                        server that maps type URLs to message definitions as
+                        follows:
+
+
+                        * If no scheme is provided, `https` is assumed.
+
+                        * An HTTP GET on the URL must yield a
+                        [google.protobuf.Type][]
+                          value in binary format, or produce an error.
+                        * Applications are allowed to cache lookup results based
+                        on the
+                          URL, or have them precompiled into a binary to avoid any
+                          lookup. Therefore, binary compatibility needs to be preserved
+                          on changes to types. (Use versioned type names to manage
+                          breaking changes.)
+
+                        Note: this functionality is not currently available in
+                        the official
+
+                        protobuf release, and it is not used for type URLs
+                        beginning with
+
+                        type.googleapis.com.
+
+
+                        Schemes other than `http`, `https` (or the empty scheme)
+                        might be
+
+                        used with implementation specific semantics.
+                  additionalProperties: {}
+                  description: >-
+                    `Any` contains an arbitrary serialized protocol buffer
+                    message along with a
+
+                    URL that describes the type of the serialized message.
+
+
+                    Protobuf library provides support to pack/unpack Any values
+                    in the form
+
+                    of utility functions or additional generated methods of the
+                    Any type.
+
+
+                    Example 1: Pack and unpack a message in C++.
+
+                        Foo foo = ...;
+                        Any any;
+                        any.PackFrom(foo);
+                        ...
+                        if (any.UnpackTo(&foo)) {
+                          ...
+                        }
+
+                    Example 2: Pack and unpack a message in Java.
+
+                        Foo foo = ...;
+                        Any any = Any.pack(foo);
+                        ...
+                        if (any.is(Foo.class)) {
+                          foo = any.unpack(Foo.class);
+                        }
+
+                     Example 3: Pack and unpack a message in Python.
+
+                        foo = Foo(...)
+                        any = Any()
+                        any.Pack(foo)
+                        ...
+                        if any.Is(Foo.DESCRIPTOR):
+                          any.Unpack(foo)
+                          ...
+
+                     Example 4: Pack and unpack a message in Go
+
+                         foo := &pb.Foo{...}
+                         any, err := anypb.New(foo)
+                         if err != nil {
+                           ...
+                         }
+                         ...
+                         foo := &pb.Foo{}
+                         if err := any.UnmarshalTo(foo); err != nil {
+                           ...
+                         }
+
+                    The pack methods provided by protobuf library will by
+                    default use
+
+                    'type.googleapis.com/full.type.name' as the type URL and the
+                    unpack
+
+                    methods only use the fully qualified type name after the
+                    last '/'
+
+                    in the type URL, for example "foo.bar.com/x/y.z" will yield
+                    type
+
+                    name "y.z".
+
+
+
+                    JSON
+
+                    ====
+
+                    The JSON representation of an `Any` value uses the regular
+
+                    representation of the deserialized, embedded message, with
+                    an
+
+                    additional field `@type` which contains the type URL.
+                    Example:
+
+                        package google.profile;
+                        message Person {
+                          string first_name = 1;
+                          string last_name = 2;
+                        }
+
+                        {
+                          "@type": "type.googleapis.com/google.profile.Person",
+                          "firstName": <string>,
+                          "lastName": <string>
+                        }
+
+                    If the embedded message type is well-known and has a custom
+                    JSON
+
+                    representation, that representation will be embedded adding
+                    a field
+
+                    `value` which holds the custom JSON in addition to the
+                    `@type`
+
+                    field. Example (for message [google.protobuf.Duration][]):
+
+                        {
+                          "@type": "type.googleapis.com/google.protobuf.Duration",
+                          "value": "1.212s"
+                        }
+      parameters:
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.count_total
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  '/thesixnetwork/sixnft/nftmngr/action_of_schema/{nftSchemaCode}/{name}':
+    get:
+      summary: Queries a ActionOfSchema by index.
+      operationId: ThesixnetworkSixnftNftmngrActionOfSchema
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              actionOfSchema:
+                type: object
+                properties:
+                  nftSchemaCode:
+                    type: string
+                  name:
+                    type: string
+                  index:
+                    type: string
+                    format: uint64
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                      description: >-
+                        A URL/resource name that uniquely identifies the type of
+                        the serialized
+
+                        protocol buffer message. This string must contain at
+                        least
+
+                        one "/" character. The last segment of the URL's path
+                        must represent
+
+                        the fully qualified name of the type (as in
+
+                        `path/google.protobuf.Duration`). The name should be in
+                        a canonical form
+
+                        (e.g., leading "." is not accepted).
+
+
+                        In practice, teams usually precompile into the binary
+                        all types that they
+
+                        expect it to use in the context of Any. However, for
+                        URLs which use the
+
+                        scheme `http`, `https`, or no scheme, one can optionally
+                        set up a type
+
+                        server that maps type URLs to message definitions as
+                        follows:
+
+
+                        * If no scheme is provided, `https` is assumed.
+
+                        * An HTTP GET on the URL must yield a
+                        [google.protobuf.Type][]
+                          value in binary format, or produce an error.
+                        * Applications are allowed to cache lookup results based
+                        on the
+                          URL, or have them precompiled into a binary to avoid any
+                          lookup. Therefore, binary compatibility needs to be preserved
+                          on changes to types. (Use versioned type names to manage
+                          breaking changes.)
+
+                        Note: this functionality is not currently available in
+                        the official
+
+                        protobuf release, and it is not used for type URLs
+                        beginning with
+
+                        type.googleapis.com.
+
+
+                        Schemes other than `http`, `https` (or the empty scheme)
+                        might be
+
+                        used with implementation specific semantics.
+                  additionalProperties: {}
+                  description: >-
+                    `Any` contains an arbitrary serialized protocol buffer
+                    message along with a
+
+                    URL that describes the type of the serialized message.
+
+
+                    Protobuf library provides support to pack/unpack Any values
+                    in the form
+
+                    of utility functions or additional generated methods of the
+                    Any type.
+
+
+                    Example 1: Pack and unpack a message in C++.
+
+                        Foo foo = ...;
+                        Any any;
+                        any.PackFrom(foo);
+                        ...
+                        if (any.UnpackTo(&foo)) {
+                          ...
+                        }
+
+                    Example 2: Pack and unpack a message in Java.
+
+                        Foo foo = ...;
+                        Any any = Any.pack(foo);
+                        ...
+                        if (any.is(Foo.class)) {
+                          foo = any.unpack(Foo.class);
+                        }
+
+                     Example 3: Pack and unpack a message in Python.
+
+                        foo = Foo(...)
+                        any = Any()
+                        any.Pack(foo)
+                        ...
+                        if any.Is(Foo.DESCRIPTOR):
+                          any.Unpack(foo)
+                          ...
+
+                     Example 4: Pack and unpack a message in Go
+
+                         foo := &pb.Foo{...}
+                         any, err := anypb.New(foo)
+                         if err != nil {
+                           ...
+                         }
+                         ...
+                         foo := &pb.Foo{}
+                         if err := any.UnmarshalTo(foo); err != nil {
+                           ...
+                         }
+
+                    The pack methods provided by protobuf library will by
+                    default use
+
+                    'type.googleapis.com/full.type.name' as the type URL and the
+                    unpack
+
+                    methods only use the fully qualified type name after the
+                    last '/'
+
+                    in the type URL, for example "foo.bar.com/x/y.z" will yield
+                    type
+
+                    name "y.z".
+
+
+
+                    JSON
+
+                    ====
+
+                    The JSON representation of an `Any` value uses the regular
+
+                    representation of the deserialized, embedded message, with
+                    an
+
+                    additional field `@type` which contains the type URL.
+                    Example:
+
+                        package google.profile;
+                        message Person {
+                          string first_name = 1;
+                          string last_name = 2;
+                        }
+
+                        {
+                          "@type": "type.googleapis.com/google.profile.Person",
+                          "firstName": <string>,
+                          "lastName": <string>
+                        }
+
+                    If the embedded message type is well-known and has a custom
+                    JSON
+
+                    representation, that representation will be embedded adding
+                    a field
+
+                    `value` which holds the custom JSON in addition to the
+                    `@type`
+
+                    field. Example (for message [google.protobuf.Duration][]):
+
+                        {
+                          "@type": "type.googleapis.com/google.protobuf.Duration",
+                          "value": "1.212s"
+                        }
+      parameters:
+        - name: nftSchemaCode
+          in: path
+          required: true
+          type: string
+        - name: name
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
+  '/thesixnetwork/sixnft/nftmngr/list_attribute_by_schema/{nftSchemaCode}':
+    get:
+      summary: Queries a list of ListAttributeBySchema items.
+      operationId: ThesixnetworkSixnftNftmngrListAttributeBySchema
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              schemaAttribute:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    nftSchemaCode:
+                      type: string
+                    name:
+                      type: string
+                    data_type:
+                      type: string
+                    required:
+                      type: boolean
+                    display_value_field:
+                      type: string
+                    display_option:
+                      type: object
+                      properties:
+                        bool_true_value:
+                          type: string
+                        bool_false_value:
+                          type: string
+                        opensea:
+                          type: object
+                          properties:
+                            display_type:
+                              type: string
+                            trait_type:
+                              type: string
+                            max_value:
+                              type: string
+                              format: uint64
+                    current_value:
+                      type: object
+                      properties:
+                        number_attribute_value:
+                          type: object
+                          properties:
+                            value:
+                              type: string
+                              format: uint64
+                        string_attribute_value:
+                          type: object
+                          properties:
+                            value:
+                              type: string
+                        boolean_attribute_value:
+                          type: object
+                          properties:
+                            value:
+                              type: boolean
+                        float_attribute_value:
+                          type: object
+                          properties:
+                            value:
+                              type: number
+                              format: double
+                    hidden_overide:
+                      type: boolean
+                      title: flag that allows action to override hidden
+                    hidden_to_marketplace:
+                      type: boolean
+                    creator:
+                      type: string
+              pagination:
+                type: object
+                properties:
+                  next_key:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                      description: >-
+                        A URL/resource name that uniquely identifies the type of
+                        the serialized
+
+                        protocol buffer message. This string must contain at
+                        least
+
+                        one "/" character. The last segment of the URL's path
+                        must represent
+
+                        the fully qualified name of the type (as in
+
+                        `path/google.protobuf.Duration`). The name should be in
+                        a canonical form
+
+                        (e.g., leading "." is not accepted).
+
+
+                        In practice, teams usually precompile into the binary
+                        all types that they
+
+                        expect it to use in the context of Any. However, for
+                        URLs which use the
+
+                        scheme `http`, `https`, or no scheme, one can optionally
+                        set up a type
+
+                        server that maps type URLs to message definitions as
+                        follows:
+
+
+                        * If no scheme is provided, `https` is assumed.
+
+                        * An HTTP GET on the URL must yield a
+                        [google.protobuf.Type][]
+                          value in binary format, or produce an error.
+                        * Applications are allowed to cache lookup results based
+                        on the
+                          URL, or have them precompiled into a binary to avoid any
+                          lookup. Therefore, binary compatibility needs to be preserved
+                          on changes to types. (Use versioned type names to manage
+                          breaking changes.)
+
+                        Note: this functionality is not currently available in
+                        the official
+
+                        protobuf release, and it is not used for type URLs
+                        beginning with
+
+                        type.googleapis.com.
+
+
+                        Schemes other than `http`, `https` (or the empty scheme)
+                        might be
+
+                        used with implementation specific semantics.
+                  additionalProperties: {}
+                  description: >-
+                    `Any` contains an arbitrary serialized protocol buffer
+                    message along with a
+
+                    URL that describes the type of the serialized message.
+
+
+                    Protobuf library provides support to pack/unpack Any values
+                    in the form
+
+                    of utility functions or additional generated methods of the
+                    Any type.
+
+
+                    Example 1: Pack and unpack a message in C++.
+
+                        Foo foo = ...;
+                        Any any;
+                        any.PackFrom(foo);
+                        ...
+                        if (any.UnpackTo(&foo)) {
+                          ...
+                        }
+
+                    Example 2: Pack and unpack a message in Java.
+
+                        Foo foo = ...;
+                        Any any = Any.pack(foo);
+                        ...
+                        if (any.is(Foo.class)) {
+                          foo = any.unpack(Foo.class);
+                        }
+
+                     Example 3: Pack and unpack a message in Python.
+
+                        foo = Foo(...)
+                        any = Any()
+                        any.Pack(foo)
+                        ...
+                        if any.Is(Foo.DESCRIPTOR):
+                          any.Unpack(foo)
+                          ...
+
+                     Example 4: Pack and unpack a message in Go
+
+                         foo := &pb.Foo{...}
+                         any, err := anypb.New(foo)
+                         if err != nil {
+                           ...
+                         }
+                         ...
+                         foo := &pb.Foo{}
+                         if err := any.UnmarshalTo(foo); err != nil {
+                           ...
+                         }
+
+                    The pack methods provided by protobuf library will by
+                    default use
+
+                    'type.googleapis.com/full.type.name' as the type URL and the
+                    unpack
+
+                    methods only use the fully qualified type name after the
+                    last '/'
+
+                    in the type URL, for example "foo.bar.com/x/y.z" will yield
+                    type
+
+                    name "y.z".
+
+
+
+                    JSON
+
+                    ====
+
+                    The JSON representation of an `Any` value uses the regular
+
+                    representation of the deserialized, embedded message, with
+                    an
+
+                    additional field `@type` which contains the type URL.
+                    Example:
+
+                        package google.profile;
+                        message Person {
+                          string first_name = 1;
+                          string last_name = 2;
+                        }
+
+                        {
+                          "@type": "type.googleapis.com/google.profile.Person",
+                          "firstName": <string>,
+                          "lastName": <string>
+                        }
+
+                    If the embedded message type is well-known and has a custom
+                    JSON
+
+                    representation, that representation will be embedded adding
+                    a field
+
+                    `value` which holds the custom JSON in addition to the
+                    `@type`
+
+                    field. Example (for message [google.protobuf.Duration][]):
+
+                        {
+                          "@type": "type.googleapis.com/google.protobuf.Duration",
+                          "value": "1.212s"
+                        }
+      parameters:
+        - name: nftSchemaCode
+          in: path
+          required: true
+          type: string
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.count_total
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -35765,6 +36661,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -36344,6 +37250,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   /thesixnetwork/sixnft/nftmngr/nft_data:
@@ -36654,6 +37570,10 @@ paths:
                           "value": "1.212s"
                         }
       parameters:
+        - name: withGlobal
+          in: query
+          required: false
+          type: boolean
         - name: pagination.key
           description: |-
             key is a value returned in PageResponse.next_key to begin
@@ -36697,6 +37617,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -36989,6 +37919,10 @@ paths:
           in: path
           required: true
           type: string
+        - name: withGlobal
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   /thesixnetwork/sixnft/nftmngr/nft_fee_balance:
@@ -37437,6 +38371,8 @@ paths:
                       type: string
                     owner:
                       type: string
+                    description:
+                      type: string
                     origin_data:
                       type: object
                       properties:
@@ -37526,74 +38462,6 @@ paths:
                     onchain_data:
                       type: object
                       properties:
-                        reveal_required:
-                          type: boolean
-                        reveal_secret:
-                          type: string
-                          format: byte
-                        nft_attributes:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              name:
-                                type: string
-                              data_type:
-                                type: string
-                              required:
-                                type: boolean
-                              display_value_field:
-                                type: string
-                              display_option:
-                                type: object
-                                properties:
-                                  bool_true_value:
-                                    type: string
-                                  bool_false_value:
-                                    type: string
-                                  opensea:
-                                    type: object
-                                    properties:
-                                      display_type:
-                                        type: string
-                                      trait_type:
-                                        type: string
-                                      max_value:
-                                        type: string
-                                        format: uint64
-                              default_mint_value:
-                                type: object
-                                properties:
-                                  number_attribute_value:
-                                    type: object
-                                    properties:
-                                      value:
-                                        type: string
-                                        format: uint64
-                                  string_attribute_value:
-                                    type: object
-                                    properties:
-                                      value:
-                                        type: string
-                                  boolean_attribute_value:
-                                    type: object
-                                    properties:
-                                      value:
-                                        type: boolean
-                                  float_attribute_value:
-                                    type: object
-                                    properties:
-                                      value:
-                                        type: number
-                                        format: double
-                              hidden_overide:
-                                type: boolean
-                                title: flag that allows action to override hidden
-                              hidden_to_marketplace:
-                                type: boolean
-                              index:
-                                type: string
-                                format: uint64
                         token_attributes:
                           type: array
                           items:
@@ -37704,37 +38572,6 @@ paths:
                               status_name:
                                 type: string
                               status_value:
-                                type: boolean
-                        nft_attributes_value:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              name:
-                                type: string
-                              number_attribute_value:
-                                type: object
-                                properties:
-                                  value:
-                                    type: string
-                                    format: uint64
-                              string_attribute_value:
-                                type: object
-                                properties:
-                                  value:
-                                    type: string
-                              boolean_attribute_value:
-                                type: object
-                                properties:
-                                  value:
-                                    type: boolean
-                              float_attribute_value:
-                                type: object
-                                properties:
-                                  value:
-                                    type: number
-                                    format: double
-                              hidden_to_marketplace:
                                 type: boolean
                     isVerified:
                       type: boolean
@@ -37999,6 +38836,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/nft_schema/{code}':
@@ -38019,6 +38866,8 @@ paths:
                   name:
                     type: string
                   owner:
+                    type: string
+                  description:
                     type: string
                   origin_data:
                     type: object
@@ -38109,74 +38958,6 @@ paths:
                   onchain_data:
                     type: object
                     properties:
-                      reveal_required:
-                        type: boolean
-                      reveal_secret:
-                        type: string
-                        format: byte
-                      nft_attributes:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            name:
-                              type: string
-                            data_type:
-                              type: string
-                            required:
-                              type: boolean
-                            display_value_field:
-                              type: string
-                            display_option:
-                              type: object
-                              properties:
-                                bool_true_value:
-                                  type: string
-                                bool_false_value:
-                                  type: string
-                                opensea:
-                                  type: object
-                                  properties:
-                                    display_type:
-                                      type: string
-                                    trait_type:
-                                      type: string
-                                    max_value:
-                                      type: string
-                                      format: uint64
-                            default_mint_value:
-                              type: object
-                              properties:
-                                number_attribute_value:
-                                  type: object
-                                  properties:
-                                    value:
-                                      type: string
-                                      format: uint64
-                                string_attribute_value:
-                                  type: object
-                                  properties:
-                                    value:
-                                      type: string
-                                boolean_attribute_value:
-                                  type: object
-                                  properties:
-                                    value:
-                                      type: boolean
-                                float_attribute_value:
-                                  type: object
-                                  properties:
-                                    value:
-                                      type: number
-                                      format: double
-                            hidden_overide:
-                              type: boolean
-                              title: flag that allows action to override hidden
-                            hidden_to_marketplace:
-                              type: boolean
-                            index:
-                              type: string
-                              format: uint64
                       token_attributes:
                         type: array
                         items:
@@ -38287,37 +39068,6 @@ paths:
                             status_name:
                               type: string
                             status_value:
-                              type: boolean
-                      nft_attributes_value:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            name:
-                              type: string
-                            number_attribute_value:
-                              type: object
-                              properties:
-                                value:
-                                  type: string
-                                  format: uint64
-                            string_attribute_value:
-                              type: object
-                              properties:
-                                value:
-                                  type: string
-                            boolean_attribute_value:
-                              type: object
-                              properties:
-                                value:
-                                  type: boolean
-                            float_attribute_value:
-                              type: object
-                              properties:
-                                value:
-                                  type: number
-                                  format: double
-                            hidden_to_marketplace:
                               type: boolean
                   isVerified:
                     type: boolean
@@ -38792,6 +39542,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -39286,6 +40046,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/organization/{name}':
@@ -39698,6 +40468,619 @@ paths:
                           "@type": "type.googleapis.com/google.protobuf.Duration",
                           "value": "1.212s"
                         }
+      tags:
+        - Query
+  /thesixnetwork/sixnft/nftmngr/schema_attribute:
+    get:
+      summary: Queries a list of SchemaAttribute items.
+      operationId: ThesixnetworkSixnftNftmngrSchemaAttributeAll
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              schemaAttribute:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    nftSchemaCode:
+                      type: string
+                    name:
+                      type: string
+                    data_type:
+                      type: string
+                    required:
+                      type: boolean
+                    display_value_field:
+                      type: string
+                    display_option:
+                      type: object
+                      properties:
+                        bool_true_value:
+                          type: string
+                        bool_false_value:
+                          type: string
+                        opensea:
+                          type: object
+                          properties:
+                            display_type:
+                              type: string
+                            trait_type:
+                              type: string
+                            max_value:
+                              type: string
+                              format: uint64
+                    current_value:
+                      type: object
+                      properties:
+                        number_attribute_value:
+                          type: object
+                          properties:
+                            value:
+                              type: string
+                              format: uint64
+                        string_attribute_value:
+                          type: object
+                          properties:
+                            value:
+                              type: string
+                        boolean_attribute_value:
+                          type: object
+                          properties:
+                            value:
+                              type: boolean
+                        float_attribute_value:
+                          type: object
+                          properties:
+                            value:
+                              type: number
+                              format: double
+                    hidden_overide:
+                      type: boolean
+                      title: flag that allows action to override hidden
+                    hidden_to_marketplace:
+                      type: boolean
+                    creator:
+                      type: string
+              pagination:
+                type: object
+                properties:
+                  next_key:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                      description: >-
+                        A URL/resource name that uniquely identifies the type of
+                        the serialized
+
+                        protocol buffer message. This string must contain at
+                        least
+
+                        one "/" character. The last segment of the URL's path
+                        must represent
+
+                        the fully qualified name of the type (as in
+
+                        `path/google.protobuf.Duration`). The name should be in
+                        a canonical form
+
+                        (e.g., leading "." is not accepted).
+
+
+                        In practice, teams usually precompile into the binary
+                        all types that they
+
+                        expect it to use in the context of Any. However, for
+                        URLs which use the
+
+                        scheme `http`, `https`, or no scheme, one can optionally
+                        set up a type
+
+                        server that maps type URLs to message definitions as
+                        follows:
+
+
+                        * If no scheme is provided, `https` is assumed.
+
+                        * An HTTP GET on the URL must yield a
+                        [google.protobuf.Type][]
+                          value in binary format, or produce an error.
+                        * Applications are allowed to cache lookup results based
+                        on the
+                          URL, or have them precompiled into a binary to avoid any
+                          lookup. Therefore, binary compatibility needs to be preserved
+                          on changes to types. (Use versioned type names to manage
+                          breaking changes.)
+
+                        Note: this functionality is not currently available in
+                        the official
+
+                        protobuf release, and it is not used for type URLs
+                        beginning with
+
+                        type.googleapis.com.
+
+
+                        Schemes other than `http`, `https` (or the empty scheme)
+                        might be
+
+                        used with implementation specific semantics.
+                  additionalProperties: {}
+                  description: >-
+                    `Any` contains an arbitrary serialized protocol buffer
+                    message along with a
+
+                    URL that describes the type of the serialized message.
+
+
+                    Protobuf library provides support to pack/unpack Any values
+                    in the form
+
+                    of utility functions or additional generated methods of the
+                    Any type.
+
+
+                    Example 1: Pack and unpack a message in C++.
+
+                        Foo foo = ...;
+                        Any any;
+                        any.PackFrom(foo);
+                        ...
+                        if (any.UnpackTo(&foo)) {
+                          ...
+                        }
+
+                    Example 2: Pack and unpack a message in Java.
+
+                        Foo foo = ...;
+                        Any any = Any.pack(foo);
+                        ...
+                        if (any.is(Foo.class)) {
+                          foo = any.unpack(Foo.class);
+                        }
+
+                     Example 3: Pack and unpack a message in Python.
+
+                        foo = Foo(...)
+                        any = Any()
+                        any.Pack(foo)
+                        ...
+                        if any.Is(Foo.DESCRIPTOR):
+                          any.Unpack(foo)
+                          ...
+
+                     Example 4: Pack and unpack a message in Go
+
+                         foo := &pb.Foo{...}
+                         any, err := anypb.New(foo)
+                         if err != nil {
+                           ...
+                         }
+                         ...
+                         foo := &pb.Foo{}
+                         if err := any.UnmarshalTo(foo); err != nil {
+                           ...
+                         }
+
+                    The pack methods provided by protobuf library will by
+                    default use
+
+                    'type.googleapis.com/full.type.name' as the type URL and the
+                    unpack
+
+                    methods only use the fully qualified type name after the
+                    last '/'
+
+                    in the type URL, for example "foo.bar.com/x/y.z" will yield
+                    type
+
+                    name "y.z".
+
+
+
+                    JSON
+
+                    ====
+
+                    The JSON representation of an `Any` value uses the regular
+
+                    representation of the deserialized, embedded message, with
+                    an
+
+                    additional field `@type` which contains the type URL.
+                    Example:
+
+                        package google.profile;
+                        message Person {
+                          string first_name = 1;
+                          string last_name = 2;
+                        }
+
+                        {
+                          "@type": "type.googleapis.com/google.profile.Person",
+                          "firstName": <string>,
+                          "lastName": <string>
+                        }
+
+                    If the embedded message type is well-known and has a custom
+                    JSON
+
+                    representation, that representation will be embedded adding
+                    a field
+
+                    `value` which holds the custom JSON in addition to the
+                    `@type`
+
+                    field. Example (for message [google.protobuf.Duration][]):
+
+                        {
+                          "@type": "type.googleapis.com/google.protobuf.Duration",
+                          "value": "1.212s"
+                        }
+      parameters:
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.count_total
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  '/thesixnetwork/sixnft/nftmngr/schema_attribute/{nftSchemaCode}/{name}':
+    get:
+      summary: Queries a SchemaAttribute by index.
+      operationId: ThesixnetworkSixnftNftmngrSchemaAttribute
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              schemaAttribute:
+                type: object
+                properties:
+                  nftSchemaCode:
+                    type: string
+                  name:
+                    type: string
+                  data_type:
+                    type: string
+                  required:
+                    type: boolean
+                  display_value_field:
+                    type: string
+                  display_option:
+                    type: object
+                    properties:
+                      bool_true_value:
+                        type: string
+                      bool_false_value:
+                        type: string
+                      opensea:
+                        type: object
+                        properties:
+                          display_type:
+                            type: string
+                          trait_type:
+                            type: string
+                          max_value:
+                            type: string
+                            format: uint64
+                  current_value:
+                    type: object
+                    properties:
+                      number_attribute_value:
+                        type: object
+                        properties:
+                          value:
+                            type: string
+                            format: uint64
+                      string_attribute_value:
+                        type: object
+                        properties:
+                          value:
+                            type: string
+                      boolean_attribute_value:
+                        type: object
+                        properties:
+                          value:
+                            type: boolean
+                      float_attribute_value:
+                        type: object
+                        properties:
+                          value:
+                            type: number
+                            format: double
+                  hidden_overide:
+                    type: boolean
+                    title: flag that allows action to override hidden
+                  hidden_to_marketplace:
+                    type: boolean
+                  creator:
+                    type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                      description: >-
+                        A URL/resource name that uniquely identifies the type of
+                        the serialized
+
+                        protocol buffer message. This string must contain at
+                        least
+
+                        one "/" character. The last segment of the URL's path
+                        must represent
+
+                        the fully qualified name of the type (as in
+
+                        `path/google.protobuf.Duration`). The name should be in
+                        a canonical form
+
+                        (e.g., leading "." is not accepted).
+
+
+                        In practice, teams usually precompile into the binary
+                        all types that they
+
+                        expect it to use in the context of Any. However, for
+                        URLs which use the
+
+                        scheme `http`, `https`, or no scheme, one can optionally
+                        set up a type
+
+                        server that maps type URLs to message definitions as
+                        follows:
+
+
+                        * If no scheme is provided, `https` is assumed.
+
+                        * An HTTP GET on the URL must yield a
+                        [google.protobuf.Type][]
+                          value in binary format, or produce an error.
+                        * Applications are allowed to cache lookup results based
+                        on the
+                          URL, or have them precompiled into a binary to avoid any
+                          lookup. Therefore, binary compatibility needs to be preserved
+                          on changes to types. (Use versioned type names to manage
+                          breaking changes.)
+
+                        Note: this functionality is not currently available in
+                        the official
+
+                        protobuf release, and it is not used for type URLs
+                        beginning with
+
+                        type.googleapis.com.
+
+
+                        Schemes other than `http`, `https` (or the empty scheme)
+                        might be
+
+                        used with implementation specific semantics.
+                  additionalProperties: {}
+                  description: >-
+                    `Any` contains an arbitrary serialized protocol buffer
+                    message along with a
+
+                    URL that describes the type of the serialized message.
+
+
+                    Protobuf library provides support to pack/unpack Any values
+                    in the form
+
+                    of utility functions or additional generated methods of the
+                    Any type.
+
+
+                    Example 1: Pack and unpack a message in C++.
+
+                        Foo foo = ...;
+                        Any any;
+                        any.PackFrom(foo);
+                        ...
+                        if (any.UnpackTo(&foo)) {
+                          ...
+                        }
+
+                    Example 2: Pack and unpack a message in Java.
+
+                        Foo foo = ...;
+                        Any any = Any.pack(foo);
+                        ...
+                        if (any.is(Foo.class)) {
+                          foo = any.unpack(Foo.class);
+                        }
+
+                     Example 3: Pack and unpack a message in Python.
+
+                        foo = Foo(...)
+                        any = Any()
+                        any.Pack(foo)
+                        ...
+                        if any.Is(Foo.DESCRIPTOR):
+                          any.Unpack(foo)
+                          ...
+
+                     Example 4: Pack and unpack a message in Go
+
+                         foo := &pb.Foo{...}
+                         any, err := anypb.New(foo)
+                         if err != nil {
+                           ...
+                         }
+                         ...
+                         foo := &pb.Foo{}
+                         if err := any.UnmarshalTo(foo); err != nil {
+                           ...
+                         }
+
+                    The pack methods provided by protobuf library will by
+                    default use
+
+                    'type.googleapis.com/full.type.name' as the type URL and the
+                    unpack
+
+                    methods only use the fully qualified type name after the
+                    last '/'
+
+                    in the type URL, for example "foo.bar.com/x/y.z" will yield
+                    type
+
+                    name "y.z".
+
+
+
+                    JSON
+
+                    ====
+
+                    The JSON representation of an `Any` value uses the regular
+
+                    representation of the deserialized, embedded message, with
+                    an
+
+                    additional field `@type` which contains the type URL.
+                    Example:
+
+                        package google.profile;
+                        message Person {
+                          string first_name = 1;
+                          string last_name = 2;
+                        }
+
+                        {
+                          "@type": "type.googleapis.com/google.profile.Person",
+                          "firstName": <string>,
+                          "lastName": <string>
+                        }
+
+                    If the embedded message type is well-known and has a custom
+                    JSON
+
+                    representation, that representation will be embedded adding
+                    a field
+
+                    `value` which holds the custom JSON in addition to the
+                    `@type`
+
+                    field. Example (for message [google.protobuf.Duration][]):
+
+                        {
+                          "@type": "type.googleapis.com/google.protobuf.Duration",
+                          "value": "1.212s"
+                        }
+      parameters:
+        - name: nftSchemaCode
+          in: path
+          required: true
+          type: string
+        - name: name
+          in: path
+          required: true
+          type: string
       tags:
         - Query
   /thesixnetwork/sixnft/nftoracle/action_request:
@@ -63772,6 +65155,16 @@ definitions:
         type: string
       creator:
         type: string
+  thesixnetwork.sixnft.nftmngr.ActionOfSchema:
+    type: object
+    properties:
+      nftSchemaCode:
+        type: string
+      name:
+        type: string
+      index:
+        type: string
+        format: uint64
   thesixnetwork.sixnft.nftmngr.ActionParameter:
     type: object
     properties:
@@ -63851,9 +65244,14 @@ definitions:
   thesixnetwork.sixnft.nftmngr.AttributeLocation:
     type: string
     enum:
-      - NFT_ATTRIBUTE
-      - TOKEN_ATTRIBUTE
-    default: NFT_ATTRIBUTE
+      - ATTRIBUTE_OF_SCHEMA
+      - ATTRIBUTE_OF_TOKEN
+    default: ATTRIBUTE_OF_SCHEMA
+    title: >-
+      cannot use TOKEN_ATTRIBUTE because it is already used in
+      AttributeLocationV1
+
+      that is why we use ATTRIBUTE_OF_TOKEN
   thesixnetwork.sixnft.nftmngr.AttributeOverriding:
     type: string
     enum:
@@ -64002,74 +65400,6 @@ definitions:
       onchainData:
         type: object
         properties:
-          reveal_required:
-            type: boolean
-          reveal_secret:
-            type: string
-            format: byte
-          nft_attributes:
-            type: array
-            items:
-              type: object
-              properties:
-                name:
-                  type: string
-                data_type:
-                  type: string
-                required:
-                  type: boolean
-                display_value_field:
-                  type: string
-                display_option:
-                  type: object
-                  properties:
-                    bool_true_value:
-                      type: string
-                    bool_false_value:
-                      type: string
-                    opensea:
-                      type: object
-                      properties:
-                        display_type:
-                          type: string
-                        trait_type:
-                          type: string
-                        max_value:
-                          type: string
-                          format: uint64
-                default_mint_value:
-                  type: object
-                  properties:
-                    number_attribute_value:
-                      type: object
-                      properties:
-                        value:
-                          type: string
-                          format: uint64
-                    string_attribute_value:
-                      type: object
-                      properties:
-                        value:
-                          type: string
-                    boolean_attribute_value:
-                      type: object
-                      properties:
-                        value:
-                          type: boolean
-                    float_attribute_value:
-                      type: object
-                      properties:
-                        value:
-                          type: number
-                          format: double
-                hidden_overide:
-                  type: boolean
-                  title: flag that allows action to override hidden
-                hidden_to_marketplace:
-                  type: boolean
-                index:
-                  type: string
-                  format: uint64
           token_attributes:
             type: array
             items:
@@ -64180,37 +65510,6 @@ definitions:
                 status_name:
                   type: string
                 status_value:
-                  type: boolean
-          nft_attributes_value:
-            type: array
-            items:
-              type: object
-              properties:
-                name:
-                  type: string
-                number_attribute_value:
-                  type: object
-                  properties:
-                    value:
-                      type: string
-                      format: uint64
-                string_attribute_value:
-                  type: object
-                  properties:
-                    value:
-                      type: string
-                boolean_attribute_value:
-                  type: object
-                  properties:
-                    value:
-                      type: boolean
-                float_attribute_value:
-                  type: object
-                  properties:
-                    value:
-                      type: number
-                      format: double
-                hidden_to_marketplace:
                   type: boolean
   thesixnetwork.sixnft.nftmngr.MsgAddAttributeResponse:
     type: object
@@ -64222,74 +65521,6 @@ definitions:
       onchainData:
         type: object
         properties:
-          reveal_required:
-            type: boolean
-          reveal_secret:
-            type: string
-            format: byte
-          nft_attributes:
-            type: array
-            items:
-              type: object
-              properties:
-                name:
-                  type: string
-                data_type:
-                  type: string
-                required:
-                  type: boolean
-                display_value_field:
-                  type: string
-                display_option:
-                  type: object
-                  properties:
-                    bool_true_value:
-                      type: string
-                    bool_false_value:
-                      type: string
-                    opensea:
-                      type: object
-                      properties:
-                        display_type:
-                          type: string
-                        trait_type:
-                          type: string
-                        max_value:
-                          type: string
-                          format: uint64
-                default_mint_value:
-                  type: object
-                  properties:
-                    number_attribute_value:
-                      type: object
-                      properties:
-                        value:
-                          type: string
-                          format: uint64
-                    string_attribute_value:
-                      type: object
-                      properties:
-                        value:
-                          type: string
-                    boolean_attribute_value:
-                      type: object
-                      properties:
-                        value:
-                          type: boolean
-                    float_attribute_value:
-                      type: object
-                      properties:
-                        value:
-                          type: number
-                          format: double
-                hidden_overide:
-                  type: boolean
-                  title: flag that allows action to override hidden
-                hidden_to_marketplace:
-                  type: boolean
-                index:
-                  type: string
-                  format: uint64
           token_attributes:
             type: array
             items:
@@ -64400,37 +65631,6 @@ definitions:
                 status_name:
                   type: string
                 status_value:
-                  type: boolean
-          nft_attributes_value:
-            type: array
-            items:
-              type: object
-              properties:
-                name:
-                  type: string
-                number_attribute_value:
-                  type: object
-                  properties:
-                    value:
-                      type: string
-                      format: uint64
-                string_attribute_value:
-                  type: object
-                  properties:
-                    value:
-                      type: string
-                boolean_attribute_value:
-                  type: object
-                  properties:
-                    value:
-                      type: boolean
-                float_attribute_value:
-                  type: object
-                  properties:
-                    value:
-                      type: number
-                      format: double
-                hidden_to_marketplace:
                   type: boolean
   thesixnetwork.sixnft.nftmngr.MsgChangeOrgOwnerResponse:
     type: object
@@ -64476,12 +65676,88 @@ definitions:
     properties:
       code:
         type: string
+  thesixnetwork.sixnft.nftmngr.MsgCreateSchemaAttributeResponse:
+    type: object
+    properties:
+      nftSchemaCode:
+        type: string
+      name:
+        type: string
+      new_attribute:
+        type: object
+        properties:
+          nftSchemaCode:
+            type: string
+          name:
+            type: string
+          data_type:
+            type: string
+          required:
+            type: boolean
+          display_value_field:
+            type: string
+          display_option:
+            type: object
+            properties:
+              bool_true_value:
+                type: string
+              bool_false_value:
+                type: string
+              opensea:
+                type: object
+                properties:
+                  display_type:
+                    type: string
+                  trait_type:
+                    type: string
+                  max_value:
+                    type: string
+                    format: uint64
+          current_value:
+            type: object
+            properties:
+              number_attribute_value:
+                type: object
+                properties:
+                  value:
+                    type: string
+                    format: uint64
+              string_attribute_value:
+                type: object
+                properties:
+                  value:
+                    type: string
+              boolean_attribute_value:
+                type: object
+                properties:
+                  value:
+                    type: boolean
+              float_attribute_value:
+                type: object
+                properties:
+                  value:
+                    type: number
+                    format: double
+          hidden_overide:
+            type: boolean
+            title: flag that allows action to override hidden
+          hidden_to_marketplace:
+            type: boolean
+          creator:
+            type: string
   thesixnetwork.sixnft.nftmngr.MsgDeleteActionExecutorResponse:
     type: object
     properties:
       nftSchemaCode:
         type: string
       executorAddress:
+        type: string
+  thesixnetwork.sixnft.nftmngr.MsgDeleteSchemaAttributeResponse:
+    type: object
+    properties:
+      nftSchemaCode:
+        type: string
+      name:
         type: string
   thesixnetwork.sixnft.nftmngr.MsgPerformActionByAdminResponse:
     type: object
@@ -64581,74 +65857,6 @@ definitions:
       onchainDataAction:
         type: object
         properties:
-          reveal_required:
-            type: boolean
-          reveal_secret:
-            type: string
-            format: byte
-          nft_attributes:
-            type: array
-            items:
-              type: object
-              properties:
-                name:
-                  type: string
-                data_type:
-                  type: string
-                required:
-                  type: boolean
-                display_value_field:
-                  type: string
-                display_option:
-                  type: object
-                  properties:
-                    bool_true_value:
-                      type: string
-                    bool_false_value:
-                      type: string
-                    opensea:
-                      type: object
-                      properties:
-                        display_type:
-                          type: string
-                        trait_type:
-                          type: string
-                        max_value:
-                          type: string
-                          format: uint64
-                default_mint_value:
-                  type: object
-                  properties:
-                    number_attribute_value:
-                      type: object
-                      properties:
-                        value:
-                          type: string
-                          format: uint64
-                    string_attribute_value:
-                      type: object
-                      properties:
-                        value:
-                          type: string
-                    boolean_attribute_value:
-                      type: object
-                      properties:
-                        value:
-                          type: boolean
-                    float_attribute_value:
-                      type: object
-                      properties:
-                        value:
-                          type: number
-                          format: double
-                hidden_overide:
-                  type: boolean
-                  title: flag that allows action to override hidden
-                hidden_to_marketplace:
-                  type: boolean
-                index:
-                  type: string
-                  format: uint64
           token_attributes:
             type: array
             items:
@@ -64760,37 +65968,6 @@ definitions:
                   type: string
                 status_value:
                   type: boolean
-          nft_attributes_value:
-            type: array
-            items:
-              type: object
-              properties:
-                name:
-                  type: string
-                number_attribute_value:
-                  type: object
-                  properties:
-                    value:
-                      type: string
-                      format: uint64
-                string_attribute_value:
-                  type: object
-                  properties:
-                    value:
-                      type: string
-                boolean_attribute_value:
-                  type: object
-                  properties:
-                    value:
-                      type: boolean
-                float_attribute_value:
-                  type: object
-                  properties:
-                    value:
-                      type: number
-                      format: double
-                hidden_to_marketplace:
-                  type: boolean
   thesixnetwork.sixnft.nftmngr.MsgUpdateActionExecutorResponse:
     type: object
     properties:
@@ -64798,6 +65975,82 @@ definitions:
         type: string
       executorAddress:
         type: string
+  thesixnetwork.sixnft.nftmngr.MsgUpdateActionResponse:
+    type: object
+    properties:
+      nftSchemaCode:
+        type: string
+      name:
+        type: string
+  thesixnetwork.sixnft.nftmngr.MsgUpdateSchemaAttributeResponse:
+    type: object
+    properties:
+      nftSchemaCode:
+        type: string
+      name:
+        type: string
+      new_attribute:
+        type: object
+        properties:
+          nftSchemaCode:
+            type: string
+          name:
+            type: string
+          data_type:
+            type: string
+          required:
+            type: boolean
+          display_value_field:
+            type: string
+          display_option:
+            type: object
+            properties:
+              bool_true_value:
+                type: string
+              bool_false_value:
+                type: string
+              opensea:
+                type: object
+                properties:
+                  display_type:
+                    type: string
+                  trait_type:
+                    type: string
+                  max_value:
+                    type: string
+                    format: uint64
+          current_value:
+            type: object
+            properties:
+              number_attribute_value:
+                type: object
+                properties:
+                  value:
+                    type: string
+                    format: uint64
+              string_attribute_value:
+                type: object
+                properties:
+                  value:
+                    type: string
+              boolean_attribute_value:
+                type: object
+                properties:
+                  value:
+                    type: boolean
+              float_attribute_value:
+                type: object
+                properties:
+                  value:
+                    type: number
+                    format: double
+          hidden_overide:
+            type: boolean
+            title: flag that allows action to override hidden
+          hidden_to_marketplace:
+            type: boolean
+          creator:
+            type: string
   thesixnetwork.sixnft.nftmngr.NFTFeeBalance:
     type: object
     properties:
@@ -64837,6 +66090,8 @@ definitions:
       name:
         type: string
       owner:
+        type: string
+      description:
         type: string
       origin_data:
         type: object
@@ -64927,74 +66182,6 @@ definitions:
       onchain_data:
         type: object
         properties:
-          reveal_required:
-            type: boolean
-          reveal_secret:
-            type: string
-            format: byte
-          nft_attributes:
-            type: array
-            items:
-              type: object
-              properties:
-                name:
-                  type: string
-                data_type:
-                  type: string
-                required:
-                  type: boolean
-                display_value_field:
-                  type: string
-                display_option:
-                  type: object
-                  properties:
-                    bool_true_value:
-                      type: string
-                    bool_false_value:
-                      type: string
-                    opensea:
-                      type: object
-                      properties:
-                        display_type:
-                          type: string
-                        trait_type:
-                          type: string
-                        max_value:
-                          type: string
-                          format: uint64
-                default_mint_value:
-                  type: object
-                  properties:
-                    number_attribute_value:
-                      type: object
-                      properties:
-                        value:
-                          type: string
-                          format: uint64
-                    string_attribute_value:
-                      type: object
-                      properties:
-                        value:
-                          type: string
-                    boolean_attribute_value:
-                      type: object
-                      properties:
-                        value:
-                          type: boolean
-                    float_attribute_value:
-                      type: object
-                      properties:
-                        value:
-                          type: number
-                          format: double
-                hidden_overide:
-                  type: boolean
-                  title: flag that allows action to override hidden
-                hidden_to_marketplace:
-                  type: boolean
-                index:
-                  type: string
-                  format: uint64
           token_attributes:
             type: array
             items:
@@ -65105,37 +66292,6 @@ definitions:
                 status_name:
                   type: string
                 status_value:
-                  type: boolean
-          nft_attributes_value:
-            type: array
-            items:
-              type: object
-              properties:
-                name:
-                  type: string
-                number_attribute_value:
-                  type: object
-                  properties:
-                    value:
-                      type: string
-                      format: uint64
-                string_attribute_value:
-                  type: object
-                  properties:
-                    value:
-                      type: string
-                boolean_attribute_value:
-                  type: object
-                  properties:
-                    value:
-                      type: boolean
-                float_attribute_value:
-                  type: object
-                  properties:
-                    value:
-                      type: number
-                      format: double
-                hidden_to_marketplace:
                   type: boolean
       isVerified:
         type: boolean
@@ -65271,74 +66427,6 @@ definitions:
   thesixnetwork.sixnft.nftmngr.OnChainData:
     type: object
     properties:
-      reveal_required:
-        type: boolean
-      reveal_secret:
-        type: string
-        format: byte
-      nft_attributes:
-        type: array
-        items:
-          type: object
-          properties:
-            name:
-              type: string
-            data_type:
-              type: string
-            required:
-              type: boolean
-            display_value_field:
-              type: string
-            display_option:
-              type: object
-              properties:
-                bool_true_value:
-                  type: string
-                bool_false_value:
-                  type: string
-                opensea:
-                  type: object
-                  properties:
-                    display_type:
-                      type: string
-                    trait_type:
-                      type: string
-                    max_value:
-                      type: string
-                      format: uint64
-            default_mint_value:
-              type: object
-              properties:
-                number_attribute_value:
-                  type: object
-                  properties:
-                    value:
-                      type: string
-                      format: uint64
-                string_attribute_value:
-                  type: object
-                  properties:
-                    value:
-                      type: string
-                boolean_attribute_value:
-                  type: object
-                  properties:
-                    value:
-                      type: boolean
-                float_attribute_value:
-                  type: object
-                  properties:
-                    value:
-                      type: number
-                      format: double
-            hidden_overide:
-              type: boolean
-              title: flag that allows action to override hidden
-            hidden_to_marketplace:
-              type: boolean
-            index:
-              type: string
-              format: uint64
       token_attributes:
         type: array
         items:
@@ -65449,37 +66537,6 @@ definitions:
             status_name:
               type: string
             status_value:
-              type: boolean
-      nft_attributes_value:
-        type: array
-        items:
-          type: object
-          properties:
-            name:
-              type: string
-            number_attribute_value:
-              type: object
-              properties:
-                value:
-                  type: string
-                  format: uint64
-            string_attribute_value:
-              type: object
-              properties:
-                value:
-                  type: string
-            boolean_attribute_value:
-              type: object
-              properties:
-                value:
-                  type: boolean
-            float_attribute_value:
-              type: object
-              properties:
-                value:
-                  type: number
-                  format: double
-            hidden_to_marketplace:
               type: boolean
   thesixnetwork.sixnft.nftmngr.OpenseaDisplayOption:
     type: object
@@ -65644,6 +66701,14 @@ definitions:
               when key
 
               is set.
+          reverse:
+            type: boolean
+            description: >-
+              reverse is set to true if results are to be returned in the
+              descending order.
+
+
+              Since: cosmos-sdk 0.43
         description: |-
           message SomeRequest {
                    Foo some_parameter = 1;
@@ -65709,6 +66774,46 @@ definitions:
               type: string
             creator:
               type: string
+      pagination:
+        type: object
+        properties:
+          next_key:
+            type: string
+            format: byte
+            title: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
+  thesixnetwork.sixnft.nftmngr.QueryAllActionOfSchemaResponse:
+    type: object
+    properties:
+      actionOfSchema:
+        type: array
+        items:
+          type: object
+          properties:
+            nftSchemaCode:
+              type: string
+            name:
+              type: string
+            index:
+              type: string
+              format: uint64
       pagination:
         type: object
         properties:
@@ -65831,6 +66936,8 @@ definitions:
               type: string
             owner:
               type: string
+            description:
+              type: string
             origin_data:
               type: object
               properties:
@@ -65920,74 +67027,6 @@ definitions:
             onchain_data:
               type: object
               properties:
-                reveal_required:
-                  type: boolean
-                reveal_secret:
-                  type: string
-                  format: byte
-                nft_attributes:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      name:
-                        type: string
-                      data_type:
-                        type: string
-                      required:
-                        type: boolean
-                      display_value_field:
-                        type: string
-                      display_option:
-                        type: object
-                        properties:
-                          bool_true_value:
-                            type: string
-                          bool_false_value:
-                            type: string
-                          opensea:
-                            type: object
-                            properties:
-                              display_type:
-                                type: string
-                              trait_type:
-                                type: string
-                              max_value:
-                                type: string
-                                format: uint64
-                      default_mint_value:
-                        type: object
-                        properties:
-                          number_attribute_value:
-                            type: object
-                            properties:
-                              value:
-                                type: string
-                                format: uint64
-                          string_attribute_value:
-                            type: object
-                            properties:
-                              value:
-                                type: string
-                          boolean_attribute_value:
-                            type: object
-                            properties:
-                              value:
-                                type: boolean
-                          float_attribute_value:
-                            type: object
-                            properties:
-                              value:
-                                type: number
-                                format: double
-                      hidden_overide:
-                        type: boolean
-                        title: flag that allows action to override hidden
-                      hidden_to_marketplace:
-                        type: boolean
-                      index:
-                        type: string
-                        format: uint64
                 token_attributes:
                   type: array
                   items:
@@ -66098,37 +67137,6 @@ definitions:
                       status_name:
                         type: string
                       status_value:
-                        type: boolean
-                nft_attributes_value:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      name:
-                        type: string
-                      number_attribute_value:
-                        type: object
-                        properties:
-                          value:
-                            type: string
-                            format: uint64
-                      string_attribute_value:
-                        type: object
-                        properties:
-                          value:
-                            type: string
-                      boolean_attribute_value:
-                        type: object
-                        properties:
-                          value:
-                            type: boolean
-                      float_attribute_value:
-                        type: object
-                        properties:
-                          value:
-                            type: number
-                            format: double
-                      hidden_to_marketplace:
                         type: boolean
             isVerified:
               type: boolean
@@ -66309,6 +67317,98 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
+  thesixnetwork.sixnft.nftmngr.QueryAllSchemaAttributeResponse:
+    type: object
+    properties:
+      schemaAttribute:
+        type: array
+        items:
+          type: object
+          properties:
+            nftSchemaCode:
+              type: string
+            name:
+              type: string
+            data_type:
+              type: string
+            required:
+              type: boolean
+            display_value_field:
+              type: string
+            display_option:
+              type: object
+              properties:
+                bool_true_value:
+                  type: string
+                bool_false_value:
+                  type: string
+                opensea:
+                  type: object
+                  properties:
+                    display_type:
+                      type: string
+                    trait_type:
+                      type: string
+                    max_value:
+                      type: string
+                      format: uint64
+            current_value:
+              type: object
+              properties:
+                number_attribute_value:
+                  type: object
+                  properties:
+                    value:
+                      type: string
+                      format: uint64
+                string_attribute_value:
+                  type: object
+                  properties:
+                    value:
+                      type: string
+                boolean_attribute_value:
+                  type: object
+                  properties:
+                    value:
+                      type: boolean
+                float_attribute_value:
+                  type: object
+                  properties:
+                    value:
+                      type: number
+                      format: double
+            hidden_overide:
+              type: boolean
+              title: flag that allows action to override hidden
+            hidden_to_marketplace:
+              type: boolean
+            creator:
+              type: string
+      pagination:
+        type: object
+        properties:
+          next_key:
+            type: string
+            format: byte
+            title: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
   thesixnetwork.sixnft.nftmngr.QueryGetActionByRefIdResponse:
     type: object
     properties:
@@ -66337,6 +67437,19 @@ definitions:
             type: string
           creator:
             type: string
+  thesixnetwork.sixnft.nftmngr.QueryGetActionOfSchemaResponse:
+    type: object
+    properties:
+      actionOfSchema:
+        type: object
+        properties:
+          nftSchemaCode:
+            type: string
+          name:
+            type: string
+          index:
+            type: string
+            format: uint64
   thesixnetwork.sixnft.nftmngr.QueryGetMetadataCreatorResponse:
     type: object
     properties:
@@ -66414,6 +67527,8 @@ definitions:
           name:
             type: string
           owner:
+            type: string
+          description:
             type: string
           origin_data:
             type: object
@@ -66504,74 +67619,6 @@ definitions:
           onchain_data:
             type: object
             properties:
-              reveal_required:
-                type: boolean
-              reveal_secret:
-                type: string
-                format: byte
-              nft_attributes:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    name:
-                      type: string
-                    data_type:
-                      type: string
-                    required:
-                      type: boolean
-                    display_value_field:
-                      type: string
-                    display_option:
-                      type: object
-                      properties:
-                        bool_true_value:
-                          type: string
-                        bool_false_value:
-                          type: string
-                        opensea:
-                          type: object
-                          properties:
-                            display_type:
-                              type: string
-                            trait_type:
-                              type: string
-                            max_value:
-                              type: string
-                              format: uint64
-                    default_mint_value:
-                      type: object
-                      properties:
-                        number_attribute_value:
-                          type: object
-                          properties:
-                            value:
-                              type: string
-                              format: uint64
-                        string_attribute_value:
-                          type: object
-                          properties:
-                            value:
-                              type: string
-                        boolean_attribute_value:
-                          type: object
-                          properties:
-                            value:
-                              type: boolean
-                        float_attribute_value:
-                          type: object
-                          properties:
-                            value:
-                              type: number
-                              format: double
-                    hidden_overide:
-                      type: boolean
-                      title: flag that allows action to override hidden
-                    hidden_to_marketplace:
-                      type: boolean
-                    index:
-                      type: string
-                      format: uint64
               token_attributes:
                 type: array
                 items:
@@ -66682,37 +67729,6 @@ definitions:
                     status_name:
                       type: string
                     status_value:
-                      type: boolean
-              nft_attributes_value:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    name:
-                      type: string
-                    number_attribute_value:
-                      type: object
-                      properties:
-                        value:
-                          type: string
-                          format: uint64
-                    string_attribute_value:
-                      type: object
-                      properties:
-                        value:
-                          type: string
-                    boolean_attribute_value:
-                      type: object
-                      properties:
-                        value:
-                          type: boolean
-                    float_attribute_value:
-                      type: object
-                      properties:
-                        value:
-                          type: number
-                          format: double
-                    hidden_to_marketplace:
                       type: boolean
           isVerified:
             type: boolean
@@ -66927,6 +67943,163 @@ definitions:
             type: string
           owner:
             type: string
+  thesixnetwork.sixnft.nftmngr.QueryGetSchemaAttributeResponse:
+    type: object
+    properties:
+      schemaAttribute:
+        type: object
+        properties:
+          nftSchemaCode:
+            type: string
+          name:
+            type: string
+          data_type:
+            type: string
+          required:
+            type: boolean
+          display_value_field:
+            type: string
+          display_option:
+            type: object
+            properties:
+              bool_true_value:
+                type: string
+              bool_false_value:
+                type: string
+              opensea:
+                type: object
+                properties:
+                  display_type:
+                    type: string
+                  trait_type:
+                    type: string
+                  max_value:
+                    type: string
+                    format: uint64
+          current_value:
+            type: object
+            properties:
+              number_attribute_value:
+                type: object
+                properties:
+                  value:
+                    type: string
+                    format: uint64
+              string_attribute_value:
+                type: object
+                properties:
+                  value:
+                    type: string
+              boolean_attribute_value:
+                type: object
+                properties:
+                  value:
+                    type: boolean
+              float_attribute_value:
+                type: object
+                properties:
+                  value:
+                    type: number
+                    format: double
+          hidden_overide:
+            type: boolean
+            title: flag that allows action to override hidden
+          hidden_to_marketplace:
+            type: boolean
+          creator:
+            type: string
+  thesixnetwork.sixnft.nftmngr.QueryListAttributeBySchemaResponse:
+    type: object
+    properties:
+      schemaAttribute:
+        type: array
+        items:
+          type: object
+          properties:
+            nftSchemaCode:
+              type: string
+            name:
+              type: string
+            data_type:
+              type: string
+            required:
+              type: boolean
+            display_value_field:
+              type: string
+            display_option:
+              type: object
+              properties:
+                bool_true_value:
+                  type: string
+                bool_false_value:
+                  type: string
+                opensea:
+                  type: object
+                  properties:
+                    display_type:
+                      type: string
+                    trait_type:
+                      type: string
+                    max_value:
+                      type: string
+                      format: uint64
+            current_value:
+              type: object
+              properties:
+                number_attribute_value:
+                  type: object
+                  properties:
+                    value:
+                      type: string
+                      format: uint64
+                string_attribute_value:
+                  type: object
+                  properties:
+                    value:
+                      type: string
+                boolean_attribute_value:
+                  type: object
+                  properties:
+                    value:
+                      type: boolean
+                float_attribute_value:
+                  type: object
+                  properties:
+                    value:
+                      type: number
+                      format: double
+            hidden_overide:
+              type: boolean
+              title: flag that allows action to override hidden
+            hidden_to_marketplace:
+              type: boolean
+            creator:
+              type: string
+      pagination:
+        type: object
+        properties:
+          next_key:
+            type: string
+            format: byte
+            title: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
   thesixnetwork.sixnft.nftmngr.QueryParamsResponse:
     type: object
     properties:
@@ -66934,6 +68107,93 @@ definitions:
         description: params holds all the parameters of this module.
         type: object
     description: QueryParamsResponse is response type for the Query/Params RPC method.
+  thesixnetwork.sixnft.nftmngr.SchemaAttribute:
+    type: object
+    properties:
+      nftSchemaCode:
+        type: string
+      name:
+        type: string
+      data_type:
+        type: string
+      required:
+        type: boolean
+      display_value_field:
+        type: string
+      display_option:
+        type: object
+        properties:
+          bool_true_value:
+            type: string
+          bool_false_value:
+            type: string
+          opensea:
+            type: object
+            properties:
+              display_type:
+                type: string
+              trait_type:
+                type: string
+              max_value:
+                type: string
+                format: uint64
+      current_value:
+        type: object
+        properties:
+          number_attribute_value:
+            type: object
+            properties:
+              value:
+                type: string
+                format: uint64
+          string_attribute_value:
+            type: object
+            properties:
+              value:
+                type: string
+          boolean_attribute_value:
+            type: object
+            properties:
+              value:
+                type: boolean
+          float_attribute_value:
+            type: object
+            properties:
+              value:
+                type: number
+                format: double
+      hidden_overide:
+        type: boolean
+        title: flag that allows action to override hidden
+      hidden_to_marketplace:
+        type: boolean
+      creator:
+        type: string
+  thesixnetwork.sixnft.nftmngr.SchemaAttributeValue:
+    type: object
+    properties:
+      number_attribute_value:
+        type: object
+        properties:
+          value:
+            type: string
+            format: uint64
+      string_attribute_value:
+        type: object
+        properties:
+          value:
+            type: string
+      boolean_attribute_value:
+        type: object
+        properties:
+          value:
+            type: boolean
+      float_attribute_value:
+        type: object
+        properties:
+          value:
+            type: number
+            format: double
   thesixnetwork.sixnft.nftmngr.StringAttributeValue:
     type: object
     properties:
