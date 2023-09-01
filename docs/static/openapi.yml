@@ -34459,6 +34459,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/action_by_ref_id/{refId}':
@@ -34956,6 +34966,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/action_executor/{nftSchemaCode}/{executorAddress}':
@@ -35235,6 +35255,14 @@ paths:
                       ignored when key
 
                       is set.
+                  reverse:
+                    type: boolean
+                    description: >-
+                      reverse is set to true if results are to be returned in
+                      the descending order.
+
+
+                      Since: cosmos-sdk 0.43
                 description: |-
                   message SomeRequest {
                            Foo some_parameter = 1;
@@ -35478,6 +35506,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -35761,6 +35799,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -36269,6 +36317,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/list_attribute_by_schema/{nftSchemaCode}':
@@ -36608,6 +36666,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   /thesixnetwork/sixnft/nftmngr/metadata_creator:
@@ -36892,6 +36960,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -37471,6 +37549,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   /thesixnetwork/sixnft/nftmngr/nft_data:
@@ -37828,6 +37916,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -39037,6 +39135,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/nft_schema/{code}':
@@ -39736,6 +39844,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/nft_schema_by_contract/{originContractAddress}':
@@ -40224,6 +40342,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -40971,6 +41099,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -65837,75 +65975,6 @@ definitions:
     properties:
       code:
         type: string
-  thesixnetwork.sixnft.nftmngr.MsgCreateSchemaAttributeResponse:
-    type: object
-    properties:
-      nftSchemaCode:
-        type: string
-      name:
-        type: string
-      new_attribute:
-        type: object
-        properties:
-          nftSchemaCode:
-            type: string
-          name:
-            type: string
-          data_type:
-            type: string
-          required:
-            type: boolean
-          display_value_field:
-            type: string
-          display_option:
-            type: object
-            properties:
-              bool_true_value:
-                type: string
-              bool_false_value:
-                type: string
-              opensea:
-                type: object
-                properties:
-                  display_type:
-                    type: string
-                  trait_type:
-                    type: string
-                  max_value:
-                    type: string
-                    format: uint64
-          current_value:
-            type: object
-            properties:
-              number_attribute_value:
-                type: object
-                properties:
-                  value:
-                    type: string
-                    format: uint64
-              string_attribute_value:
-                type: object
-                properties:
-                  value:
-                    type: string
-              boolean_attribute_value:
-                type: object
-                properties:
-                  value:
-                    type: boolean
-              float_attribute_value:
-                type: object
-                properties:
-                  value:
-                    type: number
-                    format: double
-          hidden_overide:
-            type: boolean
-            title: flag that allows action to override hidden
-          hidden_to_marketplace:
-            type: boolean
-          creator:
-            type: string
   thesixnetwork.sixnft.nftmngr.MsgDeleteActionExecutorResponse:
     type: object
     properties:
@@ -66853,6 +66922,14 @@ definitions:
               when key
 
               is set.
+          reverse:
+            type: boolean
+            description: >-
+              reverse is set to true if results are to be returned in the
+              descending order.
+
+
+              Since: cosmos-sdk 0.43
         description: |-
           message SomeRequest {
                    Foo some_parameter = 1;
