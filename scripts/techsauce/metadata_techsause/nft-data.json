@@ -1,0 +1,91 @@
+{
+  "nft_schema_code": "SCHEMA_CODE",
+  "token_id": "TOKENID",
+  "token_owner": "6x1dk4vh8x995dcrqxr7ku25ykp7nc6g6f7nx6yuh",
+  "owner_address_type": "INTERNAL_ADDRESS",
+  "origin_image": "https://ipfsgw.sixnetwork.io/ipfs/QmZvQMoiZzLdcdFAoWYj8tMchZNsyL3qMBKmxjUU164ibL/TOKENID.png",
+  "onchain_image": "",
+  "token_uri": "",
+  "origin_attributes": [
+    {
+      "name": "background",
+      "string_attribute_value": {
+        "value": "Gradient_Orange"
+      },
+      "hidden_to_marketplace": false
+    },
+    {
+      "name": "caption",
+      "string_attribute_value": {
+        "value": "Exhibitor"
+      },
+      "hidden_to_marketplace": false
+    },
+    {
+      "name": "skin",
+      "string_attribute_value": {
+        "value": "Rainbow"
+      },
+      "hidden_to_marketplace": false
+    },
+    {
+      "name": "hair",
+      "string_attribute_value": {
+        "value": "Medium_Purple"
+      },
+      "hidden_to_marketplace": false
+    },
+    {
+      "name": "mouth",
+      "string_attribute_value": {
+        "value": "Mouth_D"
+      },
+      "hidden_to_marketplace": false
+    },
+    {
+      "name": "eyes",
+      "string_attribute_value": {
+        "value": "Eye Mask"
+      },
+      "hidden_to_marketplace": false
+    },
+    {
+      "name": "costume",
+      "string_attribute_value": {
+        "value": "Exhibitor_E"
+      },
+      "hidden_to_marketplace": false
+    }
+  ],
+  "onchain_attributes": [
+    {
+      "name": "caption",
+      "string_attribute_value": {
+        "value": "Exhibitor"
+      },
+      "hidden_to_marketplace": false
+    },
+    {
+      "name": "minor_count",
+      "float_attribute_value": {
+        "value": 0
+      },
+      "hidden_to_marketplace": false
+    },
+    {
+      "name": "stage_points",
+      "float_attribute_value": {
+        "value": 0
+      },
+      "hidden_to_marketplace": true
+    },
+    {
+      "name":"after_party_claimed",
+      "boolean_attribute_value": {
+        "value": false
+      },
+      "hidden_to_marketplace": false
+    }
+
+  ]
+}

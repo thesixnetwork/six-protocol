@@ -1,350 +1,349 @@
 {
-    "code": "six-protocol.develop_v220",
-    "name": "NFTexpoGoerli",
-    "owner": "0xNFTOWNER",
-    "origin_data": {
-      "origin_base_uri": "https://dryotus.definix.com/ipfs/QmZc4kPjvz4M4SpNfRZme2gcVzbMQjDt76GsxvLqSexT8R/",
-      "uri_retrieval_method": "BASE",
-      "origin_chain": "GOERLI",
-      "origin_contract_address": "0x9EC14dfF0049F8De41FE106f3221a50313F941aB",
-      "attribute_overriding": "CHAIN",
-      "metadata_format": "opensea",
-      "origin_attributes": [
-        {
-          "name": "background",
-          "data_type": "string",
-          "display_value_field": "value",
-          "display_option": {
-            "opensea": {
-              "trait_type": "Background"
-            }
-          }
-        },
-        {
-          "name": "moon",
-          "data_type": "string",
-          "display_value_field": "value",
-          "display_option": {
-            "opensea": {
-              "trait_type": "Moon"
-            }
-          }
-        },
-        {
-          "name": "plate",
-          "data_type": "string",
-          "display_value_field": "value",
-          "display_option": {
-            "opensea": {
-              "trait_type": "Plate"
-            }
-          }
-        },
-        {
-          "name": "tail",
-          "data_type": "string",
-          "display_value_field": "value",
-          "display_option": {
-            "opensea": {
-              "trait_type": "Tail"
-            }
-          }
-        },
-        {
-          "name": "whale",
-          "data_type": "string",
-          "display_value_field": "value",
-          "display_option": {
-            "opensea": {
-              "trait_type": "Whale"
-            }
+  "code": "six-protocol.develop_v220",
+  "name": "NFTexpoGoerli",
+  "owner": "0xNFTOWNER",
+  "origin_data": {
+    "origin_base_uri": "https://dryotus.definix.com/ipfs/QmZc4kPjvz4M4SpNfRZme2gcVzbMQjDt76GsxvLqSexT8R/",
+    "uri_retrieval_method": "BASE",
+    "origin_chain": "GOERLI",
+    "origin_contract_address": "0x9EC14dfF0049F8De41FE106f3221a50313F941aB",
+    "attribute_overriding": "CHAIN",
+    "metadata_format": "opensea",
+    "origin_attributes": [
+      {
+        "name": "background",
+        "data_type": "string",
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Background"
           }
         }
-      ]
-    },
-    "onchain_data": {
-      "reveal_required": true,
-      "reveal_secret": "",
-      "nft_attributes": [
-        {
-          "name": "hello_nft_attribute",
-          "default_mint_value": {
-            "string_attribute_value": {
-              "value": "Will Not Read"
-            }
-          },
-          "data_type": "string",
-          "required": true,
-          "display_value_field": "value",
-          "display_option": {
-            "opensea": {
-              "trait_type": "Hello NFT Attribute"
-            }
-          },
-          "hidden_overide": false,
-          "hidden_to_marketplace": false
+      },
+      {
+        "name": "moon",
+        "data_type": "string",
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Moon"
+          }
         }
-      ],
-      "token_attributes": [
-        {
-          "name": "points",
-          "default_mint_value": {
-            "number_attribute_value": {
-              "value": 0
-            }
-          },
-          "data_type": "number",
-          "required": true,
-          "display_value_field": "value",
-          "display_option": {
-            "opensea": {
-              "trait_type": "Points"
-            }
-          },
-          "hidden_overide": false,
-          "hidden_to_marketplace": false
-        },
-        {
-          "name": "started",
-          "default_mint_value": {
-            "boolean_attribute_value": {
-              "value": false
-            }
-          },
-          "data_type": "boolean",
-          "required": true,
-          "display_value_field": "value",
-          "display_option": {
-            "bool_true_value": "Yes",
-            "bool_false_value": "No",
-            "opensea": {
-              "trait_type": "Started"
-            }
-          },
-          "hidden_overide": false,
-          "hidden_to_marketplace": false
-        },
-        {
-          "name": "greeting_nft_attribute",
-          "default_mint_value": {
-            "string_attribute_value": {
-              "value": ""
-            }
-          },
-          "data_type": "string",
-          "required": true,
-          "display_value_field": "value",
-          "display_option": {
-            "opensea": {
-              "trait_type": "Greeting NFT Attribute"
-            }
-          },
-          "hidden_overide": false,
-          "hidden_to_marketplace": false
-        },
-        {
-          "name": "split",
-          "default_mint_value": {
-            "string_attribute_value": {
-              "value": "not yet"
-            }
-          },
-          "data_type": "string",
-          "required": true,
-          "display_value_field": "value",
-          "display_option": {
-            "opensea": {
-              "trait_type": "Test Split String"
-            }
-          },
-          "hidden_overide": false,
-          "hidden_to_marketplace": false
-        },
-        {
-          "name": "lowercase",
-          "default_mint_value": {
-            "string_attribute_value": {
-              "value": "not yet"
-            }
-          },
-          "data_type": "string",
-          "required": true,
-          "display_value_field": "value",
-          "display_option": {
-            "opensea": {
-              "trait_type": "Test Split String"
-            }
-          },
-          "hidden_overide": false,
-          "hidden_to_marketplace": false
-        },
-        {
-          "name": "uppercase",
-          "default_mint_value": {
-            "string_attribute_value": {
-              "value": "not yet"
-            }
-          },
-          "data_type": "string",
-          "required": true,
-          "display_value_field": "value",
-          "display_option": {
-            "opensea": {
-              "trait_type": "Test Split String"
-            }
-          },
-          "hidden_overide": false,
-          "hidden_to_marketplace": false
-        },
-        {
-          "name": "hide_pass",
-          "default_mint_value": {
-            "boolean_attribute_value": {
-              "value": false
-            }
-          },
-          "data_type": "boolean",
-          "required": true,
-          "display_value_field": "value",
-          "display_option": {
-            "bool_true_value": "Yes",
-            "bool_false_value": "No",
-            "opensea": {
-              "trait_type": "Test Hide To Marketplace Pass"
-            }
-          },
-          "hidden_overide": true,
-          "hidden_to_marketplace": false
-        },
-        {
-          "name": "hide_fail",
-          "default_mint_value": {
-            "boolean_attribute_value": {
-              "value": false
-            }
-          },
-          "data_type": "boolean",
-          "required": true,
-          "display_value_field": "value",
-          "display_option": {
-            "bool_true_value": "Yes",
-            "bool_false_value": "No",
-            "opensea": {
-              "trait_type": "Test Hide To Marketplace Fail"
-            }
-          },
-          "hidden_overide": false,
-          "hidden_to_marketplace": false
+      },
+      {
+        "name": "plate",
+        "data_type": "string",
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Plate"
+          }
         }
-      ],
-      "actions": [
-        {
-          "name": "start_mission",
-          "desc": "Start Mission",
-          "params": [],
-          "when": "meta.GetBoolean('started') == false",
-          "then": [
-            "meta.SetBoolean('started', true)",
-            "meta.SetNumber('points', meta.GetNumber('points') + 200)"
-          ]
+      },
+      {
+        "name": "tail",
+        "data_type": "string",
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Tail"
+          }
+        }
+      },
+      {
+        "name": "whale",
+        "data_type": "string",
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Whale"
+          }
+        }
+      }
+    ]
+  },
+  "onchain_data": {
+    "reveal_required": true,
+    "reveal_secret": "",
+    "nft_attributes": [
+      {
+        "name": "hello_nft_attribute",
+        "default_mint_value": {
+          "string_attribute_value": {
+            "value": "Will Not Read"
+          }
         },
-        {
-          "name": "test_read_nft",
-          "desc": "Test NFT attribute",
-          "params": [],
-          "when": "meta.GetBoolean('started') == true || meta.GetBoolean('started') == false",
-          "then": [
-            "meta.SetNumber('points', meta.GetNumber('points') + 100)",
-            "meta.SetString('greeting_nft_attribute',meta.GetString('hello_nft_attribute'))"
-          ]
+        "data_type": "string",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Hello NFT Attribute"
+          }
         },
-        {
-          "name": "test_split",
-          "desc": "Test Split String",
-          "params": [],
-          "when": "meta.GetBoolean('started') == true || meta.GetBoolean('started') == false",
-          "then": [
-            "meta.SetNumber('points', meta.GetNumber('points') + 100)",
-            "meta.SetString('split',meta.GetSubString('hello_nft_attribute', 3, -1))"
-          ]
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
+      }
+    ],
+    "token_attributes": [
+      {
+        "name": "points",
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": 0
+          }
         },
-        {
-          "name": "test_lowercase",
-          "desc": "Test Lowercase String",
-          "params": [],
-          "when": "meta.GetBoolean('started') == true || meta.GetBoolean('started') == false",
-          "then": [
-            "meta.SetNumber('points', meta.GetNumber('points') + 100)",
-            "meta.SetString('lowercase',meta.ToLowercase('hello_nft_attribute'))"
-          ]
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Points"
+          }
         },
-        {
-          "name": "test_uppercase",
-          "desc": "Test Uppercase String",
-          "params": [],
-          "when": "meta.GetBoolean('started') == true || meta.GetBoolean('started') == false",
-          "then": [
-            "meta.SetNumber('points', meta.GetNumber('points') + 100)",
-            "meta.SetString('uppercase',meta.ToUppercase('hello_nft_attribute'))"
-          ]
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
+      },
+      {
+        "name": "started",
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
+          }
         },
-        {
-          "name": "test_hidden",
-          "desc": "Test Dyamic hidden to marketplace",
-          "params": [
+        "data_type": "boolean",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "Yes",
+          "bool_false_value": "No",
+          "opensea": {
+            "trait_type": "Started"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
+      },
+      {
+        "name": "greeting_nft_attribute",
+        "default_mint_value": {
+          "string_attribute_value": {
+            "value": ""
+          }
+        },
+        "data_type": "string",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Greeting NFT Attribute"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
+      },
+      {
+        "name": "split",
+        "default_mint_value": {
+          "string_attribute_value": {
+            "value": "not yet"
+          }
+        },
+        "data_type": "string",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Test Split String"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
+      },
+      {
+        "name": "lowercase",
+        "default_mint_value": {
+          "string_attribute_value": {
+            "value": "not yet"
+          }
+        },
+        "data_type": "string",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Test Split String"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
+      },
+      {
+        "name": "uppercase",
+        "default_mint_value": {
+          "string_attribute_value": {
+            "value": "not yet"
+          }
+        },
+        "data_type": "string",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Test Split String"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
+      },
+      {
+        "name": "hide_pass",
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
+          }
+        },
+        "data_type": "boolean",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "Yes",
+          "bool_false_value": "No",
+          "opensea": {
+            "trait_type": "Test Hide To Marketplace Pass"
+          }
+        },
+        "hidden_overide": true,
+        "hidden_to_marketplace": false
+      },
+      {
+        "name": "hide_fail",
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
+          }
+        },
+        "data_type": "boolean",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "Yes",
+          "bool_false_value": "No",
+          "opensea": {
+            "trait_type": "Test Hide To Marketplace Fail"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
+      }
+    ],
+    "actions": [
+      {
+        "name": "start_mission",
+        "desc": "Start Mission",
+        "params": [],
+        "when": "meta.GetBoolean('started') == false",
+        "then": [
+          "meta.SetBoolean('started', true)",
+          "meta.SetNumber('points', meta.GetNumber('points') + 200)"
+        ]
+      },
+      {
+        "name": "test_read_nft",
+        "desc": "Test NFT attribute",
+        "params": [],
+        "when": "meta.GetBoolean('started') == true || meta.GetBoolean('started') == false",
+        "then": [
+          "meta.SetNumber('points', meta.GetNumber('points') + 100)",
+          "meta.SetString('greeting_nft_attribute',meta.GetString('hello_nft_attribute'))"
+        ]
+      },
+      {
+        "name": "test_split",
+        "desc": "Test Split String",
+        "params": [],
+        "when": "meta.GetBoolean('started') == true || meta.GetBoolean('started') == false",
+        "then": [
+          "meta.SetNumber('points', meta.GetNumber('points') + 100)",
+          "meta.SetString('split',meta.GetSubString('hello_nft_attribute', 3, -1))"
+        ]
+      },
+      {
+        "name": "test_lowercase",
+        "desc": "Test Lowercase String",
+        "params": [],
+        "when": "meta.GetBoolean('started') == true || meta.GetBoolean('started') == false",
+        "then": [
+          "meta.SetNumber('points', meta.GetNumber('points') + 100)",
+          "meta.SetString('lowercase',meta.ToLowercase('hello_nft_attribute'))"
+        ]
+      },
+      {
+        "name": "test_uppercase",
+        "desc": "Test Uppercase String",
+        "params": [],
+        "when": "meta.GetBoolean('started') == true || meta.GetBoolean('started') == false",
+        "then": [
+          "meta.SetNumber('points', meta.GetNumber('points') + 100)",
+          "meta.SetString('uppercase',meta.ToUppercase('hello_nft_attribute'))"
+        ]
+      },
+      {
+        "name": "test_hidden",
+        "desc": "Test Dyamic hidden to marketplace",
+        "params": [
+          {
+            "name": "attribute_name",
+            "desc": "attriubute name",
+            "data_type": "string",
+            "required": true
+          },
+          {
+            "name": "show",
+            "desc": "value",
+            "data_type": "string",
+            "required": true
+          }
+        ],
+        "when": "meta.GetBoolean('started') == true || meta.GetBoolean('started') == false",
+        "then": [
+          "meta.SetDisplayAttribute(params['attribute_name'].GetString(), params['show'].GetString())"
+        ]
+      },
+      {
+        "name": "transfer",
+        "desc": "Transfer",
+        "params" : [
             {
-              "name": "attribute_name",
-              "desc": "attriubute name",
-              "data_type": "string",
-              "required": true
+                "name": "points",
+                "desc": "Points",
+                "data_type": "number",
+                "required" : true,
+                "default_value": "10"
             },
             {
-              "name": "show",
-              "desc": "value",
-              "data_type": "string",
-              "required": true
+                "name": "token_id",
+                "desc": "Token Id",
+                "data_type": "string",
+                "required" : true,
+                "default_value": ""
             }
-          ],
-          "when": "meta.GetBoolean('started') == true || meta.GetBoolean('started') == false",
-          "then": [
-            "meta.SetDisplayAttribute(params['attribute_name'].GetString(), params['show'].GetString())"
-          ]
-        },
-        {
-          "name": "transfer",
-          "desc": "Transfer",
-          "params" : [
-              {
-                  "name": "points",
-                  "desc": "Points",
-                  "data_type": "number",
-                  "required" : true,
-                  "default_value": "10"
-              },
-              {
-                  "name": "token_id",
-                  "desc": "Token Id",
-                  "data_type": "string",
-                  "required" : true,
-                  "default_value": ""
-              }
-          ],
-          "when": "meta.GetNumber('points') > 0 && params['points'].GetNumber() > 0 ",
-          "then": [
-              "meta.TransferNumber('points',params['token_id'].GetString(),params['points'].GetNumber())"
-          ]
+        ],
+        "when": "meta.GetNumber('points') > 0 && params['points'].GetNumber() > 0 ",
+        "then": [
+            "meta.TransferNumber('points',params['token_id'].GetString(),params['points'].GetNumber())"
+        ]
       }
-      ],
-      "nft_attributes_value": [
-        {
-          "name": "hello_nft_attribute",
-          "string_attribute_value": {
-            "value": "To Valhalla!"
-          },
-          "hidden_to_marketplace": false
-        }
-      ]
-    },
-    "mint_authorization": "system"
-  }
-  
+    ],
+    "nft_attributes_value": [
+      {
+        "name": "hello_nft_attribute",
+        "string_attribute_value": {
+          "value": "To Valhalla!"
+        },
+        "hidden_to_marketplace": false
+      }
+    ]
+  },
+  "mint_authorization": "system"
+}
