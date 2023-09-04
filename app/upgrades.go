@@ -10,11 +10,12 @@ import (
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 )
 
-const UpgradeName = "v3.1.1"
+const UpgradeName = "v3.1.2"
 
 func (app *App) RegisterUpgradeHandlers() {
 	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
 
+		app.MigrationFromV1ToV2Handlers(ctx)
 		return app.mm.RunMigrations(ctx, app.configurator, vm)
 	})
 }
