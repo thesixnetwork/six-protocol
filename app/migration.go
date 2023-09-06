@@ -21,6 +21,22 @@ func (app *App) MigrationFromV1ToV2Handlers(ctx sdk.Context) {
 				ExecutorAddress: systemActioner,
 				Creator:         nftSchemaV1.Owner,
 			})
+
+			val, found := app.NftmngrKeeper.GetExecutorOfSchema(ctx, nftSchemaV1.Code)
+			if !found {
+				val = nftmngrtypes.ExecutorOfSchema{
+					NftSchemaCode:   nftSchemaV1.Code,
+					ExecutorAddress: []string{},
+				}
+			}
+
+			// set executorOfSchema
+			val.ExecutorAddress = append(val.ExecutorAddress, systemActioner)
+
+			app.NftmngrKeeper.SetExecutorOfSchema(ctx, nftmngrtypes.ExecutorOfSchema{
+				NftSchemaCode:   nftSchemaV1.Code,
+				ExecutorAddress: val.ExecutorAddress,
+			})
 		}
 
 		// migrate schema to new schema
@@ -40,6 +56,7 @@ func (app *App) MigrationFromV1ToV2Handlers(ctx sdk.Context) {
 		})
 
 		// migrate NFT attributes to new schema attributes
+		var schemaAttributes []*nftmngrtypes.SchemaAttribute
 		for _, nftAttribute := range nftSchemaV1.OnchainData.NftAttributes {
 			schemaAttibuteConverted, _ := NftmngrKeeper.ConvertDefaultMintValueToSchemaAttributeValue(nftAttribute.DefaultMintValue)
 			app.NftmngrKeeper.SetSchemaAttribute(ctx, nftmngrtypes.SchemaAttribute{
@@ -54,7 +71,25 @@ func (app *App) MigrationFromV1ToV2Handlers(ctx sdk.Context) {
 				HiddenToMarketplace: nftAttribute.HiddenToMarketplace,
 				Creator:             nftSchemaV1.Owner,
 			})
+
+			schemaAttributes = append(schemaAttributes, &nftmngrtypes.SchemaAttribute{
+				NftSchemaCode:       nftSchemaV1.Code,
+				Name:                nftAttribute.Name,
+				DataType:            nftAttribute.DataType,
+				Required:            nftAttribute.Required,
+				DisplayValueField:   nftAttribute.DisplayValueField,
+				DisplayOption:       nftAttribute.DisplayOption,
+				CurrentValue:        schemaAttibuteConverted,
+				HiddenOveride:       nftAttribute.HiddenOveride,
+				HiddenToMarketplace: nftAttribute.HiddenToMarketplace,
+				Creator:             nftSchemaV1.Owner,
+			})
 		}
+
+		app.NftmngrKeeper.SetAttributeOfSchema(ctx, nftmngrtypes.AttributeOfSchema{
+			NftSchemaCode:     nftSchemaV1.Code,
+			SchemaAttributes:  schemaAttributes,
+		})
 
 		// migrate NFT actions to new schema actions
 		for i, nftAction := range nftSchemaV1.OnchainData.Actions {
