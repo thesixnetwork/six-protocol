@@ -83,9 +83,7 @@
     ]
   },
   "onchain_data": {
-    "reveal_required": true,
-    "reveal_secret": "",
-    "nft_attributes": [
+    "schema_attributes": [
       {
         "name": "redemtion_tumbler",
         "default_mint_value": {
@@ -752,8 +750,7 @@
         ],
         "allowed_actioner": "ALLOWED_ACTIONER_SYSTEM_ONLY"
       }
-    ],
-    "nft_attributes_value": []
+    ]
   },
   "system_actioners": [
     "6x1y7lhzzum3nu77nz0pcwqth42yxm84zg3d957mr",
