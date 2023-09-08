@@ -1,102 +1,273 @@
 {
   "code": "TechSauce.GlobalSummit2023",
   "name": "Techsauce Global Summit 2023 | NFT Treasure Hunt",
-  "owner": "0xNFTOWNER",
+  "owner": "6x1v23u9k5c8pwm87jtvxwwmuzt8nj250xu4lr4vh",
+  "description": "NFT Treasure Hunt collection transforms your conference experience. Each NFT gifts attendees exclusive experiences, special rewards, and a digital memento of this innovative event. Techsauce Global Summit 2023's NFT Treasure Hunt fuses blockchain with events, offering unique experiences, exclusive rewards, and memorable digital keepsakes.",
   "origin_data": {
-    "origin_base_uri": "https://ipfsgw.sixnetwork.io/ipfs/QmZvQMoiZzLdcdFAoWYj8tMchZNsyL3qMBKmxjUU164ibL/",
-    "uri_retrieval_method": "BASE",
     "origin_chain": "SIXNET",
-    "origin_contract_address": "0x40df0C834CE7549e9234D11525aD1f7E7CF48E88",
+    "origin_contract_address": "0xf9f00B7bA795cdc96dbE2153cBF51Ee46643ee1f",
+    "origin_base_uri": "https://ipfsgw.sixnetwork.io/ipfs/QmZvQMoiZzLdcdFAoWYj8tMchZNsyL3qMBKmxjUU164ibL/",
     "attribute_overriding": "CHAIN",
     "metadata_format": "opensea",
+    "uri_retrieval_method": "BASE",
     "origin_attributes": [
       {
         "name": "background",
         "data_type": "string",
+        "required": false,
         "display_value_field": "value",
         "display_option": {
+          "bool_true_value": "",
+          "bool_false_value": "",
           "opensea": {
-            "trait_type": "Background"
+            "display_type": "",
+            "trait_type": "Background",
+            "max_value": "0"
           }
-        }
+        },
+        "default_mint_value": null,
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
       },
       {
         "name": "caption",
         "data_type": "string",
+        "required": false,
         "display_value_field": "value",
         "display_option": {
+          "bool_true_value": "",
+          "bool_false_value": "",
           "opensea": {
-            "trait_type": "Caption"
+            "display_type": "",
+            "trait_type": "Caption",
+            "max_value": "0"
           }
-        }
+        },
+        "default_mint_value": null,
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
       },
       {
         "name": "skin",
         "data_type": "string",
+        "required": false,
         "display_value_field": "value",
         "display_option": {
+          "bool_true_value": "",
+          "bool_false_value": "",
           "opensea": {
-            "trait_type": "Skin"
+            "display_type": "",
+            "trait_type": "Skin",
+            "max_value": "0"
           }
-        }
+        },
+        "default_mint_value": null,
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
       },
       {
         "name": "hair",
         "data_type": "string",
+        "required": false,
         "display_value_field": "value",
         "display_option": {
+          "bool_true_value": "",
+          "bool_false_value": "",
           "opensea": {
-            "trait_type": "Hair"
+            "display_type": "",
+            "trait_type": "Hair",
+            "max_value": "0"
           }
-        }
+        },
+        "default_mint_value": null,
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
       },
       {
         "name": "mouth",
         "data_type": "string",
+        "required": false,
         "display_value_field": "value",
         "display_option": {
+          "bool_true_value": "",
+          "bool_false_value": "",
           "opensea": {
-            "trait_type": "Mouth"
+            "display_type": "",
+            "trait_type": "Mouth",
+            "max_value": "0"
           }
-        }
+        },
+        "default_mint_value": null,
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
       },
       {
         "name": "costume",
         "data_type": "string",
+        "required": false,
         "display_value_field": "value",
         "display_option": {
+          "bool_true_value": "",
+          "bool_false_value": "",
           "opensea": {
-            "trait_type": "Costume"
+            "display_type": "",
+            "trait_type": "Costume",
+            "max_value": "0"
           }
-        }
+        },
+        "default_mint_value": null,
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
       },
       {
         "name": "eyes",
         "data_type": "string",
+        "required": false,
         "display_value_field": "value",
         "display_option": {
+          "bool_true_value": "",
+          "bool_false_value": "",
           "opensea": {
-            "trait_type": "Eyes"
+            "display_type": "",
+            "trait_type": "Eyes",
+            "max_value": "0"
           }
-        }
+        },
+        "default_mint_value": null,
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
       }
     ]
   },
   "onchain_data": {
-    "schema_attributes": [
+    "nft_attributes": [
       {
-        "name": "redemtion_tumbler",
-        "default_mint_value": {
-          "float_attribute_value": {
-            "value": 600.0
+        "name": "tumbler",
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "",
+          "bool_false_value": "",
+          "opensea": {
+            "display_type": "",
+            "trait_type": "Tumbler",
+            "max_value": "0"
           }
         },
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": "65"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": true
+      },
+      {
+        "name": "cap",
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "",
+          "bool_false_value": "",
+          "opensea": {
+            "display_type": "",
+            "trait_type": "Cap",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": "130"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": true
+      },
+      {
+        "name": "namecard",
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "",
+          "bool_false_value": "",
+          "opensea": {
+            "display_type": "",
+            "trait_type": "Namecard",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": "65"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": true
+      },
+      {
+        "name": "g_namecard",
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "",
+          "bool_false_value": "",
+          "opensea": {
+            "display_type": "",
+            "trait_type": "Geo-Namecard",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": "70"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": true
+      },
+      {
+        "name": "tshirt",
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "",
+          "bool_false_value": "",
+          "opensea": {
+            "display_type": "",
+            "trait_type": "T-Shirt",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": "64"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": true
+      },
+      {
+        "name": "redemtion_tumbler",
         "data_type": "float",
         "required": true,
         "display_value_field": "value",
         "display_option": {
+          "bool_true_value": "",
+          "bool_false_value": "",
           "opensea": {
-            "trait_type": "Tumbler Price"
+            "display_type": "",
+            "trait_type": "Tumbler Price",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "float_attribute_value": {
+            "value": 600
           }
         },
         "hidden_overide": false,
@@ -104,17 +275,21 @@
       },
       {
         "name": "redemtion_cap",
-        "default_mint_value": {
-          "float_attribute_value": {
-            "value": 300.0
-          }
-        },
         "data_type": "float",
         "required": true,
         "display_value_field": "value",
         "display_option": {
+          "bool_true_value": "",
+          "bool_false_value": "",
           "opensea": {
-            "trait_type": "Cap Price"
+            "display_type": "",
+            "trait_type": "Cap Price",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "float_attribute_value": {
+            "value": 300
           }
         },
         "hidden_overide": false,
@@ -122,17 +297,21 @@
       },
       {
         "name": "redemtion_namecard",
-        "default_mint_value": {
-          "float_attribute_value": {
-            "value": 200.0
-          }
-        },
         "data_type": "float",
         "required": true,
         "display_value_field": "value",
         "display_option": {
+          "bool_true_value": "",
+          "bool_false_value": "",
           "opensea": {
-            "trait_type": "Namecard Price"
+            "display_type": "",
+            "trait_type": "Namecard Price",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "float_attribute_value": {
+            "value": 200
           }
         },
         "hidden_overide": false,
@@ -140,17 +319,21 @@
       },
       {
         "name": "redemtion_g_namecard",
-        "default_mint_value": {
-          "float_attribute_value": {
-            "value": 200.0
-          }
-        },
         "data_type": "float",
         "required": true,
         "display_value_field": "value",
         "display_option": {
+          "bool_true_value": "",
+          "bool_false_value": "",
           "opensea": {
-            "trait_type": "Geo-Namecard Price"
+            "display_type": "",
+            "trait_type": "Geo-Namecard Price",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "float_attribute_value": {
+            "value": 200
           }
         },
         "hidden_overide": false,
@@ -158,17 +341,131 @@
       },
       {
         "name": "redemtion_tshirt",
-        "default_mint_value": {
-          "float_attribute_value": {
-            "value": 250.0
-          }
-        },
         "data_type": "float",
         "required": true,
         "display_value_field": "value",
         "display_option": {
+          "bool_true_value": "",
+          "bool_false_value": "",
           "opensea": {
-            "trait_type": "T-Shirt Price"
+            "display_type": "",
+            "trait_type": "T-Shirt Price",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "float_attribute_value": {
+            "value": 250
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": true
+      },
+      {
+        "name": "general_after_party_count",
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "",
+          "bool_false_value": "",
+          "opensea": {
+            "display_type": "",
+            "trait_type": "After Party Claimed",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": "0"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": true
+      },
+      {
+        "name": "vip_after_party_count",
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "",
+          "bool_false_value": "",
+          "opensea": {
+            "display_type": "",
+            "trait_type": "VIP After Party Claimed",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": "1"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": true
+      },
+      {
+        "name": "speaker_after_party_count",
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "",
+          "bool_false_value": "",
+          "opensea": {
+            "display_type": "",
+            "trait_type": "Speaker After Party Claimed",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": "0"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": true
+      },
+      {
+        "name": "investor_after_party_count",
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "",
+          "bool_false_value": "",
+          "opensea": {
+            "display_type": "",
+            "trait_type": "Investor After Party Claimed",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": "0"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": true
+      },
+      {
+        "name": "voucher_count",
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "bool_true_value": "",
+          "bool_false_value": "",
+          "opensea": {
+            "display_type": "",
+            "trait_type": "Voucher Claimed Count",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": "0"
           }
         },
         "hidden_overide": false,
@@ -178,17 +475,21 @@
     "token_attributes": [
       {
         "name": "caption",
-        "default_mint_value": {
-          "string_attribute_value": {
-            "value": ""
-          }
-        },
         "data_type": "string",
         "required": true,
         "display_value_field": "value",
         "display_option": {
+          "bool_true_value": "",
+          "bool_false_value": "",
           "opensea": {
-            "trait_type": "Caption"
+            "display_type": "",
+            "trait_type": "Caption",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "string_attribute_value": {
+            "value": ""
           }
         },
         "hidden_overide": false,
@@ -196,17 +497,21 @@
       },
       {
         "name": "points",
-        "default_mint_value": {
-          "float_attribute_value": {
-            "value": 0
-          }
-        },
         "data_type": "float",
         "required": true,
         "display_value_field": "value",
         "display_option": {
+          "bool_true_value": "",
+          "bool_false_value": "",
           "opensea": {
-            "trait_type": "Points"
+            "display_type": "",
+            "trait_type": "Points",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "float_attribute_value": {
+            "value": 0
           }
         },
         "hidden_overide": false,
@@ -214,11 +519,6 @@
       },
       {
         "name": "techsauce_booth",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
         "data_type": "boolean",
         "required": true,
         "display_value_field": "value",
@@ -226,7 +526,14 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Booth Techsauce"
+            "display_type": "",
+            "trait_type": "Booth Techsauce",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
           }
         },
         "hidden_overide": false,
@@ -234,11 +541,6 @@
       },
       {
         "name": "bussiness_zone",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
         "data_type": "boolean",
         "required": true,
         "display_value_field": "value",
@@ -246,7 +548,14 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Bussiness Matching Zone"
+            "display_type": "",
+            "trait_type": "Bussiness Matching Zone",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
           }
         },
         "hidden_overide": false,
@@ -254,11 +563,6 @@
       },
       {
         "name": "relax_zone",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
         "data_type": "boolean",
         "required": true,
         "display_value_field": "value",
@@ -266,7 +570,14 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Relaxing Zone"
+            "display_type": "",
+            "trait_type": "Relaxing Zone",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
           }
         },
         "hidden_overide": false,
@@ -274,11 +585,6 @@
       },
       {
         "name": "exp_zone",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
         "data_type": "boolean",
         "required": true,
         "display_value_field": "value",
@@ -286,7 +592,14 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Experiencing Zone"
+            "display_type": "",
+            "trait_type": "Experiencing Zone",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
           }
         },
         "hidden_overide": false,
@@ -294,11 +607,6 @@
       },
       {
         "name": "stage_count",
-        "default_mint_value": {
-          "number_attribute_value": {
-            "value": 0
-          }
-        },
         "data_type": "number",
         "required": true,
         "display_value_field": "value",
@@ -306,7 +614,14 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Attend Stage"
+            "display_type": "",
+            "trait_type": "Attend Stage",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": "0"
           }
         },
         "hidden_overide": false,
@@ -314,11 +629,6 @@
       },
       {
         "name": "stage_1",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
         "data_type": "boolean",
         "required": true,
         "display_value_field": "value",
@@ -326,7 +636,14 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Main Stage"
+            "display_type": "",
+            "trait_type": "Main Stage",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
           }
         },
         "hidden_overide": false,
@@ -334,11 +651,6 @@
       },
       {
         "name": "stage_2",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
         "data_type": "boolean",
         "required": true,
         "display_value_field": "value",
@@ -346,7 +658,14 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Climate Tech/FinTech Stage"
+            "display_type": "",
+            "trait_type": "Climate Tech/FinTech Stage",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
           }
         },
         "hidden_overide": false,
@@ -354,11 +673,6 @@
       },
       {
         "name": "stage_3",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
         "data_type": "boolean",
         "required": true,
         "display_value_field": "value",
@@ -366,7 +680,14 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "FoodTech/ HealthTech/ Starup Stage"
+            "display_type": "",
+            "trait_type": "FoodTech/ HealthTech/ Starup Stage",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
           }
         },
         "hidden_overide": false,
@@ -374,11 +695,6 @@
       },
       {
         "name": "stage_4",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
         "data_type": "boolean",
         "required": true,
         "display_value_field": "value",
@@ -386,7 +702,14 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Digital Tranformation Stage"
+            "display_type": "",
+            "trait_type": "Digital Tranformation Stage",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
           }
         },
         "hidden_overide": false,
@@ -394,11 +717,6 @@
       },
       {
         "name": "stage_5",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
         "data_type": "boolean",
         "required": true,
         "display_value_field": "value",
@@ -406,7 +724,14 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Corporate Innovation/ Web3 Stage"
+            "display_type": "",
+            "trait_type": "Corporate Innovation/ Web3 Stage",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
           }
         },
         "hidden_overide": false,
@@ -414,11 +739,6 @@
       },
       {
         "name": "exhibition_count",
-        "default_mint_value": {
-          "number_attribute_value": {
-            "value": 0
-          }
-        },
         "data_type": "number",
         "required": true,
         "display_value_field": "value",
@@ -426,7 +746,14 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Exhibition Zone"
+            "display_type": "",
+            "trait_type": "Exhibition Zone",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": "0"
           }
         },
         "hidden_overide": false,
@@ -434,11 +761,6 @@
       },
       {
         "name": "exhibition_a",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
         "data_type": "boolean",
         "required": true,
         "display_value_field": "value",
@@ -446,7 +768,14 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Exhibition Zone A"
+            "display_type": "",
+            "trait_type": "Exhibition Zone A",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
           }
         },
         "hidden_overide": false,
@@ -454,11 +783,6 @@
       },
       {
         "name": "exhibition_b",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
         "data_type": "boolean",
         "required": true,
         "display_value_field": "value",
@@ -466,7 +790,14 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Exhibition Zone B"
+            "display_type": "",
+            "trait_type": "Exhibition Zone B",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
           }
         },
         "hidden_overide": false,
@@ -474,11 +805,6 @@
       },
       {
         "name": "exhibition_c",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
         "data_type": "boolean",
         "required": true,
         "display_value_field": "value",
@@ -486,7 +812,14 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Exhibition Zone C"
+            "display_type": "",
+            "trait_type": "Exhibition Zone C",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
           }
         },
         "hidden_overide": false,
@@ -494,11 +827,6 @@
       },
       {
         "name": "cvc_zone",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
         "data_type": "boolean",
         "required": true,
         "display_value_field": "value",
@@ -506,7 +834,14 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "CVC Zone"
+            "display_type": "",
+            "trait_type": "CVC Zone",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
           }
         },
         "hidden_overide": false,
@@ -514,11 +849,6 @@
       },
       {
         "name": "after_party_claimed",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
         "data_type": "boolean",
         "required": true,
         "display_value_field": "value",
@@ -526,7 +856,14 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Claimed After Party Privileges"
+            "display_type": "",
+            "trait_type": "Claimed After Party Privileges",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
           }
         },
         "hidden_overide": false,
@@ -534,11 +871,6 @@
       },
       {
         "name": "voucher_claimed",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
         "data_type": "boolean",
         "required": true,
         "display_value_field": "value",
@@ -546,7 +878,14 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Claimed Voucher Privileges"
+            "display_type": "",
+            "trait_type": "Claimed Voucher Privileges",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
           }
         },
         "hidden_overide": false,
@@ -554,11 +893,6 @@
       },
       {
         "name": "minor_count",
-        "default_mint_value": {
-          "float_attribute_value": {
-            "value": 0.0
-          }
-        },
         "data_type": "float",
         "required": true,
         "display_value_field": "value",
@@ -566,25 +900,36 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Number Of Minors events"
+            "display_type": "",
+            "trait_type": "Number Of Minors events",
+            "max_value": "0"
           }
         },
-        "hidden_overide": false,
-        "hidden_to_marketplace": false
-      },
-      {
-        "name": "stage_points",
         "default_mint_value": {
           "float_attribute_value": {
             "value": 0
           }
         },
+        "hidden_overide": false,
+        "hidden_to_marketplace": true
+      },
+      {
+        "name": "stage_points",
         "data_type": "float",
         "required": true,
         "display_value_field": "value",
         "display_option": {
+          "bool_true_value": "",
+          "bool_false_value": "",
           "opensea": {
-            "trait_type": "Points From Stage"
+            "display_type": "",
+            "trait_type": "Points From Stage",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "float_attribute_value": {
+            "value": 0
           }
         },
         "hidden_overide": false,
@@ -592,11 +937,6 @@
       },
       {
         "name": "redemtion_used",
-        "default_mint_value": {
-          "boolean_attribute_value": {
-            "value": false
-          }
-        },
         "data_type": "boolean",
         "required": true,
         "display_value_field": "value",
@@ -604,7 +944,14 @@
           "bool_true_value": "Yes",
           "bool_false_value": "No",
           "opensea": {
-            "trait_type": "Redemption Used"
+            "display_type": "",
+            "trait_type": "Redemption Used",
+            "max_value": "0"
+          }
+        },
+        "default_mint_value": {
+          "boolean_attribute_value": {
+            "value": false
           }
         },
         "hidden_overide": false,
@@ -615,18 +962,29 @@
       {
         "name": "check_in",
         "desc": "Attend to TechSauce Booth",
-        "params": [],
+        "disable": false,
         "when": "meta.GetBoolean('techsauce_booth') == false",
         "then": [
           "meta.SetFloat('points', meta.GetFloat('points') + 50.0)",
           "meta.SetBoolean('techsauce_booth', true)",
           "max_minor = Max(meta.GetFloat('minor_count')-5.0,-1.0)",
           "meta.SetFloat('minor_count', meta.GetFloat('minor_count')+Abs(max_minor))"
-        ]
+        ],
+        "allowed_actioner": "ALLOWED_ACTIONER_ALL",
+        "params": []
       },
       {
         "name": "attend_zone",
         "desc": "Attend to zone",
+        "disable": false,
+        "when": "meta.GetBoolean(params['zone'].GetString()) == false",
+        "then": [
+          "meta.SetFloat('points', meta.GetFloat('points') + 70.0)",
+          "meta.SetBoolean(params['zone'].GetString(), true)",
+          "max_minor = Max(meta.GetFloat('minor_count')-5.0,-1.0)",
+          "meta.SetFloat('minor_count', meta.GetFloat('minor_count')+Abs(max_minor))"
+        ],
+        "allowed_actioner": "ALLOWED_ACTIONER_ALL",
         "params": [
           {
             "name": "zone",
@@ -635,18 +993,22 @@
             "required": true,
             "default_value": ""
           }
-        ],
-        "when": "meta.GetBoolean(params['zone'].GetString()) == false",
-        "then": [
-          "meta.SetFloat('points', meta.GetFloat('points') + 70.0)",
-          "meta.SetBoolean(params['zone'].GetString(), true)",
-          "max_minor = Max(meta.GetFloat('minor_count')-5.0,-1.0)",
-          "meta.SetFloat('minor_count', meta.GetFloat('minor_count')+Abs(max_minor))"
         ]
       },
       {
         "name": "attend_exhibition",
         "desc": "Attend partner exhibition",
+        "disable": false,
+        "when": "meta.GetBoolean(params['exhibition'].GetString()) == false",
+        "then": [
+          "meta.SetFloat('points', meta.GetFloat('points') + 50.0)",
+          "meta.SetBoolean(params['exhibition'].GetString(), true)",
+          "meta.SetNumber('exhibition_count', meta.GetNumber('exhibition_count') + 1)",
+          "max_booth = Max(meta.GetNumber('exhibition_count')-2.0,0.0)",
+          "max_minor = Max(meta.GetFloat('minor_count')-3.0, max_booth)",
+          "meta.SetFloat('minor_count', meta.GetFloat('minor_count')+Abs(max_minor))"
+        ],
+        "allowed_actioner": "ALLOWED_ACTIONER_ALL",
         "params": [
           {
             "name": "exhibition",
@@ -655,21 +1017,21 @@
             "required": true,
             "default_value": ""
           }
-        ],
-        "when": "meta.GetBoolean(params['exhibition'].GetString()) == false",
-        "then": [
-          "meta.SetFloat('points', meta.GetFloat('points') + 50.0)",
-          "meta.SetBoolean(params['exhibition'].GetString(), true)",
-          "meta.SetNumber('exhibition_count', meta.GetNumber('exhibition_count') + 1)",
-          "actual_exhibition_count = meta.GetNumber('exhibition_count') + 1",
-          "booth_count = Max(actual_exhibition_count-2.0,0.0)",
-          "max_minor = Max(meta.GetFloat('minor_count')-5.0,0-booth_count)",
-          "meta.SetFloat('minor_count', meta.GetFloat('minor_count')+Abs(max_minor))"
         ]
       },
       {
         "name": "attend_stage",
         "desc": "Attend stage event",
+        "disable": false,
+        "when": "meta.GetBoolean(params['stage'].GetString()) == false",
+        "then": [
+          "max_ = Max(meta.GetFloat('stage_points')-400.0,-100.0)",
+          "meta.SetFloat('stage_points', meta.GetFloat('stage_points')+Abs(max_))",
+          "meta.SetFloat('points', meta.GetFloat('points')+Abs(max_))",
+          "meta.SetBoolean(params['stage'].GetString(), true)",
+          "meta.SetNumber('stage_count', meta.GetNumber('stage_count') + 1)"
+        ],
+        "allowed_actioner": "ALLOWED_ACTIONER_ALL",
         "params": [
           {
             "name": "stage",
@@ -678,19 +1040,19 @@
             "required": true,
             "default_value": ""
           }
-        ],
-        "when": "meta.GetBoolean(params['stage'].GetString()) == false",
-        "then": [
-          "max_ = Max(meta.GetFloat('stage_points')-400.0,-100.0)",
-          "meta.SetFloat('stage_points', meta.GetFloat('stage_points')+Abs(max_))",
-          "meta.SetFloat('points', meta.GetFloat('points')+Abs(max_))",
-          "meta.SetBoolean(params['stage'].GetString(), true)",
-          "meta.SetNumber('stage_count', meta.GetNumber('stage_count') + 1)"
         ]
       },
       {
         "name": "redeem_prize",
         "desc": "Redemtion points for prize",
+        "disable": false,
+        "when": "meta.GetString('caption') != 'Staff' && meta.GetString('caption') != 'Organizer' && meta.GetBoolean('redemtion_used') == false && meta.GetNumber(params['stock'].GetString()) > 1 && meta.GetFloat('points') > meta.GetFloat('redemtion_'+ params['stock'].GetString())",
+        "then": [
+          "meta.SetBoolean('redemtion_used', true)",
+          "meta.SetFloat('points', meta.GetFloat('points') - meta.GetFloat('redemtion_'+ params['stock'].GetString()))",
+          "meta.SetNumber(params['stock'].GetString(), meta.GetNumber(params['stock'].GetString()) - 1)"
+        ],
+        "allowed_actioner": "ALLOWED_ACTIONER_ALL",
         "params": [
           {
             "name": "stock",
@@ -699,34 +1061,43 @@
             "required": true,
             "default_value": ""
           }
-        ],
-        "when": "meta.GetString('caption') != 'Staff' && meta.GetString('caption') != 'Organizer' && meta.GetBoolean('redemtion_used') == false && meta.GetFloat('points') >= meta.GetFloat('redemtion_'+ params['stock'].GetString())",
-        "then": [
-          "meta.SetBoolean('redemtion_used', true)",
-          "meta.SetFloat('points', meta.GetFloat('points') - meta.GetFloat('redemtion_'+ params['stock'].GetString()))"
         ]
       },
       {
         "name": "claim_after_party",
         "desc": "Claim After Party",
-        "params": [],
-        "when": "(meta.GetString('caption') == 'VIP' || meta.GetString('caption') == 'Speaker'|| meta.GetString('caption') == 'Investor') && meta.GetBoolean('after_party_claimed') == false || meta.GetString('caption') != 'Staff' && meta.GetString('caption') != 'Organizer' && meta.GetBoolean('after_party_claimed') == false && meta.GetNumber('stage_count') >= 4 && meta.GetFloat('minor_count') >= 4.0",
+        "disable": false,
+        "when": "meta.GetString('caption') == 'VIP' || meta.GetString('caption') == 'Speaker'|| meta.GetString('caption') == 'Investor' || meta.GetString('caption') != 'Staff' && meta.GetString('caption') != 'Organizer' && meta.GetNumber('general_after_party_count') < 300 && meta.GetBoolean('after_party_claimed') == false && meta.GetNumber('stage_count') >= 4 && meta.GetFloat('minor_count') >= 4.0",
         "then": [
-          "meta.SetBoolean('after_party_claimed', true)"
-        ]
+          "meta.SetBoolean('after_party_claimed', true)",
+          "caption_ = meta.GetString('caption')+'_after_party_count'",
+          "meta.SetNumber(caption_.ToLower() , meta.GetNumber(caption_.ToLower()) + 1)"
+        ],
+        "allowed_actioner": "ALLOWED_ACTIONER_ALL",
+        "params": []
       },
       {
         "name": "claim_voucher",
         "desc": "Voucher Redeemtion",
-        "params": [],
+        "disable": false,
         "when": "meta.GetString('caption') != 'Staff' && meta.GetString('caption') != 'Organizer' && meta.GetBoolean('voucher_claimed') == false",
         "then": [
-          "meta.SetBoolean('voucher_claimed', true)"
-        ]
+          "meta.SetBoolean('voucher_claimed', true)",
+          "meta.SetNumber('voucher_claimed' , meta.GetNumber('voucher_claimed') + 1)"
+        ],
+        "allowed_actioner": "ALLOWED_ACTIONER_ALL",
+        "params": []
       },
       {
         "name": "change_price",
         "desc": "Change Price of Redemtion",
+        "disable": false,
+        "when": "meta.GetString('caption') == 'Staff' || meta.GetString('caption') == 'Organizer'",
+        "then": [
+          "new_points = params['points'].GetNumber()",
+          "meta.SetFloat(params['stock'].GetString(), 0.0 + new_points)"
+        ],
+        "allowed_actioner": "ALLOWED_ACTIONER_SYSTEM_ONLY",
         "params": [
           {
             "name": "stock",
@@ -742,87 +1113,16 @@
             "required": true,
             "default_value": ""
           }
-        ],
-        "when": "meta.GetString('caption') == 'Staff' || meta.GetString('caption') == 'Organizer'",
-        "then": [
-          "new_points = params['points'].GetNumber()",
-          "meta.SetFloat(params['stock'].GetString(), 0.0 + new_points)"
-        ],
-        "allowed_actioner": "ALLOWED_ACTIONER_SYSTEM_ONLY"
+        ]
+      }
+    ],
+    "status": [
+      {
+        "status_name": "first_mint_complete",
+        "status_value": true
       }
     ]
   },
-  "system_actioners": [
-    "6x1y7lhzzum3nu77nz0pcwqth42yxm84zg3d957mr",
-    "6x1pmktx7s530v89zqey823m74aayx7w2932puayq",
-    "6x1l83jjk2ylhxhgy35hz6e3k2phxsapl0cft36hh",
-    "6x1m53akq8td5tc9gq6wge47gqglaaq649q3l7jlm",
-    "6x1tt59zm6rak6hh0fmr97vuyjd0hste7622p3upu",
-    "6x1qnna75727z8n0ty4mfqz4kxqh2m5lgq6n0k0az",
-    "6x19fxvac0e6xydzvfgtuc4he2ckqwrganv4ujdc4",
-    "6x1sjqcsuvgkh8d5jhg6wdpr6thpnzpjh4wry8nf5",
-    "6x1nfv3s6xx0ha0lzvug9m0g9d0pjjjtty0clnzaj",
-    "6x1lwr6m7z4t7wf96w3zxpetv5pne8tv2a68pa665",
-    "6x1lw629q6xehc7pre556j0p73mlywrutr954flyz",
-    "6x1gunrr9adayag65uvt63e6v9myx7sgx24c2ae0q",
-    "6x124rv9uhfh3kdh7jhja50d0lh3y7wlsqmv2vf39",
-    "6x134783nmm2ljk02609xcmzk48tkfayntm53letg",
-    "6x1zzq39yk9armh6rjqwhsge5j5zawh3r2hhlun6r",
-    "6x1f86mzhfmglw96xac6nlcggvh4wvchaamvpyezt",
-    "6x100xfzthgpr7xwfrjq95cqckvnewk9pplmsj4cv",
-    "6x1j44tgugslp8ud5dx0lkg0he0u4nxef6ef8r0x4",
-    "6x1fc3sdtzlxusfl7dadjfw950pz0wgxh9ec404sy",
-    "6x16sqya2apma8u7echksxqkldaq9gq6fmadttd9h",
-    "6x1sxsqz25qf7e2afjmcfys3chm7qwm9fj4dscrvr",
-    "6x1jjylv7x4k49fl2g5a30cz2j7ek9mnacmhjpfee",
-    "6x1upjf6a7j9c8jf9svuh7aud2nqlwwaw7g43vzfs",
-    "6x1t9efxa6ztx7ty9gsu8av8tf7hyy06kfak75kg4",
-    "6x1886r83t29wlff64v0jcc6megmay62ajzdzgqmn",
-    "6x1uvs7s4lqc76csv5cw7esfmarjltuxn4chjdkz4",
-    "6x1q9dtggwuu5ezzrjvv248g0437wh4vkdlrc2ht4",
-    "6x1x0828eqep8uqjjkplxymryw5g8s8w2djcej5zv",
-    "6x1u4z6z9gstn68k6e0sej9uc7na6cfk0u5dsrpqa",
-    "6x1702jqw8jt4r6fsmk4g5tvt7r5xs69880rlrkjn",
-    "6x1d8m56j4cdxpxvu3j40jfek2079wvz6zkc6uywa",
-    "6x1esgfj7x3ssfswggvftm3ad5yfjk4yrrnuln0p3",
-    "6x1p4vey8mtkrdv950mf7v9j7dhc3xplssmtrd2ag",
-    "6x1e8wlxlerh26e5l2v88thshfg2yzzhqfq9nxfdn",
-    "6x18h0n4lvuz4hjeaa36glj0khtty47pj8t8nl27m",
-    "6x1a9sxfxeuulj5cacv6m3q4vvrkzvrn66ur2tg2n",
-    "6x1sjcwtmehdw6lwd3ludg0x8ry75ge5kph62vh2u",
-    "6x1c4273zwx2m47p8maaujrx8d72wqynzx30yj2ev",
-    "6x103typans0wr98vea7ehc4xd42rxqy62mcc5q8s",
-    "6x13my9ddx0st3n3qzgdlpgrkm86x9e2vzzs82hp9",
-    "6x1k3004awnac2anm0hq7j7yzp3smdvaqkawzr2dn",
-    "6x18phepz33kvmv7qpwmvqf7g23hfcvsdvg9sd9lz",
-    "6x1wkvuaqhshdp3e6xaz3v70nlzfx3ke2tyrwu8xn",
-    "6x1d5wwrsjy20qgqneaktynq407e67we8j94eq67e",
-    "6x18prjqpt5nmpmmd4rp2mc7phm7qjglun5rn7zls",
-    "6x18hamcqes98zen962uh0r7h6arprx03fsyyx7d0",
-    "6x1exwtn4gm4j8v70umhk74hltnrwgz7xpdp8xy0p",
-    "6x15sj0xzvmklw56h2d3fzg4hjz9nly72kfa9h22h",
-    "6x1naddvntrcylrfuqk8uj7ndrc7seeksr2h6909s",
-    "6x1c40wc489yhntnua7r8mce99f20k8sajrc4cndj",
-    "6x1kc0h2utckckcl8a9rgx69fn5k7xrhjfc5ml6wr",
-    "6x1fmwp494q7fwrvzsepk9v9e8wnwzqe7elrvvlqp",
-    "6x1sx8y7z7mdfvnxewdh5ghgnznhemnzcaxefswlg",
-    "6x1pfynztjmtcjyahhwrx36pnwxszvufrggl8x4zc",
-    "6x12g40g97dfn6aa5hkdz27f9pqhcdmpk3mth6vey",
-    "6x1sfrfm0qvmwvsgulmyk8y2epk4gzl3g467hhy4q",
-    "6x1vgt64av4qg5n0h6fc0lf8shzkrvlyxu5tghd20",
-    "6x1p4nfnfexuzq085sp8az3h9wvpephvhcf4lde3r",
-    "6x18jp0mf7md3z9nzaqgjcchjzv6zwejzx6ytgryq",
-    "6x1lslza00p70z50ytxzuq8gj28drqhgxz6n3qu24",
-    "6x1y7aumw8vkst4zceyh6ttpqlhzh3c440h6rhyhu",
-    "6x1luvqswl9nxqp5p46txq6e2x8etpmsfwgc5kly0",
-    "6x1636vf7vzjl7knf4c4uclexn3k6jn2ktpexutl6",
-    "6x1yvq4xsf75hgf28hem52yl2xfw804yp5fmn4yx7",
-    "6x1uv3aknelzd9a6a24kvcchzz6maz57xdqant5vq",
-    "6x1m8gesfc5m2ndhvant99hualghncwd7e3huu3sv",
-    "6x1924udyktrlehy7tueerdaknfyutw5746c6dfyu",
-    "6x10aq0pm5mc5sxv2cvk3485ceyqfxunrfyc7zyx3",
-    "6x15pl7tnnrz0tg98ayya59q63xqvhadnq4yncec6",
-    "6x1m68aws7fff26u6t0u3hy2wpuyr4drskfcw0vfp"
-  ],
+  "isVerified": false,
   "mint_authorization": "system"
 }

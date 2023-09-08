@@ -56,40 +56,17 @@ func (app *App) MigrationFromV1ToV2Handlers(ctx sdk.Context) {
 		})
 
 		// migrate NFT attributes to new schema attributes
-		var schemaAttributes []*nftmngrtypes.SchemaAttribute
 		for _, nftAttribute := range nftSchemaV1.OnchainData.NftAttributes {
 			schemaAttibuteConverted, _ := NftmngrKeeper.ConvertDefaultMintValueToSchemaAttributeValue(nftAttribute.DefaultMintValue)
 			app.NftmngrKeeper.SetSchemaAttribute(ctx, nftmngrtypes.SchemaAttribute{
 				NftSchemaCode:       nftSchemaV1.Code,
 				Name:                nftAttribute.Name,
 				DataType:            nftAttribute.DataType,
-				Required:            nftAttribute.Required,
-				DisplayValueField:   nftAttribute.DisplayValueField,
-				DisplayOption:       nftAttribute.DisplayOption,
 				CurrentValue:        schemaAttibuteConverted,
-				HiddenOveride:       nftAttribute.HiddenOveride,
-				HiddenToMarketplace: nftAttribute.HiddenToMarketplace,
 				Creator:             nftSchemaV1.Owner,
 			})
 
-			schemaAttributes = append(schemaAttributes, &nftmngrtypes.SchemaAttribute{
-				NftSchemaCode:       nftSchemaV1.Code,
-				Name:                nftAttribute.Name,
-				DataType:            nftAttribute.DataType,
-				Required:            nftAttribute.Required,
-				DisplayValueField:   nftAttribute.DisplayValueField,
-				DisplayOption:       nftAttribute.DisplayOption,
-				CurrentValue:        schemaAttibuteConverted,
-				HiddenOveride:       nftAttribute.HiddenOveride,
-				HiddenToMarketplace: nftAttribute.HiddenToMarketplace,
-				Creator:             nftSchemaV1.Owner,
-			})
 		}
-
-		app.NftmngrKeeper.SetAttributeOfSchema(ctx, nftmngrtypes.AttributeOfSchema{
-			NftSchemaCode:     nftSchemaV1.Code,
-			SchemaAttributes:  schemaAttributes,
-		})
 
 		// migrate NFT actions to new schema actions
 		for i, nftAction := range nftSchemaV1.OnchainData.Actions {
