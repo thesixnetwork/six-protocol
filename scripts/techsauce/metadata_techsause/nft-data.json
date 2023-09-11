@@ -77,7 +77,7 @@
       "float_attribute_value": {
         "value": 0
       },
-      "hidden_to_marketplace": true
+      "hidden_to_marketplace": false
     },
     {
       "name":"after_party_claimed",
