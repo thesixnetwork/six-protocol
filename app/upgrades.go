@@ -11,7 +11,7 @@ import (
 )
 
 // const UpgradeName = "v3.1.3"
-const UpgradeName = "v3.1.2-c"
+const UpgradeName = "v3.1.3"
 
 func (app *App) RegisterUpgradeHandlers() {
 	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
