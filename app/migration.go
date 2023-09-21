@@ -1,14 +1,13 @@
 package app
 
 import (
-	"fmt"
-
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	nftmngrKeeper "github.com/thesixnetwork/sixnft/x/nftmngr/keeper"
 	nftmngrtypes "github.com/thesixnetwork/sixnft/x/nftmngr/types"
 )
 
+// for proposal v3.1.1 to v3.1.3
 func (app *App) MigrationFromV1ToV2Handlers(ctx sdk.Context) {
 
 	// get all NFTSchema
@@ -49,6 +48,7 @@ func (app *App) MigrationFromV1ToV2Handlers(ctx sdk.Context) {
 			Description: nftSchemaV1.Name,
 			OriginData:  nftSchemaV1.OriginData,
 			OnchainData: &nftmngrtypes.OnChainData{
+				NftAttributes:  nftSchemaV1.OnchainData.NftAttributes,
 				TokenAttributes: nftSchemaV1.OnchainData.TokenAttributes,
 				Actions:         nftSchemaV1.OnchainData.Actions,
 				Status:          nftSchemaV1.OnchainData.Status,
@@ -82,10 +82,11 @@ func (app *App) MigrationFromV1ToV2Handlers(ctx sdk.Context) {
 
 }
 
+// for proposal v3.1.2-b to v3.1.2-c
 func (app *App) RollbackFromV2toV1(ctx sdk.Context) {
 
 	// get all NFTSchema
-	nftSchemasV2 := app.NftmngrKeeper.GetAllNFTSchemaV2(ctx)
+	nftSchemasV2 := app.NftmngrKeeper.GetAllNFTSchema(ctx)
 
 	for _, nftSchemaV2 := range nftSchemasV2 {
 
@@ -97,26 +98,27 @@ func (app *App) RollbackFromV2toV1(ctx sdk.Context) {
 		}
 
 		for i, attribute := range attribute_of_schema.SchemaAttributes {
-			schemaAttribute, _ := ConvertSchemaAttributeToNftAttributeDefinition(attribute, i)
+			schemaAttribute, _ := nftmngrKeeper.ConvertSchemaAttributeToNftAttributeDefinition(attribute, i)
 			nft_attributes_from_schema_attribute = append(nft_attributes_from_schema_attribute, schemaAttribute)
 		}
 
-		originOutput, nftOutput, tokenOutput := MergeAllAttributesAndAlterOrderIndex(nftSchemaV2.OriginData.OriginAttributes, nft_attributes_from_schema_attribute, nftSchemaV2.OnchainData.TokenAttributes)
+		originOutput, nftOutput, tokenOutput := MergeAllAttributesAndAlterOrderIndex(nftSchemaV2.OriginData.OriginAttributes, nft_attributes_from_schema_attribute ,nftSchemaV2.OnchainData.TokenAttributes)
 
+		// migrate schema to new schema
 		// parse schema_input to NFTSchema
 		schema := nftmngrtypes.NFTSchema{
 			Code:        nftSchemaV2.Code,
 			Name:        nftSchemaV2.Name,
 			Owner:       nftSchemaV2.Owner,
 			Description: nftSchemaV2.Description,
-			OriginData: &nftmngrtypes.OriginData{
-				OriginChain:           nftSchemaV2.OriginData.OriginChain,
+			OriginData:  &nftmngrtypes.OriginData{
+				OriginChain:    nftSchemaV2.OriginData.OriginChain,
 				OriginContractAddress: nftSchemaV2.OriginData.OriginContractAddress,
-				OriginBaseUri:         nftSchemaV2.OriginData.OriginBaseUri,
-				AttributeOverriding:   nftSchemaV2.OriginData.AttributeOverriding,
-				MetadataFormat:        nftSchemaV2.OriginData.MetadataFormat,
-				OriginAttributes:      originOutput,
-				UriRetrievalMethod:    nftSchemaV2.OriginData.UriRetrievalMethod,
+				OriginBaseUri: nftSchemaV2.OriginData.OriginBaseUri,
+				AttributeOverriding: nftSchemaV2.OriginData.AttributeOverriding,
+				MetadataFormat: nftSchemaV2.OriginData.MetadataFormat,
+				OriginAttributes: originOutput,
+				UriRetrievalMethod: nftSchemaV2.OriginData.UriRetrievalMethod,
 			},
 			OnchainData: &nftmngrtypes.OnChainData{
 				TokenAttributes: tokenOutput,
@@ -128,9 +130,10 @@ func (app *App) RollbackFromV2toV1(ctx sdk.Context) {
 			MintAuthorization: nftSchemaV2.MintAuthorization,
 		}
 
+
 		for _, schemaDefaultMintAttribute := range schema.OnchainData.NftAttributes {
 			schmaAttributeValue, _ := nftmngrKeeper.ConvertDefaultMintValueToSchemaAttributeValue(schemaDefaultMintAttribute.DefaultMintValue)
-
+			
 			app.NftmngrKeeper.SetSchemaAttribute(ctx, nftmngrtypes.SchemaAttribute{
 				NftSchemaCode: schema.Code,
 				Name:          schemaDefaultMintAttribute.Name,
@@ -141,56 +144,12 @@ func (app *App) RollbackFromV2toV1(ctx sdk.Context) {
 		}
 
 		app.NftmngrKeeper.SetNFTSchema(ctx, schema)
-
+	
 	}
 
 }
 
-// function to convert SchemaAttribute to NftAttributeDefinition
-func ConvertSchemaAttributeToNftAttributeDefinition(schemaAttributes *nftmngrtypes.SchemaAttributeV1, index int) (*nftmngrtypes.AttributeDefinition, error) {
-	attributeDef := &nftmngrtypes.AttributeDefinition{}
 
-	switch value := schemaAttributes.CurrentValue.Value.(type) {
-	case *nftmngrtypes.SchemaAttributeValue_NumberAttributeValue:
-		attributeDef.DefaultMintValue = &nftmngrtypes.DefaultMintValue{
-			Value: &nftmngrtypes.DefaultMintValue_NumberAttributeValue{
-				NumberAttributeValue: value.NumberAttributeValue,
-			},
-		}
-	case *nftmngrtypes.SchemaAttributeValue_StringAttributeValue:
-		attributeDef.DefaultMintValue = &nftmngrtypes.DefaultMintValue{
-			Value: &nftmngrtypes.DefaultMintValue_StringAttributeValue{
-				StringAttributeValue: value.StringAttributeValue,
-			},
-		}
-	case *nftmngrtypes.SchemaAttributeValue_BooleanAttributeValue:
-		attributeDef.DefaultMintValue = &nftmngrtypes.DefaultMintValue{
-			Value: &nftmngrtypes.DefaultMintValue_BooleanAttributeValue{
-				BooleanAttributeValue: value.BooleanAttributeValue,
-			},
-		}
-	case *nftmngrtypes.SchemaAttributeValue_FloatAttributeValue:
-		attributeDef.DefaultMintValue = &nftmngrtypes.DefaultMintValue{
-			Value: &nftmngrtypes.DefaultMintValue_FloatAttributeValue{
-				FloatAttributeValue: value.FloatAttributeValue,
-			},
-		}
-	default:
-		return nil, fmt.Errorf("unknown value type: %T", value)
-	}
-
-	return &nftmngrtypes.AttributeDefinition{
-		Name:                schemaAttributes.Name,
-		DataType:            schemaAttributes.DataType,
-		Required:            schemaAttributes.Required,
-		DisplayValueField:   schemaAttributes.DisplayValueField,
-		DisplayOption:       schemaAttributes.DisplayOption,
-		DefaultMintValue:    attributeDef.DefaultMintValue,
-		HiddenOveride:       schemaAttributes.HiddenOveride,
-		HiddenToMarketplace: schemaAttributes.HiddenToMarketplace,
-		Index:               uint64(index),
-	}, nil
-}
 
 func MergeAllAttributesAndAlterOrderIndex(originAttributes []*nftmngrtypes.AttributeDefinition, nftAttribute []*nftmngrtypes.AttributeDefinition, tokenAttribute []*nftmngrtypes.AttributeDefinition) (originAttributeWithIndex []*nftmngrtypes.AttributeDefinition, nftAttributeWithIndex []*nftmngrtypes.AttributeDefinition, tokenAttributeWithIndex []*nftmngrtypes.AttributeDefinition) {
 	orignOutput := make([]*nftmngrtypes.AttributeDefinition, 0)
@@ -220,6 +179,7 @@ func MergeAllAttributesAndAlterOrderIndex(originAttributes []*nftmngrtypes.Attri
 		tokenOutput = append(tokenOutput, attribute)
 		index++
 	}
+	
 
 	return orignOutput, nftOutput, tokenOutput
 }
