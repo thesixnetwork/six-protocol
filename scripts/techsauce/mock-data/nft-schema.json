@@ -956,22 +956,6 @@
         },
         "hidden_overide": false,
         "hidden_to_marketplace": false
-      },
-      {
-        "name": "check_in_at",
-        "default_mint_value": {
-          "string_attribute_value": {
-            "value": ""
-          }
-        },
-        "data_type": "string",
-        "required": true,
-        "display_value_field": "value",
-        "display_option": {
-          "opensea": {
-            "trait_type": "Start Time"
-          }
-        }
       }
     ],
     "actions": [
@@ -984,8 +968,7 @@
           "meta.SetFloat('points', meta.GetFloat('points') + 50.0)",
           "meta.SetBoolean('techsauce_booth', true)",
           "max_minor = Max(meta.GetFloat('minor_count')-5.0,-1.0)",
-          "meta.SetFloat('minor_count', meta.GetFloat('minor_count')+Abs(max_minor))",
-          "meta.SetString('check_in_at',meta.GetBlockHeight())"
+          "meta.SetFloat('minor_count', meta.GetFloat('minor_count')+Abs(max_minor))"
         ],
         "allowed_actioner": "ALLOWED_ACTIONER_ALL",
         "params": []
@@ -1100,8 +1083,7 @@
         "when": "meta.GetString('caption') != 'Staff' && meta.GetString('caption') != 'Organizer' && meta.GetBoolean('voucher_claimed') == false",
         "then": [
           "meta.SetBoolean('voucher_claimed', true)",
-          "type = meta.GetSubString('check_in_at', -2, -1)",
-          "meta.SetImage(meta.ReplaceAllString(meta.GetImage(),'.jpeg', '-' + type +'.jpeg'))"
+          "meta.SetNumber('voucher_claimed' , meta.GetNumber('voucher_claimed') + 1)"
         ],
         "allowed_actioner": "ALLOWED_ACTIONER_ALL",
         "params": []
@@ -1131,6 +1113,15 @@
             "required": true,
             "default_value": ""
           }
+        ]
+      },
+      {
+        "name": "get_token_id",
+        "desc": "Get Token ID",
+        "disable": false,
+        "when": "true",
+        "then": [
+          "meta.SetString('caption',meta.GetTokenID())"
         ]
       }
     ],
