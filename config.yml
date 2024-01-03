@@ -219,10 +219,12 @@ genesis:
           enable: false
     feemarket:
       params:
-        base_fee: "20000000000"
+        base_fee: "5000000000000"
         base_fee_change_denominator: 8
         elasticity_multiplier: 4
         enable_height: "0"
         min_gas_multiplier: "0.500000000000000000"
-        min_gas_price: "20000000000.000000000000000000"
+        min_gas_price: "5000000000000.000000000000000000"
         no_base_fee: false
+        legacy_min_gas_price: "20000000000.000000000000000000"
+        legacy_base_fee: "20000000000"
