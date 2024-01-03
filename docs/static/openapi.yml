@@ -21327,7 +21327,7 @@ paths:
           type: string
           format: byte
         - name: size
-          description: encoded storage size of the transaction
+          description: 'DEPRECATED: encoded storage size of the transaction'
           in: query
           required: false
           type: number
@@ -21459,11 +21459,16 @@ paths:
                         title: >-
                           Eip-4345 (bomb delay) switch block (nil = no fork, 0 =
                           already activated)
-                      merge_fork_block:
+                      gray_glacier_block:
                         type: string
                         title: >-
-                          EIP-3675 (TheMerge) switch block (nil = no fork, 0 =
-                          already in merge proceedings)
+                          EIP-5133 (bomb delay) switch block (nil = no fork, 0 =
+                          already activated)
+                      merge_netsplit_block:
+                        type: string
+                        title: >-
+                          Virtual fork after The Merge to use as a network
+                          splitter
                     description: >-
                       ChainConfig defines the Ethereum ChainConfig parameters
                       using *sdk.Int values
@@ -22228,10 +22233,15 @@ paths:
           in: query
           required: false
           type: string
-        - name: trace_config.overrides.merge_fork_block
+        - name: trace_config.overrides.gray_glacier_block
           description: >-
-            EIP-3675 (TheMerge) switch block (nil = no fork, 0 = already in
-            merge proceedings)
+            EIP-5133 (bomb delay) switch block (nil = no fork, 0 = already
+            activated)
+          in: query
+          required: false
+          type: string
+        - name: trace_config.overrides.merge_netsplit_block
+          description: Virtual fork after The Merge to use as a network splitter
           in: query
           required: false
           type: string
@@ -22526,7 +22536,7 @@ paths:
           type: string
           format: byte
         - name: msg.size
-          description: encoded storage size of the transaction
+          description: 'DEPRECATED: encoded storage size of the transaction'
           in: query
           required: false
           type: number
@@ -22670,10 +22680,15 @@ paths:
           in: query
           required: false
           type: string
-        - name: trace_config.overrides.merge_fork_block
+        - name: trace_config.overrides.gray_glacier_block
           description: >-
-            EIP-3675 (TheMerge) switch block (nil = no fork, 0 = already in
-            merge proceedings)
+            EIP-5133 (bomb delay) switch block (nil = no fork, 0 = already
+            activated)
+          in: query
+          required: false
+          type: string
+        - name: trace_config.overrides.merge_netsplit_block
+          description: Virtual fork after The Merge to use as a network splitter
           in: query
           required: false
           type: string
@@ -34459,16 +34474,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/action_by_ref_id/{refId}':
@@ -34963,16 +34968,6 @@ paths:
             when key
 
             is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -35474,16 +35469,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/action_of_schema/{nftSchemaCode}/{name}':
@@ -35979,16 +35964,6 @@ paths:
             when key
 
             is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -36730,16 +36705,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/metadata_creator/{nftSchemaCode}':
@@ -37316,16 +37281,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   /thesixnetwork/sixnft/nftmngr/nft_data:
@@ -37683,16 +37638,6 @@ paths:
             when key
 
             is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -38965,16 +38910,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/nft_schema/{code}':
@@ -39737,16 +39672,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/nft_schema_by_contract/{originContractAddress}':
@@ -40235,16 +40160,6 @@ paths:
             when key
 
             is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -40966,16 +40881,6 @@ paths:
             when key
 
             is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -59631,11 +59536,14 @@ definitions:
         title: >-
           Eip-4345 (bomb delay) switch block (nil = no fork, 0 = already
           activated)
-      merge_fork_block:
+      gray_glacier_block:
         type: string
         title: >-
-          EIP-3675 (TheMerge) switch block (nil = no fork, 0 = already in merge
-          proceedings)
+          EIP-5133 (bomb delay) switch block (nil = no fork, 0 = already
+          activated)
+      merge_netsplit_block:
+        type: string
+        title: Virtual fork after The Merge to use as a network splitter
     description: >-
       ChainConfig defines the Ethereum ChainConfig parameters using *sdk.Int
       values
@@ -59778,7 +59686,7 @@ definitions:
       size:
         type: number
         format: double
-        title: encoded storage size of the transaction
+        title: 'DEPRECATED: encoded storage size of the transaction'
       hash:
         type: string
         title: transaction hash in hex format
@@ -59952,11 +59860,14 @@ definitions:
             title: >-
               Eip-4345 (bomb delay) switch block (nil = no fork, 0 = already
               activated)
-          merge_fork_block:
+          gray_glacier_block:
             type: string
             title: >-
-              EIP-3675 (TheMerge) switch block (nil = no fork, 0 = already in
-              merge proceedings)
+              EIP-5133 (bomb delay) switch block (nil = no fork, 0 = already
+              activated)
+          merge_netsplit_block:
+            type: string
+            title: Virtual fork after The Merge to use as a network splitter
         description: >-
           ChainConfig defines the Ethereum ChainConfig parameters using *sdk.Int
           values
@@ -60134,11 +60045,14 @@ definitions:
                 title: >-
                   Eip-4345 (bomb delay) switch block (nil = no fork, 0 = already
                   activated)
-              merge_fork_block:
+              gray_glacier_block:
                 type: string
                 title: >-
-                  EIP-3675 (TheMerge) switch block (nil = no fork, 0 = already
-                  in merge proceedings)
+                  EIP-5133 (bomb delay) switch block (nil = no fork, 0 = already
+                  activated)
+              merge_netsplit_block:
+                type: string
+                title: Virtual fork after The Merge to use as a network splitter
             description: >-
               ChainConfig defines the Ethereum ChainConfig parameters using
               *sdk.Int values
@@ -60302,11 +60216,14 @@ definitions:
             title: >-
               Eip-4345 (bomb delay) switch block (nil = no fork, 0 = already
               activated)
-          merge_fork_block:
+          gray_glacier_block:
             type: string
             title: >-
-              EIP-3675 (TheMerge) switch block (nil = no fork, 0 = already in
-              merge proceedings)
+              EIP-5133 (bomb delay) switch block (nil = no fork, 0 = already
+              activated)
+          merge_netsplit_block:
+            type: string
+            title: Virtual fork after The Merge to use as a network splitter
         description: >-
           ChainConfig defines the Ethereum ChainConfig parameters using *sdk.Int
           values
@@ -66019,13 +65936,6 @@ definitions:
       schemaCode:
         type: string
       newContractAddress:
-        type: string
-  thesixnetwork.sixnft.nftmngr.MsgSetSchemaDescriptionResponse:
-    type: object
-    properties:
-      nftSchemaCode:
-        type: string
-      description:
         type: string
   thesixnetwork.sixnft.nftmngr.MsgSetUriRetrievalMethodResponse:
     type: object

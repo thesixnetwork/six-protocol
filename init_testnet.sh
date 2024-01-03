@@ -3,7 +3,6 @@ MONIKER=$1
 if [ -z "$MONIKER" ]; then
   MONIKER="mynode"
 fi
-CHAIN_ID=six_666-1
 VALKEY=val1 # should be: export as docker env var
 SIX_HOME=~/.six
 ALICE_MNEMONIC="history perfect across group seek acoustic delay captain sauce audit carpet tattoo exhaust green there giant cluster want pond bulk close screen scissors remind"
@@ -19,7 +18,7 @@ ORACLE4_MNEMONIC="clown cabbage clean design mosquito surround citizen virus kit
 SUPER_ADMIN_MNEMONIC="expect peace defense conduct virtual flight flip unit equip solve broccoli protect shed group else useless tree such tornado minimum decade tower warfare galaxy"
 KEY="mykey"
 KEY2="mykey2"
-CHAINID="six_666-1"
+CHAINID="testnet"
 KEYRING="test"
 KEYALGO="eth_secp256k1"
 LOGLEVEL="info"
@@ -146,5 +145,5 @@ if [[ $1 == "pending" ]]; then
 fi
 
 # Start the node (remove the --pruning=nothing flag if historical queries are not needed)
-sixd start --minimum-gas-prices=1.25usix,1250000000000asix --json-rpc.api eth,txpool,personal,net,debug,web3 --rpc.laddr "tcp://0.0.0.0:26657" --api.enable true
+sixd start --minimum-gas-prices=1.25usix,1250000000000asix --json-rpc.api eth,txpool,personal,net,debug,web3 --rpc.laddr "tcp://0.0.0.0:26657" --api.enable true --trace --log_level trace
 
