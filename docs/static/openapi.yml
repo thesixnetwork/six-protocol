@@ -23065,6 +23065,10 @@ paths:
                       charged
 
                       to senders based on GasLimit
+                  legacy_base_fee:
+                    type: string
+                  legacy_min_gas_price:
+                    type: string
                 title: Params defines the EVM module parameters
             description: >-
               QueryParamsResponse defines the response type for querying x/evm
@@ -60275,6 +60279,10 @@ definitions:
         title: |-
           min gas denominator bounds the minimum gasUsed to be charged
           to senders based on GasLimit
+      legacy_base_fee:
+        type: string
+      legacy_min_gas_price:
+        type: string
     title: Params defines the EVM module parameters
   ethermint.feemarket.v1.QueryBaseFeeResponse:
     type: object
@@ -60334,6 +60342,10 @@ definitions:
             title: |-
               min gas denominator bounds the minimum gasUsed to be charged
               to senders based on GasLimit
+          legacy_base_fee:
+            type: string
+          legacy_min_gas_price:
+            type: string
         title: Params defines the EVM module parameters
     description: >-
       QueryParamsResponse defines the response type for querying x/evm
