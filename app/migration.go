@@ -1,8 +1,10 @@
 package app
 
 import (
+	"math/big"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
+	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
 	nftmngrKeeper "github.com/thesixnetwork/sixnft/x/nftmngr/keeper"
 	nftmngrtypes "github.com/thesixnetwork/sixnft/x/nftmngr/types"
 )
@@ -48,7 +50,7 @@ func (app *App) MigrationFromV1ToV2Handlers(ctx sdk.Context) {
 			Description: nftSchemaV1.Name,
 			OriginData:  nftSchemaV1.OriginData,
 			OnchainData: &nftmngrtypes.OnChainData{
-				NftAttributes:  nftSchemaV1.OnchainData.NftAttributes,
+				NftAttributes:   nftSchemaV1.OnchainData.NftAttributes,
 				TokenAttributes: nftSchemaV1.OnchainData.TokenAttributes,
 				Actions:         nftSchemaV1.OnchainData.Actions,
 				Status:          nftSchemaV1.OnchainData.Status,
@@ -102,7 +104,7 @@ func (app *App) RollbackFromV2toV1(ctx sdk.Context) {
 			nft_attributes_from_schema_attribute = append(nft_attributes_from_schema_attribute, schemaAttribute)
 		}
 
-		originOutput, nftOutput, tokenOutput := MergeAllAttributesAndAlterOrderIndex(nftSchemaV2.OriginData.OriginAttributes, nft_attributes_from_schema_attribute ,nftSchemaV2.OnchainData.TokenAttributes)
+		originOutput, nftOutput, tokenOutput := MergeAllAttributesAndAlterOrderIndex(nftSchemaV2.OriginData.OriginAttributes, nft_attributes_from_schema_attribute, nftSchemaV2.OnchainData.TokenAttributes)
 
 		// migrate schema to new schema
 		// parse schema_input to NFTSchema
@@ -111,14 +113,14 @@ func (app *App) RollbackFromV2toV1(ctx sdk.Context) {
 			Name:        nftSchemaV2.Name,
 			Owner:       nftSchemaV2.Owner,
 			Description: nftSchemaV2.Description,
-			OriginData:  &nftmngrtypes.OriginData{
-				OriginChain:    nftSchemaV2.OriginData.OriginChain,
+			OriginData: &nftmngrtypes.OriginData{
+				OriginChain:           nftSchemaV2.OriginData.OriginChain,
 				OriginContractAddress: nftSchemaV2.OriginData.OriginContractAddress,
-				OriginBaseUri: nftSchemaV2.OriginData.OriginBaseUri,
-				AttributeOverriding: nftSchemaV2.OriginData.AttributeOverriding,
-				MetadataFormat: nftSchemaV2.OriginData.MetadataFormat,
-				OriginAttributes: originOutput,
-				UriRetrievalMethod: nftSchemaV2.OriginData.UriRetrievalMethod,
+				OriginBaseUri:         nftSchemaV2.OriginData.OriginBaseUri,
+				AttributeOverriding:   nftSchemaV2.OriginData.AttributeOverriding,
+				MetadataFormat:        nftSchemaV2.OriginData.MetadataFormat,
+				OriginAttributes:      originOutput,
+				UriRetrievalMethod:    nftSchemaV2.OriginData.UriRetrievalMethod,
 			},
 			OnchainData: &nftmngrtypes.OnChainData{
 				TokenAttributes: tokenOutput,
@@ -130,10 +132,9 @@ func (app *App) RollbackFromV2toV1(ctx sdk.Context) {
 			MintAuthorization: nftSchemaV2.MintAuthorization,
 		}
 
-
 		for _, schemaDefaultMintAttribute := range schema.OnchainData.NftAttributes {
 			schmaAttributeValue, _ := nftmngrKeeper.ConvertDefaultMintValueToSchemaAttributeValue(schemaDefaultMintAttribute.DefaultMintValue)
-			
+
 			app.NftmngrKeeper.SetSchemaAttribute(ctx, nftmngrtypes.SchemaAttribute{
 				NftSchemaCode: schema.Code,
 				Name:          schemaDefaultMintAttribute.Name,
@@ -144,12 +145,10 @@ func (app *App) RollbackFromV2toV1(ctx sdk.Context) {
 		}
 
 		app.NftmngrKeeper.SetNFTSchema(ctx, schema)
-	
+
 	}
 
 }
-
-
 
 func MergeAllAttributesAndAlterOrderIndex(originAttributes []*nftmngrtypes.AttributeDefinition, nftAttribute []*nftmngrtypes.AttributeDefinition, tokenAttribute []*nftmngrtypes.AttributeDefinition) (originAttributeWithIndex []*nftmngrtypes.AttributeDefinition, nftAttributeWithIndex []*nftmngrtypes.AttributeDefinition, tokenAttributeWithIndex []*nftmngrtypes.AttributeDefinition) {
 	orignOutput := make([]*nftmngrtypes.AttributeDefinition, 0)
@@ -179,7 +178,23 @@ func MergeAllAttributesAndAlterOrderIndex(originAttributes []*nftmngrtypes.Attri
 		tokenOutput = append(tokenOutput, attribute)
 		index++
 	}
-	
 
 	return orignOutput, nftOutput, tokenOutput
+}
+
+// for proposal v3.1.3 to v3.1.4
+func (app *App) MigrationEthermintFromV160ToV193Handlers(ctx sdk.Context) {
+	newFeeMarketParams := feemarkettypes.Params{
+		BaseFee:                  sdk.NewIntFromUint64(5_000_000_000_000),
+		BaseFeeChangeDenominator: 8,
+		ElasticityMultiplier:     4,
+		EnableHeight:             0,
+		MinGasMultiplier:         sdk.NewDecWithPrec(50, 2),
+		MinGasPrice:              sdk.NewDecFromBigInt(big.NewInt(5_000_000_000_000)),
+		LegacyBaseFee: 			  sdk.NewIntFromUint64(20_000_000_000),
+		LegacyMinGasPrice:        sdk.NewDecFromBigInt(big.NewInt(20_000_000_000)),
+		NoBaseFee:                false,
+	}
+
+	app.FeeMarketKeeper.SetParams(ctx, newFeeMarketParams)
 }
