@@ -1,10 +1,10 @@
 module github.com/thesixnetwork/six-protocol
 
-go 1.19
+go 1.18
 
 require (
 	github.com/cosmos/cosmos-sdk v0.45.9
-	github.com/cosmos/ibc-go/v3 v3.2.0
+	github.com/cosmos/ibc-go/v3 v3.1.1
 	github.com/ethereum/go-ethereum v1.10.19
 	github.com/evmos/ethermint v0.19.3
 	github.com/evmos/evmos/v6 v6.0.4
