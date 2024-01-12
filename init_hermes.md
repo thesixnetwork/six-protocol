@@ -43,19 +43,19 @@ end = 30000
 buckets = 10
 
 [[chains]]
-id = "osmo-test-5"
+id = "pepe_555555-1"
 type = "CosmosSdk"
-rpc_addr = "https://rpc.testnet.osmosis.zone"
-grpc_addr = "https://grpc.testnet.osmosis.zone"
+rpc_addr = "http://0.0.0.0:26659/"
+grpc_addr = "http://0.0.0.0:9092/"
 rpc_timeout = "10s"
 trusted_node = false
-account_prefix = "osmo"
-key_name = "relayer_osmo"
+account_prefix = "lol"
+key_name = "alice"
 key_store_type = "Test"
 store_prefix = "ibc"
 default_gas = 100000
 max_gas = 400000
-gas_multiplier = 1.5
+gas_multiplier = 1.1
 max_msg_num = 30
 max_tx_size = 180000
 max_grpc_decoding_size = 33554432
@@ -67,7 +67,7 @@ sequential_batch_tx = false
 
 [chains.event_source]
 mode = "push"
-url = "wss://rpc.testnet.osmosis.zone/websocket"
+url = "ws://0.0.0.0:26659/websocket"
 batch_delay = "500ms"
 
 [chains.trust_threshold]
@@ -75,8 +75,8 @@ numerator = "1"
 denominator = "3"
 
 [chains.gas_price]
-price = 0.04
-denom = "uosmo"
+price = 0.025
+denom = "apepe"
 
 [chains.packet_filter]
 policy = "allowall"
@@ -87,19 +87,19 @@ policy = "allowall"
 derivation = "cosmos"
 
 [[chains]]
-id = "fivenet"
+id = "testnet"
 type = "CosmosSdk"
-rpc_addr = "https://rpc1.fivenet.sixprotocol.net:443"
-grpc_addr = "http://34.142.247.36:9090/"
+rpc_addr = "http://0.0.0.0:26657/"
+grpc_addr = "http://0.0.0.0:9090/"
 rpc_timeout = "10s"
 trusted_node = false
 account_prefix = "6x"
-key_name = "relayer_six"
+key_name = "alice"
 key_store_type = "Test"
 store_prefix = "ibc"
 default_gas = 100000
 max_gas = 400000
-gas_multiplier = 1.5
+gas_multiplier = 1.1
 max_msg_num = 30
 max_tx_size = 180000
 max_grpc_decoding_size = 33554432
@@ -111,7 +111,7 @@ sequential_batch_tx = false
 
 [chains.event_source]
 mode = "push"
-url = "wss://https://rpc1.fivenet.sixprotocol.net/websocket"
+url = "ws://0.0.0.0:26657/websocket"
 batch_delay = "500ms"
 
 [chains.trust_threshold]
@@ -137,22 +137,35 @@ port = 5555
 ```
 
 ```bash
-echo word word word word word word word word word word word word word word word word word word word word word word word word>> relayer_osmo
-hermes keys add --chain osmo-test-5 --mnemonic-file relayer_osmo
-hermes keys list --chain osmo-test-5
-echo word word word word word word word word word word word word word word word word word word word word word word word word >> relayer_six
-hermes keys add --chain fivenet --mnemonic-file relayer_six
-hermes create client --host-chain osmo-test-5 --reference-chain fivenet
-hermes create client --host-chain fivenet --reference-chain osmo-test-5
-hermes create connection --a-chain fivenet --b-chain osmo-test-5
-hermes create connection --a-chain osmo-test-5 --b-chain fivenet
-hermes create channel --order unordered --a-chain fivenet --a-connection connection-2 --a-port transfer --b-port transfer
-hermes create channel --order unordered --a-chain osmo-test-5 --a-connection connection-2 --a-port transfer --b-port transfer
 
-hermes query channels --chain osmo-test-5
-hermes query channels --show-counterparty --chain osmo-test-5
-hermes query channels --show-counterparty --chain fivenet
-hermes query connections --chain fivenet
-hermes query connections --chain osmo-test-5
-hermes query packet acks --chain osmo-test-5 --port transfer --channel channel-0
+echo merit escape cherry vivid ask feed churn lyrics tomato shy rifle derive buzz symptom disorder net diary frequent few since develop movie scale raccoon > ~/.hermes/keys/pepe_key
+hermes keys add --chain pepe_555555-1 --mnemonic-file ~/.hermes/keys/pepe_key
+hermes keys list --chain pepe_555555-1
+echo first educate action fee physical seek recipe hub anxiety best mango measure chimney sphere once cabbage strike dizzy near knock correct answer skin inside > ~/.hermes/keys/testnet_key
+hermes keys add --chain testnet --mnemonic-file ~/.hermes/keys/testnet_key
+hermes create client --host-chain pepe_555555-1 --reference-chain testnet
+# hermes create client --host-chain testnet --reference-chain pepe_555555-1
+hermes create connection --a-chain pepe_555555-1 --b-chain testnet
+# hermes create connection --a-chain testnet --b-chain pepe_555555-1
+hermes create channel --order unordered --a-chain pepe_555555-1 --a-connection connection-0 --a-port transfer --b-port transfer
+# hermes create channel --order unordered --a-chain testnet --a-connection connection-0 --a-port transfer --b-port transfer
+hermes start
+
+hermes query channels --chain pepe_555555-1
+hermes query channels --show-counterparty --chain pepe_555555-1
+hermes query channels --show-counterparty --chain testnet
+hermes query connections --chain testnet
+hermes query connections --chain pepe_555555-1
+hermes query packet acks --chain pepe_555555-1 --port transfer --channel channel-0
+
+## CHECK CHANNEL IS EXPIRE
+hermes query channel end --chain testnet --port transfer --channel channel-0
+hermes query connection end --chain testnet --connection connection-0
+hermes query client state --chain testnet --client 07-tendermint-1
+hermes query client status --chain testnet --client 07-tendermint-1
+
+hermes query channel end --chain pepe_555555-1 --port transfer --channel channel-0
+hermes query connection end --chain pepe_555555-1 --connection connection-0
+hermes query client state --chain pepe_555555-1 --client 07-tendermint-1
+hermes query client status --chain pepe_555555-1 --client 07-tendermint-1
 ```
