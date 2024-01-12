@@ -169,5 +169,3 @@ hermes query connection end --chain pepe_555555-1 --connection connection-0
 hermes query client state --chain pepe_555555-1 --client 07-tendermint-1
 hermes query client status --chain pepe_555555-1 --client 07-tendermint-1
 ```
-
-
