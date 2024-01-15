@@ -890,6 +890,8 @@ github.com/tendermint/tm-db v0.6.7 h1:fE00Cbl0jayAoqlExN6oyQJ7fR/ZtoVOmvPJ//+shu
 github.com/tendermint/tm-db v0.6.7/go.mod h1:byQDzFkZV1syXr/ReXS808NxA2xvyuuVgXOJ/088L6I=
 github.com/thesixnetwork/cosmos-sdk v0.45.6-six-protocol.0.20240110082919-865caa8775f4 h1:mOIBeyzck35PLXRjdyer0LPAzp3bEk4y79DH2RDT6kQ=
 github.com/thesixnetwork/cosmos-sdk v0.45.6-six-protocol.0.20240110082919-865caa8775f4/go.mod h1:ForUXFCy3gWShklx973wLNMlMVbijkP2MoiGiU0uA+0=
+github.com/thesixnetwork/ethermint v0.19.4-0.20240115065824-148ec6b7024e h1:QdjQOc2DubbNCa74VCliSPbNhTRuWo6cJTF38YKb6Os=
+github.com/thesixnetwork/ethermint v0.19.4-0.20240115065824-148ec6b7024e/go.mod h1:jUk74eoodHXpdkUk4A8BBGSiZIdtR5mwvGTPjWzxwiY=
 github.com/thesixnetwork/sixnft v0.9.4 h1:+G+JN79p7J6hGMvbpWS5Zwt7u+4uPFSs0TqptJzPtfQ=
 github.com/thesixnetwork/sixnft v0.9.4/go.mod h1:EO95qjtLv/Wzpn84gfYLc87mHdME7HchcQ4JW9kfnJE=
 github.com/tidwall/gjson v1.6.7/go.mod h1:zeFuBCIqD4sN/gmqBzZ4j7Jd6UcA2Fc56x7QFsv+8fI=
