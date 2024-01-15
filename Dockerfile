@@ -1,6 +1,6 @@
 # docker build . -t six-protocol/sixd:latest
 # docker run --rm -it cosmoscontracts/sixd:latest /bin/sh
-FROM golang:1.18-alpine3.15 AS go-builder
+FROM golang:1.21-alpine3.19 AS go-builder
 ARG GITHUB_TOKEN
 
 # this comes from standard alpine nightly file
