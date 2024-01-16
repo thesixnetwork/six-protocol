@@ -1,6 +1,6 @@
 module github.com/thesixnetwork/six-protocol
 
-go 1.19
+go 1.18
 
 require (
 	github.com/cosmos/cosmos-sdk v0.45.9
