@@ -134,7 +134,10 @@ import (
 	nftoraclemodule "github.com/thesixnetwork/sixnft/x/nftoracle"
 	nftoraclemodulekeeper "github.com/thesixnetwork/sixnft/x/nftoracle/keeper"
 	nftoraclemoduletypes "github.com/thesixnetwork/sixnft/x/nftoracle/types"
+
 	// tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
+
+	"github.com/thesixnetwork/six-protocol/precompiles"
 )
 
 const (
@@ -644,6 +647,13 @@ func New(
 
 	// this line is used by starport scaffolding # ibc/app/router
 	app.IBCKeeper.SetRouter(ibcRouter)
+
+	if err := precompiles.InitializePrecompiles(
+		false,
+		app.BankKeeper,
+	); err != nil {
+		panic(err)
+	}
 
 	/****  Module Options ****/
 
