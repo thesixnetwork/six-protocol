@@ -7,6 +7,7 @@ import (
 	ecommon "github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/vm"
 	"github.com/thesixnetwork/six-protocol/precompiles/bank"
+	"github.com/thesixnetwork/six-protocol/precompiles/bridge"
 	"github.com/thesixnetwork/six-protocol/precompiles/common"
 
 )
@@ -32,6 +33,7 @@ type IPrecompile interface {
 func InitializePrecompiles(
 	dryRun bool,
 	bankKeeper common.BankKeeper,
+	accountKeeper common.AccountKeeper,
 ) error {
 	SetupMtx.Lock()
 	defer SetupMtx.Unlock()
@@ -42,12 +44,20 @@ func InitializePrecompiles(
 	if err != nil {
 		return err
 	}
+
+	bridgep, err := bridge.NewPrecompile(bankKeeper,accountKeeper)
+	if err != nil {
+		return err
+	}
  
 	PrecompileNamesToInfo[bankp.GetName()] = PrecompileInfo{ABI: bankp.GetABI(), Address: bankp.Address()}
+
+	PrecompileNamesToInfo[bridgep.GetName()] = PrecompileInfo{ABI: bridgep.GetABI(), Address: bridgep.Address()}
 
 
 	if !dryRun {
 		addPrecompileToVM(bankp)
+		addPrecompileToVM(bridgep)
 		Initialized = true
 	}
 	return nil
@@ -56,7 +66,7 @@ func InitializePrecompiles(
 func GetPrecompileInfo(name string) PrecompileInfo {
 	if !Initialized {
 		// Precompile Info does not require any keeper state
-		_ = InitializePrecompiles(true, nil)
+		_ = InitializePrecompiles(true, nil, nil)
 	}
 	i, ok := PrecompileNamesToInfo[name]
 	if !ok {

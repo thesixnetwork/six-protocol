@@ -651,6 +651,7 @@ func New(
 	if err := precompiles.InitializePrecompiles(
 		false,
 		app.BankKeeper,
+		app.AccountKeeper,
 	); err != nil {
 		panic(err)
 	}

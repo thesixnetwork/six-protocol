@@ -53,7 +53,6 @@ type PrecompileExecutor struct {
 	address       common.Address
 
 	SendID        []byte
-	SendNativeID  []byte
 	BalanceID     []byte
 	AllBalancesID []byte
 	NameID        []byte
@@ -141,16 +140,16 @@ func (p PrecompileExecutor) send(ctx sdk.Context, caller common.Address, method 
 		// short circuit
 		return method.Outputs.Pack(true)
 	}
-	senderSeiAddr, err := p.accAddressFromArg(caller)
+	senderCosmoAddr, err := p.accAddressFromArg(caller)
 	if err != nil {
 		return nil, err
 	}
-	receiverSeiAddr, err := p.accAddressFromArg(args[1])
+	receiverCosmoAddr, err := p.accAddressFromArg(args[1])
 	if err != nil {
 		return nil, err
 	}
 
-	if err := p.bankKeeper.SendCoins(ctx, senderSeiAddr, receiverSeiAddr, sdk.NewCoins(sdk.NewCoin(denom, sdk.NewIntFromBigInt(amount)))); err != nil {
+	if err := p.bankKeeper.SendCoins(ctx, senderCosmoAddr, receiverCosmoAddr, sdk.NewCoins(sdk.NewCoin(denom, sdk.NewIntFromBigInt(amount)))); err != nil {
 		return nil, err
 	}
 
@@ -246,7 +245,7 @@ func (p PrecompileExecutor) decimals(_ sdk.Context, method *abi.Method, _ []inte
 		return nil, err
 	}
 
-	// all native tokens are integer-based, returns decimals for microdenom (usei)
+	// all native tokens are integer-based, returns decimals for microdenom (ucosmo)
 	return method.Outputs.Pack(uint8(0))
 }
 
