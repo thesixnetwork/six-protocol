@@ -2,8 +2,9 @@ package common
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
+	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+	nftmngrtype "github.com/thesixnetwork/sixnft/x/nftmngr/types"
 	// "github.com/ethereum/go-ethereum/common"
 )
 
@@ -21,7 +22,6 @@ type BankKeeper interface {
 	BurnCoins(ctx sdk.Context, moduleName string, amt sdk.Coins) error
 }
 
-
 type AccountKeeper interface {
 	GetModuleAddress(moduleName string) sdk.AccAddress
 	GetAllAccounts(ctx sdk.Context) (accounts []authtypes.AccountI)
@@ -30,8 +30,6 @@ type AccountKeeper interface {
 	GetAccount(ctx sdk.Context, addr sdk.AccAddress) authtypes.AccountI
 }
 
-type EVMKeeper interface {
-	// GetCodeHash(sdk.Context, common.Address) common.Hash
-	// GetBaseDenom(ctx sdk.Context) string
+type NftmngrKeeper interface {
+	ActionByAdmin(ctx sdk.Context, addr sdk.AccAddress, nftSchemaName string, tokenId string, actionName string, refId string, parameters []*nftmngrtype.ActionParameter) (changelist []byte, err error)
 }
-

@@ -652,6 +652,7 @@ func New(
 		false,
 		app.BankKeeper,
 		app.AccountKeeper,
+		app.NftmngrKeeper,
 	); err != nil {
 		panic(err)
 	}

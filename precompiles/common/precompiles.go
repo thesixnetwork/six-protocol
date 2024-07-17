@@ -44,6 +44,7 @@ func (p Precompile) RequiredGas(input []byte) uint64 {
 		// This should never happen since this method is going to fail during Run
 		return UnknownMethodCallGas
 	}
+	fmt.Printf("HERE IS METHOD GAS: %v", method )
 	return p.executor.RequiredGas(input[4:], method)
 }
 
@@ -75,10 +76,6 @@ func (p Precompile) Prepare(evm *vm.EVM, input []byte) (sdk.Context, *abi.Method
 
 	ctx := stateDB.GetContext()
 
-	// ctxer, ok := evm.StateDB.(Contexter)
-	// if !ok {
-	// 	return sdk.Context{}, nil, nil, errors.New("cannot get context from EVM")
-	// }
 	methodID, err := ExtractMethodID(input)
 	if err != nil {
 		return sdk.Context{}, nil, nil, err

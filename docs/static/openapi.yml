@@ -21481,19 +21481,6 @@ paths:
                       (i.e non EIP155 
 
                       signed) transactions can be executed on the state machine.
-                  converter_params:
-                    type: object
-                    properties:
-                      converter_contract:
-                        type: string
-                      event_name:
-                        type: string
-                      event_tuple:
-                        type: string
-                      event_abi:
-                        type: string
-                      enable:
-                        type: boolean
                 title: Params defines the EVM module parameters
             description: >-
               QueryParamsResponse defines the response type for querying x/evm
@@ -23065,10 +23052,6 @@ paths:
                       charged
 
                       to senders based on GasLimit
-                  legacy_base_fee:
-                    type: string
-                  legacy_min_gas_price:
-                    type: string
                 title: Params defines the EVM module parameters
             description: >-
               QueryParamsResponse defines the response type for querying x/evm
@@ -34478,6 +34461,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/action_by_ref_id/{refId}':
@@ -34972,6 +34965,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -35473,6 +35476,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/action_of_schema/{nftSchemaCode}/{name}':
@@ -35968,6 +35981,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -36709,6 +36732,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/metadata_creator/{nftSchemaCode}':
@@ -37285,6 +37318,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   /thesixnetwork/sixnft/nftmngr/nft_data:
@@ -37642,6 +37685,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -38914,6 +38967,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/nft_schema/{code}':
@@ -39676,6 +39739,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/nft_schema_by_contract/{originContractAddress}':
@@ -40164,6 +40237,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -40885,6 +40968,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -59553,19 +59646,6 @@ definitions:
       values
 
       instead of *big.Int.
-  ethermint.evm.v1.ConverterParams:
-    type: object
-    properties:
-      converter_contract:
-        type: string
-      event_name:
-        type: string
-      event_tuple:
-        type: string
-      event_abi:
-        type: string
-      enable:
-        type: boolean
   ethermint.evm.v1.EstimateGasResponse:
     type: object
     properties:
@@ -59884,19 +59964,6 @@ definitions:
           EIP155 
 
           signed) transactions can be executed on the state machine.
-      converter_params:
-        type: object
-        properties:
-          converter_contract:
-            type: string
-          event_name:
-            type: string
-          event_tuple:
-            type: string
-          event_abi:
-            type: string
-          enable:
-            type: boolean
     title: Params defines the EVM module parameters
   ethermint.evm.v1.QueryAccountResponse:
     type: object
@@ -60069,19 +60136,6 @@ definitions:
               non EIP155 
 
               signed) transactions can be executed on the state machine.
-          converter_params:
-            type: object
-            properties:
-              converter_contract:
-                type: string
-              event_name:
-                type: string
-              event_tuple:
-                type: string
-              event_abi:
-                type: string
-              enable:
-                type: boolean
         title: Params defines the EVM module parameters
     description: >-
       QueryParamsResponse defines the response type for querying x/evm
@@ -60279,10 +60333,6 @@ definitions:
         title: |-
           min gas denominator bounds the minimum gasUsed to be charged
           to senders based on GasLimit
-      legacy_base_fee:
-        type: string
-      legacy_min_gas_price:
-        type: string
     title: Params defines the EVM module parameters
   ethermint.feemarket.v1.QueryBaseFeeResponse:
     type: object
@@ -60342,10 +60392,6 @@ definitions:
             title: |-
               min gas denominator bounds the minimum gasUsed to be charged
               to senders based on GasLimit
-          legacy_base_fee:
-            type: string
-          legacy_min_gas_price:
-            type: string
         title: Params defines the EVM module parameters
     description: >-
       QueryParamsResponse defines the response type for querying x/evm
@@ -65242,6 +65288,19 @@ definitions:
       value:
         type: string
     title: ActionParameter
+  thesixnetwork.sixnft.nftmngr.ActionParams:
+    type: object
+    properties:
+      name:
+        type: string
+      desc:
+        type: string
+      data_type:
+        type: string
+      required:
+        type: boolean
+      default_value:
+        type: string
   thesixnetwork.sixnft.nftmngr.AllowedActioner:
     type: string
     enum:
@@ -68463,19 +68522,6 @@ definitions:
       - BASE
       - TOKEN
     default: BASE
-  thesixnetwork.sixnft.nftmngr.action_params:
-    type: object
-    properties:
-      name:
-        type: string
-      desc:
-        type: string
-      data_type:
-        type: string
-      required:
-        type: boolean
-      default_value:
-        type: string
   thesixnetwork.sixnft.nftoracle.ActionOracleRequest:
     type: object
     properties:
