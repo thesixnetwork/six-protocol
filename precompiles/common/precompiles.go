@@ -21,10 +21,10 @@ type PrecompileExecutor interface {
 }
 
 type Precompile struct {
-	abi.ABI
-	address  common.Address
-	name     string
 	executor PrecompileExecutor
+	name     string
+	abi.ABI
+	address common.Address
 }
 
 var _ vm.PrecompiledContract = &Precompile{}
@@ -39,13 +39,13 @@ func (p Precompile) RequiredGas(input []byte) uint64 {
 		return UnknownMethodCallGas
 	}
 
-	method, err := p.ABI.MethodById(methodID)
+	method, err := p.MethodById(methodID)
 	if err != nil {
 		// This should never happen since this method is going to fail during Run
 		return UnknownMethodCallGas
 	}
-	fmt.Printf("HERE IS METHOD GAS: %v", method )
-	return p.executor.RequiredGas(input[4:], method)
+  	requiredGas := p.executor.RequiredGas(input[4:], method)
+	return requiredGas
 }
 
 func (p Precompile) Run(evm *vm.EVM, caller common.Address, callingContract common.Address, input []byte, value *big.Int, readOnly bool) (bz []byte, err error) {
@@ -66,7 +66,6 @@ func (p Precompile) Run(evm *vm.EVM, caller common.Address, callingContract comm
 	return bz, err
 }
 
-
 func (p Precompile) Prepare(evm *vm.EVM, input []byte) (sdk.Context, *abi.Method, []interface{}, error) {
 	stateDB, ok := evm.StateDB.(*statedb.StateDB)
 
@@ -80,7 +79,7 @@ func (p Precompile) Prepare(evm *vm.EVM, input []byte) (sdk.Context, *abi.Method
 	if err != nil {
 		return sdk.Context{}, nil, nil, err
 	}
-	method, err := p.ABI.MethodById(methodID)
+	method, err := p.MethodById(methodID)
 	if err != nil {
 		return sdk.Context{}, nil, nil, err
 	}
@@ -136,7 +135,9 @@ func ExtractMethodID(input []byte) ([]byte, error) {
 
 func DefaultGasCost(input []byte, isTransaction bool) uint64 {
 	if isTransaction {
-		return storetypes.KVGasConfig().WriteCostFlat + (storetypes.KVGasConfig().WriteCostPerByte * uint64(len(input)))
+		defaultGast := storetypes.KVGasConfig().WriteCostFlat + (storetypes.KVGasConfig().WriteCostPerByte * uint64(len(input)))
+		//fmt.Printf("######### THIS IS TOTAL COST: %v", defaultGast)
+		return defaultGast
 	}
 
 	return storetypes.KVGasConfig().ReadCostFlat + (storetypes.KVGasConfig().ReadCostPerByte * uint64(len(input)))

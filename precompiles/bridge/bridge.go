@@ -47,11 +47,10 @@ func GetABI() abi.ABI {
 }
 
 type PrecompileExecutor struct {
-	bankKeeper    pcommon.BankKeeper
-	accountKeeper pcommon.AccountKeeper
-	address       common.Address
-
+	bankKeeper     pcommon.BankKeeper
+	accountKeeper  pcommon.AccountKeeper
 	SendToCosmosID []byte
+	address        common.Address
 }
 
 func NewPrecompile(bankKeeper pcommon.BankKeeper, accountKeeper pcommon.AccountKeeper) (*pcommon.Precompile, error) {

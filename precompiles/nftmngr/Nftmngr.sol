@@ -8,7 +8,7 @@ INftmngr constant NFTMNGR_CONTRACT = INftmngr(
 );
 
 struct ActionParameter {
-    uint256 name;
+    string name;
     string value;
 }
 

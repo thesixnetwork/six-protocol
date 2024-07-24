@@ -49,10 +49,9 @@ type ActionParameter struct {
 }
 
 type PrecompileExecutor struct {
-	nftmngrKeeper pcommon.NftmngrKeeper
-	address       common.Address
-
+	nftmngrKeeper   pcommon.NftmngrKeeper
 	ActionByAdminID []byte
+	address         common.Address
 }
 
 func NewPrecompile(nftmngrKeeper pcommon.NftmngrKeeper) (*pcommon.Precompile, error) {
@@ -199,5 +198,5 @@ func (PrecompileExecutor) IsTransaction(method string) bool {
 }
 
 func (p PrecompileExecutor) Logger(ctx sdk.Context) log.Logger {
-	return ctx.Logger().With("precompile", "bridge")
+	return ctx.Logger().With("precompile", "nftmngr")
 }
