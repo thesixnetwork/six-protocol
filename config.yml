@@ -182,7 +182,7 @@ genesis:
         evm_denom: "asix"
     feemarket:
       params:
-        base_fee: "50000000000"
+        base_fee: "5000000000000"
         base_fee_change_denominator: 300
         elasticity_multiplier: 4
         enable_height: "0"
