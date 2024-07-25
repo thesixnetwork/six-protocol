@@ -19,7 +19,7 @@ require (
 	github.com/tendermint/tendermint v0.34.21
 	github.com/tendermint/tm-db v0.6.7
 	github.com/thesixnetwork/sixnft v0.9.2-0.20240716082336-ebb2fdb2003b
-	google.golang.org/genproto/googleapis/api v0.0.0-20240711142825-46eb208f015d
+	google.golang.org/genproto/googleapis/api v0.0.0-20240723171418-e6d459c13d2a
 	google.golang.org/grpc v1.64.1
 	gopkg.in/yaml.v2 v2.4.0
 )
@@ -141,13 +141,11 @@ require (
 	github.com/edsrzf/mmap-go v1.0.0 // indirect
 	github.com/emirpasic/gods v1.12.0 // indirect
 	github.com/gballet/go-libpcsclite v0.0.0-20190607065134-2772fd86a8ff // indirect
-	github.com/ghodss/yaml v1.0.0 // indirect
 	github.com/go-ole/go-ole v1.2.5 // indirect
 	github.com/go-sourcemap/sourcemap v2.1.3+incompatible // indirect
 	github.com/go-stack/stack v1.8.0 // indirect
 	github.com/golang/glog v1.1.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
-	github.com/grpc-ecosystem/grpc-gateway/v2 v2.20.0 // indirect
 	github.com/holiman/bloomfilter/v2 v2.0.3 // indirect
 	github.com/holiman/uint256 v1.2.0 // indirect
 	github.com/huin/goupnp v1.0.3 // indirect
@@ -178,7 +176,7 @@ require (
 	golang.org/x/sync v0.7.0 // indirect
 	golang.org/x/sys v0.22.0 // indirect
 	google.golang.org/genproto v0.0.0-20240711142825-46eb208f015d // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20240701130421-f6361c86f094 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20240722135656-d784300faade // indirect
 	gopkg.in/natefinch/npipe.v2 v2.0.0-20160621034901-c1b8fa8bdcce // indirect
 	gopkg.in/src-d/go-billy.v4 v4.3.2 // indirect
 	gopkg.in/src-d/go-git.v4 v4.13.1 // indirect
@@ -188,7 +186,7 @@ require (
 replace (
 	github.com/cosmos/cosmos-sdk => github.com/thesixnetwork/cosmos-sdk v0.45.6-six-protocol.0.20240102041747-d512c8bc8f90
 	github.com/ethereum/go-ethereum => github.com/thesixnetwork/go-ethereum v1.10.20-0.20240712070259-a344866e43aa
-	github.com/evmos/ethermint => github.com/thesixnetwork/ethermint v0.19.4-0.20240725073000-cf4df75ea1f3
+	github.com/evmos/ethermint => github.com/thesixnetwork/ethermint v0.19.4-0.20240725101139-316ace2ba3b7
 	github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
 	github.com/keybase/go-keychain => github.com/99designs/go-keychain v0.0.0-20191008050251-8e49817e8af4
 	github.com/syndtr/goleveldb => github.com/syndtr/goleveldb v1.0.1-0.20200815110645-5c35d600f0ca

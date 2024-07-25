@@ -189,5 +189,5 @@ genesis:
         min_gas_multiplier: "0.5"
         min_gas_price: "5000000000000.0"
         no_base_fee: false
-        # legacy_min_gas_price: "20000000000.000000000000000000"
-        # legacy_base_fee: "20000000000"
+        legacy_base_fee: "500000000000"
+        legacy_min_gas_price: "500000000000.0"
