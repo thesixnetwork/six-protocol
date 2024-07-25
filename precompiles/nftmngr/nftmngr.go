@@ -120,10 +120,10 @@ func (p PrecompileExecutor) actionByAdmin(ctx sdk.Context, caller common.Address
 		return nil, err
 	}
 
-	// parameters, err := p.parametersFromArg(args[4])
-	// if err != nil {
-	// 	return nil, err
-	// }
+	 paramPointers, err := p.parametersFromArg(args[4])
+	 if err != nil {
+	 	return nil, err
+	 }
 
 	//  ------------------------------------
 	// |                                    |
@@ -131,7 +131,7 @@ func (p PrecompileExecutor) actionByAdmin(ctx sdk.Context, caller common.Address
 	// |                                    |
 	//  ------------------------------------
 
-	paramPointers := make([]*nftmngrtype.ActionParameter, 0)
+	//paramPointers := make([]*nftmngrtype.ActionParameter, 0)
 
 	_, err = p.nftmngrKeeper.ActionByAdmin(ctx, senderCosmoAddr, nftschema, tokenId, actionName, refId, paramPointers)
 	if err != nil {

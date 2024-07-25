@@ -136,7 +136,6 @@ func ExtractMethodID(input []byte) ([]byte, error) {
 func DefaultGasCost(input []byte, isTransaction bool) uint64 {
 	if isTransaction {
 		defaultGast := storetypes.KVGasConfig().WriteCostFlat + (storetypes.KVGasConfig().WriteCostPerByte * uint64(len(input)))
-		//fmt.Printf("######### THIS IS TOTAL COST: %v", defaultGast)
 		return defaultGast
 	}
 
