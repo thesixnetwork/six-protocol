@@ -3,6 +3,7 @@ package nftmngr
 import (
 	"bytes"
 	"embed"
+	"encoding/json"
 	"errors"
 	"math/big"
 
@@ -92,7 +93,7 @@ func (p PrecompileExecutor) actionByAdmin(ctx sdk.Context, caller common.Address
 		return nil, err
 	}
 
-	if err := pcommon.ValidateArgsLength(args, 5); err != nil {
+	if err := pcommon.ValidateArgsLength(args, 6); err != nil {
 		return nil, err
 	}
 
@@ -100,30 +101,30 @@ func (p PrecompileExecutor) actionByAdmin(ctx sdk.Context, caller common.Address
 	if err != nil {
 		return nil, err
 	}
-	nftschema, err := p.stringFromArg(args[0])
+	nftschema, err := p.stringFromArg(args[1])
 	if err != nil {
 		return nil, err
 	}
 
-	tokenId, err := p.stringFromArg(args[1])
+	tokenId, err := p.stringFromArg(args[2])
 	if err != nil {
 		return nil, err
 	}
 
-	actionName, err := p.stringFromArg(args[2])
+	actionName, err := p.stringFromArg(args[3])
 	if err != nil {
 		return nil, err
 	}
 
-	refId, err := p.stringFromArg(args[3])
+	refId, err := p.stringFromArg(args[4])
 	if err != nil {
 		return nil, err
 	}
 
-	 paramPointers, err := p.parametersFromArg(args[4])
-	 if err != nil {
-	 	return nil, err
-	 }
+	paramPointers, err := p.parametersFromJSONArg(args[5])
+	if err != nil {
+		return nil, err
+	}
 
 	//  ------------------------------------
 	// |                                    |
@@ -131,7 +132,7 @@ func (p PrecompileExecutor) actionByAdmin(ctx sdk.Context, caller common.Address
 	// |                                    |
 	//  ------------------------------------
 
-	//paramPointers := make([]*nftmngrtype.ActionParameter, 0)
+	// paramPointers := make([]*nftmngrtype.ActionParameter, 0)
 
 	_, err = p.nftmngrKeeper.ActionByAdmin(ctx, senderCosmoAddr, nftschema, tokenId, actionName, refId, paramPointers)
 	if err != nil {
@@ -168,21 +169,21 @@ func (p PrecompileExecutor) stringFromArg(arg interface{}) (string, error) {
 	return stringArg, nil
 }
 
-func (p PrecompileExecutor) parametersFromArg(arg interface{}) ([]*nftmngrtype.ActionParameter, error) {
-	// Type assertion to convert arg to []interface{}
-	inputParams, ok := arg.([]interface{})
+func (p PrecompileExecutor) parametersFromJSONArg(arg interface{}) ([]*nftmngrtype.ActionParameter, error) {
+	jsonStr, ok := arg.(string)
 	if !ok {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid argument type, expected []interface{}")
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid argument type, expected string")
 	}
 
-	// Create a new slice of pointers to ActionParameter
-	paramPointers := make([]*nftmngrtype.ActionParameter, len(inputParams))
-	for i, param := range inputParams {
-		actionParam, ok := param.(nftmngrtype.ActionParameter)
-		if !ok {
-			return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid element type, expected ActionParameter")
-		}
-		paramPointers[i] = &actionParam
+	var params []nftmngrtype.ActionParameter
+	if err := json.Unmarshal([]byte(jsonStr), &params); err != nil {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid JSON format")
+	}
+
+	// Convert to slice of pointers to ActionParameter
+	paramPointers := make([]*nftmngrtype.ActionParameter, len(params))
+	for i, param := range params {
+		paramPointers[i] = &param
 	}
 
 	return paramPointers, nil

@@ -1,53 +1,21 @@
 [
-    {
-        "inputs": [
-            {
-                "internalType": "string",
-                "name": "nftSchemaName",
-                "type": "string"
-            },
-            {
-                "internalType": "string",
-                "name": "tokenId",
-                "type": "string"
-            },
-            {
-                "internalType": "string",
-                "name": "actionName",
-                "type": "string"
-            },
-            {
-                "internalType": "string",
-                "name": "refId",
-                "type": "string"
-            },
-            {
-                "components": [
-                    {
-                        "internalType": "string",
-                        "name": "name",
-                        "type": "string"
-                    },
-                    {
-                        "internalType": "string",
-                        "name": "value",
-                        "type": "string"
-                    }
-                ],
-                "internalType": "struct ActionParameter[]",
-                "name": "parameters",
-                "type": "tuple[]"
-            }
-        ],
-        "name": "actionByAdmin",
-        "outputs": [
-            {
-                "internalType": "bool",
-                "name": "success",
-                "type": "bool"
-            }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    }
+  {
+    "type": "function",
+    "name": "actionByAdmin",
+    "inputs": [
+      {
+        "name": "nftContractAddress",
+        "type": "address",
+        "internalType": "address"
+      },
+      { "name": "nftSchemaName", "type": "string", "internalType": "string" },
+      { "name": "tokenId", "type": "string", "internalType": "string" },
+      { "name": "actionName", "type": "string", "internalType": "string" },
+      { "name": "refId", "type": "string", "internalType": "string" },
+      { "name": "jsonParam", "type": "string", "internalType": "string" }
+    ],
+    "outputs": [{ "name": "success", "type": "bool", "internalType": "bool" }],
+    "stateMutability": "nonpayable"
+  }
 ]
+
