@@ -4,18 +4,38 @@
     "name": "actionByAdmin",
     "inputs": [
       {
-        "name": "nftContractAddress",
-        "type": "address",
-        "internalType": "address"
+        "name": "nftSchemaName",
+        "type": "string",
+        "internalType": "string"
       },
-      { "name": "nftSchemaName", "type": "string", "internalType": "string" },
-      { "name": "tokenId", "type": "string", "internalType": "string" },
-      { "name": "actionName", "type": "string", "internalType": "string" },
-      { "name": "refId", "type": "string", "internalType": "string" },
-      { "name": "jsonParam", "type": "string", "internalType": "string" }
+      {
+        "name": "tokenId",
+        "type": "string",
+        "internalType": "string"
+      },
+      {
+        "name": "actionName",
+        "type": "string",
+        "internalType": "string"
+      },
+      {
+        "name": "refId",
+        "type": "string",
+        "internalType": "string"
+      },
+      {
+        "name": "jsonParam",
+        "type": "string",
+        "internalType": "string"
+      }
     ],
-    "outputs": [{ "name": "success", "type": "bool", "internalType": "bool" }],
+    "outputs": [
+      {
+        "name": "success",
+        "type": "bool",
+        "internalType": "bool"
+      }
+    ],
     "stateMutability": "nonpayable"
   }
 ]
-

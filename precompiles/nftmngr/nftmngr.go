@@ -93,7 +93,7 @@ func (p PrecompileExecutor) actionByAdmin(ctx sdk.Context, caller common.Address
 		return nil, err
 	}
 
-	if err := pcommon.ValidateArgsLength(args, 6); err != nil {
+	if err := pcommon.ValidateArgsLength(args, 5); err != nil {
 		return nil, err
 	}
 
@@ -101,27 +101,27 @@ func (p PrecompileExecutor) actionByAdmin(ctx sdk.Context, caller common.Address
 	if err != nil {
 		return nil, err
 	}
-	nftschema, err := p.stringFromArg(args[1])
+	nftschema, err := p.stringFromArg(args[0])
 	if err != nil {
 		return nil, err
 	}
 
-	tokenId, err := p.stringFromArg(args[2])
+	tokenId, err := p.stringFromArg(args[1])
 	if err != nil {
 		return nil, err
 	}
 
-	actionName, err := p.stringFromArg(args[3])
+	actionName, err := p.stringFromArg(args[2])
 	if err != nil {
 		return nil, err
 	}
 
-	refId, err := p.stringFromArg(args[4])
+	refId, err := p.stringFromArg(args[3])
 	if err != nil {
 		return nil, err
 	}
 
-	paramPointers, err := p.parametersFromJSONArg(args[5])
+	paramPointers, err := p.parametersFromJSONArg(args[4])
 	if err != nil {
 		return nil, err
 	}
