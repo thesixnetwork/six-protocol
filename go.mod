@@ -18,7 +18,7 @@ require (
 	github.com/stretchr/testify v1.8.4
 	github.com/tendermint/tendermint v0.34.21
 	github.com/tendermint/tm-db v0.6.7
-	github.com/thesixnetwork/sixnft v0.9.2-0.20240716082336-ebb2fdb2003b
+	github.com/thesixnetwork/sixnft v0.9.2-0.20240803110139-cc0110f0441a
 	google.golang.org/genproto/googleapis/api v0.0.0-20240723171418-e6d459c13d2a
 	google.golang.org/grpc v1.64.1
 	gopkg.in/yaml.v2 v2.4.0
