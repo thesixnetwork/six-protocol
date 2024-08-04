@@ -31,5 +31,5 @@ type AccountKeeper interface {
 }
 
 type NftmngrKeeper interface {
-	ActionByAdmin(ctx sdk.Context, addr sdk.AccAddress, nftSchemaName string, tokenId string, actionName string, refId string, parameters []*nftmngrtype.ActionParameter) (changelist []byte, err error)
+	ActionByAdmin(ctx sdk.Context, creator, nftSchemaName, tokenId, actionName, refId string, parameters []*nftmngrtype.ActionParameter) (changelist []byte, err error)
 }
