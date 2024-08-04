@@ -6,43 +6,7 @@
   "origin_image": "https://ipfs.io/ipfs/QmUd5xBxZucHQyUkqkCCtfZ3iktSSmEEyhuX1u48bP4WE7/whale.jpeg",
   "onchain_image": "",
   "token_uri": "",
-  "origin_attributes": [
-    {
-      "name": "background",
-      "string_attribute_value": {
-        "value": "Blue"
-      },
-      "hidden_to_marketplace": false
-    },
-    {
-      "name": "moon",
-      "string_attribute_value": {
-        "value": "White"
-      },
-      "hidden_to_marketplace": false
-    },
-    {
-      "name": "plate",
-      "string_attribute_value": {
-        "value": "Red"
-      },
-      "hidden_to_marketplace": false
-    },
-    {
-      "name": "tail",
-      "string_attribute_value": {
-        "value": "Red"
-      },
-      "hidden_to_marketplace": false
-    },
-    {
-      "name": "whale",
-      "string_attribute_value": {
-        "value": "Whale"
-      },
-      "hidden_to_marketplace": false
-    }
-  ],
+  "origin_attributes": [ ],
   "onchain_attributes": [
     {
       "name": "started",

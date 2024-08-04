@@ -1,112 +1,182 @@
 RPC_ENDPOINT=$1
-CHAIN_ID=$2
-key=$3
-
-
-echo ""
-echo "############### TESTING NFT ORACLE MODULE (OWNER REQUEST) ###############" 
-echo ""
+# NFT Schema
+BASE64_SCHEMA=`cat ./mock-data/nft-schema.json | base64 | tr -d '\n'`
+# NFT Data
+BASE64_DATA=`cat ./mock-data/nft-data.json | base64 | tr -d '\n'`
+# New Action
+BASE64_ACTION=`cat ./mock-data/new-action.json | base64 | tr -d '\n'`
+# New Attribute
+BASE64_ATTRIBUTE=`cat ./mock-data/new-attribute.json | base64 | tr -d '\n'`
 
 TOTAL=0
 PASSED=0
-array_owner_request=()
 
-
-action_list=("start_mission" "test_read_nft" "test_split" "test_lowercase" "test_uppercase" "test_hidden" "transfer")
-params_list=("[]" "[]" "[]" "[]" "[]" "[{\"name\":\"attribute_name\",\"value\":\"hide_fail\"},{\"name\":\"show\",\"value\":\"false\"}]" "[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"0\"}]")
-#read -p "Press enter to continue"
-for i in "${!action_list[@]}"; do
-    action=${action_list[$i]}
-    params=${params_list[$i]}
-    echo "Perform Action: $action"
-    BASE64JSON=`cat ./mock-data/action-param.json | sed "s/ACTION/${action}/g" | sed "s/TOKEN_ID/2/g" | sed "s/SCHEMA_CODE/six-protocol.develop_v220/g" | sed "s/REFID/six-protocol.develop_v220_TK2_${action}/g" | sed "s/\"PARAMS\"/${params}/g" | sed "s/ONBEHALFOF/""/g"`
-    BASE64_MESSAGE=`echo -n $BASE64JSON | base64 | tr -d '\n'`
-    MESSAGE_SIG=`echo -n ${BASE64_MESSAGE} | ./evmsign ./.secret`
-    BASE64_ACTION_SIG=`cat ./mock-data/action-signature.json | sed "s/SIGNATURE/${MESSAGE_SIG}/g" | sed "s/MESSAGE/${BASE64_MESSAGE}/g" | base64 | tr -d '\n'`
-    #read -p "Press enter to continue"
-    id=$(sixd tx nftoracle create-action-request ethereum ${BASE64_ACTION_SIG} 4 --from alice --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y | grep 'raw_log' | sed -n 's/.*"action_request_id","value":"\([0-9]*\)".*/\1/p')
-    if [ -n "$id" ]; then
-        echo "✅ create-action-request success"
+# create-nft-schema
+if sixd tx nftmngr create-nft-schema ${BASE64_SCHEMA} --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --chain-id testnet | grep -q 'msg_index: 0'; then
+    echo "✅ create-nft-schema success"
+    TOTAL=$(($TOTAL+1))
+    PASSED=$(($PASSED+1))
+    if sixd q nftmngr show-nft-schema $(cat ./mock-data/nft-schema.json | jq -r '.code') | grep -q $(cat ./mock-data/nft-schema.json | jq -r '.code'); then
+        echo "✅ query create-nft-schema success"
         TOTAL=$(($TOTAL+1))
         PASSED=$(($PASSED+1))
-        array_owner_request+=($id)
     else
-        echo "🛑 create-action-request failed 🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕"
+        echo "🛑 query create-nft-schema failed"
     fi
-done
+else
+    echo "🛑 create-nft-schema failed"
+fi
 
-oracles=(oracle1 oracle2 oracle3 oracle4)
-BASE64_ORIGINDATA=`cat ./mock-data/nft-origin-data.json | base64 | tr -d '\n'`
-for i in ${array_owner_request[@]}
-do
-    for j in ${oracles[@]}
-    do
-        echo "Confirm action request $i"
-        if sixd tx nftoracle submit-action-response $i ${BASE64_ORIGINDATA} --from $j --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y | grep -q 'msg_index: 0'; then
-            echo "✅ confirm-action-request $i completed"
-            TOTAL=$(($TOTAL+1))
-            PASSED=$(($PASSED+1))
-        else
-            echo "🛑 confirm-action-request $i failed "
-        fi
-    done
-done
-
-echo "______________________________________________________________________________________________"
-echo ""
-echo "############### TESTING SET ACTION SIGNER ###############" 
-echo ""
-BASE64JSON=`cat ./mock-data/set-signer.json`
-BASE64_MESSAGE=`echo -n $BASE64JSON | base64 | tr -d '\n'`
-MESSAGE_SIG=`echo -n ${BASE64_MESSAGE} | ./evmsign ./.secret`
-BASE64_VERIFY_SIG=`cat ./mock-data/verify-signature.json | sed "s/SIGNATURE/${MESSAGE_SIG}/g" | sed "s/MESSAGE/${BASE64_MESSAGE}/g" | base64 | tr -d '\n'`
-sixd tx nftoracle create-action-signer ${BASE64_VERIFY_SIG} --from super-admin --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
-
-echo "______________________________________________________________________________________________"
-echo ""
-echo "############### TESTING NFT ORACLE MODULE (ACTOR REQUEST) ###############" 
-echo ""
-
-array_actor_request=()
-action_list=("start_mission" "test_read_nft" "test_split" "test_lowercase" "test_uppercase" "test_hidden" "transfer")
-params_list=("[]" "[]" "[]" "[]" "[]" "[{\"name\":\"attribute_name\",\"value\":\"hide_fail\"},{\"name\":\"show\",\"value\":\"false\"}]" "[{\"name\":\"points\",\"value\":\"20\"},{\"name\":\"token_id\",\"value\":\"0\"}]")
-#read -p "Press enter to continue"
-for i in "${!action_list[@]}"; do
-    action=${action_list[$i]}
-    params=${params_list[$i]}
-    echo "Perform Action: $action"
-    BASE64JSON=`cat ./mock-data/action-param.json | sed "s/ACTION/${action}/g" | sed "s/TOKEN_ID/3/g" | sed "s/SCHEMA_CODE/six-protocol.develop_v220/g" | sed "s/REFID/six-protocol.develop_v220_TK3_${action}/g" | sed "s/\"PARAMS\"/${params}/g" | sed "s/ONBEHALFOF/0xb7c2468b9481CbDfD029998d6bA98c55072d932e/g"`
-    BASE64_MESSAGE=`echo -n $BASE64JSON | base64 | tr -d '\n'`
-    MESSAGE_SIG=`echo -n ${BASE64_MESSAGE} | ./evmsign ./.secret2`
-    BASE64_ACTION_SIG=`cat ./mock-data/action-signature.json | sed "s/SIGNATURE/${MESSAGE_SIG}/g" | sed "s/MESSAGE/${BASE64_MESSAGE}/g" | base64 | tr -d '\n'`
-    #read -p "Press enter to continue"
-    id=$(sixd tx nftoracle create-action-request ethereum ${BASE64_ACTION_SIG} 4 --from alice --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y | grep 'raw_log' | sed -n 's/.*"action_request_id","value":"\([0-9]*\)".*/\1/p')
-    if [ -n "$id" ]; then
-        echo "✅ create-action-request success"
+# add-action
+if sixd tx nftmngr add-action sixnetwork.nftexpo ${BASE64_ACTION} --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --chain-id testnet | grep -q 'msg_index: 0'; then
+    echo "✅ add-action success"
+    TOTAL=$(($TOTAL+1))
+    PASSED=$(($PASSED+1)) 
+    if sixd q nftmngr show-nft-schema $(cat ./mock-data/nft-schema.json | jq -r '.code') | grep -q $(cat ./mock-data/new-action.json | jq -r '.name'); then
+        echo "✅ query add-action success"
         TOTAL=$(($TOTAL+1))
         PASSED=$(($PASSED+1))
-        array_actor_request+=($id)
     else
-        echo "🛑 create-action-request failed 🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕"
+        echo "🛑 query add-action failed"
     fi
-done
+else
+    echo "🛑 add-action failed"
+fi
 
-BASE64_ORIGINDATA=`cat ./mock-data/nft-origin-data.json | base64 | tr -d '\n'`
-for i in ${array_actor_request[@]}
-do
-    for j in ${oracles[@]}
-    do
-        echo "Confirm action request $i"
-        if sixd tx nftoracle submit-action-response $i ${BASE64_ORIGINDATA} --from $j --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y | grep -q 'msg_index: 0'; then
-            echo "✅ confirm-action-request $i completed"
-            TOTAL=$(($TOTAL+1))
-            PASSED=$(($PASSED+1))
-        else
-            echo "🛑 confirm-action-request $i failed "
-        fi
-    done
-done
+# add-attribute
+if sixd tx nftmngr add-attribute sixnetwork.nftexpo 1 ${BASE64_ATTRIBUTE} --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --chain-id testnet | grep -q 'msg_index: 0'; then
+    echo "✅ add-attribute success"
+    TOTAL=$(($TOTAL+1))
+    PASSED=$(($PASSED+1))
+    if sixd q nftmngr show-nft-schema $(cat ./mock-data/nft-schema.json | jq -r '.code') | grep -q $(cat ./mock-data/new-attribute.json | jq -r '.name'); then
+        echo "✅ query add-attribute success"
+        TOTAL=$(($TOTAL+1))
+        PASSED=$(($PASSED+1))
+    else
+        echo "🛑 query add-attribute failed"
+    fi
+else
+    echo "🛑 add-attribute failed"
+fi
 
+# create-action-executor
+if sixd tx nftmngr create-action-executor sixnetwork.nftexpo $(sixd keys show -a bob) --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --chain-id testnet | grep -q 'msg_index: 0'; then
+    echo "✅ add-action-executor success"
+    TOTAL=$(($TOTAL+1))
+    PASSED=$(($PASSED+1))
+else
+    echo "🛑 create-action-executor failed"
+fi
 
+# change-schema-owner
+if sixd tx nftmngr change-schema-owner sixnetwork.nftexpo $(sixd keys show -a bob) --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --chain-id testnet | grep -q 'msg_index: 0'; then
+    echo "✅ change-schema-owner success"
+    TOTAL=$(($TOTAL+1))
+    PASSED=$(($PASSED+1))
+else
+    echo "🛑 change-schema-owner failed"
+fi
 
-echo "Test: Passed $PASSED out of $TOTAL tests"
+# create-metadata
+if sixd tx nftmngr create-metadata sixnetwork.nftexpo 1 ${BASE64_DATA} --from bob --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --chain-id testnet | grep -q 'msg_index: 0'; then
+    echo "✅ create-metadata success"
+    TOTAL=$(($TOTAL+1))
+    PASSED=$(($PASSED+1))
+else
+    echo "🛑 create-metadata failed"
+fi
+
+# perform-action-by-nftadmin
+if sixd tx nftmngr perform-action-by-nftadmin sixnetwork.nftexpo 1 check_in 1 '[]' --from bob --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --chain-id testnet | grep -q 'msg_index: 0'; then
+    echo "✅ perform-action-by-nft-admin success"
+    TOTAL=$(($TOTAL+1))
+    PASSED=$(($PASSED+1))
+else
+    echo "🛑 perform-action-by-nft-admin failed"
+fi
+
+# remove-action-executor
+if sixd tx nftmngr remove-action-executor sixnetwork.nftexpo $(sixd keys show -a bob) --from bob --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --chain-id testnet | grep -q 'msg_index: 0'; then
+    echo "✅ remove-action-executor success"
+    TOTAL=$(($TOTAL+1))
+    PASSED=$(($PASSED+1))
+else
+    echo "🛑 remove-action-executor failed"
+fi
+
+# resync-attributes
+if sixd tx nftmngr resync-attributes sixnetwork.nftexpo 1 --from bob --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --chain-id testnet | grep -q 'msg_index: 0'; then
+    echo "✅ resync-attributes success"
+    TOTAL=$(($TOTAL+1))
+    PASSED=$(($PASSED+1))
+else
+    echo "🛑 resync-attributes failed"
+fi
+
+# set-base-uri
+if sixd tx nftmngr set-base-uri sixnetwork.nftexpo https://nftexpo.six.network/ --from bob --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --chain-id testnet | grep -q 'msg_index: 0'; then
+    echo "✅ set-base-uri success"
+    TOTAL=$(($TOTAL+1))
+    PASSED=$(($PASSED+1))
+    if sixd q nftmngr show-nft-schema $(cat ./mock-data/nft-schema.json | jq -r '.code') | grep -q 'https://nftexpo.six.network/'; then
+        echo "✅ query set-base-uri success"
+        TOTAL=$(($TOTAL+1))
+        PASSED=$(($PASSED+1))
+    else
+        echo "🛑 query set-base-uri failed"
+    fi
+else
+    echo "🛑 set-base-uri failed"
+fi
+
+# set-mintauth 0
+if sixd tx nftmngr set-mintauth sixnetwork.nftexpo 0 --from bob --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --chain-id testnet | grep -q 'msg_index: 0'; then
+    echo "✅ set-mintauth success"
+    TOTAL=$(($TOTAL+1))
+    PASSED=$(($PASSED+1))
+    if sixd q nftmngr show-nft-schema $(cat ./mock-data/nft-schema.json | jq -r '.code') | grep -q 'mint_authorization: system'; then
+        echo "✅ query set-mintauth success"
+        TOTAL=$(($TOTAL+1))
+        PASSED=$(($PASSED+1))
+    else
+        echo "🛑 query set-mintauth failed"
+    fi
+else
+    echo "🛑 set-mintauth failed"
+fi
+
+# set-mintauth 1
+if sixd tx nftmngr set-mintauth sixnetwork.nftexpo 1 --from bob --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --chain-id testnet | grep -q 'msg_index: 0'; then
+    echo "✅ set-mintauth success"
+    TOTAL=$(($TOTAL+1))
+    PASSED=$(($PASSED+1))
+    if sixd q nftmngr show-nft-schema $(cat ./mock-data/nft-schema.json | jq -r '.code') | grep -q 'mint_authorization: all'; then
+        echo "✅ query set-mintauth success"
+        TOTAL=$(($TOTAL+1))
+        PASSED=$(($PASSED+1))
+    else
+        echo "🛑 query set-mintauth failed"
+    fi
+else
+    echo "🛑 set-mintauth failed"
+fi
+
+# show-attributes
+if sixd tx nftmngr show-attributes sixnetwork.nftexpo true points --from bob --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --chain-id testnet | grep -q 'msg_index: 0'; then
+    echo "✅ show-attributes success"
+    TOTAL=$(($TOTAL+1))
+    PASSED=$(($PASSED+1))
+else
+    echo "🛑 show-attributes failed"
+fi
+
+# toggle-action
+if sixd tx nftmngr toggle-action sixnetwork.nftexpo check_in true --from bob --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --chain-id testnet | grep -q 'msg_index: 0'; then
+    echo "✅ toggle-action success"
+    TOTAL=$(($TOTAL+1))
+    PASSED=$(($PASSED+1))
+else
+    echo "🛑 toggle-action failed"
+fi
+echo "========================================"
+echo "nftmngr: Passed $PASSED out of $TOTAL tests"

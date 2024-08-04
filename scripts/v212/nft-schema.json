@@ -1,70 +1,17 @@
 {
-  "code": "sixnetwork.nftexpo",
-  "name": "NFTexpoGoerli",
+  "code": "test.test",
+  "name": "Test",
   "owner": "0xNFTOWNER",
   "origin_data": {
-    "origin_base_uri": "https://dryotus.definix.com/ipfs/QmZc4kPjvz4M4SpNfRZme2gcVzbMQjDt76GsxvLqSexT8R/",
+    "origin_base_uri": "",
     "uri_retrieval_method": "BASE",
-    "origin_chain": "GOERLI",
-    "origin_contract_address": "0x9EC14dfF0049F8De41FE106f3221a50313F941aB",
+    "origin_chain": "SIX",
+    "origin_contract_address": "",
     "attribute_overriding": "CHAIN",
     "metadata_format": "opensea",
-    "origin_attributes": [
-      {
-        "name": "background",
-        "data_type": "string",
-        "display_value_field": "value",
-        "display_option": {
-          "opensea": {
-            "trait_type": "Background"
-          }
-        }
-      },
-      {
-        "name": "moon",
-        "data_type": "string",
-        "display_value_field": "value",
-        "display_option": {
-          "opensea": {
-            "trait_type": "Moon"
-          }
-        }
-      },
-      {
-        "name": "plate",
-        "data_type": "string",
-        "display_value_field": "value",
-        "display_option": {
-          "opensea": {
-            "trait_type": "Plate"
-          }
-        }
-      },
-      {
-        "name": "tail",
-        "data_type": "string",
-        "display_value_field": "value",
-        "display_option": {
-          "opensea": {
-            "trait_type": "Tail"
-          }
-        }
-      },
-      {
-        "name": "whale",
-        "data_type": "string",
-        "display_value_field": "value",
-        "display_option": {
-          "opensea": {
-            "trait_type": "Whale"
-          }
-        }
-      }
-    ]
+    "origin_attributes": []
   },
   "onchain_data": {
-    "reveal_required": true,
-    "reveal_secret": "",
     "nft_attributes": [],
     "token_attributes": [
       {
@@ -648,8 +595,7 @@
           "meta.TransferNumber('points',params['token_id'].GetString(),params['points'].GetNumber())"
         ]
       }
-    ],
-    "nft_attributes_value": []
+    ]
   },
   "mint_authorization": "system"
 }
