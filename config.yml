@@ -33,6 +33,11 @@ build:
     - ledger
 init:
   home: "$HOME/.six"
+  config:
+    moniker: "mychain"
+    consensus:
+      timeout_propose: "1s"
+      timeout_commit: "1s"
   client:
     chain-id: "testnet"
     keyring-backend: "test"
