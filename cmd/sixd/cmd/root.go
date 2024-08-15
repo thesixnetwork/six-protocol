@@ -35,9 +35,9 @@ import (
 	ethermintclient "github.com/evmos/ethermint/client"
 	"github.com/evmos/ethermint/client/debug"
 	"github.com/evmos/ethermint/encoding"
-	ethermintserver "github.com/evmos/ethermint/server"
-	servercfg "github.com/evmos/ethermint/server/config"
-	srvflags "github.com/evmos/ethermint/server/flags"
+	backendserver "github.com/thesixnetwork/six-protocol/server"
+	servercfg "github.com/thesixnetwork/six-protocol/server/config"
+	srvflags "github.com/thesixnetwork/six-protocol/server/flags"
 
 	"github.com/thesixnetwork/six-protocol/app"
 	cmdcfg "github.com/thesixnetwork/six-protocol/cmd/sixd/config"
@@ -113,7 +113,7 @@ func NewRootCmd() (*cobra.Command, params.EncodingConfig) {
 	)
 
 	a := appCreator{encodingConfig}
-	ethermintserver.AddCommands(rootCmd, app.DefaultNodeHome, a.newApp, a.appExport, addModuleInitFlags)
+	backendserver.AddCommands(rootCmd, app.DefaultNodeHome, a.newApp, a.appExport, addModuleInitFlags)
 
 	// add keybase, auxiliary RPC, query, and tx child commands
 	rootCmd.AddCommand(
