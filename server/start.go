@@ -44,7 +44,7 @@ import (
 	"github.com/evmos/ethermint/indexer"
 	ethdebug "github.com/thesixnetwork/six-protocol/rpc/namespaces/ethereum/debug"
 	"github.com/thesixnetwork/six-protocol/server/config"
-	srvflags "github.com/evmos/ethermint/server/flags"
+	srvflags "github.com/thesixnetwork/six-protocol/server/flags"
 	ethermint "github.com/evmos/ethermint/types"
 	sixApp "github.com/thesixnetwork/six-protocol/app"
 )

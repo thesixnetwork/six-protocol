@@ -8,17 +8,17 @@ import (
 	"math/big"
 
 	"github.com/cosmos/cosmos-sdk/client/flags"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/core/vm"
-	rpctypes "github.com/thesixnetwork/six-protocol/rpc/types"
 	ethermint "github.com/evmos/ethermint/types"
 	"github.com/evmos/ethermint/x/evm/statedb"
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
 	"github.com/pkg/errors"
+	rpctypes "github.com/thesixnetwork/six-protocol/rpc/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -103,6 +103,7 @@ func (b *Backend) Resend(args evmtypes.TransactionArgs, gasPrice *hexutil.Big, g
 
 // SendRawTransaction send a raw Ethereum transaction.
 func (b *Backend) SendRawTransaction(data hexutil.Bytes) (common.Hash, error) {
+	fmt.Println("############################################## SEND RAW ########################################")
 	// RLP decode raw transaction bytes
 	tx := &ethtypes.Transaction{}
 	if err := tx.UnmarshalBinary(data); err != nil {
@@ -128,7 +129,7 @@ func (b *Backend) SendRawTransaction(data hexutil.Bytes) (common.Hash, error) {
 	}
 
 	// Query params to use the EVM denomination
-	res, err := b.queryClient.QueryClient.Params(b.ctx, &evmtypes.QueryParamsRequest{})
+	res, err := b.queryClient.Params(b.ctx, &evmtypes.QueryParamsRequest{})
 	if err != nil {
 		b.logger.Error("failed to query evm params", "error", err.Error())
 		return common.Hash{}, err
@@ -153,12 +154,15 @@ func (b *Backend) SendRawTransaction(data hexutil.Bytes) (common.Hash, error) {
 	rsp, err := syncCtx.BroadcastTx(txBytes)
 	if rsp != nil && rsp.Code != 0 {
 		err = sdkerrors.ABCIError(rsp.Codespace, rsp.Code, rsp.RawLog)
+		fmt.Printf("######################################### ERROR: %v ############################################ \n", err.Error())
 	}
 	if err != nil {
 		b.logger.Error("failed to broadcast tx", "error", err.Error())
+		fmt.Printf("######################################### ERROR: %v ############################################ \n", err.Error())
 		return txHash, err
 	}
 
+	fmt.Printf("######################################### HASH: %v ############################################ \n", txHash)
 	return txHash, nil
 }
 
@@ -326,9 +330,24 @@ func (b *Backend) DoCall(
 		return nil, err
 	}
 
+	fmt.Println("############################ DO CALL ############################")
+
 	req := evmtypes.EthCallRequest{
 		Args:   bz,
 		GasCap: b.RPCGasCap(),
+	}
+
+	if overrides != nil {
+		fmt.Println("################ PROCESSS OVERIDE")
+		context := rpctypes.ContextWithHeight(blockNr.Int64())
+		ctx := sdk.UnwrapSDKContext(context)
+
+		txConfig := statedb.NewEmptyTxConfig(common.BytesToHash(ctx.HeaderHash().Bytes()))
+
+		stateDb := statedb.New(ctx, b.keeper, txConfig)
+		if err := overrides.Apply(stateDb); err != nil {
+			return nil, err
+		}
 	}
 
 	// From ContextWithHeight: if the provided height is 0,
@@ -344,19 +363,6 @@ func (b *Backend) DoCall(
 		ctx, cancel = context.WithTimeout(ctx, timeout)
 	} else {
 		ctx, cancel = context.WithCancel(ctx)
-	}
-
-	if overrides != nil {
-		fmt.Println("################ PROCESSS OVERIDE")
-		context := rpctypes.ContextWithHeight(blockNr.Int64())
-		ctx := sdk.UnwrapSDKContext(context)
-
-		txConfig := statedb.NewEmptyTxConfig(common.BytesToHash(ctx.HeaderHash().Bytes()))
-
-		stateDb := statedb.New(ctx, b.keeper, txConfig)
-		if err := overrides.Apply(stateDb); err != nil {
-			return nil, err
-		}
 	}
 
 	// Make sure the context is canceled when the call has completed

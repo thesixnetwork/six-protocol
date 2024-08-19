@@ -18,7 +18,7 @@ import (
 	"github.com/ethereum/go-ethereum/signer/core/apitypes"
 	"github.com/evmos/ethermint/crypto/hd"
 	rpctypes "github.com/thesixnetwork/six-protocol/rpc/types"
-	"github.com/evmos/ethermint/server/config"
+	"github.com/thesixnetwork/six-protocol/server/config"
 	ethermint "github.com/evmos/ethermint/types"
 	evmkeeper "github.com/evmos/ethermint/x/evm/keeper"
 	evmtypes "github.com/evmos/ethermint/x/evm/types"

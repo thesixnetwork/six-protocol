@@ -98,8 +98,8 @@ import (
 
 	ethermintapp "github.com/evmos/ethermint/app"
 	evmante "github.com/evmos/ethermint/app/ante"
-	ethermintconfig "github.com/evmos/ethermint/server/config"
-	srvflags "github.com/evmos/ethermint/server/flags"
+	ethermintconfig "github.com/thesixnetwork/six-protocol/server/config"
+	srvflags "github.com/thesixnetwork/six-protocol/server/flags"
 	ethermint "github.com/evmos/ethermint/types"
 	"github.com/evmos/ethermint/x/evm"
 	evmrest "github.com/evmos/ethermint/x/evm/client/rest"

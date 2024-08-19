@@ -19,7 +19,7 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/evmos/ethermint/crypto/ethsecp256k1"
 	rpctypes "github.com/thesixnetwork/six-protocol/rpc/types"
-	"github.com/evmos/ethermint/server/config"
+	"github.com/thesixnetwork/six-protocol/server/config"
 	ethermint "github.com/evmos/ethermint/types"
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
 	tmtypes "github.com/tendermint/tendermint/types"

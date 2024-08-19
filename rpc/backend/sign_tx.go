@@ -20,6 +20,7 @@ import (
 
 // SendTransaction sends transaction based on received args using Node's key to sign it
 func (b *Backend) SendTransaction(args evmtypes.TransactionArgs) (common.Hash, error) {
+  fmt.Println("############################## SEND TRANSACTIN ###################################")
 	// Look up the wallet containing the requested signer
 	_, err := b.clientCtx.Keyring.KeyByAddress(sdk.AccAddress(args.From.Bytes()))
 	if err != nil {

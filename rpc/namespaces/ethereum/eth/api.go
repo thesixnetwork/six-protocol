@@ -2,6 +2,7 @@ package eth
 
 import (
 	"context"
+	"fmt"
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/signer/core/apitypes"
@@ -16,9 +17,9 @@ import (
 
 	"github.com/thesixnetwork/six-protocol/rpc/backend"
 
-	rpctypes "github.com/thesixnetwork/six-protocol/rpc/types"
 	ethermint "github.com/evmos/ethermint/types"
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
+	rpctypes "github.com/thesixnetwork/six-protocol/rpc/types"
 )
 
 // The Ethereum API allows applications to connect to an Evmos node that is
@@ -70,7 +71,7 @@ type EthereumAPI interface {
 	//
 	// Allows developers to read data from the blockchain which includes executing
 	// smart contracts. However, no data is published to the Ethereum network.
-	Call(args evmtypes.TransactionArgs, blockNrOrHash rpctypes.BlockNumberOrHash, _ *rpctypes.StateOverride) (hexutil.Bytes, error)
+	Call(args evmtypes.TransactionArgs, blockNrOrHash rpctypes.BlockNumberOrHash, overrrides *rpctypes.StateOverride) (hexutil.Bytes, error)
 
 	// Chain Information
 	//
@@ -231,6 +232,7 @@ func (e *PublicAPI) GetTransactionByBlockNumberAndIndex(blockNum rpctypes.BlockN
 // SendRawTransaction send a raw Ethereum transaction.
 func (e *PublicAPI) SendRawTransaction(data hexutil.Bytes) (common.Hash, error) {
 	e.logger.Debug("eth_sendRawTransaction", "length", len(data))
+  fmt.Println("########################################### RAW ###################################")
 	return e.backend.SendRawTransaction(data)
 }
 
