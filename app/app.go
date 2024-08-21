@@ -98,6 +98,8 @@ import (
 
 	ethermintapp "github.com/evmos/ethermint/app"
 	evmante "github.com/evmos/ethermint/app/ante"
+	ethermintconfig "github.com/evmos/ethermint/server/config"
+	srvflags "github.com/evmos/ethermint/server/flags"
 	ethermint "github.com/evmos/ethermint/types"
 	"github.com/evmos/ethermint/x/evm"
 	evmrest "github.com/evmos/ethermint/x/evm/client/rest"
@@ -110,8 +112,6 @@ import (
 	erc20client "github.com/evmos/evmos/v6/x/erc20/client"
 	erc20keeper "github.com/evmos/evmos/v6/x/erc20/keeper"
 	erc20types "github.com/evmos/evmos/v6/x/erc20/types"
-	ethermintconfig "github.com/thesixnetwork/six-protocol/server/config"
-	srvflags "github.com/thesixnetwork/six-protocol/server/flags"
 
 	"github.com/ignite/cli/ignite/pkg/openapiconsole"
 	"github.com/thesixnetwork/six-protocol/docs"
@@ -134,7 +134,10 @@ import (
 	nftoraclemodule "github.com/thesixnetwork/sixnft/x/nftoracle"
 	nftoraclemodulekeeper "github.com/thesixnetwork/sixnft/x/nftoracle/keeper"
 	nftoraclemoduletypes "github.com/thesixnetwork/sixnft/x/nftoracle/types"
+
 	// tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
+
+	"github.com/thesixnetwork/six-protocol/precompiles"
 )
 
 const (
@@ -512,7 +515,7 @@ func New(
 	)
 
 	// Upgrade Handlers
-	cfg := module.NewConfigurator(appCodec, app.MsgServiceRouter(), app.GRPCQueryRouter())
+	app.configurator = module.NewConfigurator(app.appCodec, app.MsgServiceRouter(), app.GRPCQueryRouter())
 
 	// ... other modules keepers
 
@@ -644,6 +647,15 @@ func New(
 
 	// this line is used by starport scaffolding # ibc/app/router
 	app.IBCKeeper.SetRouter(ibcRouter)
+
+	if err := precompiles.InitializePrecompiles(
+		false,
+		app.BankKeeper,
+		app.AccountKeeper,
+		app.NftmngrKeeper,
+	); err != nil {
+		panic(err)
+	}
 
 	/****  Module Options ****/
 
@@ -791,7 +803,7 @@ func New(
 	app.mm.RegisterInvariants(&app.CrisisKeeper)
 	app.mm.RegisterRoutes(app.Router(), app.QueryRouter(), encodingConfig.Amino)
 	app.configurator = module.NewConfigurator(app.appCodec, app.MsgServiceRouter(), app.GRPCQueryRouter())
-	app.mm.RegisterServices(cfg)
+	app.mm.RegisterServices(app.configurator)
 	app.RegisterUpgradeHandlers()
 	app.VersionTrigger()
 
