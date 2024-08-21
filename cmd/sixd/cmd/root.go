@@ -35,9 +35,9 @@ import (
 	ethermintclient "github.com/evmos/ethermint/client"
 	"github.com/evmos/ethermint/client/debug"
 	"github.com/evmos/ethermint/encoding"
-	ethermintserver "github.com/evmos/ethermint/server"
-	servercfg "github.com/evmos/ethermint/server/config"
-	srvflags "github.com/evmos/ethermint/server/flags"
+	ethermintserver "github.com/thesixnetwork/six-protocol/server"
+	servercfg "github.com/thesixnetwork/six-protocol/server/config"
+	srvflags "github.com/thesixnetwork/six-protocol/server/flags"
 
 	"github.com/thesixnetwork/six-protocol/app"
 	cmdcfg "github.com/thesixnetwork/six-protocol/cmd/sixd/config"

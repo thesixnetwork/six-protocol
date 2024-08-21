@@ -1,46 +1,15 @@
 accounts: # mnemonic for development purpose
   - name: alice
-    coins: ["10000finix", "100000000000000usix", "1000000000000000000000asix"]
+    coins: ["10000finix", "100000000000000usix"]
     mnemonic: "history perfect across group seek acoustic delay captain sauce audit carpet tattoo exhaust green there giant cluster want pond bulk close screen scissors remind"
-  - name: alice-evm
-    coins: ["1000000000000000000000asix"]
-    mnemonic: "history perfect across group seek acoustic delay captain sauce audit carpet tattoo exhaust green there giant cluster want pond bulk close screen scissors remind"
-    cointype: 60
-    algo: eth_secp256k1
   - name: bob
-    coins: ["20000finix", "200000000000000usix", "1000000000000000000000asix"]
+    coins: ["20000finix", "200000000000000usix"]
     mnemonic: "limb sister humor wisdom elephant weasel beyond must any desert glance stem reform soccer include chest chef clerk call popular display nerve priority venture"
-  - name: bob-evm
-    coins: ["1000000000000000000000asix"]
-    mnemonic: "limb sister humor wisdom elephant weasel beyond must any desert glance stem reform soccer include chest chef clerk call popular display nerve priority venture"
-    cointype: 60
-    algo: eth_secp256k1
   - name: faucet
     coins: ["30000finix", "300000000000000usix"]
   - name: super-admin
-    coins: ["10000finix", "300000000000000usix", 1000000000000000000000asix]
+    coins: ["10000finix", "300000000000000usix"]
     mnemonic: "expect peace defense conduct virtual flight flip unit equip solve broccoli protect shed group else useless tree such tornado minimum decade tower warfare galaxy"
-  - name: oracle1
-    coins: ["10000finix", "10000000000000usix"]
-    mnemonic: list split future remain scene cheap pledge forum siren purse bright ivory split morning swing dumb fabric rapid remove worth diary task island donkey
-  - name: oracle2
-    coins: ["10000finix", "10000000000000usix"]
-    mnemonic: achieve rice anger junk delay glove slam find poem feed emerge next core twice kitchen road proof remain notice slice walk super piece father
-  - name: oracle3
-    coins: ["10000finix", "10000000000000usix"]
-    mnemonic: hint expose mix lemon leave genuine host fiction peasant daughter enable region mixture bean soda auction armed turtle iron become bracket wasp drama front
-  - name: oracle4
-    coins: ["10000finix", "10000000000000usix"]
-    mnemonic: clown cabbage clean design mosquito surround citizen virus kite castle sponsor wife lesson coffee alien panel hand together good crazy fabric mouse hat town
-  - name: actioner1
-    coins: ["10000finix", "10000000000000usix"]
-    mnemonic: boost festival prize turn skate inspire alley opinion blush bright month weekend cage village refuse room remind resource legal favorite entire right convince prison
-  - name: actioner2
-    coins: ["10000finix", "10000000000000usix"]
-    mnemonic: oyster green arrange wave elegant oven jaguar pass quote profit miracle interest emotion match express merit clock wrestle reunion punch memory action upper draft
-  - name: actioner3
-    coins: ["10000finix", "10000000000000usix"]
-    mnemonic: first educate action fee physical seek recipe hub anxiety best mango measure chimney sphere once cabbage strike dizzy near knock correct answer skin inside
 validator:
   name: super-admin
   staked: "1000000000000usix"
@@ -64,13 +33,19 @@ build:
     - ledger
 init:
   home: "$HOME/.six"
+  config:
+    moniker: "mychain"
+    consensus:
+      timeout_propose: "1s"
+      timeout_commit: "1s"
   client:
     chain-id: "testnet"
     keyring-backend: "test"
     node: "tcp://localhost:26657"
     broadcast-mode: "block"
   app:
-    minimum-gas-prices: "1250000000000asix,1.25usix"
+    minimum-gas-prices: "1.25usix"
+    log_level: trace
     grpc-web:
       enable: true # as default
     api:
@@ -210,18 +185,15 @@ genesis:
     evm:
       params:
         evm_denom: "asix"
-        converter_params:
-          converter_contract: "0x7b70BAc782B1509de817F3552A145B12379aCbe8"
-          event_name: "TransferToCosmos"
-          event_tuple: "address,string,uint256"
-          event_abi: "[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"src\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"dst\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"TransferToCosmos\",\"type\":\"event\"}]"
-          enable: false
+        allow_unprotected_txs: true
     feemarket:
       params:
         base_fee: "5000000000000"
-        base_fee_change_denominator: 8
+        base_fee_change_denominator: 300
         elasticity_multiplier: 4
         enable_height: "0"
-        min_gas_multiplier: "0.500000000000000000"
-        min_gas_price: "5000000000000.000000000000000000"
+        min_gas_multiplier: "0.5"
+        min_gas_price: "5000000000000.0"
         no_base_fee: false
+        legacy_base_fee: "100000000000"
+        legacy_min_gas_price: "100000000000.0"

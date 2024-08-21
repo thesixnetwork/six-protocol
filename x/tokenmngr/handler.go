@@ -56,12 +56,6 @@ func NewHandler(k keeper.Keeper) sdk.Handler {
 		case *types.MsgUnwrapToken:
 			res, err := msgServer.UnwrapToken(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
-		case *types.MsgSetConverterParams:
-			res, err := msgServer.SetConverterParams(sdk.WrapSDKContext(ctx), msg)
-			return sdk.WrapServiceResult(ctx, res, err)
-		case *types.MsgEnableContractConverter:
-			res, err := msgServer.EnableContractConverter(sdk.WrapSDKContext(ctx), msg)
-			return sdk.WrapServiceResult(ctx, res, err)
 		case *types.MsgSendWrapToken:
 			res, err := msgServer.SendWrapToken(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
