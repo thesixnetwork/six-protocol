@@ -3,7 +3,6 @@ MONIKER=$1
 if [ -z "$MONIKER" ]; then
   MONIKER="mynode"
 fi
-CHAIN_ID=six_666-1
 VALKEY=val1 # should be: export as docker env var
 SIX_HOME=~/.six
 ALICE_MNEMONIC="history perfect across group seek acoustic delay captain sauce audit carpet tattoo exhaust green there giant cluster want pond bulk close screen scissors remind"
@@ -19,7 +18,7 @@ ORACLE4_MNEMONIC="clown cabbage clean design mosquito surround citizen virus kit
 SUPER_ADMIN_MNEMONIC="expect peace defense conduct virtual flight flip unit equip solve broccoli protect shed group else useless tree such tornado minimum decade tower warfare galaxy"
 KEY="mykey"
 KEY2="mykey2"
-CHAINID="six_666-1"
+CHAINID="testnet"
 KEYRING="test"
 KEYALGO="eth_secp256k1"
 LOGLEVEL="info"
@@ -32,6 +31,7 @@ command -v jq > /dev/null 2>&1 || { echo >&2 "jq not installed. More info: https
 
 # Reinstall daemon
 rm -rf ~/.six*
+go mod tidy
 make install
 
 # Set client config
@@ -81,6 +81,17 @@ cat ${SIX_HOME}/config/genesis.json | jq '.app_state.tokenmngr.tokenList[0] |= .
 cat ${SIX_HOME}/config/genesis.json | jq '.app_state.tokenmngr.tokenList[1] |= . +  {"base": "asix","creator": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv","maxSupply": { "amount": "0", "denom": "asix" },"mintee": "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq","name": "asix"}' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
 cat ${SIX_HOME}/config/genesis.json | jq '.app_state.gov.deposit_params.max_deposit_period = "300s"' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
 cat ${SIX_HOME}/config/genesis.json | jq '.app_state.gov.voting_params.voting_period = "300s"' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
+cat ${SIX_HOME}/config/genesis.json | jq '.app_state.feemarket.params = {
+  "base_fee": "5000000000000",
+  "base_fee_change_denominator": 300,
+  "elasticity_multiplier": 4,
+  "enable_height": "0",
+  "min_gas_multiplier": "0.5",
+  "min_gas_price": "5000000000000.0",
+  "no_base_fee": false,
+  "legacy_base_fee": "500000000000",
+  "legacy_min_gas_price": "500000000000.0"
+}' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
 
 
 if [[ $1 == "pending" ]]; then
@@ -111,17 +122,17 @@ fi
 
 # Allocate genesis accounts (cosmos formatted addresses)
 ## denom usix
-sixd add-genesis-account $(sixd keys show -a val1 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 11000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a val2 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 11000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a val3 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 11000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a val4 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 11000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a oracle1 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a oracle2 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a oracle3 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a oracle4 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a alice --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a bob --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd add-genesis-account $(sixd keys show -a super-admin --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a val1 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 11000000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a val2 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 11000000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a val3 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1100000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a val4 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 11000000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a oracle1 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a oracle2 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a oracle3 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a oracle4 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a alice --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a bob --keyring-backend ${KEYRING} --home ${SIX_HOME}) 10000000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
+sixd add-genesis-account $(sixd keys show -a super-admin --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
 # Update total supply with claim values
 #validators_supply=$(cat ${SIX_HOME}/config/genesis.json | jq -r '.app_state["bank"]["supply"][0]["amount"]')
 # Bc is required to add this big numbers
@@ -146,5 +157,5 @@ if [[ $1 == "pending" ]]; then
 fi
 
 # Start the node (remove the --pruning=nothing flag if historical queries are not needed)
-sixd start --minimum-gas-prices=1.25usix,1250000000000asix --json-rpc.api eth,txpool,personal,net,debug,web3 --rpc.laddr "tcp://0.0.0.0:26657" --api.enable true
+sixd start --minimum-gas-prices=1.25usix,1250000000000asix --json-rpc.api eth,txpool,personal,net,debug,web3 --rpc.laddr "tcp://0.0.0.0:26657" --api.enable true --trace --log_level trace
 
