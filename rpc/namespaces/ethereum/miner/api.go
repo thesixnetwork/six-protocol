@@ -21,9 +21,9 @@ import (
 	"github.com/tendermint/tendermint/libs/log"
 	tmtypes "github.com/tendermint/tendermint/types"
 
+	"github.com/evmos/ethermint/server/config"
 	"github.com/thesixnetwork/six-protocol/rpc/backend"
 	rpctypes "github.com/thesixnetwork/six-protocol/rpc/types"
-	"github.com/thesixnetwork/six-protocol/server/config"
 )
 
 // API is the private miner prefixed set of APIs in the Miner JSON-RPC spec.
