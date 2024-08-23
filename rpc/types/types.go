@@ -54,6 +54,25 @@ type RPCTransaction struct {
 	S                *hexutil.Big         `json:"s"`
 }
 
+// SignTransactionResult represents a RLP encoded signed transaction.
+type SignTransactionResult struct {
+	Raw hexutil.Bytes         `json:"raw"`
+	Tx  *ethtypes.Transaction `json:"tx"`
+}
+
+type OneFeeHistory struct {
+	BaseFee      *big.Int   // base fee  for each block
+	Reward       []*big.Int // each element of the array will have the tip provided to miners for the percentile given
+	GasUsedRatio float64    // the ratio of gas used to the gas limit for each block
+}
+
+type FeeHistoryResult struct {
+	OldestBlock  *hexutil.Big     `json:"oldestBlock"`
+	Reward       [][]*hexutil.Big `json:"reward,omitempty"`
+	BaseFee      []*hexutil.Big   `json:"baseFeePerGas,omitempty"`
+	GasUsedRatio []float64        `json:"gasUsedRatio"`
+}
+
 // StateOverride is the collection of overridden accounts.
 type StateOverride map[common.Address]OverrideAccount
 
@@ -71,31 +90,18 @@ type OverrideAccount struct {
 	StateDiff *map[common.Hash]common.Hash `json:"stateDiff"`
 }
 
-type FeeHistoryResult struct {
-	OldestBlock  *hexutil.Big     `json:"oldestBlock"`
-	Reward       [][]*hexutil.Big `json:"reward,omitempty"`
-	BaseFee      []*hexutil.Big   `json:"baseFeePerGas,omitempty"`
-	GasUsedRatio []float64        `json:"gasUsedRatio"`
-}
-
-// SignTransactionResult represents a RLP encoded signed transaction.
-type SignTransactionResult struct {
-	Raw hexutil.Bytes         `json:"raw"`
-	Tx  *ethtypes.Transaction `json:"tx"`
-}
-
-type OneFeeHistory struct {
-	BaseFee      *big.Int   // base fee  for each block
-	Reward       []*big.Int // each element of the array will have the tip provided to miners for the percentile given
-	GasUsedRatio float64    // the ratio of gas used to the gas limit for each block
-}
-
 // Apply overrides the fields of specified accounts into the given state.
 func (diff *StateOverride) Apply(state *statedb.StateDB) error {
+	fmt.Println("############### APPLY ###############")
+
+	fmt.Printf("############## DIFF: %v ############## \n", diff)
+
 	if diff == nil {
 		return nil
 	}
 	for addr, account := range *diff {
+		fmt.Printf("############### add: %v ############### \n", addr)
+		fmt.Printf("############### account: %v ############### \n", account)
 		// Override account nonce.
 		if account.Nonce != nil {
 			state.SetNonce(addr, uint64(*account.Nonce))
@@ -104,9 +110,13 @@ func (diff *StateOverride) Apply(state *statedb.StateDB) error {
 		if account.Code != nil {
 			state.SetCode(addr, *account.Code)
 		}
+
 		// Override account balance.
 		if account.Balance != nil {
 			state.SetBalance(addr, (*big.Int)(*account.Balance))
+
+			fmt.Printf("############### Balance: %v ###############\n", (*big.Int)(*account.Balance))
+			fmt.Printf("############### Balance: 2 %v ###############\n", (*big.Int)(state.GetBalance(addr)))
 		}
 
 		if account.State != nil && account.StateDiff != nil {
@@ -120,6 +130,7 @@ func (diff *StateOverride) Apply(state *statedb.StateDB) error {
 		if account.StateDiff != nil {
 			for key, value := range *account.StateDiff {
 				state.SetState(addr, key, value)
+				fmt.Printf("############### StateDiff:  %v ###############\n", value )
 			}
 		}
 	}
