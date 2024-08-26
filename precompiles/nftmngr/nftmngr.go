@@ -19,10 +19,6 @@ import (
 )
 
 const (
-	ActionByAdmin = "actionByAdmin"
-)
-
-const (
 	NftmngrAddress = "0x0000000000000000000000000000000000000055"
 )
 
@@ -81,66 +77,44 @@ func (p PrecompileExecutor) Execute(ctx sdk.Context, method *abi.Method, caller 
 	switch method.Name {
 	case ActionByAdmin:
 		return p.actionByAdmin(ctx, caller, method, args, value, readOnly)
+	case AddAction:
+		return p.addAction(ctx, caller, method, args, value, readOnly)
+	case AddAttribute:
+		return p.addAttribute(ctx, caller, method, args, value, readOnly)
+	case ChangeOrgOwner:
+		return p.changeOrgOwner(ctx, caller, method, args, value, readOnly)
+	case ChangeSchemaOwner:
+		return p.changeSchemaOwner(ctx, caller, method, args, value, readOnly)
+	case CreateMetadata:
+		return p.createMetadata(ctx, caller, method, args, value, readOnly)
+	case CreateSchema:
+		return p.createSchema(ctx, caller, method, args, value, readOnly)
+	case ResyncAttribute:
+		return p.resyncAttribute(ctx, caller, method, args, value, readOnly)
+	case UpdateAttribute:
+		return p.updateAttribute(ctx, caller, method, args, value, readOnly)
+	case AttributeOveride:
+		return p.attributeOveride(ctx, caller, method, args, value, readOnly)
+	case SetBaseURI:
+		return p.setBaseURI(ctx, caller, method, args, value, readOnly)
+	case SetMetadataFormat:
+		return p.setMetadataFormat(ctx, caller, method, args, value, readOnly)
+	case SetMintAuth:
+		return p.setMintAuth(ctx, caller, method, args, value, readOnly)
+	case SetOriginChain:
+		return p.setOriginChain(ctx, caller, method, args, value, readOnly)
+	case SetOriginContract:
+		return p.setOriginContract(ctx, caller, method, args, value, readOnly)
+	case SetUriRetreival:
+		return p.setUriRetreival(ctx, caller, method, args, value, readOnly)
+	case ShowAttribute:
+		return p.showAttribute(ctx, caller, method, args, value, readOnly)
+	case ToggleAction:
+		return p.toggleAction(ctx, caller, method, args, value, readOnly)
+	case UpateAction:
+		return p.updateAction(ctx, caller, method, args, value, readOnly)
 	}
 	return
-}
-
-func (p PrecompileExecutor) actionByAdmin(ctx sdk.Context, caller common.Address, method *abi.Method, args []interface{}, value *big.Int, readOnly bool) ([]byte, error) {
-	if readOnly {
-		return nil, errors.New("cannot call send from staticcall")
-	}
-	// if err := pcommon.ValidateNonPayable(value); err != nil {
-	// 	return nil, err
-	// }
-
-	// if err := pcommon.ValidateArgsLength(args, 5); err != nil {
-	// 	return nil, err
-	// }
-
-	// senderCosmoAddr, err := p.accAddressFromArg(caller)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	// nftschema, err := p.stringFromArg(args[0])
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	// tokenId, err := p.stringFromArg(args[1])
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	// actionName, err := p.stringFromArg(args[2])
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	// refId, err := p.stringFromArg(args[3])
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	// paramPointers, err := p.parametersFromJSONArg(args[4])
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	// //  ------------------------------------
-	// // |                                    |
-	// // |          CORE NFTMODULE            |
-	// // |                                    |
-	// //  ------------------------------------
-
-	// // paramPointers := make([]*nftmngrtype.ActionParameter, 0)
-
-	// _, err = p.nftmngrKeeper.ActionByAdmin(ctx, senderCosmoAddr.String(), nftschema, tokenId, actionName, refId, paramPointers)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	return method.Outputs.Pack(true)
 }
 
 func (p PrecompileExecutor) accAddressFromBech32(arg interface{}) (bec32Addr sdk.AccAddress, err error) {
@@ -166,8 +140,33 @@ func (p PrecompileExecutor) stringFromArg(arg interface{}) (string, error) {
 	if !ok {
 		return "", errors.New("invalid argument type string")
 	}
-
 	return stringArg, nil
+}
+
+func (p PrecompileExecutor) arrayOfstringFromArg(arg interface{}) ([]string, error) {
+	arrayStringArg, ok := arg.([]string)
+	if !ok {
+		return nil, errors.New("invalid argument type string")
+	}
+	return arrayStringArg, nil
+}
+
+func (p PrecompileExecutor) boolFromArg(arg interface{}) (bool, error) {
+	boolArg, ok := arg.(bool)
+	if !ok {
+		return false, errors.New("invalid argument type string")
+	}
+
+	return boolArg, nil
+}
+
+func (p PrecompileExecutor) uint64FromArg(arg interface{}) (uint64, error) {
+	uint64Arg, ok := arg.(uint64)
+	if !ok {
+		return 0, errors.New("invalid argument type string")
+	}
+
+	return uint64Arg, nil
 }
 
 func (p PrecompileExecutor) parametersFromJSONArg(arg interface{}) ([]*nftmngrtype.ActionParameter, error) {

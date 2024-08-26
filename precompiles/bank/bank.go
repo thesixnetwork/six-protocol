@@ -12,8 +12,8 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/vm"
 	"github.com/evmos/ethermint/utils"
-	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
 	"github.com/tendermint/tendermint/libs/log"
+	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
 )
 
 const (
@@ -50,8 +50,6 @@ func GetABI() abi.ABI {
 
 type PrecompileExecutor struct {
 	bankKeeper    pcommon.BankKeeper
-	address       common.Address
-
 	SendID        []byte
 	BalanceID     []byte
 	AllBalancesID []byte
@@ -59,6 +57,7 @@ type PrecompileExecutor struct {
 	SymbolID      []byte
 	DecimalsID    []byte
 	SupplyID      []byte
+	address       common.Address
 }
 
 type CoinBalance struct {
@@ -69,8 +68,8 @@ type CoinBalance struct {
 func NewPrecompile(bankKeeper pcommon.BankKeeper) (*pcommon.Precompile, error) {
 	newAbi := GetABI()
 	p := &PrecompileExecutor{
-		bankKeeper:    bankKeeper,
-		address:       common.HexToAddress(BankAddress),
+		bankKeeper: bankKeeper,
+		address:    common.HexToAddress(BankAddress),
 	}
 
 	for name, m := range newAbi.Methods {
