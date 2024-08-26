@@ -650,6 +650,7 @@ func New(
 
 	if err := precompiles.InitializePrecompiles(
 		false,
+		appCodec,
 		app.BankKeeper,
 		app.AccountKeeper,
 		app.NftmngrKeeper,

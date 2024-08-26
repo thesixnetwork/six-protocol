@@ -12,6 +12,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/vm"
 	"github.com/evmos/ethermint/utils"
+	tkmngrtypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 	"github.com/tendermint/tendermint/libs/log"
 	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
 )
@@ -142,11 +143,11 @@ func (p PrecompileExecutor) sendToCosmos(ctx sdk.Context, caller common.Address,
 	//send evm coin to module account
 	convertAmount := sdk.NewCoins(sdk.NewCoin("asix", intAmount))
 	if err := p.bankKeeper.SendCoinsFromAccountToModule(ctx, senderCosmoAddr, tokenmngrModuleName, convertAmount); err != nil {
-		return nil, sdkerrors.Wrap(sdk.ErrInvalidDecimalLength, "Amount of token is too high than current balance due")
+		return nil, sdkerrors.Wrap(tkmngrtypes.ErrSendCoinsFromAccountToModule, "Amount of token is too high than current balance due")
 	}
 
 	if err := p.bankKeeper.BurnCoins(ctx, tokenmngrModuleName, convertAmount); err != nil {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInsufficientFunds, "invali amount to burn")
+		return nil, sdkerrors.Wrap(tkmngrtypes.ErrBurnCoinsFromModuleAccount, "invali amount to burn")
 	}
 
 	// convert amount for burn to usix
@@ -165,7 +166,7 @@ func (p PrecompileExecutor) sendToCosmos(ctx sdk.Context, caller common.Address,
 	if err := p.bankKeeper.SendCoinsFromModuleToAccount(
 		ctx, tokenmngrModuleName, receiverCosmoAddr, sdk.NewCoins(microSix),
 	); err != nil {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInsufficientFunds, "unable to send msg.Amounts from module to account despite previously minting msg.Amounts to module account")
+		return nil, sdkerrors.Wrap(tkmngrtypes.ErrSendCoinsFromAccountToModule, "unable to send msg.Amounts from module to account despite previously minting msg.Amounts to module account")
 	}
 
 	return method.Outputs.Pack(true)

@@ -1137,8 +1137,10 @@ github.com/thesixnetwork/ethermint v0.18.1-0.20240823160657-eb22a187ebc4 h1:GnOP
 github.com/thesixnetwork/ethermint v0.18.1-0.20240823160657-eb22a187ebc4/go.mod h1:lGevCnJSEzbQQiJI2a9B/BuzYzhqU+7sFmEdooIn2W0=
 github.com/thesixnetwork/go-ethereum v1.10.20-0.20240807055744-ccf1400f91dd h1:QQLCxxs6rkOQrwVcvX7rX6/8bEv0anc55PqACCY8dAw=
 github.com/thesixnetwork/go-ethereum v1.10.20-0.20240807055744-ccf1400f91dd/go.mod h1:IJBNMtzKcNHPtllYihy6BL2IgK1u+32JriaTbdt4v+w=
-github.com/thesixnetwork/sixnft v0.9.4 h1:+G+JN79p7J6hGMvbpWS5Zwt7u+4uPFSs0TqptJzPtfQ=
-github.com/thesixnetwork/sixnft v0.9.4/go.mod h1:EO95qjtLv/Wzpn84gfYLc87mHdME7HchcQ4JW9kfnJE=
+github.com/thesixnetwork/sixnft v0.9.2-0.20240806051219-35f7071812c7 h1:WhTecAuXYo6LNKOQT7sazbblTg3RchKkhCBZwwzUKZM=
+github.com/thesixnetwork/sixnft v0.9.2-0.20240806051219-35f7071812c7/go.mod h1:4MTD4lzwuk+NH2gg+UFjIc/xYpaOXuB6GRq/D9QP1EE=
+github.com/thesixnetwork/sixnft v0.9.2-0.20240826042545-36bfa5007fbb h1:Dw1lsoTYmQvqO3HMNtWht93VVCgUYY3uLjQgEVgB9mc=
+github.com/thesixnetwork/sixnft v0.9.2-0.20240826042545-36bfa5007fbb/go.mod h1:/9h2HXayhHGMCwNzE6F3wPAuKFoeHX4Wwy7Ghi5H5DA=
 github.com/tidwall/gjson v1.6.7/go.mod h1:zeFuBCIqD4sN/gmqBzZ4j7Jd6UcA2Fc56x7QFsv+8fI=
 github.com/tidwall/match v1.0.3/go.mod h1:eRSPERbgtNPcGhD8UCthc6PmLEQXEWd3PRB5JTxsfmM=
 github.com/tidwall/pretty v1.0.2/go.mod h1:XNkn88O1ChpSDQmQeStsy+sBenx6DDtFZJxhVysOjyk=
@@ -1766,8 +1768,8 @@ google.golang.org/genproto v0.0.0-20220304144024-325a89244dc8/go.mod h1:kGP+zUP2
 google.golang.org/genproto v0.0.0-20220310185008-1973136f34c6/go.mod h1:kGP+zUP2Ddo0ayMi4YuN7C3WZyJvGLZRh8Z5wnAqvEI=
 google.golang.org/genproto v0.0.0-20220324131243-acbaeb5b85eb/go.mod h1:hAL49I2IFola2sVEjAn7MEwsja0xp51I0tlGAf9hz4E=
 google.golang.org/genproto v0.0.0-20220407144326-9054f6ed7bac/go.mod h1:8w6bsBMX6yCPbAVTeqQHvzxW0EIFigd5lZyahWgyfDo=
-google.golang.org/genproto v0.0.0-20230803162519-f966b187b2e5 h1:L6iMMGrtzgHsWofoFcihmDEMYeDR9KN/ThbPWGrh++g=
-google.golang.org/genproto v0.0.0-20230803162519-f966b187b2e5/go.mod h1:oH/ZOT02u4kWEp7oYBGYFFkCdKS/uYR9Z7+0/xuuFp8=
+google.golang.org/genproto v0.0.0-20240116215550-a9fa1716bcac h1:ZL/Teoy/ZGnzyrqK/Optxxp2pmVh+fmJ97slxSRyzUg=
+google.golang.org/genproto v0.0.0-20240116215550-a9fa1716bcac/go.mod h1:+Rvu7ElI+aLzyDQhpHMFMMltsD6m7nqpuWDd2CwJw3k=
 google.golang.org/genproto/googleapis/api v0.0.0-20240814211410-ddb44dafa142 h1:wKguEg1hsxI2/L3hUYrpo1RVi48K+uTyzKqprwLXsb8=
 google.golang.org/genproto/googleapis/api v0.0.0-20240814211410-ddb44dafa142/go.mod h1:d6be+8HhtEtucleCbxpPW9PA9XwISACu8nvpPqF0BVo=
 google.golang.org/genproto/googleapis/rpc v0.0.0-20240814211410-ddb44dafa142 h1:e7S5W7MGGLaSu8j3YjdezkZ+m1/Nm0uRVRMEMGk26Xs=
