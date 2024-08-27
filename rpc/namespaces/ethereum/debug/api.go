@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"hash"
 	"io"
 	"os"
 	"runtime"
@@ -15,6 +16,7 @@ import (
 
 	"github.com/davecgh/go-spew/spew"
 	tmrpctypes "github.com/tendermint/tendermint/rpc/core/types"
+	"golang.org/x/crypto/sha3"
 
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
 
@@ -25,7 +27,6 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/consensus/ethash"
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/tendermint/tendermint/libs/log"
 	"github.com/thesixnetwork/six-protocol/rpc/backend"
@@ -494,7 +495,7 @@ func (a *API) SeedHash(number uint64) (string, error) {
 		return "", err
 	}
 
-	return fmt.Sprintf("0x%x", ethash.SeedHash(number)), nil
+	return fmt.Sprintf("0x%x", seedHash(number)), nil
 }
 
 // IntermediateRoots executes a block, and returns a list
@@ -502,4 +503,51 @@ func (a *API) SeedHash(number uint64) (string, error) {
 func (a *API) IntermediateRoots(hash common.Hash, _ *evmtypes.TraceConfig) ([]common.Hash, error) {
 	a.logger.Debug("debug_intermediateRoots", "hash", hash)
 	return ([]common.Hash)(nil), nil
+}
+
+const (
+	datasetInitBytes   = 1 << 30 // Bytes in dataset at genesis
+	datasetGrowthBytes = 1 << 23 // Dataset growth per epoch
+	cacheInitBytes     = 1 << 24 // Bytes in cache at genesis
+	cacheGrowthBytes   = 1 << 17 // Cache growth per epoch
+	epochLength        = 30000   // Blocks per epoch
+	mixBytes           = 128     // Width of mix
+	hashBytes          = 64      // Hash length in bytes
+	hashWords          = 16      // Number of 32 bit ints in a hash
+	datasetParents     = 256     // Number of parents of each dataset element
+	cacheRounds        = 3       // Number of rounds in cache production
+	loopAccesses       = 64      // Number of accesses in hashimoto loop
+)
+
+func seedHash(block uint64) []byte {
+	seed := make([]byte, 32)
+	if block < epochLength {
+		return seed
+	}
+	keccak256 := makeHasher(sha3.NewLegacyKeccak256())
+	for i := 0; i < int(block/epochLength); i++ {
+		keccak256(seed, seed)
+	}
+	return seed
+}
+
+type hasher func(dest []byte, data []byte)
+
+func makeHasher(h hash.Hash) hasher {
+	// sha3.state supports Read to get the sum, use it to avoid the overhead of Sum.
+	// Read alters the state but we reset the hash before every operation.
+	type readerHash interface {
+		hash.Hash
+		Read([]byte) (int, error)
+	}
+	rh, ok := h.(readerHash)
+	if !ok {
+		panic("can't find Read method on hash")
+	}
+	outputLen := rh.Size()
+	return func(dest []byte, data []byte) {
+		rh.Reset()
+		rh.Write(data)
+		rh.Read(dest[:outputLen])
+	}
 }

@@ -13,5 +13,5 @@ var (
 	ErrInvalidVersion       = sdkerrors.Register(ModuleName, 1501, "invalid version")
 
 	ErrSendCoinsFromAccountToModule = sdkerrors.Register(ModuleName, 1502, "unable to send coins from account to module")
-	ErrBurnCoinsFromModuleAccount   = sdkerrors.Register(ModuleName, 1502, "unable to burn coins from module to account")
+	ErrBurnCoinsFromModuleAccount   = sdkerrors.Register(ModuleName, 1503, "unable to burn coins from module to account")
 )
