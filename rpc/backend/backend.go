@@ -74,7 +74,7 @@ type EVMBackend interface {
 	GlobalMinGasPrice() (sdk.Dec, error)
 
 	// Fee API
-	FeeHistory(blockCount rpc.DecimalOrHex, lastBlock rpc.BlockNumber, rewardPercentiles []float64) (*types.FeeHistoryResult, error)
+	FeeHistory(blockCount uint64, lastBlock rpc.BlockNumber, rewardPercentiles []float64) (*types.FeeHistoryResult, error)
 
 	// Filter API
 	BloomStatus() (uint64, uint64)

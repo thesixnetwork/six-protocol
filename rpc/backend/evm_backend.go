@@ -58,6 +58,40 @@ func (b *Backend) BlockNumber() (hexutil.Uint64, error) {
 	return hexutil.Uint64(height), nil
 }
 
+func (b *Backend) BlockNumberUin64() (int64, error) {
+	// do any grpc query, ignore the response and use the returned block height
+	var header metadata.MD
+	_, err := b.queryClient.Params(b.ctx, &evmtypes.QueryParamsRequest{}, grpc.Header(&header))
+	if err != nil {
+		return int64(0), err
+	}
+
+	blockHeightHeader := header.Get(grpctypes.GRPCBlockHeightHeader)
+	if headerLen := len(blockHeightHeader); headerLen != 1 {
+		return 0, fmt.Errorf("unexpected '%s' gRPC header length; got %d, expected: %d", grpctypes.GRPCBlockHeightHeader, headerLen, 1)
+	}
+
+	height, err := strconv.ParseUint(blockHeightHeader[0], 10, 64)
+	if err != nil {
+		return 0, fmt.Errorf("failed to parse block height: %w", err)
+	}
+
+	return int64(height), nil
+}
+
+func (b *Backend) BlockTime() (uint64, error) {
+	bn, err := b.BlockNumberUin64()
+	if err != nil {
+		return uint64(0), err
+	}
+	tmbn := types.NewBlockNumber(big.NewInt(bn))
+	resBlock, err := b.GetTendermintBlockByNumber(tmbn)
+	if err != nil {
+		return uint64(0), err
+	}
+	return uint64(resBlock.Block.Time.Unix()), nil
+}
+
 // GetBlockByNumber returns the block identified by number.
 func (b *Backend) GetBlockByNumber(blockNum types.BlockNumber, fullTx bool) (map[string]interface{}, error) {
 	resBlock, err := b.GetTendermintBlockByNumber(blockNum)
@@ -647,7 +681,13 @@ func (b *Backend) SendTransaction(args evmtypes.TransactionArgs) (common.Hash, e
 		return common.Hash{}, err
 	}
 
-	signer := ethtypes.MakeSigner(b.ChainConfig(), new(big.Int).SetUint64(uint64(bn)))
+	bt, err := b.BlockTime()
+	if err != nil {
+		b.logger.Debug("failed to fetch latest block time", "error", err.Error())
+		return common.Hash{}, err
+	}
+
+	signer := ethtypes.MakeSigner(b.ChainConfig(), new(big.Int).SetUint64(uint64(bn)), bt)
 
 	// Sign transaction
 	if err := msg.Sign(signer, b.clientCtx.Keyring); err != nil {
@@ -889,7 +929,7 @@ func (b *Backend) GlobalMinGasPrice() (sdk.Dec, error) {
 
 // FeeHistory returns data relevant for fee estimation based on the specified range of blocks.
 func (b *Backend) FeeHistory(
-	userBlockCount rpc.DecimalOrHex, // number blocks to fetch, maximum is 100
+	userBlockCount uint64, // number blocks to fetch, maximum is 100
 	lastBlock rpc.BlockNumber, // the block to start search , to oldest
 	rewardPercentiles []float64, // percentiles to fetch reward
 ) (*types.FeeHistoryResult, error) {
