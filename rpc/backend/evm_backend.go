@@ -744,7 +744,7 @@ func (b *Backend) SendTransaction(args evmtypes.TransactionArgs) (common.Hash, e
 }
 
 // EstimateGas returns an estimate of gas usage for the given smart contract call.
-func (b *Backend) EstimateGas(args evmtypes.TransactionArgs, blockNrOptional *types.BlockNumber) (hexutil.Uint64, error) {
+func (b *Backend) EstimateGas(args evmtypes.TransactionArgs, blockNrOptional *types.BlockNumber, overrides *types.StateOverride) (hexutil.Uint64, error) {
 	blockNr := types.EthPendingBlockNumber
 	if blockNrOptional != nil {
 		blockNr = *blockNrOptional
@@ -755,19 +755,36 @@ func (b *Backend) EstimateGas(args evmtypes.TransactionArgs, blockNrOptional *ty
 		return 0, err
 	}
 
-	req := evmtypes.EthCallRequest{
-		Args:   bz,
-		GasCap: b.RPCGasCap(),
-	}
+	if overrides != nil {
+		protoOverides := types.ToProtoStateOverride(overrides)
+		req := evmtypes.EthCallWithOverrideRequest{
+			Args:      bz,
+			GasCap:    b.RPCGasCap(),
+			Overrides: protoOverides,
+		}
 
-	// From ContextWithHeight: if the provided height is 0,
-	// it will return an empty context and the gRPC query will use
-	// the latest block height for querying.
-	res, err := b.queryClient.EstimateGas(types.ContextWithHeight(blockNr.Int64()), &req)
-	if err != nil {
-		return 0, err
+		res, err := b.queryClient.EstimateGasWithOverride(types.ContextWithHeight(blockNr.Int64()), &req)
+		if err != nil {
+			return 0, err
+		}
+		return hexutil.Uint64(res.Gas), nil
+
+	} else {
+		req := evmtypes.EthCallRequest{
+			Args:   bz,
+			GasCap: b.RPCGasCap(),
+		}
+
+		// From ContextWithHeight: if the provided height is 0,
+		// it will return an empty context and the gRPC query will use
+		// the latest block height for querying.
+		res, err := b.queryClient.EstimateGas(types.ContextWithHeight(blockNr.Int64()), &req)
+		if err != nil {
+			return 0, err
+		}
+		return hexutil.Uint64(res.Gas), nil
+
 	}
-	return hexutil.Uint64(res.Gas), nil
 }
 
 // GetTransactionCount returns the number of transactions at the given address up to the given block number.

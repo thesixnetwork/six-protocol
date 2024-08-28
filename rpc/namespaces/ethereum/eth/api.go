@@ -710,8 +710,6 @@ func (e *PublicAPI) doCall(
 
 	if overrides != nil {
 
-		fmt.Printf("#################### OVERRIDE: %v ##############\n", overrides)
-
 		protoOverides := rpctypes.ToProtoStateOverride(overrides)
 
 		req := evmtypes.EthCallWithOverrideRequest{
@@ -719,8 +717,6 @@ func (e *PublicAPI) doCall(
 			GasCap:    e.backend.RPCGasCap(),
 			Overrides: protoOverides,
 		}
-
-		fmt.Println("################# PROCESSS OVERIDE ###############")
 
 		res, err := e.queryClient.EthCallWithOverride(rpcCtx, &req)
 		if err != nil {
@@ -757,9 +753,9 @@ func (e *PublicAPI) doCall(
 }
 
 // EstimateGas returns an estimate of gas usage for the given smart contract call.
-func (e *PublicAPI) EstimateGas(args evmtypes.TransactionArgs, blockNrOptional *rpctypes.BlockNumber) (hexutil.Uint64, error) {
+func (e *PublicAPI) EstimateGas(args evmtypes.TransactionArgs, blockNrOptional *rpctypes.BlockNumber, overrides *rpctypes.StateOverride) (hexutil.Uint64, error) {
 	e.logger.Debug("eth_estimateGas")
-	return e.backend.EstimateGas(args, blockNrOptional)
+	return e.backend.EstimateGas(args, blockNrOptional, overrides)
 }
 
 // GetBlockByHash returns the block identified by hash.

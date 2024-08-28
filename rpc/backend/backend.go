@@ -69,7 +69,7 @@ type EVMBackend interface {
 	GetTransactionByHash(txHash common.Hash) (*types.RPCTransaction, error)
 	GetTxByEthHash(txHash common.Hash) (*tmrpctypes.ResultTx, error)
 	GetTxByTxIndex(height int64, txIndex uint) (*tmrpctypes.ResultTx, error)
-	EstimateGas(args evmtypes.TransactionArgs, blockNrOptional *types.BlockNumber) (hexutil.Uint64, error)
+	EstimateGas(args evmtypes.TransactionArgs, blockNrOptional *types.BlockNumber, overrides *types.StateOverride) (hexutil.Uint64, error)
 	BaseFee(blockRes *tmrpctypes.ResultBlockResults) (*big.Int, error)
 	GlobalMinGasPrice() (sdk.Dec, error)
 

@@ -156,7 +156,7 @@ func (b *Backend) SetTxDefaults(args evmtypes.TransactionArgs) (evmtypes.Transac
 		}
 
 		blockNr := types.NewBlockNumber(big.NewInt(0))
-		estimated, err := b.EstimateGas(callArgs, &blockNr)
+		estimated, err := b.EstimateGas(callArgs, &blockNr, nil)
 		if err != nil {
 			return args, err
 		}
