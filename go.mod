@@ -5,8 +5,8 @@ go 1.18
 require (
 	github.com/cosmos/cosmos-sdk v0.45.6
 	github.com/cosmos/ibc-go/v3 v3.1.1
-	github.com/ethereum/go-ethereum v1.10.26
-	github.com/evmos/ethermint v0.17.2
+	github.com/ethereum/go-ethereum v1.13.5
+	github.com/evmos/ethermint v0.18.0
 	github.com/gogo/protobuf v1.3.3
 	github.com/golang/protobuf v1.5.4
 	github.com/gorilla/mux v1.8.0
