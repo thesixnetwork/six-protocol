@@ -202,7 +202,7 @@ require (
 replace (
 	github.com/cosmos/cosmos-sdk => github.com/thesixnetwork/cosmos-sdk v0.45.6-six-protocol
 	github.com/ethereum/go-ethereum => github.com/thesixnetwork/go-ethereum v1.13.6-0.20240902091934-622069f0640d
-	github.com/evmos/ethermint => github.com/thesixnetwork/ethermint v0.18.1-0.20240902092133-a8dffb473f40
+	github.com/evmos/ethermint => github.com/thesixnetwork/ethermint v0.18.1-0.20240902104541-b9ca880e4af0
 	github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
 	github.com/keybase/go-keychain => github.com/99designs/go-keychain v0.0.0-20191008050251-8e49817e8af4
 	github.com/syndtr/goleveldb => github.com/syndtr/goleveldb v1.0.1-0.20200815110645-5c35d600f0ca
