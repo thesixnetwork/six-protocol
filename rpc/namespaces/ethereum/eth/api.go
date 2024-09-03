@@ -522,6 +522,7 @@ func (e *PublicAPI) SendRawTransaction(data hexutil.Bytes) (common.Hash, error) 
 	tx := &ethtypes.Transaction{}
 	if err := tx.UnmarshalBinary(data); err != nil {
 		e.logger.Error("transaction decoding failed", "error", err.Error())
+		fmt.Printf("################ UnmarshalBinary %v ################\n", err)
 		return common.Hash{}, err
 	}
 
@@ -534,23 +535,27 @@ func (e *PublicAPI) SendRawTransaction(data hexutil.Bytes) (common.Hash, error) 
 	ethereumTx := &evmtypes.MsgEthereumTx{}
 	if err := ethereumTx.FromEthereumTx(tx); err != nil {
 		e.logger.Error("transaction converting failed", "error", err.Error())
+		fmt.Printf("################ FromEthereumTx %v ################\n", err)
 		return common.Hash{}, err
 	}
 
 	if err := ethereumTx.ValidateBasic(); err != nil {
 		e.logger.Debug("tx failed basic validation", "error", err.Error())
+		fmt.Printf("################ ValidateBasic %v ################\n", err)
 		return common.Hash{}, err
 	}
 
 	// Query params to use the EVM denomination
 	res, err := e.queryClient.QueryClient.Params(e.ctx, &evmtypes.QueryParamsRequest{})
 	if err != nil {
+		fmt.Printf("################ BuildTx %v ################\n", err)
 		e.logger.Error("failed to query evm params", "error", err.Error())
 		return common.Hash{}, err
 	}
 
 	cosmosTx, err := ethereumTx.BuildTx(e.clientCtx.TxConfig.NewTxBuilder(), res.Params.EvmDenom)
 	if err != nil {
+		fmt.Printf("################ BuildTx %v ################\n", err)
 		e.logger.Error("failed to build cosmos tx", "error", err.Error())
 		return common.Hash{}, err
 	}

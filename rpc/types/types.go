@@ -92,16 +92,10 @@ type OverrideAccount struct {
 
 // Apply overrides the fields of specified accounts into the given state.
 func (diff *StateOverride) Apply(state *statedb.StateDB) error {
-	fmt.Println("############### APPLY ###############")
-
-	fmt.Printf("############## DIFF: %v ############## \n", diff)
-
 	if diff == nil {
 		return nil
 	}
 	for addr, account := range *diff {
-		fmt.Printf("############### add: %v ############### \n", addr)
-		fmt.Printf("############### account: %v ############### \n", account)
 		// Override account nonce.
 		if account.Nonce != nil {
 			state.SetNonce(addr, uint64(*account.Nonce))
@@ -114,9 +108,6 @@ func (diff *StateOverride) Apply(state *statedb.StateDB) error {
 		// Override account balance.
 		if account.Balance != nil {
 			state.SetBalance(addr, (*big.Int)(*account.Balance))
-
-			fmt.Printf("############### Balance: %v ###############\n", (*big.Int)(*account.Balance))
-			fmt.Printf("############### Balance: 2 %v ###############\n", (*big.Int)(state.GetBalance(addr)))
 		}
 
 		if account.State != nil && account.StateDiff != nil {
@@ -130,7 +121,6 @@ func (diff *StateOverride) Apply(state *statedb.StateDB) error {
 		if account.StateDiff != nil {
 			for key, value := range *account.StateDiff {
 				state.SetState(addr, key, value)
-				fmt.Printf("############### StateDiff:  %v ###############\n", value )
 			}
 		}
 	}
