@@ -323,5 +323,6 @@ func TestParseTxLogs(t *testing.T) {
 
 	tx2 := parsed.GetTxByMsgIndex(1)
 	txLogs2, err := tx2.ParseTxLogs()
+	require.NoError(t, err)
 	require.Empty(t, txLogs2)
 }

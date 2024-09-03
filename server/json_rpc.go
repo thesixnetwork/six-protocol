@@ -14,7 +14,7 @@ import (
 	ethrpc "github.com/ethereum/go-ethereum/rpc"
 	"github.com/thesixnetwork/six-protocol/rpc"
 
-	"github.com/evmos/ethermint/server/config"
+	"github.com/thesixnetwork/six-protocol/server/config"
 )
 
 // StartJSONRPC starts the JSON-RPC server

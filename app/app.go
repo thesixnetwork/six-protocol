@@ -98,8 +98,6 @@ import (
 
 	ethermintapp "github.com/evmos/ethermint/app"
 	evmante "github.com/evmos/ethermint/app/ante"
-	ethermintconfig "github.com/evmos/ethermint/server/config"
-	srvflags "github.com/evmos/ethermint/server/flags"
 	ethermint "github.com/evmos/ethermint/types"
 	"github.com/evmos/ethermint/x/evm"
 	evmrest "github.com/evmos/ethermint/x/evm/client/rest"
@@ -108,6 +106,9 @@ import (
 	"github.com/evmos/ethermint/x/feemarket"
 	feemarketkeeper "github.com/evmos/ethermint/x/feemarket/keeper"
 	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
+	ethermintconfig "github.com/thesixnetwork/six-protocol/server/config"
+	srvflags "github.com/thesixnetwork/six-protocol/server/flags"
+
 	// "github.com/evmos/evmos/v6/x/erc20"
 	// erc20client "github.com/evmos/evmos/v6/x/erc20/client"
 	// erc20keeper "github.com/evmos/evmos/v6/x/erc20/keeper"
@@ -510,7 +511,7 @@ func New(
 
 	app.EVMKeeper = app.EVMKeeper.SetHooks(
 		evmkeeper.NewMultiEvmHooks(
-			// app.Erc20Keeper.Hooks(),
+		// app.Erc20Keeper.Hooks(),
 		),
 	)
 
