@@ -36,8 +36,8 @@ init:
   config:
     moniker: "mychain"
     consensus:
-      timeout_propose: "1s"
-      timeout_commit: "1s"
+      timeout_propose: "3s"
+      timeout_commit: "5s"
   client:
     chain-id: "testnet"
     keyring-backend: "test"
