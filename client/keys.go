@@ -1,18 +1,21 @@
 package client
 
 import (
-	"bufio"
 
-	"github.com/cosmos/cosmos-sdk/client"
+	// NOTE: THIS FOR DEFAULT eth_secp256k1
+	/*
+		"bufio"
+		"github.com/cosmos/cosmos-sdk/client"
+		sdk "github.com/cosmos/cosmos-sdk/types"
+		"github.com/evmos/ethermint/crypto/hd"
+		clientkeys "github.com/thesixnetwork/six-protocol/client/keys"
+	*/
+
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/keys"
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	"github.com/spf13/cobra"
 	"github.com/tendermint/tendermint/libs/cli"
-
-	"github.com/cosmos/cosmos-sdk/crypto/keyring"
-	clientkeys "github.com/evmos/ethermint/client/keys"
-	"github.com/evmos/ethermint/crypto/hd"
 )
 
 // KeyCommands registers a sub-tree of commands to interact with
@@ -45,22 +48,26 @@ The pass backend requires GnuPG: https://gnupg.org/
 `,
 	}
 
-	// support adding Ethereum supported keys
-	addCmd := keys.AddKeyCommand()
+	/*
 
-	// update the default signing algorithm value to "eth_secp256k1"
-	algoFlag := addCmd.Flag("algo")
-	algoFlag.DefValue = string(hd.EthSecp256k1Type)
-	err := algoFlag.Value.Set(string(hd.EthSecp256k1Type))
-	if err != nil {
-		panic(err)
-	}
+		// support adding Ethereum supported keys
+		addCmd := keys.AddKeyCommand()
 
-	addCmd.RunE = runAddCmd
+		// update the default signing algorithm value to "eth_secp256k1"
+		algoFlag := addCmd.Flag("algo")
+		algoFlag.DefValue = string(hd.EthSecp256k1Type)
+		err := algoFlag.Value.Set(string(hd.EthSecp256k1Type))
+		if err != nil {
+			panic(err)
+		}
+
+		addCmd.RunE = runAddCmd
+
+	*/
 
 	cmd.AddCommand(
 		keys.MnemonicKeyCommand(),
-		addCmd,
+		keys.AddKeyCommand(),
 		keys.ExportKeyCommand(),
 		keys.ImportKeyCommand(),
 		keys.ListKeysCmd(),
@@ -81,24 +88,26 @@ The pass backend requires GnuPG: https://gnupg.org/
 	return cmd
 }
 
-func runAddCmd(cmd *cobra.Command, args []string) error {
-	buf := bufio.NewReader(cmd.InOrStdin())
-	clientCtx := client.GetClientContextFromCmd(cmd)
+/*
+	func runAddCmd(cmd *cobra.Command, args []string) error {
+		buf := bufio.NewReader(cmd.InOrStdin())
+		clientCtx := client.GetClientContextFromCmd(cmd)
 
-	var (
-		kr  keyring.Keyring
-		err error
-	)
+		var (
+			kr  keyring.Keyring
+			err error
+		)
 
-	dryRun, _ := cmd.Flags().GetBool(flags.FlagDryRun)
-	if dryRun {
-		kr, err = keyring.New(sdk.KeyringServiceName(), keyring.BackendMemory, clientCtx.KeyringDir, buf, hd.EthSecp256k1Option())
-		clientCtx = clientCtx.WithKeyring(kr)
+		dryRun, _ := cmd.Flags().GetBool(flags.FlagDryRun)
+		if dryRun {
+			kr, err = keyring.New(sdk.KeyringServiceName(), keyring.BackendMemory, clientCtx.KeyringDir, buf, hd.EthSecp256k1Option())
+			clientCtx = clientCtx.WithKeyring(kr)
+		}
+
+		if err != nil {
+			return err
+		}
+
+		return clientkeys.RunAddCmd(clientCtx, cmd, args, buf)
 	}
-
-	if err != nil {
-		return err
-	}
-
-	return clientkeys.RunAddCmd(clientCtx, cmd, args, buf)
-}
+*/
