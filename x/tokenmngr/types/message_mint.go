@@ -3,6 +3,7 @@ package types
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	v1types "github.com/thesixnetwork/six-protocol/x/tokenmngr/types/v1"
 )
 
 const TypeMsgMint = "mint"
@@ -43,4 +44,21 @@ func (msg *MsgMint) ValidateBasic() error {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
 	return nil
+}
+
+// ConvertToLegacyMsgMint converts the new MsgMint to the v1.MsgMint format
+func (msg *MsgMint) ConvertToLegacyMsgMint() *v1types.MsgMint {
+	amount := msg.Amount.Amount.Uint64()
+	return &v1types.MsgMint{
+		Creator: msg.Creator,
+		Amount:  amount,
+		Token:   msg.Amount.Denom,
+	}
+}
+
+func ConvertFromLegacyMsgMint(legacyMsg v1types.MsgMint) *MsgMint {
+	return &MsgMint{
+		Creator: legacyMsg.Creator,
+		Amount:  sdk.NewCoin(legacyMsg.Token, sdk.NewIntFromUint64(legacyMsg.Amount)),
+	}
 }

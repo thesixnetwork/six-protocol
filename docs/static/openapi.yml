@@ -43393,10 +43393,138 @@ paths:
                   additionalProperties: {}
       tags:
         - Query
-  /thesixnetwork/six-protocol/tokenmngr/mintperm:
+  /thesixnetwork/six-protocol/tokenmngr/legacy/burns:
+    get:
+      summary: Queries a list of Burns items.
+      operationId: ThesixnetworkSixprotocolTokenmngrV1Burns
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              Burn:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      format: uint64
+                    creator:
+                      type: string
+                    token:
+                      type: string
+                    amount:
+                      type: string
+                      format: uint64
+                title: Returning a list of posts
+              pagination:
+                title: Adding pagination to response
+                type: object
+                properties:
+                  next_key:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.count_total
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  /thesixnetwork/six-protocol/tokenmngr/legacy/mintperm:
     get:
       summary: Queries a list of Mintperm items.
-      operationId: ThesixnetworkSixprotocolTokenmngrMintpermAll
+      operationId: ThesixnetworkSixprotocolTokenmngrV1MintpermAll
       responses:
         '200':
           description: A successful response.
@@ -43510,9 +43638,580 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  '/thesixnetwork/six-protocol/tokenmngr/legacy/mintperm/{token}/{address}':
+    get:
+      summary: Queries a Mintperm by index.
+      operationId: ThesixnetworkSixprotocolTokenmngrV1Mintperm
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              mintperm:
+                type: object
+                properties:
+                  token:
+                    type: string
+                  address:
+                    type: string
+                  creator:
+                    type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: token
+          in: path
+          required: true
+          type: string
+        - name: address
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
+  /thesixnetwork/six-protocol/tokenmngr/legacy/options:
+    get:
+      summary: Queries a Options by index.
+      operationId: ThesixnetworkSixprotocolTokenmngrV1Options
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              Options:
+                type: object
+                properties:
+                  defaultMintee:
+                    type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      tags:
+        - Query
+  /thesixnetwork/six-protocol/tokenmngr/legacy/params:
+    get:
+      summary: Parameters queries the parameters of the module.
+      operationId: ThesixnetworkSixprotocolTokenmngrV1Params
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              params:
+                description: params holds all the parameters of this module.
+                type: object
+            description: >-
+              QueryParamsResponse is response type for the Query/Params RPC
+              method.
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      tags:
+        - Query
+  /thesixnetwork/six-protocol/tokenmngr/legacy/token:
+    get:
+      summary: Queries a list of Token items.
+      operationId: ThesixnetworkSixprotocolTokenmngrV1TokenAll
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              token:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    base:
+                      type: string
+                    maxSupply:
+                      type: string
+                      format: uint64
+                    mintee:
+                      type: string
+                    creator:
+                      type: string
+              pagination:
+                type: object
+                properties:
+                  next_key:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
 
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
 
-            Since: cosmos-sdk 0.43
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.count_total
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  '/thesixnetwork/six-protocol/tokenmngr/legacy/token/{name}':
+    get:
+      summary: Queries a Token by index.
+      operationId: ThesixnetworkSixprotocolTokenmngrV1Token
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              token:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  base:
+                    type: string
+                  maxSupply:
+                    type: string
+                    format: uint64
+                  mintee:
+                    type: string
+                  creator:
+                    type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: name
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
+  /thesixnetwork/six-protocol/tokenmngr/legacy/token_burn:
+    get:
+      summary: Queries a list of TokenBurn items.
+      operationId: ThesixnetworkSixprotocolTokenmngrV1TokenBurnAll
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              tokenBurn:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    token:
+                      type: string
+                    amount:
+                      type: string
+                      format: uint64
+              pagination:
+                type: object
+                properties:
+                  next_key:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.count_total
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  '/thesixnetwork/six-protocol/tokenmngr/legacy/token_burn/{token}':
+    get:
+      summary: Queries a TokenBurn by index.
+      operationId: ThesixnetworkSixprotocolTokenmngrV1TokenBurn
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              tokenBurn:
+                type: object
+                properties:
+                  token:
+                    type: string
+                  amount:
+                    type: string
+                    format: uint64
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: token
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
+  /thesixnetwork/six-protocol/tokenmngr/mintperm:
+    get:
+      summary: Queries a list of Mintperm items.
+      operationId: ThesixnetworkSixprotocolTokenmngrV2MintpermAll
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              mintperm:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    token:
+                      type: string
+                    address:
+                      type: string
+                    creator:
+                      type: string
+              pagination:
+                type: object
+                properties:
+                  next_key:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.count_total
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
           in: query
           required: false
           type: boolean
@@ -43521,7 +44220,7 @@ paths:
   '/thesixnetwork/six-protocol/tokenmngr/mintperm/{token}/{address}':
     get:
       summary: Queries a Mintperm by index.
-      operationId: ThesixnetworkSixprotocolTokenmngrMintperm
+      operationId: ThesixnetworkSixprotocolTokenmngrV2Mintperm
       responses:
         '200':
           description: A successful response.
@@ -43569,7 +44268,7 @@ paths:
   /thesixnetwork/six-protocol/tokenmngr/options:
     get:
       summary: Queries a Options by index.
-      operationId: ThesixnetworkSixprotocolTokenmngrOptions
+      operationId: ThesixnetworkSixprotocolTokenmngrV2Options
       responses:
         '200':
           description: A successful response.
@@ -43604,7 +44303,7 @@ paths:
   /thesixnetwork/six-protocol/tokenmngr/params:
     get:
       summary: Parameters queries the parameters of the module.
-      operationId: ThesixnetworkSixprotocolTokenmngrParams
+      operationId: ThesixnetworkSixprotocolTokenmngrV2Params
       responses:
         '200':
           description: A successful response.
@@ -43640,7 +44339,7 @@ paths:
   /thesixnetwork/six-protocol/tokenmngr/token:
     get:
       summary: Queries a list of Token items.
-      operationId: ThesixnetworkSixprotocolTokenmngrTokenAll
+      operationId: ThesixnetworkSixprotocolTokenmngrV2TokenAll
       responses:
         '200':
           description: A successful response.
@@ -43767,22 +44466,12 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/six-protocol/tokenmngr/token/{name}':
     get:
       summary: Queries a Token by index.
-      operationId: ThesixnetworkSixprotocolTokenmngrToken
+      operationId: ThesixnetworkSixprotocolTokenmngrV2Token
       responses:
         '200':
           description: A successful response.
@@ -43843,7 +44532,7 @@ paths:
   /thesixnetwork/sixprotocol/tokenmngr/burns:
     get:
       summary: Queries a list of Burns items.
-      operationId: ThesixnetworkSixprotocolTokenmngrBurns
+      operationId: ThesixnetworkSixprotocolTokenmngrV2Burns
       responses:
         '200':
           description: A successful response.
@@ -43969,22 +44658,12 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   /thesixnetwork/sixprotocol/tokenmngr/token_burn:
     get:
       summary: Queries a list of TokenBurn items.
-      operationId: ThesixnetworkSixprotocolTokenmngrTokenBurnAll
+      operationId: ThesixnetworkSixprotocolTokenmngrV2TokenBurnAll
       responses:
         '200':
           description: A successful response.
@@ -44103,22 +44782,12 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-
-
-            Since: cosmos-sdk 0.43
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixprotocol/tokenmngr/token_burn/{token}':
     get:
       summary: Queries a TokenBurn by index.
-      operationId: ThesixnetworkSixprotocolTokenmngrTokenBurn
+      operationId: ThesixnetworkSixprotocolTokenmngrV2TokenBurn
       responses:
         '200':
           description: A successful response.
@@ -69497,7 +70166,7 @@ definitions:
         description: params holds all the parameters of this module.
         type: object
     description: QueryParamsResponse is response type for the Query/Params RPC method.
-  thesixnetwork.sixprotocol.tokenmngr.Burn:
+  thesixnetwork.sixprotocol.tokenmngr.v1.Burn:
     type: object
     properties:
       id:
@@ -69505,19 +70174,12 @@ definitions:
         format: uint64
       creator:
         type: string
+      token:
+        type: string
       amount:
-        type: object
-        properties:
-          denom:
-            type: string
-          amount:
-            type: string
-        description: |-
-          Coin defines a token with a denomination and an amount.
-
-          NOTE: The amount field is an Int which implements the custom method
-          signatures required by gogoproto.
-  thesixnetwork.sixprotocol.tokenmngr.Mintperm:
+        type: string
+        format: uint64
+  thesixnetwork.sixprotocol.tokenmngr.v1.Mintperm:
     type: object
     properties:
       token:
@@ -69526,78 +70188,41 @@ definitions:
         type: string
       creator:
         type: string
-  thesixnetwork.sixprotocol.tokenmngr.MsgBurnResponse:
+  thesixnetwork.sixprotocol.tokenmngr.v1.MsgBurnResponse:
     type: object
     properties:
       id:
         type: string
         format: uint64
-  thesixnetwork.sixprotocol.tokenmngr.MsgCreateMintpermResponse:
+  thesixnetwork.sixprotocol.tokenmngr.v1.MsgCreateMintpermResponse:
     type: object
-  thesixnetwork.sixprotocol.tokenmngr.MsgCreateOptionsResponse:
+  thesixnetwork.sixprotocol.tokenmngr.v1.MsgCreateOptionsResponse:
     type: object
-  thesixnetwork.sixprotocol.tokenmngr.MsgCreateTokenResponse:
+  thesixnetwork.sixprotocol.tokenmngr.v1.MsgCreateTokenResponse:
     type: object
-  thesixnetwork.sixprotocol.tokenmngr.MsgDeleteMintpermResponse:
+  thesixnetwork.sixprotocol.tokenmngr.v1.MsgDeleteMintpermResponse:
     type: object
-  thesixnetwork.sixprotocol.tokenmngr.MsgDeleteOptionsResponse:
+  thesixnetwork.sixprotocol.tokenmngr.v1.MsgDeleteOptionsResponse:
     type: object
-  thesixnetwork.sixprotocol.tokenmngr.MsgDeleteTokenResponse:
+  thesixnetwork.sixprotocol.tokenmngr.v1.MsgDeleteTokenResponse:
     type: object
-  thesixnetwork.sixprotocol.tokenmngr.MsgMintResponse:
+  thesixnetwork.sixprotocol.tokenmngr.v1.MsgMintResponse:
     type: object
-  thesixnetwork.sixprotocol.tokenmngr.MsgSendWrapTokenResponse:
+  thesixnetwork.sixprotocol.tokenmngr.v1.MsgUpdateMintpermResponse:
     type: object
-    properties:
-      receiver:
-        type: string
-      amount:
-        type: string
-  thesixnetwork.sixprotocol.tokenmngr.MsgUnwrapTokenResponse:
+  thesixnetwork.sixprotocol.tokenmngr.v1.MsgUpdateOptionsResponse:
     type: object
-    properties:
-      amount:
-        type: object
-        properties:
-          denom:
-            type: string
-          amount:
-            type: string
-        description: |-
-          Coin defines a token with a denomination and an amount.
-
-          NOTE: The amount field is an Int which implements the custom method
-          signatures required by gogoproto.
-  thesixnetwork.sixprotocol.tokenmngr.MsgUpdateMintpermResponse:
+  thesixnetwork.sixprotocol.tokenmngr.v1.MsgUpdateTokenResponse:
     type: object
-  thesixnetwork.sixprotocol.tokenmngr.MsgUpdateOptionsResponse:
-    type: object
-  thesixnetwork.sixprotocol.tokenmngr.MsgUpdateTokenResponse:
-    type: object
-  thesixnetwork.sixprotocol.tokenmngr.MsgWrapTokenResponse:
-    type: object
-    properties:
-      amount:
-        type: object
-        properties:
-          denom:
-            type: string
-          amount:
-            type: string
-        description: |-
-          Coin defines a token with a denomination and an amount.
-
-          NOTE: The amount field is an Int which implements the custom method
-          signatures required by gogoproto.
-  thesixnetwork.sixprotocol.tokenmngr.Options:
+  thesixnetwork.sixprotocol.tokenmngr.v1.Options:
     type: object
     properties:
       defaultMintee:
         type: string
-  thesixnetwork.sixprotocol.tokenmngr.Params:
+  thesixnetwork.sixprotocol.tokenmngr.v1.Params:
     type: object
     description: Params defines the parameters for the module.
-  thesixnetwork.sixprotocol.tokenmngr.QueryAllMintpermResponse:
+  thesixnetwork.sixprotocol.tokenmngr.v1.QueryAllMintpermResponse:
     type: object
     properties:
       mintperm:
@@ -69636,7 +70261,350 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  thesixnetwork.sixprotocol.tokenmngr.QueryAllTokenBurnResponse:
+  thesixnetwork.sixprotocol.tokenmngr.v1.QueryAllTokenBurnResponse:
+    type: object
+    properties:
+      tokenBurn:
+        type: array
+        items:
+          type: object
+          properties:
+            token:
+              type: string
+            amount:
+              type: string
+              format: uint64
+      pagination:
+        type: object
+        properties:
+          next_key:
+            type: string
+            format: byte
+            title: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
+  thesixnetwork.sixprotocol.tokenmngr.v1.QueryAllTokenResponse:
+    type: object
+    properties:
+      token:
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+            base:
+              type: string
+            maxSupply:
+              type: string
+              format: uint64
+            mintee:
+              type: string
+            creator:
+              type: string
+      pagination:
+        type: object
+        properties:
+          next_key:
+            type: string
+            format: byte
+            title: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
+  thesixnetwork.sixprotocol.tokenmngr.v1.QueryBurnsResponse:
+    type: object
+    properties:
+      Burn:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uint64
+            creator:
+              type: string
+            token:
+              type: string
+            amount:
+              type: string
+              format: uint64
+        title: Returning a list of posts
+      pagination:
+        title: Adding pagination to response
+        type: object
+        properties:
+          next_key:
+            type: string
+            format: byte
+            title: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
+  thesixnetwork.sixprotocol.tokenmngr.v1.QueryGetMintpermResponse:
+    type: object
+    properties:
+      mintperm:
+        type: object
+        properties:
+          token:
+            type: string
+          address:
+            type: string
+          creator:
+            type: string
+  thesixnetwork.sixprotocol.tokenmngr.v1.QueryGetOptionsResponse:
+    type: object
+    properties:
+      Options:
+        type: object
+        properties:
+          defaultMintee:
+            type: string
+  thesixnetwork.sixprotocol.tokenmngr.v1.QueryGetTokenBurnResponse:
+    type: object
+    properties:
+      tokenBurn:
+        type: object
+        properties:
+          token:
+            type: string
+          amount:
+            type: string
+            format: uint64
+  thesixnetwork.sixprotocol.tokenmngr.v1.QueryGetTokenResponse:
+    type: object
+    properties:
+      token:
+        type: object
+        properties:
+          name:
+            type: string
+          base:
+            type: string
+          maxSupply:
+            type: string
+            format: uint64
+          mintee:
+            type: string
+          creator:
+            type: string
+  thesixnetwork.sixprotocol.tokenmngr.v1.QueryParamsResponse:
+    type: object
+    properties:
+      params:
+        description: params holds all the parameters of this module.
+        type: object
+    description: QueryParamsResponse is response type for the Query/Params RPC method.
+  thesixnetwork.sixprotocol.tokenmngr.v1.Token:
+    type: object
+    properties:
+      name:
+        type: string
+      base:
+        type: string
+      maxSupply:
+        type: string
+        format: uint64
+      mintee:
+        type: string
+      creator:
+        type: string
+  thesixnetwork.sixprotocol.tokenmngr.v1.TokenBurn:
+    type: object
+    properties:
+      token:
+        type: string
+      amount:
+        type: string
+        format: uint64
+  thesixnetwork.sixprotocol.tokenmngr.v2.Burn:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uint64
+      creator:
+        type: string
+      amount:
+        type: object
+        properties:
+          denom:
+            type: string
+          amount:
+            type: string
+        description: |-
+          Coin defines a token with a denomination and an amount.
+
+          NOTE: The amount field is an Int which implements the custom method
+          signatures required by gogoproto.
+  thesixnetwork.sixprotocol.tokenmngr.v2.Mintperm:
+    type: object
+    properties:
+      token:
+        type: string
+      address:
+        type: string
+      creator:
+        type: string
+  thesixnetwork.sixprotocol.tokenmngr.v2.MsgBurnResponse:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uint64
+  thesixnetwork.sixprotocol.tokenmngr.v2.MsgCreateMintpermResponse:
+    type: object
+  thesixnetwork.sixprotocol.tokenmngr.v2.MsgCreateOptionsResponse:
+    type: object
+  thesixnetwork.sixprotocol.tokenmngr.v2.MsgCreateTokenResponse:
+    type: object
+  thesixnetwork.sixprotocol.tokenmngr.v2.MsgDeleteMintpermResponse:
+    type: object
+  thesixnetwork.sixprotocol.tokenmngr.v2.MsgDeleteOptionsResponse:
+    type: object
+  thesixnetwork.sixprotocol.tokenmngr.v2.MsgDeleteTokenResponse:
+    type: object
+  thesixnetwork.sixprotocol.tokenmngr.v2.MsgMintResponse:
+    type: object
+  thesixnetwork.sixprotocol.tokenmngr.v2.MsgSendWrapTokenResponse:
+    type: object
+    properties:
+      receiver:
+        type: string
+      amount:
+        type: string
+  thesixnetwork.sixprotocol.tokenmngr.v2.MsgUnwrapTokenResponse:
+    type: object
+    properties:
+      amount:
+        type: object
+        properties:
+          denom:
+            type: string
+          amount:
+            type: string
+        description: |-
+          Coin defines a token with a denomination and an amount.
+
+          NOTE: The amount field is an Int which implements the custom method
+          signatures required by gogoproto.
+  thesixnetwork.sixprotocol.tokenmngr.v2.MsgUpdateMintpermResponse:
+    type: object
+  thesixnetwork.sixprotocol.tokenmngr.v2.MsgUpdateOptionsResponse:
+    type: object
+  thesixnetwork.sixprotocol.tokenmngr.v2.MsgUpdateTokenResponse:
+    type: object
+  thesixnetwork.sixprotocol.tokenmngr.v2.MsgWrapTokenResponse:
+    type: object
+    properties:
+      amount:
+        type: object
+        properties:
+          denom:
+            type: string
+          amount:
+            type: string
+        description: |-
+          Coin defines a token with a denomination and an amount.
+
+          NOTE: The amount field is an Int which implements the custom method
+          signatures required by gogoproto.
+  thesixnetwork.sixprotocol.tokenmngr.v2.Options:
+    type: object
+    properties:
+      defaultMintee:
+        type: string
+  thesixnetwork.sixprotocol.tokenmngr.v2.Params:
+    type: object
+    description: Params defines the parameters for the module.
+  thesixnetwork.sixprotocol.tokenmngr.v2.QueryAllMintpermResponse:
+    type: object
+    properties:
+      mintperm:
+        type: array
+        items:
+          type: object
+          properties:
+            token:
+              type: string
+            address:
+              type: string
+            creator:
+              type: string
+      pagination:
+        type: object
+        properties:
+          next_key:
+            type: string
+            format: byte
+            title: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
+  thesixnetwork.sixprotocol.tokenmngr.v2.QueryAllTokenBurnResponse:
     type: object
     properties:
       tokenBurn:
@@ -69684,7 +70652,7 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  thesixnetwork.sixprotocol.tokenmngr.QueryAllTokenResponse:
+  thesixnetwork.sixprotocol.tokenmngr.v2.QueryAllTokenResponse:
     type: object
     properties:
       token:
@@ -69740,7 +70708,7 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  thesixnetwork.sixprotocol.tokenmngr.QueryBurnsResponse:
+  thesixnetwork.sixprotocol.tokenmngr.v2.QueryBurnsResponse:
     type: object
     properties:
       Burn:
@@ -69795,7 +70763,7 @@ definitions:
                    PageResponse page = 2;
            }
         title: Adding pagination to response
-  thesixnetwork.sixprotocol.tokenmngr.QueryGetMintpermResponse:
+  thesixnetwork.sixprotocol.tokenmngr.v2.QueryGetMintpermResponse:
     type: object
     properties:
       mintperm:
@@ -69807,7 +70775,7 @@ definitions:
             type: string
           creator:
             type: string
-  thesixnetwork.sixprotocol.tokenmngr.QueryGetOptionsResponse:
+  thesixnetwork.sixprotocol.tokenmngr.v2.QueryGetOptionsResponse:
     type: object
     properties:
       Options:
@@ -69815,7 +70783,7 @@ definitions:
         properties:
           defaultMintee:
             type: string
-  thesixnetwork.sixprotocol.tokenmngr.QueryGetTokenBurnResponse:
+  thesixnetwork.sixprotocol.tokenmngr.v2.QueryGetTokenBurnResponse:
     type: object
     properties:
       tokenBurn:
@@ -69836,7 +70804,7 @@ definitions:
               method
 
               signatures required by gogoproto.
-  thesixnetwork.sixprotocol.tokenmngr.QueryGetTokenResponse:
+  thesixnetwork.sixprotocol.tokenmngr.v2.QueryGetTokenResponse:
     type: object
     properties:
       token:
@@ -69865,14 +70833,14 @@ definitions:
             type: string
           creator:
             type: string
-  thesixnetwork.sixprotocol.tokenmngr.QueryParamsResponse:
+  thesixnetwork.sixprotocol.tokenmngr.v2.QueryParamsResponse:
     type: object
     properties:
       params:
         description: params holds all the parameters of this module.
         type: object
     description: QueryParamsResponse is response type for the Query/Params RPC method.
-  thesixnetwork.sixprotocol.tokenmngr.Token:
+  thesixnetwork.sixprotocol.tokenmngr.v2.Token:
     type: object
     properties:
       name:
@@ -69895,7 +70863,7 @@ definitions:
         type: string
       creator:
         type: string
-  thesixnetwork.sixprotocol.tokenmngr.TokenBurn:
+  thesixnetwork.sixprotocol.tokenmngr.v2.TokenBurn:
     type: object
     properties:
       amount:

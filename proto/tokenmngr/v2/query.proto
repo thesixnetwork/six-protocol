@@ -1,15 +1,15 @@
 syntax = "proto3";
-package thesixnetwork.sixprotocol.tokenmngr;
+package thesixnetwork.sixprotocol.tokenmngr.v2;
 
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
-import "tokenmngr/params.proto";
-import "tokenmngr/token.proto";
-import "tokenmngr/mintperm.proto";
-import "tokenmngr/options.proto";
-import "tokenmngr/burn.proto";
-import "tokenmngr/token_burn.proto";
+import "tokenmngr/v2/params.proto";
+import "tokenmngr/v2/token.proto";
+import "tokenmngr/v2/mintperm.proto";
+import "tokenmngr/v2/options.proto";
+import "tokenmngr/v2/burn.proto";
+import "tokenmngr/v2/token_burn.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "github.com/thesixnetwork/six-protocol/x/tokenmngr/types";
