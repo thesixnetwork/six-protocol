@@ -30,13 +30,13 @@ TRACE=""
 command -v jq > /dev/null 2>&1 || { echo >&2 "jq not installed. More info: https://stedolan.github.io/jq/download/"; exit 1; }
 
 # Reinstall daemon
-rm -rf ~/.six*
+rm -rf ${SIX_HOME}
 go mod tidy
 make install
 
 # Set client config
-sixd config keyring-backend $KEYRING
-sixd config chain-id $CHAINID
+sixd config keyring-backend $KEYRING --home ${SIX_HOME}
+sixd config chain-id $CHAINID --home ${SIX_HOME}
 
 # if $KEY exists it should be deleted
 # mint to validator
@@ -53,7 +53,7 @@ echo $ORACLE3_MNEMONIC | sixd keys add oracle3 --recover --home ${SIX_HOME} --ke
 echo $ORACLE4_MNEMONIC | sixd keys add oracle4 --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO}
 
 # Set moniker and chain-id for six (Moniker can be anything, chain-id must be an integer)
-sixd init $MONIKER --chain-id $CHAINID
+sixd init $MONIKER --chain-id $CHAINID --home ${SIX_HOME}
 
 # Change parameter token denominations to usix
 ## from stake to usix
@@ -143,19 +143,19 @@ sixd add-genesis-account $(sixd keys show -a super-admin --keyring-backend ${KEY
 echo $KEYRING
 echo $KEY
 # Sign genesis transaction
-sixd gentx val1 1000000000usix --keyring-backend $KEYRING --chain-id $CHAINID
+sixd gentx val1 1000000000usix --keyring-backend $KEYRING --chain-id $CHAINID --home ${SIX_HOME}
 #sixd gentx $KEY2 1000000000000000000000usix --keyring-backend $KEYRING --chain-id $CHAINID
 
 # Collect genesis tx
-sixd collect-gentxs
+sixd collect-gentxs --home ${SIX_HOME}
 
 # Run this to ensure everything worked and that the genesis file is setup correctly
-sixd validate-genesis
+sixd validate-genesis --home ${SIX_HOME}
 
 if [[ $1 == "pending" ]]; then
   echo "pending mode is on, please wait for the first block committed."
 fi
 
 # Start the node (remove the --pruning=nothing flag if historical queries are not needed)
-sixd start --minimum-gas-prices=1.25usix,1250000000000asix --json-rpc.api eth,txpool,personal,net,debug,web3 --rpc.laddr "tcp://0.0.0.0:26657" --api.enable true --trace --log_level trace
+sixd start --minimum-gas-prices=1.25usix,1250000000000asix --json-rpc.api eth,txpool,personal,net,debug,web3 --rpc.laddr "tcp://0.0.0.0:26657" --api.enable true --trace --log_level trace --home ${SIX_HOME}
 
