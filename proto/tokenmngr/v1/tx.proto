@@ -1,5 +1,5 @@
 syntax = "proto3";
-package thesixnetwork.sixprotocol.tokenmngr.v1;
+package thesixnetwork.sixprotocol.tokenmngr;
 
 
 import "tokenmngr/v1/token.proto";
