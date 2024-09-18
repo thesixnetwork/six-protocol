@@ -1,5 +1,5 @@
 syntax = "proto3";
-package thesixnetwork.sixprotocol.tokenmngr.v1;
+package thesixnetwork.sixprotocol.tokenmngr;
 
 // this line is used by starport scaffolding # proto/packet/import
 
