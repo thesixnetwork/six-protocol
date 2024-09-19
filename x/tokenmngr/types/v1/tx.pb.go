@@ -634,10 +634,10 @@ func (*MsgMint) Descriptor() ([]byte, []int) {
 	return fileDescriptor_6276e79aad6e369b, []int{12}
 }
 func (m *MsgMint) XXX_Unmarshal(b []byte) error {
-	err := m.Unmarshal(b)
+	// err := m.Unmarshal(b)
+	err := xxx_messageInfo_MsgMint.Unmarshal(m, b)
 	if err != nil {
-		newMsg := m.ConvertFromLegacyMsgMint()
-		return newMsg.Unmarshal(b)
+		return xxx_messageInfo_MsgMintVersionTwo.Unmarshal(m, b)
 	}
 
 	return nil
@@ -646,21 +646,19 @@ func (m *MsgMint) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		out, err := xxx_messageInfo_MsgMint.Marshal(b, m, deterministic)
 		if err != nil {
-			newMsg := m.ConvertFromLegacyMsgMint()
-			return xxx_messageInfo_MsgMintVersionTwo.Marshal(b, newMsg, deterministic)
+			return xxx_messageInfo_MsgMintVersionTwo.Marshal(b, m, deterministic)
 		}
 		return out, nil
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
 		if err != nil {
-			newMsg := m.ConvertFromLegacyMsgMint()
-			nNewMgg, err := newMsg.MarshalToSizedBuffer(b)
+			xxx_messageInfo_MsgMintVersionTwo.Marshal(b, m, deterministic)
 			if err != nil {
 				return nil, err
 			}
 
-			return b[:nNewMgg], nil
+			return b[:xxx_messageInfo_MsgMintVersionTwo.Size(m)], nil
 		}
 		return b[:n], nil
 	}
