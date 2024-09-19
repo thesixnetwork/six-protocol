@@ -73,13 +73,13 @@ message MsgDeleteMintperm {
 }
 message MsgDeleteMintpermResponse {}
 
-message MsgMintLegacy {
+message MsgMint {
   string creator = 1;
   uint64 amount = 2;
   string token = 3;
 }
 
-message MsgMint {
+message MsgMintVersionTwo {
   option (gogoproto.equal)           = false;
   option (gogoproto.goproto_getters) = false;
   string creator = 1;
