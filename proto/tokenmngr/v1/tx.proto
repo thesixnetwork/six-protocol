@@ -2,6 +2,8 @@ syntax = "proto3";
 package thesixnetwork.sixprotocol.tokenmngr;
 
 
+import "gogoproto/gogo.proto";
+import "cosmos/base/v1beta1/coin.proto";
 import "tokenmngr/v1/token.proto";
 import "tokenmngr/v1/mintperm.proto";
 import "tokenmngr/v1/options.proto";
@@ -71,10 +73,18 @@ message MsgDeleteMintperm {
 }
 message MsgDeleteMintpermResponse {}
 
-message MsgMint {
+message MsgMintLegacy {
   string creator = 1;
   uint64 amount = 2;
   string token = 3;
+}
+
+message MsgMint {
+  option (gogoproto.equal)           = false;
+  option (gogoproto.goproto_getters) = false;
+  string creator = 1;
+  cosmos.base.v1beta1.Coin amount = 2
+  [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"];
 }
 
 message MsgMintResponse {

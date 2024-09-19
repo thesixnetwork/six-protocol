@@ -8,25 +8,25 @@ import (
 
 const TypeMsgMint = "mint"
 
-var _ sdk.Msg = &MsgMint{}
+var _ sdk.Msg = &MsgMintLegacy{}
 
-func NewMsgMintLagacy(creator string, amount uint64, token string) *MsgMint {
-	return &MsgMint{
+func NewMsgMintLagacy(creator string, amount uint64, token string) *MsgMintLegacy {
+	return &MsgMintLegacy{
 		Creator: creator,
 		Amount:  amount,
 		Token:   token,
 	}
 }
 
-func (msg *MsgMint ) Route() string {
+func (msg *MsgMintLegacy ) Route() string {
 	return RouterKey
 }
 
-func (msg *MsgMint ) Type() string {
+func (msg *MsgMintLegacy ) Type() string {
 	return TypeMsgMint
 }
 
-func (msg *MsgMint ) GetSigners() []sdk.AccAddress {
+func (msg *MsgMintLegacy ) GetSigners() []sdk.AccAddress {
 	creator, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		panic(err)
@@ -34,12 +34,12 @@ func (msg *MsgMint ) GetSigners() []sdk.AccAddress {
 	return []sdk.AccAddress{creator}
 }
 
-func (msg *MsgMint ) GetSignBytes() []byte {
+func (msg *MsgMintLegacy ) GetSignBytes() []byte {
 	bz := ModuleCdc.MustMarshalJSON(msg)
 	return sdk.MustSortJSON(bz)
 }
 
-func (msg *MsgMint ) ValidateBasic() error {
+func (msg *MsgMintLegacy ) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)

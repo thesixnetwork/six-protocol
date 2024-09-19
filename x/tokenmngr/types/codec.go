@@ -16,7 +16,7 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgUpdateMintperm{}, "tokenmngr/UpdateMintperm", nil)
 	cdc.RegisterConcrete(&MsgDeleteMintperm{}, "tokenmngr/DeleteMintperm", nil)
 	cdc.RegisterConcrete(&MsgMint{}, "tokenmngr/Mint", nil)
-	// cdc.RegisterConcrete(&v1types.MsgMint{}, "tokenmngr/Mint", nil)
+	// cdc.RegisterConcrete(&v1types.MsgMintLegacy{}, "tokenmngr/Mint", nil)
 	cdc.RegisterConcrete(&MsgCreateOptions{}, "tokenmngr/CreateOptions", nil)
 	cdc.RegisterConcrete(&MsgUpdateOptions{}, "tokenmngr/UpdateOptions", nil)
 	cdc.RegisterConcrete(&MsgDeleteOptions{}, "tokenmngr/DeleteOptions", nil)
@@ -40,7 +40,7 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgMint{},
-		&v1types.MsgMint{},
+		&v1types.MsgMintLegacy{},
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgCreateOptions{},

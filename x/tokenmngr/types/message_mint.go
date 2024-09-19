@@ -47,16 +47,16 @@ func (msg *MsgMint) ValidateBasic() error {
 }
 
 // ConvertToLegacyMsgMint converts the new MsgMint to the v1.MsgMint format
-func (msg *MsgMint) ConvertToLegacyMsgMint() *v1types.MsgMint {
+func (msg *MsgMint) ConvertToLegacyMsgMint() *v1types.MsgMintLegacy {
 	amount := msg.Amount.Amount.Uint64()
-	return &v1types.MsgMint{
+	return &v1types.MsgMintLegacy{
 		Creator: msg.Creator,
 		Amount:  amount,
 		Token:   msg.Amount.Denom,
 	}
 }
 
-func ConvertFromLegacyMsgMint(legacyMsg v1types.MsgMint) *MsgMint {
+func ConvertFromLegacyMsgMint(legacyMsg v1types.MsgMintLegacy) *MsgMint {
 	return &MsgMint{
 		Creator: legacyMsg.Creator,
 		Amount:  sdk.NewCoin(legacyMsg.Token, sdk.NewIntFromUint64(legacyMsg.Amount)),
