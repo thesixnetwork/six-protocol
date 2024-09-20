@@ -634,31 +634,16 @@ func (*MsgMint) Descriptor() ([]byte, []int) {
 	return fileDescriptor_6276e79aad6e369b, []int{12}
 }
 func (m *MsgMint) XXX_Unmarshal(b []byte) error {
-	// err := m.Unmarshal(b)
-	err := xxx_messageInfo_MsgMint.Unmarshal(m, b)
-	if err != nil {
-		return xxx_messageInfo_MsgMintVersionTwo.Unmarshal(m, b)
-	}
-
-	return nil
+	return m.Unmarshal(b)
 }
 func (m *MsgMint) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		out, err := xxx_messageInfo_MsgMint.Marshal(b, m, deterministic)
-		if err != nil {
-			return xxx_messageInfo_MsgMintVersionTwo.Marshal(b, m, deterministic)
-		}
-		return out, nil
+		return xxx_messageInfo_MsgMint.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
 		if err != nil {
-			xxx_messageInfo_MsgMintVersionTwo.Marshal(b, m, deterministic)
-			if err != nil {
-				return nil, err
-			}
-
-			return b[:xxx_messageInfo_MsgMintVersionTwo.Size(m)], nil
+			return nil, err
 		}
 		return b[:n], nil
 	}
@@ -1144,6 +1129,7 @@ func init() {
 	proto.RegisterType((*MsgDeleteMintperm)(nil), "thesixnetwork.sixprotocol.tokenmngr.MsgDeleteMintperm")
 	proto.RegisterType((*MsgDeleteMintpermResponse)(nil), "thesixnetwork.sixprotocol.tokenmngr.MsgDeleteMintpermResponse")
 	proto.RegisterType((*MsgMint)(nil), "thesixnetwork.sixprotocol.tokenmngr.MsgMint")
+	proto.RegisterType((*MsgMintVersionTwo)(nil), "thesixnetwork.sixprotocol.tokenmngr.MsgMintVersionTwo")
 	proto.RegisterType((*MsgMintResponse)(nil), "thesixnetwork.sixprotocol.tokenmngr.MsgMintResponse")
 	proto.RegisterType((*MsgCreateOptions)(nil), "thesixnetwork.sixprotocol.tokenmngr.MsgCreateOptions")
 	proto.RegisterType((*MsgCreateOptionsResponse)(nil), "thesixnetwork.sixprotocol.tokenmngr.MsgCreateOptionsResponse")
@@ -2063,50 +2049,19 @@ func (m *MsgDeleteMintpermResponse) MarshalToSizedBuffer(dAtA []byte) (int, erro
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgMint) ConvertFromLegacyMsgMint() *MsgMintVersionTwo {
-	return &MsgMintVersionTwo{
-		Creator: m.Creator,
-		Amount:  types.NewCoin(m.Token, types.NewIntFromUint64(m.Amount)),
-	}
-}
-
 func (m *MsgMint) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
-
-		newMsg := m.ConvertFromLegacyMsgMint()
-		sizeNewMsg := newMsg.Size()
-		dAtANewMsg := make([]byte, size)
-		nNewMsg, err := newMsg.MarshalToSizedBuffer(dAtANewMsg[:sizeNewMsg])
-		if err != nil {
-			return nil, err
-		}
-		
-		return dAtANewMsg[:nNewMsg], nil
+		return nil, err
 	}
-
 	return dAtA[:n], nil
 }
 
 func (m *MsgMint) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-
-		newMsg := m.ConvertFromLegacyMsgMint()
-		sizeNewMsg := newMsg.Size()
-		dAtANewMsg := make([]byte, size)
-		nNewMsg, err := newMsg.MarshalToSizedBuffer(dAtANewMsg[:sizeNewMsg])
-		if err != nil {
-			return 0, err
-		}
-		
-		return nNewMsg, nil
-	}
-
-	return n, nil
+	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
 func (m *MsgMint) MarshalToSizedBuffer(dAtA []byte) (int, error) {
@@ -4142,7 +4097,6 @@ func (m *MsgMint) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgMintVersionTwo) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0

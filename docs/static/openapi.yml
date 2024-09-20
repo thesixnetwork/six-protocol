@@ -22784,6 +22784,409 @@ paths:
           format: date-time
       tags:
         - Query
+  /ethermint/evm/v1/trace_call:
+    get:
+      summary: TraceTx implements the `debug_traceTransaction` rpc api
+      operationId: EthermintEvmV1TraceCall
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              data:
+                type: string
+                format: byte
+                title: response serialized in bytes
+            title: QueryTraceTxResponse defines TraceTx response
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                      description: >-
+                        A URL/resource name that uniquely identifies the type of
+                        the serialized
+
+                        protocol buffer message. This string must contain at
+                        least
+
+                        one "/" character. The last segment of the URL's path
+                        must represent
+
+                        the fully qualified name of the type (as in
+
+                        `path/google.protobuf.Duration`). The name should be in
+                        a canonical form
+
+                        (e.g., leading "." is not accepted).
+
+
+                        In practice, teams usually precompile into the binary
+                        all types that they
+
+                        expect it to use in the context of Any. However, for
+                        URLs which use the
+
+                        scheme `http`, `https`, or no scheme, one can optionally
+                        set up a type
+
+                        server that maps type URLs to message definitions as
+                        follows:
+
+
+                        * If no scheme is provided, `https` is assumed.
+
+                        * An HTTP GET on the URL must yield a
+                        [google.protobuf.Type][]
+                          value in binary format, or produce an error.
+                        * Applications are allowed to cache lookup results based
+                        on the
+                          URL, or have them precompiled into a binary to avoid any
+                          lookup. Therefore, binary compatibility needs to be preserved
+                          on changes to types. (Use versioned type names to manage
+                          breaking changes.)
+
+                        Note: this functionality is not currently available in
+                        the official
+
+                        protobuf release, and it is not used for type URLs
+                        beginning with
+
+                        type.googleapis.com.
+
+
+                        Schemes other than `http`, `https` (or the empty scheme)
+                        might be
+
+                        used with implementation specific semantics.
+                  additionalProperties: {}
+                  description: >-
+                    `Any` contains an arbitrary serialized protocol buffer
+                    message along with a
+
+                    URL that describes the type of the serialized message.
+
+
+                    Protobuf library provides support to pack/unpack Any values
+                    in the form
+
+                    of utility functions or additional generated methods of the
+                    Any type.
+
+
+                    Example 1: Pack and unpack a message in C++.
+
+                        Foo foo = ...;
+                        Any any;
+                        any.PackFrom(foo);
+                        ...
+                        if (any.UnpackTo(&foo)) {
+                          ...
+                        }
+
+                    Example 2: Pack and unpack a message in Java.
+
+                        Foo foo = ...;
+                        Any any = Any.pack(foo);
+                        ...
+                        if (any.is(Foo.class)) {
+                          foo = any.unpack(Foo.class);
+                        }
+
+                     Example 3: Pack and unpack a message in Python.
+
+                        foo = Foo(...)
+                        any = Any()
+                        any.Pack(foo)
+                        ...
+                        if any.Is(Foo.DESCRIPTOR):
+                          any.Unpack(foo)
+                          ...
+
+                     Example 4: Pack and unpack a message in Go
+
+                         foo := &pb.Foo{...}
+                         any, err := anypb.New(foo)
+                         if err != nil {
+                           ...
+                         }
+                         ...
+                         foo := &pb.Foo{}
+                         if err := any.UnmarshalTo(foo); err != nil {
+                           ...
+                         }
+
+                    The pack methods provided by protobuf library will by
+                    default use
+
+                    'type.googleapis.com/full.type.name' as the type URL and the
+                    unpack
+
+                    methods only use the fully qualified type name after the
+                    last '/'
+
+                    in the type URL, for example "foo.bar.com/x/y.z" will yield
+                    type
+
+                    name "y.z".
+
+
+
+                    JSON
+
+                    ====
+
+                    The JSON representation of an `Any` value uses the regular
+
+                    representation of the deserialized, embedded message, with
+                    an
+
+                    additional field `@type` which contains the type URL.
+                    Example:
+
+                        package google.profile;
+                        message Person {
+                          string first_name = 1;
+                          string last_name = 2;
+                        }
+
+                        {
+                          "@type": "type.googleapis.com/google.profile.Person",
+                          "firstName": <string>,
+                          "lastName": <string>
+                        }
+
+                    If the embedded message type is well-known and has a custom
+                    JSON
+
+                    representation, that representation will be embedded adding
+                    a field
+
+                    `value` which holds the custom JSON in addition to the
+                    `@type`
+
+                    field. Example (for message [google.protobuf.Duration][]):
+
+                        {
+                          "@type": "type.googleapis.com/google.protobuf.Duration",
+                          "value": "1.212s"
+                        }
+      parameters:
+        - name: args
+          description: same json format as the json rpc api.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: gas_cap
+          description: the default gas cap to be used
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: config.trace_config.tracer
+          description: custom javascript tracer
+          in: query
+          required: false
+          type: string
+        - name: config.trace_config.timeout
+          description: >-
+            overrides the default timeout of 5 seconds for JavaScript-based
+            tracing
+
+            calls
+          in: query
+          required: false
+          type: string
+        - name: config.trace_config.reexec
+          description: number of blocks the tracer is willing to go back
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: config.trace_config.disable_stack
+          description: disable stack capture
+          in: query
+          required: false
+          type: boolean
+        - name: config.trace_config.disable_storage
+          description: disable storage capture
+          in: query
+          required: false
+          type: boolean
+        - name: config.trace_config.debug
+          description: print output during capture end
+          in: query
+          required: false
+          type: boolean
+        - name: config.trace_config.limit
+          description: 'maximum length of output, but zero means unlimited'
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: config.trace_config.overrides.homestead_block
+          description: 'Homestead switch block (nil no fork, 0 = already homestead)'
+          in: query
+          required: false
+          type: string
+        - name: config.trace_config.overrides.dao_fork_block
+          description: TheDAO hard-fork switch block (nil no fork)
+          in: query
+          required: false
+          type: string
+        - name: config.trace_config.overrides.dao_fork_support
+          description: Whether the nodes supports or opposes the DAO hard-fork
+          in: query
+          required: false
+          type: boolean
+        - name: config.trace_config.overrides.eip150_block
+          description: >-
+            EIP150 implements the Gas price changes
+
+            (https://github.com/ethereum/EIPs/issues/150) EIP150 HF block (nil
+            no fork)
+          in: query
+          required: false
+          type: string
+        - name: config.trace_config.overrides.eip150_hash
+          description: >-
+            EIP150 HF hash (needed for header only clients as only gas pricing
+            changed)
+          in: query
+          required: false
+          type: string
+        - name: config.trace_config.overrides.eip155_block
+          description: EIP155Block HF block
+          in: query
+          required: false
+          type: string
+        - name: config.trace_config.overrides.eip158_block
+          description: EIP158 HF block
+          in: query
+          required: false
+          type: string
+        - name: config.trace_config.overrides.byzantium_block
+          description: 'Byzantium switch block (nil no fork, 0 = already on byzantium)'
+          in: query
+          required: false
+          type: string
+        - name: config.trace_config.overrides.constantinople_block
+          description: 'Constantinople switch block (nil no fork, 0 = already activated)'
+          in: query
+          required: false
+          type: string
+        - name: config.trace_config.overrides.petersburg_block
+          description: Petersburg switch block (nil same as Constantinople)
+          in: query
+          required: false
+          type: string
+        - name: config.trace_config.overrides.istanbul_block
+          description: 'Istanbul switch block (nil no fork, 0 = already on istanbul)'
+          in: query
+          required: false
+          type: string
+        - name: config.trace_config.overrides.muir_glacier_block
+          description: >-
+            Eip-2384 (bomb delay) switch block (nil no fork, 0 = already
+            activated)
+          in: query
+          required: false
+          type: string
+        - name: config.trace_config.overrides.berlin_block
+          description: 'Berlin switch block (nil = no fork, 0 = already on berlin)'
+          in: query
+          required: false
+          type: string
+        - name: config.trace_config.overrides.london_block
+          description: 'London switch block (nil = no fork, 0 = already on london)'
+          in: query
+          required: false
+          type: string
+        - name: config.trace_config.overrides.arrow_glacier_block
+          description: >-
+            Eip-4345 (bomb delay) switch block (nil = no fork, 0 = already
+            activated)
+          in: query
+          required: false
+          type: string
+        - name: config.trace_config.overrides.merge_fork_block
+          description: >-
+            EIP-3675 (TheMerge) switch block (nil = no fork, 0 = already in
+            merge proceedings)
+          in: query
+          required: false
+          type: string
+        - name: config.trace_config.enable_memory
+          description: enable memory capture
+          in: query
+          required: false
+          type: boolean
+        - name: config.trace_config.enable_return_data
+          description: enable return data capture
+          in: query
+          required: false
+          type: boolean
+        - name: 'config.state_overrides.accounts[string][string][string]'
+          description: >-
+            Mapping of addresses to OverrideAccount
+
+
+            This is a request variable of the map type. The query format is
+            "map_name[key]=value", e.g. If the map name is Age, the key type is
+            string, and the value type is integer, the query parameter is
+            expressed as Age["bob"]=18
+          in: query
+          required: false
+        - name: config.block_overrieds.number
+          in: query
+          required: false
+          type: string
+        - name: config.block_overrieds.defficulty
+          in: query
+          required: false
+          type: string
+        - name: config.block_overrieds.time
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: config.block_overrieds.gas_limit
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: config.block_overrieds.coinbase
+          in: query
+          required: false
+          type: string
+        - name: config.block_overrieds.random
+          in: query
+          required: false
+          type: string
+        - name: config.block_overrieds.base_fee
+          in: query
+          required: false
+          type: string
+        - name: config.block_overrieds.blob_base_fee
+          in: query
+          required: false
+          type: string
+      tags:
+        - Query
   /ethermint/evm/v1/trace_tx:
     get:
       summary: TraceTx implements the `debug_traceTransaction` rpc api
@@ -23520,6 +23923,151 @@ paths:
     get:
       summary: Params queries the parameters of x/feemarket module.
       operationId: EthermintFeemarketV1Params
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              params:
+                description: params define the evm module parameters.
+                type: object
+                properties:
+                  no_base_fee:
+                    type: boolean
+                    title: >-
+                      no base fee forces the EIP-1559 base fee to 0 (needed for
+                      0 price calls)
+                  base_fee_change_denominator:
+                    type: integer
+                    format: int64
+                    description: >-
+                      base fee change denominator bounds the amount the base fee
+                      can change
+
+                      between blocks.
+                  elasticity_multiplier:
+                    type: integer
+                    format: int64
+                    description: >-
+                      elasticity multiplier bounds the maximum gas limit an
+                      EIP-1559 block may
+
+                      have.
+                  enable_height:
+                    type: string
+                    format: int64
+                    description: height at which the base fee calculation is enabled.
+                  base_fee:
+                    type: string
+                    description: base fee for EIP-1559 blocks.
+                  min_gas_price:
+                    type: string
+                    title: >-
+                      min_gas_price defines the minimum gas price value for
+                      cosmos and eth transactions
+                  min_gas_multiplier:
+                    type: string
+                    title: >-
+                      min gas denominator bounds the minimum gasUsed to be
+                      charged
+
+                      to senders based on GasLimit
+                title: Params defines the EVM module parameters
+            description: >-
+              QueryParamsResponse defines the response type for querying x/evm
+              parameters.
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      tags:
+        - Query
+  /ethermint/feemarket/v2/base_fee:
+    get:
+      summary: BaseFee queries the base fee of the parent block of the current block.
+      operationId: EthermintFeemarketV2BaseFee
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              base_fee:
+                type: string
+            description: BaseFeeResponse returns the EIP1559 base fee.
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      tags:
+        - Query
+  /ethermint/feemarket/v2/block_gas:
+    get:
+      summary: BlockGas queries the gas used at a given block height
+      operationId: EthermintFeemarketV2BlockGas
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              gas:
+                type: string
+                format: int64
+            description: QueryBlockGasResponse returns block gas used for a given height.
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      tags:
+        - Query
+  /ethermint/feemarket/v2/params:
+    get:
+      summary: Params queries the parameters of x/feemarket module.
+      operationId: EthermintFeemarketV2Params
       responses:
         '200':
           description: A successful response.
@@ -43396,7 +43944,7 @@ paths:
   /thesixnetwork/six-protocol/tokenmngr/legacy/burns:
     get:
       summary: Queries a list of Burns items.
-      operationId: ThesixnetworkSixprotocolTokenmngrV1Burns
+      operationId: ThesixnetworkSixprotocolTokenmngrBurns
       responses:
         '200':
           description: A successful response.
@@ -43524,7 +44072,7 @@ paths:
   /thesixnetwork/six-protocol/tokenmngr/legacy/mintperm:
     get:
       summary: Queries a list of Mintperm items.
-      operationId: ThesixnetworkSixprotocolTokenmngrV1MintpermAll
+      operationId: ThesixnetworkSixprotocolTokenmngrMintpermAll
       responses:
         '200':
           description: A successful response.
@@ -43646,7 +44194,7 @@ paths:
   '/thesixnetwork/six-protocol/tokenmngr/legacy/mintperm/{token}/{address}':
     get:
       summary: Queries a Mintperm by index.
-      operationId: ThesixnetworkSixprotocolTokenmngrV1Mintperm
+      operationId: ThesixnetworkSixprotocolTokenmngrMintperm
       responses:
         '200':
           description: A successful response.
@@ -43694,7 +44242,7 @@ paths:
   /thesixnetwork/six-protocol/tokenmngr/legacy/options:
     get:
       summary: Queries a Options by index.
-      operationId: ThesixnetworkSixprotocolTokenmngrV1Options
+      operationId: ThesixnetworkSixprotocolTokenmngrOptions
       responses:
         '200':
           description: A successful response.
@@ -43729,7 +44277,7 @@ paths:
   /thesixnetwork/six-protocol/tokenmngr/legacy/params:
     get:
       summary: Parameters queries the parameters of the module.
-      operationId: ThesixnetworkSixprotocolTokenmngrV1Params
+      operationId: ThesixnetworkSixprotocolTokenmngrParams
       responses:
         '200':
           description: A successful response.
@@ -43765,7 +44313,7 @@ paths:
   /thesixnetwork/six-protocol/tokenmngr/legacy/token:
     get:
       summary: Queries a list of Token items.
-      operationId: ThesixnetworkSixprotocolTokenmngrV1TokenAll
+      operationId: ThesixnetworkSixprotocolTokenmngrTokenAll
       responses:
         '200':
           description: A successful response.
@@ -43892,7 +44440,7 @@ paths:
   '/thesixnetwork/six-protocol/tokenmngr/legacy/token/{name}':
     get:
       summary: Queries a Token by index.
-      operationId: ThesixnetworkSixprotocolTokenmngrV1Token
+      operationId: ThesixnetworkSixprotocolTokenmngrToken
       responses:
         '200':
           description: A successful response.
@@ -43941,7 +44489,7 @@ paths:
   /thesixnetwork/six-protocol/tokenmngr/legacy/token_burn:
     get:
       summary: Queries a list of TokenBurn items.
-      operationId: ThesixnetworkSixprotocolTokenmngrV1TokenBurnAll
+      operationId: ThesixnetworkSixprotocolTokenmngrTokenBurnAll
       responses:
         '200':
           description: A successful response.
@@ -44062,7 +44610,7 @@ paths:
   '/thesixnetwork/six-protocol/tokenmngr/legacy/token_burn/{token}':
     get:
       summary: Queries a TokenBurn by index.
-      operationId: ThesixnetworkSixprotocolTokenmngrV1TokenBurn
+      operationId: ThesixnetworkSixprotocolTokenmngrTokenBurn
       responses:
         '200':
           description: A successful response.
@@ -60243,6 +60791,27 @@ definitions:
     description: >-
       MsgCreateVestingAccountResponse defines the Msg/CreateVestingAccount
       response type.
+  ethermint.evm.v1.BlockOverrides:
+    type: object
+    properties:
+      number:
+        type: string
+      defficulty:
+        type: string
+      time:
+        type: string
+        format: uint64
+      gas_limit:
+        type: string
+        format: uint64
+      coinbase:
+        type: string
+      random:
+        type: string
+      base_fee:
+        type: string
+      blob_base_fee:
+        type: string
   ethermint.evm.v1.ChainConfig:
     type: object
     properties:
@@ -60869,7 +61438,7 @@ definitions:
   ethermint.evm.v1.StateOverride:
     type: object
     properties:
-      'accounts[string][string]':
+      'accounts[string][string][string]':
         type: object
         additionalProperties:
           type: object
@@ -60899,6 +61468,173 @@ definitions:
               title: State diff of the account (key-value pairs of hashes)
         title: Mapping of addresses to OverrideAccount
     description: StateOverride is a map of addresses to OverrideAccount.
+  ethermint.evm.v1.TraceCallConfig:
+    type: object
+    properties:
+      trace_config:
+        type: object
+        properties:
+          tracer:
+            type: string
+            title: custom javascript tracer
+          timeout:
+            type: string
+            title: >-
+              overrides the default timeout of 5 seconds for JavaScript-based
+              tracing
+
+              calls
+          reexec:
+            type: string
+            format: uint64
+            title: number of blocks the tracer is willing to go back
+          disable_stack:
+            type: boolean
+            title: disable stack capture
+          disable_storage:
+            type: boolean
+            title: disable storage capture
+          debug:
+            type: boolean
+            title: print output during capture end
+          limit:
+            type: integer
+            format: int32
+            title: 'maximum length of output, but zero means unlimited'
+          overrides:
+            title: >-
+              Chain overrides, can be used to execute a trace using future fork
+              rules
+            type: object
+            properties:
+              homestead_block:
+                type: string
+                title: 'Homestead switch block (nil no fork, 0 = already homestead)'
+              dao_fork_block:
+                type: string
+                title: TheDAO hard-fork switch block (nil no fork)
+              dao_fork_support:
+                type: boolean
+                title: Whether the nodes supports or opposes the DAO hard-fork
+              eip150_block:
+                type: string
+                title: >-
+                  EIP150 implements the Gas price changes
+
+                  (https://github.com/ethereum/EIPs/issues/150) EIP150 HF block
+                  (nil no fork)
+              eip150_hash:
+                type: string
+                title: >-
+                  EIP150 HF hash (needed for header only clients as only gas
+                  pricing changed)
+              eip155_block:
+                type: string
+                title: EIP155Block HF block
+              eip158_block:
+                type: string
+                title: EIP158 HF block
+              byzantium_block:
+                type: string
+                title: 'Byzantium switch block (nil no fork, 0 = already on byzantium)'
+              constantinople_block:
+                type: string
+                title: >-
+                  Constantinople switch block (nil no fork, 0 = already
+                  activated)
+              petersburg_block:
+                type: string
+                title: Petersburg switch block (nil same as Constantinople)
+              istanbul_block:
+                type: string
+                title: 'Istanbul switch block (nil no fork, 0 = already on istanbul)'
+              muir_glacier_block:
+                type: string
+                title: >-
+                  Eip-2384 (bomb delay) switch block (nil no fork, 0 = already
+                  activated)
+              berlin_block:
+                type: string
+                title: 'Berlin switch block (nil = no fork, 0 = already on berlin)'
+              london_block:
+                type: string
+                title: 'London switch block (nil = no fork, 0 = already on london)'
+              arrow_glacier_block:
+                type: string
+                title: >-
+                  Eip-4345 (bomb delay) switch block (nil = no fork, 0 = already
+                  activated)
+              merge_fork_block:
+                type: string
+                title: >-
+                  EIP-3675 (TheMerge) switch block (nil = no fork, 0 = already
+                  in merge proceedings)
+            description: >-
+              ChainConfig defines the Ethereum ChainConfig parameters using
+              *sdk.Int values
+
+              instead of *big.Int.
+          enable_memory:
+            type: boolean
+            title: enable memory capture
+          enable_return_data:
+            type: boolean
+            title: enable return data capture
+        description: TraceConfig holds extra parameters to trace functions.
+      state_overrides:
+        type: object
+        properties:
+          'accounts[string][string][string]':
+            type: object
+            additionalProperties:
+              type: object
+              properties:
+                nonce:
+                  type: string
+                  format: uint64
+                  title: Nonce of the account
+                code:
+                  type: string
+                  format: byte
+                  title: Smart contract code of the account
+                balance:
+                  type: string
+                  title: >-
+                    Balance of the account, as a string for compatibility with
+                    big numbers
+                state:
+                  type: object
+                  additionalProperties:
+                    type: string
+                  title: State of the account (key-value pairs of hashes)
+                state_diff:
+                  type: object
+                  additionalProperties:
+                    type: string
+                  title: State diff of the account (key-value pairs of hashes)
+            title: Mapping of addresses to OverrideAccount
+        description: StateOverride is a map of addresses to OverrideAccount.
+      block_overrieds:
+        type: object
+        properties:
+          number:
+            type: string
+          defficulty:
+            type: string
+          time:
+            type: string
+            format: uint64
+          gas_limit:
+            type: string
+            format: uint64
+          coinbase:
+            type: string
+          random:
+            type: string
+          base_fee:
+            type: string
+          blob_base_fee:
+            type: string
   ethermint.evm.v1.TraceConfig:
     type: object
     properties:
@@ -61046,10 +61782,6 @@ definitions:
         title: |-
           min gas denominator bounds the minimum gasUsed to be charged
           to senders based on GasLimit
-      legacy_base_fee:
-        type: string
-      legacy_min_gas_price:
-        type: string
     title: Params defines the EVM module parameters
   ethermint.feemarket.v1.QueryBaseFeeResponse:
     type: object
@@ -61065,6 +61797,112 @@ definitions:
         format: int64
     description: QueryBlockGasResponse returns block gas used for a given height.
   ethermint.feemarket.v1.QueryParamsResponse:
+    type: object
+    properties:
+      params:
+        description: params define the evm module parameters.
+        type: object
+        properties:
+          no_base_fee:
+            type: boolean
+            title: >-
+              no base fee forces the EIP-1559 base fee to 0 (needed for 0 price
+              calls)
+          base_fee_change_denominator:
+            type: integer
+            format: int64
+            description: >-
+              base fee change denominator bounds the amount the base fee can
+              change
+
+              between blocks.
+          elasticity_multiplier:
+            type: integer
+            format: int64
+            description: >-
+              elasticity multiplier bounds the maximum gas limit an EIP-1559
+              block may
+
+              have.
+          enable_height:
+            type: string
+            format: int64
+            description: height at which the base fee calculation is enabled.
+          base_fee:
+            type: string
+            description: base fee for EIP-1559 blocks.
+          min_gas_price:
+            type: string
+            title: >-
+              min_gas_price defines the minimum gas price value for cosmos and
+              eth transactions
+          min_gas_multiplier:
+            type: string
+            title: |-
+              min gas denominator bounds the minimum gasUsed to be charged
+              to senders based on GasLimit
+        title: Params defines the EVM module parameters
+    description: >-
+      QueryParamsResponse defines the response type for querying x/evm
+      parameters.
+  ethermint.feemarket.v2.Params:
+    type: object
+    properties:
+      no_base_fee:
+        type: boolean
+        title: >-
+          no base fee forces the EIP-1559 base fee to 0 (needed for 0 price
+          calls)
+      base_fee_change_denominator:
+        type: integer
+        format: int64
+        description: |-
+          base fee change denominator bounds the amount the base fee can change
+          between blocks.
+      elasticity_multiplier:
+        type: integer
+        format: int64
+        description: >-
+          elasticity multiplier bounds the maximum gas limit an EIP-1559 block
+          may
+
+          have.
+      enable_height:
+        type: string
+        format: int64
+        description: height at which the base fee calculation is enabled.
+      base_fee:
+        type: string
+        description: base fee for EIP-1559 blocks.
+      min_gas_price:
+        type: string
+        title: >-
+          min_gas_price defines the minimum gas price value for cosmos and eth
+          transactions
+      min_gas_multiplier:
+        type: string
+        title: |-
+          min gas denominator bounds the minimum gasUsed to be charged
+          to senders based on GasLimit
+      legacy_base_fee:
+        type: string
+      legacy_min_gas_price:
+        type: string
+    title: Params defines the EVM module parameters
+  ethermint.feemarket.v2.QueryBaseFeeResponse:
+    type: object
+    properties:
+      base_fee:
+        type: string
+    description: BaseFeeResponse returns the EIP1559 base fee.
+  ethermint.feemarket.v2.QueryBlockGasResponse:
+    type: object
+    properties:
+      gas:
+        type: string
+        format: int64
+    description: QueryBlockGasResponse returns block gas used for a given height.
+  ethermint.feemarket.v2.QueryParamsResponse:
     type: object
     properties:
       params:
@@ -70166,7 +71004,7 @@ definitions:
         description: params holds all the parameters of this module.
         type: object
     description: QueryParamsResponse is response type for the Query/Params RPC method.
-  thesixnetwork.sixprotocol.tokenmngr.v1.Burn:
+  thesixnetwork.sixprotocol.tokenmngr.Burn:
     type: object
     properties:
       id:
@@ -70179,7 +71017,7 @@ definitions:
       amount:
         type: string
         format: uint64
-  thesixnetwork.sixprotocol.tokenmngr.v1.Mintperm:
+  thesixnetwork.sixprotocol.tokenmngr.Mintperm:
     type: object
     properties:
       token:
@@ -70188,41 +71026,41 @@ definitions:
         type: string
       creator:
         type: string
-  thesixnetwork.sixprotocol.tokenmngr.v1.MsgBurnResponse:
+  thesixnetwork.sixprotocol.tokenmngr.MsgBurnResponse:
     type: object
     properties:
       id:
         type: string
         format: uint64
-  thesixnetwork.sixprotocol.tokenmngr.v1.MsgCreateMintpermResponse:
+  thesixnetwork.sixprotocol.tokenmngr.MsgCreateMintpermResponse:
     type: object
-  thesixnetwork.sixprotocol.tokenmngr.v1.MsgCreateOptionsResponse:
+  thesixnetwork.sixprotocol.tokenmngr.MsgCreateOptionsResponse:
     type: object
-  thesixnetwork.sixprotocol.tokenmngr.v1.MsgCreateTokenResponse:
+  thesixnetwork.sixprotocol.tokenmngr.MsgCreateTokenResponse:
     type: object
-  thesixnetwork.sixprotocol.tokenmngr.v1.MsgDeleteMintpermResponse:
+  thesixnetwork.sixprotocol.tokenmngr.MsgDeleteMintpermResponse:
     type: object
-  thesixnetwork.sixprotocol.tokenmngr.v1.MsgDeleteOptionsResponse:
+  thesixnetwork.sixprotocol.tokenmngr.MsgDeleteOptionsResponse:
     type: object
-  thesixnetwork.sixprotocol.tokenmngr.v1.MsgDeleteTokenResponse:
+  thesixnetwork.sixprotocol.tokenmngr.MsgDeleteTokenResponse:
     type: object
-  thesixnetwork.sixprotocol.tokenmngr.v1.MsgMintResponse:
+  thesixnetwork.sixprotocol.tokenmngr.MsgMintResponse:
     type: object
-  thesixnetwork.sixprotocol.tokenmngr.v1.MsgUpdateMintpermResponse:
+  thesixnetwork.sixprotocol.tokenmngr.MsgUpdateMintpermResponse:
     type: object
-  thesixnetwork.sixprotocol.tokenmngr.v1.MsgUpdateOptionsResponse:
+  thesixnetwork.sixprotocol.tokenmngr.MsgUpdateOptionsResponse:
     type: object
-  thesixnetwork.sixprotocol.tokenmngr.v1.MsgUpdateTokenResponse:
+  thesixnetwork.sixprotocol.tokenmngr.MsgUpdateTokenResponse:
     type: object
-  thesixnetwork.sixprotocol.tokenmngr.v1.Options:
+  thesixnetwork.sixprotocol.tokenmngr.Options:
     type: object
     properties:
       defaultMintee:
         type: string
-  thesixnetwork.sixprotocol.tokenmngr.v1.Params:
+  thesixnetwork.sixprotocol.tokenmngr.Params:
     type: object
     description: Params defines the parameters for the module.
-  thesixnetwork.sixprotocol.tokenmngr.v1.QueryAllMintpermResponse:
+  thesixnetwork.sixprotocol.tokenmngr.QueryAllMintpermResponse:
     type: object
     properties:
       mintperm:
@@ -70261,7 +71099,7 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  thesixnetwork.sixprotocol.tokenmngr.v1.QueryAllTokenBurnResponse:
+  thesixnetwork.sixprotocol.tokenmngr.QueryAllTokenBurnResponse:
     type: object
     properties:
       tokenBurn:
@@ -70299,7 +71137,7 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  thesixnetwork.sixprotocol.tokenmngr.v1.QueryAllTokenResponse:
+  thesixnetwork.sixprotocol.tokenmngr.QueryAllTokenResponse:
     type: object
     properties:
       token:
@@ -70343,7 +71181,7 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  thesixnetwork.sixprotocol.tokenmngr.v1.QueryBurnsResponse:
+  thesixnetwork.sixprotocol.tokenmngr.QueryBurnsResponse:
     type: object
     properties:
       Burn:
@@ -70388,7 +71226,7 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  thesixnetwork.sixprotocol.tokenmngr.v1.QueryGetMintpermResponse:
+  thesixnetwork.sixprotocol.tokenmngr.QueryGetMintpermResponse:
     type: object
     properties:
       mintperm:
@@ -70400,7 +71238,7 @@ definitions:
             type: string
           creator:
             type: string
-  thesixnetwork.sixprotocol.tokenmngr.v1.QueryGetOptionsResponse:
+  thesixnetwork.sixprotocol.tokenmngr.QueryGetOptionsResponse:
     type: object
     properties:
       Options:
@@ -70408,7 +71246,7 @@ definitions:
         properties:
           defaultMintee:
             type: string
-  thesixnetwork.sixprotocol.tokenmngr.v1.QueryGetTokenBurnResponse:
+  thesixnetwork.sixprotocol.tokenmngr.QueryGetTokenBurnResponse:
     type: object
     properties:
       tokenBurn:
@@ -70419,7 +71257,7 @@ definitions:
           amount:
             type: string
             format: uint64
-  thesixnetwork.sixprotocol.tokenmngr.v1.QueryGetTokenResponse:
+  thesixnetwork.sixprotocol.tokenmngr.QueryGetTokenResponse:
     type: object
     properties:
       token:
@@ -70436,14 +71274,14 @@ definitions:
             type: string
           creator:
             type: string
-  thesixnetwork.sixprotocol.tokenmngr.v1.QueryParamsResponse:
+  thesixnetwork.sixprotocol.tokenmngr.QueryParamsResponse:
     type: object
     properties:
       params:
         description: params holds all the parameters of this module.
         type: object
     description: QueryParamsResponse is response type for the Query/Params RPC method.
-  thesixnetwork.sixprotocol.tokenmngr.v1.Token:
+  thesixnetwork.sixprotocol.tokenmngr.Token:
     type: object
     properties:
       name:
@@ -70457,7 +71295,7 @@ definitions:
         type: string
       creator:
         type: string
-  thesixnetwork.sixprotocol.tokenmngr.v1.TokenBurn:
+  thesixnetwork.sixprotocol.tokenmngr.TokenBurn:
     type: object
     properties:
       token:
