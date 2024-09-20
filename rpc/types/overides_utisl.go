@@ -130,3 +130,85 @@ func FromProtoStateOverride(protoSO *evmtypes.StateOverride) StateOverride {
 
     return so
 }
+
+
+func ToProtoBlockOverride(bo *BlockOverrides) *evmtypes.BlockOverrides {
+	protoBO := &evmtypes.BlockOverrides{
+		Number:      bo.Number.String(),
+		Defficulty:  bo.Difficulty.String(),
+		Time:        uint64(*bo.Time),
+		GasLimit:    uint64(*bo.GasLimit),
+		Coinbase:    bo.Coinbase.String(),
+		Random:      bo.Random.String(),
+		BaseFee:     bo.BaseFee.String(),
+		BlobBaseFee: bo.BlobBaseFee.String(),
+	}
+	return protoBO
+}
+
+func FromProtoBlockOverride(protoBO *evmtypes.BlockOverrides) BlockOverrides{
+	var number *hexutil.Big
+	if protoBO.Number != "" {
+		bigIntBNumber := new(big.Int)
+		bigIntBNumber.SetString(protoBO.Number, 10)
+		number = (*hexutil.Big)(bigIntBNumber)
+	}
+
+	var difficulty *hexutil.Big
+	if protoBO.Defficulty != "" {
+		bigIntDiff := new(big.Int)
+		bigIntDiff.SetString(protoBO.Defficulty, 10)
+		difficulty = (*hexutil.Big)(bigIntDiff)
+	}
+
+	var coinBase *common.Address
+	if protoBO.Coinbase != "" {
+		coinBaseAddree := common.HexToAddress(protoBO.Coinbase)
+		coinBase = &coinBaseAddree
+	}
+
+	var time *hexutil.Uint64
+	if protoBO.Time != 0 {
+		convertedTime := hexutil.Uint64(protoBO.Time)
+		time = &convertedTime
+	}
+
+	var gasLimit *hexutil.Uint64
+	if protoBO.Time != 0 {
+		convertedGasLimit := hexutil.Uint64(protoBO.GasLimit)
+		gasLimit = &convertedGasLimit
+	}
+
+	var random *common.Hash
+	if protoBO.Random != "" {
+		randomHash := common.HexToHash(protoBO.Random)
+		random = &randomHash
+	}
+
+	var baseFee *hexutil.Big
+	if protoBO.BaseFee != "" {
+		bigIntBaseFee := new(big.Int)
+		bigIntBaseFee.SetString(protoBO.BaseFee, 10)
+		baseFee = (*hexutil.Big)(bigIntBaseFee)
+	}
+
+	var blobFee *hexutil.Big
+	if protoBO.BlobBaseFee != "" {
+		bigIntBlobFee := new(big.Int)
+		bigIntBlobFee.SetString(protoBO.BlobBaseFee, 10)
+		blobFee = (*hexutil.Big)(bigIntBlobFee)
+	}
+
+	bo := BlockOverrides{
+		Number:      number,
+		Difficulty:  difficulty,
+		Time:        time,
+		GasLimit:    gasLimit,
+		Coinbase:    coinBase,
+		Random:      random,
+		BaseFee:     baseFee,
+		BlobBaseFee: blobFee,
+	}
+
+	return bo
+}

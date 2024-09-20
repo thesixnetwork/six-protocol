@@ -10,8 +10,6 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/ethereum/go-ethereum/common"
-
 	"github.com/spf13/cobra"
 	tmconfig "github.com/tendermint/tendermint/config"
 	tmrand "github.com/tendermint/tendermint/libs/rand"
@@ -38,10 +36,10 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
 	"github.com/evmos/ethermint/crypto/hd"
-	"github.com/evmos/ethermint/server/config"
-	srvflags "github.com/evmos/ethermint/server/flags"
 	ethermint "github.com/evmos/ethermint/types"
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
+	"github.com/thesixnetwork/six-protocol/server/config"
+	srvflags "github.com/thesixnetwork/six-protocol/server/flags"
 
 	"github.com/evmos/ethermint/testutil/network"
 )
@@ -298,13 +296,13 @@ func initTestnetFiles(
 		genBalances = append(genBalances, banktypes.Balance{Address: addr.String(), Coins: coins.Sort()})
 		genAccounts = append(genAccounts, &ethermint.EthAccount{
 			BaseAccount: authtypes.NewBaseAccount(addr, nil, 0, 0),
-			CodeHash:    common.BytesToHash(evmtypes.EmptyCodeHash).Hex(),
+			CodeHash:    evmtypes.EmptyCodeHash.Hex(),
 		})
 
 		valTokens := sdk.TokensFromConsensusPower(100, ethermint.PowerReduction)
 		createValMsg, err := stakingtypes.NewMsgCreateValidator(
 			sdk.ValAddress(addr),
-      "",
+			"",
 			valPubKeys[i],
 			sdk.NewCoin(ethermint.AttoPhoton, valTokens),
 			stakingtypes.NewDescription(nodeDirName, "", "", "", ""),
