@@ -68,6 +68,49 @@ func NewAPI(
 	}
 }
 
+// TraceCall
+func (a *API) TraceCall(args evmtypes.TransactionArgs, blockNrOrHash rpctypes.BlockNumberOrHash, config *TraceCallConfig) (interface{}, error) {
+	a.logger.Debug("debug_TraceCall", "args", args.String(), "block number or hash", blockNrOrHash)
+
+	blockNum, err := a.getBlockNumber(blockNrOrHash)
+	if err != nil {
+		return nil, err
+	}
+
+	bz, err := json.Marshal(&args)
+	if err != nil {
+		return nil, err
+	}
+
+	blockOverride := rpctypes.ToProtoBlockOverride(config.BlockOverrides)
+	stateOverride := rpctypes.ToProtoStateOverride(config.StateOverrides)
+
+	traceCallRequest := evmtypes.QueryTraceCallRequest{
+		Args:   bz,
+		GasCap: a.backend.RPCGasCap(),
+		Config: &evmtypes.TraceCallConfig{
+			TraceConfig:    &config.TraceConfig,
+			StateOverrides: stateOverride,
+			BlockOverrieds: blockOverride,
+		},
+	}
+
+	traceResult, err := a.queryClient.TraceCall(rpctypes.ContextWithHeight(blockNum.Int64()), &traceCallRequest)
+	if err != nil {
+		return nil, err
+	}
+
+	// Response format is unknown due to custom tracer config param
+	// More information can be found here https://geth.ethereum.org/docs/dapp/tracing-filtered
+	var decodedResult interface{}
+	err = json.Unmarshal(traceResult.Data, &decodedResult)
+	if err != nil {
+		return nil, err
+	}
+
+	return decodedResult, nil
+}
+
 // TraceTransaction returns the structured logs created during the execution of EVM
 // and returns them as a JSON object.
 func (a *API) TraceTransaction(hash common.Hash, config *evmtypes.TraceConfig) (interface{}, error) {
@@ -549,5 +592,23 @@ func makeHasher(h hash.Hash) hasher {
 		rh.Reset()
 		rh.Write(data)
 		rh.Read(dest[:outputLen])
+	}
+}
+
+// getBlockNumber returns the BlockNumber from BlockNumberOrHash
+func (e *API) getBlockNumber(blockNrOrHash rpctypes.BlockNumberOrHash) (rpctypes.BlockNumber, error) {
+	switch {
+	case blockNrOrHash.BlockHash == nil && blockNrOrHash.BlockNumber == nil:
+		return rpctypes.EthEarliestBlockNumber, fmt.Errorf("types BlockHash and BlockNumber cannot be both nil")
+	case blockNrOrHash.BlockHash != nil:
+		blockNumber, err := e.backend.GetBlockNumberByHash(*blockNrOrHash.BlockHash)
+		if err != nil {
+			return rpctypes.EthEarliestBlockNumber, err
+		}
+		return rpctypes.NewBlockNumber(blockNumber), nil
+	case blockNrOrHash.BlockNumber != nil:
+		return *blockNrOrHash.BlockNumber, nil
+	default:
+		return rpctypes.EthEarliestBlockNumber, nil
 	}
 }
