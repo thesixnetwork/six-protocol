@@ -70,7 +70,7 @@ func NewAPI(
 
 // TraceCall
 func (a *API) TraceCall(args evmtypes.TransactionArgs, blockNrOrHash rpctypes.BlockNumberOrHash, config *TraceCallConfig) (interface{}, error) {
-	a.logger.Debug("debug_TraceCall", "args", args.String(), "block number or hash", blockNrOrHash)
+	a.logger.Debug("debug_traceCall", "args", args.String(), "block number or hash", blockNrOrHash)
 
 	blockNum, err := a.getBlockNumber(blockNrOrHash)
 	if err != nil {
@@ -82,8 +82,16 @@ func (a *API) TraceCall(args evmtypes.TransactionArgs, blockNrOrHash rpctypes.Bl
 		return nil, err
 	}
 
-	blockOverride := rpctypes.ToProtoBlockOverride(config.BlockOverrides)
-	stateOverride := rpctypes.ToProtoStateOverride(config.StateOverrides)
+	var blockOverride *evmtypes.BlockOverrides
+	var stateOverride *evmtypes.StateOverride
+
+	if config.BlockOverrides != nil {
+		blockOverride = rpctypes.ToProtoBlockOverride(config.BlockOverrides)
+	}
+
+	if config.StateOverrides != nil{
+		stateOverride = rpctypes.ToProtoStateOverride(config.StateOverrides)
+	}
 
 	traceCallRequest := evmtypes.QueryTraceCallRequest{
 		Args:   bz,
