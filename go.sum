@@ -1267,8 +1267,8 @@ github.com/tendermint/tm-db v0.6.4/go.mod h1:dptYhIpJ2M5kUuenLr+Yyf3zQOv1SgBZcl8
 github.com/tendermint/tm-db v0.6.6/go.mod h1:wP8d49A85B7/erz/r4YbKssKw6ylsO/hKtFk7E1aWZI=
 github.com/tendermint/tm-db v0.6.7 h1:fE00Cbl0jayAoqlExN6oyQJ7fR/ZtoVOmvPJ//+shu8=
 github.com/tendermint/tm-db v0.6.7/go.mod h1:byQDzFkZV1syXr/ReXS808NxA2xvyuuVgXOJ/088L6I=
-github.com/thesixnetwork/cosmos-sdk v0.45.6-six-protocol h1:wQtUIXc0PDE55b3vQ6xktdHtFSwL8REKYpHx53GcHlI=
-github.com/thesixnetwork/cosmos-sdk v0.45.6-six-protocol/go.mod h1:bPeeVMEtVvH3y3xAGHVbK+/CZlpaazzh77hG8ZrcJpI=
+github.com/thesixnetwork/cosmos-sdk v0.45.6-six-protocol.0.20240911101233-d2c722f34cc2 h1:EgqDiju9Xy7CEwgTPdSEW5dTOfEW5HurAtSGb5n++f0=
+github.com/thesixnetwork/cosmos-sdk v0.45.6-six-protocol.0.20240911101233-d2c722f34cc2/go.mod h1:bPeeVMEtVvH3y3xAGHVbK+/CZlpaazzh77hG8ZrcJpI=
 github.com/thesixnetwork/ethermint v0.18.1-0.20240920104332-4f49f3d3bcf1 h1:KzuQOZ6rRegm6qY2nPfbJ+hEiLGPqoG7Hesf/MAehwE=
 github.com/thesixnetwork/ethermint v0.18.1-0.20240920104332-4f49f3d3bcf1/go.mod h1:W/+I6oiytFHo8kRvQin8qvWOA8sr8NBcrVFsywNpZAE=
 github.com/thesixnetwork/go-ethereum v1.13.6-0.20240902091934-622069f0640d h1:J1wHr83j48KdhSBt5KruvZoL7Gk2XfiodYivghWhClg=
