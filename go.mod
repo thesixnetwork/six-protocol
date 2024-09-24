@@ -203,9 +203,9 @@ replace (
 	github.com/cosmos/cosmos-sdk => github.com/thesixnetwork/cosmos-sdk v0.45.6-six-protocol.0.20240911101233-d2c722f34cc2
 	github.com/ethereum/go-ethereum => github.com/thesixnetwork/go-ethereum v1.13.6-0.20240902091934-622069f0640d
 	github.com/evmos/ethermint => github.com/thesixnetwork/ethermint v0.18.1-0.20240920104332-4f49f3d3bcf1
-	github.com/thesixnetwork/sixnft => github.com/thesixnetwork/sixnft v0.9.2-0.20240923071030-4d4d58d0ab47
 	github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
 	github.com/keybase/go-keychain => github.com/99designs/go-keychain v0.0.0-20191008050251-8e49817e8af4
 	github.com/syndtr/goleveldb => github.com/syndtr/goleveldb v1.0.1-0.20200815110645-5c35d600f0ca
+	github.com/thesixnetwork/sixnft => github.com/thesixnetwork/sixnft v0.9.2-0.20240923071030-4d4d58d0ab47
 	google.golang.org/grpc => google.golang.org/grpc v1.33.2
 )

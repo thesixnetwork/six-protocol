@@ -1,15 +1,19 @@
 accounts: # mnemonic for development purpose
   - name: alice
-    coins: ["10000finix", "100000000000000usix"]
+    coins: ["100000000000000usix"]
     mnemonic: "history perfect across group seek acoustic delay captain sauce audit carpet tattoo exhaust green there giant cluster want pond bulk close screen scissors remind"
   - name: bob
-    coins: ["20000finix", "200000000000000usix"]
+    coins: ["200000000000000usix"]
     mnemonic: "limb sister humor wisdom elephant weasel beyond must any desert glance stem reform soccer include chest chef clerk call popular display nerve priority venture"
   - name: faucet
-    coins: ["30000finix", "300000000000000usix"]
+    coins: ["300000000000000usix"]
   - name: super-admin
-    coins: ["10000finix", "300000000000000usix"]
+    coins: ["300000000000000usix"]
     mnemonic: "expect peace defense conduct virtual flight flip unit equip solve broccoli protect shed group else useless tree such tornado minimum decade tower warfare galaxy"
+  - address: 6x1kch0sdjr5tuvjh0h3a55c6l5sr6m0phjeag9f2
+    coins: ["10000000000000000000000asix"]
+  - address: 6x18743s33zmsvmvyynfxu5sy2f80e2g5mz8dk65g
+    coins: ["10000000000000000000asix"]
 validator:
   name: super-admin
   staked: "1000000000000usix"
@@ -36,8 +40,8 @@ init:
   config:
     moniker: "mychain"
     consensus:
-      timeout_propose: "3s"
-      timeout_commit: "5s"
+      # timeout_propose: "3s"
+      # timeout_commit: "5s"
   client:
     chain-id: "testnet"
     keyring-backend: "test"
@@ -197,3 +201,4 @@ genesis:
         no_base_fee: false
         legacy_base_fee: "100000000000"
         legacy_min_gas_price: "100000000000.0"
+
