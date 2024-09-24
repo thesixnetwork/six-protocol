@@ -92,9 +92,11 @@ func addPrecompileToVM(p IPrecompile) {
 	vm.PrecompiledContractsByzantium[p.Address()] = p
 	vm.PrecompiledContractsIstanbul[p.Address()] = p
 	vm.PrecompiledContractsBerlin[p.Address()] = p
+	vm.PrecompiledContractsCancun[p.Address()] = p
 	vm.PrecompiledContractsBLS[p.Address()] = p
 	vm.PrecompiledAddressesHomestead = append(vm.PrecompiledAddressesHomestead, p.Address())
 	vm.PrecompiledAddressesByzantium = append(vm.PrecompiledAddressesByzantium, p.Address())
 	vm.PrecompiledAddressesIstanbul = append(vm.PrecompiledAddressesIstanbul, p.Address())
 	vm.PrecompiledAddressesBerlin = append(vm.PrecompiledAddressesBerlin, p.Address())
+	vm.PrecompiledAddressesCancun = append(vm.PrecompiledAddressesCancun, p.Address())
 }

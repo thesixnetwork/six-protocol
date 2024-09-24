@@ -3,7 +3,6 @@ package nftmngr
 import (
 	"encoding/base64"
 	"errors"
-	"fmt"
 	"math/big"
 
 	"github.com/cosmos/cosmos-sdk/codec"
@@ -16,25 +15,27 @@ import (
 )
 
 const (
-	AddAction         = "addAction"
-	AddAttribute      = "addAttribute"
-	ChangeOrgOwner    = "changeOrgOwner"
-	ChangeSchemaOwner = "changeSchemaOwner"
-	CreateMetadata    = "createMetadata"
-	CreateSchema      = "createSchema"
-	ActionByAdmin     = "actionByAdmin"
-	ResyncAttribute   = "resyncAttribute"
-	UpdateAttribute   = "updateAttribute"
-	AttributeOveride  = "attributeOveride"
-	SetBaseURI        = "setBaseURI"
-	SetMetadataFormat = "setMetadataFormat"
-	SetMintAuth       = "setMintAuth"
-	SetOriginChain    = "setOriginChain"
-	SetOriginContract = "setOriginContract"
-	SetUriRetreival   = "setUriRetreival"
-	ShowAttribute     = "showAttribute"
-	ToggleAction      = "toggleAction"
-	UpateAction       = "updateAction"
+	AddAction            = "addAction"
+	AddAttribute         = "addAttribute"
+	ChangeOrgOwner       = "changeOrgOwner"
+	ChangeSchemaOwner    = "changeSchemaOwner"
+	CreateMetadata       = "createMetadata"
+	CreateSchema         = "createSchema"
+	ActionByAdmin        = "actionByAdmin"
+	ResyncAttribute      = "resyncAttribute"
+	UpdateAttribute      = "updateAttribute"
+	AttributeOveride     = "attributeOveride"
+	SetBaseURI           = "setBaseURI"
+	SetMetadataFormat    = "setMetadataFormat"
+	SetMintAuth          = "setMintAuth"
+	SetOriginChain       = "setOriginChain"
+	SetOriginContract    = "setOriginContract"
+	SetUriRetreival      = "setUriRetreival"
+	ShowAttribute        = "showAttribute"
+	ToggleAction         = "toggleAction"
+	UpateAction          = "updateAction"
+	AddActionExecutor    = "addActionExecutor"
+	RemoveActionExecutor = "removeActionExecutor"
 )
 
 func (p PrecompileExecutor) addAction(ctx sdk.Context, caller common.Address, method *abi.Method, args []interface{}, value *big.Int, readOnly bool) ([]byte, error) {
@@ -377,8 +378,6 @@ func (p PrecompileExecutor) actionByAdmin(ctx sdk.Context, caller common.Address
 	if readOnly {
 		return nil, errors.New("cannot call send from staticcall")
 	}
-
-	fmt.Printf("################### ACTION BY ADMIN %v ###############\n", caller)
 
 	if err := pcommon.ValidateNonPayable(value); err != nil {
 		return nil, err
