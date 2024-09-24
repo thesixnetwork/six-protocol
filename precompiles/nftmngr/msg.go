@@ -3,6 +3,7 @@ package nftmngr
 import (
 	"encoding/base64"
 	"errors"
+	"fmt"
 	"math/big"
 
 	"github.com/cosmos/cosmos-sdk/codec"
@@ -376,6 +377,9 @@ func (p PrecompileExecutor) actionByAdmin(ctx sdk.Context, caller common.Address
 	if readOnly {
 		return nil, errors.New("cannot call send from staticcall")
 	}
+
+	fmt.Printf("################### ACTION BY ADMIN %v ###############\n", caller)
+
 	if err := pcommon.ValidateNonPayable(value); err != nil {
 		return nil, err
 	}
