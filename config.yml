@@ -11,7 +11,7 @@ accounts: # mnemonic for development purpose
     coins: ["300000000000000usix"]
     mnemonic: "expect peace defense conduct virtual flight flip unit equip solve broccoli protect shed group else useless tree such tornado minimum decade tower warfare galaxy"
   - address: 6x1kch0sdjr5tuvjh0h3a55c6l5sr6m0phjeag9f2
-    coins: ["10000000000000000000000asix"]
+    coins: ["2000000000usix,10000000000000000000000asix"]
   - address: 6x18743s33zmsvmvyynfxu5sy2f80e2g5mz8dk65g
     coins: ["10000000000000000000asix"]
 validator:

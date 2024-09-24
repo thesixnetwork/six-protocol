@@ -47,6 +47,26 @@ type ActionParameter struct {
 
 type PrecompileExecutor struct {
 	nftmngrKeeper   pcommon.NftmngrKeeper
+	AddActionID []byte
+	AddAttributeID []byte
+	ChangeOrgOwnerID []byte
+	ChangeSchemaOwnerID []byte
+	CreateMetadataID []byte
+	CreateSchemaID []byte
+	ResyncAttributeID []byte
+	UpdateAttributeID []byte
+	AttributeOverideID []byte
+	SetBaseURIID []byte
+	SetMetadataFormatID []byte
+	SetMintAuthID []byte
+	SetOriginChainID []byte
+	SetOriginContractID []byte
+	SetUriRetreivalID []byte
+	ShowAttributeID []byte
+	ToggleActionID []byte
+	UpateActionID []byte
+	AddActionExecutorID []byte
+	RemoveActionExecutorID []byte
 	ActionByAdminID []byte
 	address         common.Address
 }
@@ -62,6 +82,46 @@ func NewPrecompile(nftmngrKeeper pcommon.NftmngrKeeper) (*pcommon.Precompile, er
 		switch name {
 		case ActionByAdmin:
 			p.ActionByAdminID = m.ID
+		case AddAction:
+			p.AddActionID = m.ID
+		case AddAttribute:
+			p.AddAttributeID = m.ID
+		case ChangeOrgOwner:
+			p.ChangeOrgOwnerID = m.ID
+		case ChangeSchemaOwner:
+			p.ChangeSchemaOwnerID = m.ID
+		case CreateMetadata:
+			p.CreateMetadataID = m.ID
+		case CreateSchema:
+			p.CreateSchemaID = m.ID
+		case ResyncAttribute:
+			p.ResyncAttributeID = m.ID
+		case UpdateAttribute:
+			p.UpdateAttributeID = m.ID
+		case AttributeOveride:
+			p.AttributeOverideID = m.ID
+		case SetBaseURI:
+			p.SetBaseURIID = m.ID
+		case SetMetadataFormat:
+			p.SetMetadataFormatID = m.ID
+		case SetMintAuth:
+			p.SetMintAuthID = m.ID
+		case SetOriginChain:
+			p.SetOriginChainID = m.ID
+		case SetOriginContract:
+			p.SetOriginContractID = m.ID
+		case SetUriRetreival:
+			p.SetUriRetreivalID = m.ID
+		case ShowAttribute:
+			p.ShowAttributeID = m.ID
+		case ToggleAction:
+			p.ToggleActionID = m.ID
+		case UpateAction:
+			p.UpateActionID = m.ID
+		case AddActionExecutor:
+			p.AddActionExecutorID= m.ID
+		case RemoveActionExecutor:
+			p.RemoveActionExecutorID = m.ID
 		}
 	}
 
@@ -171,6 +231,15 @@ func (p PrecompileExecutor) uint64FromArg(arg interface{}) (uint64, error) {
 	}
 
 	return uint64Arg, nil
+}
+
+func (p PrecompileExecutor) uint32FromArg(arg interface{}) (uint32, error) {
+	uint32Arg, ok := arg.(uint32)
+	if !ok {
+		return 0, errors.New("invalid argument type string")
+	}
+
+	return uint32Arg, nil
 }
 
 func (p PrecompileExecutor) parametersFromJSONArg(arg interface{}) ([]*nftmngrtype.ActionParameter, error) {
