@@ -5,7 +5,6 @@ import (
 	"embed"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"math/big"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -75,7 +74,6 @@ func (p PrecompileExecutor) RequiredGas(input []byte, method *abi.Method) uint64
 }
 
 func (p PrecompileExecutor) Execute(ctx sdk.Context, method *abi.Method, caller common.Address, callingContract common.Address, args []interface{}, value *big.Int, readOnly bool, evm *vm.EVM) (bz []byte, err error) {
-	fmt.Printf("##################### Methods: %v ##################\n", method.Name)
 	switch method.Name {
 	case ActionByAdmin:
 		return p.actionByAdmin(ctx, caller, method, args, value, readOnly)
@@ -115,6 +113,10 @@ func (p PrecompileExecutor) Execute(ctx sdk.Context, method *abi.Method, caller 
 		return p.toggleAction(ctx, caller, method, args, value, readOnly)
 	case UpateAction:
 		return p.updateAction(ctx, caller, method, args, value, readOnly)
+	case AddActionExecutor:
+		return p.addActionExecutor(ctx, caller, method, args, value, readOnly)
+	case RemoveActionExecutor:
+		return p.removeActionExecutor(ctx, caller, method, args, value, readOnly)
 	}
 	return
 }
