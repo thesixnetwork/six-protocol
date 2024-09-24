@@ -181,14 +181,14 @@ func (p PrecompileExecutor) Execute(ctx sdk.Context, method *abi.Method, caller 
 	return
 }
 
-func (p PrecompileExecutor) accAddressFromBech32(arg interface{}) (bec32Addr sdk.AccAddress, err error) {
-	addr := arg.(string)
-	bec32Addr, err = sdk.AccAddressFromBech32(addr)
-	if err != nil {
-		return nil, errors.New("invalid addr")
-	}
-	return bec32Addr, nil
-}
+// func (p PrecompileExecutor) accAddressFromBech32(arg interface{}) (bec32Addr sdk.AccAddress, err error) {
+// 	addr := arg.(string)
+// 	bec32Addr, err = sdk.AccAddressFromBech32(addr)
+// 	if err != nil {
+// 		return nil, errors.New("invalid addr")
+// 	}
+// 	return bec32Addr, nil
+// }
 
 func (p PrecompileExecutor) accAddressFromArg(arg interface{}) (sdk.AccAddress, error) {
 	addr := arg.(common.Address)
