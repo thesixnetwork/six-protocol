@@ -305,6 +305,7 @@ func GetConfig(v *viper.Viper) Config {
 			BlockRangeCap:   v.GetInt32("json-rpc.block-range-cap"),
 			HTTPTimeout:     v.GetDuration("json-rpc.http-timeout"),
 			HTTPIdleTimeout: v.GetDuration("json-rpc.http-idle-timeout"),
+			AllowUnprotectedTxs: v.GetBool("json-rpc.allow-unprotected-txs"),
 		},
 		TLS: TLSConfig{
 			CertificatePath: v.GetString("tls.certificate-path"),
