@@ -41,8 +41,7 @@ require (
 	github.com/cosmos/go-bip39 v1.0.0
 	github.com/cosmos/gorocksdb v1.2.0 // indirect
 	github.com/cosmos/iavl v0.17.3 // indirect
-	github.com/cosmos/ledger-cosmos-go v0.11.1 // indirect
-	github.com/cosmos/ledger-go v0.9.2 // indirect
+	github.com/cosmos/ledger-cosmos-go v0.13.3 // indirect
 	github.com/danieljoos/wincred v1.0.2 // indirect
 	github.com/davecgh/go-spew v1.1.1
 	github.com/desertbit/timer v0.0.0-20180107155436-c41aec40b27f // indirect
@@ -117,7 +116,7 @@ require (
 	github.com/tendermint/crypto v0.0.0-20191022145703-50d29ede1e15 // indirect
 	github.com/tendermint/go-amino v0.16.0 // indirect
 	github.com/xanzy/ssh-agent v0.2.1 // indirect
-	github.com/zondax/hid v0.9.0 // indirect
+	github.com/zondax/hid v0.9.2 // indirect
 	go.etcd.io/bbolt v1.3.6 // indirect
 	golang.org/x/crypto v0.24.0
 	golang.org/x/term v0.21.0 // indirect
@@ -137,7 +136,7 @@ require (
 	github.com/antlr/antlr4/runtime/Go/antlr v0.0.0-20220527190237-ee62e23da966 // indirect
 	github.com/bits-and-blooms/bitset v1.7.0 // indirect
 	github.com/bmatcuk/doublestar v1.3.2 // indirect
-	github.com/btcsuite/btcd/btcec/v2 v2.2.0 // indirect
+	github.com/btcsuite/btcd/btcec/v2 v2.3.2 // indirect
 	github.com/btcsuite/btcd/chaincfg/chainhash v1.0.1 // indirect
 	github.com/btcsuite/btcutil v1.0.3-0.20201208143702-a53e38424cce // indirect
 	github.com/cenkalti/backoff/v4 v4.1.2 // indirect
@@ -151,7 +150,7 @@ require (
 	github.com/consensys/gnark-crypto v0.12.1 // indirect
 	github.com/crate-crypto/go-kzg-4844 v0.7.0 // indirect
 	github.com/deckarep/golang-set/v2 v2.1.0 // indirect
-	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.0.1 // indirect
+	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.2.0 // indirect
 	github.com/dlclark/regexp2 v1.7.0 // indirect
 	github.com/dop251/goja v0.0.0-20230806174421-c933cf95e127 // indirect
 	github.com/ethereum/c-kzg-4844 v0.4.0 // indirect
@@ -182,6 +181,7 @@ require (
 	github.com/tklauser/go-sysconf v0.3.12 // indirect
 	github.com/tklauser/numcpus v0.6.1 // indirect
 	github.com/tyler-smith/go-bip39 v1.1.0 // indirect
+	github.com/zondax/ledger-go v0.14.3 // indirect
 	go.uber.org/atomic v1.9.0 // indirect
 	go.uber.org/goleak v1.1.12 // indirect
 	go.uber.org/multierr v1.7.0 // indirect
