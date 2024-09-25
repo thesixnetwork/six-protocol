@@ -54,7 +54,8 @@ init:
       enable: true # as default
     api:
       swagger: true # default is false
-    evm-rpc:
+    json-rpc:
+      allow-unprotected-txs: true
       address: "0.0.0.0:8545" # as default # change the JSON-RPC address and port
       ws-address: "0.0.0.0:8546" # as default # change the JSON-RPC websocket address and port
 genesis:
