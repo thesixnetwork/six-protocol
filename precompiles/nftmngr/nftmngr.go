@@ -181,7 +181,7 @@ func (p PrecompileExecutor) Execute(ctx sdk.Context, method *abi.Method, caller 
 	return
 }
 
-func (p PrecompileExecutor) accAddressFromBech32(arg interface{}) (bec32Addr sdk.AccAddress, err error) {
+func (p PrecompileExecutor) AccAddressFromBech32(arg interface{}) (bec32Addr sdk.AccAddress, err error) {
 	addr := arg.(string)
 	bec32Addr, err = sdk.AccAddressFromBech32(addr)
 	if err != nil {
@@ -224,7 +224,7 @@ func (p PrecompileExecutor) boolFromArg(arg interface{}) (bool, error) {
 	return boolArg, nil
 }
 
-func (p PrecompileExecutor) uint64FromArg(arg interface{}) (uint64, error) {
+func (p PrecompileExecutor) Uint64FromArg(arg interface{}) (uint64, error) {
 	uint64Arg, ok := arg.(uint64)
 	if !ok {
 		return 0, errors.New("invalid argument type string")
