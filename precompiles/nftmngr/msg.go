@@ -3,7 +3,6 @@ package nftmngr
 import (
 	"encoding/base64"
 	"errors"
-	"fmt"
 	"math/big"
 
 	"github.com/cosmos/cosmos-sdk/codec"
@@ -44,30 +43,25 @@ func (p PrecompileExecutor) addAction(ctx sdk.Context, caller common.Address, me
 		return nil, errors.New("cannot call send from staticcall")
 	}
 	if err := pcommon.ValidateNonPayable(value); err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	if err := pcommon.ValidateArgsLength(args, 2); err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	senderCosmoAddr, err := p.accAddressFromArg(caller)
 	if err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	nftschema, err := p.stringFromArg(args[0])
 	if err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	base64NewAction, err := p.stringFromArg(args[1])
 	if err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
@@ -77,20 +71,17 @@ func (p PrecompileExecutor) addAction(ctx sdk.Context, caller common.Address, me
 	// decode base64 string to bytes
 	input_action, err := base64.StdEncoding.DecodeString(base64NewAction)
 	if err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, sdkerrors.Wrap(nftmngrtypes.ErrParsingBase64, err.Error())
 	}
 
 	// unmarshal bytes to Action structure
 	err = p.nftmngrKeeper.GetCodec().(*codec.ProtoCodec).UnmarshalJSON(input_action, &new_action)
 	if err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, sdkerrors.Wrap(nftmngrtypes.ErrParsingMetadataMessage, err.Error())
 	}
 
 	err = p.nftmngrKeeper.AddActionKeeper(ctx, senderCosmoAddr.String(), nftschema, new_action)
 	if err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, sdkerrors.Wrap(sdkerrors.Error{}, err.Error())
 	}
 
@@ -102,36 +93,30 @@ func (p PrecompileExecutor) addActionExecutor(ctx sdk.Context, caller common.Add
 		return nil, errors.New("cannot call send from staticcall")
 	}
 	if err := pcommon.ValidateNonPayable(value); err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	if err := pcommon.ValidateArgsLength(args, 2); err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	senderCosmoAddr, err := p.accAddressFromArg(caller)
 	if err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	nftSchema, err := p.stringFromArg(args[0])
 	if err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	newExecutor, err := p.accAddressFromArg(args[1])
 	if err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	err = p.nftmngrKeeper.AddActionExecutor(ctx, senderCosmoAddr.String(), nftSchema, newExecutor.String())
 	if err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, sdkerrors.Wrap(sdkerrors.Error{}, err.Error())
 	}
 
@@ -270,36 +255,30 @@ func (p PrecompileExecutor) changeSchemaOwner(ctx sdk.Context, caller common.Add
 		return nil, errors.New("cannot call send from staticcall")
 	}
 	if err := pcommon.ValidateNonPayable(value); err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	if err := pcommon.ValidateArgsLength(args, 2); err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	senderCosmoAddr, err := p.accAddressFromArg(caller)
 	if err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	orgName, err := p.stringFromArg(args[0])
 	if err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	newOwner, err := p.accAddressFromArg(args[1])
 	if err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	err = p.nftmngrKeeper.ChangeSchemaOwner(ctx, senderCosmoAddr.String(), newOwner.String(), orgName)
 	if err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 	return method.Outputs.Pack(true)
@@ -360,43 +339,36 @@ func (p PrecompileExecutor) createSchema(ctx sdk.Context, caller common.Address,
 		return nil, errors.New("cannot call send from staticcall")
 	}
 	if err := pcommon.ValidateNonPayable(value); err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	if err := pcommon.ValidateArgsLength(args, 1); err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	senderCosmoAddr, err := p.accAddressFromArg(caller)
 	if err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	base64NewSchema, err := p.stringFromArg(args[0])
 	if err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	jsonSchema, err := base64.StdEncoding.DecodeString(base64NewSchema)
 	if err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, sdkerrors.Wrap(nftmngrtypes.ErrParsingBase64, err.Error())
 	}
 
 	schema_input := nftmngrtypes.NFTSchemaINPUT{}
 	err = p.nftmngrKeeper.GetCodec().(*codec.ProtoCodec).UnmarshalJSON(jsonSchema, &schema_input)
 	if err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, sdkerrors.Wrap(nftmngrtypes.ErrParsingSchemaMessage, err.Error())
 	}
 
 	err = p.nftmngrKeeper.CreateNftSchemaKeeper(ctx, senderCosmoAddr.String(), schema_input)
 	if err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
@@ -549,36 +521,30 @@ func (p PrecompileExecutor) attributeOveride(ctx sdk.Context, caller common.Addr
 		return nil, errors.New("cannot call send from staticcall")
 	}
 	if err := pcommon.ValidateNonPayable(value); err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	if err := pcommon.ValidateArgsLength(args, 2); err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	senderCosmoAddr, err := p.accAddressFromArg(caller)
 	if err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	nftschema, err := p.stringFromArg(args[0])
 	if err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	newOveride, err := p.uint32FromArg(args[1])
 	if err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	err = p.nftmngrKeeper.SetAttributeOveridingKeeper(ctx, senderCosmoAddr.String(), nftschema, int32(newOveride))
 	if err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
@@ -771,36 +737,30 @@ func (p PrecompileExecutor) setUriRetreival(ctx sdk.Context, caller common.Addre
 		return nil, errors.New("cannot call send from staticcall")
 	}
 	if err := pcommon.ValidateNonPayable(value); err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	if err := pcommon.ValidateArgsLength(args, 2); err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	senderCosmoAddr, err := p.accAddressFromArg(caller)
 	if err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	nftschema, err := p.stringFromArg(args[0])
 	if err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	newMethod, err := p.uint32FromArg(args[1])
 	if err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	err = p.nftmngrKeeper.SetURIRetrievalKeeper(ctx, senderCosmoAddr.String(), nftschema, int32(newMethod))
 	if err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
@@ -812,42 +772,35 @@ func (p PrecompileExecutor) showAttribute(ctx sdk.Context, caller common.Address
 		return nil, errors.New("cannot call send from staticcall")
 	}
 	if err := pcommon.ValidateNonPayable(value); err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	if err := pcommon.ValidateArgsLength(args, 3); err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	senderCosmoAddr, err := p.accAddressFromArg(caller)
 	if err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	nftschema, err := p.stringFromArg(args[0])
 	if err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	status, err := p.boolFromArg(args[1])
 	if err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	attributeNames, err := p.arrayOfstringFromArg(args[2])
 	if err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
 	err = p.nftmngrKeeper.ShowAttributeKeeper(ctx, senderCosmoAddr.String(), nftschema, status, attributeNames)
 	if err != nil {
-		fmt.Printf("############ ERROR: %v ##############\n", err)
 		return nil, err
 	}
 
