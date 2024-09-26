@@ -98,8 +98,6 @@ import (
 
 	ethermintapp "github.com/evmos/ethermint/app"
 	evmante "github.com/evmos/ethermint/app/ante"
-	ethermintconfig "github.com/evmos/ethermint/server/config"
-	srvflags "github.com/evmos/ethermint/server/flags"
 	ethermint "github.com/evmos/ethermint/types"
 	"github.com/evmos/ethermint/x/evm"
 	evmrest "github.com/evmos/ethermint/x/evm/client/rest"
@@ -108,10 +106,13 @@ import (
 	"github.com/evmos/ethermint/x/feemarket"
 	feemarketkeeper "github.com/evmos/ethermint/x/feemarket/keeper"
 	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
-	"github.com/evmos/evmos/v6/x/erc20"
-	erc20client "github.com/evmos/evmos/v6/x/erc20/client"
-	erc20keeper "github.com/evmos/evmos/v6/x/erc20/keeper"
-	erc20types "github.com/evmos/evmos/v6/x/erc20/types"
+	ethermintconfig "github.com/thesixnetwork/six-protocol/server/config"
+	srvflags "github.com/thesixnetwork/six-protocol/server/flags"
+
+	// "github.com/evmos/evmos/v6/x/erc20"
+	// erc20client "github.com/evmos/evmos/v6/x/erc20/client"
+	// erc20keeper "github.com/evmos/evmos/v6/x/erc20/keeper"
+	// erc20types "github.com/evmos/evmos/v6/x/erc20/types"
 
 	"github.com/ignite/cli/ignite/pkg/openapiconsole"
 	"github.com/thesixnetwork/six-protocol/docs"
@@ -134,7 +135,10 @@ import (
 	nftoraclemodule "github.com/thesixnetwork/sixnft/x/nftoracle"
 	nftoraclemodulekeeper "github.com/thesixnetwork/sixnft/x/nftoracle/keeper"
 	nftoraclemoduletypes "github.com/thesixnetwork/sixnft/x/nftoracle/types"
+
 	// tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
+
+	"github.com/thesixnetwork/six-protocol/precompiles"
 )
 
 const (
@@ -155,9 +159,9 @@ func getGovProposalHandlers() []govclient.ProposalHandler {
 		ibcclientclient.UpdateClientProposalHandler,
 		ibcclientclient.UpgradeProposalHandler,
 		// evmos proposal handlers
-		erc20client.RegisterCoinProposalHandler,
-		erc20client.RegisterERC20ProposalHandler,
-		erc20client.ToggleTokenConversionProposalHandler,
+		// erc20client.RegisterCoinProposalHandler,
+		// erc20client.RegisterERC20ProposalHandler,
+		// erc20client.ToggleTokenConversionProposalHandler,
 		// this line is used by starport scaffolding # stargate/app/govProposalHandler
 	)
 
@@ -199,7 +203,7 @@ var (
 		//evm
 		evm.AppModuleBasic{},
 		feemarket.AppModuleBasic{},
-		erc20.AppModuleBasic{},
+		// erc20.AppModuleBasic{},
 		// this line is used by starport scaffolding # stargate/app/moduleBasic
 	)
 
@@ -217,7 +221,7 @@ var (
 		nftadminmoduletypes.ModuleName:      {authtypes.Minter, authtypes.Burner, authtypes.Staking},
 		nftmngrmoduletypes.ModuleName:       {authtypes.Burner},
 		evmtypes.ModuleName:                 {authtypes.Minter, authtypes.Burner}, // used for secure addition and subtraction of balance using module account
-		erc20types.ModuleName:               {authtypes.Minter, authtypes.Burner},
+		// erc20types.ModuleName:               {authtypes.Minter, authtypes.Burner},
 		// this line is used by starport scaffolding # stargate/app/maccPerms
 	}
 )
@@ -291,7 +295,7 @@ type App struct {
 	FeeGrantKeeper   feegrantkeeper.Keeper
 	EVMKeeper        *evmkeeper.Keeper
 	FeeMarketKeeper  feemarketkeeper.Keeper
-	Erc20Keeper      erc20keeper.Keeper // evmos module on experimental
+	// Erc20Keeper      erc20keeper.Keeper // evmos module on experimental
 
 	// make scoped keepers public for test purposes
 	ScopedIBCKeeper      capabilitykeeper.ScopedKeeper
@@ -359,7 +363,7 @@ func New(
 		nftadminmoduletypes.StoreKey,
 		evmtypes.StoreKey,
 		feemarkettypes.StoreKey,
-		erc20types.StoreKey,
+		// erc20types.StoreKey,
 		// this line is used by starport scaffolding # stargate/app/storeKey
 	)
 	// Add the EVM transient store key
@@ -500,14 +504,14 @@ func New(
 		),
 	)
 
-	app.Erc20Keeper = erc20keeper.NewKeeper(
-		keys[erc20types.StoreKey], appCodec, app.GetSubspace(erc20types.ModuleName),
-		app.AccountKeeper, app.BankKeeper, app.EVMKeeper,
-	)
+	// app.Erc20Keeper = erc20keeper.NewKeeper(
+	// 	keys[erc20types.StoreKey], appCodec, app.GetSubspace(erc20types.ModuleName),
+	// 	app.AccountKeeper, app.BankKeeper, app.EVMKeeper,
+	// )
 
 	app.EVMKeeper = app.EVMKeeper.SetHooks(
 		evmkeeper.NewMultiEvmHooks(
-			app.Erc20Keeper.Hooks(),
+		// app.Erc20Keeper.Hooks(),
 		),
 	)
 
@@ -532,8 +536,8 @@ func New(
 		AddRoute(paramproposal.RouterKey, params.NewParamChangeProposalHandler(app.ParamsKeeper)).
 		AddRoute(distrtypes.RouterKey, distr.NewCommunityPoolSpendProposalHandler(app.DistrKeeper)).
 		AddRoute(upgradetypes.RouterKey, upgrade.NewSoftwareUpgradeProposalHandler(app.UpgradeKeeper)).
-		AddRoute(ibcclienttypes.RouterKey, ibcclient.NewClientProposalHandler(app.IBCKeeper.ClientKeeper)).
-		AddRoute(erc20types.RouterKey, erc20.NewErc20ProposalHandler(&app.Erc20Keeper))
+		AddRoute(ibcclienttypes.RouterKey, ibcclient.NewClientProposalHandler(app.IBCKeeper.ClientKeeper))
+		// AddRoute(erc20types.RouterKey, erc20.NewErc20ProposalHandler(&app.Erc20Keeper))
 
 	// Create Transfer Keepers
 	app.TransferKeeper = ibctransferkeeper.NewKeeper(
@@ -645,6 +649,16 @@ func New(
 	// this line is used by starport scaffolding # ibc/app/router
 	app.IBCKeeper.SetRouter(ibcRouter)
 
+	if err := precompiles.InitializePrecompiles(
+		false,
+		appCodec,
+		app.BankKeeper,
+		app.AccountKeeper,
+		app.NftmngrKeeper,
+	); err != nil {
+		panic(err)
+	}
+
 	/****  Module Options ****/
 
 	// NOTE: we may consider parsing `appOpts` inside module constructors. For the moment
@@ -681,7 +695,7 @@ func New(
 		// Ethermint app modules
 		evm.NewAppModule(app.EVMKeeper, authkeeper.NewAccountKeeper(appCodec, keys[authtypes.StoreKey], app.GetSubspace(authtypes.ModuleName), ethermint.ProtoAccount, maccPerms)),
 		feemarket.NewAppModule(app.FeeMarketKeeper),
-		erc20.NewAppModule(app.Erc20Keeper, app.AccountKeeper),
+		// erc20.NewAppModule(app.Erc20Keeper, app.AccountKeeper),
 		// this line is used by starport scaffolding # stargate/app/appModule
 	)
 
@@ -715,7 +729,7 @@ func New(
 		nftmngrmoduletypes.ModuleName,
 		nftoraclemoduletypes.ModuleName,
 		nftadminmoduletypes.ModuleName,
-		erc20types.ModuleName,
+		// erc20types.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/beginBlockers
 	)
 
@@ -745,7 +759,7 @@ func New(
 		nftmngrmoduletypes.ModuleName,
 		nftoraclemoduletypes.ModuleName,
 		nftadminmoduletypes.ModuleName,
-		erc20types.ModuleName,
+		// erc20types.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/endBlockers
 	)
 
@@ -784,7 +798,7 @@ func New(
 		nftmngrmoduletypes.ModuleName,
 		nftoraclemoduletypes.ModuleName,
 		nftadminmoduletypes.ModuleName,
-		erc20types.ModuleName,
+		// erc20types.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	)
 
@@ -818,7 +832,7 @@ func New(
 		nftadminModule,
 		evm.NewAppModule(app.EVMKeeper, authkeeper.NewAccountKeeper(appCodec, keys[authtypes.StoreKey], app.GetSubspace(authtypes.ModuleName), ethermint.ProtoAccount, maccPerms)),
 		feemarket.NewAppModule(app.FeeMarketKeeper),
-		erc20.NewAppModule(app.Erc20Keeper, app.AccountKeeper),
+		// erc20.NewAppModule(app.Erc20Keeper, app.AccountKeeper),
 		// this line is used by starport scaffolding # stargate/app/appModule
 	)
 
@@ -1020,7 +1034,7 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	// ethermint subspaces
 	paramsKeeper.Subspace(evmtypes.ModuleName)
 	paramsKeeper.Subspace(feemarkettypes.ModuleName)
-	paramsKeeper.Subspace(erc20types.ModuleName)
+	// paramsKeeper.Subspace(erc20types.ModuleName)
 
 	return paramsKeeper
 }

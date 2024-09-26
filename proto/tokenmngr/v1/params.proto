@@ -1,0 +1,12 @@
+syntax = "proto3";
+package thesixnetwork.sixprotocol.tokenmngr;
+
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/tokenmngr/types/v1";
+
+// Params defines the parameters for the module.
+message Params {
+  option (gogoproto.goproto_stringer) = false;
+  
+}
