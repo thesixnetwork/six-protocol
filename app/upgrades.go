@@ -3,7 +3,6 @@ package app
 import (
 	"fmt"
 
-
 	store "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
@@ -15,7 +14,7 @@ const UpgradeName = "v3.2.0"
 func (app *App) RegisterUpgradeHandlers() {
 	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
 
-		// app.MigrationFromV1ToV2Handlers(ctx)
+		app.MigrateParam(ctx)
 		return app.mm.RunMigrations(ctx, app.configurator, vm)
 	})
 }
