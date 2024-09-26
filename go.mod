@@ -200,7 +200,7 @@ require (
 )
 
 replace (
-	github.com/cosmos/cosmos-sdk => github.com/thesixnetwork/cosmos-sdk v0.45.6-six-protocol.0.20240925083207-9e6788a92494
+	github.com/cosmos/cosmos-sdk => github.com/thesixnetwork/cosmos-sdk v0.45.6-six-protocol.0.20240925125754-06489073ca06
 	github.com/ethereum/go-ethereum => github.com/thesixnetwork/go-ethereum v1.13.6-0.20240902091934-622069f0640d
 	github.com/evmos/ethermint => github.com/thesixnetwork/ethermint v0.18.1-0.20240925071838-8f8328157e7a
 	github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
