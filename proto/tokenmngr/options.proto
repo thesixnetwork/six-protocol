@@ -1,8 +1,0 @@
-syntax = "proto3";
-package thesixnetwork.sixprotocol.tokenmngr;
-
-option go_package = "github.com/thesixnetwork/six-protocol/x/tokenmngr/types";
-
-message Options {
-  string defaultMintee = 1;
-}
