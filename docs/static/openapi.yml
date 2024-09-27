@@ -27572,7 +27572,7 @@ paths:
           type: string
           format: byte
         - name: size
-          description: 'DEPRECATED: encoded storage size of the transaction'
+          description: encoded storage size of the transaction
           in: query
           required: false
           type: number
@@ -27704,16 +27704,11 @@ paths:
                         title: >-
                           Eip-4345 (bomb delay) switch block (nil = no fork, 0 =
                           already activated)
-                      gray_glacier_block:
+                      merge_fork_block:
                         type: string
                         title: >-
-                          EIP-5133 (bomb delay) switch block (nil = no fork, 0 =
-                          already activated)
-                      merge_netsplit_block:
-                        type: string
-                        title: >-
-                          Virtual fork after The Merge to use as a network
-                          splitter
+                          EIP-3675 (TheMerge) switch block (nil = no fork, 0 =
+                          already in merge proceedings)
                     description: >-
                       ChainConfig defines the Ethereum ChainConfig parameters
                       using *sdk.Int values
@@ -28465,15 +28460,10 @@ paths:
           in: query
           required: false
           type: string
-        - name: trace_config.overrides.gray_glacier_block
+        - name: trace_config.overrides.merge_fork_block
           description: >-
-            EIP-5133 (bomb delay) switch block (nil = no fork, 0 = already
-            activated)
-          in: query
-          required: false
-          type: string
-        - name: trace_config.overrides.merge_netsplit_block
-          description: Virtual fork after The Merge to use as a network splitter
+            EIP-3675 (TheMerge) switch block (nil = no fork, 0 = already in
+            merge proceedings)
           in: query
           required: false
           type: string
@@ -29171,7 +29161,7 @@ paths:
           type: string
           format: byte
         - name: msg.size
-          description: 'DEPRECATED: encoded storage size of the transaction'
+          description: encoded storage size of the transaction
           in: query
           required: false
           type: number
@@ -29315,15 +29305,10 @@ paths:
           in: query
           required: false
           type: string
-        - name: trace_config.overrides.gray_glacier_block
+        - name: trace_config.overrides.merge_fork_block
           description: >-
-            EIP-5133 (bomb delay) switch block (nil = no fork, 0 = already
-            activated)
-          in: query
-          required: false
-          type: string
-        - name: trace_config.overrides.merge_netsplit_block
-          description: Virtual fork after The Merge to use as a network splitter
+            EIP-3675 (TheMerge) switch block (nil = no fork, 0 = already in
+            merge proceedings)
           in: query
           required: false
           type: string
@@ -29700,10 +29685,6 @@ paths:
                       charged
 
                       to senders based on GasLimit
-                  legacy_base_fee:
-                    type: string
-                  legacy_min_gas_price:
-                    type: string
                 title: Params defines the EVM module parameters
             description: >-
               QueryParamsResponse defines the response type for querying x/evm
@@ -40837,6 +40818,13 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/action_by_ref_id/{refId}':
@@ -41331,6 +41319,13 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
           in: query
           required: false
           type: boolean
@@ -41832,6 +41827,13 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/action_of_schema/{nftSchemaCode}/{name}':
@@ -42327,6 +42329,13 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
           in: query
           required: false
           type: boolean
@@ -43068,6 +43077,13 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/metadata_creator/{nftSchemaCode}':
@@ -43644,6 +43660,13 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   /thesixnetwork/sixnft/nftmngr/nft_data:
@@ -44001,6 +44024,13 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
           in: query
           required: false
           type: boolean
@@ -45273,6 +45303,13 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/nft_schema/{code}':
@@ -46035,6 +46072,13 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/nft_schema_by_contract/{originContractAddress}':
@@ -46523,6 +46567,13 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
           in: query
           required: false
           type: boolean
@@ -47244,6 +47295,13 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
           in: query
           required: false
           type: boolean
@@ -69349,14 +69407,11 @@ definitions:
         title: >-
           Eip-4345 (bomb delay) switch block (nil = no fork, 0 = already
           activated)
-      gray_glacier_block:
+      merge_fork_block:
         type: string
         title: >-
-          EIP-5133 (bomb delay) switch block (nil = no fork, 0 = already
-          activated)
-      merge_netsplit_block:
-        type: string
-        title: Virtual fork after The Merge to use as a network splitter
+          EIP-3675 (TheMerge) switch block (nil = no fork, 0 = already in merge
+          proceedings)
     description: >-
       ChainConfig defines the Ethereum ChainConfig parameters using *sdk.Int
       values
@@ -69486,7 +69541,7 @@ definitions:
       size:
         type: number
         format: double
-        title: 'DEPRECATED: encoded storage size of the transaction'
+        title: encoded storage size of the transaction
       hash:
         type: string
         title: transaction hash in hex format
@@ -69684,14 +69739,11 @@ definitions:
             title: >-
               Eip-4345 (bomb delay) switch block (nil = no fork, 0 = already
               activated)
-          gray_glacier_block:
+          merge_fork_block:
             type: string
             title: >-
-              EIP-5133 (bomb delay) switch block (nil = no fork, 0 = already
-              activated)
-          merge_netsplit_block:
-            type: string
-            title: Virtual fork after The Merge to use as a network splitter
+              EIP-3675 (TheMerge) switch block (nil = no fork, 0 = already in
+              merge proceedings)
         description: >-
           ChainConfig defines the Ethereum ChainConfig parameters using *sdk.Int
           values
@@ -69856,14 +69908,11 @@ definitions:
                 title: >-
                   Eip-4345 (bomb delay) switch block (nil = no fork, 0 = already
                   activated)
-              gray_glacier_block:
+              merge_fork_block:
                 type: string
                 title: >-
-                  EIP-5133 (bomb delay) switch block (nil = no fork, 0 = already
-                  activated)
-              merge_netsplit_block:
-                type: string
-                title: Virtual fork after The Merge to use as a network splitter
+                  EIP-3675 (TheMerge) switch block (nil = no fork, 0 = already
+                  in merge proceedings)
             description: >-
               ChainConfig defines the Ethereum ChainConfig parameters using
               *sdk.Int values
@@ -70214,14 +70263,11 @@ definitions:
             title: >-
               Eip-4345 (bomb delay) switch block (nil = no fork, 0 = already
               activated)
-          gray_glacier_block:
+          merge_fork_block:
             type: string
             title: >-
-              EIP-5133 (bomb delay) switch block (nil = no fork, 0 = already
-              activated)
-          merge_netsplit_block:
-            type: string
-            title: Virtual fork after The Merge to use as a network splitter
+              EIP-3675 (TheMerge) switch block (nil = no fork, 0 = already in
+              merge proceedings)
         description: >-
           ChainConfig defines the Ethereum ChainConfig parameters using *sdk.Int
           values
@@ -70273,10 +70319,6 @@ definitions:
         title: |-
           min gas denominator bounds the minimum gasUsed to be charged
           to senders based on GasLimit
-      legacy_base_fee:
-        type: string
-      legacy_min_gas_price:
-        type: string
     title: Params defines the EVM module parameters
   ethermint.feemarket.v1.QueryBaseFeeResponse:
     type: object
@@ -70336,10 +70378,6 @@ definitions:
             title: |-
               min gas denominator bounds the minimum gasUsed to be charged
               to senders based on GasLimit
-          legacy_base_fee:
-            type: string
-          legacy_min_gas_price:
-            type: string
         title: Params defines the EVM module parameters
     description: >-
       QueryParamsResponse defines the response type for querying x/evm

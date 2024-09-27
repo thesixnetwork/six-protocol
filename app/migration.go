@@ -1,7 +1,6 @@
 package app
 
 import (
-	"math/big"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
