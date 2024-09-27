@@ -1114,6 +1114,15 @@
             "default_value": ""
           }
         ]
+      },
+      {
+        "name": "get_token_id",
+        "desc": "Get Token ID",
+        "disable": false,
+        "when": "true",
+        "then": [
+          "meta.SetString('caption',meta.GetTokenID())"
+        ]
       }
     ],
     "status": [

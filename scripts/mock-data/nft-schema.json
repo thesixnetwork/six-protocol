@@ -63,8 +63,6 @@
     ]
   },
   "onchain_data": {
-    "reveal_required": true,
-    "reveal_secret": "",
     "nft_attributes": [
       {
         "name": "hello_nft_attribute",
@@ -252,7 +250,7 @@
         "name": "test_read_nft",
         "desc": "Test NFT attribute",
         "params": [],
-        "when": "meta.GetBoolean('started') == true || meta.GetBoolean('started') == false",
+        "when": "true",
         "then": [
           "meta.SetNumber('points', meta.GetNumber('points') + 100)",
           "meta.SetString('greeting_nft_attribute',meta.GetString('hello_nft_attribute'))"
@@ -262,7 +260,7 @@
         "name": "test_split",
         "desc": "Test Split String",
         "params": [],
-        "when": "meta.GetBoolean('started') == true || meta.GetBoolean('started') == false",
+        "when": "true",
         "then": [
           "meta.SetNumber('points', meta.GetNumber('points') + 100)",
           "meta.SetString('split',meta.GetSubString('hello_nft_attribute', 3, -1))"
@@ -272,7 +270,7 @@
         "name": "test_lowercase",
         "desc": "Test Lowercase String",
         "params": [],
-        "when": "meta.GetBoolean('started') == true || meta.GetBoolean('started') == false",
+        "when": "true",
         "then": [
           "meta.SetNumber('points', meta.GetNumber('points') + 100)",
           "meta.SetString('lowercase',meta.ToLowercase('hello_nft_attribute'))"
@@ -282,7 +280,7 @@
         "name": "test_uppercase",
         "desc": "Test Uppercase String",
         "params": [],
-        "when": "meta.GetBoolean('started') == true || meta.GetBoolean('started') == false",
+        "when": "true",
         "then": [
           "meta.SetNumber('points', meta.GetNumber('points') + 100)",
           "meta.SetString('uppercase',meta.ToUppercase('hello_nft_attribute'))"
@@ -305,7 +303,7 @@
             "required": true
           }
         ],
-        "when": "meta.GetBoolean('started') == true || meta.GetBoolean('started') == false",
+        "when": "true",
         "then": [
           "meta.SetDisplayAttribute(params['attribute_name'].GetString(), params['show'].GetString())"
         ]
@@ -333,15 +331,6 @@
         "then": [
             "meta.TransferNumber('points',params['token_id'].GetString(),params['points'].GetNumber())"
         ]
-      }
-    ],
-    "nft_attributes_value": [
-      {
-        "name": "hello_nft_attribute",
-        "string_attribute_value": {
-          "value": "To Valhalla!"
-        },
-        "hidden_to_marketplace": false
       }
     ]
   },

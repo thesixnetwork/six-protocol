@@ -1,0 +1,536 @@
+[
+    {
+        "type": "function",
+        "name": "actionByAdmin",
+        "inputs": [
+            {
+                "name": "nftSchemaName",
+                "type": "string",
+                "internalType": "string"
+            },
+            {
+                "name": "tokenId",
+                "type": "string",
+                "internalType": "string"
+            },
+            {
+                "name": "actionName",
+                "type": "string",
+                "internalType": "string"
+            },
+            {
+                "name": "refId",
+                "type": "string",
+                "internalType": "string"
+            },
+            {
+                "name": "jsonParam",
+                "type": "string",
+                "internalType": "string"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "success",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "addAction",
+        "inputs": [
+            {
+                "name": "nftSchemaName",
+                "type": "string",
+                "internalType": "string"
+            },
+            {
+                "name": "base64NewAction",
+                "type": "string",
+                "internalType": "string"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "success",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "addActionExecutor",
+        "inputs": [
+            {
+                "name": "nftSchemaName",
+                "type": "string",
+                "internalType": "string"
+            },
+            {
+                "name": "newExecutor",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "success",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "addAttribute",
+        "inputs": [
+            {
+                "name": "nftSchemaName",
+                "type": "string",
+                "internalType": "string"
+            },
+            {
+                "name": "location",
+                "type": "uint32",
+                "internalType": "uint32"
+            },
+            {
+                "name": "base64NewAttribute",
+                "type": "string",
+                "internalType": "string"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "success",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "attributeOveride",
+        "inputs": [
+            {
+                "name": "nftSchemaName",
+                "type": "string",
+                "internalType": "string"
+            },
+            {
+                "name": "overidingType",
+                "type": "uint32",
+                "internalType": "uint32"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "success",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "changeOrgOwner",
+        "inputs": [
+            {
+                "name": "orgName",
+                "type": "string",
+                "internalType": "string"
+            },
+            {
+                "name": "newOrgAddress",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "success",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "changeSchemaOwner",
+        "inputs": [
+            {
+                "name": "nftSchemaName",
+                "type": "string",
+                "internalType": "string"
+            },
+            {
+                "name": "newOrgAddress",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "success",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "createMetadata",
+        "inputs": [
+            {
+                "name": "nftSchemaName",
+                "type": "string",
+                "internalType": "string"
+            },
+            {
+                "name": "tokenId",
+                "type": "string",
+                "internalType": "string"
+            },
+            {
+                "name": "base64NewMetadata",
+                "type": "string",
+                "internalType": "string"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "success",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "createSchema",
+        "inputs": [
+            {
+                "name": "base64NewSchema",
+                "type": "string",
+                "internalType": "string"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "success",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "removeActionExecutor",
+        "inputs": [
+            {
+                "name": "nftSchemaName",
+                "type": "string",
+                "internalType": "string"
+            },
+            {
+                "name": "rmExecutor",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "success",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "resyncAttribute",
+        "inputs": [
+            {
+                "name": "nftSchemaName",
+                "type": "string",
+                "internalType": "string"
+            },
+            {
+                "name": "tokenId",
+                "type": "string",
+                "internalType": "string"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "success",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "setBaseURI",
+        "inputs": [
+            {
+                "name": "nftSchemaName",
+                "type": "string",
+                "internalType": "string"
+            },
+            {
+                "name": "newBaseUri",
+                "type": "string",
+                "internalType": "string"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "success",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "setMetadataFormat",
+        "inputs": [
+            {
+                "name": "nftSchemaName",
+                "type": "string",
+                "internalType": "string"
+            },
+            {
+                "name": "newFormat",
+                "type": "string",
+                "internalType": "string"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "success",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "setMintAuth",
+        "inputs": [
+            {
+                "name": "nftSchemaName",
+                "type": "string",
+                "internalType": "string"
+            },
+            {
+                "name": "authorizeTo",
+                "type": "uint32",
+                "internalType": "uint32"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "success",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "setOriginChain",
+        "inputs": [
+            {
+                "name": "nftSchemaName",
+                "type": "string",
+                "internalType": "string"
+            },
+            {
+                "name": "newOriginChain",
+                "type": "string",
+                "internalType": "string"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "success",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "setOriginContract",
+        "inputs": [
+            {
+                "name": "nftSchemaName",
+                "type": "string",
+                "internalType": "string"
+            },
+            {
+                "name": "newOriginContract",
+                "type": "string",
+                "internalType": "string"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "success",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "setUriRetreival",
+        "inputs": [
+            {
+                "name": "nftSchemaName",
+                "type": "string",
+                "internalType": "string"
+            },
+            {
+                "name": "newMethod",
+                "type": "uint32",
+                "internalType": "uint32"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "success",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "showAttribute",
+        "inputs": [
+            {
+                "name": "nftSchemaName",
+                "type": "string",
+                "internalType": "string"
+            },
+            {
+                "name": "toShow",
+                "type": "bool",
+                "internalType": "bool"
+            },
+            {
+                "name": "attirbuteNames",
+                "type": "string[]",
+                "internalType": "string[]"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "success",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "toggleAction",
+        "inputs": [
+            {
+                "name": "nftSchemaName",
+                "type": "string",
+                "internalType": "string"
+            },
+            {
+                "name": "actionName",
+                "type": "string",
+                "internalType": "string"
+            },
+            {
+                "name": "disable",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "success",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "updateAction",
+        "inputs": [
+            {
+                "name": "nftSchemaName",
+                "type": "string",
+                "internalType": "string"
+            },
+            {
+                "name": "base64UpdateAction",
+                "type": "string",
+                "internalType": "string"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "success",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
+        "name": "updateSchemaAttribute",
+        "inputs": [
+            {
+                "name": "nftSchemaName",
+                "type": "string",
+                "internalType": "string"
+            },
+            {
+                "name": "base64NewAttribute",
+                "type": "string",
+                "internalType": "string"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "success",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "nonpayable"
+    }
+]

@@ -1,21 +1,20 @@
-default_github_token=$GIT_TOKEN
 default_six_home=six_home
-default_docker_tag="3.1.1"
+default_docker_tag="3.2.0"
 node_homes=(
     sixnode0
     sixnode1
     sixnode2
     sixnode3
-);
+)
 validator_keys=(
     val1
     val2
     val3
     val4
-);
+)
 
-function setUpGenesis(){
-       ## config genesis.json
+function setUpGenesis() {
+    ## config genesis.json
     jq '.app_state.bank.params.send_enabled[0] = {"denom": "usix","enabled": true}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
 
     ## demom metadata
@@ -34,7 +33,7 @@ function setUpGenesis(){
     jq '.app_state.feemarket.params.base_fee = "5000000000000"' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
     jq '.app_state.feemarket.params.elasticity_multiplier = 4' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
     jq '.app_state.feemarket.params.min_gas_price = "5000000000000.000000000000000000"' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
-    
+
     ## nftadmin
     jq '.app_state.nftadmin.authorization = {"root_admin": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
 
@@ -51,15 +50,14 @@ function setUpGenesis(){
     jq '.app_state.protocoladmin.groupList[0] |= . + {"name": "super.admin","owner": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
     jq '.app_state.protocoladmin.groupList[1] |= . + {"name": "token.admin","owner": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
 
-    ## staking 
+    ## staking
     jq '.app_state.staking.validator_approval.approver_address = "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
     jq '.app_state.staking.params.unbonding_time = "300s"' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
-    
 
     ## tokenmngr
     jq '.app_state.tokenmngr.mintpermList[0] |= . + {"address": "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq","creator": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv","token": "usix"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
     jq '.app_state.tokenmngr.options = {"defaultMintee": "6x1cws3ex5yqwlu4my49htq06nsnhuxw3v7rt20g6"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
-    jq '.app_state.tokenmngr.tokenList[0] |= . +  {"base": "usix","creator": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv","maxSupply": {"amount": "0","denom": "usix"},"mintee": "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq","name": "usix"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json 
+    jq '.app_state.tokenmngr.tokenList[0] |= . +  {"base": "usix","creator": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv","maxSupply": {"amount": "0","denom": "usix"},"mintee": "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq","name": "usix"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
     jq '.app_state.tokenmngr.tokenList[1] |= . +  {"base": "asix","creator": "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv","maxSupply": {"amount": "0","denom": "asix"},"mintee": "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq","name": "asix"}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
 
     ## gov
@@ -73,9 +71,6 @@ function setUpConfig() {
 
     if [[ ${SIX_HOME} == "sixnode0" ]]; then
         echo "sixnode0"
-        # NODE_PEER=$(jq '.app_state.genutil.gen_txs[0].body.memo' ./build/sixnode1/config/genesis.json)
-        # sed -i '' "s/persistent_peers = \"\"/persistent_peers = ${NODE_PEER}/g" ./build/${SIX_HOME}/config/config.toml
-        ## setup genesis of node0
         setUpGenesis
     else
         NODE_PEER=$(jq '.app_state.genutil.gen_txs[0].body.memo' ./build/sixnode0/config/genesis.json)
@@ -85,11 +80,11 @@ function setUpConfig() {
         else
             sed -i "s/persistent_peers = \"\"/persistent_peers = ${NODE_PEER}/g" ./build/${SIX_HOME}/config/config.toml
         fi
-            ## replace genesis of node0 to all node
+        ## replace genesis of node0 to all node
         cp ./build/sixnode0/config/genesis.json ./build/${SIX_HOME}/config/genesis.json
     fi
 
-   # if $TYPE = 0 then ignore this step
+    # if $TYPE = 0 then ignore this step
     if [[ ${TYPE} == "1" ]]; then
         echo "Running Fast Node"
         ## replace consensus params
@@ -103,7 +98,7 @@ function setUpConfig() {
     else
         echo "Running Default Node"
     fi
-    
+
     if [[ "$OSTYPE" == "darwin"* ]]; then
         ## replace to enalbe api
         sed -i '' '/^\[api\]$/,/^\[/ s/enable = false/enable = true/' ./build/${SIX_HOME}/config/app.toml
@@ -141,86 +136,80 @@ echo "## 10. Start Cosmovisor                    ##"
 echo "#############################################"
 read -p "Enter your choice: " choice
 case $choice in
-    1)
-        echo "Building Docker Image"
-        read -p "Enter Github Token: " github_token 
-        read -p "Enter Docker Tag: " docker_tag
-        if [ -z "$github_token" ]; then
-            github_token=$default_github_token
-        fi
-        if [ -z "$docker_tag" ]; then
-            docker_tag=$default_docker_tag
-        fi
-        docker build . -t gcr.io/six-protocol/sixnode:${docker_tag} --build-arg GITHUB_TOKEN=${github_token}
-        ;;
-    2)
-        echo "Run init Chain validator"
-        export COMMAND="init"
-        docker compose -f ./docker-compose.yml up
-        ;;
-    3)
-        echo "Running Docker Container in Interactive Mode"
-        export COMMAND="start_chain"
-        docker compose -f ./docker-compose.yml up -d
-        ;;
-    4)
-        echo "Stop Docker Container"
-        export COMMAND="start_chain"
-        docker compose -f ./docker-compose.yml down
-        ;;
-    5) 
-        echo "Config Genesis"
-        read -p "Enter Node Type [0:Default, 1:Fast] : " TYPE
-        if [ -z "$TYPE" ]; then
-            TYPE=0
-        fi
-        for home in ${node_homes[@]}
-        do  
-            (
+1)
+    echo "Building Docker Image"
+    read -p "Enter Docker Tag: " docker_tag
+    if [ -z "$docker_tag" ]; then
+        docker_tag=$default_docker_tag
+    fi
+    docker build . -t gcr.io/six-protocol/sixnode:${docker_tag}
+    ;;
+2)
+    echo "Run init Chain validator"
+    export COMMAND="init"
+    docker compose -f ./docker-compose.yml up -d
+    ;;
+3)
+    echo "Running Docker Container in Interactive Mode"
+    export COMMAND="start_chain"
+    docker compose -f ./docker-compose.yml up -d
+    ;;
+4)
+    echo "Stop Docker Container"
+    export COMMAND="start_chain"
+    docker compose -f ./docker-compose.yml down
+    ;;
+5)
+    echo "Config Genesis"
+    read -p "Enter Node Type [0:Default, 1:Fast] : " TYPE
+    if [ -z "$TYPE" ]; then
+        TYPE=0
+    fi
+    for home in ${node_homes[@]}; do
+        (
             export SIX_HOME=${home}
             if [[ -e !./build/sixnode0/config/genesis.json ]]; then
                 echo "File does not exist 🖕"
             else
                 setUpConfig
-            fi 
-            )|| exit 1
-        done
-        ;;
-    6) 
-        echo "Reset Docker Container"
-        for home in ${node_homes[@]}
-        do
-            echo "#######################################"
-            echo "Starting ${home} reset..."
+            fi
+        ) || exit 1
+    done
+    ;;
+6)
+    echo "Reset Docker Container"
+    for home in ${node_homes[@]}; do
+        echo "#######################################"
+        echo "Starting ${home} reset..."
 
-            ( export DAEMON_HOME=./build/${home}
+        (
+            export DAEMON_HOME=./build/${home}
             rm -rf $DAEMON_HOME/data
             rm -rf $DAEMON_HOME/wasm
             rm $DAEMON_HOME/config/addrbook.json
             mkdir $DAEMON_HOME/data/
             touch $DAEMON_HOME/data/priv_validator_state.json
-            echo '{"height": "0", "round": 0,"step": 0}' > $DAEMON_HOME/data/priv_validator_state.json
+            echo '{"height": "0", "round": 0,"step": 0}' >$DAEMON_HOME/data/priv_validator_state.json
 
             echo "Reset ${home} Success 🟢"
-            )|| exit 1
-        done
-        ;;
-    7)
-        echo "Staking Docker Container"
-        read -p "Chain ID [testnet] : " CHAIN_ID
-        if [ -z "$CHAIN_ID" ]; then
-            CHAIN_ID="testnet"
-        fi
-        i=1
-        amount=100000000
-        # i=0
-        # for val in ${validator_keys[@]}
-        for val in ${validator_keys[@]:1:3}
-        do
-         # if i=3, echo "#######################################"
-            if [[ $i -eq 2 ]]; then
-                echo "#######################################"
-                ( 
+        ) || exit 1
+    done
+    ;;
+7)
+    echo "Staking Docker Container"
+    read -p "Chain ID [testnet] : " CHAIN_ID
+    if [ -z "$CHAIN_ID" ]; then
+        CHAIN_ID="testnet"
+    fi
+    i=1
+    amount=100000000
+    # i=0
+    # for val in ${validator_keys[@]}
+    for val in ${validator_keys[@]:1:3}; do
+        # if i=3, echo "#######################################"
+        if [[ $i -eq 2 ]]; then
+            echo "#######################################"
+            (
                 echo "Creating validators ${val}"
                 echo ${node_homes[i]}
                 export DAEMON_HOME=./build/${node_homes[i]}
@@ -230,10 +219,10 @@ case $choice in
                     --commission-max-change-rate "0.1" --chain-id $CHAIN_ID \
                     --sign-mode amino-json --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix --min-self-delegation 1000000 --keyring-backend test -y
                 echo "Config Genesis at ${home} Success 🟢"
-                ) || exit 1
-            else
-                echo "#######################################"
-                ( 
+            ) || exit 1
+        else
+            echo "#######################################"
+            (
                 echo "Creating validators ${val}"
                 echo ${node_homes[i]}
                 export DAEMON_HOME=./build/${node_homes[i]}
@@ -243,26 +232,26 @@ case $choice in
                     --min-self-delegation 1000000 --node http://0.0.0.0:26662 -y --min-delegation 1000000 --delegation-increment 1000000 \
                     --chain-id $CHAIN_ID --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y
                 echo "Config Genesis at ${home} Success 🟢"
-                ) || exit 1
-            fi
-            i=$((i+1))
-        done
-        ;;
-    8)
-        echo "Query Validator set"
-        sixd q tendermint-validator-set --home ./build/sixnode0
-        ;;
-    9)
-        echo "Set up Cosmovisor"
-        export COMMAND="cosmovisor_setup"
-        docker compose -f ./docker-compose.yml up -d
-        ;;
-    10)
-        echo "Cosmovisor start"
-        export COMMAND="cosmovisor_start"
-        docker compose -f ./docker-compose.yml up -d
-        ;;
-    *)
-        echo "Invalid Choice"
-        ;;
+            ) || exit 1
+        fi
+        i=$((i + 1))
+    done
+    ;;
+8)
+    echo "Query Validator set"
+    sixd q tendermint-validator-set --home ./build/sixnode0
+    ;;
+9)
+    echo "Set up Cosmovisor"
+    export COMMAND="cosmovisor_setup"
+    docker compose -f ./docker-compose.yml up -d
+    ;;
+10)
+    echo "Cosmovisor start"
+    export COMMAND="cosmovisor_start"
+    docker compose -f ./docker-compose.yml up -d
+    ;;
+*)
+    echo "Invalid Choice"
+    ;;
 esac

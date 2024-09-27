@@ -1,0 +1,13 @@
+{
+    "title": "Parameter changes for unprotected",
+    "description": "If passed, unprotected will be change",
+    "changes": [
+      {
+        "subspace": "evm",
+        "key": "AllowUnprotectedTxs",
+        "value": true
+      }
+    ],
+    "deposit": "100000000usix"
+  }
+  
