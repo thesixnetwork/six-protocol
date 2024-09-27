@@ -3,11 +3,12 @@ version: '3'
 services:
   sixnode0:
     container_name: sixnode0
-    image: "gcr.io/six-protocol/sixnode:3.1.1"
+    image: "gcr.io/six-protocol/sixnode:3.2.0"
     ports:
       - "26656-26657:26656-26657"
       - "1317:1317"
       - "8545-8546:8545-8546"
+      - "9090-9091:9090-9091"
     volumes:
       - ./build/sixnode0/:/opt/build/six_home/
     command: bash ${COMMAND}.sh sixnode0
@@ -15,14 +16,15 @@ services:
       - TZ=Asia/Bangkok
     networks:
       localnet:
-        ipv4_address: 192.167.10.2
+        ipv4_address: 10.10.0.2
 
   sixnode1:
     container_name: sixnode1
-    image: "gcr.io/six-protocol/sixnode:3.1.1"
+    image: "gcr.io/six-protocol/sixnode:3.2.0"
     ports:
-      - "26659-26660:26656-26657"
-      - "8547-8548:8545-8546"
+      - "26665-26666:26656-26657"
+      - "8553-8554:8545-8546"
+      - "9094-9095:9090-9091"
     volumes:
       - ./build/sixnode1/:/opt/build/six_home/
     command: bash ${COMMAND}.sh sixnode1
@@ -30,14 +32,14 @@ services:
       - TZ=Asia/Soul
     networks:
       localnet:
-        ipv4_address: 192.167.10.3
+        ipv4_address: 10.10.0.3
 
   sixnode2:
     container_name: sixnode2
-    image: "gcr.io/six-protocol/sixnode:3.1.1"
+    image: "gcr.io/six-protocol/sixnode:3.2.0"
     ports:
       - "26661-26662:26656-26657"
-      - "8549-8550:8545-8546"
+      - "9096-9097:9090-9091"
     volumes:
       - ./build/sixnode2/:/opt/build/six_home/
     command: bash ${COMMAND}.sh sixnode2
@@ -45,14 +47,14 @@ services:
       - TZ=America/New_York
     networks:
       localnet:
-        ipv4_address: 192.167.10.4
+        ipv4_address: 10.10.0.4
 
   sixnode3:
     container_name: sixnode3
-    image: "gcr.io/six-protocol/sixnode:3.1.1"
+    image: "gcr.io/six-protocol/sixnode:3.2.0"
     ports:
       - "26663-26664:26656-26657"
-      - "8551-8552:8545-8546"
+      - "9098-9099:9090-9091"
     volumes:
       - ./build/sixnode3/:/opt/build/six_home/
     command: bash ${COMMAND}.sh sixnode3
@@ -60,7 +62,7 @@ services:
       - TZ=Europe/London
     networks:
       localnet:
-        ipv4_address: 192.167.10.5
+        ipv4_address: 10.10.0.5
 
 networks:
   localnet:
@@ -69,4 +71,4 @@ networks:
       driver: default
       config:
         -
-          subnet: 192.167.10.0/16
+          subnet: 10.10.0.0/16
