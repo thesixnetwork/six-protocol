@@ -202,4 +202,3 @@ genesis:
         no_base_fee: false
         legacy_base_fee: "100000000000"
         legacy_min_gas_price: "100000000000.0"
-
