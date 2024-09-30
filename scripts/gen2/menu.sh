@@ -51,27 +51,25 @@ echo "##                                         ##"
 echo "##  1. Show Schema                         ##"
 echo "##  2. Show NFTs                           ##"
 echo "##  3. Mockup Token                        ##"
-echo "##  4. Mockup Multi Token                  ##"
-echo "##  5. Do Action                           ##"
-echo "##  6. Do Action Multi Tokens              ##"
-echo "##  7. Set NFT Attribute                   ##"
-echo "##  8. Oracle - Create Mint Request        ##"
-echo "##  9. Oracle - Get Mint Request           ##"
-echo "##  10. Oracle - Submit Mint Response      ##"
-echo "##  11. Oracle - Create Action Request     ##"
-echo "##  12. Oracle - Get Action Request        ##"
-echo "##  13. Oracle - Submit Action Response    ##"
-echo "##  14. Oracle - Create Verfify Request    ##"
-echo "##  15. Oracle - Get Verify Request        ##"
-echo "##  16. Oracle - Submit Verify Response    ##"
-echo "##  17. Add Attribute                      ##"
-echo "##  18. Add Action                         ##"
-echo "##  19. Oracle - Set Signer                ##"
-echo "##  20. Show ActionSigner By Address       ##"
-echo "##  21. Oracle - Action Request By Signer  ##"
-echo "##  22. Oracle - Request Sync Signer       ##"
-echo "##  23. Oracle - Submit Sync Signer        ##"
-echo "##  24. Proposal Change Feemarket          ##"
+echo "##  4. Do Action                           ##"
+echo "##  5. Set NFT Attribute                   ##"
+echo "##  6. Oracle - Create Mint Request        ##"
+echo "##  7. Oracle - Get Mint Request           ##"
+echo "##  8. Oracle - Submit Mint Response      ##"
+echo "##  9. Oracle - Create Action Request     ##"
+echo "##  10. Oracle - Get Action Request        ##"
+echo "##  11. Oracle - Submit Action Response    ##"
+echo "##  12. Oracle - Create Verfify Request    ##"
+echo "##  13. Oracle - Get Verify Request        ##"
+echo "##  14. Oracle - Submit Verify Response    ##"
+echo "##  15. Add Attribute                      ##"
+echo "##  16. Add Action                         ##"
+echo "##  17. Oracle - Set Signer                ##"
+echo "##  18. Show ActionSigner By Address       ##"
+echo "##  19. Oracle - Action Request By Signer  ##"
+echo "##  20. Oracle - Request Sync Signer       ##"
+echo "##  21. Oracle - Submit Sync Signer        ##"
+echo "##  22. Proposal Change Feemarket          ##"
 echo "##  Your choice:                           ##"
 echo "##                                         ##"
 echo "#############################################"
@@ -106,17 +104,6 @@ case $choice in
             ${BASE64_META} --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
         ;;
     4) 
-        echo "Mockup Multi Token"
-        read -p "Enter Schema Code: " schema_code
-        read -p "Enter Token IDs: " token_id
-        if [ -z "$schema_code" ]; then
-            schema_code=$default_schema_code
-        fi
-        BASE64_META=$(cat ./mock-data/nft-data.json | sed "s/TOKENID/MULTIMINT/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n')
-        sixd tx nftmngr create-multi-metadata ${schema_code} ${token_id} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-            ${BASE64_META} --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
-        ;;
-    5) 
         echo "Do Action"
         read -p "Enter Schema Code: " schema_code 
         read -p "Enter Token ID: " token_id
@@ -147,43 +134,7 @@ case $choice in
         sixd tx nftmngr perform-action-by-nftadmin ${schema_code} ${token_id} ${action} ${ref_id} ${required_params} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} -o json 
         ;;
-    6) 
-        echo "Do Action Multi token"
-        read -p "Enter Schema Code: " schema_code 
-        read -p "Enter Token IDs: " token_id
-        read -p "Enter Action: " action
-        read -p "Enter Ref ID: " ref_id
-        if [ -z "$schema_code" ]; then
-            schema_code=$default_schema_code
-        fi
-        # array from action
-        arrAction=(${action//,/ })
-        all_required_params=()
-        # iterate through array using for loop
-        for i in "${arrAction[@]}"
-        do
-            echo "$i"
-            read -p "Enter number of Required Params of $i: " num_params
-            required_params=()
-            # check if required_params is empty
-            if [[ -z "$num_params" || "$num_params" -eq 0 ]]; then
-                required_params="[]"
-            else
-                for ((j=1; j<=num_params; j++)); do
-                    read -p "Enter name of param $j: " param_name
-                    read -p "Enter value of >> $param_name << : " param_value
-                    required_params+=( "{\"name\":\"$param_name\",\"value\":\"$param_value\"}" )
-                done
-                required_params="["$(echo ${required_params[@]} | tr ' ' ',')"]"
-                echo $required_params
-            fi
-            all_required_params+=($required_params)
-        done
-        all_required_params="["$(echo ${all_required_params[@]} | tr ' ' ',')"]"
-        sixd tx nftmngr perform-multi-token-action ${schema_code} ${token_id} ${action} ${ref_id} ${all_required_params} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
-            --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} -o json
-        ;;
-    7) 
+    5) 
         echo "Set NFT Attribute"
         read -p "Enter Schema Code: " schema_code 
         read -p "Enter Value (attribute_name=N[value]): " value
@@ -231,7 +182,7 @@ case $choice in
         sixd tx nftmngr set-nft-attribute ${schema_code} ${BASE64_ATTR} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
         ;;
-    8) 
+    6) 
         echo "Oracle - Create Mint Request"
         read -p "Enter Schema Code: " schema_code 
         read -p "Enter Token ID: " token_id
@@ -242,12 +193,12 @@ case $choice in
         sixd tx nftoracle create-mint-request ${schema_code} ${token_id} ${require_confirmations} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
         ;;
-    9) 
+    7) 
         echo "Oracle - Get Mint Request"
         read -p "Mint Request ID: " mint_request_id 
         sixd q nftoracle show-mint-request ${mint_request_id} --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} --output json | jq .
         ;;
-    10) 
+    8) 
         echo "Oracle - Submit Mint Response"
         read -p "Mint Request ID: " mint_request_id
         read -p "Oracle : " oracle_key_name
@@ -256,7 +207,7 @@ case $choice in
         sixd tx nftoracle submit-mint-response ${mint_request_id} ${BASE64_ORIGINDATA} --from ${oracle_key_name} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
         ;;
-    11) 
+    9) 
         echo "Oracle - Create Action Request"
         read -p "Enter Schema Code: " schema_code 
         read -p "Enter Token ID: " token_id
@@ -295,12 +246,12 @@ case $choice in
         sixd tx nftoracle create-action-request ethereum ${BASE64_ACTION_SIG} ${require_confirmations} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
         ;;
-    12) 
+    10) 
         echo "Oracle - Get Action Request"
         read -p "Action Request ID: " action_request_id 
         sixd q nftoracle show-action-request ${action_request_id} --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} --output json | jq .
         ;;
-    13) 
+    11) 
         echo "Oracle - Submit Action Response"
         read -p "Action Request ID: " action_request_id
         read -p "Oracle : " oracle_key_name
@@ -309,7 +260,7 @@ case $choice in
         sixd tx nftoracle submit-action-response ${action_request_id} ${BASE64_ORIGINDATA} --from ${oracle_key_name} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
         ;;
-    14) 
+    12) 
         echo "Oracle - Create Verify Schema Request"
         read -p "Enter Schema Code: " schema_code
         read -p "Require confirmations: " require_confirmations
@@ -329,12 +280,12 @@ case $choice in
         sixd tx nftoracle create-verify-collection-owner-request ${schema_code} ${BASE64_VERIFY_SIG} ${require_confirmations} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
         ;;
-    15) 
+    13) 
         echo "Oracle - Get Verify Request"
         read -p "Verify Request ID: " verfiry_request_id 
         sixd q nftoracle show-collection-owner-request ${verfiry_request_id} --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} --output json | jq .
         ;;
-    16) 
+    14) 
         echo "Oracle - Submit Verify Response"
         read -p "Enter Schema Code: " schema_code
         read -p "Verify Request ID: " verfiry_request_id
@@ -347,7 +298,7 @@ case $choice in
         sixd tx nftoracle submit-verify-collection-owner ${verfiry_request_id} ${schema_code} ${BASE64_ORIGINDATA} --from ${oracle_key_name} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
         ;;
-    17) 
+    15) 
         echo "Add Attribute"
         read -p "Enter Schema Code: " schema_code 
         if [ -z "$schema_code" ]; then
@@ -358,7 +309,7 @@ case $choice in
         sixd tx nftmngr add-attribute ${schema_code} ${location} ${BASE64_ATTRIBUTE} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
         ;;
-    18) 
+    16) 
         echo "Add Action"
         read -p "Enter Schema Code: " schema_code 
         if [ -z "$schema_code" ]; then
@@ -368,7 +319,7 @@ case $choice in
         sixd tx nftmngr add-action ${schema_code} ${BASE64_ACTION} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
         ;;
-    19) 
+    17) 
         echo "Set Signer"
         BASE64JSON=`cat ./mock-data/set-signer.json`
         # echo "BASE64JSON: ${BASE64JSON}"
@@ -381,13 +332,13 @@ case $choice in
 
         sixd tx nftoracle create-action-signer ${BASE64_VERIFY_SIG} --from super-admin --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
         ;;
-    20) 
+    18) 
         echo "Show Action Signer"
         read -p "Enter Signer Address (ETH): " signer_address
         read -p "Enter Owner Address (ETH): " owner_address 
         sixd q nftoracle show-action-signer ${signer_address} ${owner_address} --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} -o json | jq .
         ;;
-    21) 
+    19) 
         echo "Oracle - ActionSigner Action Request"
         read -p "Enter Schema Code: " schema_code 
         read -p "Enter Token ID: " token_id
@@ -425,7 +376,7 @@ case $choice in
         # echo  ${BASE64_ACTION_SIG} 
         sixd tx nftoracle create-action-request ethereum ${BASE64_ACTION_SIG} ${require_confirmations} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} -y 
         ;;
-    22) 
+    20) 
         echo "Oracle - Request Sync Signer"
         read -p "Enter Signer Address (ETH): " signer_address
         read -p "Enter Owner Address (ETH): " owner_address 
@@ -433,7 +384,7 @@ case $choice in
         read -p "Enter Required Confirmations: " required_confirmations
         sixd tx nftoracle create-sync-action-signer ${chain} ${signer_address} ${owner_address} ${required_confirmations} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} -y
         ;;
-    23) 
+    21) 
         echo "Oracle - Submit Sync Signer"
         read -p "Enter Request ID: " request_id
         read -p "Enter Chain: " chain
@@ -448,7 +399,7 @@ case $choice in
         fi
         sixd tx nftoracle submit-sync-action-signer ${request_id} ${chain} ${signer_address} ${owner_address} ${expire_epoch} --from oracle4 --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y
         ;;
-    24) 
+    22) 
         echo "Proposal change feemarket parameter"
         sixd tx gov submit-proposal param-change ./mock-data/feemarket.json --from $KEY_NAME --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} --gas auto --gas-prices 1.25usix --gas-adjustment 1.5 -y
         ;;
