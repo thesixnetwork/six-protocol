@@ -19,7 +19,7 @@ import (
 )
 
 const (
-	NftmngrAddress = "0x0000000000000000000000000000000000000055"
+	NftmngrAddress = "0x0000000000000000000000000000000000001055"
 )
 
 // Embed abi json file to the executable binary. Needed when importing as dependency.

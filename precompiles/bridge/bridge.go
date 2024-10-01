@@ -22,7 +22,7 @@ const (
 )
 
 const (
-	BridgeAddress = "0x0000000000000000000000000000000000000069"
+	BridgeAddress = "0x0000000000000000000000000000000000001069"
 
 	tokenmngrModuleName = "tokenmngr"
 	bridgeDiffTreshold  = 1
