@@ -35262,7 +35262,7 @@ paths:
   /thesixnetwork/sixnft/nftadmin/authorization:
     get:
       summary: Queries a Authorization by index.
-      operationId: ThesixnetworkSixnftNftadminAuthorization
+      operationId: ThesixnetworkSixprotocolNftadminAuthorization
       responses:
         '200':
           description: A successful response.
@@ -35314,7 +35314,7 @@ paths:
   /thesixnetwork/sixnft/nftadmin/params:
     get:
       summary: Parameters queries the parameters of the module.
-      operationId: ThesixnetworkSixnftNftadminParams
+      operationId: ThesixnetworkSixprotocolNftadminParams
       responses:
         '200':
           description: A successful response.
@@ -35347,10 +35347,517 @@ paths:
                   additionalProperties: {}
       tags:
         - Query
+  /thesixnetwork/six-protocol/nftmngr/active_virtual_schema_proposal:
+    get:
+      summary: Queries a list of ActiveVirtualSchemaProposal items.
+      operationId: ThesixnetworkSixprotocolNftmngrActiveVirtualSchemaProposalAll
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              activeVirtualSchemaProposal:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    index:
+                      type: string
+                    virtualSchemaCode:
+                      type: string
+                    registry:
+                      type: string
+                    enable:
+                      type: boolean
+              pagination:
+                type: object
+                properties:
+                  next_key:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                      description: >-
+                        A URL/resource name that uniquely identifies the type of
+                        the serialized
+
+                        protocol buffer message. This string must contain at
+                        least
+
+                        one "/" character. The last segment of the URL's path
+                        must represent
+
+                        the fully qualified name of the type (as in
+
+                        `path/google.protobuf.Duration`). The name should be in
+                        a canonical form
+
+                        (e.g., leading "." is not accepted).
+
+
+                        In practice, teams usually precompile into the binary
+                        all types that they
+
+                        expect it to use in the context of Any. However, for
+                        URLs which use the
+
+                        scheme `http`, `https`, or no scheme, one can optionally
+                        set up a type
+
+                        server that maps type URLs to message definitions as
+                        follows:
+
+
+                        * If no scheme is provided, `https` is assumed.
+
+                        * An HTTP GET on the URL must yield a
+                        [google.protobuf.Type][]
+                          value in binary format, or produce an error.
+                        * Applications are allowed to cache lookup results based
+                        on the
+                          URL, or have them precompiled into a binary to avoid any
+                          lookup. Therefore, binary compatibility needs to be preserved
+                          on changes to types. (Use versioned type names to manage
+                          breaking changes.)
+
+                        Note: this functionality is not currently available in
+                        the official
+
+                        protobuf release, and it is not used for type URLs
+                        beginning with
+
+                        type.googleapis.com.
+
+
+                        Schemes other than `http`, `https` (or the empty scheme)
+                        might be
+
+                        used with implementation specific semantics.
+                  additionalProperties: {}
+                  description: >-
+                    `Any` contains an arbitrary serialized protocol buffer
+                    message along with a
+
+                    URL that describes the type of the serialized message.
+
+
+                    Protobuf library provides support to pack/unpack Any values
+                    in the form
+
+                    of utility functions or additional generated methods of the
+                    Any type.
+
+
+                    Example 1: Pack and unpack a message in C++.
+
+                        Foo foo = ...;
+                        Any any;
+                        any.PackFrom(foo);
+                        ...
+                        if (any.UnpackTo(&foo)) {
+                          ...
+                        }
+
+                    Example 2: Pack and unpack a message in Java.
+
+                        Foo foo = ...;
+                        Any any = Any.pack(foo);
+                        ...
+                        if (any.is(Foo.class)) {
+                          foo = any.unpack(Foo.class);
+                        }
+
+                     Example 3: Pack and unpack a message in Python.
+
+                        foo = Foo(...)
+                        any = Any()
+                        any.Pack(foo)
+                        ...
+                        if any.Is(Foo.DESCRIPTOR):
+                          any.Unpack(foo)
+                          ...
+
+                     Example 4: Pack and unpack a message in Go
+
+                         foo := &pb.Foo{...}
+                         any, err := anypb.New(foo)
+                         if err != nil {
+                           ...
+                         }
+                         ...
+                         foo := &pb.Foo{}
+                         if err := any.UnmarshalTo(foo); err != nil {
+                           ...
+                         }
+
+                    The pack methods provided by protobuf library will by
+                    default use
+
+                    'type.googleapis.com/full.type.name' as the type URL and the
+                    unpack
+
+                    methods only use the fully qualified type name after the
+                    last '/'
+
+                    in the type URL, for example "foo.bar.com/x/y.z" will yield
+                    type
+
+                    name "y.z".
+
+
+
+                    JSON
+
+                    ====
+
+                    The JSON representation of an `Any` value uses the regular
+
+                    representation of the deserialized, embedded message, with
+                    an
+
+                    additional field `@type` which contains the type URL.
+                    Example:
+
+                        package google.profile;
+                        message Person {
+                          string first_name = 1;
+                          string last_name = 2;
+                        }
+
+                        {
+                          "@type": "type.googleapis.com/google.profile.Person",
+                          "firstName": <string>,
+                          "lastName": <string>
+                        }
+
+                    If the embedded message type is well-known and has a custom
+                    JSON
+
+                    representation, that representation will be embedded adding
+                    a field
+
+                    `value` which holds the custom JSON in addition to the
+                    `@type`
+
+                    field. Example (for message [google.protobuf.Duration][]):
+
+                        {
+                          "@type": "type.googleapis.com/google.protobuf.Duration",
+                          "value": "1.212s"
+                        }
+      parameters:
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.count_total
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  '/thesixnetwork/six-protocol/nftmngr/active_virtual_schema_proposal/{index}':
+    get:
+      summary: Queries a ActiveVirtualSchemaProposal by index.
+      operationId: ThesixnetworkSixprotocolNftmngrActiveVirtualSchemaProposal
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              activeVirtualSchemaProposal:
+                type: object
+                properties:
+                  index:
+                    type: string
+                  virtualSchemaCode:
+                    type: string
+                  registry:
+                    type: string
+                  enable:
+                    type: boolean
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                      description: >-
+                        A URL/resource name that uniquely identifies the type of
+                        the serialized
+
+                        protocol buffer message. This string must contain at
+                        least
+
+                        one "/" character. The last segment of the URL's path
+                        must represent
+
+                        the fully qualified name of the type (as in
+
+                        `path/google.protobuf.Duration`). The name should be in
+                        a canonical form
+
+                        (e.g., leading "." is not accepted).
+
+
+                        In practice, teams usually precompile into the binary
+                        all types that they
+
+                        expect it to use in the context of Any. However, for
+                        URLs which use the
+
+                        scheme `http`, `https`, or no scheme, one can optionally
+                        set up a type
+
+                        server that maps type URLs to message definitions as
+                        follows:
+
+
+                        * If no scheme is provided, `https` is assumed.
+
+                        * An HTTP GET on the URL must yield a
+                        [google.protobuf.Type][]
+                          value in binary format, or produce an error.
+                        * Applications are allowed to cache lookup results based
+                        on the
+                          URL, or have them precompiled into a binary to avoid any
+                          lookup. Therefore, binary compatibility needs to be preserved
+                          on changes to types. (Use versioned type names to manage
+                          breaking changes.)
+
+                        Note: this functionality is not currently available in
+                        the official
+
+                        protobuf release, and it is not used for type URLs
+                        beginning with
+
+                        type.googleapis.com.
+
+
+                        Schemes other than `http`, `https` (or the empty scheme)
+                        might be
+
+                        used with implementation specific semantics.
+                  additionalProperties: {}
+                  description: >-
+                    `Any` contains an arbitrary serialized protocol buffer
+                    message along with a
+
+                    URL that describes the type of the serialized message.
+
+
+                    Protobuf library provides support to pack/unpack Any values
+                    in the form
+
+                    of utility functions or additional generated methods of the
+                    Any type.
+
+
+                    Example 1: Pack and unpack a message in C++.
+
+                        Foo foo = ...;
+                        Any any;
+                        any.PackFrom(foo);
+                        ...
+                        if (any.UnpackTo(&foo)) {
+                          ...
+                        }
+
+                    Example 2: Pack and unpack a message in Java.
+
+                        Foo foo = ...;
+                        Any any = Any.pack(foo);
+                        ...
+                        if (any.is(Foo.class)) {
+                          foo = any.unpack(Foo.class);
+                        }
+
+                     Example 3: Pack and unpack a message in Python.
+
+                        foo = Foo(...)
+                        any = Any()
+                        any.Pack(foo)
+                        ...
+                        if any.Is(Foo.DESCRIPTOR):
+                          any.Unpack(foo)
+                          ...
+
+                     Example 4: Pack and unpack a message in Go
+
+                         foo := &pb.Foo{...}
+                         any, err := anypb.New(foo)
+                         if err != nil {
+                           ...
+                         }
+                         ...
+                         foo := &pb.Foo{}
+                         if err := any.UnmarshalTo(foo); err != nil {
+                           ...
+                         }
+
+                    The pack methods provided by protobuf library will by
+                    default use
+
+                    'type.googleapis.com/full.type.name' as the type URL and the
+                    unpack
+
+                    methods only use the fully qualified type name after the
+                    last '/'
+
+                    in the type URL, for example "foo.bar.com/x/y.z" will yield
+                    type
+
+                    name "y.z".
+
+
+
+                    JSON
+
+                    ====
+
+                    The JSON representation of an `Any` value uses the regular
+
+                    representation of the deserialized, embedded message, with
+                    an
+
+                    additional field `@type` which contains the type URL.
+                    Example:
+
+                        package google.profile;
+                        message Person {
+                          string first_name = 1;
+                          string last_name = 2;
+                        }
+
+                        {
+                          "@type": "type.googleapis.com/google.profile.Person",
+                          "firstName": <string>,
+                          "lastName": <string>
+                        }
+
+                    If the embedded message type is well-known and has a custom
+                    JSON
+
+                    representation, that representation will be embedded adding
+                    a field
+
+                    `value` which holds the custom JSON in addition to the
+                    `@type`
+
+                    field. Example (for message [google.protobuf.Duration][]):
+
+                        {
+                          "@type": "type.googleapis.com/google.protobuf.Duration",
+                          "value": "1.212s"
+                        }
+      parameters:
+        - name: index
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
   /thesixnetwork/six-protocol/nftmngr/disable_virtual_schema:
     get:
       summary: Queries a list of DisableVirtualSchema items.
-      operationId: ThesixnetworkSixnftNftmngrDisableVirtualSchemaAll
+      operationId: ThesixnetworkSixprotocolNftmngrDisableVirtualSchemaAll
       responses:
         '200':
           description: A successful response.
@@ -35631,6 +36138,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -35639,7 +36149,7 @@ paths:
   '/thesixnetwork/six-protocol/nftmngr/disable_virtual_schema/{index}':
     get:
       summary: Queries a DisableVirtualSchema by index.
-      operationId: ThesixnetworkSixnftNftmngrDisableVirtualSchema
+      operationId: ThesixnetworkSixprotocolNftmngrDisableVirtualSchema
       responses:
         '200':
           description: A successful response.
@@ -35850,7 +36360,7 @@ paths:
   /thesixnetwork/six-protocol/nftmngr/virtual_action:
     get:
       summary: Queries a list of Virtual items.
-      operationId: ThesixnetworkSixnftNftmngrVirtualActionAll
+      operationId: ThesixnetworkSixprotocolNftmngrVirtualActionAll
       responses:
         '200':
           description: A successful response.
@@ -36166,6 +36676,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -36174,7 +36687,7 @@ paths:
   '/thesixnetwork/six-protocol/nftmngr/virtual_action/{nftSchemaCode}':
     get:
       summary: Queries a Virtual by index
-      operationId: ThesixnetworkSixnftNftmngrVirtualAction
+      operationId: ThesixnetworkSixprotocolNftmngrVirtualAction
       responses:
         '200':
           description: A successful response.
@@ -36424,7 +36937,7 @@ paths:
   /thesixnetwork/six-protocol/nftmngr/virtual_schema:
     get:
       summary: Queries a list of VirtualSchema items.
-      operationId: ThesixnetworkSixnftNftmngrVirtualSchemaAll
+      operationId: ThesixnetworkSixprotocolNftmngrVirtualSchemaAll
       responses:
         '200':
           description: A successful response.
@@ -36726,6 +37239,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -36734,7 +37250,7 @@ paths:
   '/thesixnetwork/six-protocol/nftmngr/virtual_schema/{nftSchemaCode}':
     get:
       summary: Queries a VirtualSchema by index.
-      operationId: ThesixnetworkSixnftNftmngrVirtualSchema
+      operationId: ThesixnetworkSixprotocolNftmngrVirtualSchema
       responses:
         '200':
           description: A successful response.
@@ -36966,7 +37482,7 @@ paths:
   /thesixnetwork/six-protocol/nftmngr/virtual_schema_proposal:
     get:
       summary: Queries a list of VirtualSchemaProposal items.
-      operationId: ThesixnetworkSixnftNftmngrVirtualSchemaProposalAll
+      operationId: ThesixnetworkSixprotocolNftmngrVirtualSchemaProposalAll
       responses:
         '200':
           description: A successful response.
@@ -37263,6 +37779,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -37271,7 +37790,7 @@ paths:
   '/thesixnetwork/six-protocol/nftmngr/virtual_schema_proposal/{index}':
     get:
       summary: Queries a VirtualSchemaProposal by index.
-      operationId: ThesixnetworkSixnftNftmngrVirtualSchemaProposal
+      operationId: ThesixnetworkSixprotocolNftmngrVirtualSchemaProposal
       responses:
         '200':
           description: A successful response.
@@ -37498,7 +38017,7 @@ paths:
   /thesixnetwork/sixnft/nftmngr/action_by_ref_id:
     get:
       summary: Queries a list of ActionByRefId items.
-      operationId: ThesixnetworkSixnftNftmngrActionByRefIdAll
+      operationId: ThesixnetworkSixprotocolNftmngrActionByRefIdAll
       responses:
         '200':
           description: A successful response.
@@ -37783,6 +38302,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -37791,7 +38313,7 @@ paths:
   '/thesixnetwork/sixnft/nftmngr/action_by_ref_id/{refId}':
     get:
       summary: Queries a ActionByRefId by index.
-      operationId: ThesixnetworkSixnftNftmngrActionByRefId
+      operationId: ThesixnetworkSixprotocolNftmngrActionByRefId
       responses:
         '200':
           description: A successful response.
@@ -38006,7 +38528,7 @@ paths:
   /thesixnetwork/sixnft/nftmngr/action_executor:
     get:
       summary: Queries a list of ActionExecutor items.
-      operationId: ThesixnetworkSixnftNftmngrActionExecutorAll
+      operationId: ThesixnetworkSixprotocolNftmngrActionExecutorAll
       responses:
         '200':
           description: A successful response.
@@ -38287,6 +38809,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -38295,7 +38820,7 @@ paths:
   '/thesixnetwork/sixnft/nftmngr/action_executor/{nftSchemaCode}/{executorAddress}':
     get:
       summary: Queries a ActionExecutor by index.
-      operationId: ThesixnetworkSixnftNftmngrActionExecutor
+      operationId: ThesixnetworkSixprotocolNftmngrActionExecutor
       responses:
         '200':
           description: A successful response.
@@ -38510,7 +39035,7 @@ paths:
   /thesixnetwork/sixnft/nftmngr/action_of_schema:
     get:
       summary: Queries a list of ActionOfSchema items.
-      operationId: ThesixnetworkSixnftNftmngrActionOfSchemaAll
+      operationId: ThesixnetworkSixprotocolNftmngrActionOfSchemaAll
       responses:
         '200':
           description: A successful response.
@@ -38792,6 +39317,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -38800,7 +39328,7 @@ paths:
   '/thesixnetwork/sixnft/nftmngr/action_of_schema/{nftSchemaCode}/{name}':
     get:
       summary: Queries a ActionOfSchema by index.
-      operationId: ThesixnetworkSixnftNftmngrActionOfSchema
+      operationId: ThesixnetworkSixprotocolNftmngrActionOfSchema
       responses:
         '200':
           description: A successful response.
@@ -39016,7 +39544,7 @@ paths:
   /thesixnetwork/sixnft/nftmngr/executor_of_schema:
     get:
       summary: Queries a list of ExecutorOfSchema items.
-      operationId: ThesixnetworkSixnftNftmngrExecutorOfSchemaAll
+      operationId: ThesixnetworkSixprotocolNftmngrExecutorOfSchemaAll
       responses:
         '200':
           description: A successful response.
@@ -39297,6 +39825,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -39305,7 +39836,7 @@ paths:
   '/thesixnetwork/sixnft/nftmngr/executor_of_schema/{nftSchemaCode}':
     get:
       summary: Queries a ExecutorOfSchema by index.
-      operationId: ThesixnetworkSixnftNftmngrExecutorOfSchema
+      operationId: ThesixnetworkSixprotocolNftmngrExecutorOfSchema
       responses:
         '200':
           description: A successful response.
@@ -39516,7 +40047,7 @@ paths:
   '/thesixnetwork/sixnft/nftmngr/list_attribute_by_schema/{nftSchemaCode}':
     get:
       summary: Queries a list of ListAttributeBySchema items.
-      operationId: ThesixnetworkSixnftNftmngrListAttributeBySchema
+      operationId: ThesixnetworkSixprotocolNftmngrListAttributeBySchema
       responses:
         '200':
           description: A successful response.
@@ -39756,7 +40287,7 @@ paths:
   /thesixnetwork/sixnft/nftmngr/metadata_creator:
     get:
       summary: Queries a list of MetadataCreator items.
-      operationId: ThesixnetworkSixnftNftmngrMetadataCreatorAll
+      operationId: ThesixnetworkSixprotocolNftmngrMetadataCreatorAll
       responses:
         '200':
           description: A successful response.
@@ -40042,6 +40573,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -40050,7 +40584,7 @@ paths:
   '/thesixnetwork/sixnft/nftmngr/metadata_creator/{nftSchemaCode}':
     get:
       summary: Queries a MetadataCreator by index.
-      operationId: ThesixnetworkSixnftNftmngrMetadataCreator
+      operationId: ThesixnetworkSixprotocolNftmngrMetadataCreator
       responses:
         '200':
           description: A successful response.
@@ -40266,7 +40800,7 @@ paths:
   '/thesixnetwork/sixnft/nftmngr/nft_collection/{nftSchemaCode}':
     get:
       summary: Queries a NftCollection by index.
-      operationId: ThesixnetworkSixnftNftmngrNftCollection
+      operationId: ThesixnetworkSixprotocolNftmngrNftCollection
       responses:
         '200':
           description: A successful response.
@@ -40625,6 +41159,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -40633,7 +41170,7 @@ paths:
   /thesixnetwork/sixnft/nftmngr/nft_data:
     get:
       summary: Queries a list of NftData items.
-      operationId: ThesixnetworkSixnftNftmngrNftDataAll
+      operationId: ThesixnetworkSixprotocolNftmngrNftDataAll
       responses:
         '200':
           description: A successful response.
@@ -40992,6 +41529,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -41000,7 +41540,7 @@ paths:
   '/thesixnetwork/sixnft/nftmngr/nft_data/{nftSchemaCode}/{tokenId}':
     get:
       summary: Queries a NftData by index.
-      operationId: ThesixnetworkSixnftNftmngrNftData
+      operationId: ThesixnetworkSixprotocolNftmngrNftData
       responses:
         '200':
           description: A successful response.
@@ -41293,7 +41833,7 @@ paths:
   /thesixnetwork/sixnft/nftmngr/nft_fee_balance:
     get:
       summary: Queries a NFTFeeBalance by index.
-      operationId: ThesixnetworkSixnftNftmngrNFTFeeBalance
+      operationId: ThesixnetworkSixprotocolNftmngrNFTFeeBalance
       responses:
         '200':
           description: A successful response.
@@ -41498,7 +42038,7 @@ paths:
   /thesixnetwork/sixnft/nftmngr/nft_fee_config:
     get:
       summary: Queries a NFTFeeConfig by index.
-      operationId: ThesixnetworkSixnftNftmngrNFTFeeConfig
+      operationId: ThesixnetworkSixprotocolNftmngrNFTFeeConfig
       responses:
         '200':
           description: A successful response.
@@ -41718,7 +42258,7 @@ paths:
   /thesixnetwork/sixnft/nftmngr/nft_schema:
     get:
       summary: Queries a list of NFTSchema items.
-      operationId: ThesixnetworkSixnftNftmngrNFTSchemaAll
+      operationId: ThesixnetworkSixprotocolNftmngrNFTSchemaAll
       responses:
         '200':
           description: A successful response.
@@ -42268,6 +42808,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -42276,7 +42819,7 @@ paths:
   '/thesixnetwork/sixnft/nftmngr/nft_schema/{code}':
     get:
       summary: Queries a NFTSchema by index.
-      operationId: ThesixnetworkSixnftNftmngrNFTSchema
+      operationId: ThesixnetworkSixprotocolNftmngrNFTSchema
       responses:
         '200':
           description: A successful response.
@@ -42756,7 +43299,7 @@ paths:
   /thesixnetwork/sixnft/nftmngr/nft_schema_by_contract:
     get:
       summary: Queries a list of NFTSchemaByContract items.
-      operationId: ThesixnetworkSixnftNftmngrNFTSchemaByContractAll
+      operationId: ThesixnetworkSixprotocolNftmngrNFTSchemaByContractAll
       responses:
         '200':
           description: A successful response.
@@ -43037,6 +43580,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -43045,7 +43591,7 @@ paths:
   '/thesixnetwork/sixnft/nftmngr/nft_schema_by_contract/{originContractAddress}':
     get:
       summary: Queries a NFTSchemaByContract by index.
-      operationId: ThesixnetworkSixnftNftmngrNFTSchemaByContract
+      operationId: ThesixnetworkSixprotocolNftmngrNFTSchemaByContract
       responses:
         '200':
           description: A successful response.
@@ -43256,7 +43802,7 @@ paths:
   /thesixnetwork/sixnft/nftmngr/organization:
     get:
       summary: Queries a list of Organization items.
-      operationId: ThesixnetworkSixnftNftmngrOrganizationAll
+      operationId: ThesixnetworkSixprotocolNftmngrOrganizationAll
       responses:
         '200':
           description: A successful response.
@@ -43535,6 +44081,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -43543,7 +44092,7 @@ paths:
   '/thesixnetwork/sixnft/nftmngr/organization/{name}':
     get:
       summary: Queries a Organization by index.
-      operationId: ThesixnetworkSixnftNftmngrOrganization
+      operationId: ThesixnetworkSixprotocolNftmngrOrganization
       responses:
         '200':
           description: A successful response.
@@ -43752,7 +44301,7 @@ paths:
   /thesixnetwork/sixnft/nftmngr/params:
     get:
       summary: Parameters queries the parameters of the module.
-      operationId: ThesixnetworkSixnftNftmngrParams
+      operationId: ThesixnetworkSixprotocolNftmngrParams
       responses:
         '200':
           description: A successful response.
@@ -43955,7 +44504,7 @@ paths:
   /thesixnetwork/sixnft/nftmngr/schema_attribute:
     get:
       summary: Queries a list of SchemaAttribute items.
-      operationId: ThesixnetworkSixnftNftmngrSchemaAttributeAll
+      operationId: ThesixnetworkSixprotocolNftmngrSchemaAttributeAll
       responses:
         '200':
           description: A successful response.
@@ -44263,6 +44812,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -44271,7 +44823,7 @@ paths:
   '/thesixnetwork/sixnft/nftmngr/schema_attribute/{nftSchemaCode}/{name}':
     get:
       summary: Queries a SchemaAttribute by index.
-      operationId: ThesixnetworkSixnftNftmngrSchemaAttribute
+      operationId: ThesixnetworkSixprotocolNftmngrSchemaAttribute
       responses:
         '200':
           description: A successful response.
@@ -44513,7 +45065,7 @@ paths:
   /thesixnetwork/sixnft/nftoracle/action_request:
     get:
       summary: Queries a list of ActionRequest items.
-      operationId: ThesixnetworkSixnftNftoracleActionRequestAll
+      operationId: ThesixnetworkSixprotocolNftoracleActionRequestAll
       responses:
         '200':
           description: A successful response.
@@ -44702,19 +45254,12 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftoracle/action_request/{id}':
     get:
       summary: Queries a ActionRequest by id.
-      operationId: ThesixnetworkSixnftNftoracleActionOracleRequest
+      operationId: ThesixnetworkSixprotocolNftoracleActionOracleRequest
       responses:
         '200':
           description: A successful response.
@@ -44838,7 +45383,7 @@ paths:
   /thesixnetwork/sixnft/nftoracle/action_signer:
     get:
       summary: Queries a list of ActionSigner items.
-      operationId: ThesixnetworkSixnftNftoracleActionSignerAll
+      operationId: ThesixnetworkSixprotocolNftoracleActionSignerAll
       responses:
         '200':
           description: A successful response.
@@ -44960,19 +45505,12 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftoracle/action_signer/{actorAddress}/{ownerAddress}':
     get:
       summary: Queries a ActionSigner by index.
-      operationId: ThesixnetworkSixnftNftoracleActionSigner
+      operationId: ThesixnetworkSixprotocolNftoracleActionSigner
       responses:
         '200':
           description: A successful response.
@@ -45032,7 +45570,7 @@ paths:
   /thesixnetwork/sixnft/nftoracle/action_signer_config:
     get:
       summary: Queries a list of ActionSignerConfig items.
-      operationId: ThesixnetworkSixnftNftoracleActionSignerConfigAll
+      operationId: ThesixnetworkSixprotocolNftoracleActionSignerConfigAll
       responses:
         '200':
           description: A successful response.
@@ -45142,19 +45680,12 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftoracle/action_signer_config/{chain}':
     get:
       summary: Queries a ActionSignerConfig by index.
-      operationId: ThesixnetworkSixnftNftoracleActionSignerConfig
+      operationId: ThesixnetworkSixprotocolNftoracleActionSignerConfig
       responses:
         '200':
           description: A successful response.
@@ -45198,7 +45729,7 @@ paths:
   '/thesixnetwork/sixnft/nftoracle/binded_signer/{ownerAddress}':
     get:
       summary: Queries a BindedSigner by index.
-      operationId: ThesixnetworkSixnftNftoracleBindedSigner
+      operationId: ThesixnetworkSixprotocolNftoracleBindedSigner
       responses:
         '200':
           description: A successful response.
@@ -45251,7 +45782,7 @@ paths:
   /thesixnetwork/sixnft/nftoracle/collection_owner_request:
     get:
       summary: Queries a list of CollectionOwnerRequest items.
-      operationId: ThesixnetworkSixnftNftoracleCollectionOwnerRequestAll
+      operationId: ThesixnetworkSixprotocolNftoracleCollectionOwnerRequestAll
       responses:
         '200':
           description: A successful response.
@@ -45415,19 +45946,12 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftoracle/collection_owner_request/{id}':
     get:
       summary: Queries a CollectionOwnerRequest by id.
-      operationId: ThesixnetworkSixnftNftoracleCollectionOwnerRequest
+      operationId: ThesixnetworkSixprotocolNftoracleCollectionOwnerRequest
       responses:
         '200':
           description: A successful response.
@@ -45526,7 +46050,7 @@ paths:
   /thesixnetwork/sixnft/nftoracle/mint_request:
     get:
       summary: Queries a list of MintRequest items.
-      operationId: ThesixnetworkSixnftNftoracleMintRequestAll
+      operationId: ThesixnetworkSixprotocolNftoracleMintRequestAll
       responses:
         '200':
           description: A successful response.
@@ -45699,19 +46223,12 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftoracle/mint_request/{id}':
     get:
       summary: Queries a MintRequest by id.
-      operationId: ThesixnetworkSixnftNftoracleMintRequest
+      operationId: ThesixnetworkSixprotocolNftoracleMintRequest
       responses:
         '200':
           description: A successful response.
@@ -45819,7 +46336,7 @@ paths:
   /thesixnetwork/sixnft/nftoracle/oracle_config:
     get:
       summary: Queries a OracleConfig by index.
-      operationId: ThesixnetworkSixnftNftoracleOracleConfig
+      operationId: ThesixnetworkSixprotocolNftoracleOracleConfig
       responses:
         '200':
           description: A successful response.
@@ -45855,7 +46372,7 @@ paths:
   /thesixnetwork/sixnft/nftoracle/params:
     get:
       summary: Parameters queries the parameters of the module.
-      operationId: ThesixnetworkSixnftNftoracleParams
+      operationId: ThesixnetworkSixprotocolNftoracleParams
       responses:
         '200':
           description: A successful response.
@@ -45902,7 +46419,7 @@ paths:
   /thesixnetwork/sixnft/nftoracle/sync_action_signer:
     get:
       summary: Queries a list of SyncActionSigner items.
-      operationId: ThesixnetworkSixnftNftoracleSyncActionSignerAll
+      operationId: ThesixnetworkSixprotocolNftoracleSyncActionSignerAll
       responses:
         '200':
           description: A successful response.
@@ -46074,19 +46591,12 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftoracle/sync_action_signer/{id}':
     get:
       summary: Queries a SyncActionSigner by id.
-      operationId: ThesixnetworkSixnftNftoracleSyncActionSigner
+      operationId: ThesixnetworkSixprotocolNftoracleSyncActionSigner
       responses:
         '200':
           description: A successful response.
@@ -46301,13 +46811,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/six-protocol/protocoladmin/admin/{group}/{admin}':
@@ -46467,13 +46970,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/six-protocol/protocoladmin/group/{name}':
@@ -46625,13 +47121,6 @@ paths:
             when key
 
             is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
           in: query
           required: false
           type: boolean
@@ -46790,9 +47279,6 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -47051,9 +47537,6 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -47253,9 +47736,6 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -47387,9 +47867,6 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -68635,14 +69112,14 @@ definitions:
     description: |-
       Version defines the versioning scheme used to negotiate the IBC verison in
       the connection handshake.
-  thesixnetwork.sixnft.nftadmin.AddressList:
+  thesixnetwork.sixprotocol.nftadmin.AddressList:
     type: object
     properties:
       addresses:
         type: array
         items:
           type: string
-  thesixnetwork.sixnft.nftadmin.Authorization:
+  thesixnetwork.sixprotocol.nftadmin.Authorization:
     type: object
     properties:
       root_admin:
@@ -68664,20 +69141,20 @@ definitions:
                       type: array
                       items:
                         type: string
-  thesixnetwork.sixnft.nftadmin.MsgGrantPermissionResponse:
+  thesixnetwork.sixprotocol.nftadmin.MsgGrantPermissionResponse:
     type: object
     properties:
       grantee:
         type: string
-  thesixnetwork.sixnft.nftadmin.MsgRevokePermissionResponse:
+  thesixnetwork.sixprotocol.nftadmin.MsgRevokePermissionResponse:
     type: object
     properties:
       revokee:
         type: string
-  thesixnetwork.sixnft.nftadmin.Params:
+  thesixnetwork.sixprotocol.nftadmin.Params:
     type: object
     description: Params defines the parameters for the module.
-  thesixnetwork.sixnft.nftadmin.Permission:
+  thesixnetwork.sixprotocol.nftadmin.Permission:
     type: object
     properties:
       name:
@@ -68689,7 +69166,7 @@ definitions:
             type: array
             items:
               type: string
-  thesixnetwork.sixnft.nftadmin.Permissions:
+  thesixnetwork.sixprotocol.nftadmin.Permissions:
     type: object
     properties:
       permissions:
@@ -68706,7 +69183,7 @@ definitions:
                   type: array
                   items:
                     type: string
-  thesixnetwork.sixnft.nftadmin.QueryGetAuthorizationResponse:
+  thesixnetwork.sixprotocol.nftadmin.QueryGetAuthorizationResponse:
     type: object
     properties:
       Authorization:
@@ -68731,14 +69208,14 @@ definitions:
                           type: array
                           items:
                             type: string
-  thesixnetwork.sixnft.nftadmin.QueryParamsResponse:
+  thesixnetwork.sixprotocol.nftadmin.QueryParamsResponse:
     type: object
     properties:
       params:
         description: params holds all the parameters of this module.
         type: object
     description: QueryParamsResponse is response type for the Query/Params RPC method.
-  thesixnetwork.sixnft.nftmngr.Action:
+  thesixnetwork.sixprotocol.nftmngr.Action:
     type: object
     properties:
       name:
@@ -68775,7 +69252,7 @@ definitions:
               type: boolean
             default_value:
               type: string
-  thesixnetwork.sixnft.nftmngr.ActionByRefId:
+  thesixnetwork.sixprotocol.nftmngr.ActionByRefId:
     type: object
     properties:
       refId:
@@ -68788,7 +69265,7 @@ definitions:
         type: string
       action:
         type: string
-  thesixnetwork.sixnft.nftmngr.ActionExecutor:
+  thesixnetwork.sixprotocol.nftmngr.ActionExecutor:
     type: object
     properties:
       nftSchemaCode:
@@ -68797,7 +69274,7 @@ definitions:
         type: string
       creator:
         type: string
-  thesixnetwork.sixnft.nftmngr.ActionOfSchema:
+  thesixnetwork.sixprotocol.nftmngr.ActionOfSchema:
     type: object
     properties:
       nftSchemaCode:
@@ -68807,7 +69284,7 @@ definitions:
       index:
         type: string
         format: uint64
-  thesixnetwork.sixnft.nftmngr.ActionParameter:
+  thesixnetwork.sixprotocol.nftmngr.ActionParameter:
     type: object
     properties:
       name:
@@ -68815,7 +69292,7 @@ definitions:
       value:
         type: string
     title: ActionParameter
-  thesixnetwork.sixnft.nftmngr.ActionParams:
+  thesixnetwork.sixprotocol.nftmngr.ActionParams:
     type: object
     properties:
       name:
@@ -68828,14 +69305,25 @@ definitions:
         type: boolean
       default_value:
         type: string
-  thesixnetwork.sixnft.nftmngr.AllowedActioner:
+  thesixnetwork.sixprotocol.nftmngr.ActiveVirtualSchemaProposal:
+    type: object
+    properties:
+      index:
+        type: string
+      virtualSchemaCode:
+        type: string
+      registry:
+        type: string
+      enable:
+        type: boolean
+  thesixnetwork.sixprotocol.nftmngr.AllowedActioner:
     type: string
     enum:
       - ALLOWED_ACTIONER_ALL
       - ALLOWED_ACTIONER_SYSTEM_ONLY
       - ALLOWED_ACTIONER_USER_ONLY
     default: ALLOWED_ACTIONER_ALL
-  thesixnetwork.sixnft.nftmngr.AttributeDefinition:
+  thesixnetwork.sixprotocol.nftmngr.AttributeDefinition:
     type: object
     properties:
       name:
@@ -68896,30 +69384,30 @@ definitions:
       index:
         type: string
         format: uint64
-  thesixnetwork.sixnft.nftmngr.AttributeLocation:
+  thesixnetwork.sixprotocol.nftmngr.AttributeLocation:
     type: string
     enum:
       - NFT_ATTRIBUTE
       - TOKEN_ATTRIBUTE
     default: NFT_ATTRIBUTE
-  thesixnetwork.sixnft.nftmngr.AttributeOverriding:
+  thesixnetwork.sixprotocol.nftmngr.AttributeOverriding:
     type: string
     enum:
       - ORIGIN
       - CHAIN
     default: ORIGIN
-  thesixnetwork.sixnft.nftmngr.AuthorizeTo:
+  thesixnetwork.sixprotocol.nftmngr.AuthorizeTo:
     type: string
     enum:
       - SYSTEM
       - ALL
     default: SYSTEM
-  thesixnetwork.sixnft.nftmngr.BooleanAttributeValue:
+  thesixnetwork.sixprotocol.nftmngr.BooleanAttributeValue:
     type: object
     properties:
       value:
         type: boolean
-  thesixnetwork.sixnft.nftmngr.DefaultMintValue:
+  thesixnetwork.sixprotocol.nftmngr.DefaultMintValue:
     type: object
     properties:
       number_attribute_value:
@@ -68944,7 +69432,7 @@ definitions:
           value:
             type: number
             format: double
-  thesixnetwork.sixnft.nftmngr.DisableVirtualSchema:
+  thesixnetwork.sixprotocol.nftmngr.DisableVirtualSchema:
     type: object
     properties:
       id:
@@ -68953,7 +69441,7 @@ definitions:
         type: string
       proposalExpiredBlock:
         type: string
-  thesixnetwork.sixnft.nftmngr.DisplayOption:
+  thesixnetwork.sixprotocol.nftmngr.DisplayOption:
     type: object
     properties:
       bool_true_value:
@@ -68970,7 +69458,7 @@ definitions:
           max_value:
             type: string
             format: uint64
-  thesixnetwork.sixnft.nftmngr.ExecutorOfSchema:
+  thesixnetwork.sixprotocol.nftmngr.ExecutorOfSchema:
     type: object
     properties:
       nftSchemaCode:
@@ -68979,7 +69467,7 @@ definitions:
         type: array
         items:
           type: string
-  thesixnetwork.sixnft.nftmngr.FeeConfig:
+  thesixnetwork.sixprotocol.nftmngr.FeeConfig:
     type: object
     properties:
       fee_amount:
@@ -68999,7 +69487,7 @@ definitions:
             portion:
               type: number
               format: float
-  thesixnetwork.sixnft.nftmngr.FeeDistribution:
+  thesixnetwork.sixprotocol.nftmngr.FeeDistribution:
     type: object
     properties:
       method:
@@ -69012,39 +69500,39 @@ definitions:
       portion:
         type: number
         format: float
-  thesixnetwork.sixnft.nftmngr.FeeDistributionMethod:
+  thesixnetwork.sixprotocol.nftmngr.FeeDistributionMethod:
     type: string
     enum:
       - BURN
       - REWARD_POOL
       - TRANSFER
     default: BURN
-  thesixnetwork.sixnft.nftmngr.FeeSubject:
+  thesixnetwork.sixprotocol.nftmngr.FeeSubject:
     type: string
     enum:
       - CREATE_NFT_SCHEMA
     default: CREATE_NFT_SCHEMA
-  thesixnetwork.sixnft.nftmngr.FlagStatus:
+  thesixnetwork.sixprotocol.nftmngr.FlagStatus:
     type: object
     properties:
       status_name:
         type: string
       status_value:
         type: boolean
-  thesixnetwork.sixnft.nftmngr.FloatAttributeValue:
+  thesixnetwork.sixprotocol.nftmngr.FloatAttributeValue:
     type: object
     properties:
       value:
         type: number
         format: double
-  thesixnetwork.sixnft.nftmngr.MapTokenToMinter:
+  thesixnetwork.sixprotocol.nftmngr.MapTokenToMinter:
     type: object
     properties:
       token_id:
         type: string
       minter:
         type: string
-  thesixnetwork.sixnft.nftmngr.MetadataCreator:
+  thesixnetwork.sixprotocol.nftmngr.MetadataCreator:
     type: object
     properties:
       nftSchemaCode:
@@ -69058,21 +69546,21 @@ definitions:
               type: string
             minter:
               type: string
-  thesixnetwork.sixnft.nftmngr.MsgAddActionResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgAddActionResponse:
     type: object
     properties:
       code:
         type: string
       name:
         type: string
-  thesixnetwork.sixnft.nftmngr.MsgAddAttributeResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgAddAttributeResponse:
     type: object
     properties:
       code:
         type: string
       name:
         type: string
-  thesixnetwork.sixnft.nftmngr.MsgChangeOrgOwnerResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgChangeOrgOwnerResponse:
     type: object
     properties:
       orgName:
@@ -69081,28 +69569,28 @@ definitions:
         type: string
       newOwner:
         type: string
-  thesixnetwork.sixnft.nftmngr.MsgChangeSchemaOwnerResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgChangeSchemaOwnerResponse:
     type: object
     properties:
       nftSchemaCode:
         type: string
       newOwner:
         type: string
-  thesixnetwork.sixnft.nftmngr.MsgCreateActionExecutorResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgCreateActionExecutorResponse:
     type: object
     properties:
       nftSchemaCode:
         type: string
       executorAddress:
         type: string
-  thesixnetwork.sixnft.nftmngr.MsgCreateMetadataResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgCreateMetadataResponse:
     type: object
     properties:
       nftSchemaCode:
         type: string
       tokenId:
         type: string
-  thesixnetwork.sixnft.nftmngr.MsgCreateMultiMetadataResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgCreateMultiMetadataResponse:
     type: object
     properties:
       nftSchemaCode:
@@ -69111,12 +69599,12 @@ definitions:
         type: array
         items:
           type: string
-  thesixnetwork.sixnft.nftmngr.MsgCreateNFTSchemaResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgCreateNFTSchemaResponse:
     type: object
     properties:
       code:
         type: string
-  thesixnetwork.sixnft.nftmngr.MsgCreateVirtualActionResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgCreateVirtualActionResponse:
     type: object
     properties:
       nftSchemaCode:
@@ -69165,105 +69653,105 @@ definitions:
           TODO:
           1. Policy of action (who can use action)
           2. Proposal to enable and disable action
-  thesixnetwork.sixnft.nftmngr.MsgCreateVirtualSchemaResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgCreateVirtualSchemaResponse:
     type: object
     properties:
       id:
         type: string
       virtualNftSchemaCode:
         type: string
-  thesixnetwork.sixnft.nftmngr.MsgDeleteActionExecutorResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgDeleteActionExecutorResponse:
     type: object
     properties:
       nftSchemaCode:
         type: string
       executorAddress:
         type: string
-  thesixnetwork.sixnft.nftmngr.MsgDeleteVirtualActionResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgDeleteVirtualActionResponse:
     type: object
     properties:
       creator:
         type: string
       status:
         type: string
-  thesixnetwork.sixnft.nftmngr.MsgDeleteVirtualSchemaResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgDeleteVirtualSchemaResponse:
     type: object
-  thesixnetwork.sixnft.nftmngr.MsgDisableVirtualSchemaProposalResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgDisableVirtualSchemaProposalResponse:
     type: object
     properties:
       creator:
         type: string
       proposalId:
         type: string
-  thesixnetwork.sixnft.nftmngr.MsgPerformActionByAdminResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgPerformActionByAdminResponse:
     type: object
     properties:
       nft_schema_code:
         type: string
       token_id:
         type: string
-  thesixnetwork.sixnft.nftmngr.MsgResyncAttributesResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgResyncAttributesResponse:
     type: object
     properties:
       nftSchemaCode:
         type: string
       tokenId:
         type: string
-  thesixnetwork.sixnft.nftmngr.MsgSetAttributeOveridingResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgSetAttributeOveridingResponse:
     type: object
     properties:
       schemaCode:
         type: string
       newOveriding:
         type: string
-  thesixnetwork.sixnft.nftmngr.MsgSetBaseUriResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgSetBaseUriResponse:
     type: object
     properties:
       code:
         type: string
       uri:
         type: string
-  thesixnetwork.sixnft.nftmngr.MsgSetFeeConfigResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgSetFeeConfigResponse:
     type: object
-  thesixnetwork.sixnft.nftmngr.MsgSetMetadataFormatResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgSetMetadataFormatResponse:
     type: object
     properties:
       schemaCode:
         type: string
       newFormat:
         type: string
-  thesixnetwork.sixnft.nftmngr.MsgSetMintauthResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgSetMintauthResponse:
     type: object
     properties:
       nftSchemaCode:
         type: string
-  thesixnetwork.sixnft.nftmngr.MsgSetOriginChainResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgSetOriginChainResponse:
     type: object
     properties:
       schemaCode:
         type: string
       newOriginChain:
         type: string
-  thesixnetwork.sixnft.nftmngr.MsgSetOriginContractResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgSetOriginContractResponse:
     type: object
     properties:
       schemaCode:
         type: string
       newContractAddress:
         type: string
-  thesixnetwork.sixnft.nftmngr.MsgSetUriRetrievalMethodResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgSetUriRetrievalMethodResponse:
     type: object
     properties:
       schemaCode:
         type: string
       newMethod:
         type: string
-  thesixnetwork.sixnft.nftmngr.MsgShowAttributesResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgShowAttributesResponse:
     type: object
     properties:
       nftSchema:
         type: string
-  thesixnetwork.sixnft.nftmngr.MsgToggleActionResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgToggleActionResponse:
     type: object
     properties:
       code:
@@ -69272,21 +69760,21 @@ definitions:
         type: string
       status:
         type: boolean
-  thesixnetwork.sixnft.nftmngr.MsgUpdateActionResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgUpdateActionResponse:
     type: object
     properties:
       nftSchemaCode:
         type: string
       name:
         type: string
-  thesixnetwork.sixnft.nftmngr.MsgUpdateSchemaAttributeResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgUpdateSchemaAttributeResponse:
     type: object
     properties:
       nftSchemaCode:
         type: string
       name:
         type: string
-  thesixnetwork.sixnft.nftmngr.MsgUpdateVirtualActionResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgUpdateVirtualActionResponse:
     type: object
     properties:
       nftSchemaCode:
@@ -69335,9 +69823,9 @@ definitions:
           TODO:
           1. Policy of action (who can use action)
           2. Proposal to enable and disable action
-  thesixnetwork.sixnft.nftmngr.MsgVoteCreateVirtualSchemaResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgVoteCreateVirtualSchemaResponse:
     type: object
-  thesixnetwork.sixnft.nftmngr.NFTFeeBalance:
+  thesixnetwork.sixprotocol.nftmngr.NFTFeeBalance:
     type: object
     properties:
       fee_balances:
@@ -69345,7 +69833,7 @@ definitions:
         items:
           type: string
         title: 'map<int32, string> fee_balances = 1;'
-  thesixnetwork.sixnft.nftmngr.NFTFeeConfig:
+  thesixnetwork.sixprotocol.nftmngr.NFTFeeConfig:
     type: object
     properties:
       schema_fee:
@@ -69368,7 +69856,7 @@ definitions:
                 portion:
                   type: number
                   format: float
-  thesixnetwork.sixnft.nftmngr.NFTSchema:
+  thesixnetwork.sixprotocol.nftmngr.NFTSchema:
     type: object
     properties:
       code:
@@ -69646,7 +70134,7 @@ definitions:
         type: boolean
       mint_authorization:
         type: string
-  thesixnetwork.sixnft.nftmngr.NFTSchemaByContract:
+  thesixnetwork.sixprotocol.nftmngr.NFTSchemaByContract:
     type: object
     properties:
       originContractAddress:
@@ -69655,7 +70143,7 @@ definitions:
         type: array
         items:
           type: string
-  thesixnetwork.sixnft.nftmngr.NftAttributeValue:
+  thesixnetwork.sixprotocol.nftmngr.NftAttributeValue:
     type: object
     properties:
       name:
@@ -69684,7 +70172,7 @@ definitions:
             format: double
       hidden_to_marketplace:
         type: boolean
-  thesixnetwork.sixnft.nftmngr.NftData:
+  thesixnetwork.sixprotocol.nftmngr.NftData:
     type: object
     properties:
       nft_schema_code:
@@ -69767,13 +70255,13 @@ definitions:
                   format: double
             hidden_to_marketplace:
               type: boolean
-  thesixnetwork.sixnft.nftmngr.NumberAttributeValue:
+  thesixnetwork.sixprotocol.nftmngr.NumberAttributeValue:
     type: object
     properties:
       value:
         type: string
         format: uint64
-  thesixnetwork.sixnft.nftmngr.OnChainData:
+  thesixnetwork.sixprotocol.nftmngr.OnChainData:
     type: object
     properties:
       nft_attributes:
@@ -69950,7 +70438,7 @@ definitions:
               type: string
             status_value:
               type: boolean
-  thesixnetwork.sixnft.nftmngr.OpenseaDisplayOption:
+  thesixnetwork.sixprotocol.nftmngr.OpenseaDisplayOption:
     type: object
     properties:
       display_type:
@@ -69960,14 +70448,14 @@ definitions:
       max_value:
         type: string
         format: uint64
-  thesixnetwork.sixnft.nftmngr.Organization:
+  thesixnetwork.sixprotocol.nftmngr.Organization:
     type: object
     properties:
       name:
         type: string
       owner:
         type: string
-  thesixnetwork.sixnft.nftmngr.OriginData:
+  thesixnetwork.sixprotocol.nftmngr.OriginData:
     type: object
     properties:
       origin_chain:
@@ -70053,16 +70541,16 @@ definitions:
           - BASE
           - TOKEN
         default: BASE
-  thesixnetwork.sixnft.nftmngr.OwnerAddressType:
+  thesixnetwork.sixprotocol.nftmngr.OwnerAddressType:
     type: string
     enum:
       - ORIGIN_ADDRESS
       - INTERNAL_ADDRESS
     default: ORIGIN_ADDRESS
-  thesixnetwork.sixnft.nftmngr.Params:
+  thesixnetwork.sixprotocol.nftmngr.Params:
     type: object
     description: Params defines the parameters for the module.
-  thesixnetwork.sixnft.nftmngr.QueryAllActionByRefIdResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryAllActionByRefIdResponse:
     type: object
     properties:
       actionByRefId:
@@ -70105,7 +70593,7 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  thesixnetwork.sixnft.nftmngr.QueryAllActionExecutorResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryAllActionExecutorResponse:
     type: object
     properties:
       actionExecutor:
@@ -70144,7 +70632,7 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  thesixnetwork.sixnft.nftmngr.QueryAllActionOfSchemaResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryAllActionOfSchemaResponse:
     type: object
     properties:
       actionOfSchema:
@@ -70184,7 +70672,48 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  thesixnetwork.sixnft.nftmngr.QueryAllDisableVirtualSchemaResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryAllActiveVirtualSchemaProposalResponse:
+    type: object
+    properties:
+      activeVirtualSchemaProposal:
+        type: array
+        items:
+          type: object
+          properties:
+            index:
+              type: string
+            virtualSchemaCode:
+              type: string
+            registry:
+              type: string
+            enable:
+              type: boolean
+      pagination:
+        type: object
+        properties:
+          next_key:
+            type: string
+            format: byte
+            title: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
+  thesixnetwork.sixprotocol.nftmngr.QueryAllDisableVirtualSchemaResponse:
     type: object
     properties:
       disableVirtualSchema:
@@ -70223,7 +70752,7 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  thesixnetwork.sixnft.nftmngr.QueryAllExecutorOfSchemaResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryAllExecutorOfSchemaResponse:
     type: object
     properties:
       executorOfSchema:
@@ -70262,7 +70791,7 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  thesixnetwork.sixnft.nftmngr.QueryAllMetadataCreatorResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryAllMetadataCreatorResponse:
     type: object
     properties:
       metadataCreator:
@@ -70306,7 +70835,7 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  thesixnetwork.sixnft.nftmngr.QueryAllNFTSchemaByContractResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryAllNFTSchemaByContractResponse:
     type: object
     properties:
       nFTSchemaByContract:
@@ -70345,7 +70874,7 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  thesixnetwork.sixnft.nftmngr.QueryAllNFTSchemaResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryAllNFTSchemaResponse:
     type: object
     properties:
       nFTSchema:
@@ -70653,7 +71182,7 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  thesixnetwork.sixnft.nftmngr.QueryAllNftDataResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryAllNftDataResponse:
     type: object
     properties:
       nftData:
@@ -70766,7 +71295,7 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  thesixnetwork.sixnft.nftmngr.QueryAllOrganizationResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryAllOrganizationResponse:
     type: object
     properties:
       organization:
@@ -70803,7 +71332,7 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  thesixnetwork.sixnft.nftmngr.QueryAllSchemaAttributeResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryAllSchemaAttributeResponse:
     type: object
     properties:
       schemaAttribute:
@@ -70869,7 +71398,7 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  thesixnetwork.sixnft.nftmngr.QueryAllVirtualActionResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryAllVirtualActionResponse:
     type: object
     properties:
       virtualAction:
@@ -70943,7 +71472,7 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  thesixnetwork.sixnft.nftmngr.QueryAllVirtualSchemaProposalResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryAllVirtualSchemaProposalResponse:
     type: object
     properties:
       virtualSchemaProposal:
@@ -70998,7 +71527,7 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  thesixnetwork.sixnft.nftmngr.QueryAllVirtualSchemaResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryAllVirtualSchemaResponse:
     type: object
     properties:
       virtualSchema:
@@ -71058,7 +71587,7 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  thesixnetwork.sixnft.nftmngr.QueryGetActionByRefIdResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryGetActionByRefIdResponse:
     type: object
     properties:
       actionByRefId:
@@ -71074,7 +71603,7 @@ definitions:
             type: string
           action:
             type: string
-  thesixnetwork.sixnft.nftmngr.QueryGetActionExecutorResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryGetActionExecutorResponse:
     type: object
     properties:
       actionExecutor:
@@ -71086,7 +71615,7 @@ definitions:
             type: string
           creator:
             type: string
-  thesixnetwork.sixnft.nftmngr.QueryGetActionOfSchemaResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryGetActionOfSchemaResponse:
     type: object
     properties:
       actionOfSchema:
@@ -71099,7 +71628,21 @@ definitions:
           index:
             type: string
             format: uint64
-  thesixnetwork.sixnft.nftmngr.QueryGetDisableVirtualSchemaResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryGetActiveVirtualSchemaProposalResponse:
+    type: object
+    properties:
+      activeVirtualSchemaProposal:
+        type: object
+        properties:
+          index:
+            type: string
+          virtualSchemaCode:
+            type: string
+          registry:
+            type: string
+          enable:
+            type: boolean
+  thesixnetwork.sixprotocol.nftmngr.QueryGetDisableVirtualSchemaResponse:
     type: object
     properties:
       disableVirtualSchema:
@@ -71111,7 +71654,7 @@ definitions:
             type: string
           proposalExpiredBlock:
             type: string
-  thesixnetwork.sixnft.nftmngr.QueryGetExecutorOfSchemaResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryGetExecutorOfSchemaResponse:
     type: object
     properties:
       executorOfSchema:
@@ -71123,7 +71666,7 @@ definitions:
             type: array
             items:
               type: string
-  thesixnetwork.sixnft.nftmngr.QueryGetMetadataCreatorResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryGetMetadataCreatorResponse:
     type: object
     properties:
       metadataCreator:
@@ -71140,7 +71683,7 @@ definitions:
                   type: string
                 minter:
                   type: string
-  thesixnetwork.sixnft.nftmngr.QueryGetNFTFeeBalanceResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryGetNFTFeeBalanceResponse:
     type: object
     properties:
       NFTFeeBalance:
@@ -71151,7 +71694,7 @@ definitions:
             items:
               type: string
             title: 'map<int32, string> fee_balances = 1;'
-  thesixnetwork.sixnft.nftmngr.QueryGetNFTFeeConfigResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryGetNFTFeeConfigResponse:
     type: object
     properties:
       NFTFeeConfig:
@@ -71177,7 +71720,7 @@ definitions:
                     portion:
                       type: number
                       format: float
-  thesixnetwork.sixnft.nftmngr.QueryGetNFTSchemaByContractResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryGetNFTSchemaByContractResponse:
     type: object
     properties:
       nFTSchemaByContract:
@@ -71189,7 +71732,7 @@ definitions:
             type: array
             items:
               type: string
-  thesixnetwork.sixnft.nftmngr.QueryGetNFTSchemaResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryGetNFTSchemaResponse:
     type: object
     properties:
       nFTSchema:
@@ -71470,7 +72013,7 @@ definitions:
             type: boolean
           mint_authorization:
             type: string
-  thesixnetwork.sixnft.nftmngr.QueryGetNftCollectionResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryGetNftCollectionResponse:
     type: object
     properties:
       nftCollection:
@@ -71583,7 +72126,7 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  thesixnetwork.sixnft.nftmngr.QueryGetNftDataResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryGetNftDataResponse:
     type: object
     properties:
       nftData:
@@ -71669,7 +72212,7 @@ definitions:
                       format: double
                 hidden_to_marketplace:
                   type: boolean
-  thesixnetwork.sixnft.nftmngr.QueryGetOrganizationResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryGetOrganizationResponse:
     type: object
     properties:
       organization:
@@ -71679,7 +72222,7 @@ definitions:
             type: string
           owner:
             type: string
-  thesixnetwork.sixnft.nftmngr.QueryGetSchemaAttributeResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryGetSchemaAttributeResponse:
     type: object
     properties:
       schemaAttribute:
@@ -71718,7 +72261,7 @@ definitions:
                     format: double
           creator:
             type: string
-  thesixnetwork.sixnft.nftmngr.QueryGetVirtualActionResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryGetVirtualActionResponse:
     type: object
     properties:
       virtualAction:
@@ -71765,7 +72308,7 @@ definitions:
           TODO:
           1. Policy of action (who can use action)
           2. Proposal to enable and disable action
-  thesixnetwork.sixnft.nftmngr.QueryGetVirtualSchemaProposalResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryGetVirtualSchemaProposalResponse:
     type: object
     properties:
       virtualSchemaProposal:
@@ -71793,7 +72336,7 @@ definitions:
                     - REJECT
                     - ACCEPT
                   default: PENDING
-  thesixnetwork.sixnft.nftmngr.QueryGetVirtualSchemaResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryGetVirtualSchemaResponse:
     type: object
     properties:
       virtualSchema:
@@ -71826,7 +72369,7 @@ definitions:
             title: >-
               link wih virtual action. We will not put in here to reduce
               redundance info
-  thesixnetwork.sixnft.nftmngr.QueryListAttributeBySchemaResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryListAttributeBySchemaResponse:
     type: object
     properties:
       schemaAttribute:
@@ -71867,21 +72410,21 @@ definitions:
                       format: double
             creator:
               type: string
-  thesixnetwork.sixnft.nftmngr.QueryParamsResponse:
+  thesixnetwork.sixprotocol.nftmngr.QueryParamsResponse:
     type: object
     properties:
       params:
         description: params holds all the parameters of this module.
         type: object
     description: QueryParamsResponse is response type for the Query/Params RPC method.
-  thesixnetwork.sixnft.nftmngr.RegistryStatus:
+  thesixnetwork.sixprotocol.nftmngr.RegistryStatus:
     type: string
     enum:
       - PENDING
       - REJECT
       - ACCEPT
     default: PENDING
-  thesixnetwork.sixnft.nftmngr.SchemaAttribute:
+  thesixnetwork.sixprotocol.nftmngr.SchemaAttribute:
     type: object
     properties:
       nftSchemaCode:
@@ -71917,7 +72460,7 @@ definitions:
                 format: double
       creator:
         type: string
-  thesixnetwork.sixnft.nftmngr.SchemaAttributeValue:
+  thesixnetwork.sixprotocol.nftmngr.SchemaAttributeValue:
     type: object
     properties:
       number_attribute_value:
@@ -71942,18 +72485,18 @@ definitions:
           value:
             type: number
             format: double
-  thesixnetwork.sixnft.nftmngr.StringAttributeValue:
+  thesixnetwork.sixprotocol.nftmngr.StringAttributeValue:
     type: object
     properties:
       value:
         type: string
-  thesixnetwork.sixnft.nftmngr.URIRetrievalMethod:
+  thesixnetwork.sixprotocol.nftmngr.URIRetrievalMethod:
     type: string
     enum:
       - BASE
       - TOKEN
     default: BASE
-  thesixnetwork.sixnft.nftmngr.VirtualAction:
+  thesixnetwork.sixprotocol.nftmngr.VirtualAction:
     type: object
     properties:
       nftSchemaCode:
@@ -71997,7 +72540,7 @@ definitions:
       TODO:
       1. Policy of action (who can use action)
       2. Proposal to enable and disable action
-  thesixnetwork.sixnft.nftmngr.VirtualSchema:
+  thesixnetwork.sixprotocol.nftmngr.VirtualSchema:
     type: object
     properties:
       virtualNftSchemaCode:
@@ -72027,7 +72570,7 @@ definitions:
         title: >-
           link wih virtual action. We will not put in here to reduce redundance
           info
-  thesixnetwork.sixnft.nftmngr.VirtualSchemaProposal:
+  thesixnetwork.sixprotocol.nftmngr.VirtualSchemaProposal:
     type: object
     properties:
       id:
@@ -72052,7 +72595,7 @@ definitions:
                 - REJECT
                 - ACCEPT
               default: PENDING
-  thesixnetwork.sixnft.nftmngr.VirtualSchemaRegistry:
+  thesixnetwork.sixprotocol.nftmngr.VirtualSchemaRegistry:
     type: object
     properties:
       nftSchemaCode:
@@ -72068,7 +72611,7 @@ definitions:
           - REJECT
           - ACCEPT
         default: PENDING
-  thesixnetwork.sixnft.nftmngr.VirtualSchemaRegistryRequest:
+  thesixnetwork.sixprotocol.nftmngr.VirtualSchemaRegistryRequest:
     type: object
     properties:
       nftSchemaCode:
@@ -72077,7 +72620,7 @@ definitions:
         type: array
         items:
           type: string
-  thesixnetwork.sixnft.nftoracle.ActionOracleRequest:
+  thesixnetwork.sixprotocol.nftoracle.ActionOracleRequest:
     type: object
     properties:
       id:
@@ -72165,14 +72708,14 @@ definitions:
         format: int64
       execution_error_message:
         type: string
-  thesixnetwork.sixnft.nftoracle.ActionParameter:
+  thesixnetwork.sixprotocol.nftoracle.ActionParameter:
     type: object
     properties:
       name:
         type: string
       value:
         type: string
-  thesixnetwork.sixnft.nftoracle.ActionSigner:
+  thesixnetwork.sixprotocol.nftoracle.ActionSigner:
     type: object
     properties:
       actor_address:
@@ -72193,7 +72736,7 @@ definitions:
           - ORACLE
           - INTERNAL_OWNER
         default: ORACLE
-  thesixnetwork.sixnft.nftoracle.ActionSignerConfig:
+  thesixnetwork.sixprotocol.nftoracle.ActionSignerConfig:
     type: object
     properties:
       chain:
@@ -72202,7 +72745,7 @@ definitions:
         type: string
       creator:
         type: string
-  thesixnetwork.sixnft.nftoracle.BindedSigner:
+  thesixnetwork.sixprotocol.nftoracle.BindedSigner:
     type: object
     properties:
       ownerAddress:
@@ -72220,7 +72763,7 @@ definitions:
       actorCount:
         type: string
         format: uint64
-  thesixnetwork.sixnft.nftoracle.CollectionOwnerRequest:
+  thesixnetwork.sixprotocol.nftoracle.CollectionOwnerRequest:
     type: object
     properties:
       id:
@@ -72283,7 +72826,7 @@ definitions:
       expired_height:
         type: string
         format: int64
-  thesixnetwork.sixnft.nftoracle.ContractInfoHash:
+  thesixnetwork.sixprotocol.nftoracle.ContractInfoHash:
     type: object
     properties:
       contract_param:
@@ -72306,13 +72849,13 @@ definitions:
         type: array
         items:
           type: string
-  thesixnetwork.sixnft.nftoracle.CreationFlow:
+  thesixnetwork.sixprotocol.nftoracle.CreationFlow:
     type: string
     enum:
       - ORACLE
       - INTERNAL_OWNER
     default: ORACLE
-  thesixnetwork.sixnft.nftoracle.DataHash:
+  thesixnetwork.sixprotocol.nftoracle.DataHash:
     type: object
     properties:
       origin_data:
@@ -72342,7 +72885,7 @@ definitions:
         type: array
         items:
           type: string
-  thesixnetwork.sixnft.nftoracle.MintRequest:
+  thesixnetwork.sixprotocol.nftoracle.MintRequest:
     type: object
     properties:
       id:
@@ -72414,13 +72957,13 @@ definitions:
       expired_height:
         type: string
         format: int64
-  thesixnetwork.sixnft.nftoracle.MsgCreateActionRequestResponse:
+  thesixnetwork.sixprotocol.nftoracle.MsgCreateActionRequestResponse:
     type: object
     properties:
       id:
         type: string
         format: uint64
-  thesixnetwork.sixnft.nftoracle.MsgCreateActionSignerConfigResponse:
+  thesixnetwork.sixprotocol.nftoracle.MsgCreateActionSignerConfigResponse:
     type: object
     properties:
       chain:
@@ -72433,7 +72976,7 @@ definitions:
         type: string
       contractOwner:
         type: string
-  thesixnetwork.sixnft.nftoracle.MsgCreateActionSignerResponse:
+  thesixnetwork.sixprotocol.nftoracle.MsgCreateActionSignerResponse:
     type: object
     properties:
       ownerAddress:
@@ -72442,7 +72985,7 @@ definitions:
         type: string
       expireAt:
         type: string
-  thesixnetwork.sixnft.nftoracle.MsgCreateMintRequestResponse:
+  thesixnetwork.sixprotocol.nftoracle.MsgCreateMintRequestResponse:
     type: object
     properties:
       id:
@@ -72452,7 +72995,7 @@ definitions:
         type: string
       tokenId:
         type: string
-  thesixnetwork.sixnft.nftoracle.MsgCreateSyncActionSignerResponse:
+  thesixnetwork.sixprotocol.nftoracle.MsgCreateSyncActionSignerResponse:
     type: object
     properties:
       id:
@@ -72464,7 +73007,7 @@ definitions:
         type: string
       actorAddress:
         type: string
-  thesixnetwork.sixnft.nftoracle.MsgCreateVerifyCollectionOwnerRequestResponse:
+  thesixnetwork.sixprotocol.nftoracle.MsgCreateVerifyCollectionOwnerRequestResponse:
     type: object
     properties:
       id:
@@ -72474,34 +73017,34 @@ definitions:
         type: string
       ownerAddress:
         type: string
-  thesixnetwork.sixnft.nftoracle.MsgDeleteActionSignerConfigResponse:
+  thesixnetwork.sixprotocol.nftoracle.MsgDeleteActionSignerConfigResponse:
     type: object
     properties:
       chain:
         type: string
-  thesixnetwork.sixnft.nftoracle.MsgDeleteActionSignerResponse:
+  thesixnetwork.sixprotocol.nftoracle.MsgDeleteActionSignerResponse:
     type: object
     properties:
       ownerAddress:
         type: string
       signerAddress:
         type: string
-  thesixnetwork.sixnft.nftoracle.MsgSetMinimumConfirmationResponse:
+  thesixnetwork.sixprotocol.nftoracle.MsgSetMinimumConfirmationResponse:
     type: object
     properties:
       newConfirmation:
         type: string
-  thesixnetwork.sixnft.nftoracle.MsgSubmitActionResponseResponse:
+  thesixnetwork.sixprotocol.nftoracle.MsgSubmitActionResponseResponse:
     type: object
     properties:
       actionRequestID:
         type: string
-  thesixnetwork.sixnft.nftoracle.MsgSubmitMintResponseResponse:
+  thesixnetwork.sixprotocol.nftoracle.MsgSubmitMintResponseResponse:
     type: object
     properties:
       mintRequestID:
         type: string
-  thesixnetwork.sixnft.nftoracle.MsgSubmitSyncActionSignerResponse:
+  thesixnetwork.sixprotocol.nftoracle.MsgSubmitSyncActionSignerResponse:
     type: object
     properties:
       verifyRequestID:
@@ -72509,13 +73052,13 @@ definitions:
         format: uint64
       expireAt:
         type: string
-  thesixnetwork.sixnft.nftoracle.MsgSubmitVerifyCollectionOwnerResponse:
+  thesixnetwork.sixprotocol.nftoracle.MsgSubmitVerifyCollectionOwnerResponse:
     type: object
     properties:
       verifyRequestID:
         type: string
         format: uint64
-  thesixnetwork.sixnft.nftoracle.MsgUpdateActionSignerConfigResponse:
+  thesixnetwork.sixprotocol.nftoracle.MsgUpdateActionSignerConfigResponse:
     type: object
     properties:
       chain:
@@ -72536,7 +73079,7 @@ definitions:
         type: string
       new_contractOwner:
         type: string
-  thesixnetwork.sixnft.nftoracle.MsgUpdateActionSignerResponse:
+  thesixnetwork.sixprotocol.nftoracle.MsgUpdateActionSignerResponse:
     type: object
     properties:
       ownerAddress:
@@ -72545,7 +73088,7 @@ definitions:
         type: string
       expireAt:
         type: string
-  thesixnetwork.sixnft.nftoracle.NftOriginData:
+  thesixnetwork.sixprotocol.nftoracle.NftOriginData:
     type: object
     properties:
       image:
@@ -72565,13 +73108,13 @@ definitions:
               type: string
             max_value:
               type: string
-  thesixnetwork.sixnft.nftoracle.OracleConfig:
+  thesixnetwork.sixprotocol.nftoracle.OracleConfig:
     type: object
     properties:
       minimum_confirmation:
         type: integer
         format: int32
-  thesixnetwork.sixnft.nftoracle.OriginContractInfo:
+  thesixnetwork.sixprotocol.nftoracle.OriginContractInfo:
     type: object
     properties:
       contractOriginDataInfo:
@@ -72593,7 +73136,7 @@ definitions:
         type: array
         items:
           type: string
-  thesixnetwork.sixnft.nftoracle.OriginContractParam:
+  thesixnetwork.sixprotocol.nftoracle.OriginContractParam:
     type: object
     properties:
       chain:
@@ -72605,7 +73148,7 @@ definitions:
       request_expire:
         type: string
         format: date-time
-  thesixnetwork.sixnft.nftoracle.ParameterSyncSignerByOracle:
+  thesixnetwork.sixprotocol.nftoracle.ParameterSyncSignerByOracle:
     type: object
     properties:
       chain:
@@ -72618,7 +73161,7 @@ definitions:
         title: get from smart contract
       expire_epoch:
         type: string
-  thesixnetwork.sixnft.nftoracle.Params:
+  thesixnetwork.sixprotocol.nftoracle.Params:
     type: object
     properties:
       mint_request_active_duration:
@@ -72632,7 +73175,7 @@ definitions:
       sync_action_signer_active_duration:
         type: string
     description: Params defines the parameters for the module.
-  thesixnetwork.sixnft.nftoracle.QueryAllActionRequestResponse:
+  thesixnetwork.sixprotocol.nftoracle.QueryAllActionRequestResponse:
     type: object
     properties:
       ActionOracleRequest:
@@ -72750,7 +73293,7 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  thesixnetwork.sixnft.nftoracle.QueryAllActionSignerConfigResponse:
+  thesixnetwork.sixprotocol.nftoracle.QueryAllActionSignerConfigResponse:
     type: object
     properties:
       actionSignerConfig:
@@ -72789,7 +73332,7 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  thesixnetwork.sixnft.nftoracle.QueryAllActionSignerResponse:
+  thesixnetwork.sixprotocol.nftoracle.QueryAllActionSignerResponse:
     type: object
     properties:
       actionSigner:
@@ -72840,7 +73383,7 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  thesixnetwork.sixnft.nftoracle.QueryAllCollectionOwnerRequestResponse:
+  thesixnetwork.sixprotocol.nftoracle.QueryAllCollectionOwnerRequestResponse:
     type: object
     properties:
       CollectionOwnerRequest:
@@ -72933,7 +73476,7 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  thesixnetwork.sixnft.nftoracle.QueryAllMintRequestResponse:
+  thesixnetwork.sixprotocol.nftoracle.QueryAllMintRequestResponse:
     type: object
     properties:
       MintRequest:
@@ -73035,7 +73578,7 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  thesixnetwork.sixnft.nftoracle.QueryAllSyncActionSignerResponse:
+  thesixnetwork.sixprotocol.nftoracle.QueryAllSyncActionSignerResponse:
     type: object
     properties:
       SyncActionSigner:
@@ -73136,7 +73679,7 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
-  thesixnetwork.sixnft.nftoracle.QueryGetActionRequestResponse:
+  thesixnetwork.sixprotocol.nftoracle.QueryGetActionRequestResponse:
     type: object
     properties:
       ActionOracleRequest:
@@ -73227,7 +73770,7 @@ definitions:
             format: int64
           execution_error_message:
             type: string
-  thesixnetwork.sixnft.nftoracle.QueryGetActionSignerConfigResponse:
+  thesixnetwork.sixprotocol.nftoracle.QueryGetActionSignerConfigResponse:
     type: object
     properties:
       actionSignerConfig:
@@ -73239,7 +73782,7 @@ definitions:
             type: string
           creator:
             type: string
-  thesixnetwork.sixnft.nftoracle.QueryGetActionSignerResponse:
+  thesixnetwork.sixprotocol.nftoracle.QueryGetActionSignerResponse:
     type: object
     properties:
       actionSigner:
@@ -73263,7 +73806,7 @@ definitions:
               - ORACLE
               - INTERNAL_OWNER
             default: ORACLE
-  thesixnetwork.sixnft.nftoracle.QueryGetBindedSignerResponse:
+  thesixnetwork.sixprotocol.nftoracle.QueryGetBindedSignerResponse:
     type: object
     properties:
       bindedSigner:
@@ -73284,7 +73827,7 @@ definitions:
           actorCount:
             type: string
             format: uint64
-  thesixnetwork.sixnft.nftoracle.QueryGetCollectionOwnerRequestResponse:
+  thesixnetwork.sixprotocol.nftoracle.QueryGetCollectionOwnerRequestResponse:
     type: object
     properties:
       CollectionOwnerRequest:
@@ -73350,7 +73893,7 @@ definitions:
           expired_height:
             type: string
             format: int64
-  thesixnetwork.sixnft.nftoracle.QueryGetMintRequestResponse:
+  thesixnetwork.sixprotocol.nftoracle.QueryGetMintRequestResponse:
     type: object
     properties:
       MintRequest:
@@ -73425,7 +73968,7 @@ definitions:
           expired_height:
             type: string
             format: int64
-  thesixnetwork.sixnft.nftoracle.QueryGetOracleConfigResponse:
+  thesixnetwork.sixprotocol.nftoracle.QueryGetOracleConfigResponse:
     type: object
     properties:
       OracleConfig:
@@ -73434,7 +73977,7 @@ definitions:
           minimum_confirmation:
             type: integer
             format: int32
-  thesixnetwork.sixnft.nftoracle.QueryGetSyncActionSignerResponse:
+  thesixnetwork.sixprotocol.nftoracle.QueryGetSyncActionSignerResponse:
     type: object
     properties:
       SyncActionSigner:
@@ -73508,7 +74051,7 @@ definitions:
             format: int64
           execution_error_message:
             type: string
-  thesixnetwork.sixnft.nftoracle.QueryParamsResponse:
+  thesixnetwork.sixprotocol.nftoracle.QueryParamsResponse:
     type: object
     properties:
       params:
@@ -73526,7 +74069,7 @@ definitions:
           sync_action_signer_active_duration:
             type: string
     description: QueryParamsResponse is response type for the Query/Params RPC method.
-  thesixnetwork.sixnft.nftoracle.RequestStatus:
+  thesixnetwork.sixprotocol.nftoracle.RequestStatus:
     type: string
     enum:
       - PENDING
@@ -73536,7 +74079,7 @@ definitions:
       - FAILED_ON_EXECUTION
       - FAILED_REJECT_BY_CONSENSUS
     default: PENDING
-  thesixnetwork.sixnft.nftoracle.SyncActionSigner:
+  thesixnetwork.sixprotocol.nftoracle.SyncActionSigner:
     type: object
     properties:
       id:
@@ -73607,7 +74150,7 @@ definitions:
         format: int64
       execution_error_message:
         type: string
-  thesixnetwork.sixnft.nftoracle.Trait:
+  thesixnetwork.sixprotocol.nftoracle.Trait:
     type: object
     properties:
       trait_type:
@@ -73618,7 +74161,7 @@ definitions:
         type: string
       max_value:
         type: string
-  thesixnetwork.sixnft.nftoracle._SetSignerParams:
+  thesixnetwork.sixprotocol.nftoracle._SetSignerParams:
     type: object
     properties:
       actor_address:

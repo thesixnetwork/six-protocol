@@ -154,6 +154,14 @@ func TestGenesisState_Validate(t *testing.T) {
 						Id: "1",
 					},
 				},
+				ActiveVirtualSchemaProposalList: []types.ActiveVirtualSchemaProposal{
+					{
+						Index: "0",
+					},
+					{
+						Index: "1",
+					},
+				},
 				// this line is used by starport scaffolding # types/genesis/validField
 			},
 			valid: true,
@@ -373,6 +381,20 @@ func TestGenesisState_Validate(t *testing.T) {
 					},
 					{
 						Id: "0",
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated activeVirtualSchemaProposal",
+			genState: &types.GenesisState{
+				ActiveVirtualSchemaProposalList: []types.ActiveVirtualSchemaProposal{
+					{
+						Index: "0",
+					},
+					{
+						Index: "0",
 					},
 				},
 			},

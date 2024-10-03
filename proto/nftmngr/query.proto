@@ -21,6 +21,7 @@ import "nftmngr/virtual_action.proto";
 import "nftmngr/nft_data.proto";
 import "nftmngr/virtual_schema.proto";
 import "nftmngr/disable_virtual_schema.proto";
+import "nftmngr/active_virtual_schema_proposal.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
@@ -249,7 +250,17 @@ service Query {
         "/thesixnetwork/six-protocol/nftmngr/virtual_schema_proposal";
   }
 
-  // this line is used by starport scaffolding # 2
+  // Queries a ActiveVirtualSchemaProposal by index.
+	rpc ActiveVirtualSchemaProposal(QueryGetActiveVirtualSchemaProposalRequest) returns (QueryGetActiveVirtualSchemaProposalResponse) {
+		option (google.api.http).get = "/thesixnetwork/six-protocol/nftmngr/active_virtual_schema_proposal/{index}";
+	}
+
+	// Queries a list of ActiveVirtualSchemaProposal items.
+	rpc ActiveVirtualSchemaProposalAll(QueryAllActiveVirtualSchemaProposalRequest) returns (QueryAllActiveVirtualSchemaProposalResponse) {
+		option (google.api.http).get = "/thesixnetwork/six-protocol/nftmngr/active_virtual_schema_proposal";
+	}
+
+// this line is used by starport scaffolding # 2
 }
 
 // QueryParamsRequest is request type for the Query/Params RPC method.
@@ -518,6 +529,24 @@ message QueryAllVirtualSchemaProposalResponse {
   repeated VirtualSchemaProposal virtualSchemaProposal = 1
       [ (gogoproto.nullable) = false ];
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetActiveVirtualSchemaProposalRequest {
+	  string index = 1;
+
+}
+
+message QueryGetActiveVirtualSchemaProposalResponse {
+	ActiveVirtualSchemaProposal activeVirtualSchemaProposal = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllActiveVirtualSchemaProposalRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllActiveVirtualSchemaProposalResponse {
+	repeated ActiveVirtualSchemaProposal activeVirtualSchemaProposal = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
 // this line is used by starport scaffolding # 3
