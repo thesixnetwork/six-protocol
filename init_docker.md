@@ -1,5 +1,14 @@
 # RUN NODE WITH DOCKER
 
+## BUILD IMAGE
+
+Init validator
+
+```bash
+bash menu_docker.sh
+Enter your choice: 1
+```
+
 ## This folder provides script and make it ease to use docker image for development. (Shift + command +v ==> to preview the markdown file)
 
 Docker sequence
