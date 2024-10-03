@@ -12,9 +12,9 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/vm"
 	"github.com/evmos/ethermint/utils"
-	tkmngrtypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 	"github.com/tendermint/tendermint/libs/log"
 	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
+	tkmngrtypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
 const (

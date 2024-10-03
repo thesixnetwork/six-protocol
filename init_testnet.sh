@@ -17,20 +17,20 @@ ORACLE3_MNEMONIC="hint expose mix lemon leave genuine host fiction peasant daugh
 ORACLE4_MNEMONIC="clown cabbage clean design mosquito surround citizen virus kite castle sponsor wife lesson coffee alien panel hand together good crazy fabric mouse hat town"
 SUPER_ADMIN_MNEMONIC="expect peace defense conduct virtual flight flip unit equip solve broccoli protect shed group else useless tree such tornado minimum decade tower warfare galaxy"
 KEY="mykey"
-KEY2="mykey2"
 CHAINID="testnet"
 KEYRING="test"
 KEYALGO="secp256k1"
-LOGLEVEL="info"
+COIN_TYPE=118
+LOGLEVEL="info" # log, debug, trace
 # to trace evm
-#TRACE="--trace"
-TRACE=""
+TRACE="--trace" # "--trace" or ""
 
 # validate dependencies are installed
 command -v jq > /dev/null 2>&1 || { echo >&2 "jq not installed. More info: https://stedolan.github.io/jq/download/"; exit 1; }
 
 # Reinstall daemon
-rm -rf ${SIX_HOME}
+rm -Rf ${SIX_HOME}
+rm go.sum && touch go.sum
 go mod tidy
 make install
 
@@ -40,18 +40,17 @@ sixd config chain-id $CHAINID --home ${SIX_HOME}
 
 # if $KEY exists it should be deleted
 # mint to validator
-echo $SUPER_ADMIN_MNEMONIC | sixd keys add super-admin --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO}
-echo $ALICE_MNEMONIC | sixd keys add alice --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO}
-echo $BOB_MNEMONIC | sixd keys add bob --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO}
-echo $VAL1_MNEMONIC | sixd keys add val1 --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO}
-echo $VAL2_MNEMONIC | sixd keys add val2 --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO}
-echo $VAL3_MNEMONIC | sixd keys add val3 --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO}
-echo $VAL4_MNEMONIC | sixd keys add val4 --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO}
-echo $ORACLE1_MNEMONIC | sixd keys add oracle1 --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO}
-echo $ORACLE2_MNEMONIC | sixd keys add oracle2 --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO}
-echo $ORACLE3_MNEMONIC | sixd keys add oracle3 --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO}
-echo $ORACLE4_MNEMONIC | sixd keys add oracle4 --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO}
-
+echo $SUPER_ADMIN_MNEMONIC | sixd keys add super-admin --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO} --coin-type ${COIN_TYPE}
+echo $ALICE_MNEMONIC | sixd keys add alice --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO} --coin-type ${COIN_TYPE}
+echo $BOB_MNEMONIC | sixd keys add bob --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO} --coin-type ${COIN_TYPE}
+echo $VAL1_MNEMONIC | sixd keys add val1 --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO} --coin-type ${COIN_TYPE}
+echo $VAL2_MNEMONIC | sixd keys add val2 --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO} --coin-type ${COIN_TYPE}
+echo $VAL3_MNEMONIC | sixd keys add val3 --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO} --coin-type ${COIN_TYPE}
+echo $VAL4_MNEMONIC | sixd keys add val4 --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO} --coin-type ${COIN_TYPE}
+echo $ORACLE1_MNEMONIC | sixd keys add oracle1 --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO} --coin-type ${COIN_TYPE}
+echo $ORACLE2_MNEMONIC | sixd keys add oracle2 --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO} --coin-type ${COIN_TYPE}
+echo $ORACLE3_MNEMONIC | sixd keys add oracle3 --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO} --coin-type ${COIN_TYPE}
+echo $ORACLE4_MNEMONIC | sixd keys add oracle4 --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO} --coin-type ${COIN_TYPE}
 # Set moniker and chain-id for six (Moniker can be anything, chain-id must be an integer)
 sixd init $MONIKER --chain-id $CHAINID --home ${SIX_HOME}
 
@@ -94,23 +93,23 @@ cat ${SIX_HOME}/config/genesis.json | jq '.app_state.feemarket.params = {
 }' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
 
 
-if [[ $1 == "pending" ]]; then
+if [[ $1 == "fasting" ]]; then
   if [[ "$OSTYPE" == "darwin"* ]]; then
       sed -i '' 's/stake/usix/g' ${SIX_HOME}/config/genesis.json
       sed -i '' 's/create_empty_blocks_interval = "0s"/create_empty_blocks_interval = "30s"/g' ${SIX_HOME}/config/config.toml
-      sed -i '' 's/timeout_propose = "3s"/timeout_propose = "30s"/g' ${SIX_HOME}/config/config.toml
-      sed -i '' 's/timeout_propose_delta = "500ms"/timeout_propose_delta = "5s"/g' ${SIX_HOME}/config/config.toml
+      sed -i '' 's/timeout_propose = "3s"/timeout_propose = "1s"/g' ${SIX_HOME}/config/config.toml
+      sed -i '' 's/timeout_commit = "5s"/timeout_commit = "1s"/g' ${SIX_HOME}/config/config.toml
       sed -i '' 's/timeout_prevote = "1s"/timeout_prevote = "10s"/g' ${SIX_HOME}/config/config.toml
       sed -i '' 's/timeout_prevote_delta = "500ms"/timeout_prevote_delta = "5s"/g' ${SIX_HOME}/config/config.toml
       sed -i '' 's/timeout_precommit = "1s"/timeout_precommit = "10s"/g' ${SIX_HOME}/config/config.toml
       sed -i '' 's/timeout_precommit_delta = "500ms"/timeout_precommit_delta = "5s"/g' ${SIX_HOME}/config/config.toml
-      sed -i '' 's/timeout_commit = "5s"/timeout_commit = "150s"/g' ${SIX_HOME}/config/config.toml
+      sed -i '' 's/timeout_commit = "5s"/timeout_commit = "1s"/g' ${SIX_HOME}/config/config.toml
       sed -i '' 's/timeout_broadcast_tx_commit = "10s"/timeout_broadcast_tx_commit = "150s"/g' ${SIX_HOME}/config/config.toml
   else
       sed -i 's/stake/usix/g' ${SIX_HOME}/config/genesis.json
       sed -i 's/create_empty_blocks_interval = "0s"/create_empty_blocks_interval = "30s"/g' ${SIX_HOME}/config/config.toml
-      sed -i 's/timeout_propose = "3s"/timeout_propose = "30s"/g' ${SIX_HOME}/config/config.toml
-      sed -i 's/timeout_propose_delta = "500ms"/timeout_propose_delta = "5s"/g' ${SIX_HOME}/config/config.toml
+      sed -i 's/timeout_propose = "3s"/timeout_propose = "1s"/g' ${SIX_HOME}/config/config.toml
+      sed -i 's/timeout_commit = "5s"/timeout_commit = "1s"/g' ${SIX_HOME}/config/config.toml
       sed -i 's/timeout_prevote = "1s"/timeout_prevote = "10s"/g' ${SIX_HOME}/config/config.toml
       sed -i 's/timeout_prevote_delta = "500ms"/timeout_prevote_delta = "5s"/g' ${SIX_HOME}/config/config.toml
       sed -i 's/timeout_precommit = "1s"/timeout_precommit = "10s"/g' ${SIX_HOME}/config/config.toml
@@ -157,5 +156,4 @@ if [[ $1 == "pending" ]]; then
 fi
 
 # Start the node (remove the --pruning=nothing flag if historical queries are not needed)
-sixd start --minimum-gas-prices=1.25usix,1250000000000asix --json-rpc.api eth,txpool,personal,net,debug,web3 --rpc.laddr "tcp://0.0.0.0:26657" --api.enable true --trace --log_level trace --home ${SIX_HOME}
-
+sixd start --minimum-gas-prices=1.25usix,1250000000000asix --json-rpc.api eth,txpool,personal,net,debug,web3 --rpc.laddr "tcp://0.0.0.0:26657" --api.enable true ${TRACE} --log_level ${LOGLEVEL} --home ${SIX_HOME}

@@ -46,29 +46,29 @@ type ActionParameter struct {
 }
 
 type PrecompileExecutor struct {
-	nftmngrKeeper   pcommon.NftmngrKeeper
-	AddActionID []byte
-	AddAttributeID []byte
-	ChangeOrgOwnerID []byte
-	ChangeSchemaOwnerID []byte
-	CreateMetadataID []byte
-	CreateSchemaID []byte
-	ResyncAttributeID []byte
-	UpdateAttributeID []byte
-	AttributeOverideID []byte
-	SetBaseURIID []byte
-	SetMetadataFormatID []byte
-	SetMintAuthID []byte
-	SetOriginChainID []byte
-	SetOriginContractID []byte
-	SetUriRetreivalID []byte
-	ShowAttributeID []byte
-	ToggleActionID []byte
-	UpateActionID []byte
-	AddActionExecutorID []byte
+	nftmngrKeeper          pcommon.NftmngrKeeper
+	AddActionID            []byte
+	AddAttributeID         []byte
+	ChangeOrgOwnerID       []byte
+	ChangeSchemaOwnerID    []byte
+	CreateMetadataID       []byte
+	CreateSchemaID         []byte
+	ResyncAttributeID      []byte
+	UpdateAttributeID      []byte
+	AttributeOverideID     []byte
+	SetBaseURIID           []byte
+	SetMetadataFormatID    []byte
+	SetMintAuthID          []byte
+	SetOriginChainID       []byte
+	SetOriginContractID    []byte
+	SetUriRetreivalID      []byte
+	ShowAttributeID        []byte
+	ToggleActionID         []byte
+	UpateActionID          []byte
+	AddActionExecutorID    []byte
 	RemoveActionExecutorID []byte
-	ActionByAdminID []byte
-	address         common.Address
+	ActionByAdminID        []byte
+	address                common.Address
 }
 
 func NewPrecompile(nftmngrKeeper pcommon.NftmngrKeeper) (*pcommon.Precompile, error) {
@@ -119,7 +119,7 @@ func NewPrecompile(nftmngrKeeper pcommon.NftmngrKeeper) (*pcommon.Precompile, er
 		case UpateAction:
 			p.UpateActionID = m.ID
 		case AddActionExecutor:
-			p.AddActionExecutorID= m.ID
+			p.AddActionExecutorID = m.ID
 		case RemoveActionExecutor:
 			p.RemoveActionExecutorID = m.ID
 		}
