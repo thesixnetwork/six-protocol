@@ -4,7 +4,6 @@ package thesixnetwork.sixprotocol.protocoladmin;
 option go_package = "github.com/thesixnetwork/six-protocol/x/protocoladmin/types";
 
 message Group {
-  string name = 1; 
+  string name = 1;
   string owner = 2;
 }
-

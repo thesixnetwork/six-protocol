@@ -11,9 +11,9 @@ option go_package = "github.com/thesixnetwork/six-protocol/x/protocoladmin/types
 
 // GenesisState defines the protocoladmin module's genesis state.
 message GenesisState {
-  Params params = 1 [(gogoproto.nullable) = false];
+  Params params = 1 [ (gogoproto.nullable) = false ];
   string port_id = 2;
-  repeated Group groupList = 3 [(gogoproto.nullable) = false];
-  repeated Admin adminList = 4 [(gogoproto.nullable) = false];
+  repeated Group groupList = 3 [ (gogoproto.nullable) = false ];
+  repeated Admin adminList = 4 [ (gogoproto.nullable) = false ];
   // this line is used by starport scaffolding # genesis/proto/state
 }

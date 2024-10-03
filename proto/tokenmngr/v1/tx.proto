@@ -1,7 +1,6 @@
 syntax = "proto3";
 package thesixnetwork.sixprotocol.tokenmngr;
 
-
 import "gogoproto/gogo.proto";
 import "cosmos/base/v1beta1/coin.proto";
 import "tokenmngr/v1/token.proto";
@@ -24,7 +23,7 @@ service Msg {
   rpc UpdateOptions(MsgUpdateOptions) returns (MsgUpdateOptionsResponse);
   rpc DeleteOptions(MsgDeleteOptions) returns (MsgDeleteOptionsResponse);
   rpc Burn(MsgBurn) returns (MsgBurnResponse);
-// this line is used by starport scaffolding # proto/tx/rpc
+  // this line is used by starport scaffolding # proto/tx/rpc
 }
 
 message MsgCreateToken {
@@ -54,7 +53,6 @@ message MsgCreateMintperm {
   string creator = 1;
   string token = 2;
   string address = 3;
-
 }
 message MsgCreateMintpermResponse {}
 
@@ -62,7 +60,6 @@ message MsgUpdateMintperm {
   string creator = 1;
   string token = 2;
   string address = 3;
-
 }
 message MsgUpdateMintpermResponse {}
 
@@ -80,15 +77,16 @@ message MsgMint {
 }
 
 message MsgMintVersionTwo {
-  option (gogoproto.equal)           = false;
+  option (gogoproto.equal) = false;
   option (gogoproto.goproto_getters) = false;
   string creator = 1;
-  cosmos.base.v1beta1.Coin amount = 2
-  [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"];
+  cosmos.base.v1beta1.Coin amount = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+  ];
 }
 
-message MsgMintResponse {
-}
+message MsgMintResponse {}
 
 message MsgCreateOptions {
   string creator = 1;
@@ -102,9 +100,7 @@ message MsgUpdateOptions {
 }
 message MsgUpdateOptionsResponse {}
 
-message MsgDeleteOptions {
-  string creator = 1;
-}
+message MsgDeleteOptions { string creator = 1; }
 message MsgDeleteOptionsResponse {}
 message MsgBurn {
   string creator = 1;
@@ -112,8 +108,6 @@ message MsgBurn {
   string token = 3;
 }
 
-message MsgBurnResponse {
-  uint64 id = 1;
-}
+message MsgBurnResponse { uint64 id = 1; }
 
 // this line is used by starport scaffolding # proto/tx/message
