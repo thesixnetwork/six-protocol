@@ -44,7 +44,7 @@ func (p Precompile) RequiredGas(input []byte) uint64 {
 		// This should never happen since this method is going to fail during Run
 		return UnknownMethodCallGas
 	}
-  	requiredGas := p.executor.RequiredGas(input[4:], method)
+	requiredGas := p.executor.RequiredGas(input[4:], method)
 	return requiredGas
 }
 

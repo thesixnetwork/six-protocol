@@ -3,7 +3,6 @@ package v1
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-
 )
 
 const TypeMsgMint = "mint"
@@ -18,15 +17,15 @@ func NewMsgMint(creator string, amount uint64, token string) *MsgMint {
 	}
 }
 
-func (msg *MsgMint ) Route() string {
+func (msg *MsgMint) Route() string {
 	return RouterKey
 }
 
-func (msg *MsgMint ) Type() string {
+func (msg *MsgMint) Type() string {
 	return TypeMsgMint
 }
 
-func (msg *MsgMint ) GetSigners() []sdk.AccAddress {
+func (msg *MsgMint) GetSigners() []sdk.AccAddress {
 	creator, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		panic(err)
@@ -34,12 +33,12 @@ func (msg *MsgMint ) GetSigners() []sdk.AccAddress {
 	return []sdk.AccAddress{creator}
 }
 
-func (msg *MsgMint ) GetSignBytes() []byte {
+func (msg *MsgMint) GetSignBytes() []byte {
 	bz := ModuleCdc.MustMarshalJSON(msg)
 	return sdk.MustSortJSON(bz)
 }
 
-func (msg *MsgMint ) ValidateBasic() error {
+func (msg *MsgMint) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)

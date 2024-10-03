@@ -48,7 +48,6 @@ func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBu
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token out of range of uint256")
 	}
 
-
 	tokens := sdk.Coin{
 		Denom:  msg.Amount.Denom,
 		Amount: burnAmount,

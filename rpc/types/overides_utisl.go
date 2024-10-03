@@ -69,13 +69,13 @@ func FromProtoOverrideAccount(protoOA evmtypes.OverrideAccount) OverrideAccount 
 	}
 
 	// Detransform Balance
-    var balance **hexutil.Big
-    if protoOA.Balance != "" {
-        bigIntBalance := new(big.Int)
-        bigIntBalance.SetString(protoOA.Balance, 10)
-        convertedBalance := (*hexutil.Big)(bigIntBalance)
-        balance = &convertedBalance
-    }
+	var balance **hexutil.Big
+	if protoOA.Balance != "" {
+		bigIntBalance := new(big.Int)
+		bigIntBalance.SetString(protoOA.Balance, 10)
+		convertedBalance := (*hexutil.Big)(bigIntBalance)
+		balance = &convertedBalance
+	}
 
 	// Detransform State
 	var state *map[common.Hash]common.Hash
@@ -106,31 +106,29 @@ func FromProtoOverrideAccount(protoOA evmtypes.OverrideAccount) OverrideAccount 
 	}
 }
 
-
 // ToProtoStateOverride transforms a StateOverride to its ProtoStateOverride equivalent.
 func ToProtoStateOverride(so *StateOverride) *evmtypes.StateOverride {
-    protoSO := &evmtypes.StateOverride{
-        Accounts: make(map[string]*evmtypes.OverrideAccount),
-    }
+	protoSO := &evmtypes.StateOverride{
+		Accounts: make(map[string]*evmtypes.OverrideAccount),
+	}
 
-    for address, overrideAccount := range *so {
-        protoSO.Accounts[address.Hex()] = ToProtoOverrideAccount(&overrideAccount)
-    }
+	for address, overrideAccount := range *so {
+		protoSO.Accounts[address.Hex()] = ToProtoOverrideAccount(&overrideAccount)
+	}
 
-    return protoSO
+	return protoSO
 }
 
 // FromProtoStateOverride detransforms a ProtoStateOverride back to a StateOverride.
 func FromProtoStateOverride(protoSO *evmtypes.StateOverride) StateOverride {
-    so := make(StateOverride)
+	so := make(StateOverride)
 
-    for address, protoOverrideAccount := range protoSO.Accounts {
-        so[common.HexToAddress(address)] = FromProtoOverrideAccount(*protoOverrideAccount)
-    }
+	for address, protoOverrideAccount := range protoSO.Accounts {
+		so[common.HexToAddress(address)] = FromProtoOverrideAccount(*protoOverrideAccount)
+	}
 
-    return so
+	return so
 }
-
 
 func ToProtoBlockOverride(bo *BlockOverrides) *evmtypes.BlockOverrides {
 	protoBO := &evmtypes.BlockOverrides{
@@ -146,7 +144,7 @@ func ToProtoBlockOverride(bo *BlockOverrides) *evmtypes.BlockOverrides {
 	return protoBO
 }
 
-func FromProtoBlockOverride(protoBO *evmtypes.BlockOverrides) BlockOverrides{
+func FromProtoBlockOverride(protoBO *evmtypes.BlockOverrides) BlockOverrides {
 	var number *hexutil.Big
 	if protoBO.Number != "" {
 		bigIntBNumber := new(big.Int)

@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/evmos/ethermint/utils"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/common"
+	"github.com/evmos/ethermint/utils"
 )
 
 func init() {
@@ -30,7 +30,7 @@ func TestAccAddressFromBech32(t *testing.T) {
 func TestAccAddressFromEthCommon(t *testing.T) {
 	commonAddress := "0x3fab184622dc19b6109349b94811493bf2a45362"
 	address := common.HexToAddress(commonAddress)
-  bech32Address := utils.EthToCosmosAddr(address)
+	bech32Address := utils.EthToCosmosAddr(address)
 
 	fmt.Printf("######## ADDRESS BYTE: %v\n", bech32Address)
 	fmt.Printf("######## ADDRESS String: %v\n", bech32Address.String())
