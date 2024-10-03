@@ -1,0 +1,13 @@
+syntax = "proto3";
+package thesixnetwork.sixprotocol.nftmngr;
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
+
+message ActiveVirtualSchemaProposal {
+  string index = 1; 
+  string virtualSchemaCode = 2; 
+  string registry = 3; 
+  bool enable = 4; 
+  
+}
+
