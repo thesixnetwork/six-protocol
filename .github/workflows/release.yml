@@ -34,7 +34,7 @@ jobs:
       run: sudo apt-get update && sudo apt-get install build-essential
 
     - name: Download dependencies  
-      run: go get github.com/thesixnetwork/sixnft@latest
+      run: go get github.com/thesixnetwork/six-protocol@latest
 
     - name: Build binary
       run: make build

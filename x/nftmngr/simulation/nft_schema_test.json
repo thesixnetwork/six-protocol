@@ -1,0 +1,463 @@
+{
+  "code": "smitivej.divine_elite",
+  "name": "Divine Elite",
+  "owner": "0xNFTOWNER",
+  "origin_data": {
+    "origin_base_uri": "",
+    "uri_retrieval_method": "TOKEN",
+    "origin_chain": "SIXNET",
+    "origin_contract_address": "",
+    "attribute_overriding": "CHAIN",
+    "metadata_format": "opensea",
+    "origin_attributes": []
+  },
+  "onchain_data": {
+    "nft_attributes": [],
+    "token_attributes": [
+      {
+        "name": "tier",
+        "default_mint_value": {
+          "string_attribute_value": {
+            "value": ""
+          }
+        },
+        "data_type": "string",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Tier"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
+      },
+      {
+        "name": "start_date",
+        "default_mint_value": {
+          "string_attribute_value": {
+            "value": ""
+          }
+        },
+        "data_type": "string",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Start Date"
+          }
+        }
+      },
+      {
+        "name": "expire_date",
+        "default_mint_value": {
+          "string_attribute_value": {
+            "value": ""
+          }
+        },
+        "data_type": "string",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Expire Date"
+          }
+        }
+      },
+      {
+        "name": "service_3",
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": 0
+          }
+        },
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Member Privileges and Services"
+          }
+        }
+      },
+      {
+        "name": "service_4",
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": 0
+          }
+        },
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Vaccine Flu"
+          }
+        }
+      },
+      {
+        "name": "service_5",
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": 0
+          }
+        },
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Complimentary SEI Voucher"
+          }
+        }
+      },
+      {
+        "name": "service_6",
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": 0
+          }
+        },
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "30% Room Discount"
+          }
+        }
+      },
+      {
+        "name": "service_7",
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": 0
+          }
+        },
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Cash Voucher"
+          }
+        }
+      },
+      {
+        "name": "service_8",
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": 0
+          }
+        },
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Bone Densitometry Voucher"
+          }
+        }
+      },
+      {
+        "name": "service_9",
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": 0
+          }
+        },
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "EST Voucher"
+          }
+        }
+      },
+      {
+        "name": "service_10",
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": 0
+          }
+        },
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "CT Scan Voucher"
+          }
+        }
+      },
+      {
+        "name": "service_11",
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": 0
+          }
+        },
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "MRI Voucher"
+          }
+        }
+      }
+    ],
+    "actions": [
+      {
+        "name": "transfer_service",
+        "desc": "Transfer Service",
+        "disable": false,
+        "params": [
+          {
+            "name": "service_name",
+            "desc": "Service",
+            "data_type": "string",
+            "required": true,
+            "default_value": ""
+          },
+          {
+            "name": "amount",
+            "desc": "Amount of service to transfer",
+            "data_type": "number",
+            "required": true,
+            "default_value": "1"
+          },
+          {
+            "name": "token_id",
+            "desc": "Token Id Destination",
+            "data_type": "string",
+            "required": true,
+            "default_value": ""
+          }
+        ],
+        "when": "( params['amount'].GetNumber() > 0 ) && ( params['service_name'].GetString() !='service_0' || params['service_name'].GetString() !='service_1' || params['service_name'].GetString() !='service_2' || params['service_name'].GetString() !='service_3' || params['service_name'].GetString() !='service_4' || params['service_name'].GetString() !='service_5' || params['service_name'].GetString() !='service_6') && ( meta.GetNumber(params['service_name'].GetString()) > 0 )",
+        "then": [
+          "meta.TransferNumber(params['service_name'].GetString(), params['token_id'].GetString(), params['amount'].GetNumber())"
+        ]
+      },
+      {
+        "name": "use_service",
+        "desc": "Use Given Service",
+        "params": [
+          {
+            "name": "service_name",
+            "desc": "Service Name",
+            "data_type": "string",
+            "required": true,
+            "default_value": ""
+          }
+        ],
+        "when": "meta.GetNumber(params['service_name'].GetString()) > 0",
+        "then": [
+          "meta.SetNumber(params['service_name'].GetString(), meta.GetNumber(params['service_name'].GetString()) - 1)"
+        ]
+      },
+      {
+        "name": "airdrop",
+        "desc": "Use for airdrop some service",
+        "params": [
+          {
+            "name": "service_name",
+            "desc": "Service",
+            "data_type": "string",
+            "required": true,
+            "default_value": ""
+          },
+          {
+            "name": "amount",
+            "desc": "Amount of service to transfer",
+            "data_type": "number",
+            "required": true,
+            "default_value": "1"
+          }
+        ],
+        "when": "meta.GetNumber(params['service_name'].GetString()) >= 0",
+        "then": [
+          "meta.SetNumber(params['service_name'].GetString(), meta.GetNumber(params['service_name'].GetString()) + params['amount'].GetNumber())"
+        ]
+      },
+      {
+        "name": "revoke_service",
+        "desc": "Revoke used service",
+        "params": [
+          {
+            "name": "service_name",
+            "desc": "Service Name",
+            "data_type": "string",
+            "required": true,
+            "default_value": ""
+          }
+        ],
+        "when": "meta.GetNumber(params['service_name'].GetString()) >= 0",
+        "then": [
+          "meta.SetNumber(params['service_name'].GetString(), meta.GetNumber(params['service_name'].GetString()) + 1)"
+        ]
+      },
+      {
+        "name": "burn_service",
+        "desc": "Use for burn some service",
+        "params": [
+          {
+            "name": "service_name",
+            "desc": "Service",
+            "data_type": "string",
+            "required": true,
+            "default_value": ""
+          },
+          {
+            "name": "amount",
+            "desc": "Amount of service to transfer",
+            "data_type": "number",
+            "required": true,
+            "default_value": "1"
+          }
+        ],
+        "when": "meta.GetNumber(params['service_name'].GetString()) >= 0",
+        "then": [
+          "meta.SetNumber(params['service_name'].GetString(), meta.GetNumber(params['service_name'].GetString()) - params['amount'].GetNumber())"
+        ]
+      },
+      {
+        "name": "extend_privilege",
+        "desc": "use for update tier of user",
+        "params": [
+          {
+            "name": "group_one",
+            "desc": "amount of group on to be increase",
+            "data_type": "number",
+            "required": true,
+            "default_value": ""
+          },
+          {
+            "name": "group_two",
+            "desc": "amount of group on to be increase",
+            "data_type": "number",
+            "required": true,
+            "default_value": ""
+          },
+          {
+            "name": "group_three",
+            "desc": "amount of group on to be increase",
+            "data_type": "number",
+            "required": true,
+            "default_value": ""
+            
+          },
+          {
+            "name": "expire_date",
+            "desc": "set expire date of Privileges",
+            "data_type": "string",
+            "required": true,
+            "default_value": ""
+          }
+        ],
+        "when": "true",
+        "then": [
+          "group_one = params['group_one'].GetNumber()",
+          "group_two = params['group_two'].GetNumber()",
+          "group_three = params['group_three'].GetNumber()",
+          "meta.SetString('expire_date', params['expire_date'].GetString())",
+          "meta.SetNumber('service_3', 9999)",
+          "meta.SetNumber('service_4', meta.GetNumber('service_4') + group_one)",
+          "meta.SetNumber('service_5', meta.GetNumber('service_5') + group_one)",
+          "meta.SetNumber('service_6', meta.GetNumber('service_5') + group_one)",
+          "meta.SetNumber('service_7', meta.GetNumber('service_7') + group_one)",
+          "meta.SetNumber('service_8', meta.GetNumber('service_8') + group_two)",
+          "meta.SetNumber('service_9', meta.GetNumber('service_9') + group_three)",
+          "meta.SetNumber('service_10', meta.GetNumber('service_10') + group_three)",
+          "meta.SetNumber('service_11', meta.GetNumber('service_11') + group_three)"
+        ]
+      },      
+      {
+        "name": "update_tier_name",
+        "desc": "Use for update tier of user",
+        "params": [
+          {
+            "name": "tier",
+            "desc": "tier name to upgrade",
+            "data_type": "string",
+            "required": true,
+            "default_value": ""
+          },
+          {
+            "name": "start_date",
+            "desc": "set start date of privileges",
+            "data_type": "string",
+            "required": true,
+            "default_value": ""
+          }
+        ],
+        "when": "true",
+        "then": [
+          "meta.SetString('tier', params['tier'].GetString())",
+          "meta.SetString('start_date', params['start_date'].GetString())"
+        ]
+      },
+      {
+        "name": "set_service",
+        "desc": "To recover state of service",
+        "params": [
+          {
+            "name": "service_name",
+            "desc": "Service",
+            "data_type": "string",
+            "required": true,
+            "default_value": ""
+          },
+          {
+            "name": "amount",
+            "desc": "Amount of service to set",
+            "data_type": "number",
+            "required": true,
+            "default_value": ""
+          }
+        ],
+        "when": "true",
+        "then": [
+          "toset = params['amount'].GetNumber() + 0",
+          "meta.SetNumber(params['service_name'].GetString(), toset)"
+        ]
+      }
+    ]
+  },
+  "system_actioners": [
+    "6x18rev37jrxpcxl462226dsj9cnswz9jkp0ja6a3",
+    "6x142pyczdwpaw3sxtslqnquusv6swf4kf2rkjzyy",
+    "6x18a0nwqlfavlvddqjmgx9f6alj6fr56gl59up0a",
+    "6x1lyu2xa9td93rk06evxsv43mac8d32u6q7z7ccz",
+    "6x1szlehjhj4044dhdfay4a5qn5vchtrywazqc99h",
+    "6x1e95h9rwg33920j6kyd9qcm38fnmqvcufs6ayvd",
+    "6x18j60dn65k9x5q52ce0h9xqtqwn4vc96qj8y6fm",
+    "6x1eau5sjxclcszh070ynre28rge6ykjazpxw8afp",
+    "6x1va9ur9zm5acqpf0dtz34ks43mdhqzxp5zn4zqg",
+    "6x16anqfxc5tguduesfh4wvess07htj54s0htj9d5",
+    "6x1wss4scf8tuafejtywwcfnrcv9425zmrclyjkfg",
+    "6x1uy4sv5c80nwg6cjsfs6wy57rwlsu5faf0l086e",
+    "6x1edpucf29ewd9futllktwhftvupt3fpqav4te27",
+    "6x1dqj9t7lthfjvwsddra0xgsxuxgwmr0ea2fx3fl",
+    "6x1ypw2x2ws08pmrnpu6xwmprnfn0q4urfvhktn9a",
+    "6x1hfj5xz3lflr26dd6savpmv5rj5xap5cm7aq7eq",
+    "6x13y6rmuyvq2cvnfvpr77slnqw84khsz07n8336k",
+    "6x1ga7h79e26cpzh52upedqeysfuyve7zd5mlt0nv",
+    "6x1es4v6wq99a05eqrvemjf9nrq3t3kcuvnpnnvsp",
+    "6x1prkzgh6n9tnphafxp7ylwwt6yqcfarhddfctpa",
+    "6x16qy39rpu675uafmavd3ervluegpgz2vady6vjq",
+    "6x1smygjpgl9j2mptvx4vqp79a6v55yu4ksd9g353",
+    "6x12v86prpcjckrhhf647p3tgh2ejrglm3zsvunqc",
+    "6x1tmc7qfy5kd0503ahz4mfjh47uqencxsyx23k63",
+    "6x17gragzfq95pz3amrnj8avex4rjrx3gmchqdysl",
+    "6x1nxnnsw4x44pcj72e33m44yf5yq905jpyvq7smc",
+    "6x1lzz0k5ghfm6n9h7jcu2dr238rgwgtn8zjmlz6t",
+    "6x1e8zglmrq7u3xs5u40majdpkayjvm7p7e5054cm",
+    "6x1ksxe8fn4u8ngtaakp4dgcp5qqn58xvut92ttgy",
+    "6x1x5xxynstd4hzf5dlw4h7hxh6zsfw6y0cy0aexn"
+  ],
+  "mint_authorization": "system"
+}

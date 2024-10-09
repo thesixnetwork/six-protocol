@@ -26,7 +26,7 @@ ignite scaffold type DisplayOption opensea \
 # syntax = "proto3";
 # package thesixnetwork.sixnft.nftmngr;
 # import "nftmngr/opensea_display_option.proto";
-# option go_package = "github.com/thesixnetwork/sixnft/x/nftmngr/types";
+# option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
 
 # message DisplayOption {
   
@@ -42,7 +42,7 @@ ignite scaffold type AttributeDefinition name data_type display_value_field disp
 # syntax = "proto3";
 # package thesixnetwork.sixnft.nftmngr;
 # import "nftmngr/display_option.proto";
-# option go_package = "github.com/thesixnetwork/sixnft/x/nftmngr/types";
+# option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
 
 # message AttributeDefinition {
   
@@ -61,7 +61,7 @@ ignite scaffold type OriginData origin_chain origin_contract_address origin_base
 # syntax = "proto3";
 # package thesixnetwork.sixnft.nftmngr;
 # import "nftmngr/attribute_definition.proto";
-# option go_package = "github.com/thesixnetwork/sixnft/x/nftmngr/types";
+# option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
 
 # enum AttributeOverriding {
 #   ORIGIN = 0;
@@ -86,7 +86,7 @@ ignite scaffold type Action name desc when then \
 # syntax = "proto3";
 # package thesixnetwork.sixnft.nftmngr;
 
-# option go_package = "github.com/thesixnetwork/sixnft/x/nftmngr/types";
+# option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
 
 # message Action {
   
@@ -104,7 +104,7 @@ ignite scaffold type OnChainData nft_attributes token_attributes actions then \
 # package thesixnetwork.sixnft.nftmngr;
 # import "nftmngr/attribute_definition.proto";
 # import "nftmngr/action.proto";
-# option go_package = "github.com/thesixnetwork/sixnft/x/nftmngr/types";
+# option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
 
 # message OnChainData {
   
@@ -125,7 +125,7 @@ ignite scaffold map NFTSchema name owner origin_data onchain_data \
 # import "nftmngr/on_chain_data.proto";
 # import "nftmngr/origin_data.proto";
 
-# option go_package = "github.com/thesixnetwork/sixnft/x/nftmngr/types";
+# option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
 
 # message NFTSchema {
 #   string code = 1; 
@@ -199,7 +199,7 @@ ignite scaffold map NftData token_owner origin_image origin_attributes onchain_a
 # package thesixnetwork.sixnft.nftmngr;
 
 # import "nftmngr/nft_attribute_value.proto";
-# option go_package = "github.com/thesixnetwork/sixnft/x/nftmngr/types";
+# option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
 
 # message NftData {
 #   string nftSchemaCode = 1; 

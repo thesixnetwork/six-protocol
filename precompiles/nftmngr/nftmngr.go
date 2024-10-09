@@ -15,7 +15,7 @@ import (
 	"github.com/tendermint/tendermint/libs/log"
 	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
 	"github.com/thesixnetwork/six-protocol/utils"
-	nftmngrtype "github.com/thesixnetwork/sixnft/x/nftmngr/types"
+	nftmngrtype "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
 const (
