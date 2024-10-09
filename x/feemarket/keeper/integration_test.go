@@ -1,8 +1,8 @@
 // Copyright (C) 2024 SIX Network
-// This file is part of the modified FeeMarket module from Ethermint, 
+// This file is part of the modified FeeMarket module from Ethermint (https://github.com/evmos/ethermint),
 // and is licensed under the terms of the GNU Lesser General Public License v3
 // Copyright (C) 2024 SIX Network
-// This file is part of the modified EVM module from Ethermint, 
+// This file is part of the modified EVM module from Ethermint (https://github.com/evmos/ethermint),
 // and is licensed under the terms of the GNU Lesser General Public License v3.
 
 package keeper_test

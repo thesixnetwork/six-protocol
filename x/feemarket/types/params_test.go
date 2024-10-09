@@ -1,5 +1,5 @@
 // Copyright (C) 2024 SIX Network
-// This file is part of the modified FeeMarket module from Ethermint, 
+// This file is part of the modified FeeMarket module from Ethermint (https://github.com/evmos/ethermint),
 // and is licensed under the terms of the GNU Lesser General Public License v3
 package types
 
@@ -33,7 +33,7 @@ func (suite *ParamsTestSuite) TestParamsValidate() {
 		{"default", DefaultParams(), false},
 		{
 			"valid",
-			NewParams(true, 7, 3, 2000000000, int64(544435345345435345), sdk.NewDecWithPrec(20, 4), DefaultMinGasMultiplier,2000000000, sdk.NewDecWithPrec(20, 4)),
+			NewParams(true, 7, 3, 2000000000, int64(544435345345435345), sdk.NewDecWithPrec(20, 4), DefaultMinGasMultiplier, 2000000000, sdk.NewDecWithPrec(20, 4)),
 			false,
 		},
 		{
@@ -43,27 +43,27 @@ func (suite *ParamsTestSuite) TestParamsValidate() {
 		},
 		{
 			"base fee change denominator is 0 ",
-			NewParams(true, 7, 3, 2000000000, int64(544435345345435345), sdk.NewDecWithPrec(20, 4), DefaultMinGasMultiplier,2000000000, sdk.NewDecWithPrec(20, 4)),
+			NewParams(true, 7, 3, 2000000000, int64(544435345345435345), sdk.NewDecWithPrec(20, 4), DefaultMinGasMultiplier, 2000000000, sdk.NewDecWithPrec(20, 4)),
 			true,
 		},
 		{
 			"invalid: min gas price negative",
-			NewParams(true, 7, 3, 2000000000, int64(544435345345435345), sdk.NewDecWithPrec(20, 4), DefaultMinGasMultiplier,2000000000, sdk.NewDecWithPrec(20, 4)),
+			NewParams(true, 7, 3, 2000000000, int64(544435345345435345), sdk.NewDecWithPrec(20, 4), DefaultMinGasMultiplier, 2000000000, sdk.NewDecWithPrec(20, 4)),
 			true,
 		},
 		{
 			"valid: min gas multiplier zero",
-			NewParams(true, 7, 3, 2000000000, int64(544435345345435345), DefaultMinGasPrice, sdk.ZeroDec(),2000000000,sdk.ZeroDec()),
+			NewParams(true, 7, 3, 2000000000, int64(544435345345435345), DefaultMinGasPrice, sdk.ZeroDec(), 2000000000, sdk.ZeroDec()),
 			false,
 		},
 		{
 			"invalid: min gas multiplier is negative",
-			NewParams(true, 7, 3, 2000000000, int64(544435345345435345), DefaultMinGasPrice, sdk.NewDecWithPrec(-5, 1),2000000000, sdk.NewDecWithPrec(-5, 1)),
+			NewParams(true, 7, 3, 2000000000, int64(544435345345435345), DefaultMinGasPrice, sdk.NewDecWithPrec(-5, 1), 2000000000, sdk.NewDecWithPrec(-5, 1)),
 			true,
 		},
 		{
 			"invalid: min gas multiplier bigger than 1",
-			NewParams(true, 7, 3, 2000000000, int64(544435345345435345), sdk.NewDecWithPrec(20, 4), sdk.NewDec(2),2000000000, sdk.NewDec(2)),
+			NewParams(true, 7, 3, 2000000000, int64(544435345345435345), sdk.NewDecWithPrec(20, 4), sdk.NewDec(2), 2000000000, sdk.NewDec(2)),
 			true,
 		},
 	}

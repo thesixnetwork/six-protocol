@@ -1,5 +1,5 @@
 // Copyright (C) 2024 SIX Network
-// This file is part of the modified EVM module from Ethermint, 
+// This file is part of the modified EVM module from Ethermint (https://github.com/evmos/ethermint),
 // and is licensed under the terms of the GNU Lesser General Public License v3
 // Copyright Tharsis Labs Ltd.(Evmos)
 // SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
