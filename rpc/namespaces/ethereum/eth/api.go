@@ -564,8 +564,8 @@ func (e *PublicAPI) SendRawTransaction(data hexutil.Bytes) (common.Hash, error) 
 
 	txHash := ethereumTx.AsTransaction().Hash()
 
-	syncCtx := e.clientCtx.WithBroadcastMode(flags.BroadcastSync)
-	rsp, err := syncCtx.BroadcastTx(txBytes)
+	// syncCtx := e.clientCtx.WithBroadcastMode(flags.BroadcastSync)
+	rsp, err := e.clientCtx.BroadcastTx(txBytes)
 	if rsp != nil && rsp.Code != 0 {
 		err = sdkerrors.ABCIError(rsp.Codespace, rsp.Code, rsp.RawLog)
 	}

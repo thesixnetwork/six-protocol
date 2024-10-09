@@ -1,6 +1,6 @@
 module github.com/thesixnetwork/six-protocol
 
-go 1.19
+go 1.23
 
 require (
 	github.com/btcsuite/btcutil v1.0.3-0.20201208143702-a53e38424cce

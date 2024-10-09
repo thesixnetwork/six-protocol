@@ -15,3 +15,16 @@ vue/src/store/generated/
 /scripts/secret/*
 /scripts/.secret
 /scripts/.secret2
+
+
+## FOUNDRY
+cache/
+out/
+
+!/broadcast
+/broadcast/**/dry-run/
+/broadcast/**/666/
+/broadcast/**/9000/
+
+.env
+.env.*
