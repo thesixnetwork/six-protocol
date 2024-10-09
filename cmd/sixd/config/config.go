@@ -2,7 +2,7 @@ package config
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	ethermint "github.com/evmos/ethermint/types"
+	ethermint "github.com/thesixnetwork/six-protocol/types"
 )
 
 const (

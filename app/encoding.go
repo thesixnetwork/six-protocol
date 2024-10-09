@@ -2,7 +2,7 @@ package app
 
 import (
 	"github.com/cosmos/cosmos-sdk/simapp/params"
-	evmenc "github.com/evmos/ethermint/encoding"
+	evmenc "github.com/thesixnetwork/six-protocol/encoding"
 )
 
 // MakeEncodingConfig creates the EncodingConfig for the application.

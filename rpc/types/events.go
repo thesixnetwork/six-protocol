@@ -6,8 +6,8 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
 	abci "github.com/tendermint/tendermint/abci/types"
+	evmtypes "github.com/thesixnetwork/six-protocol/x/evm/types"
 )
 
 // EventFormat is the format version of the events.

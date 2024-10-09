@@ -26,11 +26,11 @@ import (
 	rpcclient "github.com/tendermint/tendermint/rpc/jsonrpc/client"
 	tmtypes "github.com/tendermint/tendermint/types"
 
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
 	"github.com/thesixnetwork/six-protocol/rpc/ethereum/pubsub"
 	rpcfilters "github.com/thesixnetwork/six-protocol/rpc/namespaces/ethereum/eth/filters"
 	"github.com/thesixnetwork/six-protocol/rpc/types"
 	"github.com/thesixnetwork/six-protocol/server/config"
+	evmtypes "github.com/thesixnetwork/six-protocol/x/evm/types"
 )
 
 type WebsocketsServer interface {

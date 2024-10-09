@@ -26,10 +26,10 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	grpctypes "github.com/cosmos/cosmos-sdk/types/grpc"
 
-	ethermint "github.com/evmos/ethermint/types"
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
-	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
 	"github.com/thesixnetwork/six-protocol/rpc/types"
+	ethermint "github.com/thesixnetwork/six-protocol/types"
+	evmtypes "github.com/thesixnetwork/six-protocol/x/evm/types"
+	feemarkettypes "github.com/thesixnetwork/six-protocol/x/feemarket/types"
 )
 
 var bAttributeKeyEthereumBloom = []byte(evmtypes.AttributeKeyEthereumBloom)

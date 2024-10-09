@@ -7,7 +7,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
-	// evmkeeper "github.com/evmos/ethermint/x/evm/keeper"
+	// evmkeeper "github.com/thesixnetwork/six-protocol/x/evm/keeper"
 )
 
 const UpgradeName = "v3.2.0"

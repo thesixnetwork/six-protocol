@@ -20,8 +20,8 @@ import (
 	"github.com/tendermint/tendermint/libs/log"
 	tmrpctypes "github.com/tendermint/tendermint/rpc/core/types"
 
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
 	"github.com/thesixnetwork/six-protocol/rpc/types"
+	evmtypes "github.com/thesixnetwork/six-protocol/x/evm/types"
 )
 
 // ExceedBlockGasLimitError defines the error message when tx execution exceeds the block gas limit.

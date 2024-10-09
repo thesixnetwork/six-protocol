@@ -8,8 +8,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	ethermint "github.com/evmos/ethermint/types"
 	"github.com/spf13/cobra"
+	ethermint "github.com/thesixnetwork/six-protocol/types"
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 

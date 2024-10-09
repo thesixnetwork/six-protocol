@@ -35,13 +35,13 @@ import (
 	mintypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/evmos/ethermint/crypto/hd"
-	ethermint "github.com/evmos/ethermint/types"
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
+	"github.com/thesixnetwork/six-protocol/crypto/hd"
 	"github.com/thesixnetwork/six-protocol/server/config"
 	srvflags "github.com/thesixnetwork/six-protocol/server/flags"
+	ethermint "github.com/thesixnetwork/six-protocol/types"
+	evmtypes "github.com/thesixnetwork/six-protocol/x/evm/types"
 
-	"github.com/evmos/ethermint/testutil/network"
+	"github.com/thesixnetwork/six-protocol/testutil/ethermintnetwork"
 )
 
 var (
@@ -284,7 +284,7 @@ func initTestnetFiles(
 		}
 
 		// save private key seed words
-		if err := network.WriteFile(fmt.Sprintf("%v.json", "key_seed"), nodeDir, cliPrint); err != nil {
+		if err := ethermintnetwork.WriteFile(fmt.Sprintf("%v.json", "key_seed"), nodeDir, cliPrint); err != nil {
 			return err
 		}
 
@@ -336,7 +336,7 @@ func initTestnetFiles(
 			return err
 		}
 
-		if err := network.WriteFile(fmt.Sprintf("%v.json", nodeDirName), gentxsDir, txBz); err != nil {
+		if err := ethermintnetwork.WriteFile(fmt.Sprintf("%v.json", nodeDirName), gentxsDir, txBz); err != nil {
 			return err
 		}
 
@@ -516,7 +516,7 @@ func calculateIP(ip string, i int) (string, error) {
 
 // startTestnet starts an in-process testnet
 func startTestnet(cmd *cobra.Command, args startArgs) error {
-	networkConfig := network.DefaultConfig()
+	networkConfig := ethermintnetwork.DefaultConfig()
 
 	// Default networkConfig.ChainID is random, and we should only override it if chainID provided
 	// is non-empty
@@ -532,7 +532,7 @@ func startTestnet(cmd *cobra.Command, args startArgs) error {
 	networkConfig.GRPCAddress = args.grpcAddress
 	networkConfig.JSONRPCAddress = args.jsonrpcAddress
 	networkConfig.PrintMnemonic = args.printMnemonic
-	networkLogger := network.NewCLILogger(cmd)
+	networkLogger := ethermintnetwork.NewCLILogger(cmd)
 
 	baseDir := fmt.Sprintf("%s/%s", args.outputDir, networkConfig.ChainID)
 	if _, err := os.Stat(baseDir); !os.IsNotExist(err) {
@@ -541,7 +541,7 @@ func startTestnet(cmd *cobra.Command, args startArgs) error {
 			networkConfig.ChainID, baseDir)
 	}
 
-	testnet, err := network.New(networkLogger, baseDir, networkConfig)
+	testnet, err := ethermintnetwork.New(networkLogger, baseDir, networkConfig)
 	if err != nil {
 		return err
 	}

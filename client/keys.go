@@ -7,7 +7,7 @@ import (
 		"bufio"
 		"github.com/cosmos/cosmos-sdk/client"
 		sdk "github.com/cosmos/cosmos-sdk/types"
-		"github.com/evmos/ethermint/crypto/hd"
+		"github.com/thesixnetwork/six-protocol/crypto/hd"
 		clientkeys "github.com/thesixnetwork/six-protocol/client/keys"
 	*/
 

@@ -20,7 +20,7 @@ import (
 	"github.com/ethereum/go-ethereum/eth/filters"
 	"github.com/ethereum/go-ethereum/rpc"
 
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
+	evmtypes "github.com/thesixnetwork/six-protocol/x/evm/types"
 )
 
 // Backend defines the methods requided by the PublicFilterAPI backend

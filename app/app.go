@@ -96,18 +96,17 @@ import (
 	tmos "github.com/tendermint/tendermint/libs/os"
 	dbm "github.com/tendermint/tm-db"
 
-	ethermintapp "github.com/evmos/ethermint/app"
-	evmante "github.com/evmos/ethermint/app/ante"
-	ethermint "github.com/evmos/ethermint/types"
-	"github.com/evmos/ethermint/x/evm"
-	evmrest "github.com/evmos/ethermint/x/evm/client/rest"
-	evmkeeper "github.com/evmos/ethermint/x/evm/keeper"
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
-	"github.com/evmos/ethermint/x/feemarket"
-	feemarketkeeper "github.com/evmos/ethermint/x/feemarket/keeper"
-	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
+	evmante "github.com/thesixnetwork/six-protocol/app/evmante"
 	ethermintconfig "github.com/thesixnetwork/six-protocol/server/config"
 	srvflags "github.com/thesixnetwork/six-protocol/server/flags"
+	ethermint "github.com/thesixnetwork/six-protocol/types"
+	"github.com/thesixnetwork/six-protocol/x/evm"
+	evmrest "github.com/thesixnetwork/six-protocol/x/evm/client/rest"
+	evmkeeper "github.com/thesixnetwork/six-protocol/x/evm/keeper"
+	evmtypes "github.com/thesixnetwork/six-protocol/x/evm/types"
+	"github.com/thesixnetwork/six-protocol/x/feemarket"
+	feemarketkeeper "github.com/thesixnetwork/six-protocol/x/feemarket/keeper"
+	feemarkettypes "github.com/thesixnetwork/six-protocol/x/feemarket/types"
 
 	// "github.com/evmos/evmos/v6/x/erc20"
 	// erc20client "github.com/evmos/evmos/v6/x/erc20/client"
@@ -670,7 +669,7 @@ func New(
 
 	app.mm = module.NewManager(
 		genutil.NewAppModule(app.AccountKeeper, app.StakingKeeper, app.BaseApp.DeliverTx, encodingConfig.TxConfig),
-		auth.NewAppModule(appCodec, app.AccountKeeper, ethermintapp.RandomGenesisAccounts),
+		auth.NewAppModule(appCodec, app.AccountKeeper, RandomGenesisAccounts),
 		authzmodule.NewAppModule(appCodec, app.AuthzKeeper, app.AccountKeeper, app.BankKeeper, app.InterfaceRegistry()),
 		vesting.NewAppModule(app.AccountKeeper, app.BankKeeper),
 		bank.NewAppModule(appCodec, app.BankKeeper, app.AccountKeeper),
@@ -811,7 +810,7 @@ func New(
 
 	// create the simulation manager and define the order of the modules for deterministic simulations
 	app.sm = module.NewSimulationManager(
-		auth.NewAppModule(appCodec, app.AccountKeeper, ethermintapp.RandomGenesisAccounts),
+		auth.NewAppModule(appCodec, app.AccountKeeper, RandomGenesisAccounts),
 		authzmodule.NewAppModule(appCodec, app.AuthzKeeper, app.AccountKeeper, app.BankKeeper, app.interfaceRegistry),
 		bank.NewAppModule(appCodec, app.BankKeeper, app.AccountKeeper),
 		capability.NewAppModule(appCodec, *app.CapabilityKeeper),
@@ -855,7 +854,7 @@ func New(
 		SignModeHandler: encodingConfig.TxConfig.SignModeHandler(),
 		SigGasConsumer:  evmante.DefaultSigVerificationGasConsumer,
 		IBCKeeper:       app.IBCKeeper,
-		EvmKeeper:       app.EVMKeeper,
+		EVMKeeper:       app.EVMKeeper,
 		FeeMarketKeeper: app.FeeMarketKeeper,
 		MaxTxGasWanted:  maxGasWanted,
 		Cdc:             appCodec,
