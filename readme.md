@@ -1,52 +1,66 @@
-# sixprotocol
-**sixprotocol** is a blockchain built using Cosmos SDK and Tendermint and created with [Starport](https://starport.com).
+## Foundry
 
-## Get started
+**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
 
-```
-starport chain serve
-```
+Foundry consists of:
 
-`serve` command installs dependencies, builds, initializes, and starts your blockchain in development.
+-   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
+-   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
+-   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
+-   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
 
-### Configure
+## Documentation
 
-Your blockchain in development can be configured with `config.yml`. To learn more, see the [Starport docs](https://docs.starport.com).
+https://book.getfoundry.sh/
 
-### Web Frontend
+## Usage
 
-Starport has scaffolded a Vue.js-based web app in the `vue` directory. Run the following commands to install dependencies and start the app:
+### Build
 
-```
-cd vue
-npm install
-npm run serve
+```shell
+$ forge build
 ```
 
-The frontend app is built using the `@starport/vue` and `@starport/vuex` packages. For details, see the [monorepo for Starport front-end development](https://github.com/tendermint/vue).
+### Test
 
-## Release
-To release a new version of your blockchain, create and push a new tag with `v` prefix. A new draft release with the configured targets will be created.
-
-```
-git tag v0.1
-git push origin v0.1
+```shell
+$ forge test
 ```
 
-After a draft release is created, make your final changes from the release page and publish it.
+### Format
 
-### Install
-To install the latest version of your blockchain node's binary, execute the following command on your machine:
-
+```shell
+$ forge fmt
 ```
-curl https://get.starport.com/thesixnetwork/six-protocol@latest! | sudo bash
+
+### Gas Snapshots
+
+```shell
+$ forge snapshot
 ```
-`thesixnetwork/six-protocol` should match the `username` and `repo_name` of the Github repository to which the source code was pushed. Learn more about [the install process](https://github.com/allinbits/starport-installer).
 
-## Learn more
+### Anvil
 
-- [Starport](https://starport.com)
-- [Tutorials](https://docs.starport.com/guide)
-- [Starport docs](https://docs.starport.com)
-- [Cosmos SDK docs](https://docs.cosmos.network)
-- [Developer Chat](https://discord.gg/H6wGTY8sxw)
+```shell
+$ anvil
+```
+
+### Deploy
+
+```shell
+$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
+```
+
+### Cast
+
+```shell
+$ cast <subcommand>
+```
+
+### Help
+
+```shell
+$ forge --help
+$ anvil --help
+$ cast --help
+```
