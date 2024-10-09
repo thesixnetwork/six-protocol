@@ -40822,6 +40822,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -41326,6 +41329,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -41831,6 +41837,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -42336,6 +42345,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -43081,6 +43093,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -43664,6 +43679,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -44031,6 +44049,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -45307,6 +45328,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -46076,6 +46100,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -46574,6 +46601,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -47302,6 +47332,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -49024,6 +49057,7 @@ paths:
                                 title: get from smart contract
                               expire_epoch:
                                 type: string
+                                title: get from smart contract
                           hash:
                             type: string
                             format: byte
@@ -49209,6 +49243,7 @@ paths:
                               title: get from smart contract
                             expire_epoch:
                               type: string
+                              title: get from smart contract
                         hash:
                           type: string
                           format: byte
@@ -75446,15 +75481,6 @@ definitions:
         type: string
       tokenId:
         type: string
-  thesixnetwork.sixnft.nftmngr.MsgCreateMultiMetadataResponse:
-    type: object
-    properties:
-      nftSchemaCode:
-        type: string
-      tokenId:
-        type: array
-        items:
-          type: string
   thesixnetwork.sixnft.nftmngr.MsgCreateNFTSchemaResponse:
     type: object
     properties:
@@ -75474,19 +75500,6 @@ definitions:
         type: string
       token_id:
         type: string
-  thesixnetwork.sixnft.nftmngr.MsgPerformMultiTokenActionResponse:
-    type: object
-    properties:
-      nftSchemaCode:
-        type: string
-      tokenId:
-        type: array
-        items:
-          type: string
-      action:
-        type: array
-        items:
-          type: string
   thesixnetwork.sixnft.nftmngr.MsgResyncAttributesResponse:
     type: object
     properties:
@@ -78054,6 +78067,7 @@ definitions:
             title: get from smart contract
           expire_epoch:
             type: string
+            title: get from smart contract
       hash:
         type: string
         format: byte
@@ -78373,6 +78387,7 @@ definitions:
         title: get from smart contract
       expire_epoch:
         type: string
+        title: get from smart contract
   thesixnetwork.sixnft.nftoracle.Params:
     type: object
     properties:
@@ -78854,6 +78869,7 @@ definitions:
                         title: get from smart contract
                       expire_epoch:
                         type: string
+                        title: get from smart contract
                   hash:
                     type: string
                     format: byte
@@ -79251,6 +79267,7 @@ definitions:
                       title: get from smart contract
                     expire_epoch:
                       type: string
+                      title: get from smart contract
                 hash:
                   type: string
                   format: byte
@@ -79350,6 +79367,7 @@ definitions:
                   title: get from smart contract
                 expire_epoch:
                   type: string
+                  title: get from smart contract
             hash:
               type: string
               format: byte
