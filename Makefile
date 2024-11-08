@@ -145,12 +145,17 @@ test-sim-multi-seed-short: runsim
 ###                                Linting                                  ###
 ###############################################################################
 
-lint:
-	golangci-lint run --tests=false
-	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -path "*_test.go" | xargs gofmt -d -s
+format-tools:
+	go install mvdan.cc/gofumpt@v0.3.1
+	go install github.com/client9/misspell/cmd/misspell@v0.3.4
+	go install golang.org/x/tools/cmd/goimports@latest
 
-format:
-	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -path "./client/lcd/statik/statik.go" | xargs gofmt -w -s
+lint: format-tools
+	golangci-lint run --tests=false
+	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -path "*_test.go" | xargs gofumpt -d -s
+
+format: format-tools
+	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -path "./client/lcd/statik/statik.go" | xargs gofumpt -w -s
 	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -path "./client/lcd/statik/statik.go" | xargs misspell -w
 	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -path "./client/lcd/statik/statik.go" | xargs goimports -w -local github.com/thesixnetwork/six-protocol
 
@@ -186,3 +191,29 @@ proto-check-breaking:
 	go-mod-cache draw-deps clean build format \
 	test test-all test-build test-cover test-unit test-race \
 	test-sim-import-export \
+
+###############################################################################
+###                                  DEVENET                                ###
+###############################################################################
+
+start:
+	@rm -f ./docs/static/openapi.yml
+	@rm -f go.sum && touch go.sum
+	@go mod tidy
+	@ignite chain serve --config ./config.yml -r -f $(VERBOSE)
+
+
+###############################################################################
+###                                SmartContract                            ###
+###############################################################################
+
+create2:
+	@curl --location 'http://localhost:8545' \
+		--header 'Content-Type: application/json' \
+		--data '{ "jsonrpc":"2.0", "method":"eth_sendRawTransaction", "params":["0xf8a58085174876e800830186a08080b853604580600e600039806000f350fe7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe03601600081602082378035828234f58015156039578182fd5b8082525050506014600cf31ba02222222222222222222222222222222222222222222222222222222222222222a02222222222222222222222222222222222222222222222222222222222222222"], "id":1 }'
+
+deploy-nft:
+	@forge script ./contracts/script/ERC721.s.sol:DeployScript --broadcast --rpc-url http://localhost:8545 --slow
+
+deploy-nft-fast:
+	@forge script ./contracts/script/ERC721.s.sol:DeployScript --broadcast --rpc-url http://localhost:8545
