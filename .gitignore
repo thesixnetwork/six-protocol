@@ -14,4 +14,37 @@ vue/src/store/generated/
 
 /scripts/secret/*
 /scripts/.secret
+/scripts/.secret2avue/node_modules
+vue/dist
+release/
+.idea/
+.vscode/
+.DS_Store
+
+ts-client/
+build/
+vue/src/store/generated/
+.env
+
+/**/wasmvm/
+
+/scripts/secret/*
+/scripts/.secret
 /scripts/.secret2
+
+
+## FOUNDRY
+cache/
+out/
+
+!/broadcast
+/broadcast/**/dry-run/
+/broadcast/**/338/
+/broadcast/**/666/
+/broadcast/**/9000/
+/broadcast/**/713715/
+
+*.log
+
+.env
+.env.*
