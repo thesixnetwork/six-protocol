@@ -133,6 +133,7 @@ echo "## 7. Staking validator                    ##"
 echo "## 8. Query Validator set                  ##"
 echo "## 9. Setup Cosmovisor                     ##"
 echo "## 10. Start Cosmovisor                    ##"
+echo "## 11. Start Signle Node                   ##"
 echo "#############################################"
 read -p "Enter your choice: " choice
 case $choice in
@@ -251,6 +252,12 @@ case $choice in
     export COMMAND="cosmovisor_start"
     docker compose -f ./docker-compose.yml up -d
     ;;
+11)
+    echo "start single node"
+    export COMMAND="init_testnet"
+    docker run -d  --name sixnode0 -p 26656:26656 -p 26657:26657 -p 1317:1317 -p 8545:8545 -p 8546:8546 -p 9090:9090 -p 9091:9091 \
+    gcr.io/six-protocol/sixnode:latest bash ${COMMAND}.sh sixnode0
+
 *)
     echo "Invalid Choice"
     ;;

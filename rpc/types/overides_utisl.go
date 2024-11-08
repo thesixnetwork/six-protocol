@@ -5,7 +5,7 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
+	evmtypes "github.com/thesixnetwork/six-protocol/x/evm/types"
 )
 
 func ToProtoOverrideAccount(oa *OverrideAccount) *evmtypes.OverrideAccount {

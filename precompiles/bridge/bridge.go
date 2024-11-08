@@ -11,9 +11,9 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/evmos/ethermint/utils"
 	"github.com/tendermint/tendermint/libs/log"
 	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
+	"github.com/thesixnetwork/six-protocol/utils"
 	tkmngrtypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 

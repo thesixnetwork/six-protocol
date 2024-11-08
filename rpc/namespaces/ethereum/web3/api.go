@@ -1,7 +1,7 @@
 package web3
 
 import (
-	"github.com/evmos/ethermint/version"
+	"github.com/thesixnetwork/six-protocol/version"
 
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/crypto"

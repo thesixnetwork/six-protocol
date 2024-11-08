@@ -2,7 +2,7 @@ package app
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	// ethcfg "github.com/evmos/ethermint/cmd/config"
+	// ethcfg "github.com/thesixnetwork/six-protocol/cmd/config"
 	cmdcfg "github.com/thesixnetwork/six-protocol/cmd/sixd/config"
 )
 

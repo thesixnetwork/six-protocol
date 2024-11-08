@@ -1,8 +1,8 @@
 package debug
 
 import (
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
 	"github.com/thesixnetwork/six-protocol/rpc/types"
+	evmtypes "github.com/thesixnetwork/six-protocol/x/evm/types"
 )
 
 type TraceCallConfig struct {

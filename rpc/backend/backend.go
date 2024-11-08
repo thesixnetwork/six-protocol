@@ -13,12 +13,12 @@ import (
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/params"
 	"github.com/ethereum/go-ethereum/rpc"
-	ethermint "github.com/evmos/ethermint/types"
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
 	"github.com/tendermint/tendermint/libs/log"
 	tmrpctypes "github.com/tendermint/tendermint/rpc/core/types"
 	"github.com/thesixnetwork/six-protocol/rpc/types"
 	"github.com/thesixnetwork/six-protocol/server/config"
+	ethermint "github.com/thesixnetwork/six-protocol/types"
+	evmtypes "github.com/thesixnetwork/six-protocol/x/evm/types"
 )
 
 // BackendI implements the Cosmos and EVM backend.

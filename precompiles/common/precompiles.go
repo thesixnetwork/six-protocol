@@ -10,7 +10,7 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/evmos/ethermint/x/evm/statedb"
+	"github.com/thesixnetwork/six-protocol/x/evm/statedb"
 )
 
 const UnknownMethodCallGas uint64 = 3000

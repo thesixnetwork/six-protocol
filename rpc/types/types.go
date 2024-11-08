@@ -8,7 +8,7 @@ import (
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/evmos/ethermint/x/evm/statedb"
+	"github.com/thesixnetwork/six-protocol/x/evm/statedb"
 )
 
 // Copied the Account and StorageResult types since they are registered under an

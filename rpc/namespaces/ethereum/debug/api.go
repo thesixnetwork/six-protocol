@@ -18,7 +18,7 @@ import (
 	tmrpctypes "github.com/tendermint/tendermint/rpc/core/types"
 	"golang.org/x/crypto/sha3"
 
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
+	evmtypes "github.com/thesixnetwork/six-protocol/x/evm/types"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	stderrors "github.com/pkg/errors"
