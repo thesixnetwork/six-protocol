@@ -255,8 +255,8 @@ func (p PrecompileExecutor) parametersFromJSONArg(arg interface{}) ([]*nftmngrty
 
 	// Convert to slice of pointers to ActionParameter
 	paramPointers := make([]*nftmngrtype.ActionParameter, len(params))
-	for i, param := range params {
-		paramPointers[i] = &param
+	for i := range params {
+		paramPointers[i] = &params[i]
 	}
 
 	return paramPointers, nil
