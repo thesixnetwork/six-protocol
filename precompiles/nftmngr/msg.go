@@ -36,7 +36,7 @@ const (
 	UpdateAction         = "updateAction"
 	AddActionExecutor    = "addActionExecutor"
 	RemoveActionExecutor = "removeActionExecutor"
-  IsActionExecutor     = "isActionExecutor"
+	IsActionExecutor     = "isActionExecutor"
 )
 
 func (p PrecompileExecutor) addAction(ctx sdk.Context, caller common.Address, method *abi.Method, args []interface{}, value *big.Int, readOnly bool) ([]byte, error) {
@@ -51,17 +51,17 @@ func (p PrecompileExecutor) addAction(ctx sdk.Context, caller common.Address, me
 		return nil, err
 	}
 
-	senderCosmoAddr, err := p.accAddressFromArg(caller)
+	senderCosmoAddr, err := p.AccAddressFromArg(caller)
 	if err != nil {
 		return nil, err
 	}
 
-	nftschema, err := p.stringFromArg(args[0])
+	nftschema, err := p.StringFromArg(args[0])
 	if err != nil {
 		return nil, err
 	}
 
-	base64NewAction, err := p.stringFromArg(args[1])
+	base64NewAction, err := p.StringFromArg(args[1])
 	if err != nil {
 		return nil, err
 	}
@@ -101,17 +101,17 @@ func (p PrecompileExecutor) addActionExecutor(ctx sdk.Context, caller common.Add
 		return nil, err
 	}
 
-	senderCosmoAddr, err := p.accAddressFromArg(caller)
+	senderCosmoAddr, err := p.AccAddressFromArg(caller)
 	if err != nil {
 		return nil, err
 	}
 
-	nftSchema, err := p.stringFromArg(args[0])
+	nftSchema, err := p.StringFromArg(args[0])
 	if err != nil {
 		return nil, err
 	}
 
-	newExecutor, err := p.accAddressFromArg(args[1])
+	newExecutor, err := p.AccAddressFromArg(args[1])
 	if err != nil {
 		return nil, err
 	}
@@ -136,17 +136,17 @@ func (p PrecompileExecutor) removeActionExecutor(ctx sdk.Context, caller common.
 		return nil, err
 	}
 
-	senderCosmoAddr, err := p.accAddressFromArg(caller)
+	senderCosmoAddr, err := p.AccAddressFromArg(caller)
 	if err != nil {
 		return nil, err
 	}
 
-	nftSchema, err := p.stringFromArg(args[0])
+	nftSchema, err := p.StringFromArg(args[0])
 	if err != nil {
 		return nil, err
 	}
 
-	newExecutor, err := p.accAddressFromArg(args[1])
+	newExecutor, err := p.AccAddressFromArg(args[1])
 	if err != nil {
 		return nil, err
 	}
@@ -170,22 +170,22 @@ func (p PrecompileExecutor) addAttribute(ctx sdk.Context, caller common.Address,
 		return nil, err
 	}
 
-	senderCosmoAddr, err := p.accAddressFromArg(caller)
+	senderCosmoAddr, err := p.AccAddressFromArg(caller)
 	if err != nil {
 		return nil, err
 	}
 
-	nftschema, err := p.stringFromArg(args[0])
+	nftschema, err := p.StringFromArg(args[0])
 	if err != nil {
 		return nil, err
 	}
 
-	locationArg, err := p.uint32FromArg(args[1])
+	locationArg, err := p.Uint32FromArg(args[1])
 	if err != nil {
 		return nil, err
 	}
 
-	newAttribute, err := p.stringFromArg(args[2])
+	newAttribute, err := p.StringFromArg(args[2])
 	if err != nil {
 		return nil, err
 	}
@@ -228,17 +228,17 @@ func (p PrecompileExecutor) changeOrgOwner(ctx sdk.Context, caller common.Addres
 		return nil, err
 	}
 
-	senderCosmoAddr, err := p.accAddressFromArg(caller)
+	senderCosmoAddr, err := p.AccAddressFromArg(caller)
 	if err != nil {
 		return nil, err
 	}
 
-	orgName, err := p.stringFromArg(args[0])
+	orgName, err := p.StringFromArg(args[0])
 	if err != nil {
 		return nil, err
 	}
 
-	newOwner, err := p.accAddressFromArg(args[1])
+	newOwner, err := p.AccAddressFromArg(args[1])
 	if err != nil {
 		return nil, err
 	}
@@ -263,17 +263,17 @@ func (p PrecompileExecutor) changeSchemaOwner(ctx sdk.Context, caller common.Add
 		return nil, err
 	}
 
-	senderCosmoAddr, err := p.accAddressFromArg(caller)
+	senderCosmoAddr, err := p.AccAddressFromArg(caller)
 	if err != nil {
 		return nil, err
 	}
 
-	orgName, err := p.stringFromArg(args[0])
+	orgName, err := p.StringFromArg(args[0])
 	if err != nil {
 		return nil, err
 	}
 
-	newOwner, err := p.accAddressFromArg(args[1])
+	newOwner, err := p.AccAddressFromArg(args[1])
 	if err != nil {
 		return nil, err
 	}
@@ -296,22 +296,22 @@ func (p PrecompileExecutor) createMetadata(ctx sdk.Context, caller common.Addres
 	if err := pcommon.ValidateArgsLength(args, 3); err != nil {
 		return nil, err
 	}
-	senderCosmoAddr, err := p.accAddressFromArg(caller)
+	senderCosmoAddr, err := p.AccAddressFromArg(caller)
 	if err != nil {
 		return nil, err
 	}
 
-	nftschema, err := p.stringFromArg(args[0])
+	nftschema, err := p.StringFromArg(args[0])
 	if err != nil {
 		return nil, err
 	}
 
-	tokenId, err := p.stringFromArg(args[1])
+	tokenId, err := p.StringFromArg(args[1])
 	if err != nil {
 		return nil, err
 	}
 
-	base64NewMetadata, err := p.stringFromArg(args[2])
+	base64NewMetadata, err := p.StringFromArg(args[2])
 	if err != nil {
 		return nil, err
 	}
@@ -347,12 +347,12 @@ func (p PrecompileExecutor) createSchema(ctx sdk.Context, caller common.Address,
 		return nil, err
 	}
 
-	senderCosmoAddr, err := p.accAddressFromArg(caller)
+	senderCosmoAddr, err := p.AccAddressFromArg(caller)
 	if err != nil {
 		return nil, err
 	}
 
-	base64NewSchema, err := p.stringFromArg(args[0])
+	base64NewSchema, err := p.StringFromArg(args[0])
 	if err != nil {
 		return nil, err
 	}
@@ -402,32 +402,32 @@ func (p PrecompileExecutor) actionByAdmin(ctx sdk.Context, caller common.Address
 		return nil, err
 	}
 
-	senderCosmoAddr, err := p.accAddressFromArg(caller)
+	senderCosmoAddr, err := p.AccAddressFromArg(caller)
 	if err != nil {
 		return nil, err
 	}
 
-	nftschema, err := p.stringFromArg(args[0])
+	nftschema, err := p.StringFromArg(args[0])
 	if err != nil {
 		return nil, err
 	}
 
-	tokenId, err := p.stringFromArg(args[1])
+	tokenId, err := p.StringFromArg(args[1])
 	if err != nil {
 		return nil, err
 	}
 
-	actionName, err := p.stringFromArg(args[2])
+	actionName, err := p.StringFromArg(args[2])
 	if err != nil {
 		return nil, err
 	}
 
-	refId, err := p.stringFromArg(args[3])
+	refId, err := p.StringFromArg(args[3])
 	if err != nil {
 		return nil, err
 	}
 
-	paramPointers, err := p.parametersFromJSONArg(args[4])
+	paramPointers, err := p.ParametersFromJSONArg(args[4])
 	if err != nil {
 		return nil, err
 	}
@@ -460,17 +460,17 @@ func (p PrecompileExecutor) resyncAttribute(ctx sdk.Context, caller common.Addre
 		return nil, err
 	}
 
-	senderCosmoAddr, err := p.accAddressFromArg(caller)
+	senderCosmoAddr, err := p.AccAddressFromArg(caller)
 	if err != nil {
 		return nil, err
 	}
 
-	nftschema, err := p.stringFromArg(args[0])
+	nftschema, err := p.StringFromArg(args[0])
 	if err != nil {
 		return nil, err
 	}
 
-	tokenId, err := p.stringFromArg(args[1])
+	tokenId, err := p.StringFromArg(args[1])
 	if err != nil {
 		return nil, err
 	}
@@ -495,17 +495,17 @@ func (p PrecompileExecutor) updateAttribute(ctx sdk.Context, caller common.Addre
 		return nil, err
 	}
 
-	senderCosmoAddr, err := p.accAddressFromArg(caller)
+	senderCosmoAddr, err := p.AccAddressFromArg(caller)
 	if err != nil {
 		return nil, err
 	}
 
-	nftschema, err := p.stringFromArg(args[0])
+	nftschema, err := p.StringFromArg(args[0])
 	if err != nil {
 		return nil, err
 	}
 
-	base64NewAttribute, err := p.stringFromArg(args[1])
+	base64NewAttribute, err := p.StringFromArg(args[1])
 	if err != nil {
 		return nil, err
 	}
@@ -542,17 +542,17 @@ func (p PrecompileExecutor) attributeOveride(ctx sdk.Context, caller common.Addr
 		return nil, err
 	}
 
-	senderCosmoAddr, err := p.accAddressFromArg(caller)
+	senderCosmoAddr, err := p.AccAddressFromArg(caller)
 	if err != nil {
 		return nil, err
 	}
 
-	nftschema, err := p.stringFromArg(args[0])
+	nftschema, err := p.StringFromArg(args[0])
 	if err != nil {
 		return nil, err
 	}
 
-	newOveride, err := p.uint32FromArg(args[1])
+	newOveride, err := p.Uint32FromArg(args[1])
 	if err != nil {
 		return nil, err
 	}
@@ -577,17 +577,17 @@ func (p PrecompileExecutor) setBaseURI(ctx sdk.Context, caller common.Address, m
 		return nil, err
 	}
 
-	senderCosmoAddr, err := p.accAddressFromArg(caller)
+	senderCosmoAddr, err := p.AccAddressFromArg(caller)
 	if err != nil {
 		return nil, err
 	}
 
-	nftschema, err := p.stringFromArg(args[0])
+	nftschema, err := p.StringFromArg(args[0])
 	if err != nil {
 		return nil, err
 	}
 
-	newBaseURI, err := p.stringFromArg(args[1])
+	newBaseURI, err := p.StringFromArg(args[1])
 	if err != nil {
 		return nil, err
 	}
@@ -612,17 +612,17 @@ func (p PrecompileExecutor) setMetadataFormat(ctx sdk.Context, caller common.Add
 		return nil, err
 	}
 
-	senderCosmoAddr, err := p.accAddressFromArg(caller)
+	senderCosmoAddr, err := p.AccAddressFromArg(caller)
 	if err != nil {
 		return nil, err
 	}
 
-	nftschema, err := p.stringFromArg(args[0])
+	nftschema, err := p.StringFromArg(args[0])
 	if err != nil {
 		return nil, err
 	}
 
-	newFormat, err := p.stringFromArg(args[1])
+	newFormat, err := p.StringFromArg(args[1])
 	if err != nil {
 		return nil, err
 	}
@@ -647,17 +647,17 @@ func (p PrecompileExecutor) setMintAuth(ctx sdk.Context, caller common.Address, 
 		return nil, err
 	}
 
-	senderCosmoAddr, err := p.accAddressFromArg(caller)
+	senderCosmoAddr, err := p.AccAddressFromArg(caller)
 	if err != nil {
 		return nil, err
 	}
 
-	nftschema, err := p.stringFromArg(args[0])
+	nftschema, err := p.StringFromArg(args[0])
 	if err != nil {
 		return nil, err
 	}
 
-	authTo, err := p.uint32FromArg(args[1])
+	authTo, err := p.Uint32FromArg(args[1])
 	if err != nil {
 		return nil, err
 	}
@@ -688,17 +688,17 @@ func (p PrecompileExecutor) setOriginChain(ctx sdk.Context, caller common.Addres
 		return nil, err
 	}
 
-	senderCosmoAddr, err := p.accAddressFromArg(caller)
+	senderCosmoAddr, err := p.AccAddressFromArg(caller)
 	if err != nil {
 		return nil, err
 	}
 
-	nftschema, err := p.stringFromArg(args[0])
+	nftschema, err := p.StringFromArg(args[0])
 	if err != nil {
 		return nil, err
 	}
 
-	newChain, err := p.stringFromArg(args[1])
+	newChain, err := p.StringFromArg(args[1])
 	if err != nil {
 		return nil, err
 	}
@@ -723,17 +723,17 @@ func (p PrecompileExecutor) setOriginContract(ctx sdk.Context, caller common.Add
 		return nil, err
 	}
 
-	senderCosmoAddr, err := p.accAddressFromArg(caller)
+	senderCosmoAddr, err := p.AccAddressFromArg(caller)
 	if err != nil {
 		return nil, err
 	}
 
-	nftschema, err := p.stringFromArg(args[0])
+	nftschema, err := p.StringFromArg(args[0])
 	if err != nil {
 		return nil, err
 	}
 
-	newContract, err := p.stringFromArg(args[1])
+	newContract, err := p.StringFromArg(args[1])
 	if err != nil {
 		return nil, err
 	}
@@ -758,17 +758,17 @@ func (p PrecompileExecutor) setUriRetreival(ctx sdk.Context, caller common.Addre
 		return nil, err
 	}
 
-	senderCosmoAddr, err := p.accAddressFromArg(caller)
+	senderCosmoAddr, err := p.AccAddressFromArg(caller)
 	if err != nil {
 		return nil, err
 	}
 
-	nftschema, err := p.stringFromArg(args[0])
+	nftschema, err := p.StringFromArg(args[0])
 	if err != nil {
 		return nil, err
 	}
 
-	newMethod, err := p.uint32FromArg(args[1])
+	newMethod, err := p.Uint32FromArg(args[1])
 	if err != nil {
 		return nil, err
 	}
@@ -793,12 +793,12 @@ func (p PrecompileExecutor) showAttribute(ctx sdk.Context, caller common.Address
 		return nil, err
 	}
 
-	senderCosmoAddr, err := p.accAddressFromArg(caller)
+	senderCosmoAddr, err := p.AccAddressFromArg(caller)
 	if err != nil {
 		return nil, err
 	}
 
-	nftschema, err := p.stringFromArg(args[0])
+	nftschema, err := p.StringFromArg(args[0])
 	if err != nil {
 		return nil, err
 	}
@@ -808,7 +808,7 @@ func (p PrecompileExecutor) showAttribute(ctx sdk.Context, caller common.Address
 		return nil, err
 	}
 
-	attributeNames, err := p.arrayOfstringFromArg(args[2])
+	attributeNames, err := p.ArrayOfstringFromArg(args[2])
 	if err != nil {
 		return nil, err
 	}
@@ -833,17 +833,17 @@ func (p PrecompileExecutor) toggleAction(ctx sdk.Context, caller common.Address,
 		return nil, err
 	}
 
-	senderCosmoAddr, err := p.accAddressFromArg(caller)
+	senderCosmoAddr, err := p.AccAddressFromArg(caller)
 	if err != nil {
 		return nil, err
 	}
 
-	nftschema, err := p.stringFromArg(args[0])
+	nftschema, err := p.StringFromArg(args[0])
 	if err != nil {
 		return nil, err
 	}
 
-	actionName, err := p.stringFromArg(args[1])
+	actionName, err := p.StringFromArg(args[1])
 	if err != nil {
 		return nil, err
 	}
@@ -873,17 +873,17 @@ func (p PrecompileExecutor) updateAction(ctx sdk.Context, caller common.Address,
 		return nil, err
 	}
 
-	senderCosmoAddr, err := p.accAddressFromArg(caller)
+	senderCosmoAddr, err := p.AccAddressFromArg(caller)
 	if err != nil {
 		return nil, err
 	}
 
-	nftschema, err := p.stringFromArg(args[0])
+	nftschema, err := p.StringFromArg(args[0])
 	if err != nil {
 		return nil, err
 	}
 
-	base64NewAction, err := p.stringFromArg(args[1])
+	base64NewAction, err := p.StringFromArg(args[1])
 	if err != nil {
 		return nil, err
 	}

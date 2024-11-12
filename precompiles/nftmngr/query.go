@@ -17,12 +17,12 @@ func (p PrecompileExecutor) isActionExecutor(ctx sdk.Context, method *abi.Method
 		return nil, err
 	}
 
-	nftschema, err := p.stringFromArg(args[0])
+	nftschema, err := p.StringFromArg(args[0])
 	if err != nil {
 		return nil, err
 	}
 
-	executorAddress, err := p.accAddressFromArg(args[1])
+	executorAddress, err := p.AccAddressFromArg(args[1])
 	if err != nil {
 		return nil, err
 	}
