@@ -18,7 +18,7 @@ contract DeployRouter is Script {
         uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
         vm.startBroadcast(deployerPrivateKey);
         new Router{
-            salt: 0x0000000000000000000000000000000000000000000000000000000000000096
+            salt: 0x0000000000000000000000000000000000000000000000000000000000000069
         }();
         vm.stopBroadcast();
     }
@@ -31,23 +31,12 @@ contract ActionScript is Script {
     address routerContractAddress;
     address nftContractAddress;
 
-    // action env
-    string actionName;
-    string tokenId;
-    string refId;
-    string jsonParams;
-
     function setUp() public {
         ownerAddress = vm.envAddress("OWNER");
         currentNonce = vm.getNonce(ownerAddress);
         nftSchema = vm.envString("NFT_SCHEMA");
-        
-        actionName = vm.envString("ACTION_NAME");
-        tokenId = vm.envString("TOKEN_ID");
-        refId = vm.envString("REF_ID");
-        jsonParams = vm.envString("JSON_PARAMS");
 
-        string memory routerContractInfoPath = "./broadcast/ActionRouter.s.sol/98/run-latest.json";
+        string memory routerContractInfoPath = "./broadcast/ActionRouter.s.sol/666/run-latest.json";
         string memory routerContractInfo = vm.readFile(routerContractInfoPath);
         bytes memory routerJsonParsed = vm.parseJson(
             routerContractInfo,
@@ -67,6 +56,12 @@ contract ActionScript is Script {
     function run() external {
         uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
         vm.startBroadcast(deployerPrivateKey);
+
+        // Initialize variables
+        string memory actionName = "attend_stage";
+        string memory tokenId = "1";
+        string memory refId = vm.toString(vm.getNonce(ownerAddress));
+        string memory jsonParams = '[{"name":"stage","value":"stage_2"}]';
 
         Router actionRouter = Router(routerContractAddress);
 

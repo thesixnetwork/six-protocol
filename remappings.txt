@@ -1,3 +1,4 @@
-ds-test/=contracts/lib/openzeppelin-contracts/lib/forge-std/lib/ds-test/src/
+ds-test/=contracts/lib/foundry-devops/lib/forge-std/lib/ds-test/src/
 forge-std/=contracts/lib/forge-std/src/
-openzeppelin-contracts/=contracts/lib/openzeppelin-contracts/
+foundry-devops/=contracts/lib/foundry-devops/
+openzeppelin-contracts/=contracts/lib/openzeppelin-contracts/contracts/

@@ -4,8 +4,8 @@
 
 pragma solidity ^0.8.4;
 
-import './IERC721AQueryable.sol';
-import '../ERC721A/ERC721A.sol';
+import "./IERC721AQueryable.sol";
+import "../ERC721A/ERC721A.sol";
 
 /**
  * @title ERC721AQueryable.
@@ -106,11 +106,13 @@ abstract contract ERC721AQueryable is ERC721A, IERC721AQueryable {
      *
      * - `start < stop`
      */
-    function tokensOfOwnerIn(
-        address owner,
-        uint256 start,
-        uint256 stop
-    ) external view virtual override returns (uint256[] memory) {
+    function tokensOfOwnerIn(address owner, uint256 start, uint256 stop)
+        external
+        view
+        virtual
+        override
+        returns (uint256[] memory)
+    {
         return _tokensOfOwnerIn(owner, start, stop);
     }
 
@@ -138,11 +140,7 @@ abstract contract ERC721AQueryable is ERC721A, IERC721AQueryable {
      * Note that this function is optimized for smaller bytecode size over runtime gas,
      * since it is meant to be called off-chain.
      */
-    function _tokensOfOwnerIn(
-        address owner,
-        uint256 start,
-        uint256 stop
-    ) private view returns (uint256[] memory) {
+    function _tokensOfOwnerIn(address owner, uint256 start, uint256 stop) private view returns (uint256[] memory) {
         unchecked {
             if (start >= stop) _revert(InvalidQueryRange.selector);
             // Set `start = max(start, _startTokenId())`.
@@ -197,9 +195,7 @@ abstract contract ERC721AQueryable is ERC721A, IERC721AQueryable {
                             // if `ownership.addr != address(0)`.
                             // The `addr` already has it's upper 96 bits clearned,
                             // since it is written to memory with regular Solidity.
-                            if mload(ownership) {
-                                currOwnershipAddr := mload(ownership)
-                            }
+                            if mload(ownership) { currOwnershipAddr := mload(ownership) }
                             // if `currOwnershipAddr == owner`.
                             // The `shl(96, x)` is to make the comparison agnostic to any
                             // dirty upper 96 bits in `owner`.
@@ -211,9 +207,7 @@ abstract contract ERC721AQueryable is ERC721A, IERC721AQueryable {
                         // Otherwise, reset `currOwnershipAddr`.
                         // This handles the case of batch burned tokens
                         // (burned bit of first slot set, remaining slots left uninitialized).
-                        default {
-                            currOwnershipAddr := 0
-                        }
+                        default { currOwnershipAddr := 0 }
                         start := add(start, 1)
                     }
                 } while (!(start == stop || tokenIdsIdx == tokenIdsMaxLength));

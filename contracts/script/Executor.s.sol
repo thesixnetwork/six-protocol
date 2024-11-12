@@ -63,7 +63,7 @@ contract RemoveRouterExecutor is Script {
         nftSchema = vm.envString("NFT_SCHEMA");
 
         string
-            memory routerContractInfoPath = "./broadcast/ActionRouter.s.sol/150/run-latest.json";
+            memory routerContractInfoPath = "./broadcast/ActionRouter.s.sol/666/run-latest.json";
         string memory routerContractInfo = vm.readFile(routerContractInfoPath);
         bytes memory routerJsonParsed = vm.parseJson(
             routerContractInfo,
