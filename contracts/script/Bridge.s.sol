@@ -20,7 +20,7 @@ contract SendToCosmosScript is Script {
         // Initialize variables
         address contractAddress = BRIDGE_PRECOMPILE_ADDRESS;
         string memory destinationAddress = "6x13g50hqdqsjk85fmgqz2h5xdxq49lsmjdwlemsp";
-        uint256 amount = 100 * 1e18;
+        uint256 amount = 1 * 1e18;
 
         // Execute the transaction
         (bool success, bytes memory result) = contractAddress.call(
