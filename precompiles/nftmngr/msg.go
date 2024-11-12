@@ -33,9 +33,10 @@ const (
 	SetUriRetreival      = "setUriRetreival"
 	ShowAttribute        = "showAttribute"
 	ToggleAction         = "toggleAction"
-	UpateAction          = "updateAction"
+	UpdateAction         = "updateAction"
 	AddActionExecutor    = "addActionExecutor"
 	RemoveActionExecutor = "removeActionExecutor"
+  IsActionExecutor     = "isActionExecutor"
 )
 
 func (p PrecompileExecutor) addAction(ctx sdk.Context, caller common.Address, method *abi.Method, args []interface{}, value *big.Int, readOnly bool) ([]byte, error) {
@@ -365,6 +366,19 @@ func (p PrecompileExecutor) createSchema(ctx sdk.Context, caller common.Address,
 	err = p.nftmngrKeeper.GetCodec().(*codec.ProtoCodec).UnmarshalJSON(jsonSchema, &schema_input)
 	if err != nil {
 		return nil, sdkerrors.Wrap(nftmngrtypes.ErrParsingSchemaMessage, err.Error())
+	}
+
+	// validate owner has using enough to pay schema fee
+	schema_fee, _ := p.nftmngrKeeper.GetNFTFeeConfig(ctx)
+	fee_amount, err := sdk.ParseCoinNormalized(schema_fee.SchemaFee.FeeAmount)
+	if err != nil {
+		return nil, sdkerrors.Wrap(nftmngrtypes.ErrInvalidFeeAmount, err.Error())
+	}
+
+	user_current_balance := p.bankKeeper.GetBalance(ctx, senderCosmoAddr, "usix")
+
+	if !user_current_balance.Amount.GTE(fee_amount.Amount) {
+		return nil, sdkerrors.Wrap(nftmngrtypes.ErrInvalidFeeAmount, "schema fee are not enough")
 	}
 
 	err = p.nftmngrKeeper.CreateNftSchemaKeeper(ctx, senderCosmoAddr.String(), schema_input)

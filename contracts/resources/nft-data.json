@@ -1,0 +1,54 @@
+{
+  "nft_schema_code": "test_dee.passV1",
+  "token_id": "TOKENID",
+  "token_owner": "",
+  "owner_address_type": "ORIGIN_ADDRESS",
+  "origin_image": "https://picsum.photos/200/300",
+  "onchain_image": "",
+  "token_uri": "",
+  "origin_attributes": [],
+  "onchain_attributes": [
+    {
+      "name": "name",
+      "string_attribute_value": {
+        "value": ""
+      }
+    },
+    {
+      "name": "organization_id",
+      "string_attribute_value": {
+        "value": ""
+      }
+    },
+    {
+      "name": "description",
+      "string_attribute_value": {
+        "value": ""
+      }
+    },
+    {
+      "name": "wat_phra_kaew_day_pass",
+      "number_attribute_value": {
+        "value": 3
+      }
+    },
+    {
+      "name": "wat_arun_day_pass",
+      "number_attribute_value": {
+        "value": 3
+      }
+    },
+    {
+      "name": "massage_20_discount",
+      "number_attribute_value": {
+        "value": 3
+      }
+    },
+    {
+      "name": "booking_for_chao_phraya_river_cruises",
+      "number_attribute_value": {
+        "value": 3
+      }
+    }
+  ]
+}
