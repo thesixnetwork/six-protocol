@@ -83,6 +83,16 @@ type PrecompileExecutor struct {
 	address                common.Address
 }
 
+func NewExecutor(nftmngrKeeper pcommon.NftmngrKeeper, bankKeeper pcommon.BankKeeper) (*PrecompileExecutor, error){
+	p := &PrecompileExecutor{
+		nftmngrKeeper: nftmngrKeeper,
+		bankKeeper:    bankKeeper,
+		address:       common.HexToAddress(NftmngrAddress),
+	}
+
+	return p, nil
+}
+
 func NewPrecompile(nftmngrKeeper pcommon.NftmngrKeeper, bankKeeper pcommon.BankKeeper) (*pcommon.Precompile, error) {
 	newAbi := GetABI()
 	p := &PrecompileExecutor{
@@ -205,7 +215,7 @@ func (p PrecompileExecutor) AccAddressFromBech32(arg interface{}) (bec32Addr sdk
 	return bec32Addr, nil
 }
 
-func (p PrecompileExecutor) accAddressFromArg(arg interface{}) (sdk.AccAddress, error) {
+func (p PrecompileExecutor) AccAddressFromArg(arg interface{}) (sdk.AccAddress, error) {
 	addr := arg.(common.Address)
 	if addr == (common.Address{}) {
 		return nil, errors.New("invalid addr")
@@ -214,7 +224,7 @@ func (p PrecompileExecutor) accAddressFromArg(arg interface{}) (sdk.AccAddress, 
 	return bec32Addr, nil
 }
 
-func (p PrecompileExecutor) stringFromArg(arg interface{}) (string, error) {
+func (p PrecompileExecutor) StringFromArg(arg interface{}) (string, error) {
 	stringArg, ok := arg.(string)
 	if !ok {
 		return "", errors.New("invalid argument type string")
@@ -222,7 +232,7 @@ func (p PrecompileExecutor) stringFromArg(arg interface{}) (string, error) {
 	return stringArg, nil
 }
 
-func (p PrecompileExecutor) arrayOfstringFromArg(arg interface{}) ([]string, error) {
+func (p PrecompileExecutor) ArrayOfstringFromArg(arg interface{}) ([]string, error) {
 	arrayStringArg, ok := arg.([]string)
 	if !ok {
 		return nil, errors.New("invalid argument type string")
@@ -248,7 +258,7 @@ func (p PrecompileExecutor) Uint64FromArg(arg interface{}) (uint64, error) {
 	return uint64Arg, nil
 }
 
-func (p PrecompileExecutor) uint32FromArg(arg interface{}) (uint32, error) {
+func (p PrecompileExecutor) Uint32FromArg(arg interface{}) (uint32, error) {
 	uint32Arg, ok := arg.(uint32)
 	if !ok {
 		return 0, errors.New("invalid argument type string")
@@ -257,7 +267,7 @@ func (p PrecompileExecutor) uint32FromArg(arg interface{}) (uint32, error) {
 	return uint32Arg, nil
 }
 
-func (p PrecompileExecutor) parametersFromJSONArg(arg interface{}) ([]*nftmngrtype.ActionParameter, error) {
+func (p PrecompileExecutor) ParametersFromJSONArg(arg interface{}) ([]*nftmngrtype.ActionParameter, error) {
 	jsonStr, ok := arg.(string)
 	if !ok {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid argument type, expected string")
