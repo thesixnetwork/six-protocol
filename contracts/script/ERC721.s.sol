@@ -4,7 +4,6 @@ pragma solidity ^0.8.20;
 import "forge-std/Script.sol";
 import {MyNFT} from "../src/MyNFT.sol";
 import {ERC721Factory} from "../src/Factory/ERC721Factory.sol";
-import {IERC721} from "openzeppelin-contracts/token/ERC721/IERC721.sol";
 
 contract DeployERC721WithFactory is Script {
     uint64 roundFloor = 50;
@@ -73,7 +72,7 @@ contract DeployScript is Script {
     uint64 totalToken;
     uint64 roundFloor = 50;
     uint256 minted = 0;
-    uint64 nftNumber = 10;
+    uint64 nftNumber = 50;
 
     function setUp() public {
         ownerAddress = vm.envAddress("OWNER");
@@ -124,23 +123,14 @@ contract DeployScript is Script {
 contract QueryTokenOwner is Script {
     address contractAddress;
     address ownerAddress;
-    address nftContractAddress;
-    uint256 tokenId;
 
     function setUp() public {
         ownerAddress = vm.envAddress("OWNER");
-        tokenId = vm.envUint("TOKEN_ID");
-        string memory nftContractInfoPath = "./broadcast/ERC721.s.sol/666/run-latest.json";
-        string memory nftContractInfo = vm.readFile(nftContractInfoPath);
-        bytes memory nftJsonParsed = vm.parseJson(
-            nftContractInfo,
-            ".transactions[0].contractAddress"
-        );
-        nftContractAddress = abi.decode(nftJsonParsed, (address));
     }
 
     function run() external view {
-        address owner = IERC721(nftContractAddress).ownerOf(tokenId);
-        console.log("Ownerof token", owner);
+        MyNFT nft = MyNFT(payable(0x3753C81072A56072840990D3D02f354Efb7425A3));
+
+        console.log("Ownerof token 5", nft.totalSupply());
     }
 }

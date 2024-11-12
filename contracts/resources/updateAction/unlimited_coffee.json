@@ -1,9 +1,0 @@
-{
-  "name": "claim_unlimited_coffee",
-  "desc": "Claim Unlimited Coffee",
-  "params": [],
-  "when": "meta.GetString('tier') != 'Staff'",
-  "then": [
-    "meta.SetNumber('unlimited_coffee', meta.GetNumber('unlimited_coffee') + 1)"
-  ]
-}

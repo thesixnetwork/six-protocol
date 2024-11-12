@@ -4,8 +4,8 @@
 
 pragma solidity ^0.8.4;
 
-import './IERC4907A.sol';
-import '../ERC721A/ERC721A.sol';
+import "./IERC4907A.sol";
+import "../ERC721A/ERC721A.sol";
 
 /**
  * @title ERC4907A
@@ -33,16 +33,14 @@ abstract contract ERC4907A is ERC721A, IERC4907A {
      *
      * - The caller must own `tokenId` or be an approved operator.
      */
-    function setUser(
-        uint256 tokenId,
-        address user,
-        uint64 expires
-    ) public virtual override {
+    function setUser(uint256 tokenId, address user, uint64 expires) public virtual override {
         // Require the caller to be either the token owner or an approved operator.
         address owner = ownerOf(tokenId);
-        if (_msgSenderERC721A() != owner)
-            if (!isApprovedForAll(owner, _msgSenderERC721A()))
+        if (_msgSenderERC721A() != owner) {
+            if (!isApprovedForAll(owner, _msgSenderERC721A())) {
                 if (getApproved(tokenId) != _msgSenderERC721A()) _revert(SetUserCallerNotOwnerNorApproved.selector);
+            }
+        }
 
         _packedUserInfo[tokenId] = (uint256(expires) << _BITPOS_EXPIRES) | uint256(uint160(user));
 
@@ -59,11 +57,12 @@ abstract contract ERC4907A is ERC721A, IERC4907A {
             // Branchless `packed *= (block.timestamp <= expires ? 1 : 0)`.
             // If the `block.timestamp == expires`, the `lt` clause will be true
             // if there is a non-zero user address in the lower 160 bits of `packed`.
-            packed := mul(
-                packed,
-                // `block.timestamp <= expires ? 1 : 0`.
-                lt(shl(_BITPOS_EXPIRES, timestamp()), packed)
-            )
+            packed :=
+                mul(
+                    packed,
+                    // `block.timestamp <= expires ? 1 : 0`.
+                    lt(shl(_BITPOS_EXPIRES, timestamp()), packed)
+                )
         }
         return address(uint160(packed));
     }

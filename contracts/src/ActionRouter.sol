@@ -24,12 +24,7 @@ contract Router {
         }
 
         bytes memory data = abi.encodeWithSignature(
-            "actionByAdmin(string,string,string,string,string)",
-            nftSchemaName,
-            tokenId,
-            actionName,
-            refId,
-            jsonParam
+            "actionByAdmin(string,string,string,string,string)", nftSchemaName, tokenId, actionName, refId, jsonParam
         );
 
         bool done = actionSend(data);
@@ -39,13 +34,7 @@ contract Router {
         }
 
         // Emit an event or perform other logic here
-        emit ActionPerformed(
-            nftSchemaName,
-            tokenId,
-            actionName,
-            refId,
-            jsonParam
-        );
+        emit ActionPerformed(nftSchemaName, tokenId, actionName, refId, jsonParam);
 
         return true;
     }
@@ -63,15 +52,11 @@ contract Router {
     }
 
     event ActionPerformed(
-        string indexed nftSchemaName,
-        string indexed tokenId,
-        string actionName,
-        string refId,
-        string jsonParam
+        string indexed nftSchemaName, string indexed tokenId, string actionName, string refId, string jsonParam
     );
 
     function actionSend(bytes memory datas) public payable returns (bool) {
-        (bool success, ) = NFTMNGR_PRECOMPILE_ADDRESS.call{value: 0}(datas);
+        (bool success,) = NFTMNGR_PRECOMPILE_ADDRESS.call{value: 0}(datas);
         if (!success) {
             revert TransactionFailed();
         }

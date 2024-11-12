@@ -4,7 +4,7 @@
 
 pragma solidity ^0.8.4;
 
-import '../ERC721A/IERC721A.sol';
+import "../ERC721A/IERC721A.sol";
 
 /**
  * @dev Interface of ERC4907A.
@@ -29,11 +29,7 @@ interface IERC4907A is IERC721A {
      *
      * - The caller must own `tokenId` or be an approved operator.
      */
-    function setUser(
-        uint256 tokenId,
-        address user,
-        uint64 expires
-    ) external;
+    function setUser(uint256 tokenId, address user, uint64 expires) external;
 
     /**
      * @dev Returns the user address for `tokenId`.

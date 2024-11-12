@@ -7,42 +7,29 @@ import {Ownable} from "openzeppelin-contracts/access/Ownable.sol";
 import {ReentrancyGuard} from "openzeppelin-contracts/security/ReentrancyGuard.sol";
 
 contract MyNFT is ERC721A, Ownable, ERC721AQueryable, ReentrancyGuard {
-    event WithdrawMoney(
-        uint256 indexed blocktime,
-        uint256 indexed amount,
-        address indexed sender
-    );
+    event WithdrawMoney(uint256 indexed blocktime, uint256 indexed amount, address indexed sender);
 
     address public preMinteeAddress;
     uint256 public limitedEditionSize;
     string private _baseTokenURI;
 
-    constructor() ERC721A("MyNFT", "NFT") {
-    }
+    constructor() ERC721A("MyNFT", "NFT") {}
 
     function _startTokenId() internal view virtual override returns (uint256) {
         return 1;
     }
 
-    function setLimitedEditionSize(
-        uint256 _limitedEditionSize
-    ) external onlyOwner {
+    function setLimitedEditionSize(uint256 _limitedEditionSize) external onlyOwner {
         limitedEditionSize = _limitedEditionSize;
     }
 
     function setPreMinteeAddress(address _preMinteeAddress) external onlyOwner {
-        require(
-            _preMinteeAddress != address(0),
-            "The address should not be 0."
-        );
+        require(_preMinteeAddress != address(0), "The address should not be 0.");
         preMinteeAddress = _preMinteeAddress;
     }
 
     function preMint(uint256 quantity) external onlyOwner {
-        require(
-            totalSupply() + quantity <= limitedEditionSize,
-            "Too many already minted"
-        );
+        require(totalSupply() + quantity <= limitedEditionSize, "Too many already minted");
         _safeMint(preMinteeAddress, quantity);
     }
 
@@ -64,9 +51,7 @@ contract MyNFT is ERC721A, Ownable, ERC721AQueryable, ReentrancyGuard {
         return _numberMinted(_owner);
     }
 
-    function getOwnershipData(
-        uint256 tokenId
-    ) external view returns (TokenOwnership memory) {
+    function getOwnershipData(uint256 tokenId) external view returns (TokenOwnership memory) {
         return _ownershipOf(tokenId);
     }
 
