@@ -1,0 +1,18 @@
+{
+    "name": "new_attribute",
+    "default_mint_value": {
+        "number_attribute_value": {
+            "value": 0
+        }
+    },
+    "data_type": "number",
+    "required": true,
+    "display_value_field": "value",
+    "display_option": {
+        "opensea": {
+            "trait_type": "New Attribute"
+        }
+    },
+    "hidden_overide": false,
+    "hidden_to_marketplace": false
+}
