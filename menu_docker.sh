@@ -1,5 +1,5 @@
 default_six_home=six_home
-default_docker_tag="3.2.0"
+default_docker_tag="3.2.1"
 node_homes=(
     sixnode0
     sixnode1
