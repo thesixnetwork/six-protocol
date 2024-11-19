@@ -237,6 +237,30 @@
     },
     {
         "type": "function",
+        "name": "isActionExecutor",
+        "inputs": [
+            {
+                "name": "nftSchemaame",
+                "type": "string",
+                "internalType": "string"
+            },
+            {
+                "name": "executor",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "success",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "nonpayable"
+    },
+    {
+        "type": "function",
         "name": "removeActionExecutor",
         "inputs": [
             {
@@ -413,9 +437,9 @@
                 "internalType": "string"
             },
             {
-                "name": "newMethod",
-                "type": "uint32",
-                "internalType": "uint32"
+                "name": "newOriginContract",
+                "type": "string",
+                "internalType": "string"
             }
         ],
         "outputs": [

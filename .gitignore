@@ -14,24 +14,7 @@ vue/src/store/generated/
 
 /scripts/secret/*
 /scripts/.secret
-/scripts/.secret2avue/node_modules
-vue/dist
-release/
-.idea/
-.vscode/
-.DS_Store
-
-ts-client/
-build/
-vue/src/store/generated/
-.env
-
-/**/wasmvm/
-
-/scripts/secret/*
-/scripts/.secret
 /scripts/.secret2
-
 
 ## FOUNDRY
 cache/

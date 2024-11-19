@@ -21,28 +21,19 @@ contract SixKubVaultSigner {
 
     mapping(address => mapping(address => ActionSigner)) public action_signer;
 
-    event EventTypeSetActionSigner(address actor,address owner,uint256 expired_at);
+    event EventTypeSetActionSigner(address actor, address owner, uint256 expired_at);
     event EventTypeRemoveActionSigner(address actor, address owner);
 
-    function setActionSigner(
-        address actor,
-        uint256 expire_epoch
-    ) external returns (bool pass) {
+    function setActionSigner(address actor, uint256 expire_epoch) external returns (bool pass) {
         if (msg.sender == address(0)) {
             return false;
         }
         address owner = msg.sender;
-        ActionSigner memory signer = ActionSigner({
-            created_epoch: block.timestamp,
-            expired_epoch: expire_epoch
-        });
+        ActionSigner memory signer = ActionSigner({created_epoch: block.timestamp, expired_epoch: expire_epoch});
         action_signer[actor][owner] = signer;
 
         // make stuct of SetSignerParams
-        SetSignerParams memory binder = SetSignerParams({
-            actor_address: actor,
-            expired_at: expire_epoch
-        });
+        SetSignerParams memory binder = SetSignerParams({actor_address: actor, expired_at: expire_epoch});
 
         // if bined signer already exist, update expired_at
         if (binedSigner[owner].actorCount > 0) {
@@ -61,16 +52,11 @@ contract SixKubVaultSigner {
         return true;
     }
 
-    function getBindedSignerList(
-        address owner
-    ) external view returns (BindedSignerList memory) {
+    function getBindedSignerList(address owner) external view returns (BindedSignerList memory) {
         return binedSigner[owner];
     }
 
-    function getActionSigner(
-        address actor,
-        address owner
-    )
+    function getActionSigner(address actor, address owner)
         external
         view
         returns (address _actor, address _owner, ActionSigner memory)
@@ -78,9 +64,7 @@ contract SixKubVaultSigner {
         return (actor, owner, action_signer[actor][owner]);
     }
 
-    function getMyActionSigner(
-        address actor
-    )
+    function getMyActionSigner(address actor)
         external
         view
         returns (address _actor, address _owner, ActionSigner memory)
@@ -94,10 +78,7 @@ contract SixKubVaultSigner {
         }
         address owner = msg.sender;
 
-        ActionSigner memory signer = ActionSigner({
-            created_epoch: block.timestamp,
-            expired_epoch: 0
-        });
+        ActionSigner memory signer = ActionSigner({created_epoch: block.timestamp, expired_epoch: 0});
         action_signer[actor][owner] = signer;
 
         // if bined signer already exist, update expired_at
