@@ -1,6 +1,0 @@
-{
-  "name": "new_action",
-  "desc": "Use Festival Pass2",
-  "when": "meta.GetNumber('some_attribute') == 0",
-  "then": ["meta.SetNumber('some_attribute',meta.GetNumber('some_attribute')  1)"]
-}

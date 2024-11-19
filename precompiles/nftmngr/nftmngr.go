@@ -46,35 +46,58 @@ type ActionParameter struct {
 }
 
 type PrecompileExecutor struct {
-	nftmngrKeeper   pcommon.NftmngrKeeper
-	AddActionID []byte
-	AddAttributeID []byte
-	ChangeOrgOwnerID []byte
-	ChangeSchemaOwnerID []byte
-	CreateMetadataID []byte
-	CreateSchemaID []byte
-	ResyncAttributeID []byte
-	UpdateAttributeID []byte
-	AttributeOverideID []byte
-	SetBaseURIID []byte
-	SetMetadataFormatID []byte
-	SetMintAuthID []byte
-	SetOriginChainID []byte
-	SetOriginContractID []byte
-	SetUriRetreivalID []byte
-	ShowAttributeID []byte
-	ToggleActionID []byte
-	UpateActionID []byte
-	AddActionExecutorID []byte
+	nftmngrKeeper pcommon.NftmngrKeeper
+	bankKeeper    pcommon.BankKeeper
+	/*
+	   #################
+	   #### GETTER #####
+	   #################
+	*/
+	GetActionExecutorId []byte
+	/*
+	   #################
+	   #### SETTER #####
+	   #################
+	*/
+	AddActionID            []byte
+	AddAttributeID         []byte
+	ChangeOrgOwnerID       []byte
+	ChangeSchemaOwnerID    []byte
+	CreateMetadataID       []byte
+	CreateSchemaID         []byte
+	ResyncAttributeID      []byte
+	UpdateAttributeID      []byte
+	AttributeOverideID     []byte
+	SetBaseURIID           []byte
+	SetMetadataFormatID    []byte
+	SetMintAuthID          []byte
+	SetOriginChainID       []byte
+	SetOriginContractID    []byte
+	SetUriRetreivalID      []byte
+	ShowAttributeID        []byte
+	ToggleActionID         []byte
+	UpateActionID          []byte
+	AddActionExecutorID    []byte
 	RemoveActionExecutorID []byte
-	ActionByAdminID []byte
-	address         common.Address
+	ActionByAdminID        []byte
+	address                common.Address
 }
 
-func NewPrecompile(nftmngrKeeper pcommon.NftmngrKeeper) (*pcommon.Precompile, error) {
+func NewExecutor(nftmngrKeeper pcommon.NftmngrKeeper, bankKeeper pcommon.BankKeeper) (*PrecompileExecutor, error){
+	p := &PrecompileExecutor{
+		nftmngrKeeper: nftmngrKeeper,
+		bankKeeper:    bankKeeper,
+		address:       common.HexToAddress(NftmngrAddress),
+	}
+
+	return p, nil
+}
+
+func NewPrecompile(nftmngrKeeper pcommon.NftmngrKeeper, bankKeeper pcommon.BankKeeper) (*pcommon.Precompile, error) {
 	newAbi := GetABI()
 	p := &PrecompileExecutor{
 		nftmngrKeeper: nftmngrKeeper,
+		bankKeeper:    bankKeeper,
 		address:       common.HexToAddress(NftmngrAddress),
 	}
 
@@ -116,10 +139,10 @@ func NewPrecompile(nftmngrKeeper pcommon.NftmngrKeeper) (*pcommon.Precompile, er
 			p.ShowAttributeID = m.ID
 		case ToggleAction:
 			p.ToggleActionID = m.ID
-		case UpateAction:
+		case UpdateAction:
 			p.UpateActionID = m.ID
 		case AddActionExecutor:
-			p.AddActionExecutorID= m.ID
+			p.AddActionExecutorID = m.ID
 		case RemoveActionExecutor:
 			p.RemoveActionExecutorID = m.ID
 		}
@@ -171,12 +194,14 @@ func (p PrecompileExecutor) Execute(ctx sdk.Context, method *abi.Method, caller 
 		return p.showAttribute(ctx, caller, method, args, value, readOnly)
 	case ToggleAction:
 		return p.toggleAction(ctx, caller, method, args, value, readOnly)
-	case UpateAction:
+	case UpdateAction:
 		return p.updateAction(ctx, caller, method, args, value, readOnly)
 	case AddActionExecutor:
 		return p.addActionExecutor(ctx, caller, method, args, value, readOnly)
 	case RemoveActionExecutor:
 		return p.removeActionExecutor(ctx, caller, method, args, value, readOnly)
+	case IsActionExecutor:
+		return p.isActionExecutor(ctx, method, args, value)
 	}
 	return
 }
@@ -185,12 +210,12 @@ func (p PrecompileExecutor) AccAddressFromBech32(arg interface{}) (bec32Addr sdk
 	addr := arg.(string)
 	bec32Addr, err = sdk.AccAddressFromBech32(addr)
 	if err != nil {
-		return nil, errors.New("invalid addr")
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "invalid bech32 address")
 	}
 	return bec32Addr, nil
 }
 
-func (p PrecompileExecutor) accAddressFromArg(arg interface{}) (sdk.AccAddress, error) {
+func (p PrecompileExecutor) AccAddressFromArg(arg interface{}) (sdk.AccAddress, error) {
 	addr := arg.(common.Address)
 	if addr == (common.Address{}) {
 		return nil, errors.New("invalid addr")
@@ -199,7 +224,7 @@ func (p PrecompileExecutor) accAddressFromArg(arg interface{}) (sdk.AccAddress, 
 	return bec32Addr, nil
 }
 
-func (p PrecompileExecutor) stringFromArg(arg interface{}) (string, error) {
+func (p PrecompileExecutor) StringFromArg(arg interface{}) (string, error) {
 	stringArg, ok := arg.(string)
 	if !ok {
 		return "", errors.New("invalid argument type string")
@@ -207,7 +232,7 @@ func (p PrecompileExecutor) stringFromArg(arg interface{}) (string, error) {
 	return stringArg, nil
 }
 
-func (p PrecompileExecutor) arrayOfstringFromArg(arg interface{}) ([]string, error) {
+func (p PrecompileExecutor) ArrayOfstringFromArg(arg interface{}) ([]string, error) {
 	arrayStringArg, ok := arg.([]string)
 	if !ok {
 		return nil, errors.New("invalid argument type string")
@@ -233,7 +258,7 @@ func (p PrecompileExecutor) Uint64FromArg(arg interface{}) (uint64, error) {
 	return uint64Arg, nil
 }
 
-func (p PrecompileExecutor) uint32FromArg(arg interface{}) (uint32, error) {
+func (p PrecompileExecutor) Uint32FromArg(arg interface{}) (uint32, error) {
 	uint32Arg, ok := arg.(uint32)
 	if !ok {
 		return 0, errors.New("invalid argument type string")
@@ -242,7 +267,7 @@ func (p PrecompileExecutor) uint32FromArg(arg interface{}) (uint32, error) {
 	return uint32Arg, nil
 }
 
-func (p PrecompileExecutor) parametersFromJSONArg(arg interface{}) ([]*nftmngrtype.ActionParameter, error) {
+func (p PrecompileExecutor) ParametersFromJSONArg(arg interface{}) ([]*nftmngrtype.ActionParameter, error) {
 	jsonStr, ok := arg.(string)
 	if !ok {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid argument type, expected string")
@@ -262,13 +287,82 @@ func (p PrecompileExecutor) parametersFromJSONArg(arg interface{}) ([]*nftmngrty
 	return paramPointers, nil
 }
 
+type TransactionMetadata struct {
+	// RequiresAuth  bool
+	// ModifiesState bool
+	// MinGas        uint64
+	Description string
+}
+
+var transactionMethods = map[string]TransactionMetadata{
+	ActionByAdmin: {
+		Description: "Perform action",
+	},
+	AddAction: {
+		Description: "Add new action to schema",
+	},
+	AddAttribute: {
+		Description: "Add new attribute to schema",
+	},
+	ChangeOrgOwner: {
+		Description: "Change organization owner",
+	},
+	ChangeSchemaOwner: {
+		Description: "Change schema owner",
+	},
+	CreateMetadata: {
+		Description: "Create new metadata",
+	},
+	CreateSchema: {
+		Description: "Create new NFT schema",
+	},
+	ResyncAttribute: {
+		Description: "Resynchronize attribute",
+	},
+	UpdateAttribute: {
+		Description: "Update existing attribute",
+	},
+	AttributeOveride: {
+		Description: "Override attribute properties",
+	},
+	SetBaseURI: {
+		Description: "Set base URI for NFTs",
+	},
+	SetMetadataFormat: {
+		Description: "Set metadata format",
+	},
+	SetMintAuth: {
+		Description: "Set minting authorization",
+	},
+	SetOriginChain: {
+		Description: "Set origin chain",
+	},
+	SetOriginContract: {
+		Description: "Set origin contract",
+	},
+	SetUriRetreival: {
+		Description: "Set URI retrieval method",
+	},
+	ShowAttribute: {
+		Description: "Show attribute details",
+	},
+	ToggleAction: {
+		Description: "Toggle action state",
+	},
+	UpdateAction: {
+		Description: "Update existing action",
+	},
+	AddActionExecutor: {
+		Description: "Add new action executor",
+	},
+	RemoveActionExecutor: {
+		Description: "Remove action executor",
+	},
+}
+
 func (PrecompileExecutor) IsTransaction(method string) bool {
-	switch method {
-	case ActionByAdmin:
-		return true
-	default:
-		return false
-	}
+	_, ok := transactionMethods[method]
+	return ok
 }
 
 func (p PrecompileExecutor) Logger(ctx sdk.Context) log.Logger {
