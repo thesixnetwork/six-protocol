@@ -202,7 +202,8 @@ require (
 )
 
 replace (
-	github.com/cosmos/cosmos-sdk => github.com/thesixnetwork/cosmos-sdk v0.45.6-six-special-node.0.20241112045918-8a8f852551d4
+	github.com/cosmos/cosmos-sdk => github.com/thesixnetwork/cosmos-sdk v0.45.6-six-special-node-1
+
 	github.com/ethereum/go-ethereum => github.com/thesixnetwork/go-ethereum v1.13.6-0.20240902091934-622069f0640d
 	github.com/evmos/ethermint => github.com/thesixnetwork/ethermint v0.18.1-six
 	github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
