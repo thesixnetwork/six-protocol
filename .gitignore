@@ -14,6 +14,7 @@ vue/src/store/generated/
 
 /scripts/secret/*
 /scripts/.secret
+<<<<<<< HEAD
 /scripts/.secret2
 
 release/
@@ -30,8 +31,9 @@ vue/src/store/generated/
 
 /scripts/secret/*
 /scripts/.secret
+=======
+>>>>>>> main
 /scripts/.secret2
-
 
 ## FOUNDRY
 cache/
