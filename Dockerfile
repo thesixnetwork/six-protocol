@@ -1,6 +1,6 @@
 # docker build . -t six-protocol/sixd:latest
 # docker run --rm -it cosmoscontracts/sixd:latest /bin/sh
-FROM golang:1.20-alpine AS go-builder
+FROM golang:1.23-alpine AS go-builder
 
 # this comes from standard alpine nightly file
 #  https://github.com/rust-lang/docker-rust-nightly/blob/master/alpine3.12/Dockerfile
