@@ -14,25 +14,6 @@ vue/src/store/generated/
 
 /scripts/secret/*
 /scripts/.secret
-<<<<<<< HEAD
-/scripts/.secret2
-
-release/
-.idea/
-.vscode/
-.DS_Store
-
-ts-client/
-build/
-vue/src/store/generated/
-.env
-
-/**/wasmvm/
-
-/scripts/secret/*
-/scripts/.secret
-=======
->>>>>>> main
 /scripts/.secret2
 
 ## FOUNDRY
