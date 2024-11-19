@@ -33,6 +33,8 @@ type AccountKeeper interface {
 
 type NftmngrKeeper interface {
 	GetCodec() codec.BinaryCodec
+  	GetNFTFeeConfig(ctx sdk.Context) (val nftmngrtype.NFTFeeConfig, found bool)
+  	GetActionExecutor(ctx sdk.Context, nftSchemaCode string, executorAddress string) (val nftmngrtype.ActionExecutor, found bool)
 	// ####################
 	// #                  #
 	// #     SETTER       #
