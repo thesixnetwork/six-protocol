@@ -14,8 +14,8 @@ vue/src/store/generated/
 
 /scripts/secret/*
 /scripts/.secret
-/scripts/.secret2avue/node_modules
-vue/dist
+/scripts/.secret2
+
 release/
 .idea/
 .vscode/
