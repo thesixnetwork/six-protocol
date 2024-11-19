@@ -470,9 +470,6 @@ github.com/go-playground/universal-translator v0.17.0 h1:icxd5fm+REJzpZx7ZfpaD87
 github.com/go-playground/universal-translator v0.17.0/go.mod h1:UkSxE5sNxxRwHyU+Scu5vgOQjsIJAF8j9muTVoKLVtA=
 github.com/go-playground/validator/v10 v10.2.0 h1:KgJ0snyC2R9VXYN2rneOtQcw5aHQB1Vv0sFl1UcHBOY=
 github.com/go-playground/validator/v10 v10.2.0/go.mod h1:uOYAAleCW8F/7oMFd6aG0GOhaH6EGOAJShg8Id5JGkI=
-github.com/go-playground/validator/v10 v10.4.1 h1:pH2c5ADXtd66mxoE0Zm9SUhxE20r7aM3F26W0hOn+GE=
-github.com/go-playground/validator/v10 v10.4.1/go.mod h1:nlOn6nFhuKACm19sB/8EGNn9GlaMV7XkbRSipzJ0Ii4=
-github.com/go-sourcemap/sourcemap v2.1.3+incompatible h1:W1iEw64niKVGogNgBN3ePyLFfuisuzeidWPMPWmECqU=
 github.com/go-sourcemap/sourcemap v2.1.3+incompatible/go.mod h1:F8jJfvm2KbVjc5NqelyYJmf/v5J0dwNLS2mL4sNA1Jg=
 github.com/go-sql-driver/mysql v1.4.0/go.mod h1:zAC/RDZ24gD3HViQzih4MyKcchzm+sOG5ZlKdlhCg5w=
 github.com/go-sql-driver/mysql v1.4.1/go.mod h1:zAC/RDZ24gD3HViQzih4MyKcchzm+sOG5ZlKdlhCg5w=
@@ -1196,8 +1193,6 @@ github.com/tendermint/tm-db v0.6.7 h1:fE00Cbl0jayAoqlExN6oyQJ7fR/ZtoVOmvPJ//+shu
 github.com/tendermint/tm-db v0.6.7/go.mod h1:byQDzFkZV1syXr/ReXS808NxA2xvyuuVgXOJ/088L6I=
 github.com/thesixnetwork/cosmos-sdk v0.45.6-six-special-node-1 h1:R3udmOlyKvWBIghkzMZO9COf4y1OsMI9xhK97o/TfP0=
 github.com/thesixnetwork/cosmos-sdk v0.45.6-six-special-node-1/go.mod h1:I1mOG71gaL6bbWf2ugX6Zt2o/O8/thIjQQPxWf22+50=
-github.com/thesixnetwork/ethermint v0.18.1-six h1:mn+yRcLe3snN/eZLLCV5NKGC+ryr6FqA9kZ78X/2Jqw=
-github.com/thesixnetwork/ethermint v0.18.1-six/go.mod h1:ISU6101vioWtv36WkwYEzHCgh7dRgZxFuWYCsL0rpnI=
 github.com/thesixnetwork/go-ethereum v1.13.6-0.20240902091934-622069f0640d h1:J1wHr83j48KdhSBt5KruvZoL7Gk2XfiodYivghWhClg=
 github.com/thesixnetwork/go-ethereum v1.13.6-0.20240902091934-622069f0640d/go.mod h1:yMTu38GSuyxaYzQMViqNmQ1s3cE84abZexQmTgenWk0=
 github.com/thesixnetwork/sixnft v0.9.5-1 h1:6W++e+vp/uTFFelLQS7Khy0LSMznA1MgDh8CDeysNxw=
