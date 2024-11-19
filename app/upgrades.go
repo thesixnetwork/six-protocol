@@ -10,12 +10,11 @@ import (
 	// evmkeeper "github.com/evmos/ethermint/x/evm/keeper"
 )
 
-const UpgradeName = "v3.2.0"
+const UpgradeName = "v3.2.1"
 
 func (app *App) RegisterUpgradeHandlers() {
 	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
 
-		app.MigrateParam(ctx)
 		return app.mm.RunMigrations(ctx, app.configurator, vm)
 	})
 }
@@ -28,7 +27,7 @@ func (app *App) VersionTrigger() {
 	if upgradeInfo.Name == UpgradeName && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
 		storeUpgrades := store.StoreUpgrades{
 			Added:   []string{},
-			Deleted: []string{"erc20"},
+			Deleted: []string{},
 		}
 		// configure store loader that checks if version == upgradeHeight and applies store upgrades
 		app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
