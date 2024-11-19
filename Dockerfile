@@ -14,8 +14,8 @@ WORKDIR /go/src/github.com/thesixnetwork/six-protocol
 COPY . /go/src/github.com/thesixnetwork/six-protocol/
 
 # install comovisor
-# RUN go install github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@latest
-COPY ./build/bin/cosmovisor /go/bin/cosmovisor
+RUN go install github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@latest
+# COPY ./build/bin/cosmovisor /go/bin/cosmovisor
 
 # force it to use static lib (from above) not standard libgo_cosmwasm.so file
 RUN LEDGER_ENABLED=false BUILD_TAGS=muslc make build
