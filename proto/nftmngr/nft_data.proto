@@ -1,0 +1,22 @@
+syntax = "proto3";
+package thesixnetwork.sixprotocol.nftmngr;
+
+import "nftmngr/nft_attribute_value.proto";
+option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
+
+enum OwnerAddressType {
+  ORIGIN_ADDRESS = 0;
+  INTERNAL_ADDRESS = 1;
+}
+
+message NftData {
+  string nft_schema_code = 1; 
+  string token_id = 2; 
+  string token_owner = 3; 
+  OwnerAddressType owner_address_type = 4;
+  string origin_image = 5; 
+  string onchain_image = 6; 
+  string token_uri = 7;
+  repeated NftAttributeValue origin_attributes = 8; 
+  repeated NftAttributeValue onchain_attributes = 9;
+}
