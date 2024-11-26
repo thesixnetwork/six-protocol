@@ -7,8 +7,31 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
-func (k Keeper) ChangeOrgOwner(ctx sdk.Context, creator, newOwner, orgName string) error {
+func (k Keeper) GetSchemaOwner(ctx sdk.Context, nftSchemaName string) (string, error) {
+	var ownerAddress string
 
+	schema, found := k.GetNFTSchema(ctx, nftSchemaName)
+	if !found {
+		return "", sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
+	}
+	ownerAddress = schema.Owner
+	return ownerAddress, nil
+}
+
+func (k Keeper) IsSchemaOwner(ctx sdk.Context, nftSchemaName, inputAddress string) (bool, error) {
+	schema, found := k.GetNFTSchema(ctx, nftSchemaName)
+	if !found {
+		return false, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
+	}
+
+	if schema.Owner != inputAddress {
+		return false, nil
+	}
+
+	return true, nil
+}
+
+func (k Keeper) ChangeOrgOwner(ctx sdk.Context, creator, newOwner, orgName string) error {
 	// get the organization
 	organization, found := k.GetOrganization(ctx, orgName)
 	if !found {
@@ -28,7 +51,6 @@ func (k Keeper) ChangeOrgOwner(ctx sdk.Context, creator, newOwner, orgName strin
 }
 
 func (k Keeper) ChangeSchemaOwner(ctx sdk.Context, creator, newOwner, nftSchemaName string) error {
-
 	// Retreive schema data
 	schema, found := k.GetNFTSchema(ctx, nftSchemaName)
 	if !found {
