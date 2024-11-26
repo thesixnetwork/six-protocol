@@ -1,0 +1,25 @@
+syntax = "proto3";
+package thesixnetwork.sixprotocol.nftmngr.v080;
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types/v080";
+
+
+enum FeeDistributionMethod {
+    BURN = 0;
+    REWARD_POOL = 1;
+    TRANSFER = 2;
+}
+
+message FeeDistribution {
+  FeeDistributionMethod method = 1;
+  float portion = 2;
+}
+
+message FeeConfig {
+    string fee_amount = 1;
+    repeated FeeDistribution fee_distributions = 2;
+}
+
+message NFTFeeConfig {
+    FeeConfig schema_fee = 1;
+}

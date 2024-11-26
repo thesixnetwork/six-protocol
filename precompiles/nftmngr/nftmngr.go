@@ -15,7 +15,7 @@ import (
 	"github.com/evmos/ethermint/utils"
 	"github.com/tendermint/tendermint/libs/log"
 	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
-	nftmngrtype "github.com/thesixnetwork/sixnft/x/nftmngr/types"
+	nftmngrtype "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
 const (
@@ -83,7 +83,7 @@ type PrecompileExecutor struct {
 	address                common.Address
 }
 
-func NewExecutor(nftmngrKeeper pcommon.NftmngrKeeper, bankKeeper pcommon.BankKeeper) (*PrecompileExecutor, error){
+func NewExecutor(nftmngrKeeper pcommon.NftmngrKeeper, bankKeeper pcommon.BankKeeper) (*PrecompileExecutor, error) {
 	p := &PrecompileExecutor{
 		nftmngrKeeper: nftmngrKeeper,
 		bankKeeper:    bankKeeper,

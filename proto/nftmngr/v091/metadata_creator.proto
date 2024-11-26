@@ -1,0 +1,16 @@
+syntax = "proto3";
+package thesixnetwork.sixprotocol.nftmngr.v091;
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types/v091";
+
+message MapTokenToMinter {
+  string token_id = 1;
+  string minter = 2;
+}
+
+
+message MetadataCreator {
+  string nftSchemaCode = 1; 
+  repeated MapTokenToMinter metadataMintedBy = 2;
+}
+

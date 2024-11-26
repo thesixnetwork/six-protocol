@@ -1,0 +1,33 @@
+syntax = "proto3";
+package thesixnetwork.sixprotocol.nftmngr.v080;
+
+import "google/protobuf/any.proto";
+option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types/v080";
+
+message NftAttributeValue {
+  
+  string name = 1; 
+  oneof value {
+    NumberAttributeValue number_attribute_value = 2;
+    StringAttributeValue string_attribute_value = 3;
+    BooleanAttributeValue boolean_attribute_value = 4;
+    FloatAttributeValue float_attribute_value = 5;
+  }
+  bool hidden_to_marketplace = 6;
+}
+
+message NumberAttributeValue {
+  uint64 value = 1;
+}
+
+message StringAttributeValue {
+  string value = 1;
+}
+
+message BooleanAttributeValue {
+  bool value = 1;
+}
+
+message FloatAttributeValue {
+  double value = 1;
+}

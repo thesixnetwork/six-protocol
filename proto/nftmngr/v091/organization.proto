@@ -1,0 +1,11 @@
+syntax = "proto3";
+package thesixnetwork.sixprotocol.nftmngr.v091;
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types/v091";
+
+message Organization {
+  string name = 1; 
+  string owner = 2; 
+  
+}
+

@@ -1,0 +1,30 @@
+syntax = "proto3";
+package thesixnetwork.sixprotocol.nftmngr.v091;
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types/v091";
+
+enum AllowedActioner {
+  ALLOWED_ACTIONER_ALL = 0;
+  ALLOWED_ACTIONER_SYSTEM_ONLY = 1;
+  ALLOWED_ACTIONER_USER_ONLY = 2;
+}
+
+message action_params {
+  string name = 1;
+  string desc = 2;
+  string data_type = 3;
+  bool required = 4;
+  string default_value = 5;
+}
+
+message Action {
+  string name = 1; 
+  string desc = 2; 
+  bool disable = 3;
+  string when = 4; 
+  repeated string then = 5; 
+  AllowedActioner allowed_actioner = 6 [(gogoproto.nullable) = true];
+  repeated action_params params = 7 [(gogoproto.nullable) = true];
+}
+

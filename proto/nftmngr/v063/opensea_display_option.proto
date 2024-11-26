@@ -1,0 +1,11 @@
+syntax = "proto3";
+package thesixnetwork.sixprotocol.nftmngr.v063;
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types/v063";
+
+message OpenseaDisplayOption {
+  
+  string display_type = 1; 
+  string trait_type = 2; 
+  uint64 max_value = 3; 
+}

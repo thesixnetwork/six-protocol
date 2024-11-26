@@ -1,0 +1,375 @@
+syntax = "proto3";
+package thesixnetwork.sixprotocol.nftmngr;
+
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "nftmngr/latest/params.proto";
+import "nftmngr/latest/nft_schema.proto";
+import "nftmngr/latest/action_by_ref_id.proto";
+import "nftmngr/latest/organization.proto";
+import "nftmngr/latest/nft_collection.proto";
+import "nftmngr/latest/nft_schema_by_contract.proto";
+import "nftmngr/latest/nft_fee_config.proto";
+import "nftmngr/latest/nft_fee_balance.proto";
+import "nftmngr/latest/metadata_creator.proto";
+import "nftmngr/latest/action_executor.proto";
+import "nftmngr/latest/schema_attribute.proto";
+import "nftmngr/latest/action_of_schema.proto";
+import "nftmngr/latest/executor_of_schema.proto";
+// this line is used by starport scaffolding # 1
+import "nftmngr/latest/nft_data.proto";
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
+
+// Query defines the gRPC querier service.
+service Query {
+	// Parameters queries the parameters of the module.
+	rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+		option (google.api.http).get = "/thesixnetwork/sixnft/nftmngr/params";
+	}
+  	// Queries a NFTSchema by index.
+	rpc NFTSchema(QueryGetNFTSchemaRequest) returns (QueryGetNFTSchemaResponse) {
+		option (google.api.http).get = "/thesixnetwork/sixnft/nftmngr/nft_schema/{code}";
+	}
+
+
+	// Queries a list of NFTSchema items.
+	rpc NFTSchemaAll(QueryAllNFTSchemaRequest) returns (QueryAllNFTSchemaResponse) {
+		option (google.api.http).get = "/thesixnetwork/sixnft/nftmngr/nft_schema";
+	}
+
+	// Queries a NftData by index.
+	rpc NftData(QueryGetNftDataRequest) returns (QueryGetNftDataResponse) {
+		option (google.api.http).get = "/thesixnetwork/sixnft/nftmngr/nft_data/{nftSchemaCode}/{tokenId}";
+	}
+
+	// Queries a list of NftData items.
+	rpc NftDataAll(QueryAllNftDataRequest) returns (QueryAllNftDataResponse) {
+		option (google.api.http).get = "/thesixnetwork/sixnft/nftmngr/nft_data";
+	}
+
+	// Queries a ActionByRefId by index.
+	rpc ActionByRefId(QueryGetActionByRefIdRequest) returns (QueryGetActionByRefIdResponse) {
+		option (google.api.http).get = "/thesixnetwork/sixnft/nftmngr/action_by_ref_id/{refId}";
+	}
+
+	// Queries a list of ActionByRefId items.
+	rpc ActionByRefIdAll(QueryAllActionByRefIdRequest) returns (QueryAllActionByRefIdResponse) {
+		option (google.api.http).get = "/thesixnetwork/sixnft/nftmngr/action_by_ref_id";
+	}
+
+	// Queries a Organization by index.
+	rpc Organization(QueryGetOrganizationRequest) returns (QueryGetOrganizationResponse) {
+		option (google.api.http).get = "/thesixnetwork/sixnft/nftmngr/organization/{name}";
+	}
+
+	// Queries a list of Organization items.
+	rpc OrganizationAll(QueryAllOrganizationRequest) returns (QueryAllOrganizationResponse) {
+		option (google.api.http).get = "/thesixnetwork/sixnft/nftmngr/organization";
+	}
+
+	// Queries a NftCollection by index.
+	rpc NftCollection(QueryGetNftCollectionRequest) returns (QueryGetNftCollectionResponse) {
+		option (google.api.http).get = "/thesixnetwork/sixnft/nftmngr/nft_collection/{nftSchemaCode}";
+	}
+
+	// Queries a NFTSchemaByContract by index.
+	rpc NFTSchemaByContract(QueryGetNFTSchemaByContractRequest) returns (QueryGetNFTSchemaByContractResponse) {
+		option (google.api.http).get = "/thesixnetwork/sixnft/nftmngr/nft_schema_by_contract/{originContractAddress}";
+	}
+
+	// Queries a list of NFTSchemaByContract items.
+	rpc NFTSchemaByContractAll(QueryAllNFTSchemaByContractRequest) returns (QueryAllNFTSchemaByContractResponse) {
+		option (google.api.http).get = "/thesixnetwork/sixnft/nftmngr/nft_schema_by_contract";
+	}
+
+	// Queries a NFTFeeConfig by index.
+	rpc NFTFeeConfig(QueryGetNFTFeeConfigRequest) returns (QueryGetNFTFeeConfigResponse) {
+		option (google.api.http).get = "/thesixnetwork/sixnft/nftmngr/nft_fee_config";
+	}
+	// Queries a NFTFeeBalance by index.
+	rpc NFTFeeBalance(QueryGetNFTFeeBalanceRequest) returns (QueryGetNFTFeeBalanceResponse) {
+		option (google.api.http).get = "/thesixnetwork/sixnft/nftmngr/nft_fee_balance";
+	}
+	// Queries a MetadataCreator by index.
+	rpc MetadataCreator(QueryGetMetadataCreatorRequest) returns (QueryGetMetadataCreatorResponse) {
+		option (google.api.http).get = "/thesixnetwork/sixnft/nftmngr/metadata_creator/{nftSchemaCode}";
+	}
+
+	// Queries a list of MetadataCreator items.
+	rpc MetadataCreatorAll(QueryAllMetadataCreatorRequest) returns (QueryAllMetadataCreatorResponse) {
+		option (google.api.http).get = "/thesixnetwork/sixnft/nftmngr/metadata_creator";
+	}
+
+	// Queries a ActionExecutor by index.
+	rpc ActionExecutor(QueryGetActionExecutorRequest) returns (QueryGetActionExecutorResponse) {
+		option (google.api.http).get = "/thesixnetwork/sixnft/nftmngr/action_executor/{nftSchemaCode}/{executorAddress}";
+	}
+
+	// Queries a list of ActionExecutor items.
+	rpc ActionExecutorAll(QueryAllActionExecutorRequest) returns (QueryAllActionExecutorResponse) {
+		option (google.api.http).get = "/thesixnetwork/sixnft/nftmngr/action_executor";
+	}
+
+
+	// Queries a SchemaAttribute by index.
+	rpc SchemaAttribute(QueryGetSchemaAttributeRequest) returns (QueryGetSchemaAttributeResponse) {
+		option (google.api.http).get = "/thesixnetwork/sixnft/nftmngr/schema_attribute/{nftSchemaCode}/{name}";
+	}
+
+	// Queries a list of SchemaAttribute items.
+	rpc SchemaAttributeAll(QueryAllSchemaAttributeRequest) returns (QueryAllSchemaAttributeResponse) {
+		option (google.api.http).get = "/thesixnetwork/sixnft/nftmngr/schema_attribute";
+	}
+
+	// Queries a list of ListAttributeBySchema items.
+	rpc ListAttributeBySchema(QueryListAttributeBySchemaRequest) returns (QueryListAttributeBySchemaResponse) {
+		option (google.api.http).get = "/thesixnetwork/sixnft/nftmngr/list_attribute_by_schema/{nftSchemaCode}";
+	}
+
+	// Queries a ActionOfSchema by index.
+	rpc ActionOfSchema(QueryGetActionOfSchemaRequest) returns (QueryGetActionOfSchemaResponse) {
+		option (google.api.http).get = "/thesixnetwork/sixnft/nftmngr/action_of_schema/{nftSchemaCode}/{name}";
+	}
+
+	// Queries a list of ActionOfSchema items.
+	rpc ActionOfSchemaAll(QueryAllActionOfSchemaRequest) returns (QueryAllActionOfSchemaResponse) {
+		option (google.api.http).get = "/thesixnetwork/sixnft/nftmngr/action_of_schema";
+	}
+
+	// Queries a ExecutorOfSchema by index.
+	rpc ExecutorOfSchema(QueryGetExecutorOfSchemaRequest) returns (QueryGetExecutorOfSchemaResponse) {
+		option (google.api.http).get = "/thesixnetwork/sixnft/nftmngr/executor_of_schema/{nftSchemaCode}";
+	}
+
+	// Queries a list of ExecutorOfSchema items.
+	rpc ExecutorOfSchemaAll(QueryAllExecutorOfSchemaRequest) returns (QueryAllExecutorOfSchemaResponse) {
+		option (google.api.http).get = "/thesixnetwork/sixnft/nftmngr/executor_of_schema";
+	}
+
+	// this line is used by starport scaffolding # 2
+}
+
+// QueryParamsRequest is request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is response type for the Query/Params RPC method.
+message QueryParamsResponse {
+  // params holds all the parameters of this module.
+  Params params = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryGetNFTSchemaRequest {
+	  string code = 1;
+}
+
+message QueryGetNFTSchemaResponse {
+	NFTSchema nFTSchema = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllNFTSchemaRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllNFTSchemaResponse {
+	repeated NFTSchema nFTSchema = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetNftDataRequest {
+	string nftSchemaCode = 1;
+  	string tokenId = 2;
+	bool withGlobal = 3;
+}
+
+message QueryGetNftDataResponse {
+	NftData nftData = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllNftDataRequest {
+	bool withGlobal = 1;
+	cosmos.base.query.v1beta1.PageRequest pagination = 2;
+}
+
+message QueryAllNftDataResponse {
+	repeated NftData nftData = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetActionByRefIdRequest {
+	  string refId = 1;
+
+}
+
+message QueryGetActionByRefIdResponse {
+	ActionByRefId actionByRefId = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllActionByRefIdRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllActionByRefIdResponse {
+	repeated ActionByRefId actionByRefId = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetOrganizationRequest {
+	  string name = 1;
+
+}
+
+message QueryGetOrganizationResponse {
+	Organization organization = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllOrganizationRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllOrganizationResponse {
+	repeated Organization organization = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetNftCollectionRequest {
+	  string nftSchemaCode = 1;
+	  cosmos.base.query.v1beta1.PageRequest pagination = 2;
+
+}
+
+message QueryGetNftCollectionResponse {
+	repeated NftData nftCollection = 1 [(gogoproto.nullable) = true];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetNFTSchemaByContractRequest {
+	  string originContractAddress = 1;
+}
+
+message QueryGetNFTSchemaByContractResponse {
+	NFTSchemaByContract nFTSchemaByContract = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllNFTSchemaByContractRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllNFTSchemaByContractResponse {
+	repeated NFTSchemaByContract nFTSchemaByContract = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetNFTFeeConfigRequest {}
+
+message QueryGetNFTFeeConfigResponse {
+	NFTFeeConfig NFTFeeConfig = 1 [(gogoproto.nullable) = false];
+}
+message QueryGetNFTFeeBalanceRequest {}
+
+message QueryGetNFTFeeBalanceResponse {
+	NFTFeeBalance NFTFeeBalance = 1 [(gogoproto.nullable) = false];
+}
+message QueryGetMetadataCreatorRequest {
+	  string nftSchemaCode = 1;
+
+}
+
+message QueryGetMetadataCreatorResponse {
+	MetadataCreator metadataCreator = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllMetadataCreatorRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllMetadataCreatorResponse {
+	repeated MetadataCreator metadataCreator = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetActionExecutorRequest {
+	  string nftSchemaCode = 1;
+  string executorAddress = 2;
+
+}
+
+message QueryGetActionExecutorResponse {
+	ActionExecutor actionExecutor = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllActionExecutorRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllActionExecutorResponse {
+	repeated ActionExecutor actionExecutor = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetSchemaAttributeRequest {
+	string nftSchemaCode = 1;
+  	string name = 2;
+}
+
+message QueryGetSchemaAttributeResponse {
+	SchemaAttribute schemaAttribute = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllSchemaAttributeRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllSchemaAttributeResponse {
+	repeated SchemaAttribute schemaAttribute = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryListAttributeBySchemaRequest {
+	string nftSchemaCode = 1;
+}
+
+message QueryListAttributeBySchemaResponse {
+	repeated SchemaAttribute schemaAttribute = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryGetActionOfSchemaRequest {
+	string nftSchemaCode = 1;
+  	string name = 2;
+
+}
+
+message QueryGetActionOfSchemaResponse {
+	ActionOfSchema actionOfSchema = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllActionOfSchemaRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllActionOfSchemaResponse {
+	repeated ActionOfSchema actionOfSchema = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetExecutorOfSchemaRequest {
+	  string nftSchemaCode = 1;
+
+}
+
+message QueryGetExecutorOfSchemaResponse {
+	ExecutorOfSchema executorOfSchema = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllExecutorOfSchemaRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllExecutorOfSchemaResponse {
+	repeated ExecutorOfSchema executorOfSchema = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+
+// this line is used by starport scaffolding # 3
