@@ -126,15 +126,15 @@ import (
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
 	//module for six data layer
-	nftadminmodule "github.com/thesixnetwork/sixnft/x/nftadmin"
-	nftadminmodulekeeper "github.com/thesixnetwork/sixnft/x/nftadmin/keeper"
-	nftadminmoduletypes "github.com/thesixnetwork/sixnft/x/nftadmin/types"
-	nftmngrmodule "github.com/thesixnetwork/sixnft/x/nftmngr"
-	nftmngrmodulekeeper "github.com/thesixnetwork/sixnft/x/nftmngr/keeper"
-	nftmngrmoduletypes "github.com/thesixnetwork/sixnft/x/nftmngr/types"
-	nftoraclemodule "github.com/thesixnetwork/sixnft/x/nftoracle"
-	nftoraclemodulekeeper "github.com/thesixnetwork/sixnft/x/nftoracle/keeper"
-	nftoraclemoduletypes "github.com/thesixnetwork/sixnft/x/nftoracle/types"
+	nftadminmodule "github.com/thesixnetwork/six-protocol/x/nftadmin"
+	nftadminmodulekeeper "github.com/thesixnetwork/six-protocol/x/nftadmin/keeper"
+	nftadminmoduletypes "github.com/thesixnetwork/six-protocol/x/nftadmin/types"
+	nftmngrmodule "github.com/thesixnetwork/six-protocol/x/nftmngr"
+	nftmngrmodulekeeper "github.com/thesixnetwork/six-protocol/x/nftmngr/keeper"
+	nftmngrmoduletypes "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+	nftoraclemodule "github.com/thesixnetwork/six-protocol/x/nftoracle"
+	nftoraclemodulekeeper "github.com/thesixnetwork/six-protocol/x/nftoracle/keeper"
+	nftoraclemoduletypes "github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 
 	// tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 

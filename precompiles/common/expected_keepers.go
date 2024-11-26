@@ -5,7 +5,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-	nftmngrtype "github.com/thesixnetwork/sixnft/x/nftmngr/types"
+	nftmngrtype "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 	// "github.com/ethereum/go-ethereum/common"
 )
 
@@ -33,8 +33,8 @@ type AccountKeeper interface {
 
 type NftmngrKeeper interface {
 	GetCodec() codec.BinaryCodec
-  	GetNFTFeeConfig(ctx sdk.Context) (val nftmngrtype.NFTFeeConfig, found bool)
-  	GetActionExecutor(ctx sdk.Context, nftSchemaCode string, executorAddress string) (val nftmngrtype.ActionExecutor, found bool)
+	GetNFTFeeConfig(ctx sdk.Context) (val nftmngrtype.NFTFeeConfig, found bool)
+	GetActionExecutor(ctx sdk.Context, nftSchemaCode string, executorAddress string) (val nftmngrtype.ActionExecutor, found bool)
 	// ####################
 	// #                  #
 	// #     SETTER       #
