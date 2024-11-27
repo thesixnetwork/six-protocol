@@ -237,10 +237,39 @@
     },
     {
         "type": "function",
+        "name": "getAttributeValue",
+        "inputs": [
+            {
+                "name": "nftSchemaName",
+                "type": "string",
+                "internalType": "string"
+            },
+            {
+                "name": "tokenId",
+                "type": "string",
+                "internalType": "string"
+            },
+            {
+                "name": "attributeName",
+                "type": "string",
+                "internalType": "string"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "value",
+                "type": "string",
+                "internalType": "string"
+            }
+        ],
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
         "name": "isActionExecutor",
         "inputs": [
             {
-                "name": "nftSchemaame",
+                "name": "nftSchemaName",
                 "type": "string",
                 "internalType": "string"
             },
@@ -252,12 +281,36 @@
         ],
         "outputs": [
             {
-                "name": "success",
+                "name": "isExecutor",
                 "type": "bool",
                 "internalType": "bool"
             }
         ],
-        "stateMutability": "nonpayable"
+        "stateMutability": "view"
+    },
+    {
+        "type": "function",
+        "name": "isSchemaOwner",
+        "inputs": [
+            {
+                "name": "nftSchemaName",
+                "type": "string",
+                "internalType": "string"
+            },
+            {
+                "name": "ownerAddress",
+                "type": "string",
+                "internalType": "string"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "isSchemaOwner",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "view"
     },
     {
         "type": "function",
@@ -437,7 +490,7 @@
                 "internalType": "string"
             },
             {
-                "name": "newOriginContract",
+                "name": "newUri",
                 "type": "string",
                 "internalType": "string"
             }
