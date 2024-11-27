@@ -67,7 +67,6 @@ func (k Keeper) AddAttributeKeeper(ctx sdk.Context, creator string, nftSchemaNam
 }
 
 func (k Keeper) UpdateAttributeKeeper(ctx sdk.Context, creator, nftSchemaName string, update_attribute types.AttributeDefinition) error {
-
 	// Check if the value exists
 	valFound, isFound := k.GetSchemaAttribute(ctx, nftSchemaName, update_attribute.Name)
 	if !isFound {
@@ -151,7 +150,6 @@ func (k Keeper) ResyncAttibutesKeeper(ctx sdk.Context, creator, nftSchemaName, t
 }
 
 func (k Keeper) SetAttributeOveridingKeeper(ctx sdk.Context, creator, nftSchemaName string, newOveridingType int32) error {
-
 	schema, found := k.GetNFTSchema(ctx, nftSchemaName)
 	if !found {
 		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
@@ -176,7 +174,6 @@ func (k Keeper) SetAttributeOveridingKeeper(ctx sdk.Context, creator, nftSchemaN
 }
 
 func (k Keeper) ShowAttributeKeeper(ctx sdk.Context, creator, nftSchemaName string, status bool, attributesName []string) error {
-
 	// Retreive schema
 	schema, found := k.GetNFTSchema(ctx, nftSchemaName)
 	if !found {
@@ -233,3 +230,38 @@ func (k Keeper) ShowAttributeKeeper(ctx sdk.Context, creator, nftSchemaName stri
 	return nil
 }
 
+func (k Keeper) GetAttributeValue(ctx sdk.Context, nftSchemaName, tokenId, attributeName string) (string, error) {
+	var (
+		attributeValue   string
+		isTokenAttribute = false
+	)
+
+	_, found := k.GetNFTSchema(ctx, nftSchemaName)
+	if !found {
+		return "", sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
+	}
+
+	// Check if the data already exists
+	metadata, found := k.GetNftData(ctx, nftSchemaName, tokenId)
+	if !found {
+		return "", sdkerrors.Wrap(types.ErrMetadataDoesNotExists, nftSchemaName)
+	}
+
+	for _, ocAttribute := range metadata.OnchainAttributes {
+		if ocAttribute.Name == attributeName {
+			isTokenAttribute = true
+			// convert attribute value to string and assing to attributeValue
+			attributeValue = ocAttribute.AttributeValueToString()
+		}
+	}
+
+	if !isTokenAttribute {
+		// find schema attribute value
+		schemaAttribute, found := k.GetSchemaAttribute(ctx, nftSchemaName, attributeName)
+		if found {
+			attributeValue = schemaAttribute.CurrentValueToString()
+		}
+	}
+
+	return attributeValue, nil
+}

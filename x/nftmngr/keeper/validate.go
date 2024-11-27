@@ -127,6 +127,7 @@ func MergeNFTDataAttributes(originAttributes []*types.AttributeDefinition, oncha
 	}
 	return mergedAttributes
 }
+
 func HasSameTypeAsSchema(mapSchemaAttributes map[string]*types.AttributeDefinition, dataAttributes []*types.NftAttributeValue) (bool, string) {
 	// If attributes have same name, then they must have same type
 	for _, attriVal := range dataAttributes {
@@ -137,6 +138,7 @@ func HasSameTypeAsSchema(mapSchemaAttributes map[string]*types.AttributeDefiniti
 	}
 	return true, ""
 }
+
 func GetTypeFromAttributeValue(attribute *types.NftAttributeValue) string {
 	if _, ok := attribute.GetValue().(*types.NftAttributeValue_BooleanAttributeValue); ok {
 		return "boolean"
@@ -152,6 +154,7 @@ func GetTypeFromAttributeValue(attribute *types.NftAttributeValue) string {
 	}
 	return "default"
 }
+
 
 func DefaultMintValueHasSameType(attributes []*types.AttributeDefinition) (bool, string) {
 	for _, attriDef := range attributes {
