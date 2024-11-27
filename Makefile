@@ -187,6 +187,10 @@ proto-lint:
 proto-check-breaking:
 	@$(DOCKER_BUF) breaking --against-input $(HTTPS_GIT)#branch=master
 
+proto-go:
+	@ignite g proto-go -y
+
+
 .PHONY: all install install-debug \
 	go-mod-cache draw-deps clean build format \
 	test test-all test-build test-cover test-unit test-race \
@@ -196,10 +200,16 @@ proto-check-breaking:
 ###                                  DEVENET                                ###
 ###############################################################################
 
-start:
+remove-doc:
+	@echo "remove-doc"
 	@rm -f ./docs/static/openapi.yml
+
+update-module:
+	@echo "update-module"
 	@rm -f go.sum && touch go.sum
 	@go mod tidy
+
+start: remove-doc update-module
 	@ignite chain serve --config ./config.yml -r -f $(VERBOSE)
 
 
@@ -217,3 +227,6 @@ deploy-nft:
 
 deploy-nft-fast:
 	@forge script ./contracts/script/ERC721.s.sol:DeployScript --broadcast --rpc-url http://localhost:8545
+
+bridge:
+	@forge script ./contracts/script/Bridge.s.sol:SendToCosmosScript --broadcast --rpc-url http://localhost:8545  --optimize
