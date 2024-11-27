@@ -35,6 +35,7 @@ type NftmngrKeeper interface {
 	GetActionExecutor(ctx sdk.Context, nftSchemaCode string, executorAddress string) (val nftmngrtypes.ActionExecutor, found bool)
 	GetSchemaOwner(ctx sdk.Context, nftSchemaName string) (string, error)
 	IsSchemaOwner(ctx sdk.Context, nftSchemaName, inputAddress string) (bool, error)
+  GetAttributeValue(ctx sdk.Context, nftSchemaName, tokenId, attributeName string) (string, error)
 	// ####################
 	// #                  #
 	// #     SETTER       #
