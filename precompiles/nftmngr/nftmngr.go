@@ -41,12 +41,18 @@ type ActionParameter struct {
 type PrecompileExecutor struct {
 	nftmngrKeeper pcommon.NftmngrKeeper
 	bankKeeper    pcommon.BankKeeper
+	address       common.Address
+
 	/*
 	   #################
 	   #### GETTER #####
 	   #################
 	*/
-	GetActionExecutorId []byte
+	GetActionExecutorID []byte
+	IsActionExecutorID  []byte
+	IsSchemaOwnerID     []byte
+	GetAttributeValueID []byte
+	
 	/*
 	   #################
 	   #### SETTER #####
@@ -73,7 +79,6 @@ type PrecompileExecutor struct {
 	AddActionExecutorID    []byte
 	RemoveActionExecutorID []byte
 	ActionByAdminID        []byte
-	address                common.Address
 }
 
 func NewExecutor(nftmngrKeeper pcommon.NftmngrKeeper, bankKeeper pcommon.BankKeeper) (*PrecompileExecutor, error) {
@@ -138,6 +143,12 @@ func NewPrecompile(nftmngrKeeper pcommon.NftmngrKeeper, bankKeeper pcommon.BankK
 			p.AddActionExecutorID = m.ID
 		case RemoveActionExecutor:
 			p.RemoveActionExecutorID = m.ID
+		case IsActionExecutor:
+			p.IsActionExecutorID = m.ID
+		case IsSchemaOwner:
+			p.IsSchemaOwnerID = m.ID
+		case GetAttributeValue:
+			p.GetAttributeValueID = m.ID
 		}
 	}
 

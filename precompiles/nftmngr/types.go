@@ -28,8 +28,8 @@ const (
 // readonly
 const (
 	IsActionExecutor  = "isActionExecutor"
-	IsSchemaOwner     = "IsSchemaOwner"
-	GetAttributeValue = "GetAttributeValue"
+	IsSchemaOwner     = "isSchemaOwner"
+	GetAttributeValue = "getAttributeValue"
 )
 
 type TransactionMetadata struct {
