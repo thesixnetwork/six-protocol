@@ -233,6 +233,7 @@ func (k Keeper) ShowAttributeKeeper(ctx sdk.Context, creator, nftSchemaName stri
 func (k Keeper) GetAttributeValue(ctx sdk.Context, nftSchemaName, tokenId, attributeName string) (string, error) {
 	var (
 		attributeValue   string
+		attributeFound   = false
 		isTokenAttribute = false
 	)
 
@@ -250,6 +251,7 @@ func (k Keeper) GetAttributeValue(ctx sdk.Context, nftSchemaName, tokenId, attri
 	for _, ocAttribute := range metadata.OnchainAttributes {
 		if ocAttribute.Name == attributeName {
 			isTokenAttribute = true
+			attributeFound = true
 			// convert attribute value to string and assing to attributeValue
 			attributeValue = ocAttribute.AttributeValueToString()
 		}
@@ -259,8 +261,13 @@ func (k Keeper) GetAttributeValue(ctx sdk.Context, nftSchemaName, tokenId, attri
 		// find schema attribute value
 		schemaAttribute, found := k.GetSchemaAttribute(ctx, nftSchemaName, attributeName)
 		if found {
+			attributeFound = true
 			attributeValue = schemaAttribute.CurrentValueToString()
 		}
+	}
+
+	if !attributeFound {
+		return "", sdkerrors.Wrap(types.ErrAttributeDoesNotExists, attributeName)
 	}
 
 	return attributeValue, nil
