@@ -55,6 +55,10 @@ func (p PrecompileExecutor) Execute(ctx sdk.Context, method *abi.Method, caller 
 		return p.removeActionExecutor(ctx, caller, method, args, value, readOnly)
 	case IsActionExecutor:
 		return p.isActionExecutor(ctx, method, args, value)
+	case IsSchemaOwner:
+		return p.isSchemaOwner(ctx, method, args, value)
+	case GetAttributeValue:
+		return p.getAttributeValue(ctx, method, args, value)
 	}
 	return
 }
