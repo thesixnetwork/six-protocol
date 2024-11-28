@@ -127,7 +127,7 @@ interface INFTMNGR {
 
     function isSchemaOwner(
         string memory nftSchemaName,
-        string memory ownerAddress
+        address ownerAddress
     ) external view returns (bool isSchemaOwner);
 
     function getAttributeValue(
