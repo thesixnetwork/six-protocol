@@ -55,7 +55,7 @@ func (p PrecompileExecutor) isSchemaOwner(ctx sdk.Context, method *abi.Method, a
 	if err != nil {
 		return nil, err
 	}
-	
+
 	return method.Outputs.Pack(found)
 }
 
