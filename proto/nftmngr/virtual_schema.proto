@@ -2,6 +2,9 @@ syntax = "proto3";
 package thesixnetwork.sixprotocol.nftmngr;
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
 
+import "nftmngr/action.proto";
+import "gogoproto/gogo.proto";
+
 message VirtualSchema {
     string virtual_nft_schema_code = 1;
     repeated VirtualSchemaRegistry registry = 2;
@@ -16,4 +19,20 @@ message VirtualSchemaRegistry {
 enum RegistryStatus {
   ACCEPT = 0;
   REJECT = 1;
+}
+
+/*
+  TODO:
+   1. Policy of action (who can use action)
+   2. Proposal to enable and disable action
+*/
+message VirtualAction {
+  string name = 1;
+  string desc = 2;
+  bool disable = 3;
+  string when = 4;
+  repeated string then = 5;
+  // NOTE: Policy of virtual action
+  AllowedActioner allowed_actioner = 6 [(gogoproto.nullable) = true];
+  repeated ActionParams params = 7 [(gogoproto.nullable) = true];
 }
