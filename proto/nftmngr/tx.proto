@@ -34,10 +34,8 @@ service Msg {
   rpc SetAttributeOveriding(MsgSetAttributeOveriding) returns (MsgSetAttributeOveridingResponse);
   rpc SetMetadataFormat(MsgSetMetadataFormat) returns (MsgSetMetadataFormatResponse);
   rpc CreateActionExecutor(MsgCreateActionExecutor) returns (MsgCreateActionExecutorResponse);
-  //rpc UpdateActionExecutor(MsgUpdateActionExecutor) returns (MsgUpdateActionExecutorResponse);
   rpc DeleteActionExecutor(MsgDeleteActionExecutor) returns (MsgDeleteActionExecutorResponse);
   rpc UpdateSchemaAttribute(MsgUpdateSchemaAttribute) returns (MsgUpdateSchemaAttributeResponse);
-  // rpc DeleteSchemaAttribute(MsgDeleteSchemaAttribute) returns (MsgDeleteSchemaAttributeResponse);
   rpc UpdateAction(MsgUpdateAction) returns (MsgUpdateActionResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
@@ -390,16 +388,6 @@ message MsgUpdateSchemaAttributeResponse {
   string nftSchemaCode = 1;
   string name = 2;
 }
-
-// message MsgDeleteSchemaAttribute {
-//   string creator = 1;
-//   string nftSchemaCode = 2;
-//   string name = 3;
-// }
-// message MsgDeleteSchemaAttributeResponse {
-//   string nftSchemaCode = 1;
-//   string name = 2;
-// }
 
 message MsgUpdateAction {
   string creator = 1;
