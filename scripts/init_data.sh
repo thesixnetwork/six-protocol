@@ -7,7 +7,7 @@ grantOracle() {
 EVMSIGN=./evmsign
 PLATFORM=$1
 if [ -z "$PLATFORM" ]; then
-    read -p "Enter test platform: [local(defaule), docker, fivenet, sixnet] " _PLATFORM
+    read -p "Enter test platform: [local(default), docker, fivenet, sixnet] " _PLATFORM
     PLATFORM=$(echo "$_PLATFORM" | tr '[:upper:]' '[:lower:]')
     # if platform is not set, set it to local
     if [ -z "$PLATFORM" ]; then
