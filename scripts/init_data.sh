@@ -40,7 +40,7 @@ case $PLATFORM in
 esac
 
 
-BASE64_SCHEMA=`cat ./mock-data/nft-schema.json | base64 | tr -d '\n'`
+BASE64_SCHEMA=`cat ../resources/nft-schema.json | base64 | tr -d '\n'`
 
 sixd tx nftmngr create-nft-schema --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --chain-id ${CHAIN_ID} \
     --node ${RPC_ENDPOINT} ${BASE64_SCHEMA}
