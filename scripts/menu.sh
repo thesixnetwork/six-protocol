@@ -99,7 +99,7 @@ case $choice in
         if [ -z "$schema_code" ]; then
             schema_code=$default_schema_code
         fi
-        BASE64_META=`cat ./mock-data/nft-data.json | sed "s/TOKENID/${token_id}/g"  | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n'`
+        BASE64_META=`cat ../resources/nft-data.json | sed "s/TOKENID/${token_id}/g"  | sed "s/SCHEMA_CODE/${schema_code}/g" | base64 | tr -d '\n'`
         sixd tx nftmngr create-metadata "${schema_code}" ${token_id} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             ${BASE64_META} --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
         ;;
@@ -171,7 +171,7 @@ case $choice in
             ATTRIBUTE_VALUE_TYPE_VALUE=${ATTRIBUTE_VALUE_VALUE}
         fi
 
-        BASE64_ATTR=`cat ./mock-data/attribute.json \
+        BASE64_ATTR=`cat ../resources/attribute.json \
             | sed "s/#ATTRIBUTE_NAME#/${ATTRIBUTE_NAME}/g" \
             | sed "s/#ATTRIBUTE_VALUE_TYPE#/${ATTRIBUTE_VALUE_TYPE}/g" \
             | sed "s/#ATTRIBUTE_VALUE_TYPE_VALUE#/${ATTRIBUTE_VALUE_TYPE_VALUE}/g" \
@@ -202,7 +202,7 @@ case $choice in
         echo "Oracle - Submit Mint Response"
         read -p "Mint Request ID: " mint_request_id
         read -p "Oracle : " oracle_key_name
-        BASE64_ORIGINDATA=`cat ./mock-data/nft-origin-data.json | base64 | tr -d '\n'`
+        BASE64_ORIGINDATA=`cat ../resources/nft-origin-data.json | base64 | tr -d '\n'`
 
         sixd tx nftoracle submit-mint-response ${mint_request_id} ${BASE64_ORIGINDATA} --from ${oracle_key_name} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
@@ -232,14 +232,14 @@ case $choice in
             echo $required_params
         fi
 
-        BASE64JSON=`cat ./mock-data/action-param.json | sed "s/ACTION/${action}/g" | sed "s/TOKEN_ID/${token_id}/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | sed "s/REFID/${reference_id}/g" | sed "s/\"PARAMS\"/${required_params}/g" | sed "s/ONBEHALFOF/""/g"`
+        BASE64JSON=`cat ../resources/action-param.json | sed "s/ACTION/${action}/g" | sed "s/TOKEN_ID/${token_id}/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | sed "s/REFID/${reference_id}/g" | sed "s/\"PARAMS\"/${required_params}/g" | sed "s/ONBEHALFOF/""/g"`
 
         BASE64_MESSAGE=`echo -n $BASE64JSON | base64 | tr -d '\n'`
         # echo "BASE64_MESSAGE: ${BASE64_MESSAGE}"
         MESSAGE_SIG=`echo -n ${BASE64_MESSAGE} | $EVMSIGN ./.secret`
         # echo "MESSAGE_SIG: ${MESSAGE_SIG}"
 
-        BASE64_ACTION_SIG=`cat ./mock-data/action-signature.json | sed "s/SIGNATURE/${MESSAGE_SIG}/g" | sed "s/MESSAGE/${BASE64_MESSAGE}/g" | base64 | tr -d '\n'`
+        BASE64_ACTION_SIG=`cat ../resources/action-signature.json | sed "s/SIGNATURE/${MESSAGE_SIG}/g" | sed "s/MESSAGE/${BASE64_MESSAGE}/g" | base64 | tr -d '\n'`
 
         # echo -n ${BASE64_MESSAGE} | $EVMSIGN ./.secret 1
         # echo  ${BASE64_ACTION_SIG} 
@@ -255,7 +255,7 @@ case $choice in
         echo "Oracle - Submit Action Response"
         read -p "Action Request ID: " action_request_id
         read -p "Oracle : " oracle_key_name
-        BASE64_ORIGINDATA=`cat ./mock-data/nft-origin-data.json | base64 | tr -d '\n'`
+        BASE64_ORIGINDATA=`cat ../resources/nft-origin-data.json | base64 | tr -d '\n'`
 
         sixd tx nftoracle submit-action-response ${action_request_id} ${BASE64_ORIGINDATA} --from ${oracle_key_name} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
@@ -268,14 +268,14 @@ case $choice in
             schema_code=$default_schema_code
         fi
 
-        BASE64JSON=`cat ./mock-data/verify-collection-owner.json`
+        BASE64JSON=`cat ../resources/verify-collection-owner.json`
         # echo "BASE64JSON: ${BASE64JSON}"
         BASE64_MESSAGE=`echo -n $BASE64JSON | base64 | tr -d '\n'`
         # echo "BASE64_MESSAGE: ${BASE64_MESSAGE}"
         MESSAGE_SIG=`echo -n ${BASE64_MESSAGE} | $EVMSIGN ./.secret`
         # echo "MESSAGE_SIG: ${MESSAGE_SIG}"
 
-        BASE64_VERIFY_SIG=`cat ./mock-data/verify-signature.json | sed "s/SIGNATURE/${MESSAGE_SIG}/g" | sed "s/MESSAGE/${BASE64_MESSAGE}/g" | base64 | tr -d '\n'`
+        BASE64_VERIFY_SIG=`cat ../resources/verify-signature.json | sed "s/SIGNATURE/${MESSAGE_SIG}/g" | sed "s/MESSAGE/${BASE64_MESSAGE}/g" | base64 | tr -d '\n'`
 
         sixd tx nftoracle create-verify-collection-owner-request ${schema_code} ${BASE64_VERIFY_SIG} ${require_confirmations} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
@@ -293,7 +293,7 @@ case $choice in
         if [ -z "$schema_code" ]; then
             schema_code=$default_schema_code
         fi
-        BASE64_ORIGINDATA=`cat ./mock-data/verify-collection-owner.json | base64 | tr -d '\n'`
+        BASE64_ORIGINDATA=`cat ../resources/verify-collection-owner.json | base64 | tr -d '\n'`
 
         sixd tx nftoracle submit-verify-collection-owner ${verfiry_request_id} ${schema_code} ${BASE64_ORIGINDATA} --from ${oracle_key_name} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
@@ -305,7 +305,7 @@ case $choice in
             schema_code=$default_schema_code
         fi
         read -p "Location of attribute (0 or 1): " location
-        BASE64_ATTRIBUTE=`cat ./mock-data/new-attribute.json | base64 | tr -d '\n'`
+        BASE64_ATTRIBUTE=`cat ../resources/new-attribute.json | base64 | tr -d '\n'`
         sixd tx nftmngr add-attribute ${schema_code} ${location} ${BASE64_ATTRIBUTE} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
         ;;
@@ -315,20 +315,20 @@ case $choice in
         if [ -z "$schema_code" ]; then
             schema_code=$default_schema_code
         fi
-        BASE64_ACTION=`cat ./mock-data/new-action.json | base64 | tr -d '\n'`
+        BASE64_ACTION=`cat ../resources/new-action.json | base64 | tr -d '\n'`
         sixd tx nftmngr add-action ${schema_code} ${BASE64_ACTION} --from $KEY_NAME --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
             --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
         ;;
     17) 
         echo "Set Signer"
-        BASE64JSON=`cat ./mock-data/set-signer.json`
+        BASE64JSON=`cat ../resources/set-signer.json`
         # echo "BASE64JSON: ${BASE64JSON}"
         BASE64_MESSAGE=`echo -n $BASE64JSON | base64 | tr -d '\n'`
         # echo "BASE64_MESSAGE: ${BASE64_MESSAGE}"
         MESSAGE_SIG=`echo -n ${BASE64_MESSAGE} | $EVMSIGN ./.secret`
         # echo "MESSAGE_SIG: ${MESSAGE_SIG}"
 
-        BASE64_VERIFY_SIG=`cat ./mock-data/verify-signature.json | sed "s/SIGNATURE/${MESSAGE_SIG}/g" | sed "s/MESSAGE/${BASE64_MESSAGE}/g" | base64 | tr -d '\n'`
+        BASE64_VERIFY_SIG=`cat ../resources/verify-signature.json | sed "s/SIGNATURE/${MESSAGE_SIG}/g" | sed "s/MESSAGE/${BASE64_MESSAGE}/g" | base64 | tr -d '\n'`
 
         sixd tx nftoracle create-action-signer ${BASE64_VERIFY_SIG} --from super-admin --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
         ;;
@@ -364,13 +364,13 @@ case $choice in
             echo $required_params
         fi
 
-        BASE64JSON=`cat ./mock-data/action-param.json | sed "s/ACTION/${action}/g" | sed "s/TOKEN_ID/${token_id}/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | sed "s/REFID/${reference_id}/g" | sed "s/\"PARAMS\"/${required_params}/g" | sed "s/ONBEHALFOF/${on_behalf_of}/g"`
+        BASE64JSON=`cat ../resources/action-param.json | sed "s/ACTION/${action}/g" | sed "s/TOKEN_ID/${token_id}/g" | sed "s/SCHEMA_CODE/${schema_code}/g" | sed "s/REFID/${reference_id}/g" | sed "s/\"PARAMS\"/${required_params}/g" | sed "s/ONBEHALFOF/${on_behalf_of}/g"`
         BASE64_MESSAGE=`echo -n $BASE64JSON | base64 | tr -d '\n'`
         # echo "BASE64_MESSAGE: ${BASE64_MESSAGE}"
         MESSAGE_SIG=`echo -n ${BASE64_MESSAGE} | $EVMSIGN ./.secret2`
         # echo "MESSAGE_SIG: ${MESSAGE_SIG}"
 
-        BASE64_ACTION_SIG=`cat ./mock-data/action-signature.json | sed "s/SIGNATURE/${MESSAGE_SIG}/g" | sed "s/MESSAGE/${BASE64_MESSAGE}/g" | base64 | tr -d '\n'`
+        BASE64_ACTION_SIG=`cat ../resources/action-signature.json | sed "s/SIGNATURE/${MESSAGE_SIG}/g" | sed "s/MESSAGE/${BASE64_MESSAGE}/g" | base64 | tr -d '\n'`
 
         # echo -n ${BASE64_MESSAGE} | $EVMSIGN ./.secret 1
         # echo  ${BASE64_ACTION_SIG} 
@@ -401,7 +401,7 @@ case $choice in
         ;;
     22) 
         echo "Proposal change feemarket parameter"
-        sixd tx gov submit-proposal param-change ./mock-data/feemarket.json --from $KEY_NAME --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} --gas auto --gas-prices 1.25usix --gas-adjustment 1.5 -y
+        sixd tx gov submit-proposal param-change ../resources/feemarket.json --from $KEY_NAME --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT} --gas auto --gas-prices 1.25usix --gas-adjustment 1.5 -y
         ;;
     *) echo "Invalid choice"
        ;;

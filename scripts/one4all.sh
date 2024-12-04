@@ -63,7 +63,7 @@ echo "############### TESTING NFT MANAGER MODULE ###############"
 echo ""
 
 #read -p "Press enter to continue"
-BASE64_SCHEMA=$(cat ./mock-data/nft-schema.json | base64 | tr -d '\n')
+BASE64_SCHEMA=$(cat ../resources/nft-schema.json | base64 | tr -d '\n')
 if sixd tx nftmngr create-nft-schema ${BASE64_SCHEMA} --from ${key} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
     --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
     echo "✅ create-nft-schema"
@@ -76,7 +76,7 @@ fi
 
 echo "Create Multi NFT"
 #read -p "Press enter to continue"
-BASE64_META=$(cat ./mock-data/nft-data.json | sed "s/TOKENID/MULTIMINT/g" | sed "s/SCHEMA_CODE/dee_dev01.multiaction/g" | base64 | tr -d '\n')
+BASE64_META=$(cat ../resources/nft-data.json | sed "s/TOKENID/MULTIMINT/g" | sed "s/SCHEMA_CODE/dee_dev01.multiaction/g" | base64 | tr -d '\n')
 if sixd tx nftmngr create-multi-metadata dee_dev01.multiaction 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30 --from ${key} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y \
     ${BASE64_META} --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} | grep -q 'msg_index: 0'; then
     echo "✅ create-multi-metadata"
@@ -497,10 +497,10 @@ for i in "${!action_list[@]}"; do
     action=${action_list[$i]}
     params=${params_list[$i]}
     echo "Perform Action: $action"
-    BASE64JSON=`cat ./mock-data/action-param.json | sed "s/ACTION/${action}/g" | sed "s/TOKEN_ID/2/g" | sed "s/SCHEMA_CODE/dee_dev01.multiaction/g" | sed "s/REFID/dee_dev01.multiaction_TK2_${action}/g" | sed "s/\"PARAMS\"/${params}/g" | sed "s/ONBEHALFOF/""/g"`
+    BASE64JSON=`cat ../resources/action-param.json | sed "s/ACTION/${action}/g" | sed "s/TOKEN_ID/2/g" | sed "s/SCHEMA_CODE/dee_dev01.multiaction/g" | sed "s/REFID/dee_dev01.multiaction_TK2_${action}/g" | sed "s/\"PARAMS\"/${params}/g" | sed "s/ONBEHALFOF/""/g"`
     BASE64_MESSAGE=`echo -n $BASE64JSON | base64 | tr -d '\n'`
     MESSAGE_SIG=`echo -n ${BASE64_MESSAGE} | ./evmsign ./secret/.secret`
-    BASE64_ACTION_SIG=`cat ./mock-data/action-signature.json | sed "s/SIGNATURE/${MESSAGE_SIG}/g" | sed "s/MESSAGE/${BASE64_MESSAGE}/g" | base64 | tr -d '\n'`
+    BASE64_ACTION_SIG=`cat ../resources/action-signature.json | sed "s/SIGNATURE/${MESSAGE_SIG}/g" | sed "s/MESSAGE/${BASE64_MESSAGE}/g" | base64 | tr -d '\n'`
     #read -p "Press enter to continue"
     id=$(sixd tx nftoracle create-action-request ethereum ${BASE64_ACTION_SIG} 4 --from alice --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y | grep 'raw_log' | sed -n 's/.*"action_request_id","value":"\([0-9]*\)".*/\1/p')
     if [ -n "$id" ]; then
@@ -515,7 +515,7 @@ done
 
 #read -p "Press enter to continue"
 oracles=(oracle1 oracle2 oracle3 oracle4)
-BASE64_ORIGINDATA=`cat ./mock-data/nft-origin-data.json | base64 | tr -d '\n'`
+BASE64_ORIGINDATA=`cat ../resources/nft-origin-data.json | base64 | tr -d '\n'`
 for i in ${array_owner_request[@]}
 do
     for j in ${oracles[@]}
@@ -538,10 +538,10 @@ echo "############### TESTING SET ACTION SIGNER ###############"
 echo ""
 
 #read -p "Press enter to continue"
-BASE64JSON=`cat ./mock-data/set-signer.json`
+BASE64JSON=`cat ../resources/set-signer.json`
 BASE64_MESSAGE=`echo -n $BASE64JSON | base64 | tr -d '\n'`
 MESSAGE_SIG=`echo -n ${BASE64_MESSAGE} | ./evmsign ./secret/.secret`
-BASE64_VERIFY_SIG=`cat ./mock-data/verify-signature.json | sed "s/SIGNATURE/${MESSAGE_SIG}/g" | sed "s/MESSAGE/${BASE64_MESSAGE}/g" | base64 | tr -d '\n'`
+BASE64_VERIFY_SIG=`cat ../resources/verify-signature.json | sed "s/SIGNATURE/${MESSAGE_SIG}/g" | sed "s/MESSAGE/${BASE64_MESSAGE}/g" | base64 | tr -d '\n'`
 sixd tx nftoracle create-action-signer ${BASE64_VERIFY_SIG} --from super-admin --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --chain-id ${CHAIN_ID} --node ${RPC_ENDPOINT}
 
 echo "______________________________________________________________________________________________"
@@ -556,10 +556,10 @@ for i in "${!action_list[@]}"; do
     action=${action_list[$i]}
     params=${params_list[$i]}
     echo "Perform Action: $action"
-    BASE64JSON=`cat ./mock-data/action-param.json | sed "s/ACTION/${action}/g" | sed "s/TOKEN_ID/3/g" | sed "s/SCHEMA_CODE/dee_dev01.multiaction/g" | sed "s/REFID/dee_dev01.multiaction_TK3_${action}/g" | sed "s/\"PARAMS\"/${params}/g" | sed "s/ONBEHALFOF/0xb7c2468b9481CbDfD029998d6bA98c55072d932e/g"`
+    BASE64JSON=`cat ../resources/action-param.json | sed "s/ACTION/${action}/g" | sed "s/TOKEN_ID/3/g" | sed "s/SCHEMA_CODE/dee_dev01.multiaction/g" | sed "s/REFID/dee_dev01.multiaction_TK3_${action}/g" | sed "s/\"PARAMS\"/${params}/g" | sed "s/ONBEHALFOF/0xb7c2468b9481CbDfD029998d6bA98c55072d932e/g"`
     BASE64_MESSAGE=`echo -n $BASE64JSON | base64 | tr -d '\n'`
     MESSAGE_SIG=`echo -n ${BASE64_MESSAGE} | ./evmsign ./secret/.secret2`
-    BASE64_ACTION_SIG=`cat ./mock-data/action-signature.json | sed "s/SIGNATURE/${MESSAGE_SIG}/g" | sed "s/MESSAGE/${BASE64_MESSAGE}/g" | base64 | tr -d '\n'`
+    BASE64_ACTION_SIG=`cat ../resources/action-signature.json | sed "s/SIGNATURE/${MESSAGE_SIG}/g" | sed "s/MESSAGE/${BASE64_MESSAGE}/g" | base64 | tr -d '\n'`
     #read -p "Press enter to continue"
     id=$(sixd tx nftoracle create-action-request ethereum ${BASE64_ACTION_SIG} 4 --from alice --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y | grep 'raw_log' | sed -n 's/.*"action_request_id","value":"\([0-9]*\)".*/\1/p')
     if [ -n "$id" ]; then
@@ -572,7 +572,7 @@ for i in "${!action_list[@]}"; do
     fi
 done
 
-BASE64_ORIGINDATA=`cat ./mock-data/nft-origin-data.json | base64 | tr -d '\n'`
+BASE64_ORIGINDATA=`cat ../resources/nft-origin-data.json | base64 | tr -d '\n'`
 for i in ${array_actor_request[@]}
 do
     for j in ${oracles[@]}
