@@ -2,8 +2,6 @@ syntax = "proto3";
 package thesixnetwork.sixprotocol.nftmngr;
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
 
-import "nftmngr/action.proto";
-
 message VirtualSchema {
     string virtual_nft_schema_code = 1;
     repeated VirtualSchemaRegistry registry = 2;
