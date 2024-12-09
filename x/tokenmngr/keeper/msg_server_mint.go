@@ -32,7 +32,7 @@ func (k msgServer) Mint(goCtx context.Context, msg *types.MsgMint) (*types.MsgMi
 	if !ok {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token out of range of uint256")
 	}
-	
+
 	newTotalSupply := total_supply.Amount.Add(msg.Amount.Amount)
 	if newTotalSupply.GT(token.MaxSupply.Amount) && !token.MaxSupply.Amount.IsZero() {
 		mintAmount = token.MaxSupply.Amount.Sub(total_supply.Amount)

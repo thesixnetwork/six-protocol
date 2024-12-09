@@ -11,6 +11,7 @@ import (
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
+// TODO:: Feat(VirtualSchema)
 func TestNewMetadata(t *testing.T) {
 	schemaJSON, err := os.ReadFile("../simulation/schema.json")
 	if err != nil {
@@ -33,7 +34,6 @@ func TestNewMetadata(t *testing.T) {
 	if err != nil {
 		fmt.Println(err)
 	}
-
 
 	schema_, data_, globalAttributeSchema_ := sim.SimulateCreateMetadata(schemaInput, metaInput)
 	meta := types.NewMetadata(&schema_, &data_, types.AttributeOverriding_CHAIN, globalAttributeSchema_)

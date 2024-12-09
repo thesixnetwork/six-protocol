@@ -38,7 +38,7 @@ func InitializePrecompiles(
 	cdc codec.BinaryCodec,
 	bankKeeper common.BankKeeper,
 	accountKeeper common.AccountKeeper,
-  tokenmngrKeeper common.TokenmngrKeeper,
+	tokenmngrKeeper common.TokenmngrKeeper,
 	nftmngrKeeper common.NftmngrKeeper,
 ) error {
 	SetupMtx.Lock()

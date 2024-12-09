@@ -113,6 +113,28 @@ func TestGenesis(t *testing.T) {
 				NftSchemaCode: "1",
 			},
 		},
+		VirtualActionList: []types.VirtualAction{
+			{
+				NftSchemaCode: "0",
+				Name:            "",
+				Desc:            "",
+				Disable:         false,
+				When:            "",
+				Then:            []string{},
+				AllowedActioner: 0,
+				Params:          []*types.ActionParams{},
+			},
+			{
+				NftSchemaCode:   "0",
+				Name:            "",
+				Desc:            "",
+				Disable:         false,
+				When:            "",
+				Then:            []string{},
+				AllowedActioner: 0,
+				Params:          []*types.ActionParams{},
+			},
+		},
 		// this line is used by starport scaffolding # genesis/test/state
 	}
 
@@ -137,5 +159,6 @@ func TestGenesis(t *testing.T) {
 	require.ElementsMatch(t, genesisState.SchemaAttributeList, got.SchemaAttributeList)
 	require.ElementsMatch(t, genesisState.ActionOfSchemaList, got.ActionOfSchemaList)
 	require.ElementsMatch(t, genesisState.ExecutorOfSchemaList, got.ExecutorOfSchemaList)
+	require.ElementsMatch(t, genesisState.VirtualActionList, got.VirtualActionList)
 	// this line is used by starport scaffolding # genesis/test/assert
 }

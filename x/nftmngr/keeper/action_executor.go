@@ -66,7 +66,7 @@ func (k Keeper) GetAllActionExecutor(ctx sdk.Context) (list []types.ActionExecut
 	return
 }
 
-func (k Keeper) AddActionExecutor(ctx sdk.Context, creator, nftSchemaName , executorAddress string) error {
+func (k Keeper) AddActionExecutor(ctx sdk.Context, creator, nftSchemaName, executorAddress string) error {
 	// Retrieve the schema
 	schema, found := k.GetNFTSchema(ctx, nftSchemaName)
 	if !found {
@@ -117,7 +117,7 @@ func (k Keeper) AddActionExecutor(ctx sdk.Context, creator, nftSchemaName , exec
 }
 
 // RemoveActionExecutor removes a actionExecutor from the store
-func (k Keeper) DelActionExecutor(ctx sdk.Context, creator, nftSchemaName , executorAddress string) error {
+func (k Keeper) DelActionExecutor(ctx sdk.Context, creator, nftSchemaName, executorAddress string) error {
 	// Retrieve the schema
 	schema, found := k.GetNFTSchema(ctx, nftSchemaName)
 	if !found {

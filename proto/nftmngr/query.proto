@@ -17,8 +17,9 @@ import "nftmngr/action_executor.proto";
 import "nftmngr/schema_attribute.proto";
 import "nftmngr/action_of_schema.proto";
 import "nftmngr/executor_of_schema.proto";
-// this line is used by starport scaffolding # 1
+import "nftmngr/virtual_action.proto";
 import "nftmngr/nft_data.proto";
+// this line is used by starport scaffolding # 1
 
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
 
@@ -148,7 +149,17 @@ service Query {
 		option (google.api.http).get = "/thesixnetwork/sixnft/nftmngr/executor_of_schema";
 	}
 
-	// this line is used by starport scaffolding # 2
+	// Queries a Virtual by index
+	rpc VirtualAction(QueryGetVirtualActionRequest) returns (QueryGetVirtualActionResponse) {
+		option (google.api.http).get = "/thesixnetwork/six-protocol/nftmngr/virtual_action/{nftSchemaCode}";
+	}
+
+	// Queries a list of Virtual items.
+	rpc VirtualActionAll(QueryAllVirtualActionRequest) returns (QueryAllVirtualActionResponse) {
+		option (google.api.http).get = "/thesixnetwork/six-protocol/nftmngr/virtual_action";
+	}
+
+// this line is used by starport scaffolding # 2
 }
 
 // QueryParamsRequest is request type for the Query/Params RPC method.
@@ -371,5 +382,23 @@ message QueryAllExecutorOfSchemaResponse {
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
+
+message QueryGetVirtualActionRequest {
+	  string nftSchemaCode = 1;
+	  string name = 2;
+}
+
+message QueryGetVirtualActionResponse {
+	VirtualAction virtualAction = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllVirtualActionRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllVirtualActionResponse {
+	repeated VirtualAction virtualAction = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
 
 // this line is used by starport scaffolding # 3
