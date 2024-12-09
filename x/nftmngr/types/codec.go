@@ -33,6 +33,9 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgDeleteActionExecutor{}, "nftmngr/DeleteActionExecutor", nil)
 	cdc.RegisterConcrete(&MsgUpdateSchemaAttribute{}, "nftmngr/UpdateSchemaAttribute", nil)
 	cdc.RegisterConcrete(&MsgUpdateAction{}, "nftmngr/UpdateAction", nil)
+	cdc.RegisterConcrete(&MsgCreateVirtualAction{}, "nftmngr/CreateVirtualAction", nil)
+	cdc.RegisterConcrete(&MsgUpdateVirtualAction{}, "nftmngr/UpdateVirtualAction", nil)
+	cdc.RegisterConcrete(&MsgDeleteVirtualAction{}, "nftmngr/DeleteVirtualAction", nil)
 	// this line is used by starport scaffolding # 2
 }
 
@@ -107,6 +110,11 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgUpdateAction{},
+	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgCreateVirtualAction{},
+		&MsgUpdateVirtualAction{},
+		&MsgDeleteVirtualAction{},
 	)
 	// this line is used by starport scaffolding # 3
 	msgservice.RegisterMsgServiceDesc(registry, &_Msg_serviceDesc)

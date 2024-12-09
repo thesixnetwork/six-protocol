@@ -348,4 +348,3 @@ func (k Keeper) SetURIRetrievalKeeper(ctx sdk.Context, creator, nftSchemaName st
 
 	return nil
 }
-

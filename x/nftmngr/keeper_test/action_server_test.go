@@ -173,7 +173,7 @@ func TestActionKeeper(t *testing.T) {
 	if err != nil {
 		fmt.Printf("err: %v \n", err)
 	}
-	
+
 	require.Equal(t, actionParams_[0].Value, metaChangelist[0].Key)
 	require.Equal(t, "10", metaChangelist[0].PreviousValue)
 	require.Equal(t, "9", metaChangelist[0].NewValue)

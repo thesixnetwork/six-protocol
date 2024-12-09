@@ -6,6 +6,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
+
 func init() {
 	// Set the prefix for addresses
 	config := sdk.GetConfig()

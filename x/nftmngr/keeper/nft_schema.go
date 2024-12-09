@@ -32,7 +32,7 @@ func (k Keeper) GetNFTSchema(ctx sdk.Context, code string) (val types.NFTSchema,
 }
 
 // RemoveNFTSchema removes a nFTSchema from the store
-func (k Keeper) RemoveNFTSchema(ctx sdk.Context,code string) {
+func (k Keeper) RemoveNFTSchema(ctx sdk.Context, code string) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.NFTSchemaKeyPrefix))
 	store.Delete(types.NFTSchemaKey(
 		code,
@@ -54,7 +54,6 @@ func (k Keeper) GetAllNFTSchema(ctx sdk.Context) (list []types.NFTSchema) {
 
 	return
 }
-
 
 func (k Keeper) GetAllNFTSchemaLegacy(ctx sdk.Context) (list []v2types.NFTSchema) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.NFTSchemaKeyPrefix))

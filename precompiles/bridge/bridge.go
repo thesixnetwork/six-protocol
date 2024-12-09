@@ -21,8 +21,8 @@ const (
 )
 
 const (
-	BridgeAddress = "0x0000000000000000000000000000000000001069"
-	bridgeDiffTreshold  = 1
+	BridgeAddress      = "0x0000000000000000000000000000000000001069"
+	bridgeDiffTreshold = 1
 )
 
 // Embed abi json file to the executable binary. Needed when importing as dependency.

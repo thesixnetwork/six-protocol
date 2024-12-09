@@ -155,7 +155,6 @@ func GetTypeFromAttributeValue(attribute *types.NftAttributeValue) string {
 	return "default"
 }
 
-
 func DefaultMintValueHasSameType(attributes []*types.AttributeDefinition) (bool, string) {
 	for _, attriDef := range attributes {
 		_, attrType := HasDefaultMintValue(*attriDef)

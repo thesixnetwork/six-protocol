@@ -48,6 +48,18 @@ const (
 	// TODO: Determine the simulation weight value
 	_ int = 100
 
+	opWeightMsgCreateVirtualAction = "op_weight_msg_virtual"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgCreateVirtualAction int = 100
+
+	opWeightMsgUpdateVirtualAction = "op_weight_msg_virtual"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgUpdateVirtualAction int = 100
+
+	opWeightMsgDeleteVirtualAction = "op_weight_msg_virtual"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgDeleteVirtualAction int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -58,8 +70,42 @@ func (AppModule) GenerateGenesisState(simState *module.SimulationState) {
 		accs[i] = acc.Address.String()
 	}
 	nftmngrGenesis := types.GenesisState{
-		Params: types.DefaultParams(),
-		// this line is used by starport scaffolding # simapp/module/genesisState
+		Params:                  types.DefaultParams(),
+		NFTSchemaList:           []types.NFTSchema{},
+		NftDataList:             []types.NftData{},
+		ActionByRefIdList:       []types.ActionByRefId{},
+		OrganizationList:        []types.Organization{},
+		NFTSchemaByContractList: []types.NFTSchemaByContract{},
+		NftFeeConfig:            &types.NFTFeeConfig{},
+		NFTFeeBalance:           &types.NFTFeeBalance{},
+		MetadataCreatorList:     []types.MetadataCreator{},
+		NftCollectionList:       []types.NftCollection{},
+		ActionExecutorList:      []types.ActionExecutor{},
+		SchemaAttributeList:     []types.SchemaAttribute{},
+		ActionOfSchemaList:      []types.ActionOfSchema{},
+		ExecutorOfSchemaList:    []types.ExecutorOfSchema{},
+		VirtualActionList: []types.VirtualAction{
+			{
+				NftSchemaCode:   "0",
+				Name:            "",
+				Desc:            "",
+				Disable:         false,
+				When:            "",
+				Then:            []string{},
+				AllowedActioner: 0,
+				Params:          []*types.ActionParams{},
+			},
+			{
+				NftSchemaCode:   "1",
+				Name:            "",
+				Desc:            "",
+				Disable:         false,
+				When:            "",
+				Then:            []string{},
+				AllowedActioner: 0,
+				Params:          []*types.ActionParams{},
+			},
+		},
 	}
 	simState.GenState[types.ModuleName] = simState.Cdc.MustMarshalJSON(&nftmngrGenesis)
 }
@@ -131,6 +177,39 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		weightMsgToggleAction,
 		nftmngrsimulation.SimulateMsgToggleAction(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
+	var weightMsgCreateVirtualAction int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgCreateVirtualAction, &weightMsgCreateVirtualAction, nil,
+		func(_ *rand.Rand) {
+			weightMsgCreateVirtualAction = defaultWeightMsgCreateVirtualAction
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgCreateVirtualAction,
+		nftmngrsimulation.SimulateMsgCreateVirtualAction(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgUpdateVirtualAction int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgUpdateVirtualAction, &weightMsgUpdateVirtualAction, nil,
+		func(_ *rand.Rand) {
+			weightMsgUpdateVirtualAction = defaultWeightMsgUpdateVirtualAction
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgUpdateVirtualAction,
+		nftmngrsimulation.SimulateMsgUpdateVirtualAction(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgDeleteVirtualAction int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgDeleteVirtualAction, &weightMsgDeleteVirtualAction, nil,
+		func(_ *rand.Rand) {
+			weightMsgDeleteVirtualAction = defaultWeightMsgDeleteVirtualAction
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgDeleteVirtualAction,
+		nftmngrsimulation.SimulateMsgDeleteVirtualAction(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
 	// this line is used by starport scaffolding # simapp/module/operation
 
 	return operations

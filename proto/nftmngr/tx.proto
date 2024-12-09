@@ -3,10 +3,11 @@ package thesixnetwork.sixprotocol.nftmngr;
 
 import "nftmngr/action_executor.proto";
 import "nftmngr/schema_attribute.proto";
-// this line is used by starport scaffolding # proto/tx/import
+import "nftmngr/virtual_action.proto";
 import "nftmngr/on_chain_data.proto";
 import "nftmngr/attribute_definition.proto";
 import "nftmngr/nft_attribute_value.proto";
+// this line is used by starport scaffolding # proto/tx/import
 
 import "google/protobuf/any.proto";
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
@@ -37,6 +38,9 @@ service Msg {
   rpc DeleteActionExecutor(MsgDeleteActionExecutor) returns (MsgDeleteActionExecutorResponse);
   rpc UpdateSchemaAttribute(MsgUpdateSchemaAttribute) returns (MsgUpdateSchemaAttributeResponse);
   rpc UpdateAction(MsgUpdateAction) returns (MsgUpdateActionResponse);
+  rpc CreateVirtualAction(MsgCreateVirtualAction) returns (MsgCreateVirtualActionResponse);
+  rpc UpdateVirtualAction(MsgUpdateVirtualAction) returns (MsgUpdateVirtualActionResponse);
+  rpc DeleteVirtualAction(MsgDeleteVirtualAction) returns (MsgDeleteVirtualActionResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -398,6 +402,37 @@ message MsgUpdateAction {
 message MsgUpdateActionResponse {
   string nftSchemaCode = 1;
   string name = 2;
+}
+
+message MsgCreateVirtualAction {
+  string creator = 1;
+  string nftSchemaCode = 2;
+  string base64VirtualActionStruct = 3;
+}
+
+message MsgCreateVirtualActionResponse {
+  string nftSchemaCode = 1;
+  VirtualAction virtualAction = 2;
+}
+
+message MsgUpdateVirtualAction {
+  string creator = 1;
+  string nftSchemaCode = 2;
+  string base64VirtualActionStruct = 3;
+}
+message MsgUpdateVirtualActionResponse {
+  string nftSchemaCode = 1;
+  VirtualAction virtualAction = 2;
+}
+
+message MsgDeleteVirtualAction {
+  string creator = 1;
+  string nftSchemaCode = 2;
+  string name = 3;
+}
+message MsgDeleteVirtualActionResponse {
+  string creator = 1;
+  string status = 2;
 }
 
 // this line is used by starport scaffolding # proto/tx/message

@@ -35,9 +35,9 @@ func (k msgServer) AddAction(goCtx context.Context, msg *types.MsgAddAction) (*t
 	}
 
 	err = k.AddActionKeeper(ctx, msg.Creator, msg.Code, new_action)
-  if err != nil {
-    return nil, err
-  }
+	if err != nil {
+		return nil, err
+	}
 
 	ctx.EventManager().EmitEvents(sdk.Events{
 		sdk.NewEvent(

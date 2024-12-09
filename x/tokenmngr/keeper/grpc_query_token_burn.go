@@ -39,7 +39,6 @@ func (k Keeper) TokenBurnAll(c context.Context, req *types.QueryAllTokenBurnRequ
 	return &types.QueryAllTokenBurnResponse{TokenBurn: tokenBurns, Pagination: pageRes}, nil
 }
 
-
 func (k Keeper) TokenBurn(c context.Context, req *types.QueryGetTokenBurnRequest) (*types.QueryGetTokenBurnResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
