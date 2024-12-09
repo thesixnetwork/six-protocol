@@ -16,8 +16,7 @@ import (
 // Prevent strconv unused error
 var _ = strconv.IntSize
 
-// TODO:: Feat(VirtualSchema)
-func SimulateMsgCreateVirtualAction(
+func SimulateMsgCreateVirtualSchema(
 	ak types.AccountKeeper,
 	bk types.BankKeeper,
 	k keeper.Keeper,
@@ -27,15 +26,14 @@ func SimulateMsgCreateVirtualAction(
 		simAccount, _ := simtypes.RandomAcc(r, accs)
 
 		i := r.Int()
-		msg := &types.MsgCreateVirtualAction{
-			Creator:                   simAccount.Address.String(),
-			NftSchemaCode:             strconv.Itoa(i),
-			Base64VirtualActionStruct: strconv.Itoa(i),
+		msg := &types.MsgCreateVirtualSchema{
+			Creator: simAccount.Address.String(),
+			Index:   strconv.Itoa(i),
 		}
 
-		_, found := k.GetVirtualAction(ctx, msg.NftSchemaCode, msg.Base64VirtualActionStruct)
+		_, found := k.GetVirtualSchema(ctx, msg.Index)
 		if found {
-			return simtypes.NoOpMsg(types.ModuleName, msg.Type(), "VirtualAction already exist"), nil, nil
+			return simtypes.NoOpMsg(types.ModuleName, msg.Type(), "VirtualSchema already exist"), nil, nil
 		}
 
 		txCtx := simulation.OperationInput{
@@ -56,8 +54,8 @@ func SimulateMsgCreateVirtualAction(
 	}
 }
 
-// TODO:: Feat(VirtualSchema)
-func SimulateMsgUpdateVirtualAction(
+
+func SimulateMsgUpdateVirtualSchema(
 	ak types.AccountKeeper,
 	bk types.BankKeeper,
 	k keeper.Keeper,
@@ -65,25 +63,25 @@ func SimulateMsgUpdateVirtualAction(
 	return func(r *rand.Rand, app *baseapp.BaseApp, ctx sdk.Context, accs []simtypes.Account, chainID string,
 	) (simtypes.OperationMsg, []simtypes.FutureOperation, error) {
 		var (
-			simAccount       = simtypes.Account{}
-			virtual          = types.VirtualAction{}
-			msg              = &types.MsgUpdateVirtualAction{}
-			allVirtualAction = k.GetAllVirtualAction(ctx)
-			found            = false
+			simAccount   = simtypes.Account{}
+			virSchema    = types.VirtualSchema{}
+			msg          = &types.MsgUpdateVirtualSchema{}
+			allVirtualSchema = k.GetAllVirtualSchema(ctx)
+			found        = false
 		)
-		for _, obj := range allVirtualAction {
-			simAccount, found = FindAccount(accs, obj.Name)
+		for _, obj := range allVirtualSchema {
+			simAccount, found = FindAccount(accs, obj.VirtualNftSchemaCode)
 			if found {
-				virtual = obj
+				virSchema = obj
 				break
 			}
 		}
 		if !found {
-			return simtypes.NoOpMsg(types.ModuleName, msg.Type(), "virtual creator not found"), nil, nil
+			return simtypes.NoOpMsg(types.ModuleName, msg.Type(), "virSchema creator not found"), nil, nil
 		}
 		msg.Creator = simAccount.Address.String()
 
-		msg.NftSchemaCode = virtual.NftSchemaCode
+		msg.Index = virSchema.VirtualNftSchemaCode
 
 		txCtx := simulation.OperationInput{
 			R:               r,
@@ -103,7 +101,7 @@ func SimulateMsgUpdateVirtualAction(
 	}
 }
 
-func SimulateMsgDeleteVirtualAction(
+func SimulateMsgDeleteVirtualSchema(
 	ak types.AccountKeeper,
 	bk types.BankKeeper,
 	k keeper.Keeper,
@@ -111,25 +109,25 @@ func SimulateMsgDeleteVirtualAction(
 	return func(r *rand.Rand, app *baseapp.BaseApp, ctx sdk.Context, accs []simtypes.Account, chainID string,
 	) (simtypes.OperationMsg, []simtypes.FutureOperation, error) {
 		var (
-			simAccount       = simtypes.Account{}
-			virtual          = types.VirtualAction{}
-			msg              = &types.MsgUpdateVirtualAction{}
-			allVirtualAction = k.GetAllVirtualAction(ctx)
-			found            = false
+			simAccount   = simtypes.Account{}
+			virSchema    = types.VirtualSchema{}
+			msg          = &types.MsgUpdateVirtualSchema{}
+			allVirtualSchema = k.GetAllVirtualSchema(ctx)
+			found        = false
 		)
-		for _, obj := range allVirtualAction {
-			simAccount, found = FindAccount(accs, obj.Name)
+		for _, obj := range allVirtualSchema {
+			simAccount, found = FindAccount(accs, obj.VirtualNftSchemaCode)
 			if found {
-				virtual = obj
+				virSchema = obj
 				break
 			}
 		}
 		if !found {
-			return simtypes.NoOpMsg(types.ModuleName, msg.Type(), "virtual creator not found"), nil, nil
+			return simtypes.NoOpMsg(types.ModuleName, msg.Type(), "virSchema creator not found"), nil, nil
 		}
 		msg.Creator = simAccount.Address.String()
 
-		msg.NftSchemaCode = virtual.NftSchemaCode
+		msg.Index = virSchema.VirtualNftSchemaCode
 
 		txCtx := simulation.OperationInput{
 			R:               r,

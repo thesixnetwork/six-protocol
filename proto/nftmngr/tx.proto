@@ -7,6 +7,7 @@ import "nftmngr/virtual_action.proto";
 import "nftmngr/on_chain_data.proto";
 import "nftmngr/attribute_definition.proto";
 import "nftmngr/nft_attribute_value.proto";
+import "nftmngr/virtual_schema.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
 import "google/protobuf/any.proto";
@@ -41,6 +42,9 @@ service Msg {
   rpc CreateVirtualAction(MsgCreateVirtualAction) returns (MsgCreateVirtualActionResponse);
   rpc UpdateVirtualAction(MsgUpdateVirtualAction) returns (MsgUpdateVirtualActionResponse);
   rpc DeleteVirtualAction(MsgDeleteVirtualAction) returns (MsgDeleteVirtualActionResponse);
+  rpc CreateVirtualSchema(MsgCreateVirtualSchema) returns (MsgCreateVirtualSchemaResponse);
+  rpc UpdateVirtualSchema(MsgUpdateVirtualSchema) returns (MsgUpdateVirtualSchemaResponse);
+  rpc DeleteVirtualSchema(MsgDeleteVirtualSchema) returns (MsgDeleteVirtualSchemaResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -434,5 +438,30 @@ message MsgDeleteVirtualActionResponse {
   string creator = 1;
   string status = 2;
 }
+
+// TODO:: Feat(VirtualSchema)
+message MsgCreateVirtualSchema {
+  string creator = 1;
+  string index = 2;
+
+  string code = 3;
+}
+message MsgCreateVirtualSchemaResponse {}
+
+// TODO:: Feat(VirtualSchema)
+message MsgUpdateVirtualSchema {
+  string creator = 1;
+  string index = 2;
+
+  string code = 3;
+}
+message MsgUpdateVirtualSchemaResponse {}
+
+// TODO:: Feat(VirtualSchema)
+message MsgDeleteVirtualSchema {
+  string creator = 1;
+  string index = 2;
+}
+message MsgDeleteVirtualSchemaResponse {}
 
 // this line is used by starport scaffolding # proto/tx/message

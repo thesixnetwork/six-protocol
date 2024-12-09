@@ -8,57 +8,28 @@ import (
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
-func CmdCreateVirtualAction() *cobra.Command {
+// TODO:: Feat(VirtualSchema)
+func CmdCreateVirtualSchema() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "create-virtual [code] [base64NewAction]",
-		Short: "Create a new virtual",
+		Use:   "create-virtual-schema [index] [code]",
+		Short: "Create a new virtual_schema",
 		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
+			// Get indexes
+			indexIndex := args[0]
 
-			argCode := args[0]
-			argBase64ActionStruct := args[1]
-
-			clientCtx, err := client.GetClientTxContext(cmd)
-			if err != nil {
-				return err
-			}
-
-			msg := types.NewMsgCreateVirtualAction(
-				clientCtx.GetFromAddress().String(),
-				argCode,
-				argBase64ActionStruct,
-			)
-			if err := msg.ValidateBasic(); err != nil {
-				return err
-			}
-			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
-		},
-	}
-
-	flags.AddTxFlagsToCmd(cmd)
-
-	return cmd
-}
-
-func CmdUpdateVirtualAction() *cobra.Command {
-	cmd := &cobra.Command{
-		Use:   "update-virtual [code] [base64ActionToUpdate]",
-		Short: "Update a virtual",
-		Args:  cobra.ExactArgs(2),
-		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			// Get value arguments
-			argCode := args[0]
-			argBase64ActionStruct := args[1]
+			argCode := args[1]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
 				return err
 			}
 
-			msg := types.NewMsgUpdateVirtual(
+			msg := types.NewMsgCreateVirtualSchema(
 				clientCtx.GetFromAddress().String(),
+				indexIndex,
 				argCode,
-				argBase64ActionStruct,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err
@@ -72,24 +43,57 @@ func CmdUpdateVirtualAction() *cobra.Command {
 	return cmd
 }
 
-func CmdDeleteVirtualAction() *cobra.Command {
+// TODO:: Feat(VirtualSchema)
+func CmdUpdateVirtualSchema() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "delete-virtual [code] [acion_name]",
-		Short: "Delete a virtual",
+		Use:   "update-virtual-schema [nftSchemaCode] [argBase64]",
+		Short: "Update a virtual_schema",
 		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-			argCode := args[0]
-			argActionName := args[1]
+			// Get indexes
+			indexIndex := args[0]
+
+			// Get value arguments
+			argCode := args[1]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
 				return err
 			}
 
-			msg := types.NewMsgDeleteVirtual(
+			msg := types.NewMsgUpdateVirtualSchema(
 				clientCtx.GetFromAddress().String(),
+				indexIndex,
 				argCode,
-				argActionName,
+			)
+			if err := msg.ValidateBasic(); err != nil {
+				return err
+			}
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
+		},
+	}
+
+	flags.AddTxFlagsToCmd(cmd)
+
+	return cmd
+}
+
+func CmdDeleteVirtualSchema() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "delete-virtual-schema [index]",
+		Short: "Delete a virtual_schema",
+		Args:  cobra.ExactArgs(1),
+		RunE: func(cmd *cobra.Command, args []string) (err error) {
+			indexIndex := args[0]
+
+			clientCtx, err := client.GetClientTxContext(cmd)
+			if err != nil {
+				return err
+			}
+
+			msg := types.NewMsgDeleteVirtualSchema(
+				clientCtx.GetFromAddress().String(),
+				indexIndex,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err

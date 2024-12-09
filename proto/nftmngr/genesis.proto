@@ -17,6 +17,7 @@ import "nftmngr/schema_attribute.proto";
 import "nftmngr/action_of_schema.proto";
 import "nftmngr/executor_of_schema.proto";
 import "nftmngr/virtual_action.proto";
+import "nftmngr/virtual_schema.proto";
 // this line is used by starport scaffolding # genesis/proto/import
 
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
@@ -38,5 +39,6 @@ message GenesisState {
   repeated ActionOfSchema actionOfSchemaList = 14 [(gogoproto.nullable) = false];
   repeated ExecutorOfSchema executorOfSchemaList = 15 [(gogoproto.nullable) = false];
   repeated VirtualAction virtualActionList = 16 [(gogoproto.nullable) = false];
+  repeated VirtualSchema virtualSchemaList = 17 [(gogoproto.nullable) = false];
   // this line is used by starport scaffolding # genesis/proto/state
 }
