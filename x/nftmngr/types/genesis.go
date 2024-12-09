@@ -24,6 +24,7 @@ func DefaultGenesis() *GenesisState {
 		ActionOfSchemaList:      []ActionOfSchema{},
 		ExecutorOfSchemaList:    []ExecutorOfSchema{},
 		VirtualActionList:       []VirtualAction{},
+		VirtualSchemaList:       []VirtualSchema{},
 		// this line is used by starport scaffolding # genesis/types/default
 		Params: DefaultParams(),
 	}
@@ -146,11 +147,21 @@ func (gs GenesisState) Validate() error {
 	VirtualActionIndexMap := make(map[string]struct{})
 
 	for _, elem := range gs.VirtualActionList {
-		index := string(VirtualActionKey(elem.NftSchemaCode,elem.Name))
+		index := string(VirtualActionKey(elem.NftSchemaCode, elem.Name))
 		if _, ok := VirtualActionIndexMap[index]; ok {
 			return fmt.Errorf("duplicated index for VirtualAction")
 		}
 		VirtualActionIndexMap[index] = struct{}{}
+	}
+	// Check for duplicated index in virSchema
+	virSchemaIndexMap := make(map[string]struct{})
+
+	for _, elem := range gs.VirtualSchemaList {
+		index := string(VirtualSchemaKey(elem.VirtualNftSchemaCode))
+		if _, ok := virSchemaIndexMap[index]; ok {
+			return fmt.Errorf("duplicated index for virSchema")
+		}
+		virSchemaIndexMap[index] = struct{}{}
 	}
 	// this line is used by starport scaffolding # genesis/types/validate
 

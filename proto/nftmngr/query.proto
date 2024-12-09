@@ -19,6 +19,7 @@ import "nftmngr/action_of_schema.proto";
 import "nftmngr/executor_of_schema.proto";
 import "nftmngr/virtual_action.proto";
 import "nftmngr/nft_data.proto";
+import "nftmngr/virtual_schema.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
@@ -157,6 +158,16 @@ service Query {
 	// Queries a list of Virtual items.
 	rpc VirtualActionAll(QueryAllVirtualActionRequest) returns (QueryAllVirtualActionResponse) {
 		option (google.api.http).get = "/thesixnetwork/six-protocol/nftmngr/virtual_action";
+	}
+
+	// Queries a VirtualSchema by index.
+	rpc VirtualSchema(QueryGetVirtualSchemaRequest) returns (QueryGetVirtualSchemaResponse) {
+		option (google.api.http).get = "/thesixnetwork/six-protocol/nftmngr/virtual_schema/{nftSchemaCode}";
+	}
+
+	// Queries a list of VirtualSchema items.
+	rpc VirtualSchemaAll(QueryAllVirtualSchemaRequest) returns (QueryAllVirtualSchemaResponse) {
+		option (google.api.http).get = "/thesixnetwork/six-protocol/nftmngr/virtual_schema";
 	}
 
 // this line is used by starport scaffolding # 2
@@ -398,6 +409,24 @@ message QueryAllVirtualActionRequest {
 
 message QueryAllVirtualActionResponse {
 	repeated VirtualAction virtualAction = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetVirtualSchemaRequest {
+	  string nftSchemaCode = 1;
+
+}
+
+message QueryGetVirtualSchemaResponse {
+	VirtualSchema virtualSchema = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllVirtualSchemaRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllVirtualSchemaResponse {
+	repeated VirtualSchema virtualSchema = 1 [(gogoproto.nullable) = false];
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 

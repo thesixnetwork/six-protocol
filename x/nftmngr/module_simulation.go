@@ -60,6 +60,18 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgDeleteVirtualAction int = 100
 
+	opWeightMsgCreateVirtualSchema = "op_weight_msg_vir_schema"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgCreateVirtualSchema int = 100
+
+	opWeightMsgUpdateVirtualSchema = "op_weight_msg_vir_schema"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgUpdateVirtualSchema int = 100
+
+	opWeightMsgDeleteVirtualSchema = "op_weight_msg_vir_schema"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgDeleteVirtualSchema int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -106,6 +118,15 @@ func (AppModule) GenerateGenesisState(simState *module.SimulationState) {
 				Params:          []*types.ActionParams{},
 			},
 		},
+		VirtualSchemaList: []types.VirtualSchema{
+			{
+				VirtualNftSchemaCode:   "0",
+			},
+			{
+				VirtualNftSchemaCode:   "1",
+			},
+		},
+		// this line is used by starport scaffolding # simapp/module/genesisState
 	}
 	simState.GenState[types.ModuleName] = simState.Cdc.MustMarshalJSON(&nftmngrGenesis)
 }
@@ -208,6 +229,39 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 	operations = append(operations, simulation.NewWeightedOperation(
 		weightMsgDeleteVirtualAction,
 		nftmngrsimulation.SimulateMsgDeleteVirtualAction(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgCreateVirtualSchema int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgCreateVirtualSchema, &weightMsgCreateVirtualSchema, nil,
+		func(_ *rand.Rand) {
+			weightMsgCreateVirtualSchema = defaultWeightMsgCreateVirtualSchema
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgCreateVirtualSchema,
+		nftmngrsimulation.SimulateMsgCreateVirtualSchema(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgUpdateVirtualSchema int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgUpdateVirtualSchema, &weightMsgUpdateVirtualSchema, nil,
+		func(_ *rand.Rand) {
+			weightMsgUpdateVirtualSchema = defaultWeightMsgUpdateVirtualSchema
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgUpdateVirtualSchema,
+		nftmngrsimulation.SimulateMsgUpdateVirtualSchema(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgDeleteVirtualSchema int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgDeleteVirtualSchema, &weightMsgDeleteVirtualSchema, nil,
+		func(_ *rand.Rand) {
+			weightMsgDeleteVirtualSchema = defaultWeightMsgDeleteVirtualSchema
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgDeleteVirtualSchema,
+		nftmngrsimulation.SimulateMsgDeleteVirtualSchema(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
 	// this line is used by starport scaffolding # simapp/module/operation

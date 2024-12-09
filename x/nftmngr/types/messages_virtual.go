@@ -23,8 +23,8 @@ func NewMsgCreateVirtualAction(
 
 ) *MsgCreateVirtualAction {
 	return &MsgCreateVirtualAction{
-		Creator: creator,
-		NftSchemaCode:   code,
+		Creator:                   creator,
+		NftSchemaCode:             code,
 		Base64VirtualActionStruct: encodeVirtualActionStruct,
 	}
 }
@@ -67,8 +67,8 @@ func NewMsgUpdateVirtual(
 
 ) *MsgUpdateVirtualAction {
 	return &MsgUpdateVirtualAction{
-		Creator: creator,
-		NftSchemaCode: code,
+		Creator:                   creator,
+		NftSchemaCode:             code,
 		Base64VirtualActionStruct: encodeVirtualActionStruct,
 	}
 }
@@ -111,9 +111,9 @@ func NewMsgDeleteVirtual(
 
 ) *MsgDeleteVirtualAction {
 	return &MsgDeleteVirtualAction{
-		Creator: creator,
+		Creator:       creator,
 		NftSchemaCode: code,
-		Name: actionName,
+		Name:          actionName,
 	}
 }
 func (msg *MsgDeleteVirtualAction) Route() string {

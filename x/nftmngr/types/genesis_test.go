@@ -123,11 +123,19 @@ func TestGenesisState_Validate(t *testing.T) {
 				VirtualActionList: []types.VirtualAction{
 					{
 						NftSchemaCode: "0",
-						Name: "0",
+						Name:          "0",
 					},
 					{
 						NftSchemaCode: "0",
-						Name: "0",
+						Name:          "0",
+					},
+				},
+				VirtualSchemaList: []types.VirtualSchema{
+					{
+						VirtualNftSchemaCode: "0",
+					},
+					{
+						VirtualNftSchemaCode: "1",
 					},
 				},
 				// this line is used by starport scaffolding # types/genesis/validField
@@ -302,11 +310,25 @@ func TestGenesisState_Validate(t *testing.T) {
 				VirtualActionList: []types.VirtualAction{
 					{
 						NftSchemaCode: "0",
-						Name: "0",
+						Name:          "0",
 					},
 					{
 						NftSchemaCode: "0",
-						Name: "0",
+						Name:          "0",
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated virSchema",
+			genState: &types.GenesisState{
+				VirtualSchemaList: []types.VirtualSchema{
+					{	
+						VirtualNftSchemaCode: "0",
+					},
+					{
+						VirtualNftSchemaCode: "0",
 					},
 				},
 			},

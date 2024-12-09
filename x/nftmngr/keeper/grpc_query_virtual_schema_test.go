@@ -18,38 +18,34 @@ import (
 // Prevent strconv unused error
 var _ = strconv.IntSize
 
-// TODO:: Feat(VirtualSchema)
-func TestVirtualActionQuerySingle(t *testing.T) {
+func TestVirtualSchemaQuerySingle(t *testing.T) {
 	keeper, ctx := keepertest.NftmngrKeeper(t)
 	wctx := sdk.WrapSDKContext(ctx)
-	msgs := createNVirtualAction(keeper, ctx, 2)
+	msgs := createNVirtualSchema(keeper, ctx, 2)
 	for _, tc := range []struct {
 		desc     string
-		request  *types.QueryGetVirtualActionRequest
-		response *types.QueryGetVirtualActionResponse
+		request  *types.QueryGetVirtualSchemaRequest
+		response *types.QueryGetVirtualSchemaResponse
 		err      error
 	}{
 		{
 			desc: "First",
-			request: &types.QueryGetVirtualActionRequest{
-				NftSchemaCode: msgs[0].NftSchemaCode,
-				Name:          msgs[0].Name,
+			request: &types.QueryGetVirtualSchemaRequest{
+				NftSchemaCode: msgs[0].VirtualNftSchemaCode,
 			},
-			response: &types.QueryGetVirtualActionResponse{VirtualAction: msgs[0]},
+			response: &types.QueryGetVirtualSchemaResponse{VirtualSchema: msgs[0]},
 		},
 		{
 			desc: "Second",
-			request: &types.QueryGetVirtualActionRequest{
-				NftSchemaCode: msgs[1].NftSchemaCode,
-				Name:          msgs[1].Name,
+			request: &types.QueryGetVirtualSchemaRequest{
+				NftSchemaCode: msgs[1].VirtualNftSchemaCode,
 			},
-			response: &types.QueryGetVirtualActionResponse{VirtualAction: msgs[1]},
+			response: &types.QueryGetVirtualSchemaResponse{VirtualSchema: msgs[1]},
 		},
 		{
 			desc: "KeyNotFound",
-			request: &types.QueryGetVirtualActionRequest{
+			request: &types.QueryGetVirtualSchemaRequest{
 				NftSchemaCode: strconv.Itoa(100000),
-				Name:          strconv.Itoa(100000),
 			},
 			err: status.Error(codes.NotFound, "not found"),
 		},
@@ -59,7 +55,7 @@ func TestVirtualActionQuerySingle(t *testing.T) {
 		},
 	} {
 		t.Run(tc.desc, func(t *testing.T) {
-			response, err := keeper.VirtualAction(wctx, tc.request)
+			response, err := keeper.VirtualSchema(wctx, tc.request)
 			if tc.err != nil {
 				require.ErrorIs(t, err, tc.err)
 			} else {
@@ -73,14 +69,13 @@ func TestVirtualActionQuerySingle(t *testing.T) {
 	}
 }
 
-// TODO:: Feat(VirtualSchema)
-func TestVirtualActionQueryPaginated(t *testing.T) {
+func TestVirtualSchemaQueryPaginated(t *testing.T) {
 	keeper, ctx := keepertest.NftmngrKeeper(t)
 	wctx := sdk.WrapSDKContext(ctx)
-	msgs := createNVirtualAction(keeper, ctx, 5)
+	msgs := createNVirtualSchema(keeper, ctx, 5)
 
-	request := func(next []byte, offset, limit uint64, total bool) *types.QueryAllVirtualActionRequest {
-		return &types.QueryAllVirtualActionRequest{
+	request := func(next []byte, offset, limit uint64, total bool) *types.QueryAllVirtualSchemaRequest {
+		return &types.QueryAllVirtualSchemaRequest{
 			Pagination: &query.PageRequest{
 				Key:        next,
 				Offset:     offset,
@@ -92,12 +87,12 @@ func TestVirtualActionQueryPaginated(t *testing.T) {
 	t.Run("ByOffset", func(t *testing.T) {
 		step := 2
 		for i := 0; i < len(msgs); i += step {
-			resp, err := keeper.VirtualActionAll(wctx, request(nil, uint64(i), uint64(step), false))
+			resp, err := keeper.VirtualSchemaAll(wctx, request(nil, uint64(i), uint64(step), false))
 			require.NoError(t, err)
-			require.LessOrEqual(t, len(resp.VirtualAction), step)
+			require.LessOrEqual(t, len(resp.VirtualSchema), step)
 			require.Subset(t,
 				nullify.Fill(msgs),
-				nullify.Fill(resp.VirtualAction),
+				nullify.Fill(resp.VirtualSchema),
 			)
 		}
 	})
@@ -105,27 +100,27 @@ func TestVirtualActionQueryPaginated(t *testing.T) {
 		step := 2
 		var next []byte
 		for i := 0; i < len(msgs); i += step {
-			resp, err := keeper.VirtualActionAll(wctx, request(next, 0, uint64(step), false))
+			resp, err := keeper.VirtualSchemaAll(wctx, request(next, 0, uint64(step), false))
 			require.NoError(t, err)
-			require.LessOrEqual(t, len(resp.VirtualAction), step)
+			require.LessOrEqual(t, len(resp.VirtualSchema), step)
 			require.Subset(t,
 				nullify.Fill(msgs),
-				nullify.Fill(resp.VirtualAction),
+				nullify.Fill(resp.VirtualSchema),
 			)
 			next = resp.Pagination.NextKey
 		}
 	})
 	t.Run("Total", func(t *testing.T) {
-		resp, err := keeper.VirtualActionAll(wctx, request(nil, 0, 0, true))
+		resp, err := keeper.VirtualSchemaAll(wctx, request(nil, 0, 0, true))
 		require.NoError(t, err)
 		require.Equal(t, len(msgs), int(resp.Pagination.Total))
 		require.ElementsMatch(t,
 			nullify.Fill(msgs),
-			nullify.Fill(resp.VirtualAction),
+			nullify.Fill(resp.VirtualSchema),
 		)
 	})
 	t.Run("InvalidRequest", func(t *testing.T) {
-		_, err := keeper.VirtualActionAll(wctx, nil)
+		_, err := keeper.VirtualSchemaAll(wctx, nil)
 		require.ErrorIs(t, err, status.Error(codes.InvalidArgument, "invalid request"))
 	})
 }

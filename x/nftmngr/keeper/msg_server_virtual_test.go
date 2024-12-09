@@ -24,7 +24,7 @@ func TestVirtualActionMsgServerCreate(t *testing.T) {
 	creator := "A"
 	for i := 0; i < 5; i++ {
 		expected := &types.MsgCreateVirtualAction{Creator: creator,
-			NftSchemaCode: strconv.Itoa(i),
+			NftSchemaCode:             strconv.Itoa(i),
 			Base64VirtualActionStruct: strconv.Itoa(i),
 		}
 		_, err := srv.CreateVirtualAction(wctx, expected)
@@ -52,22 +52,22 @@ func TestVirtualActionMsgServerUpdate(t *testing.T) {
 		{
 			desc: "Completed",
 			request: &types.MsgUpdateVirtualAction{Creator: creator,
-				NftSchemaCode: strconv.Itoa(0),
+				NftSchemaCode:             strconv.Itoa(0),
 				Base64VirtualActionStruct: strconv.Itoa(0),
 			},
 		},
 		{
 			desc: "Unauthorized",
 			request: &types.MsgUpdateVirtualAction{Creator: "B",
-			NftSchemaCode: strconv.Itoa(0),
-			Base64VirtualActionStruct: strconv.Itoa(0),
+				NftSchemaCode:             strconv.Itoa(0),
+				Base64VirtualActionStruct: strconv.Itoa(0),
 			},
 			err: sdkerrors.ErrUnauthorized,
 		},
 		{
 			desc: "KeyNotFound",
 			request: &types.MsgUpdateVirtualAction{Creator: creator,
-				NftSchemaCode: strconv.Itoa(100000),
+				NftSchemaCode:             strconv.Itoa(100000),
 				Base64VirtualActionStruct: strconv.Itoa(100000),
 			},
 			err: sdkerrors.ErrKeyNotFound,
@@ -78,7 +78,7 @@ func TestVirtualActionMsgServerUpdate(t *testing.T) {
 			srv := keeper.NewMsgServerImpl(*k)
 			wctx := sdk.WrapSDKContext(ctx)
 			expected := &types.MsgCreateVirtualAction{Creator: creator,
-				NftSchemaCode: strconv.Itoa(0),
+				NftSchemaCode:             strconv.Itoa(0),
 				Base64VirtualActionStruct: strconv.Itoa(0),
 			}
 			_, err := srv.CreateVirtualAction(wctx, expected)
@@ -113,15 +113,15 @@ func TestVirtualActionMsgServerDelete(t *testing.T) {
 		{
 			desc: "Completed",
 			request: &types.MsgDeleteVirtualAction{
-				Creator: creator,
+				Creator:       creator,
 				NftSchemaCode: strconv.Itoa(0),
 			},
 		},
 		{
 			desc: "Unauthorized",
 			request: &types.MsgDeleteVirtualAction{Creator: "B",
-				NftSchemaCode:  strconv.Itoa(0),
-				Name: strconv.Itoa(0),
+				NftSchemaCode: strconv.Itoa(0),
+				Name:          strconv.Itoa(0),
 			},
 			err: sdkerrors.ErrUnauthorized,
 		},
@@ -129,7 +129,7 @@ func TestVirtualActionMsgServerDelete(t *testing.T) {
 			desc: "KeyNotFound",
 			request: &types.MsgDeleteVirtualAction{Creator: creator,
 				NftSchemaCode: strconv.Itoa(100000),
-				Name: strconv.Itoa(100000),
+				Name:          strconv.Itoa(100000),
 			},
 			err: sdkerrors.ErrKeyNotFound,
 		},
@@ -140,7 +140,7 @@ func TestVirtualActionMsgServerDelete(t *testing.T) {
 			wctx := sdk.WrapSDKContext(ctx)
 
 			_, err := srv.CreateVirtualAction(wctx, &types.MsgCreateVirtualAction{Creator: creator,
-				NftSchemaCode: strconv.Itoa(0),
+				NftSchemaCode:             strconv.Itoa(0),
 				Base64VirtualActionStruct: strconv.Itoa(0),
 			})
 			require.NoError(t, err)
