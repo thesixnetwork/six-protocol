@@ -64,7 +64,6 @@ func TestCreateVirtualSchema(t *testing.T) {
 	}
 }
 
-
 func TestDeleteVirtualSchema(t *testing.T) {
 	net := network.New(t)
 

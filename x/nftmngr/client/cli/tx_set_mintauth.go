@@ -20,10 +20,6 @@ func CmdSetMintauth() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			argNftSchemaCode := args[0]
 			argAuthorizeTo := args[1]
-			if err != nil {
-				return err
-			}
-
 			argAuthorizeToInt, err := strconv.Atoi(argAuthorizeTo)
 			if err != nil {
 				return err

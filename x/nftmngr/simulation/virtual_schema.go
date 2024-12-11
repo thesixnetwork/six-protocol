@@ -27,8 +27,8 @@ func SimulateMsgCreateVirtualSchema(
 
 		i := r.Int()
 		msg := &types.MsgCreateVirtualSchema{
-			Creator: simAccount.Address.String(),
-			VirtualNftSchemaCode:   strconv.Itoa(i),
+			Creator:              simAccount.Address.String(),
+			VirtualNftSchemaCode: strconv.Itoa(i),
 		}
 
 		_, found := k.GetVirtualSchema(ctx, msg.VirtualNftSchemaCode)
@@ -62,11 +62,11 @@ func SimulateMsgDeleteVirtualSchema(
 	return func(r *rand.Rand, app *baseapp.BaseApp, ctx sdk.Context, accs []simtypes.Account, chainID string,
 	) (simtypes.OperationMsg, []simtypes.FutureOperation, error) {
 		var (
-			simAccount   = simtypes.Account{}
-			virSchema    = types.VirtualSchema{}
-			msg          = &types.MsgDeleteVirtualSchema{}
+			simAccount       = simtypes.Account{}
+			virSchema        = types.VirtualSchema{}
+			msg              = &types.MsgDeleteVirtualSchema{}
 			allVirtualSchema = k.GetAllVirtualSchema(ctx)
-			found        = false
+			found            = false
 		)
 		for _, obj := range allVirtualSchema {
 			simAccount, found = FindAccount(accs, obj.VirtualNftSchemaCode)

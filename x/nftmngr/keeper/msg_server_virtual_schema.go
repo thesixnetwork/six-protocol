@@ -32,7 +32,6 @@ func (k msgServer) CreateVirtualSchema(goCtx context.Context, msg *types.MsgCrea
 	return &types.MsgCreateVirtualSchemaResponse{}, nil
 }
 
-
 func (k msgServer) DeleteVirtualSchema(goCtx context.Context, msg *types.MsgDeleteVirtualSchema) (*types.MsgDeleteVirtualSchemaResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 

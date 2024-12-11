@@ -324,7 +324,7 @@ func TestGenesisState_Validate(t *testing.T) {
 			desc: "duplicated virSchema",
 			genState: &types.GenesisState{
 				VirtualSchemaList: []types.VirtualSchema{
-					{	
+					{
 						VirtualNftSchemaCode: "0",
 					},
 					{

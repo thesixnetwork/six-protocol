@@ -24,7 +24,7 @@ func NewVirtualSchemaRegistryRequestJSON(code string, sharedAttributes []string)
 	}
 }
 
-func ParseVirtualSchemaRegistryRequestJSON(cdc *codec.LegacyAmino, proposalFile string)(VirtualSchemaRegistryRequestJSON, error){
+func ParseVirtualSchemaRegistryRequestJSON(cdc *codec.LegacyAmino, proposalFile string) (VirtualSchemaRegistryRequestJSON, error) {
 	request := VirtualSchemaRegistryRequestJSON{}
 
 	contents, err := os.ReadFile(proposalFile)

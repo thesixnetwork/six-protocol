@@ -35666,9 +35666,6 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -35939,16 +35936,16 @@ paths:
                 items:
                   type: object
                   properties:
-                    virtual_nft_schema_code:
+                    virtualNftSchemaCode:
                       type: string
                     registry:
                       type: array
                       items:
                         type: object
                         properties:
-                          nft_schema_code:
+                          nftSchemaCode:
                             type: string
-                          shared_attributes:
+                          sharedAttributes:
                             type: array
                             items:
                               type: string
@@ -36221,9 +36218,6 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -36242,16 +36236,16 @@ paths:
               virtualSchema:
                 type: object
                 properties:
-                  virtual_nft_schema_code:
+                  virtualNftSchemaCode:
                     type: string
                   registry:
                     type: array
                     items:
                       type: object
                       properties:
-                        nft_schema_code:
+                        nftSchemaCode:
                           type: string
-                        shared_attributes:
+                        sharedAttributes:
                           type: array
                           items:
                             type: string
@@ -36741,9 +36735,6 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -37248,9 +37239,6 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -37756,9 +37744,6 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -38264,9 +38249,6 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -39012,9 +38994,6 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -39598,9 +39577,6 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -39968,9 +39944,6 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -41247,9 +41220,6 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -42019,9 +41989,6 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -42520,9 +42487,6 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -43251,9 +43215,6 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
-
-
-            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -68987,7 +68948,7 @@ definitions:
           TODO:
           1. Policy of action (who can use action)
           2. Proposal to enable and disable action
-  thesixnetwork.sixprotocol.nftmngr.MsgUpdateVirtualSchemaResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgVoteCreateVirtualSchemaResponse:
     type: object
   thesixnetwork.sixprotocol.nftmngr.NFTFeeBalance:
     type: object
@@ -70564,16 +70525,16 @@ definitions:
         items:
           type: object
           properties:
-            virtual_nft_schema_code:
+            virtualNftSchemaCode:
               type: string
             registry:
               type: array
               items:
                 type: object
                 properties:
-                  nft_schema_code:
+                  nftSchemaCode:
                     type: string
-                  shared_attributes:
+                  sharedAttributes:
                     type: array
                     items:
                       type: string
@@ -71309,16 +71270,16 @@ definitions:
       virtualSchema:
         type: object
         properties:
-          virtual_nft_schema_code:
+          virtualNftSchemaCode:
             type: string
           registry:
             type: array
             items:
               type: object
               properties:
-                nft_schema_code:
+                nftSchemaCode:
                   type: string
-                shared_attributes:
+                sharedAttributes:
                   type: array
                   items:
                     type: string
@@ -71501,16 +71462,16 @@ definitions:
   thesixnetwork.sixprotocol.nftmngr.VirtualSchema:
     type: object
     properties:
-      virtual_nft_schema_code:
+      virtualNftSchemaCode:
         type: string
       registry:
         type: array
         items:
           type: object
           properties:
-            nft_schema_code:
+            nftSchemaCode:
               type: string
-            shared_attributes:
+            sharedAttributes:
               type: array
               items:
                 type: string
@@ -71523,9 +71484,9 @@ definitions:
   thesixnetwork.sixprotocol.nftmngr.VirtualSchemaRegistry:
     type: object
     properties:
-      nft_schema_code:
+      nftSchemaCode:
         type: string
-      shared_attributes:
+      sharedAttributes:
         type: array
         items:
           type: string
@@ -71535,6 +71496,15 @@ definitions:
           - ACCEPT
           - REJECT
         default: ACCEPT
+  thesixnetwork.sixprotocol.nftmngr.VirtualSchemaRegistryRequest:
+    type: object
+    properties:
+      nftSchemaCode:
+        type: string
+      sharedAttributes:
+        type: array
+        items:
+          type: string
   thesixnetwork.sixprotocol.nftoracle.ActionOracleRequest:
     type: object
     properties:
