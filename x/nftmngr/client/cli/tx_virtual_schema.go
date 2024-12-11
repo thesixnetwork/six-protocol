@@ -5,8 +5,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	"github.com/spf13/cobra"
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 	nftmngrutils "github.com/thesixnetwork/six-protocol/x/nftmngr/client/utils"
+	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
 // TODO:: Feat(VirtualSchema)
@@ -32,7 +32,7 @@ func CmdCreateVirtualSchema() *cobra.Command {
 
 			request := make([]types.VirtualSchemaRegistryRequest, len(proposal))
 
-			for _, req := range proposal { 
+			for _, req := range proposal {
 				registry := types.NewVirtualSchemaRegistryRequest(req.Code, req.SharedAttributes)
 				request = append(request, *registry)
 			}

@@ -18,13 +18,13 @@ func (k Keeper) SetVirtualSchema(ctx sdk.Context, virSchema types.VirtualSchema)
 // GetVirtualSchema returns a virSchema from its index
 func (k Keeper) GetVirtualSchema(
 	ctx sdk.Context,
-	index string,
+	schemaCode string,
 
 ) (val types.VirtualSchema, found bool) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.VirtualSchemaKeyPrefix))
 
 	b := store.Get(types.VirtualSchemaKey(
-		index,
+		schemaCode,
 	))
 	if b == nil {
 		return val, false
@@ -37,12 +37,12 @@ func (k Keeper) GetVirtualSchema(
 // RemoveVirtualSchema removes a virSchema from the store
 func (k Keeper) RemoveVirtualSchema(
 	ctx sdk.Context,
-	index string,
+	schemaCode string,
 
 ) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.VirtualSchemaKeyPrefix))
 	store.Delete(types.VirtualSchemaKey(
-		index,
+		schemaCode,
 	))
 }
 

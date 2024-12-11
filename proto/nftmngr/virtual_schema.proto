@@ -7,7 +7,7 @@ import "gogoproto/gogo.proto";
 message VirtualSchema {
     string virtualNftSchemaCode = 1;
     repeated VirtualSchemaRegistry registry = 2;
-
+    bool enable = 3;
     // link wih virtual action. We will not put in here to reduce redundance info
 }
 
@@ -18,10 +18,10 @@ message VirtualSchemaRegistry {
 }
 
 enum RegistryStatus {
-  ACCEPT = 0;
-  REJECT = 1;
+    PENDING = 0;
+    REJECT = 1;
+    ACCEPT = 2;
 }
-
 
 message VirtualSchemaRegistryRequest {
     string nftSchemaCode = 1;

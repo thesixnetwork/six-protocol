@@ -1,9 +1,8 @@
 package types
 
-
-func NewVirtualSchemaRegistryRequest(code string, sharedAttributes []string) *VirtualSchemaRegistryRequest{
+func NewVirtualSchemaRegistryRequest(code string, sharedAttributes []string) *VirtualSchemaRegistryRequest {
 	return &VirtualSchemaRegistryRequest{
-		NftSchemaCode: code,
+		NftSchemaCode:    code,
 		SharedAttributes: sharedAttributes,
 	}
 }

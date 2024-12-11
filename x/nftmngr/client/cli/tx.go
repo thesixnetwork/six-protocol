@@ -18,7 +18,11 @@ var (
 const (
 	flagPacketTimeoutTimestamp = "packet-timeout-timestamp"
 	listSeparator              = ","
+
+	_  = flagPacketTimeoutTimestamp
+	_  = listSeparator
 )
+
 
 // GetTxCmd returns the transaction commands for this module
 func GetTxCmd() *cobra.Command {
@@ -60,6 +64,7 @@ func GetTxCmd() *cobra.Command {
 	cmd.AddCommand(CmdDeleteVirtualAction())
 	cmd.AddCommand(CmdCreateVirtualSchema())
 	cmd.AddCommand(CmdDeleteVirtualSchema())
+	cmd.AddCommand(CmdVoteCreateVirtualSchema())
 	// this line is used by starport scaffolding # 1
 
 	return cmd
