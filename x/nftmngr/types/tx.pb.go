@@ -3947,6 +3947,7 @@ func (m *MsgDeleteVirtualActionResponse) GetStatus() string {
 	return ""
 }
 
+// TODO:: Feat(VirtualSchema)
 type MsgCreateVirtualSchema struct {
 	Creator string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
 	Index   string `protobuf:"bytes,2,opt,name=index,proto3" json:"index,omitempty"`
@@ -4043,6 +4044,7 @@ func (m *MsgCreateVirtualSchemaResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgCreateVirtualSchemaResponse proto.InternalMessageInfo
 
+// TODO:: Feat(VirtualSchema)
 type MsgUpdateVirtualSchema struct {
 	Creator string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
 	Index   string `protobuf:"bytes,2,opt,name=index,proto3" json:"index,omitempty"`
@@ -4139,6 +4141,7 @@ func (m *MsgUpdateVirtualSchemaResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgUpdateVirtualSchemaResponse proto.InternalMessageInfo
 
+// TODO:: Feat(VirtualSchema)
 type MsgDeleteVirtualSchema struct {
 	Creator string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
 	Index   string `protobuf:"bytes,2,opt,name=index,proto3" json:"index,omitempty"`
