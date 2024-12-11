@@ -242,17 +242,6 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		nftmngrsimulation.SimulateMsgCreateVirtualSchema(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
-	var weightMsgUpdateVirtualSchema int
-	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgUpdateVirtualSchema, &weightMsgUpdateVirtualSchema, nil,
-		func(_ *rand.Rand) {
-			weightMsgUpdateVirtualSchema = defaultWeightMsgUpdateVirtualSchema
-		},
-	)
-	operations = append(operations, simulation.NewWeightedOperation(
-		weightMsgUpdateVirtualSchema,
-		nftmngrsimulation.SimulateMsgUpdateVirtualSchema(am.accountKeeper, am.bankKeeper, am.keeper),
-	))
-
 	var weightMsgDeleteVirtualSchema int
 	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgDeleteVirtualSchema, &weightMsgDeleteVirtualSchema, nil,
 		func(_ *rand.Rand) {
