@@ -6,66 +6,43 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	"github.com/spf13/cobra"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+	nftmngrutils "github.com/thesixnetwork/six-protocol/x/nftmngr/client/utils"
 )
 
 // TODO:: Feat(VirtualSchema)
 func CmdCreateVirtualSchema() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "create-virtual-schema [index] [code]",
-		Short: "Create a new virtual_schema",
+		Use:   "create-virtual-schema [code] [proposal-file]",
+		Short: "Create a request for new virtual_schema",
 		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-			// Get indexes
-			indexIndex := args[0]
-
 			// Get value arguments
-			argCode := args[1]
+			argCode := args[0]
+			argFilePath := args[1]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
 				return err
+			}
+
+			proposal, err := nftmngrutils.ParseVirtualSchemaRegistryRequestJSON(clientCtx.LegacyAmino, argFilePath)
+			if err != nil {
+				return err
+			}
+
+			request := make([]types.VirtualSchemaRegistryRequest, len(proposal))
+
+			for _, req := range proposal { 
+				registry := types.NewVirtualSchemaRegistryRequest(req.Code, req.SharedAttributes)
+				request = append(request, *registry)
 			}
 
 			msg := types.NewMsgCreateVirtualSchema(
 				clientCtx.GetFromAddress().String(),
-				indexIndex,
 				argCode,
+				request,
 			)
-			if err := msg.ValidateBasic(); err != nil {
-				return err
-			}
-			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
-		},
-	}
 
-	flags.AddTxFlagsToCmd(cmd)
-
-	return cmd
-}
-
-// TODO:: Feat(VirtualSchema)
-func CmdUpdateVirtualSchema() *cobra.Command {
-	cmd := &cobra.Command{
-		Use:   "update-virtual-schema [nftSchemaCode] [argBase64]",
-		Short: "Update a virtual_schema",
-		Args:  cobra.ExactArgs(2),
-		RunE: func(cmd *cobra.Command, args []string) (err error) {
-			// Get indexes
-			indexIndex := args[0]
-
-			// Get value arguments
-			argCode := args[1]
-
-			clientCtx, err := client.GetClientTxContext(cmd)
-			if err != nil {
-				return err
-			}
-
-			msg := types.NewMsgUpdateVirtualSchema(
-				clientCtx.GetFromAddress().String(),
-				indexIndex,
-				argCode,
-			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err
 			}

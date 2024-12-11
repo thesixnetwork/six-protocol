@@ -1,6 +1,8 @@
 syntax = "proto3";
 package thesixnetwork.sixprotocol.nftmngr;
 
+import "google/protobuf/any.proto";
+import "gogoproto/gogo.proto";
 import "nftmngr/action_executor.proto";
 import "nftmngr/schema_attribute.proto";
 import "nftmngr/virtual_action.proto";
@@ -10,7 +12,6 @@ import "nftmngr/nft_attribute_value.proto";
 import "nftmngr/virtual_schema.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
-import "google/protobuf/any.proto";
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
 
 // Msg defines the Msg service.
@@ -43,7 +44,6 @@ service Msg {
   rpc UpdateVirtualAction(MsgUpdateVirtualAction) returns (MsgUpdateVirtualActionResponse);
   rpc DeleteVirtualAction(MsgDeleteVirtualAction) returns (MsgDeleteVirtualActionResponse);
   rpc CreateVirtualSchema(MsgCreateVirtualSchema) returns (MsgCreateVirtualSchemaResponse);
-  rpc UpdateVirtualSchema(MsgUpdateVirtualSchema) returns (MsgUpdateVirtualSchemaResponse);
   rpc DeleteVirtualSchema(MsgDeleteVirtualSchema) returns (MsgDeleteVirtualSchemaResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
@@ -442,25 +442,15 @@ message MsgDeleteVirtualActionResponse {
 // TODO:: Feat(VirtualSchema)
 message MsgCreateVirtualSchema {
   string creator = 1;
-  string index = 2;
-
-  string code = 3;
+  string virtualNftSchemaCode = 2;
+  repeated VirtualSchemaRegistryRequest registry = 3 [(gogoproto.nullable) = false];
 }
 message MsgCreateVirtualSchemaResponse {}
 
 // TODO:: Feat(VirtualSchema)
-message MsgUpdateVirtualSchema {
-  string creator = 1;
-  string index = 2;
-
-  string code = 3;
-}
-message MsgUpdateVirtualSchemaResponse {}
-
-// TODO:: Feat(VirtualSchema)
 message MsgDeleteVirtualSchema {
   string creator = 1;
-  string index = 2;
+  string virtualNftSchemaCode = 2; 
 }
 message MsgDeleteVirtualSchemaResponse {}
 

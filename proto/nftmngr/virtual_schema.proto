@@ -2,18 +2,28 @@ syntax = "proto3";
 package thesixnetwork.sixprotocol.nftmngr;
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
 
+import "gogoproto/gogo.proto";
+
 message VirtualSchema {
-    string virtual_nft_schema_code = 1;
+    string virtualNftSchemaCode = 1;
     repeated VirtualSchemaRegistry registry = 2;
+
+    // link wih virtual action. We will not put in here to reduce redundance info
 }
 
 message VirtualSchemaRegistry {
-    string nft_schema_code = 1;
-    repeated string shared_attributes = 2;
+    string nftSchemaCode = 1;
+    repeated string sharedAttributes = 2;
     RegistryStatus status = 3;
 }
 
 enum RegistryStatus {
   ACCEPT = 0;
   REJECT = 1;
+}
+
+
+message VirtualSchemaRegistryRequest {
+    string nftSchemaCode = 1;
+    repeated string sharedAttributes = 2;
 }
