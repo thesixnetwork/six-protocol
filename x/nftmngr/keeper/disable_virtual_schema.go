@@ -18,13 +18,13 @@ func (k Keeper) SetDisableVirtualSchema(ctx sdk.Context, disableVirtualSchema ty
 // GetDisableVirtualSchema returns a disableVirtualSchema from its index
 func (k Keeper) GetDisableVirtualSchema(
 	ctx sdk.Context,
-	index string,
+	id string,
 
 ) (val types.DisableVirtualSchema, found bool) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.DisableVirtualSchemaKeyPrefix))
 
 	b := store.Get(types.DisableVirtualSchemaKey(
-		index,
+		id,
 	))
 	if b == nil {
 		return val, false
@@ -37,12 +37,12 @@ func (k Keeper) GetDisableVirtualSchema(
 // RemoveDisableVirtualSchema removes a disableVirtualSchema from the store
 func (k Keeper) RemoveDisableVirtualSchema(
 	ctx sdk.Context,
-	index string,
+	id string,
 
 ) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.DisableVirtualSchemaKeyPrefix))
 	store.Delete(types.DisableVirtualSchemaKey(
-		index,
+		id,
 	))
 }
 
