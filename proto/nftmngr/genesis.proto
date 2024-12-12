@@ -40,6 +40,5 @@ message GenesisState {
   repeated ExecutorOfSchema executorOfSchemaList = 15 [(gogoproto.nullable) = false];
   repeated VirtualAction virtualActionList = 16 [(gogoproto.nullable) = false];
   repeated VirtualSchema virtualSchemaList = 17 [(gogoproto.nullable) = false];
-  repeated VirtualSchemaDisableRequest disableVirtualSchemaList = 18 [(gogoproto.nullable) = false];
   // this line is used by starport scaffolding # genesis/proto/state
 }
