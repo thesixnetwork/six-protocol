@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"strconv"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -22,6 +23,7 @@ func (k msgServer) CreateVirtualSchemaProposal(goCtx context.Context, msg *types
 		ctx,
 		msg.VirtualNftSchemaCode,
 	)
+
 	if found {
 		return nil, sdkerrors.Wrap(types.ErrSchemaAlreadyExists, "Schema name already existed")
 	}
@@ -48,18 +50,24 @@ func (k msgServer) CreateVirtualSchemaProposal(goCtx context.Context, msg *types
 		registry = append(registry, reqRegistry.ConvertRequestToVirtualRegistry())
 	}
 
-	var virSchema = types.VirtualSchema{
-		VirtualNftSchemaCode: msg.VirtualNftSchemaCode,
-		Registry:             registry,
-		Enable:               false,
-		ExpiredAtBlock:       "0",
-	}
+	lastProposalId := len(k.GetAllVirtualSchemaProposal(ctx))
+	proposalId := lastProposalId + 1
+	strProposalId := strconv.FormatInt(int64(proposalId), 10)
 
-	k.SetVirtualSchema(
-		ctx,
-		virSchema,
-	)
-	return &types.MsgCreateVirtualSchemaResponse{}, nil
+	k.SetVirtualSchemaProposal(ctx, types.VirtualSchemaProposal{
+		Id:                strProposalId,
+		VirtualSchemaCode: msg.VirtualNftSchemaCode,
+		Registry:          registry,
+	})
+
+
+    // TODO:: Feat(VirtualSchema)
+	// proposal expiration
+
+	return &types.MsgCreateVirtualSchemaResponse{
+		Id: strProposalId,
+		VirtualNftSchemaCode: msg.VirtualNftSchemaCode,
+	}, nil
 }
 
 // NOTE:: implement only do not use on production

@@ -448,7 +448,10 @@ message MsgCreateVirtualSchemaProposal {
   repeated VirtualSchemaRegistryRequest registry = 3 [(gogoproto.nullable) = false];
 }
 
-message MsgCreateVirtualSchemaResponse {}
+message MsgCreateVirtualSchemaResponse {
+  string id = 1;
+  string virtualNftSchemaCode = 2;
+}
 
 // TODO:: Feat(VirtualSchema)
 message MsgDeleteVirtualSchema {
