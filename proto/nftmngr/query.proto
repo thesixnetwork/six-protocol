@@ -20,6 +20,7 @@ import "nftmngr/executor_of_schema.proto";
 import "nftmngr/virtual_action.proto";
 import "nftmngr/nft_data.proto";
 import "nftmngr/virtual_schema.proto";
+import "nftmngr/disable_virtual_schema.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
@@ -168,6 +169,16 @@ service Query {
 	// Queries a list of VirtualSchema items.
 	rpc VirtualSchemaAll(QueryAllVirtualSchemaRequest) returns (QueryAllVirtualSchemaResponse) {
 		option (google.api.http).get = "/thesixnetwork/six-protocol/nftmngr/virtual_schema";
+	}
+
+// Queries a DisableVirtualSchema by index.
+	rpc DisableVirtualSchema(QueryGetDisableVirtualSchemaRequest) returns (QueryGetDisableVirtualSchemaResponse) {
+		option (google.api.http).get = "/thesixnetwork/six-protocol/nftmngr/disable_virtual_schema/{index}";
+	}
+
+	// Queries a list of DisableVirtualSchema items.
+	rpc DisableVirtualSchemaAll(QueryAllDisableVirtualSchemaRequest) returns (QueryAllDisableVirtualSchemaResponse) {
+		option (google.api.http).get = "/thesixnetwork/six-protocol/nftmngr/disable_virtual_schema";
 	}
 
 // this line is used by starport scaffolding # 2
@@ -427,6 +438,24 @@ message QueryAllVirtualSchemaRequest {
 
 message QueryAllVirtualSchemaResponse {
 	repeated VirtualSchema virtualSchema = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetDisableVirtualSchemaRequest {
+	  string index = 1;
+
+}
+
+message QueryGetDisableVirtualSchemaResponse {
+	DisableVirtualSchema disableVirtualSchema = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllDisableVirtualSchemaRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllDisableVirtualSchemaResponse {
+	repeated DisableVirtualSchema disableVirtualSchema = 1 [(gogoproto.nullable) = false];
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 

@@ -1,0 +1,11 @@
+syntax = "proto3";
+package thesixnetwork.sixprotocol.nftmngr;
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
+
+message DisableVirtualSchema {
+  string id = 1; 
+  string virtualNftSchemaCode = 2; 
+  
+}
+

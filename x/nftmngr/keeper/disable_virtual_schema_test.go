@@ -18,7 +18,7 @@ var _ = strconv.IntSize
 func createNDisableVirtualSchema(keeper *keeper.Keeper, ctx sdk.Context, n int) []types.DisableVirtualSchema {
 	items := make([]types.DisableVirtualSchema, n)
 	for i := range items {
-		items[i].NftSchemaCode = strconv.Itoa(i)
+		items[i].Id = strconv.Itoa(i)
 
 		keeper.SetDisableVirtualSchema(ctx, items[i])
 	}
@@ -30,7 +30,7 @@ func TestDisableVirtualSchemaGet(t *testing.T) {
 	items := createNDisableVirtualSchema(keeper, ctx, 10)
 	for _, item := range items {
 		rst, found := keeper.GetDisableVirtualSchema(ctx,
-			item.NftSchemaCode,
+			item.Id,
 		)
 		require.True(t, found)
 		require.Equal(t,
@@ -44,10 +44,10 @@ func TestDisableVirtualSchemaRemove(t *testing.T) {
 	items := createNDisableVirtualSchema(keeper, ctx, 10)
 	for _, item := range items {
 		keeper.RemoveDisableVirtualSchema(ctx,
-			item.NftSchemaCode,
+			item.Id,
 		)
 		_, found := keeper.GetDisableVirtualSchema(ctx,
-			item.NftSchemaCode,
+			item.Id,
 		)
 		require.False(t, found)
 	}

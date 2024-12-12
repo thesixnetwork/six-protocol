@@ -11,12 +11,12 @@ const (
 
 // DisableVirtualSchemaKey returns the store key to retrieve a DisableVirtualSchema from the index fields
 func DisableVirtualSchemaKey(
-	nftSchemaCode string,
+	index string,
 ) []byte {
 	var key []byte
 
-	nftSchemaCodeBytes := []byte(nftSchemaCode)
-	key = append(key, nftSchemaCodeBytes...)
+	indexBytes := []byte(index)
+	key = append(key, indexBytes...)
 	key = append(key, []byte("/")...)
 
 	return key

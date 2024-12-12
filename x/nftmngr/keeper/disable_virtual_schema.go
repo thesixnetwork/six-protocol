@@ -11,20 +11,20 @@ func (k Keeper) SetDisableVirtualSchema(ctx sdk.Context, disableVirtualSchema ty
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.DisableVirtualSchemaKeyPrefix))
 	b := k.cdc.MustMarshal(&disableVirtualSchema)
 	store.Set(types.DisableVirtualSchemaKey(
-		disableVirtualSchema.NftSchemaCode,
+		disableVirtualSchema.Id,
 	), b)
 }
 
 // GetDisableVirtualSchema returns a disableVirtualSchema from its index
 func (k Keeper) GetDisableVirtualSchema(
 	ctx sdk.Context,
-	nftSchemaCode string,
+	index string,
 
 ) (val types.DisableVirtualSchema, found bool) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.DisableVirtualSchemaKeyPrefix))
 
 	b := store.Get(types.DisableVirtualSchemaKey(
-		nftSchemaCode,
+		index,
 	))
 	if b == nil {
 		return val, false
@@ -37,12 +37,12 @@ func (k Keeper) GetDisableVirtualSchema(
 // RemoveDisableVirtualSchema removes a disableVirtualSchema from the store
 func (k Keeper) RemoveDisableVirtualSchema(
 	ctx sdk.Context,
-	nftSchemaCode string,
+	index string,
 
 ) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.DisableVirtualSchemaKeyPrefix))
 	store.Delete(types.DisableVirtualSchemaKey(
-		nftSchemaCode,
+		index,
 	))
 }
 

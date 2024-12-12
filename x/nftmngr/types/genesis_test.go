@@ -138,6 +138,14 @@ func TestGenesisState_Validate(t *testing.T) {
 						VirtualNftSchemaCode: "1",
 					},
 				},
+				DisableVirtualSchemaList: []types.DisableVirtualSchema{
+					{
+						Id: "0",
+					},
+					{
+						Id: "1",
+					},
+				},
 				// this line is used by starport scaffolding # types/genesis/validField
 			},
 			valid: true,
@@ -329,6 +337,20 @@ func TestGenesisState_Validate(t *testing.T) {
 					},
 					{
 						VirtualNftSchemaCode: "0",
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated disableVirtualSchema",
+			genState: &types.GenesisState{
+				DisableVirtualSchemaList: []types.DisableVirtualSchema{
+					{
+						Id: "0",
+					},
+					{
+						Id: "0",
 					},
 				},
 			},
