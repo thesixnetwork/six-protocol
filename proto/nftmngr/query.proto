@@ -171,7 +171,7 @@ service Query {
 		option (google.api.http).get = "/thesixnetwork/six-protocol/nftmngr/virtual_schema";
 	}
 
-// Queries a DisableVirtualSchema by index.
+    // Queries a DisableVirtualSchema by index.
 	rpc DisableVirtualSchema(QueryGetDisableVirtualSchemaRequest) returns (QueryGetDisableVirtualSchemaResponse) {
 		option (google.api.http).get = "/thesixnetwork/six-protocol/nftmngr/disable_virtual_schema/{index}";
 	}
@@ -179,6 +179,16 @@ service Query {
 	// Queries a list of DisableVirtualSchema items.
 	rpc DisableVirtualSchemaAll(QueryAllDisableVirtualSchemaRequest) returns (QueryAllDisableVirtualSchemaResponse) {
 		option (google.api.http).get = "/thesixnetwork/six-protocol/nftmngr/disable_virtual_schema";
+	}
+
+    // Queries a VirtualSchemaProposal by index.
+	rpc VirtualSchemaProposal(QueryGetVirtualSchemaProposalRequest) returns (QueryGetVirtualSchemaProposalResponse) {
+		option (google.api.http).get = "/thesixnetwork/six-protocol/nftmngr/virtual_schema_proposal/{index}";
+	}
+
+	// Queries a list of VirtualSchemaProposal items.
+	rpc VirtualSchemaProposalAll(QueryAllVirtualSchemaProposalRequest) returns (QueryAllVirtualSchemaProposalResponse) {
+		option (google.api.http).get = "/thesixnetwork/six-protocol/nftmngr/virtual_schema_proposal";
 	}
 
 // this line is used by starport scaffolding # 2
@@ -456,6 +466,24 @@ message QueryAllDisableVirtualSchemaRequest {
 
 message QueryAllDisableVirtualSchemaResponse {
 	repeated DisableVirtualSchema disableVirtualSchema = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetVirtualSchemaProposalRequest {
+	  string index = 1;
+
+}
+
+message QueryGetVirtualSchemaProposalResponse {
+	VirtualSchemaProposal virtualSchemaProposal = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllVirtualSchemaProposalRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllVirtualSchemaProposalResponse {
+	repeated VirtualSchemaProposal virtualSchemaProposal = 1 [(gogoproto.nullable) = false];
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 

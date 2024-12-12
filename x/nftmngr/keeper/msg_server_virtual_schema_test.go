@@ -22,10 +22,10 @@ func TestVirtualSchemaMsgServerCreate(t *testing.T) {
 	wctx := sdk.WrapSDKContext(ctx)
 	creator := "A"
 	for i := 0; i < 5; i++ {
-		expected := &types.MsgCreateVirtualSchema{Creator: creator,
+		expected := &types.MsgCreateVirtualSchemaProposal{Creator: creator,
 			VirtualNftSchemaCode: strconv.Itoa(i),
 		}
-		_, err := srv.CreateVirtualSchema(wctx, expected)
+		_, err := srv.CreateVirtualSchemaProposal(wctx, expected)
 		require.NoError(t, err)
 		rst, found := k.GetVirtualSchema(ctx,
 			expected.VirtualNftSchemaCode,
@@ -69,7 +69,7 @@ func TestVirtualSchemaMsgServerDelete(t *testing.T) {
 			srv := keeper.NewMsgServerImpl(*k)
 			wctx := sdk.WrapSDKContext(ctx)
 
-			_, err := srv.CreateVirtualSchema(wctx, &types.MsgCreateVirtualSchema{Creator: creator,
+			_, err := srv.CreateVirtualSchemaProposal(wctx, &types.MsgCreateVirtualSchemaProposal{Creator: creator,
 				VirtualNftSchemaCode: strconv.Itoa(0),
 			})
 			require.NoError(t, err)
