@@ -13,7 +13,7 @@ import (
 func CmdCreateVirtualSchema() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "create-virtual-schema [code] [proposal-file]",
-		Short: "Create a request for new virtual_schema",
+		Short: "Request for create new virtual_schema",
 		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			// Get value arguments
@@ -37,7 +37,7 @@ func CmdCreateVirtualSchema() *cobra.Command {
 				request = append(request, *registry)
 			}
 
-			msg := types.NewMsgCreateVirtualSchema(
+			msg := types.NewMsgCreateVirtualSchemaProposal(
 				clientCtx.GetFromAddress().String(),
 				argCode,
 				request,

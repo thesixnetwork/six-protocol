@@ -77,6 +77,10 @@ func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) 
 	for _, elem := range genState.DisableVirtualSchemaList {
 		k.SetDisableVirtualSchema(ctx, elem)
 	}
+	// Set all the virtualSchemaProposal
+	for _, elem := range genState.VirtualSchemaProposalList {
+		k.SetVirtualSchemaProposal(ctx, elem)
+	}
 	// this line is used by starport scaffolding # genesis/module/init
 	k.SetParams(ctx, genState.Params)
 }
@@ -110,6 +114,7 @@ func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
 	genesis.VirtualActionList = k.GetAllVirtualAction(ctx)
 	genesis.VirtualSchemaList = k.GetAllVirtualSchema(ctx)
 	genesis.DisableVirtualSchemaList = k.GetAllDisableVirtualSchema(ctx)
+	genesis.VirtualSchemaProposalList = k.GetAllVirtualSchemaProposal(ctx)
 	// this line is used by starport scaffolding # genesis/module/export
 
 	return genesis

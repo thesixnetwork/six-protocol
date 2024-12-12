@@ -3,9 +3,23 @@ package thesixnetwork.sixprotocol.nftmngr;
 
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
 
+import "nftmngr/virtual_schema.proto";
+
 message DisableVirtualSchema {
   string id = 1; 
   string virtualNftSchemaCode = 2; 
-  
+  string proposalExpiredBlock = 3;
 }
 
+message VirtualSchemaDisableRequest {
+    string id = 1; 
+    string virtualNftSchemaCode = 2;
+    repeated VirtualSchemaDisableRegistry registry = 3;
+    string proposalExpiredBlock = 4;
+    string creator = 5;
+}
+
+message VirtualSchemaDisableRegistry {
+    string nftSchemaCode = 1;
+    RegistryStatus status = 2;
+}

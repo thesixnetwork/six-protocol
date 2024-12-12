@@ -26,7 +26,7 @@ func SimulateMsgCreateVirtualSchema(
 		simAccount, _ := simtypes.RandomAcc(r, accs)
 
 		i := r.Int()
-		msg := &types.MsgCreateVirtualSchema{
+		msg := &types.MsgCreateVirtualSchemaProposal{
 			Creator:              simAccount.Address.String(),
 			VirtualNftSchemaCode: strconv.Itoa(i),
 		}

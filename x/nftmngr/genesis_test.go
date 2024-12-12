@@ -151,6 +151,14 @@ func TestGenesis(t *testing.T) {
 				Id: "1",
 			},
 		},
+		VirtualSchemaProposalList: []types.VirtualSchemaProposal{
+			{
+				Id: "0",
+			},
+			{
+				Id: "1",
+			},
+		},
 		// this line is used by starport scaffolding # genesis/test/state
 	}
 
@@ -178,5 +186,6 @@ func TestGenesis(t *testing.T) {
 	require.ElementsMatch(t, genesisState.VirtualActionList, got.VirtualActionList)
 	require.ElementsMatch(t, genesisState.VirtualSchemaList, got.VirtualSchemaList)
 	require.ElementsMatch(t, genesisState.DisableVirtualSchemaList, got.DisableVirtualSchemaList)
+	require.ElementsMatch(t, genesisState.VirtualSchemaProposalList, got.VirtualSchemaProposalList)
 	// this line is used by starport scaffolding # genesis/test/assert
 }

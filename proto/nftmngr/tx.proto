@@ -43,7 +43,7 @@ service Msg {
   rpc CreateVirtualAction(MsgCreateVirtualAction) returns (MsgCreateVirtualActionResponse);
   rpc UpdateVirtualAction(MsgUpdateVirtualAction) returns (MsgUpdateVirtualActionResponse);
   rpc DeleteVirtualAction(MsgDeleteVirtualAction) returns (MsgDeleteVirtualActionResponse);
-  rpc CreateVirtualSchema(MsgCreateVirtualSchema) returns (MsgCreateVirtualSchemaResponse);
+  rpc CreateVirtualSchemaProposal(MsgCreateVirtualSchemaProposal) returns (MsgCreateVirtualSchemaResponse);
   rpc DeleteVirtualSchema(MsgDeleteVirtualSchema) returns (MsgDeleteVirtualSchemaResponse);
   rpc VoteCreateVirtualSchema(MsgVoteCreateVirtualSchema) returns (MsgVoteCreateVirtualSchemaResponse);
   rpc DisableVirtualSchemaProposal(MsgDisableVirtualSchemaProposal) returns (MsgDisableVirtualSchemaProposalResponse);
@@ -442,11 +442,12 @@ message MsgDeleteVirtualActionResponse {
 }
 
 // TODO:: Feat(VirtualSchema)
-message MsgCreateVirtualSchema {
+message MsgCreateVirtualSchemaProposal {
   string creator = 1;
   string virtualNftSchemaCode = 2;
   repeated VirtualSchemaRegistryRequest registry = 3 [(gogoproto.nullable) = false];
 }
+
 message MsgCreateVirtualSchemaResponse {}
 
 // TODO:: Feat(VirtualSchema)
@@ -469,6 +470,7 @@ message MsgVoteCreateVirtualSchemaResponse {
 message MsgDisableVirtualSchemaProposal {
   string creator = 1;
   string virtualNftSchemaCode = 2;
+  string proposalExpiredBlock = 3;
 }
 
 message MsgDisableVirtualSchemaProposalResponse {

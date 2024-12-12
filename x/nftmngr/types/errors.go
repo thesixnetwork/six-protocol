@@ -15,6 +15,7 @@ var (
 	ErrCreatorDoesNotMatch    = sdkerrors.Register(ModuleName, 4, "Only creator can run this action")
 	ErrMetadataDoesNotExists  = sdkerrors.Register(ModuleName, 5, "Metadata of the token does not exists")
 	ErrParsingAttributeValue  = sdkerrors.Register(ModuleName, 6, "Error parsing attribute value")
+	ErrInvalidBlockHeight     = sdkerrors.Register(ModuleName, 7, "Invalid BlockHeight")
 
 	// Metadata (100-199)
 	ErrMetadataAlreadyExists                     = sdkerrors.Register(ModuleName, 100, "Metadata already exists")

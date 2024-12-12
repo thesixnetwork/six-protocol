@@ -36,7 +36,7 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgCreateVirtualAction{}, "nftmngr/CreateVirtualAction", nil)
 	cdc.RegisterConcrete(&MsgUpdateVirtualAction{}, "nftmngr/UpdateVirtualAction", nil)
 	cdc.RegisterConcrete(&MsgDeleteVirtualAction{}, "nftmngr/DeleteVirtualAction", nil)
-	cdc.RegisterConcrete(&MsgCreateVirtualSchema{}, "nftmngr/CreateVirtualSchema", nil)
+	cdc.RegisterConcrete(&MsgCreateVirtualSchemaProposal{}, "nftmngr/CreateVirtualSchema", nil)
 	cdc.RegisterConcrete(&MsgDeleteVirtualSchema{}, "nftmngr/DeleteVirtualSchema", nil)
 	cdc.RegisterConcrete(&MsgVoteCreateVirtualSchema{}, "nftmngr/VoteCreateVirtualSchema", nil)
 	cdc.RegisterConcrete(&MsgDisableVirtualSchemaProposal{}, "nftmngr/DisableVirtualSchemaProposal", nil)
@@ -121,7 +121,7 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 		&MsgDeleteVirtualAction{},
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgCreateVirtualSchema{},
+		&MsgCreateVirtualSchemaProposal{},
 		&MsgDeleteVirtualSchema{},
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),

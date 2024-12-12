@@ -6,33 +6,33 @@ import (
 )
 
 const (
-	TypeMsgCreateVirtualSchema = "create_vir_schema"
-	TypeMsgDeleteVirtualSchema = "delete_vir_schema"
+	TypeMsgCreateVirtualSchemaProposal = "create_virtual_schema"
+	TypeMsgDeleteVirtualSchema         = "delete_virtual_schema"
 )
 
-var _ sdk.Msg = &MsgCreateVirtualSchema{}
+var _ sdk.Msg = &MsgCreateVirtualSchemaProposal{}
 
-func NewMsgCreateVirtualSchema(
+func NewMsgCreateVirtualSchemaProposal(
 	creator string,
 	code string,
 	request []VirtualSchemaRegistryRequest,
-) *MsgCreateVirtualSchema {
-	return &MsgCreateVirtualSchema{
+) *MsgCreateVirtualSchemaProposal {
+	return &MsgCreateVirtualSchemaProposal{
 		Creator:              creator,
 		VirtualNftSchemaCode: code,
 		Registry:             request,
 	}
 }
 
-func (msg *MsgCreateVirtualSchema) Route() string {
+func (msg *MsgCreateVirtualSchemaProposal) Route() string {
 	return RouterKey
 }
 
-func (msg *MsgCreateVirtualSchema) Type() string {
-	return TypeMsgCreateVirtualSchema
+func (msg *MsgCreateVirtualSchemaProposal) Type() string {
+	return TypeMsgCreateVirtualSchemaProposal
 }
 
-func (msg *MsgCreateVirtualSchema) GetSigners() []sdk.AccAddress {
+func (msg *MsgCreateVirtualSchemaProposal) GetSigners() []sdk.AccAddress {
 	creator, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		panic(err)
@@ -40,12 +40,12 @@ func (msg *MsgCreateVirtualSchema) GetSigners() []sdk.AccAddress {
 	return []sdk.AccAddress{creator}
 }
 
-func (msg *MsgCreateVirtualSchema) GetSignBytes() []byte {
+func (msg *MsgCreateVirtualSchemaProposal) GetSignBytes() []byte {
 	bz := ModuleCdc.MustMarshalJSON(msg)
 	return sdk.MustSortJSON(bz)
 }
 
-func (msg *MsgCreateVirtualSchema) ValidateBasic() error {
+func (msg *MsgCreateVirtualSchemaProposal) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)

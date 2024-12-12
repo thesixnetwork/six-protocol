@@ -4,37 +4,34 @@ option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
 
 import "gogoproto/gogo.proto";
 
+message VirtualSchemaProposal {
+  string id = 1; 
+  string virtualSchemaCode = 2; 
+  repeated VirtualSchemaRegistry registry = 3; 
+}
+
+
 message VirtualSchema {
-    string virtualNftSchemaCode = 1;
-    repeated VirtualSchemaRegistry registry = 2;
-    bool enable = 3;
-    // link wih virtual action. We will not put in here to reduce redundance info
+  string virtualNftSchemaCode = 1;
+  repeated VirtualSchemaRegistry registry = 2;
+  bool enable = 3;
+  string expiredAtBlock = 4;
+  // link wih virtual action. We will not put in here to reduce redundance info
 }
 
 message VirtualSchemaRegistry {
-    string nftSchemaCode = 1;
-    repeated string sharedAttributes = 2;
-    RegistryStatus status = 3;
+  string nftSchemaCode = 1;
+  repeated string sharedAttributes = 2;
+  RegistryStatus status = 3;
 }
 
 enum RegistryStatus {
-    PENDING = 0;
-    REJECT = 1;
-    ACCEPT = 2;
+  PENDING = 0;
+  REJECT = 1;
+  ACCEPT = 2;
 }
 
 message VirtualSchemaRegistryRequest {
-    string nftSchemaCode = 1;
-    repeated string sharedAttributes = 2;
-}
-
-message VirtualSchemaDisableRequest {
-    string virtualNftSchemaCode = 1;
-    repeated VirtualSchemaDisableRegistry registry = 2;
-    string creator = 3;
-}
-
-message VirtualSchemaDisableRegistry {
-    string nftSchemaCode = 1;
-    RegistryStatus status = 2;
+  string nftSchemaCode = 1;
+  repeated string sharedAttributes = 2;
 }
