@@ -76,6 +76,8 @@ func (k Keeper) CreateNftSchemaKeeper(ctx sdk.Context, creator string, schemaInp
 	}
 
 	// loop over SchemaAttribute and add to nftmngr/code/name
+	// schema attributes is a Global attribute of the collection,
+	// which mean every metadata will shared the same value
 	for _, schemaDefaultMintAttribute := range schemaInput.OnchainData.NftAttributes {
 		// parse DefaultMintValue to SchemaAttributeValue
 		schmaAttributeValue, err := ConvertDefaultMintValueToSchemaAttributeValue(schemaDefaultMintAttribute.DefaultMintValue)

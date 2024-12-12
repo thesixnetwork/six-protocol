@@ -74,8 +74,29 @@ func (k Keeper) ProcessFeeAmount(ctx sdk.Context, bondedVotes []abci.VoteInfo) e
 }
 
 func (k Keeper) AfterProposalSubmission(ctx sdk.Context, proposalId string) {
-
 }
 
 func (k Keeper) AfterVoteProposal(ctx sdk.Context, proposalId string) {
+}
+
+// TODO:: Feat(VirtualSchema)
+// ON POC WE WILL JUST CREATE SCHEMA
+func (k Keeper) AfterProposalSuccess(ctx sdk.Context, proposalId string) {
+	// validate if proposal complete
+
+
+	// get virtual info from proposal
+	virSchemaProposal, _ := k.GetVirtualSchemaProposal(ctx, proposalId)
+
+	var virSchema = types.VirtualSchema{
+		VirtualNftSchemaCode: virSchemaProposal.VirtualSchemaCode,
+		Registry:             virSchemaProposal.Registry,
+		Enable:               true,
+		ExpiredAtBlock:       "0",
+	}
+
+	k.SetVirtualSchema(
+		ctx,
+		virSchema,
+	)
 }
