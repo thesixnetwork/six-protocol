@@ -27,3 +27,14 @@ message VirtualSchemaRegistryRequest {
     string nftSchemaCode = 1;
     repeated string sharedAttributes = 2;
 }
+
+message VirtualSchemaDisableRequest {
+    string virtualNftSchemaCode = 1;
+    repeated VirtualSchemaDisableRegistry registry = 2;
+    string creator = 3;
+}
+
+message VirtualSchemaDisableRegistry {
+    string nftSchemaCode = 1;
+    RegistryStatus status = 2;
+}

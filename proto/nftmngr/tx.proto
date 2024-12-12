@@ -46,6 +46,7 @@ service Msg {
   rpc CreateVirtualSchema(MsgCreateVirtualSchema) returns (MsgCreateVirtualSchemaResponse);
   rpc DeleteVirtualSchema(MsgDeleteVirtualSchema) returns (MsgDeleteVirtualSchemaResponse);
   rpc VoteCreateVirtualSchema(MsgVoteCreateVirtualSchema) returns (MsgVoteCreateVirtualSchemaResponse);
+  rpc DisableVirtualSchemaProposal(MsgDisableVirtualSchemaProposal) returns (MsgDisableVirtualSchemaProposalResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -463,6 +464,16 @@ message MsgVoteCreateVirtualSchema {
 }
 
 message MsgVoteCreateVirtualSchemaResponse {
+}
+
+message MsgDisableVirtualSchemaProposal {
+  string creator = 1;
+  string virtualNftSchemaCode = 2;
+}
+
+message MsgDisableVirtualSchemaProposalResponse {
+  string creator = 1;
+  string proposalId = 2;
 }
 
 // this line is used by starport scaffolding # proto/tx/message
