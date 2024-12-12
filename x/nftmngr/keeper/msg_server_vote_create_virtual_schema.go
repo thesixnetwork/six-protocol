@@ -54,8 +54,8 @@ func (k msgServer) VoteCreateVirtualSchema(goCtx context.Context, msg *types.Msg
 
 	// Count votes
 	var (
-		acceptCount int
-		totalVotes  int
+		acceptCount  int
+		totalVotes   int
 		voteTreshold = len(virtualSchema.Registry)
 	)
 
@@ -83,10 +83,7 @@ func (k msgServer) VoteCreateVirtualSchema(goCtx context.Context, msg *types.Msg
 	return &types.MsgVoteCreateVirtualSchemaResponse{}, nil
 }
 
-
 func (K Keeper) AfterAllVoteAccept(ctx sdk.Context, virtualSchemaCode string) error {
-	
+
 	return nil
 }
-
-

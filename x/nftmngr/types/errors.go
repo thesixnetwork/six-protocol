@@ -61,6 +61,7 @@ var (
 	ErrAttributeOptionDoesNotExists    = sdkerrors.Register(ModuleName, 215, "Attribute option does not exists")
 	ErrAlreadyVote                     = sdkerrors.Register(ModuleName, 216, "Owner of this schema already vote")
 	ErrSchemaNotInRegistry             = sdkerrors.Register(ModuleName, 217, "This schema is not register")
+	ErrSchemaIsDisable                 = sdkerrors.Register(ModuleName, 217, "This schema is disable")
 	// Action (300-399)
 	ErrRefIdAlreadyExists          = sdkerrors.Register(ModuleName, 300, "RefId already exists")
 	ErrEmptyChangeList             = sdkerrors.Register(ModuleName, 301, "No changes were updated")
