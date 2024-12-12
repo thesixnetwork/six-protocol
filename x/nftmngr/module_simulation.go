@@ -64,10 +64,6 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgCreateVirtualSchema int = 100
 
-	opWeightMsgUpdateVirtualSchema = "op_weight_msg_vir_schema"
-	// TODO: Determine the simulation weight value
-	defaultWeightMsgUpdateVirtualSchema int = 100
-
 	opWeightMsgDeleteVirtualSchema = "op_weight_msg_vir_schema"
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgDeleteVirtualSchema int = 100
@@ -79,18 +75,6 @@ const (
 	opWeightMsgDisableVirtualSchemaProposal = "op_weight_msg_disable_virtual_schema_proposal"
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgDisableVirtualSchemaProposal int = 100
-
-	opWeightMsgCreateDisableVirtualSchema = "op_weight_msg_disable_virtual_schema"
-	// TODO: Determine the simulation weight value
-	defaultWeightMsgCreateDisableVirtualSchema int = 100
-
-	opWeightMsgUpdateDisableVirtualSchema = "op_weight_msg_disable_virtual_schema"
-	// TODO: Determine the simulation weight value
-	defaultWeightMsgUpdateDisableVirtualSchema int = 100
-
-	opWeightMsgDeleteDisableVirtualSchema = "op_weight_msg_disable_virtual_schema"
-	// TODO: Determine the simulation weight value
-	defaultWeightMsgDeleteDisableVirtualSchema int = 100
 
 	// this line is used by starport scaffolding # simapp/module/const
 )
