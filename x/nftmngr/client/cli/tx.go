@@ -47,7 +47,6 @@ func GetTxCmd() *cobra.Command {
 	cmd.AddCommand(CmdSetMintauth())
 	cmd.AddCommand(CmdChangeOrgOwner())
 	cmd.AddCommand(CmdCreateMultiMetadata())
-	cmd.AddCommand(CmdPerformMultiTokenAction())
 	cmd.AddCommand(CmdSetUriRetrievalMethod())
 	cmd.AddCommand(CmdSetOriginChain())
 	cmd.AddCommand(CmdSetOriginContract())
