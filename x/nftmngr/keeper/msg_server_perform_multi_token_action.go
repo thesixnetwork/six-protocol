@@ -316,7 +316,7 @@ func (k msgServer) PerformMultiTokenOneAction(goCtx context.Context, msg *types.
 		}
 
 		// ** META path ../types/meta.go **
-		meta := NewMetadata(&schema, &tokenData, schema.OriginData.AttributeOverriding, map_converted_schema_attributes)
+		meta := types.NewMetadata(&schema, &tokenData, schema.OriginData.AttributeOverriding, map_converted_schema_attributes)
 		meta.SetGetNFTFunction(func(tokenId string) (*types.NftData, error) {
 			tokenData, found := k.Keeper.GetNftData(ctx, msg.NftSchemaCode, tokenId)
 			if !found {
@@ -611,7 +611,7 @@ func (k msgServer) PerformMultiTokenMultiAction(goCtx context.Context, msg *type
 		}
 
 		// ** META path ../types/meta.go **
-		meta := NewMetadata(&schema, &tokenData, schema.OriginData.AttributeOverriding, map_converted_schema_attributes)
+		meta := types.NewMetadata(&schema, &tokenData, schema.OriginData.AttributeOverriding, map_converted_schema_attributes)
 		meta.SetGetNFTFunction(func(tokenId string) (*types.NftData, error) {
 			tokenData, found := k.Keeper.GetNftData(ctx, msg.NftSchemaCode, tokenId)
 			if !found {
@@ -901,7 +901,7 @@ func (k msgServer) PerformOneTokenMultiAction(goCtx context.Context, msg *types.
 		}
 
 		// ** META path ../types/meta.go **
-		meta := NewMetadata(&schema, &tokenData, schema.OriginData.AttributeOverriding, map_converted_schema_attributes)
+		meta := types.NewMetadata(&schema, &tokenData, schema.OriginData.AttributeOverriding, map_converted_schema_attributes)
 		meta.SetGetNFTFunction(func(tokenId string) (*types.NftData, error) {
 			tokenData, found := k.Keeper.GetNftData(ctx, msg.NftSchemaCode, tokenId)
 			if !found {
