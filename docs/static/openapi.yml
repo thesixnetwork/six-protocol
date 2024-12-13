@@ -35627,6 +35627,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/six-protocol/nftmngr/disable_virtual_schema/{index}':
@@ -36152,6 +36162,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -36708,6 +36728,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/six-protocol/nftmngr/virtual_schema/{nftSchemaCode}':
@@ -36957,14 +36987,28 @@ paths:
                 items:
                   type: object
                   properties:
-                    index:
+                    id:
                       type: string
                     virtualSchemaCode:
                       type: string
                     registry:
-                      type: string
-                    enable:
-                      type: boolean
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          nftSchemaCode:
+                            type: string
+                          sharedAttributes:
+                            type: array
+                            items:
+                              type: string
+                          status:
+                            type: string
+                            enum:
+                              - PENDING
+                              - REJECT
+                              - ACCEPT
+                            default: PENDING
               pagination:
                 type: object
                 properties:
@@ -37224,6 +37268,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/six-protocol/nftmngr/virtual_schema_proposal/{index}':
@@ -37239,14 +37293,28 @@ paths:
               virtualSchemaProposal:
                 type: object
                 properties:
-                  index:
+                  id:
                     type: string
                   virtualSchemaCode:
                     type: string
                   registry:
-                    type: string
-                  enable:
-                    type: boolean
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        nftSchemaCode:
+                          type: string
+                        sharedAttributes:
+                          type: array
+                          items:
+                            type: string
+                        status:
+                          type: string
+                          enum:
+                            - PENDING
+                            - REJECT
+                            - ACCEPT
+                          default: PENDING
         default:
           description: An unexpected error response.
           schema:
@@ -37720,6 +37788,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -38217,6 +38295,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -38718,6 +38806,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/action_of_schema/{nftSchemaCode}/{name}':
@@ -39213,6 +39311,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -39954,6 +40062,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/metadata_creator/{nftSchemaCode}':
@@ -40530,6 +40648,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   /thesixnetwork/sixnft/nftmngr/nft_data:
@@ -40887,6 +41015,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -42159,6 +42297,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/nft_schema/{code}':
@@ -42921,6 +43069,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/nft_schema_by_contract/{originContractAddress}':
@@ -43409,6 +43567,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -44130,6 +44298,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -69703,6 +69881,11 @@ definitions:
           2. Proposal to enable and disable action
   thesixnetwork.sixprotocol.nftmngr.MsgCreateVirtualSchemaResponse:
     type: object
+    properties:
+      id:
+        type: string
+      virtualNftSchemaCode:
+        type: string
   thesixnetwork.sixprotocol.nftmngr.MsgDeleteActionExecutorResponse:
     type: object
     properties:
@@ -71495,14 +71678,28 @@ definitions:
         items:
           type: object
           properties:
-            index:
+            id:
               type: string
             virtualSchemaCode:
               type: string
             registry:
-              type: string
-            enable:
-              type: boolean
+              type: array
+              items:
+                type: object
+                properties:
+                  nftSchemaCode:
+                    type: string
+                  sharedAttributes:
+                    type: array
+                    items:
+                      type: string
+                  status:
+                    type: string
+                    enum:
+                      - PENDING
+                      - REJECT
+                      - ACCEPT
+                    default: PENDING
       pagination:
         type: object
         properties:
@@ -72301,14 +72498,28 @@ definitions:
       virtualSchemaProposal:
         type: object
         properties:
-          index:
+          id:
             type: string
           virtualSchemaCode:
             type: string
           registry:
-            type: string
-          enable:
-            type: boolean
+            type: array
+            items:
+              type: object
+              properties:
+                nftSchemaCode:
+                  type: string
+                sharedAttributes:
+                  type: array
+                  items:
+                    type: string
+                status:
+                  type: string
+                  enum:
+                    - PENDING
+                    - REJECT
+                    - ACCEPT
+                  default: PENDING
   thesixnetwork.sixprotocol.nftmngr.QueryGetVirtualSchemaResponse:
     type: object
     properties:
@@ -72546,14 +72757,28 @@ definitions:
   thesixnetwork.sixprotocol.nftmngr.VirtualSchemaProposal:
     type: object
     properties:
-      index:
+      id:
         type: string
       virtualSchemaCode:
         type: string
       registry:
-        type: string
-      enable:
-        type: boolean
+        type: array
+        items:
+          type: object
+          properties:
+            nftSchemaCode:
+              type: string
+            sharedAttributes:
+              type: array
+              items:
+                type: string
+            status:
+              type: string
+              enum:
+                - PENDING
+                - REJECT
+                - ACCEPT
+              default: PENDING
   thesixnetwork.sixprotocol.nftmngr.VirtualSchemaRegistry:
     type: object
     properties:

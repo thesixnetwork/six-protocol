@@ -1,4 +1,4 @@
-package types
+package keeper
 
 import (
 	// "fmt"
@@ -8,6 +8,7 @@ import (
 	"time"
 
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
 type MetadataChange struct {
@@ -17,26 +18,26 @@ type MetadataChange struct {
 }
 
 type Metadata struct {
-	nftData                *NftData
-	schema                 *NFTSchema
-	attributeOverring      AttributeOverriding
+	nftData                *types.NftData
+	schema                 *types.NFTSchema
+	attributeOverring      types.AttributeOverriding
 	ChangeList             []*MetadataChange `json:"change_list,omitempty"`
 	MapAllKey              map[string]*MetadataAttribute
-	OtherUpdatedTokenDatas map[string]*NftData
-	NftDataFunction        func(tokenId string) (*NftData, error)
+	OtherUpdatedTokenDatas map[string]*types.NftData
+	NftDataFunction        func(tokenId string) (*types.NftData, error)
 	GetBlockTimeFunction   func() time.Time
 	GetBlockHeightFunction func() int64
 }
 
 type MetadataAttribute struct {
-	AttributeValue *NftAttributeValue
+	AttributeValue *types.NftAttributeValue
 	From           string
 	Index          int
 }
 
 // var MapAllKey = map[string]*MetadataAttribute{}
 
-func NewMetadata(schema *NFTSchema, tokenData *NftData, attributeOverring AttributeOverriding, schemaAttributesValue []*NftAttributeValue) *Metadata {
+func NewMetadata(schema *types.NFTSchema, tokenData *types.NftData, attributeOverring types.AttributeOverriding, schemaAttributesValue []*types.NftAttributeValue) *Metadata {
 	meta := &Metadata{
 		nftData:           tokenData,
 		attributeOverring: attributeOverring,
@@ -44,7 +45,7 @@ func NewMetadata(schema *NFTSchema, tokenData *NftData, attributeOverring Attrib
 	}
 
 	meta.MapAllKey = map[string]*MetadataAttribute{}
-	meta.OtherUpdatedTokenDatas = map[string]*NftData{}
+	meta.OtherUpdatedTokenDatas = map[string]*types.NftData{}
 
 	for i, attri := range tokenData.OriginAttributes {
 		meta.MapAllKey[attri.Name] = &MetadataAttribute{
@@ -55,7 +56,7 @@ func NewMetadata(schema *NFTSchema, tokenData *NftData, attributeOverring Attrib
 	}
 	for i, attri := range tokenData.OnchainAttributes {
 		if _, ok := meta.MapAllKey[attri.Name]; ok {
-			if attributeOverring == AttributeOverriding_CHAIN {
+			if attributeOverring == types.AttributeOverriding_CHAIN {
 				meta.MapAllKey[attri.Name] = &MetadataAttribute{
 					AttributeValue: attri,
 					From:           "chain",
@@ -96,7 +97,7 @@ func (m *Metadata) SetGetBlockTimeFunction(f func() time.Time) {
 	m.GetBlockTimeFunction = f
 }
 
-func (m *Metadata) SetGetNFTFunction(f func(tokenId string) (*NftData, error)) {
+func (m *Metadata) SetGetNFTFunction(f func(tokenId string) (*types.NftData, error)) {
 	m.NftDataFunction = f
 }
 
@@ -152,27 +153,27 @@ func (m *Metadata) GetNumber(key string) int64 {
 func (m *Metadata) MustGetNumber(key string) (int64, error) {
 	attri := m.MapAllKey[key]
 	if attri == nil {
-		return 0, sdkerrors.Wrap(ErrAttributeNotFoundForAction, key)
+		return 0, sdkerrors.Wrap(types.ErrAttributeNotFoundForAction, key)
 	}
-	if _, ok := attri.AttributeValue.GetValue().(*NftAttributeValue_NumberAttributeValue); ok {
+	if _, ok := attri.AttributeValue.GetValue().(*types.NftAttributeValue_NumberAttributeValue); ok {
 		// Number
 		return int64(attri.AttributeValue.GetNumberAttributeValue().Value), nil
 	}
-	return 0, sdkerrors.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
+	return 0, sdkerrors.Wrap(types.ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
 }
 
 func (m *Metadata) SetNumber(key string, value int64) error {
 	// m.mapNumber[key] = value
 	attri := m.MapAllKey[key]
 	if attri == nil {
-		panic(sdkerrors.Wrap(ErrAttributeNotFoundForAction, key))
+		panic(sdkerrors.Wrap(types.ErrAttributeNotFoundForAction, key))
 	}
-	if _, ok := attri.AttributeValue.GetValue().(*NftAttributeValue_NumberAttributeValue); ok {
+	if _, ok := attri.AttributeValue.GetValue().(*types.NftAttributeValue_NumberAttributeValue); ok {
 		// Number
-		newAttributeValue := &NftAttributeValue{
+		newAttributeValue := &types.NftAttributeValue{
 			Name: attri.AttributeValue.Name,
-			Value: &NftAttributeValue_NumberAttributeValue{
-				NumberAttributeValue: &NumberAttributeValue{
+			Value: &types.NftAttributeValue_NumberAttributeValue{
+				NumberAttributeValue: &types.NumberAttributeValue{
 					Value: uint64(value),
 				},
 			},
@@ -194,10 +195,10 @@ func (m *Metadata) SetNumber(key string, value int64) error {
 			m.MapAllKey[key].AttributeValue = newAttributeValue
 
 		} else {
-			return sdkerrors.Wrap(ErrAttributeOverriding, "can not override the origin attribute or nft attribute")
+			return sdkerrors.Wrap(types.ErrAttributeOverriding, "can not override the origin attribute or nft attribute")
 		}
 	} else {
-		return sdkerrors.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
+		return sdkerrors.Wrap(types.ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
 	}
 	return nil
 }
@@ -213,7 +214,7 @@ func (m *Metadata) GetString(key string) string {
 func (m *Metadata) GetSubString(key string, start int64, end int64) string {
 	v, err := m.MustGetString(key)
 	if end > int64(len(v)) {
-		panic(sdkerrors.Wrap(ErrInvalidActionInput, "end can not be greater than string length"))
+		panic(sdkerrors.Wrap(types.ErrInvalidActionInput, "end can not be greater than string length"))
 	}
 	if start == end {
 		return ""
@@ -225,7 +226,7 @@ func (m *Metadata) GetSubString(key string, start int64, end int64) string {
 		end = int64(len(v)) + (end + 1)
 	}
 	if start > end {
-		panic(sdkerrors.Wrap(ErrInvalidActionInput, "start can not be greater than end"))
+		panic(sdkerrors.Wrap(types.ErrInvalidActionInput, "start can not be greater than end"))
 	}
 	if err != nil {
 		panic(err)
@@ -254,27 +255,27 @@ func (m *Metadata) ToUppercase(key string) string {
 func (m *Metadata) MustGetString(key string) (string, error) {
 	attri := m.MapAllKey[key]
 	if attri == nil {
-		return "", sdkerrors.Wrap(ErrAttributeNotFoundForAction, key)
+		return "", sdkerrors.Wrap(types.ErrAttributeNotFoundForAction, key)
 	}
-	if _, ok := attri.AttributeValue.GetValue().(*NftAttributeValue_StringAttributeValue); ok {
+	if _, ok := attri.AttributeValue.GetValue().(*types.NftAttributeValue_StringAttributeValue); ok {
 		// Number
 		return attri.AttributeValue.GetStringAttributeValue().Value, nil
 	}
-	return "", sdkerrors.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
+	return "", sdkerrors.Wrap(types.ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
 }
 
 func (m *Metadata) SetString(key string, value string) error {
 	// m.mapString[key] = value
 	attri := m.MapAllKey[key]
 	if attri == nil {
-		panic(sdkerrors.Wrap(ErrAttributeNotFoundForAction, key))
+		panic(sdkerrors.Wrap(types.ErrAttributeNotFoundForAction, key))
 	}
-	if _, ok := attri.AttributeValue.GetValue().(*NftAttributeValue_StringAttributeValue); ok {
+	if _, ok := attri.AttributeValue.GetValue().(*types.NftAttributeValue_StringAttributeValue); ok {
 		// Number
-		newAttributeValue := &NftAttributeValue{
+		newAttributeValue := &types.NftAttributeValue{
 			Name: attri.AttributeValue.Name,
-			Value: &NftAttributeValue_StringAttributeValue{
-				StringAttributeValue: &StringAttributeValue{
+			Value: &types.NftAttributeValue_StringAttributeValue{
+				StringAttributeValue: &types.StringAttributeValue{
 					Value: value,
 				},
 			},
@@ -296,10 +297,10 @@ func (m *Metadata) SetString(key string, value string) error {
 			m.MapAllKey[key].AttributeValue = newAttributeValue
 
 		} else {
-			return sdkerrors.Wrap(ErrAttributeOverriding, "can not override the origin attribute")
+			return sdkerrors.Wrap(types.ErrAttributeOverriding, "can not override the origin attribute")
 		}
 	} else {
-		return sdkerrors.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
+		return sdkerrors.Wrap(types.ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
 	}
 	return nil
 }
@@ -316,27 +317,27 @@ func (m *Metadata) MustGetFloat(key string) (float64, error) {
 	// return m.mapFloat[key]
 	attri := m.MapAllKey[key]
 	if attri == nil {
-		return 0, sdkerrors.Wrap(ErrAttributeNotFoundForAction, key)
+		return 0, sdkerrors.Wrap(types.ErrAttributeNotFoundForAction, key)
 	}
-	if _, ok := attri.AttributeValue.GetValue().(*NftAttributeValue_FloatAttributeValue); ok {
+	if _, ok := attri.AttributeValue.GetValue().(*types.NftAttributeValue_FloatAttributeValue); ok {
 		// Number
 		return attri.AttributeValue.GetFloatAttributeValue().Value, nil
 	}
-	return 0, sdkerrors.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
+	return 0, sdkerrors.Wrap(types.ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
 }
 
 func (m *Metadata) SetFloat(key string, value float64) error {
 	// m.mapFloat[key] = value
 	attri := m.MapAllKey[key]
 	if attri == nil {
-		panic(sdkerrors.Wrap(ErrAttributeNotFoundForAction, key))
+		panic(sdkerrors.Wrap(types.ErrAttributeNotFoundForAction, key))
 	}
-	if _, ok := attri.AttributeValue.GetValue().(*NftAttributeValue_FloatAttributeValue); ok {
+	if _, ok := attri.AttributeValue.GetValue().(*types.NftAttributeValue_FloatAttributeValue); ok {
 		// Number
-		newAttributeValue := &NftAttributeValue{
+		newAttributeValue := &types.NftAttributeValue{
 			Name: attri.AttributeValue.Name,
-			Value: &NftAttributeValue_FloatAttributeValue{
-				FloatAttributeValue: &FloatAttributeValue{
+			Value: &types.NftAttributeValue_FloatAttributeValue{
+				FloatAttributeValue: &types.FloatAttributeValue{
 					Value: value,
 				},
 			},
@@ -358,10 +359,10 @@ func (m *Metadata) SetFloat(key string, value float64) error {
 			m.MapAllKey[key].AttributeValue = newAttributeValue
 
 		} else {
-			return sdkerrors.Wrap(ErrAttributeOverriding, "can not override the origin attribute")
+			return sdkerrors.Wrap(types.ErrAttributeOverriding, "can not override the origin attribute")
 		}
 	} else {
-		return sdkerrors.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
+		return sdkerrors.Wrap(types.ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
 	}
 	return nil
 }
@@ -378,27 +379,27 @@ func (m *Metadata) MustGetBool(key string) (bool, error) {
 	// return m.mapBool[key]
 	attri := m.MapAllKey[key]
 	if attri == nil {
-		return false, sdkerrors.Wrap(ErrAttributeNotFoundForAction, key)
+		return false, sdkerrors.Wrap(types.ErrAttributeNotFoundForAction, key)
 	}
-	if _, ok := attri.AttributeValue.GetValue().(*NftAttributeValue_BooleanAttributeValue); ok {
+	if _, ok := attri.AttributeValue.GetValue().(*types.NftAttributeValue_BooleanAttributeValue); ok {
 		// Number
 		return attri.AttributeValue.GetBooleanAttributeValue().Value, nil
 	}
-	return false, sdkerrors.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
+	return false, sdkerrors.Wrap(types.ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
 }
 
 func (m *Metadata) SetBoolean(key string, value bool) error {
 	// m.mapBool[key] = value
 	attri := m.MapAllKey[key]
 	if attri == nil {
-		panic(sdkerrors.Wrap(ErrAttributeNotFoundForAction, key))
+		panic(sdkerrors.Wrap(types.ErrAttributeNotFoundForAction, key))
 	}
-	if _, ok := attri.AttributeValue.GetValue().(*NftAttributeValue_BooleanAttributeValue); ok {
+	if _, ok := attri.AttributeValue.GetValue().(*types.NftAttributeValue_BooleanAttributeValue); ok {
 		// Number
-		newAttributeValue := &NftAttributeValue{
+		newAttributeValue := &types.NftAttributeValue{
 			Name: attri.AttributeValue.Name,
-			Value: &NftAttributeValue_BooleanAttributeValue{
-				BooleanAttributeValue: &BooleanAttributeValue{
+			Value: &types.NftAttributeValue_BooleanAttributeValue{
+				BooleanAttributeValue: &types.BooleanAttributeValue{
 					Value: value,
 				},
 			},
@@ -420,10 +421,10 @@ func (m *Metadata) SetBoolean(key string, value bool) error {
 			m.MapAllKey[key].AttributeValue = newAttributeValue
 
 		} else {
-			return sdkerrors.Wrap(ErrAttributeOverriding, "can not override the origin attribute")
+			return sdkerrors.Wrap(types.ErrAttributeOverriding, "can not override the origin attribute")
 		}
 	} else {
-		return sdkerrors.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
+		return sdkerrors.Wrap(types.ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
 	}
 	return nil
 }
@@ -432,13 +433,13 @@ func (m *Metadata) SetDisplayAttribute(key string, value string) error {
 	bool_val, _ := strconv.ParseBool(value)
 	attri := m.MapAllKey[key]
 	if attri == nil {
-		return sdkerrors.Wrap(ErrAttributeNotFoundForAction, key)
+		return sdkerrors.Wrap(types.ErrAttributeNotFoundForAction, key)
 	}
 	if _bool := attri.AttributeValue.GetHiddenToMarketplace() == bool_val; _bool {
 		return nil
 	}
 	if attri.From == "chain" {
-		newAttributeValue := &NftAttributeValue{
+		newAttributeValue := &types.NftAttributeValue{
 			Name:                attri.AttributeValue.Name,
 			HiddenToMarketplace: bool_val,
 		}
@@ -451,9 +452,9 @@ func (m *Metadata) SetDisplayAttribute(key string, value string) error {
 		m.MapAllKey[key].AttributeValue = newAttributeValue
 		m.nftData.OnchainAttributes[attri.Index] = newAttributeValue
 	} else if attri.From == "schema" {
-		return sdkerrors.Wrap(ErrAttributeOverriding, "can not override the schema attribute, use message set schema attribute instead")
+		return sdkerrors.Wrap(types.ErrAttributeOverriding, "can not override the schema attribute, use message set schema attribute instead")
 	} else {
-		return sdkerrors.Wrap(ErrAttributeOverriding, "can not override the origin attribute")
+		return sdkerrors.Wrap(types.ErrAttributeOverriding, "can not override the origin attribute")
 	}
 	return nil
 }
@@ -461,87 +462,4 @@ func (m *Metadata) SetDisplayAttribute(key string, value string) error {
 func (m *Metadata) ReplaceAllString(intput string, regexpStr string, replaceStr string) string {
 	reg := regexp.MustCompile(regexpStr)
 	return reg.ReplaceAllString(intput, replaceStr)
-}
-
-func (p *ActionParameter) MustGetNumber(key string) (uint64, error) {
-	v, err := strconv.ParseUint(p.Value, 10, 64)
-	if err != nil {
-		return 0, sdkerrors.Wrap(ErrAttributeTypeNotMatch, key)
-	}
-	return v, nil
-}
-
-func (p *ActionParameter) GetNumber() uint64 {
-	v, err := p.MustGetNumber(p.Name)
-	if err != nil {
-		panic(err)
-	}
-	return v
-}
-
-func (p *ActionParameter) MustGetFloat(key string) (float64, error) {
-	v, err := strconv.ParseFloat(p.Value, 64)
-	if err != nil {
-		return 0, sdkerrors.Wrap(ErrAttributeTypeNotMatch, key)
-	}
-	return v, nil
-}
-
-func (p *ActionParameter) GetFloat() float64 {
-	v, err := p.MustGetFloat(p.Name)
-	if err != nil {
-		panic(err)
-	}
-	return v
-}
-
-func (p *ActionParameter) MustGetBool(key string) (bool, error) {
-	v, err := strconv.ParseBool(p.Value)
-	if err != nil {
-		return false, sdkerrors.Wrap(ErrAttributeTypeNotMatch, key)
-	}
-	return v, nil
-}
-
-func (p *ActionParameter) GetBoolean() bool {
-	v, err := p.MustGetBool(p.Name)
-	if err != nil {
-		panic(err)
-	}
-	return v
-}
-
-func (p *ActionParameter) GetString() string {
-	return p.Value
-}
-
-// return substring of string from start to end of parameter
-func (p *ActionParameter) GetSubString(start int64, end int64) string {
-	val := p.Value
-	if end > int64(len(val)) {
-		panic(sdkerrors.Wrap(ErrInvaliActionParameter, "end can not be greater than string length"))
-	}
-	if start == end {
-		return ""
-	}
-	if start < 0 {
-		start = int64(len(val)) + (start + 1)
-	}
-	if end < 0 {
-		end = int64(len(val)) + (end + 1)
-	}
-	if start > end {
-		panic(sdkerrors.Wrap(ErrInvaliActionParameter, "start can not be greater than end"))
-	}
-	return val[start:end]
-}
-
-// return LowerCase of parameter
-func (p *ActionParameter) ToLowerCase() string {
-	return strings.ToLower(p.Value)
-}
-
-// return UpperCase of parameter
-func (p *ActionParameter) ToUpperCase() string {
-	return strings.ToUpper(p.Value)
 }

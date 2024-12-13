@@ -265,7 +265,7 @@ func (k msgServer) PerformAction(ctx sdk.Context, actionRequest *types.ActionOra
 		map_converted_schema_attributes = append(map_converted_schema_attributes, nftAttributeValue_)
 	}
 
-	meta := nftmngrtypes.NewMetadata(&schema, tokenData, schema.OriginData.AttributeOverriding, map_converted_schema_attributes)
+	meta := nftmngrkeeper.NewMetadata(&schema, tokenData, schema.OriginData.AttributeOverriding, map_converted_schema_attributes)
 	meta.SetGetNFTFunction(func(tokenId string) (*nftmngrtypes.NftData, error) {
 		tokenData, found := k.nftmngrKeeper.GetNftData(ctx, schema.Code, tokenId)
 		if !found {
@@ -380,7 +380,7 @@ func (k msgServer) PerformAction(ctx sdk.Context, actionRequest *types.ActionOra
 	return nil
 }
 
-func ProcessAction(meta *nftmngrtypes.Metadata, action *nftmngrtypes.Action, params []*nftmngrtypes.ActionParameter) (err error) {
+func ProcessAction(meta *nftmngrkeeper.Metadata, action *nftmngrtypes.Action, params []*nftmngrtypes.ActionParameter) (err error) {
 	defer func() {
 		if r := recover(); r != nil {
 			switch x := r.(type) {

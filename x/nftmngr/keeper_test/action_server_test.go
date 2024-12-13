@@ -68,7 +68,7 @@ func TestAction(t *testing.T) {
 	selectAction := "check_in"
 
 	// Create metadata object with initial attributes
-	meta := types.NewMetadata(&schema_, &data_, types.AttributeOverriding_CHAIN, globalAttributeSchema_)
+	meta := keeper.NewMetadata(&schema_, &data_, types.AttributeOverriding_CHAIN, globalAttributeSchema_)
 
 	// Process the action on the metadata
 	actionParams_ := []*types.ActionParameter{}
@@ -168,7 +168,7 @@ func TestActionKeeper(t *testing.T) {
 	changList, err := testKeeper.ActionByAdmin(ctx, creator.String(), schemaInput.Code, metaInput.TokenId, selectAction, stringFromIntRand, actionParams_)
 	require.NoError(t, err)
 
-	metaChangelist := []types.MetadataChange{}
+	metaChangelist := []keeper.MetadataChange{}
 	err = json.Unmarshal(changList, &metaChangelist)
 	if err != nil {
 		fmt.Printf("err: %v \n", err)

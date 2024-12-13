@@ -9,6 +9,7 @@ import (
 	"github.com/stretchr/testify/require"
 	sim "github.com/thesixnetwork/six-protocol/x/nftmngr/simulation"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+	"github.com/thesixnetwork/six-protocol/x/nftmngr/keeper"
 )
 
 // TODO:: Feat(VirtualSchema)
@@ -36,7 +37,7 @@ func TestNewMetadata(t *testing.T) {
 	}
 
 	schema_, data_, globalAttributeSchema_ := sim.SimulateCreateMetadata(schemaInput, metaInput)
-	meta := types.NewMetadata(&schema_, &data_, types.AttributeOverriding_CHAIN, globalAttributeSchema_)
+	meta := keeper.NewMetadata(&schema_, &data_, types.AttributeOverriding_CHAIN, globalAttributeSchema_)
 
 	require.Greater(t, len(meta.MapAllKey), len(metaInput.OnchainAttributes))
 }

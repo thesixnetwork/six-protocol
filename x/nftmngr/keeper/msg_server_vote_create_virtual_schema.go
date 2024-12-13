@@ -16,50 +16,54 @@ import (
 func (k msgServer) VoteCreateVirtualSchema(goCtx context.Context, msg *types.MsgVoteCreateVirtualSchema) (*types.MsgVoteCreateVirtualSchemaResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	virtualSchema, found := k.GetVirtualSchema(ctx, msg.VirtualNftSchemaCode)
+	virtualSchemaProposal, found := k.GetVirtualSchemaProposal(ctx, msg.Id)
 	if !found {
-		return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, msg.VirtualNftSchemaCode)
+		return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, msg.Id)
 	}
 
-	srcSchema, found := k.GetNFTSchema(ctx, msg.NftSchemaCode)
-	if !found {
-		return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, msg.NftSchemaCode)
-	}
-
-	if srcSchema.Owner != msg.Creator {
-		return nil, sdkerrors.Wrap(types.ErrCreatorDoesNotMatch, msg.Creator)
-	}
+	isOwner := false
 
 	// Track if the vote has been processed
 	voteProcessed := false
 
 	// loop to find then schema registry
-	for i, registry := range virtualSchema.Registry {
-		if registry.NftSchemaCode == msg.NftSchemaCode {
-			// Check if already voted
-			if registry.Status != types.RegistryStatus_PENDING {
-				return nil, sdkerrors.Wrap(types.ErrAlreadyVote, msg.Creator)
-			}
-
-			// Update the status
-			virtualSchema.Registry[i].Status = msg.Option
-			voteProcessed = true
+	for i, registry := range virtualSchemaProposal.Registry {
+		srcSchema, found := k.GetNFTSchema(ctx, registry.NftSchemaCode)
+		if !found {
+			return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, registry.NftSchemaCode)
 		}
+
+		if srcSchema.Owner == msg.Creator {
+			isOwner = true
+		}
+
+		// Check if already voted
+		if isOwner && registry.Status != types.RegistryStatus_PENDING {
+			return nil, sdkerrors.Wrap(types.ErrAlreadyVote, msg.Creator)
+		}
+
+		// Update the status
+		virtualSchemaProposal.Registry[i].Status = msg.Option
+		voteProcessed = true
 	}
 
 	// Ensure the vote was processed
 	if !voteProcessed {
-		return nil, sdkerrors.Wrap(types.ErrSchemaNotInRegistry, msg.NftSchemaCode)
+		return nil, sdkerrors.Wrap(types.ErrSchemaNotInRegistry, msg.Creator)
+	}
+
+	if !isOwner {
+		return nil, sdkerrors.Wrap(types.ErrCreatorDoesNotMatch, msg.Creator)
 	}
 
 	// Count votes
 	var (
 		acceptCount  int
 		totalVotes   int
-		voteTreshold = len(virtualSchema.Registry)
+		voteTreshold = len(virtualSchemaProposal.Registry)
 	)
 
-	for _, registry := range virtualSchema.Registry {
+	for _, registry := range virtualSchemaProposal.Registry {
 		if registry.Status == types.RegistryStatus_ACCEPT {
 			acceptCount++
 		}
@@ -70,16 +74,11 @@ func (k msgServer) VoteCreateVirtualSchema(goCtx context.Context, msg *types.Msg
 
 	// Check if all votes are in
 	if totalVotes == voteTreshold {
-		if acceptCount == voteTreshold {
-			virtualSchema.Enable = true
-		} else {
-			virtualSchema.Enable = false
-		}
+		k.AfterProposalSuccess(ctx, virtualSchemaProposal.Id)
 	}
 
 	// save
-	k.SetVirtualSchema(ctx, virtualSchema)
+	k.SetVirtualSchemaProposal(ctx, virtualSchemaProposal)
 
 	return &types.MsgVoteCreateVirtualSchemaResponse{}, nil
 }
-
