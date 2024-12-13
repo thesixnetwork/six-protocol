@@ -19,7 +19,7 @@ type RuleAction struct {
 	Salience int      `json:"salience"`
 }
 
-func ProcessAction(meta *types.Metadata, action *types.Action, params []*types.ActionParameter) (err error) {
+func ProcessAction(meta *Metadata, action *types.Action, params []*types.ActionParameter) (err error) {
 	defer func() {
 		if r := recover(); r != nil {
 			switch x := r.(type) {

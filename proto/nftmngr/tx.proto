@@ -462,8 +462,7 @@ message MsgDeleteVirtualSchemaResponse {}
 
 message MsgVoteCreateVirtualSchema {
   string creator = 1;
-  string virtualNftSchemaCode = 2;
-  string nftSchemaCode = 3;
+  string id = 2;
   RegistryStatus option = 4;
 }
 

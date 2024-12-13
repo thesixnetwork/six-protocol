@@ -20,9 +20,8 @@ func CmdVoteCreateVirtualSchema() *cobra.Command {
 		Args:  cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 
-			argVirtualNftSchemaCode := args[0]
-			argNftSchemaCode := args[1]
-			argOption := args[2]
+			proposalId := args[0]
+			argOption := args[1]
 
 			// Validate input option
 			selectedVote, err := parseVoteOption(argOption)
@@ -37,8 +36,7 @@ func CmdVoteCreateVirtualSchema() *cobra.Command {
 
 			msg := types.NewMsgVoteCreateVirtualSchema(
 				clientCtx.GetFromAddress().String(),
-				argVirtualNftSchemaCode,
-				argNftSchemaCode,
+				proposalId,
 				selectedVote,
 			)
 			if err := msg.ValidateBasic(); err != nil {

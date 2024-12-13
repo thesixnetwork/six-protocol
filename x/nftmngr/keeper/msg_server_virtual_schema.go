@@ -60,7 +60,6 @@ func (k msgServer) CreateVirtualSchemaProposal(goCtx context.Context, msg *types
 		Registry:          registry,
 	})
 
-
     // TODO:: Feat(VirtualSchema)
 	// proposal expiration
 

@@ -84,15 +84,36 @@ func (k Keeper) AfterVoteProposal(ctx sdk.Context, proposalId string) {
 func (k Keeper) AfterProposalSuccess(ctx sdk.Context, proposalId string) {
 	// validate if proposal complete
 
-
 	// get virtual info from proposal
-	virSchemaProposal, _ := k.GetVirtualSchemaProposal(ctx, proposalId)
+	virtualSchemaProposal, _ := k.GetVirtualSchemaProposal(ctx, proposalId)
+
+	// Count votes
+	var (
+		acceptCount  int
+		totalVotes   int
+		voteTreshold = len(virtualSchemaProposal.Registry)
+	)
+
+	for _, registry := range virtualSchemaProposal.Registry {
+		if registry.Status == types.RegistryStatus_ACCEPT {
+			acceptCount++
+		}
+		if registry.Status != types.RegistryStatus_PENDING {
+			totalVotes++
+		}
+	}
 
 	var virSchema = types.VirtualSchema{
-		VirtualNftSchemaCode: virSchemaProposal.VirtualSchemaCode,
-		Registry:             virSchemaProposal.Registry,
+		VirtualNftSchemaCode: virtualSchemaProposal.VirtualSchemaCode,
+		Registry:             virtualSchemaProposal.Registry,
 		Enable:               true,
 		ExpiredAtBlock:       "0",
+	}
+
+	if acceptCount == voteTreshold {
+		virSchema.Enable = true
+	} else {
+		virSchema.Enable = false
 	}
 
 	k.SetVirtualSchema(
