@@ -12,6 +12,7 @@ import (
 
 	nftmngrkeeper "github.com/thesixnetwork/six-protocol/x/nftmngr/keeper"
 	nftmngrtypes "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+	utils "github.com/thesixnetwork/six-protocol/utils"
 
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 
@@ -420,7 +421,7 @@ func ProcessAction(meta *nftmngrtypes.Metadata, action *nftmngrtypes.Action, par
 	}
 
 	ruleAction.Then = append(ruleAction.Then, "Retract('"+action.Name+"');")
-	ruleBytes, _ := JSONMarshal(ruleAction)
+	ruleBytes, _ := utils.JSONMarshal(ruleAction)
 
 	ruleResouce := pkg.NewBytesResource(ruleBytes)
 	resource := pkg.NewJSONResourceFromResource(ruleResouce)
@@ -469,10 +470,3 @@ func (k msgServer) UpdateMetaDataFromOriginData(ctx sdk.Context, nftData *nftmng
 	return nil
 }
 
-func JSONMarshal(t interface{}) ([]byte, error) {
-	buffer := &bytes.Buffer{}
-	encoder := json.NewEncoder(buffer)
-	encoder.SetEscapeHTML(false)
-	err := encoder.Encode(t)
-	return buffer.Bytes(), err
-}
