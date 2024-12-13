@@ -30,7 +30,6 @@ service Msg {
   rpc SetMintauth(MsgSetMintauth) returns (MsgSetMintauthResponse);
   rpc ChangeOrgOwner(MsgChangeOrgOwner) returns (MsgChangeOrgOwnerResponse);
   rpc CreateMultiMetadata(MsgCreateMultiMetadata) returns (MsgCreateMultiMetadataResponse);
-  rpc PerformMultiTokenAction(MsgPerformMultiTokenAction) returns (MsgPerformMultiTokenActionResponse);
   rpc SetUriRetrievalMethod(MsgSetUriRetrievalMethod) returns (MsgSetUriRetrievalMethodResponse);
   rpc SetOriginChain(MsgSetOriginChain) returns (MsgSetOriginChainResponse);
   rpc SetOriginContract(MsgSetOriginContract) returns (MsgSetOriginContractResponse);
@@ -126,65 +125,6 @@ message MsgPerformActionByAdmin {
 message MsgPerformActionByAdminResponse {
   string nft_schema_code = 1;
   string token_id = 2;
-}
-
-message MsgPerformMultiTokenAction {
-  string creator = 1;
-  string nft_schema_code = 2;
-  repeated string tokenId = 3;
-  repeated string action = 4;
-  string ref_id = 5;
-  string parameters = 6;
-}
-
-message MsgPerformMultiTokenActionResponse {
-  string nftSchemaCode = 1;
-  repeated string tokenId = 2;
-  repeated string action = 3;
-}
-
-message MsgPerformMultiTokenOneAction {
-  string creator = 1;
-  string nftSchemaCode = 2;
-  repeated string tokenId = 3;
-  string action = 4;
-  string refId = 5;
-  repeated ActionParameter parameters = 6;
-}
-
-message MsgPerformMultiTokenOneActionResponse {
-  string nftSchemaCode = 1;
-  repeated string tokenId = 2;
-}
-
-message MsgPerformMultiTokenMultiAction {
-  string creator = 1;
-  string nftSchemaCode = 2;
-  repeated string tokenId = 3;
-  repeated string action = 4;
-  string refId = 5;
-  repeated string parameters = 6;
-}
-
-message MsgPerformMultiTokenMultiActionResponse {
-  string nftSchemaCode = 1;
-  repeated string tokenId = 2;
-  repeated string action = 3;
-}
-
-message MsgPerformOneTokenMultiAction {
-  string creator = 1;
-  string nftSchemaCode = 2;
-  string tokenId = 3;
-  repeated string action = 4;
-  string refId = 5;
-  repeated string parameters = 6;
-}
-
-message MsgPerformOneTokenMultiActionResponse {
-  string nftSchemaCode = 1;
-  string tokenId = 2;
-  repeated string action = 3;
 }
 
 message MsgAddAttribute {
