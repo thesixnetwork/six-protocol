@@ -1,7 +1,6 @@
 package types
 
 import (
-	// "fmt"
 	"regexp"
 	"strconv"
 	"strings"
@@ -16,25 +15,29 @@ type MetadataChange struct {
 	NewValue      string `json:"new_value,omitempty"`
 }
 
-type Metadata struct {
-	nftData                *NftData
-	schema                 *NFTSchema
-	attributeOverring      AttributeOverriding
-	ChangeList             []*MetadataChange `json:"change_list,omitempty"`
-	MapAllKey              map[string]*MetadataAttribute
-	OtherUpdatedTokenDatas map[string]*NftData
-	NftDataFunction        func(tokenId string) (*NftData, error)
-	GetBlockTimeFunction   func() time.Time
-	GetBlockHeightFunction func() int64
-}
-
 type MetadataAttribute struct {
 	AttributeValue *NftAttributeValue
 	From           string
 	Index          int
 }
 
-// var MapAllKey = map[string]*MetadataAttribute{}
+type (
+	MapAllKey              map[string]*MetadataAttribute
+	OtherUpdatedTokenDatas map[string]*NftData
+	ChangeList             []*MetadataChange
+)
+
+type Metadata struct {
+	nftData                *NftData
+	schema                 *NFTSchema
+	attributeOverring      AttributeOverriding
+	ChangeList             ChangeList `json:"change_list,omitempty"`
+	MapAllKey              MapAllKey
+	OtherUpdatedTokenDatas map[string]*NftData
+	NftDataFunction        func(tokenId string) (*NftData, error)
+	GetBlockTimeFunction   func() time.Time
+	GetBlockHeightFunction func() int64
+}
 
 func NewMetadata(schema *NFTSchema, tokenData *NftData, attributeOverring AttributeOverriding, schemaAttributesValue []*NftAttributeValue) *Metadata {
 	meta := &Metadata{
@@ -69,7 +72,6 @@ func NewMetadata(schema *NFTSchema, tokenData *NftData, attributeOverring Attrib
 				Index:          i,
 			}
 		}
-
 	}
 
 	for i, attri := range schemaAttributesValue {
@@ -79,11 +81,6 @@ func NewMetadata(schema *NFTSchema, tokenData *NftData, attributeOverring Attrib
 			Index:          i,
 		}
 	}
-
-	// // print out the metadata
-	// for key, attri := range meta.MapAllKey {
-	// 	fmt.Println(key, *attri)
-	// }
 
 	return meta
 }
@@ -177,7 +174,8 @@ func (m *Metadata) SetNumber(key string, value int64) error {
 				},
 			},
 		}
-		if attri.From == "chain" {
+		switch attri.From {
+		case "chain":
 			m.ChangeList = append(m.ChangeList, &MetadataChange{
 				Key:           key,
 				PreviousValue: strconv.FormatUint(attri.AttributeValue.GetNumberAttributeValue().Value, 10),
@@ -185,7 +183,7 @@ func (m *Metadata) SetNumber(key string, value int64) error {
 			})
 			m.MapAllKey[key].AttributeValue = newAttributeValue
 			m.nftData.OnchainAttributes[attri.Index] = newAttributeValue
-		} else if attri.From == "schema" {
+		case "schema":
 			m.ChangeList = append(m.ChangeList, &MetadataChange{
 				Key:           key,
 				PreviousValue: strconv.FormatUint(attri.AttributeValue.GetNumberAttributeValue().Value, 10),
@@ -193,7 +191,7 @@ func (m *Metadata) SetNumber(key string, value int64) error {
 			})
 			m.MapAllKey[key].AttributeValue = newAttributeValue
 
-		} else {
+		default:
 			return sdkerrors.Wrap(ErrAttributeOverriding, "can not override the origin attribute or nft attribute")
 		}
 	} else {
@@ -201,6 +199,7 @@ func (m *Metadata) SetNumber(key string, value int64) error {
 	}
 	return nil
 }
+
 func (m *Metadata) GetString(key string) string {
 	v, err := m.MustGetString(key)
 	if err != nil {
@@ -279,7 +278,8 @@ func (m *Metadata) SetString(key string, value string) error {
 				},
 			},
 		}
-		if attri.From == "chain" {
+		switch attri.From {
+		case "chain":
 			m.ChangeList = append(m.ChangeList, &MetadataChange{
 				Key:           key,
 				PreviousValue: attri.AttributeValue.GetStringAttributeValue().Value,
@@ -287,7 +287,7 @@ func (m *Metadata) SetString(key string, value string) error {
 			})
 			m.MapAllKey[key].AttributeValue = newAttributeValue
 			m.nftData.OnchainAttributes[attri.Index] = newAttributeValue
-		} else if attri.From == "schema" {
+		case "schema":
 			m.ChangeList = append(m.ChangeList, &MetadataChange{
 				Key:           key,
 				PreviousValue: attri.AttributeValue.GetStringAttributeValue().Value,
@@ -295,7 +295,7 @@ func (m *Metadata) SetString(key string, value string) error {
 			})
 			m.MapAllKey[key].AttributeValue = newAttributeValue
 
-		} else {
+		default:
 			return sdkerrors.Wrap(ErrAttributeOverriding, "can not override the origin attribute")
 		}
 	} else {
@@ -341,7 +341,8 @@ func (m *Metadata) SetFloat(key string, value float64) error {
 				},
 			},
 		}
-		if attri.From == "chain" {
+		switch attri.From {
+		case "chain":
 			m.ChangeList = append(m.ChangeList, &MetadataChange{
 				Key:           key,
 				PreviousValue: strconv.FormatFloat(attri.AttributeValue.GetFloatAttributeValue().Value, 'f', -1, 64),
@@ -349,7 +350,7 @@ func (m *Metadata) SetFloat(key string, value float64) error {
 			})
 			m.MapAllKey[key].AttributeValue = newAttributeValue
 			m.nftData.OnchainAttributes[attri.Index] = newAttributeValue
-		} else if attri.From == "schema" {
+		case "schema":
 			m.ChangeList = append(m.ChangeList, &MetadataChange{
 				Key:           key,
 				PreviousValue: strconv.FormatFloat(attri.AttributeValue.GetFloatAttributeValue().Value, 'f', -1, 64),
@@ -357,7 +358,7 @@ func (m *Metadata) SetFloat(key string, value float64) error {
 			})
 			m.MapAllKey[key].AttributeValue = newAttributeValue
 
-		} else {
+		default:
 			return sdkerrors.Wrap(ErrAttributeOverriding, "can not override the origin attribute")
 		}
 	} else {
@@ -403,7 +404,8 @@ func (m *Metadata) SetBoolean(key string, value bool) error {
 				},
 			},
 		}
-		if attri.From == "chain" {
+		switch attri.From {
+		case "chain":
 			m.ChangeList = append(m.ChangeList, &MetadataChange{
 				Key:           key,
 				PreviousValue: strconv.FormatBool(attri.AttributeValue.GetBooleanAttributeValue().Value),
@@ -411,7 +413,7 @@ func (m *Metadata) SetBoolean(key string, value bool) error {
 			})
 			m.MapAllKey[key].AttributeValue = newAttributeValue
 			m.nftData.OnchainAttributes[attri.Index] = newAttributeValue
-		} else if attri.From == "schema" {
+		case "schema":
 			m.ChangeList = append(m.ChangeList, &MetadataChange{
 				Key:           key,
 				PreviousValue: strconv.FormatBool(attri.AttributeValue.GetBooleanAttributeValue().Value),
@@ -419,7 +421,7 @@ func (m *Metadata) SetBoolean(key string, value bool) error {
 			})
 			m.MapAllKey[key].AttributeValue = newAttributeValue
 
-		} else {
+		default:
 			return sdkerrors.Wrap(ErrAttributeOverriding, "can not override the origin attribute")
 		}
 	} else {
@@ -437,7 +439,8 @@ func (m *Metadata) SetDisplayAttribute(key string, value string) error {
 	if _bool := attri.AttributeValue.GetHiddenToMarketplace() == bool_val; _bool {
 		return nil
 	}
-	if attri.From == "chain" {
+	switch attri.From {
+	case "chain":
 		newAttributeValue := &NftAttributeValue{
 			Name:                attri.AttributeValue.Name,
 			HiddenToMarketplace: bool_val,
@@ -450,9 +453,9 @@ func (m *Metadata) SetDisplayAttribute(key string, value string) error {
 		})
 		m.MapAllKey[key].AttributeValue = newAttributeValue
 		m.nftData.OnchainAttributes[attri.Index] = newAttributeValue
-	} else if attri.From == "schema" {
+	case "schema":
 		return sdkerrors.Wrap(ErrAttributeOverriding, "can not override the schema attribute, use message set schema attribute instead")
-	} else {
+	default:
 		return sdkerrors.Wrap(ErrAttributeOverriding, "can not override the origin attribute")
 	}
 	return nil
