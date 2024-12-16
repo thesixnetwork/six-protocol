@@ -127,7 +127,6 @@ func (k Keeper) ActionByAdmin(ctx sdk.Context, creator, nftSchemaName, tokenId, 
 		map_converted_schema_attributes = append(map_converted_schema_attributes, nftAttributeValue_)
 	}
 
-	// ** META path ../types/meta.go **
 	meta := types.NewMetadata(&schema, &tokenData, schema.OriginData.AttributeOverriding, map_converted_schema_attributes)
 	meta.SetGetNFTFunction(func(tokenId string) (*types.NftData, error) {
 		tokenData, found := k.GetNftData(ctx, nftSchemaName, tokenId)
