@@ -19,8 +19,7 @@ func (k Keeper) CreateNftSchemaKeeper(ctx sdk.Context, creator string, schemaInp
 	}
 
 	// Validate Schema Message and return error if not valid
-	valid, err := ValidateNFTSchema(&schemaInput)
-	_ = valid
+	_, err = ValidateNFTSchema(&schemaInput)
 	if err != nil {
 		return sdkerrors.Wrap(types.ErrValidatingNFTSchema, err.Error())
 	}

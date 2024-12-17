@@ -17,9 +17,10 @@ type CrossSchemaMetadata struct {
 	CrossSchemaNFTFunction       func(schemaName string, tokenId string) (*NFTSchema, error)
 }
 
-type CrossSchemaAttributeOverriding map[string]AttributeOverriding
-
-type CrossSchemaGlobalAttributes map[string][]*NftAttributeValue
+type (
+	CrossSchemaAttributeOverriding map[string]AttributeOverriding
+	CrossSchemaGlobalAttributes    map[string][]*NftAttributeValue
+)
 
 func NewCrossSchemaMetadata(schemaList []*NFTSchema, tokenList []*NftData, attributesOverriding CrossSchemaAttributeOverriding, schemaGlobalAttriubutes CrossSchemaGlobalAttributes) *CrossSchemaMetadata {
 	nftSchemas := make(map[string]*NFTSchema)
@@ -154,8 +155,8 @@ func (c *CrossSchemaMetadata) GetSubString(schemaName, key string, start int64, 
 }
 
 func (c *CrossSchemaMetadata) SetString(schemaName, key, value string) error {
-  schemaKey := c.mapSchemaKey[schemaName]
-  attri := schemaKey[key]
+	schemaKey := c.mapSchemaKey[schemaName]
+	attri := schemaKey[key]
 	if attri == nil {
 		panic(sdkerrors.Wrap(ErrAttributeNotFoundForAction, key))
 	}
@@ -195,8 +196,8 @@ func (c *CrossSchemaMetadata) SetString(schemaName, key, value string) error {
 }
 
 func (c *CrossSchemaMetadata) SetNumber(schemaName, key string, value int64) error {
-  schemaKey := c.mapSchemaKey[schemaName]
-  attri := schemaKey[key]
+	schemaKey := c.mapSchemaKey[schemaName]
+	attri := schemaKey[key]
 	if attri == nil {
 		panic(sdkerrors.Wrap(ErrAttributeNotFoundForAction, key))
 	}
@@ -236,8 +237,8 @@ func (c *CrossSchemaMetadata) SetNumber(schemaName, key string, value int64) err
 }
 
 func (c *CrossSchemaMetadata) SetFloat(schemaName, key string, value float64) error {
-  schemaKey := c.mapSchemaKey[schemaName]
-  attri := schemaKey[key]
+	schemaKey := c.mapSchemaKey[schemaName]
+	attri := schemaKey[key]
 	if attri == nil {
 		panic(sdkerrors.Wrap(ErrAttributeNotFoundForAction, key))
 	}
