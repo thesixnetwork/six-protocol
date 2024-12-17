@@ -5,8 +5,25 @@ import (
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
-func SimulateCreateMetadata(schemaInput types.NFTSchemaINPUT, metaInput types.NftData) (schema_ types.NFTSchema, metadata_ types.NftData, schemaAttributesValue []*types.NftAttributeValue) {
+func GenNFTSchemaFromInput(schemaInput types.NFTSchemaINPUT) types.NFTSchema {
+	_schema := types.NFTSchema{
+		Code:        schemaInput.Code,
+		Name:        schemaInput.Name,
+		Owner:       schemaInput.Owner,
+		Description: schemaInput.Description,
+		OriginData:  schemaInput.OriginData,
+		OnchainData: &types.OnChainData{
+			TokenAttributes: schemaInput.OnchainData.TokenAttributes,
+			Actions:         schemaInput.OnchainData.Actions,
+			Status:          schemaInput.OnchainData.Status,
+		},
+		IsVerified:        schemaInput.IsVerified,
+		MintAuthorization: schemaInput.MintAuthorization,
+	}
+	return _schema
+}
 
+func SimulateCreateSchemaMetadata(schemaInput types.NFTSchemaINPUT, metaInput types.NftData) (schema_ types.NFTSchema, metadata_ types.NftData, schemaAttributesValue []*types.NftAttributeValue) {
 	_schema := types.NFTSchema{
 		Code:        schemaInput.Code,
 		Name:        schemaInput.Name,
@@ -28,7 +45,6 @@ func SimulateCreateMetadata(schemaInput types.NFTSchemaINPUT, metaInput types.Nf
 	}
 
 	_, err := keeper.ValidateNFTData(&metaInput, &_schema)
-
 	if err != nil {
 		panic(err)
 	}
@@ -60,5 +76,4 @@ func SimulateCreateMetadata(schemaInput types.NFTSchemaINPUT, metaInput types.Nf
 	}
 
 	return _schema, metaInput, globalAttributeValues
-
 }
