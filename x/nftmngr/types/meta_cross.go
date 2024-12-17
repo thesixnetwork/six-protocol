@@ -29,14 +29,12 @@ func NewCrossSchemaMetadata(schemaList []*NFTSchema, tokenList []*NftData, attri
 		nftDatas:     nftDatas,
 		nftSchemas:   nftSchemas,
 		changeList:   make(map[string]ChangeList),
-		mapSchemaKey: make(map[string]MapAllKey),
+		mapSchemaKey: make(map[string]MapAllKey), // Ensure this is initialized
 	}
 
 	if len(schemaList) != len(tokenList) {
 		return nil
 	}
-
-	mapSchemaKey := make(map[string]MapAllKey)
 
 	for i, schema := range schemaList {
 		if schema == nil || tokenList[i] == nil {
@@ -45,10 +43,12 @@ func NewCrossSchemaMetadata(schemaList []*NFTSchema, tokenList []*NftData, attri
 
 		nftSchemas[schema.Code] = schema
 		nftDatas[schema.Code] = tokenList[i]
-		mapSchemaKey[schema.Code] = make(MapAllKey)
+
+		// Ensure the inner map is initialized for this schema code
+		crossSchemaMetadata.mapSchemaKey[schema.Code] = make(MapAllKey)
 
 		for j, attri := range tokenList[i].OriginAttributes {
-			mapSchemaKey[schema.Code][attri.Name] = &MetadataAttribute{
+			crossSchemaMetadata.mapSchemaKey[schema.Code][attri.Name] = &MetadataAttribute{
 				Index:          j,
 				AttributeValue: attri,
 				From:           "origin",
@@ -56,7 +56,7 @@ func NewCrossSchemaMetadata(schemaList []*NFTSchema, tokenList []*NftData, attri
 		}
 
 		for j, attri := range tokenList[i].OnchainAttributes {
-			if _, ok := mapSchemaKey[schema.Code][attri.Name]; ok {
+			if _, ok := crossSchemaMetadata.mapSchemaKey[schema.Code][attri.Name]; ok {
 				if attributesOverriding[schema.Code] == AttributeOverriding_CHAIN {
 					crossSchemaMetadata.mapSchemaKey[schema.Code][attri.Name] = &MetadataAttribute{
 						AttributeValue: attri,
@@ -80,7 +80,6 @@ func NewCrossSchemaMetadata(schemaList []*NFTSchema, tokenList []*NftData, attri
 				Index:          j,
 			}
 		}
-
 	}
 
 	return crossSchemaMetadata
