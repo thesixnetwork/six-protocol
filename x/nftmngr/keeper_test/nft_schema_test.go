@@ -119,4 +119,12 @@ func TestCreateSchema(t *testing.T) {
 	}
 
 	keeperTest.SetNFTSchema(ctx, schema)
+
+
+	schemaFromKeeper, found := keeperTest.GetNFTSchema(ctx, schema.Code)
+	if !found {
+		t.Fatal("Schema not found")
+	} else {
+		require.Equal(t, schema, schemaFromKeeper)
+	}
 }
