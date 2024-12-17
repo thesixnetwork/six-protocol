@@ -1,0 +1,36 @@
+{
+  "nft_schema_code": "sixprotocol.lifestyle",
+  "token_id": "TOKENID",
+  "token_owner": "",
+  "owner_address_type": "ORIGIN_ADDRESS",
+  "origin_image": "https://picsum.photos/200/300",
+  "onchain_image": "",
+  "token_uri": "",
+  "origin_attributes": [],
+  "onchain_attributes": [
+    {
+      "name": "tier",
+      "string_attribute_value": {
+        "value": "0"
+      }
+    },
+    {
+      "name": "start_date",
+      "string_attribute_value": {
+        "value": "2024-09-01T07:00:01Z"
+      }
+    },
+    {
+      "name": "expire_date",
+      "string_attribute_value": {
+        "value": "2024-09-01T07:00:01Z"
+      }
+    },
+    {
+      "name": "service_17",
+      "number_attribute_value": {
+        "value": 0
+      }
+    }
+  ]
+}

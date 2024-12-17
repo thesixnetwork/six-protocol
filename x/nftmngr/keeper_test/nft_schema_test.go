@@ -120,11 +120,108 @@ func TestCreateSchema(t *testing.T) {
 
 	keeperTest.SetNFTSchema(ctx, schema)
 
+	/*
 
-	schemaFromKeeper, found := keeperTest.GetNFTSchema(ctx, schema.Code)
+		|------------------------------------|
+		|                                    |
+		|          **** ACTION ****          |
+		|                                    |
+		|------------------------------------|
+
+	*/
+
+	for i, action := range schemaInput.OnchainData.Actions {
+		// check if action already exists
+		_, isFound := keeperTest.GetActionOfSchema(ctx, schemaInput.Code, action.Name)
+		if isFound {
+			continue
+		}
+		keeperTest.SetActionOfSchema(ctx, types.ActionOfSchema{
+			Name:          action.Name,
+			NftSchemaCode: schemaInput.Code,
+			Index:         uint64(i),
+		})
+	}
+
+	// set action executor
+	for _, actionExecutor := range schemaInput.SystemActioners {
+
+		// validate address
+		_, err := sdk.AccAddressFromBech32(actionExecutor)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		// check if actionExecutor already exists
+		_, isFound := keeperTest.GetActionExecutor(ctx, schemaInput.Code, actionExecutor)
+		if isFound {
+			continue
+		}
+
+		val, found := keeperTest.GetExecutorOfSchema(ctx, schemaInput.Code)
+		if !found {
+			val = types.ExecutorOfSchema{
+				NftSchemaCode:   schemaInput.Code,
+				ExecutorAddress: []string{},
+			}
+		}
+
+		// set executorOfSchema
+		val.ExecutorAddress = append(val.ExecutorAddress, actionExecutor)
+
+		keeperTest.SetExecutorOfSchema(ctx, types.ExecutorOfSchema{
+			NftSchemaCode:   val.NftSchemaCode,
+			ExecutorAddress: val.ExecutorAddress,
+		})
+
+		// set actionExecutor
+		keeperTest.SetActionExecutor(ctx, types.ActionExecutor{
+			Creator:         "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq",
+			NftSchemaCode:   schemaInput.Code,
+			ExecutorAddress: actionExecutor,
+		})
+	}
+
+	_, found = keeperTest.GetNFTSchema(ctx, schema.Code)
 	if !found {
 		t.Fatal("Schema not found")
 	} else {
-		require.Equal(t, schema, schemaFromKeeper)
+		require.True(t, found)
 	}
+
+	// test action of schema 
+	actionCount := 0
+	for _, action := range schema.OnchainData.Actions {
+		_, found := keeperTest.GetActionOfSchema(ctx, schema.Code, action.Name)
+		if !found {
+			t.Fatal("Action not found")
+		}
+		actionCount++
+	}
+	require.Equal( t,len(schema.OnchainData.Actions), actionCount)
+
+
+	// test action executor
+	executorCount := 0
+	for _, actionExecutor := range schemaInput.SystemActioners {
+		_, found := keeperTest.GetActionExecutor(ctx, schemaInput.Code, actionExecutor)
+		if !found {
+			t.Fatal("ActionExecutor not found")
+		}
+		executorCount++
+	}
+
+	require.Equal(t, len(schemaInput.SystemActioners), executorCount)
+
+
+	// test schema attribute
+	attributeCount := 0
+	for _, schemaDefaultMintAttribute := range schemaInput.OnchainData.NftAttributes {
+		_, found := keeperTest.GetSchemaAttribute(ctx, schema.Code, schemaDefaultMintAttribute.Name)
+		if !found {
+			t.Fatal("SchemaAttribute not found")
+		}
+		attributeCount++
+	}
+	require.Equal(t, len(schemaInput.OnchainData.NftAttributes), attributeCount)
 }

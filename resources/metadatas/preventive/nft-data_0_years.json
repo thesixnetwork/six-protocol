@@ -1,6 +1,6 @@
 {
-  "nft_schema_code": "sixprotocol.divine_elite",
-  "token_id": "1",
+  "nft_schema_code": "sixprotocol.preventive",
+  "token_id": "TOKENID",
   "token_owner": "",
   "owner_address_type": "ORIGIN_ADDRESS",
   "origin_image": "https://picsum.photos/200/300",
@@ -11,7 +11,7 @@
     {
       "name": "tier",
       "string_attribute_value": {
-        "value": "10"
+        "value": "0"
       }
     },
     {
@@ -27,57 +27,33 @@
       }
     },
     {
-      "name": "service_3",
+      "name": "service_12",
       "number_attribute_value": {
-        "value": 9999
+        "value": 0
       }
     },
     {
-      "name": "service_4",
+      "name": "service_13",
       "number_attribute_value": {
-        "value": 10
+        "value": 0
       }
     },
     {
-      "name": "service_5",
+      "name": "service_14",
       "number_attribute_value": {
-        "value": 10
+        "value": 0
       }
     },
     {
-      "name": "service_6",
+      "name": "service_15",
       "number_attribute_value": {
-        "value": 10
+        "value": 0
       }
     },
     {
-      "name": "service_7",
+      "name": "service_16",
       "number_attribute_value": {
-        "value": 10
-      }
-    },
-    {
-      "name": "service_8",
-      "number_attribute_value": {
-        "value": 5
-      }
-    },
-    {
-      "name": "service_9",
-      "number_attribute_value": {
-        "value": 3
-      }
-    },
-    {
-      "name": "service_10",
-      "number_attribute_value": {
-        "value": 3
-      }
-    },
-    {
-      "name": "service_11",
-      "number_attribute_value": {
-        "value": 3
+        "value": 0
       }
     }
   ]
