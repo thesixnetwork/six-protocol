@@ -1,6 +1,7 @@
 package keeper_test
 
 import (
+	"fmt"
 	"strconv"
 	"testing"
 
@@ -65,4 +66,19 @@ func TestNftDataGetAll(t *testing.T) {
 		nullify.Fill(items),
 		nullify.Fill(keeper.GetAllNftData(ctx)),
 	)
+}
+
+func TestCreateMetadata(t *testing.T) {
+	_, _ = keepertest.InitSchema(t, "../../../resources/nft-schema.json")
+	meta := keepertest.InitMetadata(t, "../../../resources/nft-data.json")
+
+	keeper, ctx := keepertest.NftmngrKeeper(t)
+	keeper.SetNftData(ctx, meta)
+
+	_, found := keeper.GetNftData(ctx, meta.NftSchemaCode, meta.TokenId)
+	if !found {
+		fmt.Println("Metadata not found")
+	} else {
+		require.True(t, found)
+	}
 }

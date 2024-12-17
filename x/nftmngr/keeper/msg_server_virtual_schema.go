@@ -60,11 +60,11 @@ func (k msgServer) CreateVirtualSchemaProposal(goCtx context.Context, msg *types
 		Registry:          registry,
 	})
 
-    // TODO:: Feat(VirtualSchema)
+	// TODO:: Feat(VirtualSchema)
 	// proposal expiration
 
 	return &types.MsgCreateVirtualSchemaResponse{
-		Id: strProposalId,
+		Id:                   strProposalId,
 		VirtualNftSchemaCode: msg.VirtualNftSchemaCode,
 	}, nil
 }
