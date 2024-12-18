@@ -234,4 +234,10 @@ func TestCrossSchemaAction(t *testing.T){
 	attriNumber := crossMetadata.GetNumber(schemaA.Code, "service_3")
 	require.Equal(t, int64(9999), attriNumber)
 
+	// Test set attribute. (but get from other schema)
+	crossMetadata.SetNumber(schemaA.Code, "service_3", 10000)
+	attriNumber = crossMetadata.GetNumber(schemaA.Code, "service_3")
+	
+	require.Equal(t, int64(10000), attriNumber)
+
 }
