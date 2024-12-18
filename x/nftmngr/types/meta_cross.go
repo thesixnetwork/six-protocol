@@ -90,15 +90,28 @@ func (c *CrossSchemaMetadata) SetCrossSchemaNFTFunction(f func(schemaName string
 }
 
 func (c *CrossSchemaMetadata) GetNftData(schemaName string) *NftData {
+    if err := c.validateSchemaName(schemaName); err != nil {
+        panic(err)
+    }
 	return c.nftDatas[schemaName]
 }
 
 func (c *CrossSchemaMetadata) GetNftSchema(schemaName string) *NFTSchema {
+    if err := c.validateSchemaName(schemaName); err != nil {
+        panic(err)
+    }
 	return c.nftSchemas[schemaName]
 }
 
 func (c *CrossSchemaMetadata) GetChangeList(schemaName string) ChangeList {
 	return c.changeList[schemaName]
+}
+
+func (c *CrossSchemaMetadata) validateSchemaName(schemaName string) error {
+    if _, exists := c.nftSchemas[schemaName]; !exists {
+        return sdkerrors.Wrap(ErrSchemaNotFound, schemaName)
+    }
+    return nil
 }
 
 func (c *CrossSchemaMetadata) GetNumber(schemaName string, key string) int64 {
@@ -110,6 +123,10 @@ func (c *CrossSchemaMetadata) GetNumber(schemaName string, key string) int64 {
 }
 
 func (c *CrossSchemaMetadata) MustGetNumber(schemaName, key string) (int64, error) {
+    if err := c.validateSchemaName(schemaName); err != nil {
+        panic(err)
+    }
+	
 	schemaKey := c.mapSchemaKey[schemaName]
 	attri := schemaKey[key]
 
@@ -195,6 +212,10 @@ func (c *CrossSchemaMetadata) SetString(schemaName, key, value string) error {
 }
 
 func (c *CrossSchemaMetadata) SetNumber(schemaName, key string, value int64) error {
+    if err := c.validateSchemaName(schemaName); err != nil {
+        panic(err)
+    }
+
 	schemaKey := c.mapSchemaKey[schemaName]
 	attri := schemaKey[key]
 	if attri == nil {
@@ -236,6 +257,11 @@ func (c *CrossSchemaMetadata) SetNumber(schemaName, key string, value int64) err
 }
 
 func (c *CrossSchemaMetadata) SetFloat(schemaName, key string, value float64) error {
+
+    if err := c.validateSchemaName(schemaName); err != nil {
+        panic(err)
+    }
+
 	schemaKey := c.mapSchemaKey[schemaName]
 	attri := schemaKey[key]
 	if attri == nil {
@@ -293,6 +319,9 @@ func (c *CrossSchemaMetadata) ToUppercase(schemaName, key string) string {
 }
 
 func (c *CrossSchemaMetadata) MustGetString(schemaName, key string) (string, error) {
+    if err := c.validateSchemaName(schemaName); err != nil {
+        panic(err)
+    }
 	schemaKey := c.mapSchemaKey[schemaName]
 	attri := schemaKey[key]
 	if attri == nil {
@@ -313,6 +342,9 @@ func (c *CrossSchemaMetadata) GetFloat(schemaName, key string) float64 {
 }
 
 func (c *CrossSchemaMetadata) MustGetFloat(schemaName, key string) (float64, error) {
+    if err := c.validateSchemaName(schemaName); err != nil {
+        panic(err)
+    }
 	schemaKey := c.mapSchemaKey[schemaName]
 	attri := schemaKey[key]
 	if attri == nil {
@@ -333,6 +365,9 @@ func (c *CrossSchemaMetadata) GetBoolean(schemaName, key string) bool {
 }
 
 func (c *CrossSchemaMetadata) MustGetBool(schemaName, key string) (bool, error) {
+    if err := c.validateSchemaName(schemaName); err != nil {
+        panic(err)
+    }
 	schemaKey := c.mapSchemaKey[schemaName]
 	attri := schemaKey[key]
 	if attri == nil {
