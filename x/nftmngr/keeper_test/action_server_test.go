@@ -4,12 +4,62 @@ import (
 	"fmt"
 	"testing"
 
+	sdk "github.com/cosmos/cosmos-sdk/types"
 	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 
 	"github.com/stretchr/testify/require"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/keeper"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
+
+func setupSchemaAndMetadata(t *testing.T, k *keeper.Keeper, ctx sdk.Context, schemaPath string, metadataPath string, tokenId string) (*types.NFTSchema, *types.NftData, []*types.NftAttributeValue) {
+	_, schemaInput := keepertest.InitSchema(t, schemaPath)
+	metadata := keepertest.InitMetadata(t, metadataPath)
+	metadata.TokenId = tokenId
+
+	err := k.CreateNftSchemaKeeper(ctx, schemaInput.Owner, schemaInput)
+	require.NoError(t, err)
+
+	schema, found := k.GetNFTSchema(ctx, schemaInput.Code)
+	require.True(t, found, "Schema should exist")
+
+	err = k.CreateNewMetadataKeeper(ctx, schema.Owner, schema.Code, metadata.TokenId, metadata)
+	require.NoError(t, err)
+
+	tokenData, found := k.GetNftData(ctx, schema.Code, metadata.TokenId)
+	require.True(t, found, "Metadata should exist")
+
+	// Add missing attributes with default values
+	mapExistingAttributes := make(map[string]bool)
+	for _, attribute := range tokenData.OnchainAttributes {
+		mapExistingAttributes[attribute.Name] = true
+	}
+
+	for _, attribute := range schema.OnchainData.TokenAttributes {
+		if _, ok := mapExistingAttributes[attribute.Name]; !ok {
+			require.NotNil(t, attribute.DefaultMintValue, "No default value")
+			tokenData.OnchainAttributes = append(tokenData.OnchainAttributes, keeper.NewNFTAttributeValueFromDefaultValue(attribute.Name, attribute.DefaultMintValue))
+		}
+	}
+
+	// Convert schema attributes
+	var convertedSchemaAttributes []*types.NftAttributeValue
+	attributeMap := make(map[string]bool)
+
+	for _, schemaAttribute := range schema.OnchainData.NftAttributes {
+		if attributeMap[schemaAttribute.Name] {
+			continue
+		}
+
+		nftAttributeValue, found := k.GetSchemaAttribute(ctx, schema.Code, schemaAttribute.Name)
+		require.True(t, found, "No default value")
+
+		attributeMap[schemaAttribute.Name] = true
+		convertedSchemaAttributes = append(convertedSchemaAttributes, keeper.ConverSchemaAttributeToNFTAttributeValue(&nftAttributeValue))
+	}
+
+	return &schema, &tokenData, convertedSchemaAttributes
+}
 
 func TestAction(t *testing.T) {
 	_, schemainput := keepertest.InitSchema(t, "../simulation/schema.json")
@@ -104,116 +154,71 @@ func TestAction(t *testing.T) {
 	require.Equal(t, int64(1), allCheckInNumber)
 }
 
+type virtualActionTestCase struct {
+    name           string
+    action         types.Action
+    actionParams   []*types.ActionParameter
+    expectedValues map[string]struct {
+        schemaCode string
+        attribute  string
+        value     int64
+    }
+}
+
+
+func setupVirtualAction(t *testing.T, keeper *keeper.Keeper, ctx sdk.Context, virtualSchema *types.VirtualSchema, action types.Action) *types.VirtualAction {
+    keeper.AddActionKeeper(ctx, "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq", virtualSchema.VirtualNftSchemaCode, action)
+    
+    virtualAction := types.VirtualAction{
+        NftSchemaCode:   virtualSchema.VirtualNftSchemaCode,
+        Name:            action.Name,
+        Desc:            action.Desc,
+        Disable:         action.Disable,
+        When:            action.When,
+        Then:            action.Then,
+        AllowedActioner: action.AllowedActioner,
+        Params:          action.Params,
+    }
+    keeper.SetVirtualAction(ctx, virtualAction)
+
+    storedAction, found := keeper.GetVirtualAction(ctx, virtualSchema.VirtualNftSchemaCode, action.Name)
+    require.True(t, found)
+    require.Equal(t, action, *storedAction.ToAction())
+
+    return &storedAction
+}
+
+func runVirtualActionTest(t *testing.T, k *keeper.Keeper, ctx sdk.Context, crossMetadata *types.CrossSchemaMetadata, virtualSchema *types.VirtualSchema, testCase virtualActionTestCase) {
+    virtualAction := setupVirtualAction(t, k, ctx, virtualSchema, testCase.action)
+    keeper.ProcessCrossSchemaAction(crossMetadata, virtualAction.ToAction(), testCase.actionParams)
+
+    for _, expected := range testCase.expectedValues {
+        attriNumber := crossMetadata.GetNumber(expected.schemaCode, expected.attribute)
+        require.Equal(t, expected.value, attriNumber)
+    }
+}
+
+
 func TestCrossSchemaAction(t *testing.T) {
 	keeperTest, ctx := keepertest.NftmngrKeeper(t)
 
-	_, schemaInputA := keepertest.InitSchema(t, "../../../resources/schemas/divineelite-nft-schema.json")
-	metadataA := keepertest.InitMetadata(t, "../../../resources/metadatas/divine_elite/nft-data_10_years.json")
-	metadataA.TokenId = "1"
-	err := keeperTest.CreateNftSchemaKeeper(ctx, schemaInputA.Owner, schemaInputA)
-	require.NoError(t, err)
+    // Setup Schema A
+    schemaA, tokenDataA, convertedSchemaAttributesA := setupSchemaAndMetadata(t, 
+        keeperTest, 
+        ctx, 
+        "../../../resources/schemas/divineelite-nft-schema.json",
+        "../../../resources/metadatas/divine_elite/nft-data_10_years.json",
+        "1",
+	)
 
-	schemaA, found := keeperTest.GetNFTSchema(ctx, schemaInputA.Code)
-	require.True(t, found, "Schema A should exist")
-
-	err = keeperTest.CreateNewMetadataKeeper(ctx, schemaA.Owner, schemaA.Code, metadataA.TokenId, metadataA)
-	require.NoError(t, err)
-
-	tokenDataA, found := keeperTest.GetNftData(ctx, schemaA.Code, metadataA.TokenId)
-	require.True(t, found, "Metadata A should exist")
-
-	mapExistingAttributesA := make(map[string]bool)
-	for _, attribute := range tokenDataA.OnchainAttributes {
-		mapExistingAttributesA[attribute.Name] = true
-	}
-
-	// Loop over schema.TokenAttributes to check if exists in nftdata
-	for _, attribute := range schemaA.OnchainData.TokenAttributes {
-		if _, ok := mapExistingAttributesA[attribute.Name]; !ok {
-			if attribute.DefaultMintValue == nil {
-				t.Fatal("No default value")
-			}
-			// Add attribute to nftdata with default value
-			tokenDataA.OnchainAttributes = append(tokenDataA.OnchainAttributes, keeper.NewNFTAttributeValueFromDefaultValue(attribute.Name, attribute.DefaultMintValue))
-		}
-	}
-
-	var map_converted_schema_attributesA []*types.NftAttributeValue
-	global_attributesA := schemaA.OnchainData.NftAttributes
-	attributeMapA := make(map[string]bool)
-
-	for _, schema_attribute := range global_attributesA {
-		// Check if the attribute has already been added
-		if attributeMapA[schema_attribute.Name] {
-			continue
-		}
-
-		nftAttributeValue, found := keeperTest.GetSchemaAttribute(ctx, schemaA.Code, schema_attribute.Name)
-
-		if !found {
-			t.Fatal("No default value")
-		}
-
-		// Add the attribute to the map
-		attributeMapA[schema_attribute.Name] = true
-
-		nftAttributeValue_ := keeper.ConverSchemaAttributeToNFTAttributeValue(&nftAttributeValue)
-		map_converted_schema_attributesA = append(map_converted_schema_attributesA, nftAttributeValue_)
-	}
-
-	_, schemaInputB := keepertest.InitSchema(t, "../../../resources/schemas/membership-nft-schema.json")
-	metadataB := keepertest.InitMetadata(t, "../../../resources/metadatas/membership/junior/nft-data_10_years.json")
-	metadataB.TokenId = "1"
-	err = keeperTest.CreateNftSchemaKeeper(ctx, schemaInputB.Owner, schemaInputB)
-	require.NoError(t, err)
-
-	schemaB, found := keeperTest.GetNFTSchema(ctx, schemaInputB.Code)
-	require.True(t, found, "Schema B should exist")
-
-	err = keeperTest.CreateNewMetadataKeeper(ctx, schemaB.Owner, schemaB.Code, metadataB.TokenId, metadataB)
-	require.NoError(t, err)
-
-	tokenDataB, found := keeperTest.GetNftData(ctx, schemaB.Code, metadataB.TokenId)
-	require.True(t, found, "Metadata B should exist")
-
-	mapExistingAttributesB := make(map[string]bool)
-	for _, attribute := range tokenDataB.OnchainAttributes {
-		mapExistingAttributesB[attribute.Name] = true
-	}
-
-	// Loop over schema.TokenAttributes to check if exists in nftdata
-	for _, attribute := range schemaInputB.OnchainData.TokenAttributes {
-		if _, ok := mapExistingAttributesB[attribute.Name]; !ok {
-			if attribute.DefaultMintValue == nil {
-				t.Fatal("No default value")
-			}
-			// Add attribute to nftdata with default value
-			tokenDataB.OnchainAttributes = append(tokenDataB.OnchainAttributes, keeper.NewNFTAttributeValueFromDefaultValue(attribute.Name, attribute.DefaultMintValue))
-		}
-	}
-
-	var map_converted_schema_attributesB []*types.NftAttributeValue
-	global_attributesB := schemaB.OnchainData.NftAttributes
-	attributeMapB := make(map[string]bool)
-
-	for _, schema_attribute := range global_attributesB {
-		// Check if the attribute has already been added
-		if attributeMapB[schema_attribute.Name] {
-			continue
-		}
-
-		nftAttributeValue, found := keeperTest.GetSchemaAttribute(ctx, schemaB.Code, schema_attribute.Name)
-
-		if !found {
-			t.Fatal("No default value")
-		}
-
-		// Add the attribute to the map
-		attributeMapB[schema_attribute.Name] = true
-
-		nftAttributeValue_ := keeper.ConverSchemaAttributeToNFTAttributeValue(&nftAttributeValue)
-		map_converted_schema_attributesB = append(map_converted_schema_attributesB, nftAttributeValue_)
-	}
+	// Setup Schema B
+	schemaB, tokenDataB, convertedSchemaAttributesB := setupSchemaAndMetadata(t,
+		keeperTest,
+		ctx,
+		"../../../resources/schemas/membership-nft-schema.json",
+		"../../../resources/metadatas/membership/junior/nft-data_10_years.json",
+		"1",
+	)
 
 	registrySchemaA := types.VirtualSchemaRegistry{
 		NftSchemaCode:    schemaA.Code,
@@ -238,122 +243,88 @@ func TestCrossSchemaAction(t *testing.T) {
 
 	keeperTest.SetVirtualSchema(ctx, virtualSchema)
 
-	schemaList := []*types.NFTSchema{&schemaA, &schemaB}
-	tokenDataList := []*types.NftData{&tokenDataA, &tokenDataB}
+	schemaList := []*types.NFTSchema{schemaA, schemaB}
+	tokenDataList := []*types.NftData{tokenDataA, tokenDataB}
 	crossSchemaOveride := types.CrossSchemaAttributeOverriding{
 		schemaA.Code: types.AttributeOverriding_CHAIN,
 		schemaB.Code: types.AttributeOverriding_CHAIN,
 	}
 
 	schemaGlobalAttributes := types.CrossSchemaGlobalAttributes{
-		schemaA.Code: map_converted_schema_attributesA,
-		schemaB.Code: map_converted_schema_attributesB,
+		schemaA.Code: convertedSchemaAttributesA,
+		schemaB.Code: convertedSchemaAttributesB,
 	}
 
 	crossMetadata := types.NewCrossSchemaMetadata(schemaList, tokenDataList, crossSchemaOveride, schemaGlobalAttributes)
-	// attriNumber := crossMetadata.GetNumber(schemaA.Code, "service_3")
-	// require.Equal(t, int64(9999), attriNumber)
+	testCases := []virtualActionTestCase{
+        {
+            name: "Bridge service 3 to 1",
+            action: types.Action{
+                Name:    "bridge_3_to_1",
+                Desc:    "Bridge service 1 to service 4",
+                Disable: false,
+                When:    "true",
+                Then: []string{
+                    "ser3value = meta.GetNumber('sixprotocol.divine_elite','service_3')",
+                    "ser1Value = meta.GetNumber('sixprotocol.membership','service_1')",
+                    "toSetValue = ser3value + ser1Value",
+                    "meta.SetNumber('sixprotocol.membership','service_1', toSetValue)",
+                    "meta.SetNumber('sixprotocol.divine_elite','service_3', 0)",
+                },
+                AllowedActioner: 0,
+                Params:          []*types.ActionParams{{}},
+            },
+            actionParams: []*types.ActionParameter{},
+            expectedValues: map[string]struct {
+                schemaCode string
+                attribute  string
+                value     int64
+            }{
+                "service_1": {schemaCode: schemaB.Code, attribute: "service_1", value: 9999},
+                "service_3": {schemaCode: schemaA.Code, attribute: "service_3", value: 0},
+            },
+        },
+        {
+            name: "Bridge service 4 to 2",
+            action: types.Action{
+                Name:    "bridge_4_to_2",
+                Desc:    "Bridge service 4 to service 2",
+                Disable: false,
+                When:    "meta.GetNumber('sixprotocol.divine_elite','service_4') >= params['amount'].GetNumber()",
+                Then: []string{
+                    "ser4value = meta.GetNumber('sixprotocol.divine_elite','service_4')",
+                    "ser2Value = meta.GetNumber('sixprotocol.membership','service_2')",
+                    "toSetValue = ser2Value + params['amount'].GetNumber()",
+                    "meta.SetNumber('sixprotocol.membership','service_2', toSetValue)",
+                    "meta.SetNumber('sixprotocol.divine_elite','service_4', ser4value - params['amount'].GetNumber())",
+                },
+                AllowedActioner: 0,
+                Params: []*types.ActionParams{{
+                    Name:         "amount",
+                    DataType:     "number",
+                    Desc:         "Service 4 Amount",
+                    Required:     true,
+                    DefaultValue: "0",
+                }},
+            },
+            actionParams: []*types.ActionParameter{{
+                Name:  "amount",
+                Value: "10",
+            }},
+            expectedValues: map[string]struct {
+                schemaCode string
+                attribute  string
+                value     int64
+            }{
+                "service_2": {schemaCode: schemaB.Code, attribute: "service_2", value: 20},
+                "service_4": {schemaCode: schemaA.Code, attribute: "service_4", value: 0},
+            },
+        },
+    }
 
-	// // Test set attribute. (but get from other schema)
-	// crossMetadata.SetNumber(schemaA.Code, "service_3", 10000)
-	// attriNumber = crossMetadata.GetNumber(schemaA.Code, "service_3")
-
-	// require.Equal(t, int64(10000), attriNumber)
-
-	// virtualAction
-	virtualAction := types.Action{
-		Name:    "bridge_3_to_1",
-		Desc:    "Bridge service 1 to service 4",
-		Disable: false,
-		When:    "true",
-		Then: []string{
-			"ser3value = meta.GetNumber('sixprotocol.divine_elite','service_3')",
-			"ser1Value = meta.GetNumber('sixprotocol.membership','service_1')",
-			"toSetValue = ser3value + ser1Value",
-			"meta.SetNumber('sixprotocol.membership','service_1', toSetValue)",
-			"meta.SetNumber('sixprotocol.divine_elite','service_3', 0)",
-		},
-		AllowedActioner: 0,
-		Params:          []*types.ActionParams{{}},
-	}
-
-	keeperTest.AddActionKeeper(ctx, "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq", "divineXmembership", virtualAction)
-	keeperTest.SetVirtualAction(ctx, types.VirtualAction{
-		NftSchemaCode:   virtualSchema.VirtualNftSchemaCode,
-		Name:            virtualAction.Name,
-		Desc:            virtualAction.Desc,
-		Disable:         virtualAction.Disable,
-		When:            virtualAction.When,
-		Then:            virtualAction.Then,
-		AllowedActioner: virtualAction.AllowedActioner,
-		Params:          virtualAction.Params,
-	})
-
-	_vitualAction, found := keeperTest.GetVirtualAction(ctx, "divineXmembership", "bridge_3_to_1")
-	require.True(t, found)
-	require.Equal(t, virtualAction, *_vitualAction.ToAction())
-
-	zeroActionParams := []*types.ActionParameter{}
-	keeper.ProcessCrossSchemaAction(crossMetadata, _vitualAction.ToAction(), zeroActionParams)
-
-	attriNumber := crossMetadata.GetNumber(schemaB.Code, "service_1")
-	require.Equal(t, int64(9999), attriNumber)
-
-	attriNumber = crossMetadata.GetNumber(schemaA.Code, "service_3")
-	require.Equal(t, int64(0), attriNumber)
-
-	// virtualAction
-	virtualActionWithParam := types.Action{
-		Name:    "bridge_4_to_2",
-		Desc:    "Bridge service 4 to service 2",
-		Disable: false,
-		When:    "meta.GetNumber('sixprotocol.divine_elite','service_4') >= params['amount'].GetNumber()",
-		Then: []string{
-			"ser4value = meta.GetNumber('sixprotocol.divine_elite','service_4')",
-			"ser2Value = meta.GetNumber('sixprotocol.membership','service_2')",
-			"toSetValue = ser2Value + params['amount'].GetNumber()",
-			"meta.SetNumber('sixprotocol.membership','service_2', toSetValue)",
-			"meta.SetNumber('sixprotocol.divine_elite','service_4', ser4value - params['amount'].GetNumber())",
-		},
-		AllowedActioner: 0,
-		Params: []*types.ActionParams{
-			{
-				Name:         "amount",
-				DataType:     "number",
-				Desc:         "Service 4 Amount",
-				Required:     true,
-				DefaultValue: "0",
-			},
-		},
-	}
-
-	keeperTest.AddActionKeeper(ctx, "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq", "divineXmembership", virtualActionWithParam)
-	keeperTest.SetVirtualAction(ctx, types.VirtualAction{
-		NftSchemaCode:   virtualSchema.VirtualNftSchemaCode,
-		Name:            virtualActionWithParam.Name,
-		Desc:            virtualActionWithParam.Desc,
-		Disable:         virtualActionWithParam.Disable,
-		When:            virtualActionWithParam.When,
-		Then:            virtualActionWithParam.Then,
-		AllowedActioner: virtualActionWithParam.AllowedActioner,
-		Params:          virtualActionWithParam.Params,
-	})
-
-	_vitualActionwithParam, found := keeperTest.GetVirtualAction(ctx, "divineXmembership", "bridge_4_to_2")
-	require.True(t, found)
-	require.Equal(t, virtualAction, *_vitualAction.ToAction())
-
-	actionParams := []*types.ActionParameter{
-		{
-			Name:  "amount",
-			Value: "10",
-		},
-	}
-	keeper.ProcessCrossSchemaAction(crossMetadata, _vitualActionwithParam.ToAction(), actionParams)
-
-	attriNumber = crossMetadata.GetNumber(schemaB.Code, "service_2")
-	require.Equal(t, int64(20), attriNumber)
-
-	attriNumber = crossMetadata.GetNumber(schemaA.Code, "service_4")
-	require.Equal(t, int64(0), attriNumber)
+    for _, tc := range testCases {
+        t.Run(tc.name, func(t *testing.T) {
+            runVirtualActionTest(t, keeperTest, ctx, crossMetadata, &virtualSchema, tc)
+        })
+    }
 }
