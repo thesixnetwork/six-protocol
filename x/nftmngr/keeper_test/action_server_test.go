@@ -170,19 +170,23 @@ func setupVirtualAction(t *testing.T, keeper *keeper.Keeper, ctx sdk.Context, vi
 func runVirtualActionTest(t *testing.T, k *keeper.Keeper, ctx sdk.Context, crossMetadata *types.CrossSchemaMetadata, virtualSchema *types.VirtualSchema, testCase virtualActionTestCase) {
 	virtualAction := setupVirtualAction(t, k, ctx, virtualSchema, testCase.action)
 	keeper.ProcessCrossSchemaAction(crossMetadata, virtualAction.ToAction(), testCase.actionParams)
-	// // // Set NFT data function
-	// crossMetadata.NftDataFunction = func(schemaName string, tokenId string) (*types.NftData, error) {
-	// 	nftData, found := k.GetNftData(ctx, schemaName, tokenId)
-	// 	if !found {
-	// 			fmt.Println("nftData not found")
-	//  			panic("nftData not found")
-	// 	}
-	// 	fmt.Printf("Schema: %v \n", schemaName)
-	// 	return &nftData, nil
-	// }
+
+	countNum := 0
+	// Set NFT data function
+	crossMetadata.NftDataFunction = func(schemaName string, tokenId string) (*types.NftData, error) {
+		nftData, found := k.GetNftData(ctx, schemaName, tokenId)
+		if !found {
+				fmt.Println("nftData not found")
+	 			panic("nftData not found")
+		}
+		fmt.Printf("Schema: %v \n", schemaName)
+		countNum++
+		return &nftData, nil
+	}
 
 	for _, schemaRegistry := range virtualSchema.Registry{
 		crossMetadata.SetGetNFTFunction(func(schemaName, tokenId string) (*types.NftData, error) {
+			countNum++
 			_, found := k.GetNFTSchema(ctx, schemaRegistry.NftSchemaCode)
 			if !found {
 				fmt.Println("schemaName not found")
