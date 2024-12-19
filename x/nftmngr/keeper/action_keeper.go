@@ -2,7 +2,7 @@ package keeper
 
 import (
 	"encoding/json"
-	"fmt"
+	// "fmt"
 	"strconv"
 	"time"
 
@@ -441,29 +441,6 @@ func (k Keeper) PerfromVirtualAction(ctx sdk.Context, creator, nftSchemaName, to
 	}
 
 	crossMetadata := types.NewCrossSchemaMetadata(schemaList, tokenDataList, crossSchemaOveride, schemaGlobalAttributes, shareAttributeName)
-
-	// Set NFT data function
-	crossMetadata.NftDataFunction = func(schemaName string, tokenId string) (*types.NftData, error) {
-		nftData, found := k.GetNftData(ctx, schemaName, tokenId)
-		if !found {
-			return nil, sdkerrors.Wrap(types.ErrNftDataDoesNotExists, fmt.Sprintf("%s:%s", schemaName, tokenId))
-		}
-		return &nftData, nil
-	}
-
-	for _, schemaRegistry := range virtualSchema.Registry {
-		crossMetadata.SetGetNFTFunction(func(schemaName, tokenId string) (*types.NftData, error) {
-			_, found := k.GetNFTSchema(ctx, schemaRegistry.NftSchemaCode)
-			if !found {
-				return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, schemaName)
-			}
-			nftData, found := k.GetNftData(ctx, schemaRegistry.NftSchemaCode, tokenId)
-			if !found {
-				return nil, sdkerrors.Wrap(types.ErrMetadataDoesNotExists, "Schema: "+nftSchemaName+" TokenID: "+tokenId)
-			}
-			return &nftData, nil
-		})
-	}
 
 	err = ProcessCrossSchemaAction(crossMetadata, vitualAction.ToAction(), parameters)
 	if err != nil {
