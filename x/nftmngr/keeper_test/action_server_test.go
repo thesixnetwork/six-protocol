@@ -139,7 +139,7 @@ type virtualActionTestCase struct {
 	name           string
 	action         types.Action
 	actionParams   []*types.ActionParameter
-	expectedError  bool
+	expectedError  error
 	expectedValues map[string]struct {
 		schemaCode string
 		attribute  string
@@ -171,37 +171,48 @@ func setupVirtualAction(t *testing.T, keeper *keeper.Keeper, ctx sdk.Context, vi
 
 // Update runVirtualActionTest function
 func runVirtualActionTest(t *testing.T, k *keeper.Keeper, ctx sdk.Context, crossMetadata *types.CrossSchemaMetadata, virtualSchema *types.VirtualSchema, testCase virtualActionTestCase) {
-	virtualAction := setupVirtualAction(t, k, ctx, virtualSchema, testCase.action)
+    t.Run(testCase.name, func(t *testing.T) {
+        // Setup virtual action for this test
+        virtualAction := setupVirtualAction(t, k, ctx, virtualSchema, testCase.action)
 
-	crossMetadata.NftDataFunction = func(schemaName string, tokenId string) (*types.NftData, error) {
-		nftData, found := k.GetNftData(ctx, schemaName, tokenId)
-		if !found {
-			return nil, sdkerrors.Wrap(types.ErrNftDataDoesNotExists, fmt.Sprintf("%s:%s", schemaName, tokenId))
-		}
-		return &nftData, nil
-	}
+        // Set NFT data function for this test
+        crossMetadata.NftDataFunction = func(schemaName string, tokenId string) (*types.NftData, error) {
+            nftData, found := k.GetNftData(ctx, schemaName, tokenId)
+            if !found {
+                return nil, sdkerrors.Wrap(types.ErrNftDataDoesNotExists, fmt.Sprintf("%s:%s", schemaName, tokenId))
+            }
+            return &nftData, nil
+        }
 
-	err := keeper.ProcessCrossSchemaAction(crossMetadata, virtualAction.ToAction(), testCase.actionParams)
-	require.NoError(t, err)
+        // Process action and check for expected error
+        err := keeper.ProcessCrossSchemaAction(crossMetadata, virtualAction.ToAction(), testCase.actionParams)
+        
+        if testCase.expectedError != nil {
+            require.ErrorIs(t, err, testCase.expectedError)
+            return
+        }
+        
+        require.NoError(t, err)
 
-	// Check expected values only if no error is expected
-	if testCase.expectedValues != nil {
-		for _, expected := range testCase.expectedValues {
-			switch v := expected.value.(type) {
-			case int64:
-				attriNumber := crossMetadata.GetNumber(expected.schemaCode, expected.attribute)
-				require.Equal(t, v, attriNumber)
-			case float64:
-				attriFloat := crossMetadata.GetFloat(expected.schemaCode, expected.attribute)
-				require.Equal(t, v, attriFloat)
-			case bool:
-				attriBool := crossMetadata.GetBoolean(expected.schemaCode, expected.attribute)
-				require.Equal(t, v, attriBool)
-			default:
-				t.Fatalf("unsupported type: %T", v)
-			}
-		}
-	}
+        // Verify expected values
+        if testCase.expectedValues != nil {
+            for _, expected := range testCase.expectedValues {
+                switch v := expected.value.(type) {
+                case int64:
+                    attriNumber := crossMetadata.GetNumber(expected.schemaCode, expected.attribute)
+                    require.Equal(t, v, attriNumber)
+                case float64:
+                    attriFloat := crossMetadata.GetFloat(expected.schemaCode, expected.attribute)
+                    require.Equal(t, v, attriFloat)
+                case bool:
+                    attriBool := crossMetadata.GetBoolean(expected.schemaCode, expected.attribute)
+                    require.Equal(t, v, attriBool)
+                default:
+                    t.Fatalf("unsupported type: %T", v)
+                }
+            }
+        }
+    })
 }
 
 func TestCrossSchemaAction(t *testing.T) {
@@ -386,7 +397,7 @@ func TestCrossSchemaAction(t *testing.T) {
 				Name:  "amount",
 				Value: "1",
 			}},
-			expectedError: true,
+			expectedError: types.ErrAttributeNotAllowedToShare,
 		},
 	}
 
