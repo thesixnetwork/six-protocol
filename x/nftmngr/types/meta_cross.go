@@ -13,22 +13,25 @@ type CrossSchemaMetadata struct {
 	nftSchemas                   map[string]*NFTSchema
 	changeList                   map[string]ChangeList
 	mapSchemaKey                 map[string]MapAllKey
+	sharedAttributeName              CrossSchemaSharedAttributeName
 	NftDataFunction              func(schemaName, tokenId string) (*NftData, error)
 }
 
 type (
 	CrossSchemaAttributeOverriding map[string]AttributeOverriding
 	CrossSchemaGlobalAttributes    map[string][]*NftAttributeValue
+	CrossSchemaSharedAttributeName map[string][]string 
 )
 
-func NewCrossSchemaMetadata(schemaList []*NFTSchema, tokenList []*NftData, attributesOverriding CrossSchemaAttributeOverriding, schemaGlobalAttriubutes CrossSchemaGlobalAttributes) *CrossSchemaMetadata {
+func NewCrossSchemaMetadata(schemaList []*NFTSchema, tokenList []*NftData, attributesOverriding CrossSchemaAttributeOverriding, schemaGlobalAttriubutes CrossSchemaGlobalAttributes, sharedAttribute CrossSchemaSharedAttributeName) *CrossSchemaMetadata {
 	nftSchemas := make(map[string]*NFTSchema)
 	nftDatas := make(map[string]*NftData)
 	crossSchemaMetadata := &CrossSchemaMetadata{
 		nftDatas:     nftDatas,
 		nftSchemas:   nftSchemas,
 		changeList:   make(map[string]ChangeList),
-		mapSchemaKey: make(map[string]MapAllKey), // Ensure this is initialized
+		mapSchemaKey: make(map[string]MapAllKey),
+		sharedAttributeName: sharedAttribute,
 	}
 
 	if len(schemaList) != len(tokenList) {
@@ -117,7 +120,54 @@ func (c *CrossSchemaMetadata) validateSchemaName(schemaName string) error {
 	if _, exists := c.nftSchemas[schemaName]; !exists {
 		return sdkerrors.Wrap(ErrSchemaNotFound, schemaName)
 	}
+	
 	return nil
+}
+
+func (c *CrossSchemaMetadata) validateSharedAttribute(schemaName, attributeName string) error {
+    sharedAttrs, exists := c.sharedAttributeName[schemaName]
+    if !exists {
+        return sdkerrors.Wrapf(ErrAttributeNotAllowedToShare, 
+            "schema %s has no shared attributes", schemaName)
+    }
+
+    for _, attr := range sharedAttrs {
+        if attributeName == attr {
+            return nil
+        }
+    }
+    
+    return sdkerrors.Wrapf(ErrAttributeNotAllowedToShare, 
+        "attribute %s is not allowed to be shared in schema %s", 
+        attributeName, schemaName)
+}
+
+func (c *CrossSchemaMetadata) getAttribute(schemaName, key string) (*MetadataAttribute, error) {
+    // Validate schema exists
+    if err := c.validateSchemaName(schemaName); err != nil {
+        return nil, sdkerrors.Wrapf(err, "schema validation failed for %s", schemaName)
+    }
+
+    // Validate attribute is shared
+    if err := c.validateSharedAttribute(schemaName, key); err != nil {
+        return nil, sdkerrors.Wrapf(err, "shared attribute validation failed for %s in schema %s", key, schemaName)
+    }
+
+    schemaKey, exists := c.mapSchemaKey[schemaName]
+    if !exists {
+        return nil, sdkerrors.Wrapf(ErrSchemaNotFound, "schema %s not found in mapSchemaKey", schemaName)
+    }
+
+    attri, exists := schemaKey[key]
+    if !exists {
+        return nil, sdkerrors.Wrapf(ErrAttributeNotFoundForAction, "attribute %s not found in schema %s", key, schemaName)
+    }
+
+    if attri == nil {
+        return nil, sdkerrors.Wrapf(ErrInvalidOperation, "attribute %s is nil in schema %s", key, schemaName)
+    }
+
+    return attri, nil
 }
 
 func (c *CrossSchemaMetadata) GetNumber(schemaName string, key string) int64 {
@@ -129,13 +179,10 @@ func (c *CrossSchemaMetadata) GetNumber(schemaName string, key string) int64 {
 }
 
 func (c *CrossSchemaMetadata) MustGetNumber(schemaName, key string) (int64, error) {
-	if err := c.validateSchemaName(schemaName); err != nil {
-		panic(err)
-	}
-
-	schemaKey := c.mapSchemaKey[schemaName]
-	attri := schemaKey[key]
-
+	attri, err := c.getAttribute(schemaName, key)
+    if err != nil {
+        return 0, err
+    }
 	if attri == nil {
 		return 0, sdkerrors.Wrap(ErrAttributeNotFoundForAction, key)
 	}
@@ -177,8 +224,10 @@ func (c *CrossSchemaMetadata) GetSubString(schemaName, key string, start int64, 
 }
 
 func (c *CrossSchemaMetadata) SetString(schemaName, key, value string) error {
-	schemaKey := c.mapSchemaKey[schemaName]
-	attri := schemaKey[key]
+	attri, err := c.getAttribute(schemaName, key)
+    if err != nil {
+        return err
+    }
 	if attri == nil {
 		panic(sdkerrors.Wrap(ErrAttributeNotFoundForAction, key))
 	}
@@ -218,14 +267,12 @@ func (c *CrossSchemaMetadata) SetString(schemaName, key, value string) error {
 }
 
 func (c *CrossSchemaMetadata) SetNumber(schemaName, key string, value int64) error {
-	if err := c.validateSchemaName(schemaName); err != nil {
-		panic(err)
-	}
-
-	schemaKey := c.mapSchemaKey[schemaName]
-	attri := schemaKey[key]
+	attri, err := c.getAttribute(schemaName, key)
+    if err != nil {
+        return err
+    }
 	if attri == nil {
-		panic(sdkerrors.Wrap(ErrAttributeNotFoundForAction, key))
+		return sdkerrors.Wrap(ErrAttributeNotFoundForAction, key)
 	}
 	if _, ok := attri.AttributeValue.GetValue().(*NftAttributeValue_NumberAttributeValue); ok {
 		// Number
@@ -263,15 +310,12 @@ func (c *CrossSchemaMetadata) SetNumber(schemaName, key string, value int64) err
 }
 
 func (c *CrossSchemaMetadata) SetFloat(schemaName, key string, value float64) error {
-
-	if err := c.validateSchemaName(schemaName); err != nil {
-		panic(err)
-	}
-
-	schemaKey := c.mapSchemaKey[schemaName]
-	attri := schemaKey[key]
+	attri, err := c.getAttribute(schemaName, key)
+	if err != nil {
+		return err
+    }
 	if attri == nil {
-		panic(sdkerrors.Wrap(ErrAttributeNotFoundForAction, key))
+		return sdkerrors.Wrap(ErrAttributeNotFoundForAction, key)
 	}
 	if _, ok := attri.AttributeValue.GetValue().(*NftAttributeValue_FloatAttributeValue); ok {
 		// Float
@@ -325,11 +369,10 @@ func (c *CrossSchemaMetadata) ToUppercase(schemaName, key string) string {
 }
 
 func (c *CrossSchemaMetadata) MustGetString(schemaName, key string) (string, error) {
-	if err := c.validateSchemaName(schemaName); err != nil {
-		panic(err)
-	}
-	schemaKey := c.mapSchemaKey[schemaName]
-	attri := schemaKey[key]
+	attri, err := c.getAttribute(schemaName, key)
+    if err != nil {
+        return "", err
+    }
 	if attri == nil {
 		return "", sdkerrors.Wrap(ErrAttributeNotFoundForAction, key)
 	}
@@ -348,11 +391,10 @@ func (c *CrossSchemaMetadata) GetFloat(schemaName, key string) float64 {
 }
 
 func (c *CrossSchemaMetadata) MustGetFloat(schemaName, key string) (float64, error) {
-	if err := c.validateSchemaName(schemaName); err != nil {
-		panic(err)
+	attri, err := c.getAttribute(schemaName, key)
+	if err != nil {
+		return 0, err
 	}
-	schemaKey := c.mapSchemaKey[schemaName]
-	attri := schemaKey[key]
 	if attri == nil {
 		return 0, sdkerrors.Wrap(ErrAttributeNotFoundForAction, key)
 	}
@@ -371,11 +413,10 @@ func (c *CrossSchemaMetadata) GetBoolean(schemaName, key string) bool {
 }
 
 func (c *CrossSchemaMetadata) MustGetBool(schemaName, key string) (bool, error) {
-	if err := c.validateSchemaName(schemaName); err != nil {
-		panic(err)
-	}
-	schemaKey := c.mapSchemaKey[schemaName]
-	attri := schemaKey[key]
+	attri, err := c.getAttribute(schemaName, key)
+    if err != nil {
+        return false, err
+    }
 	if attri == nil {
 		return false, sdkerrors.Wrap(ErrAttributeNotFoundForAction, key)
 	}
