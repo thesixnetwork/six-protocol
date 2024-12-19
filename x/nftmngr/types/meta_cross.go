@@ -14,7 +14,6 @@ type CrossSchemaMetadata struct {
 	changeList                   map[string]ChangeList
 	mapSchemaKey                 map[string]MapAllKey
 	sharedAttributeName              CrossSchemaSharedAttributeName
-	NftDataFunction              func(schemaName, tokenId string) (*NftData, error)
 }
 
 type (
@@ -87,9 +86,9 @@ func NewCrossSchemaMetadata(schemaList []*NFTSchema, tokenList []*NftData, attri
 	return crossSchemaMetadata
 }
 
-func (c *CrossSchemaMetadata) SetGetNFTFunction(f func(schemaName, tokenid string) (*NftData, error)) {
-	c.NftDataFunction = f
-}
+// func (c *CrossSchemaMetadata) SetGetNFTFunction(f func(schemaName, tokenid string) (*NftData, error)) {
+// 	c.NftDataFunction = f
+// }
 
 func (c *CrossSchemaMetadata) GetNftData(schemaName string) *NftData {
 	if err := c.validateSchemaName(schemaName); err != nil {
@@ -150,7 +149,7 @@ func (c *CrossSchemaMetadata) getAttribute(schemaName, key string) (*MetadataAtt
 
     // Validate attribute is shared
     if err := c.validateSharedAttribute(schemaName, key); err != nil {
-        return nil, sdkerrors.Wrapf(err, "shared attribute validation failed for %s in schema %s", key, schemaName)
+		return nil, err
     }
 
     schemaKey, exists := c.mapSchemaKey[schemaName]

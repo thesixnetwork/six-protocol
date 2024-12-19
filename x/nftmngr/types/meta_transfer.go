@@ -123,9 +123,9 @@ func (c *CrossSchemaMetadata) validateState() error {
     if c.mapSchemaKey == nil {
         return sdkerrors.Wrap(ErrInvalidOperation, "mapSchemaKey is not initialized")
     }
-    if c.NftDataFunction == nil {
-        return sdkerrors.Wrap(ErrInvalidOperation, "NftDataFunction is not set")
-    }
+    // if c.NftDataFunction == nil {
+    //     return sdkerrors.Wrap(ErrInvalidOperation, "NftDataFunction is not set")
+    // }
     return nil
 }
 
