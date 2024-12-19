@@ -1,6 +1,8 @@
 package types
 
 import (
+	fmt "fmt"
+
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
@@ -112,6 +114,76 @@ func (m *Metadata) TransferFloat(attributeName string, targetTokenId string, tra
 			break
 		}
 	}
+
+	return nil
+}
+
+func (c *CrossSchemaMetadata) ConvertNumberAttribute(srcSchemaName, srcAttributeName, dstSchemaName, dstAttributeName string, convertValue uint64) error {
+	
+	if c == nil {
+		fmt.Println("CrossSchemaMetadata is nil")
+        return sdkerrors.Wrap(ErrInvalidOperation, "CrossSchemaMetadata is nil")
+    }
+
+    if c.mapSchemaKey == nil {
+		fmt.Println("mapSchemaKey is not initialized")
+        return sdkerrors.Wrap(ErrInvalidOperation, "mapSchemaKey is not initialized")
+    }
+
+    if c.NftDataFunction == nil {
+		fmt.Println("NftDataFunction is not set")
+        return sdkerrors.Wrap(ErrInvalidOperation, "NftDataFunction is not set")
+    }
+
+	if err := c.validateSchemaName(srcSchemaName); err != nil {
+		return err
+	}
+
+	if err := c.validateSchemaName(dstSchemaName); err != nil {
+		return err
+	}
+
+	srcAttribute, ok := c.mapSchemaKey[srcSchemaName][srcAttributeName]
+	if !ok {
+		return sdkerrors.Wrap(ErrAttributeDoesNotExists, srcAttributeName)
+	}
+
+	srcNumberAttributeValue, ok := srcAttribute.AttributeValue.GetValue().(*NftAttributeValue_NumberAttributeValue)
+	if !ok {
+		return sdkerrors.Wrap(ErrAttributeTypeNotMatch, srcAttribute.AttributeValue.Name)
+	}
+
+	dstAttribute, ok := c.mapSchemaKey[dstSchemaName][dstAttributeName]
+	if !ok {
+		return sdkerrors.Wrap(ErrAttributeDoesNotExists, dstAttributeName)
+	}
+
+	dstNumberAttributeValue, ok := dstAttribute.AttributeValue.GetValue().(*NftAttributeValue_NumberAttributeValue)
+	if !ok {
+		return sdkerrors.Wrap(ErrAttributeTypeNotMatch, dstAttribute.AttributeValue.Name)
+	}
+
+	srcNumberValue := srcNumberAttributeValue.NumberAttributeValue
+
+	dstNumberValue := dstNumberAttributeValue.NumberAttributeValue
+
+	var err error
+	// Check if transfer value is sufficient
+	if srcNumberValue.Value < convertValue {
+		return sdkerrors.Wrap(ErrInsufficientValue, srcAttributeName)
+	}
+
+	// Deduct from source
+	err = c.SetNumber(srcSchemaName, srcAttributeName, int64(srcNumberValue.Value - convertValue))
+	if err != nil {
+		return err
+	}
+
+	err = c.SetNumber(dstSchemaName, dstAttributeName, int64(dstNumberValue.Value + convertValue))
+	if err != nil {
+		return err
+	}
+
 
 	return nil
 }

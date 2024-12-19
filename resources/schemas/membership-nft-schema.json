@@ -95,6 +95,22 @@
             "trait_type": "Membership checkup Junior"
           }
         }
+      },
+      {
+        "name": "service_x",
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": 0
+          }
+        },
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Membership X"
+          }
+        }
       }
     ],
     "actions": [

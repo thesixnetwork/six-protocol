@@ -1,6 +1,7 @@
 package keeper_test
 
 import (
+	"fmt"
 	"testing"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -169,6 +170,32 @@ func setupVirtualAction(t *testing.T, keeper *keeper.Keeper, ctx sdk.Context, vi
 func runVirtualActionTest(t *testing.T, k *keeper.Keeper, ctx sdk.Context, crossMetadata *types.CrossSchemaMetadata, virtualSchema *types.VirtualSchema, testCase virtualActionTestCase) {
 	virtualAction := setupVirtualAction(t, k, ctx, virtualSchema, testCase.action)
 	keeper.ProcessCrossSchemaAction(crossMetadata, virtualAction.ToAction(), testCase.actionParams)
+	// // // Set NFT data function
+	// crossMetadata.NftDataFunction = func(schemaName string, tokenId string) (*types.NftData, error) {
+	// 	nftData, found := k.GetNftData(ctx, schemaName, tokenId)
+	// 	if !found {
+	// 			fmt.Println("nftData not found")
+	//  			panic("nftData not found")
+	// 	}
+	// 	fmt.Printf("Schema: %v \n", schemaName)
+	// 	return &nftData, nil
+	// }
+
+	for _, schemaRegistry := range virtualSchema.Registry{
+		crossMetadata.SetGetNFTFunction(func(schemaName, tokenId string) (*types.NftData, error) {
+			_, found := k.GetNFTSchema(ctx, schemaRegistry.NftSchemaCode)
+			if !found {
+				fmt.Println("schemaName not found")
+				panic("schemaName not found")
+			}
+			nftData, found := k.GetNftData(ctx, schemaRegistry.NftSchemaCode, tokenId)
+			if !found {
+				fmt.Println("nftData not found")
+				panic("nftData not found")
+			}
+			return  &nftData, nil
+		})
+	}
 
 	for _, expected := range testCase.expectedValues {
 		switch v := expected.value.(type) {
@@ -308,6 +335,38 @@ func TestCrossSchemaAction(t *testing.T) {
 				"service_4": {schemaCode: schemaA.Code, attribute: "service_4", value: int64(0)},
 			},
 		},
+		{
+			name: "Native Bridge",
+			action: types.Action{
+				Name:    "native_bridge",
+				Desc:    "Send Value accross schema",
+				Disable: false,
+				When:    "meta.GetNumber('sixprotocol.divine_elite','service_7') >= params['amount'].GetNumber()",
+				Then: []string{
+					"meta.ConvertNumberAttribute('sixprotocol.divine_elite','service_7','sixprotocol.membership','service_x', params['amount'].GetNumber())",
+				},
+				AllowedActioner: 0,
+				Params: []*types.ActionParams{{
+					Name:         "amount",
+					DataType:     "number",
+					Desc:         "Service 7 Amount",
+					Required:     true,
+					DefaultValue: "0",
+				}},
+			},
+			actionParams: []*types.ActionParameter{{
+				Name:  "amount",
+				Value: "1",
+			}},
+			expectedValues: map[string]struct {
+				schemaCode string
+				attribute  string
+				value      interface{}
+			}{
+				"service_x": {schemaCode: schemaB.Code, attribute: "service_x", value: int64(1)},
+				"service_7": {schemaCode: schemaA.Code, attribute: "service_7", value: int64(9)},
+			},
+		},
 	}
 
 	for _, tc := range testCases {
@@ -316,4 +375,3 @@ func TestCrossSchemaAction(t *testing.T) {
 		})
 	}
 }
-
