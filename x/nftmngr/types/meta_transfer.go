@@ -1,8 +1,6 @@
 package types
 
 import (
-	fmt "fmt"
-
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
@@ -118,72 +116,109 @@ func (m *Metadata) TransferFloat(attributeName string, targetTokenId string, tra
 	return nil
 }
 
-func (c *CrossSchemaMetadata) ConvertNumberAttribute(srcSchemaName, srcAttributeName, dstSchemaName, dstAttributeName string, convertValue uint64) error {
-	
-	if c == nil {
-		fmt.Println("CrossSchemaMetadata is nil")
+func (c *CrossSchemaMetadata) validateState() error {
+    if c == nil {
         return sdkerrors.Wrap(ErrInvalidOperation, "CrossSchemaMetadata is nil")
     }
-
     if c.mapSchemaKey == nil {
-		fmt.Println("mapSchemaKey is not initialized")
         return sdkerrors.Wrap(ErrInvalidOperation, "mapSchemaKey is not initialized")
     }
-
     if c.NftDataFunction == nil {
-		fmt.Println("NftDataFunction is not set")
         return sdkerrors.Wrap(ErrInvalidOperation, "NftDataFunction is not set")
     }
+    return nil
+}
 
-	if err := c.validateSchemaName(srcSchemaName); err != nil {
-		return err
-	}
+func (c *CrossSchemaMetadata) validateNumberAttribute(attr *MetadataAttribute, attrName string) (*NumberAttributeValue, error) {
+    numberAttr, ok := attr.AttributeValue.GetValue().(*NftAttributeValue_NumberAttributeValue)
+    if !ok {
+        return nil, sdkerrors.Wrapf(ErrAttributeTypeNotMatch, "attribute %s is not a number", attrName)
+    }
+    return numberAttr.NumberAttributeValue, nil
+}
 
-	if err := c.validateSchemaName(dstSchemaName); err != nil {
-		return err
-	}
+func (c *CrossSchemaMetadata) ConvertNumberAttribute(srcSchemaName, srcAttributeName, dstSchemaName, dstAttributeName string, convertValue uint64) error {
+    // Validate metadata state
+    if err := c.validateState(); err != nil {
+        return err
+    }
 
-	srcAttribute, ok := c.mapSchemaKey[srcSchemaName][srcAttributeName]
-	if !ok {
-		return sdkerrors.Wrap(ErrAttributeDoesNotExists, srcAttributeName)
-	}
+    // Validate shared attributes first
+    srcSharedAttrs, exists := c.sharedAttributeName[srcSchemaName]
+    if !exists {
+        return sdkerrors.Wrapf(ErrAttributeNotAllowedToShare, 
+            "schema %s has no shared attributes", srcSchemaName)
+    }
+    dstSharedAttrs, exists := c.sharedAttributeName[dstSchemaName]
+    if !exists {
+        return sdkerrors.Wrapf(ErrAttributeNotAllowedToShare, 
+            "schema %s has no shared attributes", dstSchemaName)
+    }
 
-	srcNumberAttributeValue, ok := srcAttribute.AttributeValue.GetValue().(*NftAttributeValue_NumberAttributeValue)
-	if !ok {
-		return sdkerrors.Wrap(ErrAttributeTypeNotMatch, srcAttribute.AttributeValue.Name)
-	}
+    // Check if attributes are in shared lists
+    srcFound := false
+    for _, attr := range srcSharedAttrs {
+        if attr == srcAttributeName {
+            srcFound = true
+            break
+        }
+    }
+    if !srcFound {
+        return sdkerrors.Wrap(ErrAttributeNotAllowedToShare, 
+            "source attribute not shared by owner")
+    }
 
-	dstAttribute, ok := c.mapSchemaKey[dstSchemaName][dstAttributeName]
-	if !ok {
-		return sdkerrors.Wrap(ErrAttributeDoesNotExists, dstAttributeName)
-	}
+    dstFound := false
+    for _, attr := range dstSharedAttrs {
+        if attr == dstAttributeName {
+            dstFound = true
+            break
+        }
+    }
+    if !dstFound {
+        return sdkerrors.Wrap(ErrAttributeNotAllowedToShare, 
+            "destination attribute not shared by owner")
+    }
 
-	dstNumberAttributeValue, ok := dstAttribute.AttributeValue.GetValue().(*NftAttributeValue_NumberAttributeValue)
-	if !ok {
-		return sdkerrors.Wrap(ErrAttributeTypeNotMatch, dstAttribute.AttributeValue.Name)
-	}
+    // Get and validate attributes
+    srcAttribute, err := c.getAttribute(srcSchemaName, srcAttributeName)
+    if err != nil {
+        return sdkerrors.Wrapf(err, "source attribute %s", srcAttributeName)
+    }
 
-	srcNumberValue := srcNumberAttributeValue.NumberAttributeValue
+    dstAttribute, err := c.getAttribute(dstSchemaName, dstAttributeName)
+    if err != nil {
+        return sdkerrors.Wrapf(err, "destination attribute %s", dstAttributeName)
+    }
 
-	dstNumberValue := dstNumberAttributeValue.NumberAttributeValue
+    // Validate number attributes
+    srcNumberValue, err := c.validateNumberAttribute(srcAttribute, srcAttributeName)
+    if err != nil {
+        return err
+    }
 
-	var err error
-	// Check if transfer value is sufficient
-	if srcNumberValue.Value < convertValue {
-		return sdkerrors.Wrap(ErrInsufficientValue, srcAttributeName)
-	}
+    dstNumberValue, err := c.validateNumberAttribute(dstAttribute, dstAttributeName)
+    if err != nil {
+        return err
+    }
 
-	// Deduct from source
-	err = c.SetNumber(srcSchemaName, srcAttributeName, int64(srcNumberValue.Value - convertValue))
-	if err != nil {
-		return err
-	}
+    // Validate sufficient balance
+    if srcNumberValue.Value < convertValue {
+        return sdkerrors.Wrapf(ErrInsufficientValue, 
+            "insufficient balance in %s: has %d, need %d", 
+            srcAttributeName, srcNumberValue.Value, convertValue)
+    }
 
-	err = c.SetNumber(dstSchemaName, dstAttributeName, int64(dstNumberValue.Value + convertValue))
-	if err != nil {
-		return err
-	}
+    // Perform transfer
+    if err := c.SetNumber(srcSchemaName, srcAttributeName, 
+        int64(srcNumberValue.Value-convertValue)); err != nil {
+        return sdkerrors.Wrap(err, "failed to update source value")
+    }
 
+    if err := c.SetNumber(dstSchemaName, dstAttributeName, 
+        int64(dstNumberValue.Value+convertValue)); err != nil {
+        return sdkerrors.Wrap(err, "failed to update destination value")
+    }
 
-	return nil
+    return nil
 }

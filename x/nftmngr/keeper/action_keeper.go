@@ -386,6 +386,7 @@ func (k Keeper) PerfromVirtualAction(ctx sdk.Context, creator, nftSchemaName, to
 		tokenDataList          = []*types.NftData{}
 		crossSchemaOveride     = types.CrossSchemaAttributeOverriding{}
 		schemaGlobalAttributes = types.CrossSchemaGlobalAttributes{}
+		shareAttributeName     = types.CrossSchemaSharedAttributeName{}
 	)
 
 	// get virtual schema
@@ -436,9 +437,10 @@ func (k Keeper) PerfromVirtualAction(ctx sdk.Context, creator, nftSchemaName, to
 		tokenDataList = append(tokenDataList, tokenData)
 		crossSchemaOveride[schema.Code] = schema.OriginData.AttributeOverriding
 		schemaGlobalAttributes[schema.Code] = convertedSchemaAttributes
+		shareAttributeName[schema.Code] = schemaRegistry.SharedAttributes
 	}
 
-	crossMetadata := types.NewCrossSchemaMetadata(schemaList, tokenDataList, crossSchemaOveride, schemaGlobalAttributes)
+	crossMetadata := types.NewCrossSchemaMetadata(schemaList, tokenDataList, crossSchemaOveride, schemaGlobalAttributes, shareAttributeName)
 
 	// Set NFT data function
 	crossMetadata.NftDataFunction = func(schemaName string, tokenId string) (*types.NftData, error) {

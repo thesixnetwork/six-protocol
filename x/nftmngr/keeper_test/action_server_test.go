@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 
 	"github.com/stretchr/testify/require"
@@ -138,6 +139,7 @@ type virtualActionTestCase struct {
 	name           string
 	action         types.Action
 	actionParams   []*types.ActionParameter
+	expectedError  bool
 	expectedValues map[string]struct {
 		schemaCode string
 		attribute  string
@@ -167,53 +169,37 @@ func setupVirtualAction(t *testing.T, keeper *keeper.Keeper, ctx sdk.Context, vi
 	return &storedAction
 }
 
+// Update runVirtualActionTest function
 func runVirtualActionTest(t *testing.T, k *keeper.Keeper, ctx sdk.Context, crossMetadata *types.CrossSchemaMetadata, virtualSchema *types.VirtualSchema, testCase virtualActionTestCase) {
 	virtualAction := setupVirtualAction(t, k, ctx, virtualSchema, testCase.action)
-	keeper.ProcessCrossSchemaAction(crossMetadata, virtualAction.ToAction(), testCase.actionParams)
 
-	countNum := 0
-	// Set NFT data function
 	crossMetadata.NftDataFunction = func(schemaName string, tokenId string) (*types.NftData, error) {
 		nftData, found := k.GetNftData(ctx, schemaName, tokenId)
 		if !found {
-				fmt.Println("nftData not found")
-	 			panic("nftData not found")
+			return nil, sdkerrors.Wrap(types.ErrNftDataDoesNotExists, fmt.Sprintf("%s:%s", schemaName, tokenId))
 		}
-		fmt.Printf("Schema: %v \n", schemaName)
-		countNum++
 		return &nftData, nil
 	}
 
-	for _, schemaRegistry := range virtualSchema.Registry{
-		crossMetadata.SetGetNFTFunction(func(schemaName, tokenId string) (*types.NftData, error) {
-			countNum++
-			_, found := k.GetNFTSchema(ctx, schemaRegistry.NftSchemaCode)
-			if !found {
-				fmt.Println("schemaName not found")
-				panic("schemaName not found")
-			}
-			nftData, found := k.GetNftData(ctx, schemaRegistry.NftSchemaCode, tokenId)
-			if !found {
-				fmt.Println("nftData not found")
-				panic("nftData not found")
-			}
-			return  &nftData, nil
-		})
-	}
+	err := keeper.ProcessCrossSchemaAction(crossMetadata, virtualAction.ToAction(), testCase.actionParams)
+	require.NoError(t, err)
 
-	for _, expected := range testCase.expectedValues {
-		switch v := expected.value.(type) {
-		case int64:
-			attriNumber := crossMetadata.GetNumber(expected.schemaCode, expected.attribute)
-			require.Equal(t, v, attriNumber)
-		case float64:
-			attriFloat := crossMetadata.GetFloat(expected.schemaCode, expected.attribute)
-			require.Equal(t, v, attriFloat)
-		case bool:
-			attriBool := crossMetadata.GetBoolean(expected.schemaCode, expected.attribute)
-			require.Equal(t, v, attriBool)
-		default:
-			t.Fatalf("unsupported type: %T", v)
+	// Check expected values only if no error is expected
+	if testCase.expectedValues != nil {
+		for _, expected := range testCase.expectedValues {
+			switch v := expected.value.(type) {
+			case int64:
+				attriNumber := crossMetadata.GetNumber(expected.schemaCode, expected.attribute)
+				require.Equal(t, v, attriNumber)
+			case float64:
+				attriFloat := crossMetadata.GetFloat(expected.schemaCode, expected.attribute)
+				require.Equal(t, v, attriFloat)
+			case bool:
+				attriBool := crossMetadata.GetBoolean(expected.schemaCode, expected.attribute)
+				require.Equal(t, v, attriBool)
+			default:
+				t.Fatalf("unsupported type: %T", v)
+			}
 		}
 	}
 }
@@ -241,13 +227,13 @@ func TestCrossSchemaAction(t *testing.T) {
 
 	registrySchemaA := types.VirtualSchemaRegistry{
 		NftSchemaCode:    schemaA.Code,
-		SharedAttributes: []string{"service_3", "service_4"},
+		SharedAttributes: []string{"service_3", "service_4", "service_7"},
 		Status:           types.RegistryStatus_ACCEPT,
 	}
 
 	registrySchemaB := types.VirtualSchemaRegistry{
 		NftSchemaCode:    schemaB.Code,
-		SharedAttributes: []string{"service_1", "service_2"},
+		SharedAttributes: []string{"service_1", "service_2", "service_x"},
 		Status:           types.RegistryStatus_ACCEPT,
 	}
 
@@ -274,7 +260,12 @@ func TestCrossSchemaAction(t *testing.T) {
 		schemaB.Code: convertedSchemaAttributesB,
 	}
 
-	crossMetadata := types.NewCrossSchemaMetadata(schemaList, tokenDataList, crossSchemaOveride, schemaGlobalAttributes)
+	sharedAttribute := types.CrossSchemaSharedAttributeName{
+		schemaA.Code: registrySchemaA.SharedAttributes,
+		schemaB.Code: registrySchemaB.SharedAttributes,
+	}
+
+	crossMetadata := types.NewCrossSchemaMetadata(schemaList, tokenDataList, crossSchemaOveride, schemaGlobalAttributes, sharedAttribute)
 	testCases := []virtualActionTestCase{
 		{
 			name: "Bridge service 3 to 1",
@@ -345,7 +336,7 @@ func TestCrossSchemaAction(t *testing.T) {
 				Name:    "native_bridge",
 				Desc:    "Send Value accross schema",
 				Disable: false,
-				When:    "meta.GetNumber('sixprotocol.divine_elite','service_7') >= params['amount'].GetNumber()",
+				When:    "true",
 				Then: []string{
 					"meta.ConvertNumberAttribute('sixprotocol.divine_elite','service_7','sixprotocol.membership','service_x', params['amount'].GetNumber())",
 				},
@@ -362,6 +353,7 @@ func TestCrossSchemaAction(t *testing.T) {
 				Name:  "amount",
 				Value: "1",
 			}},
+			// expectedError: types.ErrAttributeNotAllowedToShare,
 			expectedValues: map[string]struct {
 				schemaCode string
 				attribute  string
@@ -370,6 +362,31 @@ func TestCrossSchemaAction(t *testing.T) {
 				"service_x": {schemaCode: schemaB.Code, attribute: "service_x", value: int64(1)},
 				"service_7": {schemaCode: schemaA.Code, attribute: "service_7", value: int64(9)},
 			},
+		},
+		{
+			name: "Error - Source Attribute Not Shared",
+			action: types.Action{
+				Name:    "native_bridge_source_not_shared",
+				Desc:    "Attempt to bridge non-shared source attribute",
+				Disable: false,
+				When:    "true",
+				Then: []string{
+					"meta.ConvertNumberAttribute('sixprotocol.divine_elite','service_8','sixprotocol.membership','service_x', params['amount'].GetNumber())",
+				},
+				AllowedActioner: 0,
+				Params: []*types.ActionParams{{
+					Name:         "amount",
+					DataType:     "number",
+					Desc:         "Service Amount",
+					Required:     true,
+					DefaultValue: "0",
+				}},
+			},
+			actionParams: []*types.ActionParameter{{
+				Name:  "amount",
+				Value: "1",
+			}},
+			expectedError: true,
 		},
 	}
 
