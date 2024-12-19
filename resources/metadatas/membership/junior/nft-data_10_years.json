@@ -37,6 +37,12 @@
       "number_attribute_value": {
         "value": 10
       }
+    },
+    {
+      "name": "service_x",
+      "number_attribute_value": {
+        "value": 0
+      }
     }
   ]
 }
