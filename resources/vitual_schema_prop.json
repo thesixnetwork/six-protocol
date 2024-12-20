@@ -1,0 +1,14 @@
+[
+    {
+        "code": "sixprotocol.divine_elite",
+        "sharedAttributes": [
+            "service_3", "service_4", "service_7"
+        ]
+    },
+    {
+        "code": "sixprotocol.membership",
+        "sharedAttributes": [
+            "service_1", "service_2", "service_x"
+        ]
+    }
+]

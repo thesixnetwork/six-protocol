@@ -1,5 +1,5 @@
 syntax = "proto3";
-package thesixnetwork.sixprotocol.nftadmin;
+package thesixnetwork.sixnft.nftadmin;
 
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftadmin/types";
 

@@ -10,8 +10,8 @@ import (
 
 func CmdCreateVirtualAction() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "create-virtual [code] [base64NewAction]",
-		Short: "Create a new virtual",
+		Use:   "add-virtual-action [code] [base64NewAction]",
+		Short: "add a new virtual action to virtual schema",
 		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 
@@ -74,7 +74,7 @@ func CmdUpdateVirtualAction() *cobra.Command {
 
 func CmdDeleteVirtualAction() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "delete-virtual [code] [acion_name]",
+		Use:   "delete-virtual-action [code] [acion_name]",
 		Short: "Delete a virtual",
 		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {

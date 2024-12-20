@@ -1,5 +1,5 @@
 syntax = "proto3";
-package thesixnetwork.sixprotocol.nftoracle;
+package thesixnetwork.sixnft.nftoracle;
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftoracle/types";
 
 message CollectionOwnerSignature {

@@ -30,7 +30,7 @@ func CmdCreateVirtualSchema() *cobra.Command {
 				return err
 			}
 
-			request := make([]types.VirtualSchemaRegistryRequest, len(proposal))
+			request := make([]types.VirtualSchemaRegistryRequest, 0)
 
 			for _, req := range proposal {
 				registry := types.NewVirtualSchemaRegistryRequest(req.Code, req.SharedAttributes)

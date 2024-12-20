@@ -1,5 +1,5 @@
 syntax = "proto3";
-package thesixnetwork.sixprotocol.nftoracle;
+package thesixnetwork.sixnft.nftoracle;
 import "nftoracle/opensea.proto";
 import "google/protobuf/timestamp.proto";
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftoracle/types";
