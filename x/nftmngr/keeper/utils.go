@@ -35,6 +35,24 @@ func ValidateAction(action *types.Action, schema *types.NFTSchema) error {
 	return nil
 }
 
+func ValidateVirutualAction(action *types.Action) error {
+	// validate action struct
+	if action.Name == "" || action.Name == " " {
+		return sdkerrors.Wrap(types.ErrInvalidActionAttribute, "action name is empty")
+	}
+	if action.Desc == "" || action.Desc == " " {
+		return sdkerrors.Wrap(types.ErrInvalidActionAttribute, "action description is empty")
+	}
+	if action.When == "" || action.When == " " {
+		return sdkerrors.Wrap(types.ErrInvalidActionAttribute, "action type is empty")
+	}
+	// validate array of action.Then is not empty
+	if len(action.Then) == 0 {
+		return sdkerrors.Wrap(types.ErrInvalidActionAttribute, "action.Then is empty")
+	}
+	return nil
+}
+
 func NewNFTAttributeValueFromDefaultValue(name string, defaultValue *types.DefaultMintValue) *types.NftAttributeValue {
 	nftAttributeValue := &types.NftAttributeValue{
 		Name: name,

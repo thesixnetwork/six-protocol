@@ -13,7 +13,6 @@ import (
 )
 
 func (k Keeper) SetupSchemaAndMetadata(ctx sdk.Context, schemaName, tokenId string) (*types.NFTSchema, *types.NftData, []*types.NftAttributeValue) {
-
 	var (
 		schema                    = types.NFTSchema{}
 		tokenData                 = types.NftData{}
@@ -379,7 +378,6 @@ func (k Keeper) ToggleActionKeeper(ctx sdk.Context, creator, nftSchemaName, acti
 }
 
 func (k Keeper) PerfromVirtualAction(ctx sdk.Context, creator, nftSchemaName, tokenId, actionName, refId string, parameters []*types.ActionParameter) (changeList [][]byte, err error) {
-
 	var (
 		change_list            = [][]byte{}
 		schemaList             = []*types.NFTSchema{}

@@ -116,8 +116,5 @@ func (k Keeper) AfterProposalSuccess(ctx sdk.Context, proposalId string) {
 		virSchema.Enable = false
 	}
 
-	k.SetVirtualSchema(
-		ctx,
-		virSchema,
-	)
+	k.SetVirtualSchema(ctx,virSchema)
 }

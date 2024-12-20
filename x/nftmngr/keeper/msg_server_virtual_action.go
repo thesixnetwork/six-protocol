@@ -2,7 +2,9 @@ package keeper
 
 import (
 	"context"
+	"encoding/base64"
 
+	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
@@ -12,90 +14,164 @@ import (
 func (k msgServer) CreateVirtualAction(goCtx context.Context, msg *types.MsgCreateVirtualAction) (*types.MsgCreateVirtualActionResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	// Check if the value already exists
-	_, isFound := k.GetVirtualAction(
+	virtualSchema, found := k.GetVirtualSchema(ctx, msg.NftSchemaCode)
+	if !found {
+		return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, msg.NftSchemaCode)
+	}
+
+	isOwner := false
+	for _, schemaRegistry := range virtualSchema.Registry {
+		srcSchema, found := k.GetNFTSchema(ctx, schemaRegistry.NftSchemaCode)
+		if !found {
+			return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, schemaRegistry.NftSchemaCode)
+		}
+		if msg.Creator == srcSchema.Owner {
+			isOwner = true
+		}
+	}
+
+	if !isOwner {
+		return nil, sdkerrors.Wrap(types.ErrUnauthorized, msg.Creator)
+	}
+
+	newVirtualAction, err := base64.StdEncoding.DecodeString(msg.Base64VirtualActionStruct)
+	if err != nil {
+		return nil, sdkerrors.Wrap(types.ErrParsingBase64, err.Error())
+	}
+
+	virtualAction := types.VirtualAction{}
+	err = k.cdc.(*codec.ProtoCodec).UnmarshalJSON(newVirtualAction, &virtualAction)
+	if err != nil {
+		return nil, err
+	}
+
+	// Check if the virtual action already exists
+	_, found = k.GetVirtualAction(
 		ctx,
 		msg.NftSchemaCode,
-		msg.Base64VirtualActionStruct,
+		virtualAction.Name,
 	)
-	if isFound {
+
+	if found {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "index already set")
 	}
 
-	var virtual = types.VirtualAction{
-		NftSchemaCode:   "",
-		Name:            "",
-		Desc:            "",
-		Disable:         false,
-		When:            "",
-		Then:            []string{},
-		AllowedActioner: 0,
-		Params:          []*types.ActionParams{},
+	err = ValidateVirutualAction(virtualAction.ToAction())
+	if err != nil {
+		return nil, err
 	}
+
+	// TODO:: verify more about action
+	// 1. attribute in action is found in registry
 
 	k.SetVirtualAction(
 		ctx,
-		virtual,
+		virtualAction,
 	)
-	return &types.MsgCreateVirtualActionResponse{}, nil
+
+	ctx.EventManager().EmitEvents(sdk.Events{
+		sdk.NewEvent(
+			types.EventTypeAddAction,
+			sdk.NewAttribute(types.AttributeKeyNftSchemaCode, msg.NftSchemaCode),
+			sdk.NewAttribute(types.AttributeKeyAddActionName, virtualAction.Name),
+		),
+	})
+
+	return &types.MsgCreateVirtualActionResponse{
+		NftSchemaCode: msg.NftSchemaCode,
+		VirtualAction: &virtualAction,
+	}, nil
 }
 
 // TODO:: Feat(VirtualSchema)
 func (k msgServer) UpdateVirtualAction(goCtx context.Context, msg *types.MsgUpdateVirtualAction) (*types.MsgUpdateVirtualActionResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	// Check if the value exists
-	valFound, isFound := k.GetVirtualAction(
+	virtualSchema, found := k.GetVirtualSchema(ctx, msg.NftSchemaCode)
+	if !found {
+		return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, msg.NftSchemaCode)
+	}
+
+	isOwner := false
+	for _, schemaRegistry := range virtualSchema.Registry {
+		srcSchema, found := k.GetNFTSchema(ctx, schemaRegistry.NftSchemaCode)
+		if !found {
+			return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, schemaRegistry.NftSchemaCode)
+		}
+		if msg.Creator == srcSchema.Owner {
+			isOwner = true
+		}
+	}
+
+	if !isOwner {
+		return nil, sdkerrors.Wrap(types.ErrUnauthorized, msg.Creator)
+	}
+
+	toUpdateAction, err := base64.StdEncoding.DecodeString(msg.Base64VirtualActionStruct)
+	if err != nil {
+		return nil, sdkerrors.Wrap(types.ErrParsingBase64, err.Error())
+	}
+
+	toUpdateVirtualAction := types.VirtualAction{}
+	err = k.cdc.(*codec.ProtoCodec).UnmarshalJSON(toUpdateAction, &toUpdateVirtualAction)
+	if err != nil {
+		return nil, err
+	}
+
+	// Check if the virtual action already exists
+	_, found = k.GetVirtualAction(
 		ctx,
 		msg.NftSchemaCode,
-		msg.Base64VirtualActionStruct,
+		toUpdateVirtualAction.Name,
 	)
-	if !isFound {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
+
+	if !found {
+		return nil, sdkerrors.Wrap(types.ErrActionDoesNotExists, toUpdateVirtualAction.Name)
 	}
 
-	_ = valFound.Desc
+	k.SetVirtualAction(ctx, toUpdateVirtualAction)
 
-	// // Checks if the the msg creator is the same as the current owner
-	// if msg.Creator != valFound.Creator {
-	// 	return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
-	// }
-
-	var virtual = types.VirtualAction{
-		NftSchemaCode:   "",
-		Name:            "",
-		Desc:            "",
-		Disable:         false,
-		When:            "",
-		Then:            []string{},
-		AllowedActioner: 0,
-		Params:          []*types.ActionParams{},
-	}
-
-	k.SetVirtualAction(ctx, virtual)
-
-	return &types.MsgUpdateVirtualActionResponse{}, nil
+	return &types.MsgUpdateVirtualActionResponse{
+		NftSchemaCode: msg.NftSchemaCode,
+		VirtualAction: &toUpdateVirtualAction,
+	}, nil
 }
 
 // TODO:: Feat(VirtualSchema)
 func (k msgServer) DeleteVirtualAction(goCtx context.Context, msg *types.MsgDeleteVirtualAction) (*types.MsgDeleteVirtualActionResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	// Check if the value exists
-	valFound, isFound := k.GetVirtualAction(
+	virtualSchema, found := k.GetVirtualSchema(ctx, msg.NftSchemaCode)
+	if !found {
+		return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, msg.NftSchemaCode)
+	}
+
+	isOwner := false
+	for _, schemaRegistry := range virtualSchema.Registry {
+		srcSchema, found := k.GetNFTSchema(ctx, schemaRegistry.NftSchemaCode)
+		if !found {
+			return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, schemaRegistry.NftSchemaCode)
+		}
+		if msg.Creator == srcSchema.Owner {
+			isOwner = true
+		}
+	}
+
+	if !isOwner {
+		return nil, sdkerrors.Wrap(types.ErrUnauthorized, msg.Creator)
+
+	}
+
+	// Check if the virtual action already exists
+	_, found = k.GetVirtualAction(
 		ctx,
 		msg.NftSchemaCode,
 		msg.Name,
 	)
-	if !isFound {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
-	}
 
-	_ = valFound.Desc
-	// // Checks if the the msg creator is the same as the current owner
-	// if msg.Creator != valFound.Creator {
-	// 	return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
-	// }
+	if !found {
+		return nil, sdkerrors.Wrap(types.ErrActionDoesNotExists, msg.Name)
+	}
 
 	k.RemoveVirtualAction(
 		ctx,
@@ -103,5 +179,8 @@ func (k msgServer) DeleteVirtualAction(goCtx context.Context, msg *types.MsgDele
 		msg.Name,
 	)
 
-	return &types.MsgDeleteVirtualActionResponse{}, nil
+	return &types.MsgDeleteVirtualActionResponse{
+		Creator: msg.Creator,
+		Status:  "success",
+	}, nil
 }
