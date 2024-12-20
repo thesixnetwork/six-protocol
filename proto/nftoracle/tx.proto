@@ -1,5 +1,5 @@
 syntax = "proto3";
-package thesixnetwork.sixprotocol.nftoracle;
+package thesixnetwork.sixnft.nftoracle;
 
 import "nftoracle/action_signer.proto";
 import "nftoracle/action_signer_config.proto";

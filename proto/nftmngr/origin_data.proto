@@ -1,5 +1,5 @@
 syntax = "proto3";
-package thesixnetwork.sixprotocol.nftmngr;
+package thesixnetwork.sixnft.nftmngr;
 import "nftmngr/attribute_definition.proto";
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
 

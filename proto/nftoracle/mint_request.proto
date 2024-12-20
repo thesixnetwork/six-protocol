@@ -1,5 +1,5 @@
 syntax = "proto3";
-package thesixnetwork.sixprotocol.nftoracle;
+package thesixnetwork.sixnft.nftoracle;
 import "nftoracle/opensea.proto";
 import "nftoracle/request.proto";
 import "gogoproto/gogo.proto";

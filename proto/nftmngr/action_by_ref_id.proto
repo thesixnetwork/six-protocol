@@ -1,5 +1,5 @@
 syntax = "proto3";
-package thesixnetwork.sixprotocol.nftmngr;
+package thesixnetwork.sixnft.nftmngr;
 
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
 

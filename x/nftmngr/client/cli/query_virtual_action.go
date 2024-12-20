@@ -11,8 +11,8 @@ import (
 
 func CmdListVirtualAction() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "list-virtual",
-		Short: "list all virtual",
+		Use:   "list-virtual-action",
+		Short: "list all virtual action",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx := client.GetClientContextFromCmd(cmd)
 
@@ -44,7 +44,7 @@ func CmdListVirtualAction() *cobra.Command {
 
 func CmdShowVirtualAction() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "show-virtual [nftSchemaCode]",
+		Use:   "show-virtual-acion [nftSchemaCode]",
 		Short: "shows a virtual",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
