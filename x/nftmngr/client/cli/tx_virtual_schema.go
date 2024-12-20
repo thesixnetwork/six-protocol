@@ -12,7 +12,7 @@ import (
 // TODO:: Feat(VirtualSchema)
 func CmdCreateVirtualSchema() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "create-virtual-schema [code] [proposal-file]",
+		Use:   "create-virtual-schema [schemaCode] [proposal-file]",
 		Short: "Request for create new virtual_schema",
 		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
@@ -57,7 +57,7 @@ func CmdCreateVirtualSchema() *cobra.Command {
 
 func CmdDeleteVirtualSchema() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "delete-virtual-schema [index]",
+		Use:   "delete-virtual-schema [schemaCode]",
 		Short: "Delete a virtual_schema",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {

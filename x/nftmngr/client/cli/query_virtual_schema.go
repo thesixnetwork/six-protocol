@@ -12,8 +12,8 @@ import (
 // TODO:: Feat(VirtualSchema)
 func CmdListVirtualSchema() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "list-vir-schema",
-		Short: "list all vir_schema",
+		Use:   "list-virtual-schema",
+		Short: "list all virtual_schema",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx := client.GetClientContextFromCmd(cmd)
 
@@ -46,8 +46,8 @@ func CmdListVirtualSchema() *cobra.Command {
 // TODO:: Feat(VirtualSchema)
 func CmdShowVirtualSchema() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "show-vir-schema [index]",
-		Short: "shows a vir_schema",
+		Use:   "show-virtual-schema [schemaCode]",
+		Short: "shows a virtual_schema",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			clientCtx := client.GetClientContextFromCmd(cmd)
