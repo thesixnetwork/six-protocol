@@ -251,26 +251,6 @@ service Query {
         "/thesixnetwork/six-protocol/nftmngr/virtual_schema_proposal";
   }
 
-  // Queries a ActiveVirtualSchemaProposal by index.
-	rpc ActiveVirtualSchemaProposal(QueryGetActiveVirtualSchemaProposalRequest) returns (QueryGetActiveVirtualSchemaProposalResponse) {
-		option (google.api.http).get = "/thesixnetwork/six-protocol/nftmngr/active_virtual_schema_proposal/{index}";
-	}
-
-	// Queries a list of ActiveVirtualSchemaProposal items.
-	rpc ActiveVirtualSchemaProposalAll(QueryAllActiveVirtualSchemaProposalRequest) returns (QueryAllActiveVirtualSchemaProposalResponse) {
-		option (google.api.http).get = "/thesixnetwork/six-protocol/nftmngr/active_virtual_schema_proposal";
-	}
-
-// Queries a InactiveVirtualSchemaProposal by index.
-	rpc InactiveVirtualSchemaProposal(QueryGetInactiveVirtualSchemaProposalRequest) returns (QueryGetInactiveVirtualSchemaProposalResponse) {
-		option (google.api.http).get = "/thesixnetwork/six-protocol/nftmngr/inactive_virtual_schema_proposal/{index}";
-	}
-
-	// Queries a list of InactiveVirtualSchemaProposal items.
-	rpc InactiveVirtualSchemaProposalAll(QueryAllInactiveVirtualSchemaProposalRequest) returns (QueryAllInactiveVirtualSchemaProposalResponse) {
-		option (google.api.http).get = "/thesixnetwork/six-protocol/nftmngr/inactive_virtual_schema_proposal";
-	}
-
 // this line is used by starport scaffolding # 2
 }
 
