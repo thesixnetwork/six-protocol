@@ -1,5 +1,5 @@
 syntax = "proto3";
-package thesixnetwork.sixnft.nftadmin;
+package thesixnetwork.sixprotocol.nftadmin;
 
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftadmin/types";
 import "nftadmin/permissions.proto";
