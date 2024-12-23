@@ -1,5 +1,5 @@
 syntax = "proto3";
-package thesixnetwork.sixnft.nftoracle;
+package thesixnetwork.sixprotocol.nftoracle;
 import "nftoracle/request.proto";
 import "gogoproto/gogo.proto";
 import "google/protobuf/timestamp.proto";

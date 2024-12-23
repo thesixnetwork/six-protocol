@@ -1,5 +1,5 @@
 syntax = "proto3";
-package thesixnetwork.sixnft.nftmngr;
+package thesixnetwork.sixprotocol.nftmngr;
 
 import "gogoproto/gogo.proto";
 import "nftmngr/params.proto";

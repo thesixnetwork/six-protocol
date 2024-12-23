@@ -1,5 +1,5 @@
 syntax = "proto3";
-package thesixnetwork.sixnft.nftmngr;
+package thesixnetwork.sixprotocol.nftmngr;
 
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
 import "nftmngr/nft_data.proto";
