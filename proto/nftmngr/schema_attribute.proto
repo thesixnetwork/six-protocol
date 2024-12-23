@@ -6,14 +6,12 @@ import "nftmngr/attribute_definition.proto";
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
 
 message SchemaAttribute {
-  string nftSchemaCode = 1; 
-  string name = 2; 
-  string data_type = 3; 
+  string nftSchemaCode = 1;
+  string name = 2;
+  string data_type = 3;
   SchemaAttributeValue current_value = 4;
   string creator = 5;
 }
-
-
 
 message SchemaAttributeValue {
   oneof value {

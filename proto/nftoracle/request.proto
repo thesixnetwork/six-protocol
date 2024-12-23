@@ -13,7 +13,6 @@ enum RequestStatus {
   FAILED_REJECT_BY_CONSENSUS = 5;
 }
 
-
 message NftOriginData {
   string image = 1;
   string holder_address = 2;

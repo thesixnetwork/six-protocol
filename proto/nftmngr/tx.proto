@@ -19,35 +19,53 @@ option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
 service Msg {
   rpc CreateNFTSchema(MsgCreateNFTSchema) returns (MsgCreateNFTSchemaResponse);
   rpc CreateMetadata(MsgCreateMetadata) returns (MsgCreateMetadataResponse);
-  rpc PerformActionByAdmin(MsgPerformActionByAdmin) returns (MsgPerformActionByAdminResponse);
+  rpc PerformActionByAdmin(MsgPerformActionByAdmin)
+      returns (MsgPerformActionByAdminResponse);
   rpc AddAttribute(MsgAddAttribute) returns (MsgAddAttributeResponse);
   rpc AddAction(MsgAddAction) returns (MsgAddActionResponse);
   rpc SetBaseUri(MsgSetBaseUri) returns (MsgSetBaseUriResponse);
   rpc ToggleAction(MsgToggleAction) returns (MsgToggleActionResponse);
-  rpc ChangeSchemaOwner(MsgChangeSchemaOwner) returns (MsgChangeSchemaOwnerResponse);
-  rpc ResyncAttributes(MsgResyncAttributes) returns (MsgResyncAttributesResponse);
+  rpc ChangeSchemaOwner(MsgChangeSchemaOwner)
+      returns (MsgChangeSchemaOwnerResponse);
+  rpc ResyncAttributes(MsgResyncAttributes)
+      returns (MsgResyncAttributesResponse);
   rpc ShowAttributes(MsgShowAttributes) returns (MsgShowAttributesResponse);
   rpc SetFeeConfig(MsgSetFeeConfig) returns (MsgSetFeeConfigResponse);
   rpc SetMintauth(MsgSetMintauth) returns (MsgSetMintauthResponse);
   rpc ChangeOrgOwner(MsgChangeOrgOwner) returns (MsgChangeOrgOwnerResponse);
-  rpc CreateMultiMetadata(MsgCreateMultiMetadata) returns (MsgCreateMultiMetadataResponse);
-  rpc SetUriRetrievalMethod(MsgSetUriRetrievalMethod) returns (MsgSetUriRetrievalMethodResponse);
+  rpc CreateMultiMetadata(MsgCreateMultiMetadata)
+      returns (MsgCreateMultiMetadataResponse);
+  rpc SetUriRetrievalMethod(MsgSetUriRetrievalMethod)
+      returns (MsgSetUriRetrievalMethodResponse);
   rpc SetOriginChain(MsgSetOriginChain) returns (MsgSetOriginChainResponse);
-  rpc SetOriginContract(MsgSetOriginContract) returns (MsgSetOriginContractResponse);
-  rpc SetAttributeOveriding(MsgSetAttributeOveriding) returns (MsgSetAttributeOveridingResponse);
-  rpc SetMetadataFormat(MsgSetMetadataFormat) returns (MsgSetMetadataFormatResponse);
-  rpc CreateActionExecutor(MsgCreateActionExecutor) returns (MsgCreateActionExecutorResponse);
-  rpc DeleteActionExecutor(MsgDeleteActionExecutor) returns (MsgDeleteActionExecutorResponse);
-  rpc UpdateSchemaAttribute(MsgUpdateSchemaAttribute) returns (MsgUpdateSchemaAttributeResponse);
+  rpc SetOriginContract(MsgSetOriginContract)
+      returns (MsgSetOriginContractResponse);
+  rpc SetAttributeOveriding(MsgSetAttributeOveriding)
+      returns (MsgSetAttributeOveridingResponse);
+  rpc SetMetadataFormat(MsgSetMetadataFormat)
+      returns (MsgSetMetadataFormatResponse);
+  rpc CreateActionExecutor(MsgCreateActionExecutor)
+      returns (MsgCreateActionExecutorResponse);
+  rpc DeleteActionExecutor(MsgDeleteActionExecutor)
+      returns (MsgDeleteActionExecutorResponse);
+  rpc UpdateSchemaAttribute(MsgUpdateSchemaAttribute)
+      returns (MsgUpdateSchemaAttributeResponse);
   rpc UpdateAction(MsgUpdateAction) returns (MsgUpdateActionResponse);
-  rpc CreateVirtualAction(MsgCreateVirtualAction) returns (MsgCreateVirtualActionResponse);
-  rpc UpdateVirtualAction(MsgUpdateVirtualAction) returns (MsgUpdateVirtualActionResponse);
-  rpc DeleteVirtualAction(MsgDeleteVirtualAction) returns (MsgDeleteVirtualActionResponse);
-  rpc CreateVirtualSchemaProposal(MsgCreateVirtualSchemaProposal) returns (MsgCreateVirtualSchemaResponse);
-  rpc DeleteVirtualSchema(MsgDeleteVirtualSchema) returns (MsgDeleteVirtualSchemaResponse);
-  rpc VoteCreateVirtualSchema(MsgVoteCreateVirtualSchema) returns (MsgVoteCreateVirtualSchemaResponse);
-  rpc DisableVirtualSchemaProposal(MsgDisableVirtualSchemaProposal) returns (MsgDisableVirtualSchemaProposalResponse);
-// this line is used by starport scaffolding # proto/tx/rpc
+  rpc CreateVirtualAction(MsgCreateVirtualAction)
+      returns (MsgCreateVirtualActionResponse);
+  rpc UpdateVirtualAction(MsgUpdateVirtualAction)
+      returns (MsgUpdateVirtualActionResponse);
+  rpc DeleteVirtualAction(MsgDeleteVirtualAction)
+      returns (MsgDeleteVirtualActionResponse);
+  rpc CreateVirtualSchemaProposal(MsgCreateVirtualSchemaProposal)
+      returns (MsgCreateVirtualSchemaResponse);
+  rpc DeleteVirtualSchema(MsgDeleteVirtualSchema)
+      returns (MsgDeleteVirtualSchemaResponse);
+  rpc VoteCreateVirtualSchema(MsgVoteCreateVirtualSchema)
+      returns (MsgVoteCreateVirtualSchemaResponse);
+  rpc DisableVirtualSchemaProposal(MsgDisableVirtualSchemaProposal)
+      returns (MsgDisableVirtualSchemaProposalResponse);
+  // this line is used by starport scaffolding # proto/tx/rpc
 }
 
 enum AttributeLocation {
@@ -65,9 +83,7 @@ message MsgCreateNFTSchema {
   string nftSchemaBase64 = 2;
 }
 
-message MsgCreateNFTSchemaResponse {
-  string code = 1;
-}
+message MsgCreateNFTSchemaResponse { string code = 1; }
 
 message MsgCreateMetadata {
   string creator = 1;
@@ -93,19 +109,15 @@ message MsgCreateMultiMetadataResponse {
   repeated string tokenId = 2;
 }
 
-message OpenseaAttribute{
-  string trait_type = 1; 
+message OpenseaAttribute {
+  string trait_type = 1;
   google.protobuf.Any value = 2;
 }
 
-message UpdatedOpenseaAttributes {
-  repeated OpenseaAttribute attributes = 1;
-}
+message UpdatedOpenseaAttributes { repeated OpenseaAttribute attributes = 1; }
 
 message UpdatedOriginData {
-  oneof updated_origin_data {
-    UpdatedOpenseaAttributes opensea = 1;
-  }
+  oneof updated_origin_data { UpdatedOpenseaAttributes opensea = 1; }
 }
 
 // ActionParameter
@@ -198,18 +210,14 @@ message MsgShowAttributes {
   repeated string attributeNames = 4;
 }
 
-message MsgShowAttributesResponse {
-  string nftSchema = 1;
-}
+message MsgShowAttributesResponse { string nftSchema = 1; }
 message MsgResyncAttributes {
   string creator = 1;
   string nftSchemaCode = 2;
   string tokenId = 3;
 }
 
-enum FeeSubject {
-  CREATE_NFT_SCHEMA = 0;
-}
+enum FeeSubject { CREATE_NFT_SCHEMA = 0; }
 
 message MsgSetFeeConfig {
   string creator = 1;
@@ -217,8 +225,7 @@ message MsgSetFeeConfig {
   FeeSubject feeSubject = 3;
 }
 
-message MsgSetFeeConfigResponse {
-}
+message MsgSetFeeConfigResponse {}
 
 message MsgSetMintauth {
   string creator = 1;
@@ -226,9 +233,7 @@ message MsgSetMintauth {
   AuthorizeTo authorizeTo = 3;
 }
 
-message MsgSetMintauthResponse {
-  string nftSchemaCode = 1;
-}
+message MsgSetMintauthResponse { string nftSchemaCode = 1; }
 
 message MsgChangeOrgOwner {
   string creator = 1;
@@ -301,7 +306,6 @@ message MsgCreateActionExecutor {
   string creator = 1;
   string nftSchemaCode = 2;
   string executorAddress = 3;
-
 }
 message MsgCreateActionExecutorResponse {
   string nftSchemaCode = 1;
@@ -312,7 +316,6 @@ message MsgUpdateActionExecutor {
   string creator = 1;
   string nftSchemaCode = 2;
   string executorAddress = 3;
-
 }
 message MsgUpdateActionExecutorResponse {
   string nftSchemaCode = 1;
@@ -386,7 +389,8 @@ message MsgDeleteVirtualActionResponse {
 message MsgCreateVirtualSchemaProposal {
   string creator = 1;
   string virtualNftSchemaCode = 2;
-  repeated VirtualSchemaRegistryRequest registry = 3 [(gogoproto.nullable) = false];
+  repeated VirtualSchemaRegistryRequest registry = 3
+      [ (gogoproto.nullable) = false ];
 }
 
 message MsgCreateVirtualSchemaResponse {
@@ -397,7 +401,7 @@ message MsgCreateVirtualSchemaResponse {
 // TODO:: Feat(VirtualSchema)
 message MsgDeleteVirtualSchema {
   string creator = 1;
-  string virtualNftSchemaCode = 2; 
+  string virtualNftSchemaCode = 2;
 }
 message MsgDeleteVirtualSchemaResponse {}
 
@@ -408,8 +412,7 @@ message MsgVoteCreateVirtualSchema {
   RegistryStatus option = 4;
 }
 
-message MsgVoteCreateVirtualSchemaResponse {
-}
+message MsgVoteCreateVirtualSchemaResponse {}
 
 message MsgDisableVirtualSchemaProposal {
   string creator = 1;

@@ -25,23 +25,35 @@ option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
 
 // GenesisState defines the nftmngr module's genesis state.
 message GenesisState {
-  Params params = 1 [(gogoproto.nullable) = false];
-  repeated NFTSchema nFTSchemaList = 2 [(gogoproto.nullable) = false];
-  repeated NftData nftDataList = 3 [(gogoproto.nullable) = false];
-  repeated ActionByRefId actionByRefIdList = 4 [(gogoproto.nullable) = false];
-  repeated Organization organizationList = 5 [(gogoproto.nullable) = false];
-  repeated NFTSchemaByContract nFTSchemaByContractList = 7 [(gogoproto.nullable) = false];
+  Params params = 1 [ (gogoproto.nullable) = false ];
+  repeated NFTSchema nFTSchemaList = 2 [ (gogoproto.nullable) = false ];
+  repeated NftData nftDataList = 3 [ (gogoproto.nullable) = false ];
+  repeated ActionByRefId actionByRefIdList = 4 [ (gogoproto.nullable) = false ];
+  repeated Organization organizationList = 5 [ (gogoproto.nullable) = false ];
+  repeated NFTSchemaByContract nFTSchemaByContractList = 7
+      [ (gogoproto.nullable) = false ];
   NFTFeeConfig nft_fee_config = 8;
   NFTFeeBalance nFTFeeBalance = 9;
-  repeated MetadataCreator metadataCreatorList = 10 [(gogoproto.nullable) = false];
-  repeated NftCollection nftCollectionList = 11 [(gogoproto.nullable) = false];
-  repeated ActionExecutor actionExecutorList = 12 [(gogoproto.nullable) = false];
-  repeated SchemaAttribute schemaAttributeList = 13 [(gogoproto.nullable) = false];
-  repeated ActionOfSchema actionOfSchemaList = 14 [(gogoproto.nullable) = false];
-  repeated ExecutorOfSchema executorOfSchemaList = 15 [(gogoproto.nullable) = false];
-  repeated VirtualAction virtualActionList = 16 [(gogoproto.nullable) = false];
-  repeated VirtualSchema virtualSchemaList = 17 [(gogoproto.nullable) = false];
-  repeated DisableVirtualSchema disableVirtualSchemaList = 18 [(gogoproto.nullable) = false];;
-  repeated VirtualSchemaProposal virtualSchemaProposalList = 19 [(gogoproto.nullable) = false];
+  repeated MetadataCreator metadataCreatorList = 10
+      [ (gogoproto.nullable) = false ];
+  repeated NftCollection nftCollectionList = 11
+      [ (gogoproto.nullable) = false ];
+  repeated ActionExecutor actionExecutorList = 12
+      [ (gogoproto.nullable) = false ];
+  repeated SchemaAttribute schemaAttributeList = 13
+      [ (gogoproto.nullable) = false ];
+  repeated ActionOfSchema actionOfSchemaList = 14
+      [ (gogoproto.nullable) = false ];
+  repeated ExecutorOfSchema executorOfSchemaList = 15
+      [ (gogoproto.nullable) = false ];
+  repeated VirtualAction virtualActionList = 16
+      [ (gogoproto.nullable) = false ];
+  repeated VirtualSchema virtualSchemaList = 17
+      [ (gogoproto.nullable) = false ];
+  repeated DisableVirtualSchema disableVirtualSchemaList = 18
+      [ (gogoproto.nullable) = false ];
+  ;
+  repeated VirtualSchemaProposal virtualSchemaProposalList = 19
+      [ (gogoproto.nullable) = false ];
   // this line is used by starport scaffolding # genesis/proto/state
 }

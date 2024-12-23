@@ -8,17 +8,17 @@ option go_package = "github.com/thesixnetwork/six-protocol/x/nftoracle/types";
 
 message MintRequest {
   uint64 id = 1;
-  string nft_schema_code = 2; 
-  string token_id = 3; 
-  uint64 required_confirm = 4; 
+  string nft_schema_code = 2;
+  string token_id = 3;
+  uint64 required_confirm = 4;
   RequestStatus status = 5;
   uint64 current_confirm = 6;
   repeated string confirmers = 7;
   // NftOriginData nft_origin_data = 8;
   google.protobuf.Timestamp created_at = 8
-   [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
+      [ (gogoproto.stdtime) = true, (gogoproto.nullable) = false ];
   google.protobuf.Timestamp valid_until = 9
-   [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
+      [ (gogoproto.stdtime) = true, (gogoproto.nullable) = false ];
   repeated DataHash data_hashes = 10;
   int64 expired_height = 11;
 }

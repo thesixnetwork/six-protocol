@@ -26,14 +26,16 @@ service Msg {
   rpc WrapToken(MsgWrapToken) returns (MsgWrapTokenResponse);
   rpc UnwrapToken(MsgUnwrapToken) returns (MsgUnwrapTokenResponse);
   rpc SendWrapToken(MsgSendWrapToken) returns (MsgSendWrapTokenResponse);
-// this line is used by starport scaffolding # proto/tx/rpc
+  // this line is used by starport scaffolding # proto/tx/rpc
 }
 
 message MsgCreateToken {
   string creator = 1;
   string name = 2;
-  cosmos.base.v1beta1.Coin maxSupply = 3
-  [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"];
+  cosmos.base.v1beta1.Coin maxSupply = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+  ];
   string denomMetaData = 4;
   string mintee = 5;
 }
@@ -42,8 +44,10 @@ message MsgCreateTokenResponse {}
 message MsgUpdateToken {
   string creator = 1;
   string name = 2;
-  cosmos.base.v1beta1.Coin maxSupply = 4
-  [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"];
+  cosmos.base.v1beta1.Coin maxSupply = 4 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+  ];
   string mintee = 5;
 }
 message MsgUpdateTokenResponse {}
@@ -58,7 +62,6 @@ message MsgCreateMintperm {
   string creator = 1;
   string token = 2;
   string address = 3;
-
 }
 message MsgCreateMintpermResponse {}
 
@@ -66,7 +69,6 @@ message MsgUpdateMintperm {
   string creator = 1;
   string token = 2;
   string address = 3;
-
 }
 message MsgUpdateMintpermResponse {}
 
@@ -78,27 +80,28 @@ message MsgDeleteMintperm {
 message MsgDeleteMintpermResponse {}
 
 message MsgMint {
-  option (gogoproto.equal)           = false;
+  option (gogoproto.equal) = false;
   option (gogoproto.goproto_getters) = false;
   string creator = 1;
-  cosmos.base.v1beta1.Coin amount = 2
-  [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"];
+  cosmos.base.v1beta1.Coin amount = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+  ];
 }
 
-message MsgMintResponse {
-}
+message MsgMintResponse {}
 
 message MsgBurn {
-  option (gogoproto.equal)           = false;
+  option (gogoproto.equal) = false;
   option (gogoproto.goproto_getters) = false;
   string creator = 1;
-  cosmos.base.v1beta1.Coin amount = 2
-  [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"];
+  cosmos.base.v1beta1.Coin amount = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+  ];
 }
 
-message MsgBurnResponse {
-  uint64 id = 1;
-}
+message MsgBurnResponse { uint64 id = 1; }
 
 message MsgCreateOptions {
   string creator = 1;
@@ -112,40 +115,48 @@ message MsgUpdateOptions {
 }
 message MsgUpdateOptionsResponse {}
 
-message MsgDeleteOptions {
-  string creator = 1;
-}
+message MsgDeleteOptions { string creator = 1; }
 message MsgDeleteOptionsResponse {}
 
 message MsgWrapToken {
   string creator = 1;
-  cosmos.base.v1beta1.Coin amount = 2
-  [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"];
+  cosmos.base.v1beta1.Coin amount = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+  ];
   string receiver = 3;
 }
 
 message MsgWrapTokenResponse {
-  cosmos.base.v1beta1.Coin amount = 1
-  [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"];
+  cosmos.base.v1beta1.Coin amount = 1 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+  ];
 }
 
 message MsgUnwrapToken {
   string creator = 1;
-  cosmos.base.v1beta1.Coin amount = 2
-  [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"];
+  cosmos.base.v1beta1.Coin amount = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+  ];
   string receiver = 3;
 }
 
 message MsgUnwrapTokenResponse {
-  cosmos.base.v1beta1.Coin amount = 1
-  [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"];
+  cosmos.base.v1beta1.Coin amount = 1 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+  ];
 }
 
 message MsgSendWrapToken {
   string creator = 1;
   string ethAddress = 2;
-  cosmos.base.v1beta1.Coin amount = 3
-  [(gogoproto.nullable) = false, (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"];
+  cosmos.base.v1beta1.Coin amount = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+  ];
 }
 
 message MsgSendWrapTokenResponse {
