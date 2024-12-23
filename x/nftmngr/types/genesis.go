@@ -10,24 +10,25 @@ const DefaultIndex uint64 = 1
 // DefaultGenesis returns the default Capability genesis state
 func DefaultGenesis() *GenesisState {
 	return &GenesisState{
-		NFTSchemaList:                   []NFTSchema{},
-		NftDataList:                     []NftData{},
-		ActionByRefIdList:               []ActionByRefId{},
-		OrganizationList:                []Organization{},
-		NFTSchemaByContractList:         []NFTSchemaByContract{},
-		NftFeeConfig:                    nil,
-		NFTFeeBalance:                   nil,
-		MetadataCreatorList:             []MetadataCreator{},
-		NftCollectionList:               []NftCollection{},
-		ActionExecutorList:              []ActionExecutor{},
-		SchemaAttributeList:             []SchemaAttribute{},
-		ActionOfSchemaList:              []ActionOfSchema{},
-		ExecutorOfSchemaList:            []ExecutorOfSchema{},
-		VirtualActionList:               []VirtualAction{},
-		VirtualSchemaList:               []VirtualSchema{},
-		DisableVirtualSchemaList:        []DisableVirtualSchema{},
-		VirtualSchemaProposalList:       []VirtualSchemaProposal{},
-		ActiveVirtualSchemaProposalList: []ActiveVirtualSchemaProposal{},
+		NFTSchemaList:                     []NFTSchema{},
+		NftDataList:                       []NftData{},
+		ActionByRefIdList:                 []ActionByRefId{},
+		OrganizationList:                  []Organization{},
+		NFTSchemaByContractList:           []NFTSchemaByContract{},
+		NftFeeConfig:                      nil,
+		NFTFeeBalance:                     nil,
+		MetadataCreatorList:               []MetadataCreator{},
+		NftCollectionList:                 []NftCollection{},
+		ActionExecutorList:                []ActionExecutor{},
+		SchemaAttributeList:               []SchemaAttribute{},
+		ActionOfSchemaList:                []ActionOfSchema{},
+		ExecutorOfSchemaList:              []ExecutorOfSchema{},
+		VirtualActionList:                 []VirtualAction{},
+		VirtualSchemaList:                 []VirtualSchema{},
+		DisableVirtualSchemaList:          []DisableVirtualSchema{},
+		VirtualSchemaProposalList:         []VirtualSchemaProposal{},
+		ActiveVirtualSchemaProposalList:   []ActiveVirtualSchemaProposal{},
+		InactiveVirtualSchemaProposalList: []InactiveVirtualSchemaProposal{},
 		// this line is used by starport scaffolding # genesis/types/default
 		Params: DefaultParams(),
 	}
@@ -190,11 +191,21 @@ func (gs GenesisState) Validate() error {
 	activeVirtualSchemaProposalIndexMap := make(map[string]struct{})
 
 	for _, elem := range gs.ActiveVirtualSchemaProposalList {
-		index := string(ActiveVirtualSchemaProposalKey(elem.Index))
+		index := string(ActiveVirtualSchemaProposalKey(elem.Id))
 		if _, ok := activeVirtualSchemaProposalIndexMap[index]; ok {
 			return fmt.Errorf("duplicated index for activeVirtualSchemaProposal")
 		}
 		activeVirtualSchemaProposalIndexMap[index] = struct{}{}
+	}
+	// Check for duplicated index in inactiveVirtualSchemaProposal
+	inactiveVirtualSchemaProposalIndexMap := make(map[string]struct{})
+
+	for _, elem := range gs.InactiveVirtualSchemaProposalList {
+		index := string(InactiveVirtualSchemaProposalKey(elem.Id))
+		if _, ok := inactiveVirtualSchemaProposalIndexMap[index]; ok {
+			return fmt.Errorf("duplicated index for inactiveVirtualSchemaProposal")
+		}
+		inactiveVirtualSchemaProposalIndexMap[index] = struct{}{}
 	}
 	// this line is used by starport scaffolding # genesis/types/validate
 

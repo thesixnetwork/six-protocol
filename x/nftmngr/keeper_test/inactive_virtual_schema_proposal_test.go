@@ -15,21 +15,21 @@ import (
 // Prevent strconv unused error
 var _ = strconv.IntSize
 
-func createNActiveVirtualSchemaProposal(keeper *keeper.Keeper, ctx sdk.Context, n int) []types.ActiveVirtualSchemaProposal {
-	items := make([]types.ActiveVirtualSchemaProposal, n)
+func createNInactiveVirtualSchemaProposal(keeper *keeper.Keeper, ctx sdk.Context, n int) []types.InactiveVirtualSchemaProposal {
+	items := make([]types.InactiveVirtualSchemaProposal, n)
 	for i := range items {
 		items[i].Id = strconv.Itoa(i)
 
-		keeper.SetActiveVirtualSchemaProposal(ctx, items[i])
+		keeper.SetInactiveVirtualSchemaProposal(ctx, items[i])
 	}
 	return items
 }
 
-func TestActiveVirtualSchemaProposalGet(t *testing.T) {
+func TestInactiveVirtualSchemaProposalGet(t *testing.T) {
 	keeper, ctx := keepertest.NftmngrKeeper(t)
-	items := createNActiveVirtualSchemaProposal(keeper, ctx, 10)
+	items := createNInactiveVirtualSchemaProposal(keeper, ctx, 10)
 	for _, item := range items {
-		rst, found := keeper.GetActiveVirtualSchemaProposal(ctx,
+		rst, found := keeper.GetInactiveVirtualSchemaProposal(ctx,
 			item.Id,
 		)
 		require.True(t, found)
@@ -39,25 +39,25 @@ func TestActiveVirtualSchemaProposalGet(t *testing.T) {
 		)
 	}
 }
-func TestActiveVirtualSchemaProposalRemove(t *testing.T) {
+func TestInactiveVirtualSchemaProposalRemove(t *testing.T) {
 	keeper, ctx := keepertest.NftmngrKeeper(t)
-	items := createNActiveVirtualSchemaProposal(keeper, ctx, 10)
+	items := createNInactiveVirtualSchemaProposal(keeper, ctx, 10)
 	for _, item := range items {
-		keeper.RemoveActiveVirtualSchemaProposal(ctx,
+		keeper.RemoveInactiveVirtualSchemaProposal(ctx,
 			item.Id,
 		)
-		_, found := keeper.GetActiveVirtualSchemaProposal(ctx,
+		_, found := keeper.GetInactiveVirtualSchemaProposal(ctx,
 			item.Id,
 		)
 		require.False(t, found)
 	}
 }
 
-func TestActiveVirtualSchemaProposalGetAll(t *testing.T) {
+func TestInactiveVirtualSchemaProposalGetAll(t *testing.T) {
 	keeper, ctx := keepertest.NftmngrKeeper(t)
-	items := createNActiveVirtualSchemaProposal(keeper, ctx, 10)
+	items := createNInactiveVirtualSchemaProposal(keeper, ctx, 10)
 	require.ElementsMatch(t,
 		nullify.Fill(items),
-		nullify.Fill(keeper.GetAllActiveVirtualSchemaProposal(ctx)),
+		nullify.Fill(keeper.GetAllInactiveVirtualSchemaProposal(ctx)),
 	)
 }

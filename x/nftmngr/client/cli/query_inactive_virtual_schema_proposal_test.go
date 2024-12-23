@@ -21,27 +21,27 @@ import (
 // Prevent strconv unused error
 var _ = strconv.IntSize
 
-func networkWithActiveVirtualSchemaProposalObjects(t *testing.T, n int) (*network.Network, []types.ActiveVirtualSchemaProposal) {
+func networkWithInactiveVirtualSchemaProposalObjects(t *testing.T, n int) (*network.Network, []types.InactiveVirtualSchemaProposal) {
 	t.Helper()
 	cfg := network.DefaultConfig()
 	state := types.GenesisState{}
 	require.NoError(t, cfg.Codec.UnmarshalJSON(cfg.GenesisState[types.ModuleName], &state))
 
 	for i := 0; i < n; i++ {
-		activeVirtualSchemaProposal := types.ActiveVirtualSchemaProposal{
+		inactiveVirtualSchemaProposal := types.InactiveVirtualSchemaProposal{
 			Id: strconv.Itoa(i),
 		}
-		nullify.Fill(&activeVirtualSchemaProposal)
-		state.ActiveVirtualSchemaProposalList = append(state.ActiveVirtualSchemaProposalList, activeVirtualSchemaProposal)
+		nullify.Fill(&inactiveVirtualSchemaProposal)
+		state.InactiveVirtualSchemaProposalList = append(state.InactiveVirtualSchemaProposalList, inactiveVirtualSchemaProposal)
 	}
 	buf, err := cfg.Codec.MarshalJSON(&state)
 	require.NoError(t, err)
 	cfg.GenesisState[types.ModuleName] = buf
-	return network.New(t, cfg), state.ActiveVirtualSchemaProposalList
+	return network.New(t, cfg), state.InactiveVirtualSchemaProposalList
 }
 
-func TestShowActiveVirtualSchemaProposal(t *testing.T) {
-	net, objs := networkWithActiveVirtualSchemaProposalObjects(t, 2)
+func TestShowInactiveVirtualSchemaProposal(t *testing.T) {
+	net, objs := networkWithInactiveVirtualSchemaProposalObjects(t, 2)
 
 	ctx := net.Validators[0].ClientCtx
 	common := []string{
@@ -53,7 +53,7 @@ func TestShowActiveVirtualSchemaProposal(t *testing.T) {
 
 		args []string
 		err  error
-		obj  types.ActiveVirtualSchemaProposal
+		obj  types.InactiveVirtualSchemaProposal
 	}{
 		{
 			desc:    "found",
@@ -75,27 +75,27 @@ func TestShowActiveVirtualSchemaProposal(t *testing.T) {
 				tc.idIndex,
 			}
 			args = append(args, tc.args...)
-			out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdShowActiveVirtualSchemaProposal(), args)
+			out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdShowInactiveVirtualSchemaProposal(), args)
 			if tc.err != nil {
 				stat, ok := status.FromError(tc.err)
 				require.True(t, ok)
 				require.ErrorIs(t, stat.Err(), tc.err)
 			} else {
 				require.NoError(t, err)
-				var resp types.QueryGetActiveVirtualSchemaProposalResponse
+				var resp types.QueryGetInactiveVirtualSchemaProposalResponse
 				require.NoError(t, net.Config.Codec.UnmarshalJSON(out.Bytes(), &resp))
-				require.NotNil(t, resp.ActiveVirtualSchemaProposal)
+				require.NotNil(t, resp.InactiveVirtualSchemaProposal)
 				require.Equal(t,
 					nullify.Fill(&tc.obj),
-					nullify.Fill(&resp.ActiveVirtualSchemaProposal),
+					nullify.Fill(&resp.InactiveVirtualSchemaProposal),
 				)
 			}
 		})
 	}
 }
 
-func TestListActiveVirtualSchemaProposal(t *testing.T) {
-	net, objs := networkWithActiveVirtualSchemaProposalObjects(t, 5)
+func TestListInactiveVirtualSchemaProposal(t *testing.T) {
+	net, objs := networkWithInactiveVirtualSchemaProposalObjects(t, 5)
 
 	ctx := net.Validators[0].ClientCtx
 	request := func(next []byte, offset, limit uint64, total bool) []string {
@@ -117,14 +117,14 @@ func TestListActiveVirtualSchemaProposal(t *testing.T) {
 		step := 2
 		for i := 0; i < len(objs); i += step {
 			args := request(nil, uint64(i), uint64(step), false)
-			out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdListActiveVirtualSchemaProposal(), args)
+			out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdListInactiveVirtualSchemaProposal(), args)
 			require.NoError(t, err)
-			var resp types.QueryAllActiveVirtualSchemaProposalResponse
+			var resp types.QueryAllInactiveVirtualSchemaProposalResponse
 			require.NoError(t, net.Config.Codec.UnmarshalJSON(out.Bytes(), &resp))
-			require.LessOrEqual(t, len(resp.ActiveVirtualSchemaProposal), step)
+			require.LessOrEqual(t, len(resp.InactiveVirtualSchemaProposal), step)
 			require.Subset(t,
 				nullify.Fill(objs),
-				nullify.Fill(resp.ActiveVirtualSchemaProposal),
+				nullify.Fill(resp.InactiveVirtualSchemaProposal),
 			)
 		}
 	})
@@ -133,29 +133,29 @@ func TestListActiveVirtualSchemaProposal(t *testing.T) {
 		var next []byte
 		for i := 0; i < len(objs); i += step {
 			args := request(next, 0, uint64(step), false)
-			out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdListActiveVirtualSchemaProposal(), args)
+			out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdListInactiveVirtualSchemaProposal(), args)
 			require.NoError(t, err)
-			var resp types.QueryAllActiveVirtualSchemaProposalResponse
+			var resp types.QueryAllInactiveVirtualSchemaProposalResponse
 			require.NoError(t, net.Config.Codec.UnmarshalJSON(out.Bytes(), &resp))
-			require.LessOrEqual(t, len(resp.ActiveVirtualSchemaProposal), step)
+			require.LessOrEqual(t, len(resp.InactiveVirtualSchemaProposal), step)
 			require.Subset(t,
 				nullify.Fill(objs),
-				nullify.Fill(resp.ActiveVirtualSchemaProposal),
+				nullify.Fill(resp.InactiveVirtualSchemaProposal),
 			)
 			next = resp.Pagination.NextKey
 		}
 	})
 	t.Run("Total", func(t *testing.T) {
 		args := request(nil, 0, uint64(len(objs)), true)
-		out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdListActiveVirtualSchemaProposal(), args)
+		out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdListInactiveVirtualSchemaProposal(), args)
 		require.NoError(t, err)
-		var resp types.QueryAllActiveVirtualSchemaProposalResponse
+		var resp types.QueryAllInactiveVirtualSchemaProposalResponse
 		require.NoError(t, net.Config.Codec.UnmarshalJSON(out.Bytes(), &resp))
 		require.NoError(t, err)
 		require.Equal(t, len(objs), int(resp.Pagination.Total))
 		require.ElementsMatch(t,
 			nullify.Fill(objs),
-			nullify.Fill(resp.ActiveVirtualSchemaProposal),
+			nullify.Fill(resp.InactiveVirtualSchemaProposal),
 		)
 	})
 }

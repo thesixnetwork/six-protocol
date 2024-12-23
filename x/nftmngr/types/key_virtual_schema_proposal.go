@@ -11,12 +11,12 @@ const (
 
 // VirtualSchemaProposalKey returns the store key to retrieve a VirtualSchemaProposal from the index fields
 func VirtualSchemaProposalKey(
-	index string,
+	id string,
 ) []byte {
 	var key []byte
 
-	indexBytes := []byte(index)
-	key = append(key, indexBytes...)
+	idBytes := []byte(id)
+	key = append(key, idBytes...)
 	key = append(key, []byte("/")...)
 
 	return key
