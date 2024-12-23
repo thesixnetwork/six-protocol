@@ -5,21 +5,17 @@ package types
 
 import (
 	fmt "fmt"
+	proto "github.com/gogo/protobuf/proto"
+	_ "google.golang.org/protobuf/types/known/timestamppb"
 	io "io"
 	math "math"
 	math_bits "math/bits"
-
-	proto "github.com/gogo/protobuf/proto"
-	_ "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-
-var (
-	_ = fmt.Errorf
-	_ = math.Inf
-)
+var _ = fmt.Errorf
+var _ = math.Inf
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -32,7 +28,7 @@ type RequestStatus int32
 const (
 	RequestStatus_PENDING                    RequestStatus = 0
 	RequestStatus_SUCCESS_WITH_CONSENSUS     RequestStatus = 1
-	RequestStatus_FAILED_WITHOUT_CONSENSUS   RequestStatus = 2
+	RequestStatus_FAILED_WITHOUT_CONCENSUS   RequestStatus = 2
 	RequestStatus_EXPIRED                    RequestStatus = 3
 	RequestStatus_FAILED_ON_EXECUTION        RequestStatus = 4
 	RequestStatus_FAILED_REJECT_BY_CONSENSUS RequestStatus = 5
@@ -41,7 +37,7 @@ const (
 var RequestStatus_name = map[int32]string{
 	0: "PENDING",
 	1: "SUCCESS_WITH_CONSENSUS",
-	2: "FAILED_WITHOUT_CONSENSUS",
+	2: "FAILED_WITHOUT_CONCENSUS",
 	3: "EXPIRED",
 	4: "FAILED_ON_EXECUTION",
 	5: "FAILED_REJECT_BY_CONSENSUS",
@@ -50,7 +46,7 @@ var RequestStatus_name = map[int32]string{
 var RequestStatus_value = map[string]int32{
 	"PENDING":                    0,
 	"SUCCESS_WITH_CONSENSUS":     1,
-	"FAILED_WITHOUT_CONSENSUS":   2,
+	"FAILED_WITHOUT_CONCENSUS":   2,
 	"EXPIRED":                    3,
 	"FAILED_ON_EXECUTION":        4,
 	"FAILED_REJECT_BY_CONSENSUS": 5,
@@ -76,11 +72,9 @@ func (*NftOriginData) ProtoMessage()    {}
 func (*NftOriginData) Descriptor() ([]byte, []int) {
 	return fileDescriptor_f60220a52ce49438, []int{0}
 }
-
 func (m *NftOriginData) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *NftOriginData) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_NftOriginData.Marshal(b, m, deterministic)
@@ -93,15 +87,12 @@ func (m *NftOriginData) XXX_Marshal(b []byte, deterministic bool) ([]byte, error
 		return b[:n], nil
 	}
 }
-
 func (m *NftOriginData) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_NftOriginData.Merge(m, src)
 }
-
 func (m *NftOriginData) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *NftOriginData) XXX_DiscardUnknown() {
 	xxx_messageInfo_NftOriginData.DiscardUnknown(m)
 }
@@ -141,11 +132,9 @@ func (*DataHash) ProtoMessage()    {}
 func (*DataHash) Descriptor() ([]byte, []int) {
 	return fileDescriptor_f60220a52ce49438, []int{1}
 }
-
 func (m *DataHash) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *DataHash) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_DataHash.Marshal(b, m, deterministic)
@@ -158,15 +147,12 @@ func (m *DataHash) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return b[:n], nil
 	}
 }
-
 func (m *DataHash) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_DataHash.Merge(m, src)
 }
-
 func (m *DataHash) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *DataHash) XXX_DiscardUnknown() {
 	xxx_messageInfo_DataHash.DiscardUnknown(m)
 }
@@ -348,7 +334,6 @@ func encodeVarintRequest(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-
 func (m *NftOriginData) Size() (n int) {
 	if m == nil {
 		return 0
@@ -398,11 +383,9 @@ func (m *DataHash) Size() (n int) {
 func sovRequest(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
-
 func sozRequest(x uint64) (n int) {
 	return sovRequest(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-
 func (m *NftOriginData) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -551,7 +534,6 @@ func (m *NftOriginData) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *DataHash) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -704,7 +686,6 @@ func (m *DataHash) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func skipRequest(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0

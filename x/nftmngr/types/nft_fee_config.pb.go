@@ -6,20 +6,16 @@ package types
 import (
 	encoding_binary "encoding/binary"
 	fmt "fmt"
+	proto "github.com/gogo/protobuf/proto"
 	io "io"
 	math "math"
 	math_bits "math/bits"
-
-	proto "github.com/gogo/protobuf/proto"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-
-var (
-	_ = fmt.Errorf
-	_ = math.Inf
-)
+var _ = fmt.Errorf
+var _ = math.Inf
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -66,11 +62,9 @@ func (*FeeDistribution) ProtoMessage()    {}
 func (*FeeDistribution) Descriptor() ([]byte, []int) {
 	return fileDescriptor_7b201b18cd88e0ee, []int{0}
 }
-
 func (m *FeeDistribution) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *FeeDistribution) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_FeeDistribution.Marshal(b, m, deterministic)
@@ -83,15 +77,12 @@ func (m *FeeDistribution) XXX_Marshal(b []byte, deterministic bool) ([]byte, err
 		return b[:n], nil
 	}
 }
-
 func (m *FeeDistribution) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_FeeDistribution.Merge(m, src)
 }
-
 func (m *FeeDistribution) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *FeeDistribution) XXX_DiscardUnknown() {
 	xxx_messageInfo_FeeDistribution.DiscardUnknown(m)
 }
@@ -123,11 +114,9 @@ func (*FeeConfig) ProtoMessage()    {}
 func (*FeeConfig) Descriptor() ([]byte, []int) {
 	return fileDescriptor_7b201b18cd88e0ee, []int{1}
 }
-
 func (m *FeeConfig) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *FeeConfig) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_FeeConfig.Marshal(b, m, deterministic)
@@ -140,15 +129,12 @@ func (m *FeeConfig) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return b[:n], nil
 	}
 }
-
 func (m *FeeConfig) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_FeeConfig.Merge(m, src)
 }
-
 func (m *FeeConfig) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *FeeConfig) XXX_DiscardUnknown() {
 	xxx_messageInfo_FeeConfig.DiscardUnknown(m)
 }
@@ -179,11 +165,9 @@ func (*NFTFeeConfig) ProtoMessage()    {}
 func (*NFTFeeConfig) Descriptor() ([]byte, []int) {
 	return fileDescriptor_7b201b18cd88e0ee, []int{2}
 }
-
 func (m *NFTFeeConfig) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *NFTFeeConfig) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_NFTFeeConfig.Marshal(b, m, deterministic)
@@ -196,15 +180,12 @@ func (m *NFTFeeConfig) XXX_Marshal(b []byte, deterministic bool) ([]byte, error)
 		return b[:n], nil
 	}
 }
-
 func (m *NFTFeeConfig) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_NFTFeeConfig.Merge(m, src)
 }
-
 func (m *NFTFeeConfig) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *NFTFeeConfig) XXX_DiscardUnknown() {
 	xxx_messageInfo_NFTFeeConfig.DiscardUnknown(m)
 }
@@ -378,7 +359,6 @@ func encodeVarintNftFeeConfig(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-
 func (m *FeeDistribution) Size() (n int) {
 	if m == nil {
 		return 0
@@ -429,11 +409,9 @@ func (m *NFTFeeConfig) Size() (n int) {
 func sovNftFeeConfig(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
-
 func sozNftFeeConfig(x uint64) (n int) {
 	return sovNftFeeConfig(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-
 func (m *FeeDistribution) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -514,7 +492,6 @@ func (m *FeeDistribution) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *FeeConfig) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -631,7 +608,6 @@ func (m *FeeConfig) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *NFTFeeConfig) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -718,7 +694,6 @@ func (m *NFTFeeConfig) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func skipNftFeeConfig(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0

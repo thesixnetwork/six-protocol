@@ -6,24 +6,20 @@ package types
 import (
 	context "context"
 	fmt "fmt"
-	io "io"
-	math "math"
-	math_bits "math/bits"
-
 	grpc1 "github.com/gogo/protobuf/grpc"
 	proto "github.com/gogo/protobuf/proto"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	io "io"
+	math "math"
+	math_bits "math/bits"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-
-var (
-	_ = fmt.Errorf
-	_ = math.Inf
-)
+var _ = fmt.Errorf
+var _ = math.Inf
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -42,11 +38,9 @@ func (*MsgCreateGroup) ProtoMessage()    {}
 func (*MsgCreateGroup) Descriptor() ([]byte, []int) {
 	return fileDescriptor_ab12d409beca27e6, []int{0}
 }
-
 func (m *MsgCreateGroup) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgCreateGroup) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgCreateGroup.Marshal(b, m, deterministic)
@@ -59,15 +53,12 @@ func (m *MsgCreateGroup) XXX_Marshal(b []byte, deterministic bool) ([]byte, erro
 		return b[:n], nil
 	}
 }
-
 func (m *MsgCreateGroup) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgCreateGroup.Merge(m, src)
 }
-
 func (m *MsgCreateGroup) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgCreateGroup) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgCreateGroup.DiscardUnknown(m)
 }
@@ -88,7 +79,8 @@ func (m *MsgCreateGroup) GetName() string {
 	return ""
 }
 
-type MsgCreateGroupResponse struct{}
+type MsgCreateGroupResponse struct {
+}
 
 func (m *MsgCreateGroupResponse) Reset()         { *m = MsgCreateGroupResponse{} }
 func (m *MsgCreateGroupResponse) String() string { return proto.CompactTextString(m) }
@@ -96,11 +88,9 @@ func (*MsgCreateGroupResponse) ProtoMessage()    {}
 func (*MsgCreateGroupResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_ab12d409beca27e6, []int{1}
 }
-
 func (m *MsgCreateGroupResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgCreateGroupResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgCreateGroupResponse.Marshal(b, m, deterministic)
@@ -113,15 +103,12 @@ func (m *MsgCreateGroupResponse) XXX_Marshal(b []byte, deterministic bool) ([]by
 		return b[:n], nil
 	}
 }
-
 func (m *MsgCreateGroupResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgCreateGroupResponse.Merge(m, src)
 }
-
 func (m *MsgCreateGroupResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgCreateGroupResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgCreateGroupResponse.DiscardUnknown(m)
 }
@@ -139,11 +126,9 @@ func (*MsgUpdateGroup) ProtoMessage()    {}
 func (*MsgUpdateGroup) Descriptor() ([]byte, []int) {
 	return fileDescriptor_ab12d409beca27e6, []int{2}
 }
-
 func (m *MsgUpdateGroup) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgUpdateGroup) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgUpdateGroup.Marshal(b, m, deterministic)
@@ -156,15 +141,12 @@ func (m *MsgUpdateGroup) XXX_Marshal(b []byte, deterministic bool) ([]byte, erro
 		return b[:n], nil
 	}
 }
-
 func (m *MsgUpdateGroup) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgUpdateGroup.Merge(m, src)
 }
-
 func (m *MsgUpdateGroup) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgUpdateGroup) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgUpdateGroup.DiscardUnknown(m)
 }
@@ -185,7 +167,8 @@ func (m *MsgUpdateGroup) GetName() string {
 	return ""
 }
 
-type MsgUpdateGroupResponse struct{}
+type MsgUpdateGroupResponse struct {
+}
 
 func (m *MsgUpdateGroupResponse) Reset()         { *m = MsgUpdateGroupResponse{} }
 func (m *MsgUpdateGroupResponse) String() string { return proto.CompactTextString(m) }
@@ -193,11 +176,9 @@ func (*MsgUpdateGroupResponse) ProtoMessage()    {}
 func (*MsgUpdateGroupResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_ab12d409beca27e6, []int{3}
 }
-
 func (m *MsgUpdateGroupResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgUpdateGroupResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgUpdateGroupResponse.Marshal(b, m, deterministic)
@@ -210,15 +191,12 @@ func (m *MsgUpdateGroupResponse) XXX_Marshal(b []byte, deterministic bool) ([]by
 		return b[:n], nil
 	}
 }
-
 func (m *MsgUpdateGroupResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgUpdateGroupResponse.Merge(m, src)
 }
-
 func (m *MsgUpdateGroupResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgUpdateGroupResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgUpdateGroupResponse.DiscardUnknown(m)
 }
@@ -236,11 +214,9 @@ func (*MsgDeleteGroup) ProtoMessage()    {}
 func (*MsgDeleteGroup) Descriptor() ([]byte, []int) {
 	return fileDescriptor_ab12d409beca27e6, []int{4}
 }
-
 func (m *MsgDeleteGroup) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgDeleteGroup) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgDeleteGroup.Marshal(b, m, deterministic)
@@ -253,15 +229,12 @@ func (m *MsgDeleteGroup) XXX_Marshal(b []byte, deterministic bool) ([]byte, erro
 		return b[:n], nil
 	}
 }
-
 func (m *MsgDeleteGroup) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgDeleteGroup.Merge(m, src)
 }
-
 func (m *MsgDeleteGroup) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgDeleteGroup) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgDeleteGroup.DiscardUnknown(m)
 }
@@ -282,7 +255,8 @@ func (m *MsgDeleteGroup) GetName() string {
 	return ""
 }
 
-type MsgDeleteGroupResponse struct{}
+type MsgDeleteGroupResponse struct {
+}
 
 func (m *MsgDeleteGroupResponse) Reset()         { *m = MsgDeleteGroupResponse{} }
 func (m *MsgDeleteGroupResponse) String() string { return proto.CompactTextString(m) }
@@ -290,11 +264,9 @@ func (*MsgDeleteGroupResponse) ProtoMessage()    {}
 func (*MsgDeleteGroupResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_ab12d409beca27e6, []int{5}
 }
-
 func (m *MsgDeleteGroupResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgDeleteGroupResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgDeleteGroupResponse.Marshal(b, m, deterministic)
@@ -307,15 +279,12 @@ func (m *MsgDeleteGroupResponse) XXX_Marshal(b []byte, deterministic bool) ([]by
 		return b[:n], nil
 	}
 }
-
 func (m *MsgDeleteGroupResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgDeleteGroupResponse.Merge(m, src)
 }
-
 func (m *MsgDeleteGroupResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgDeleteGroupResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgDeleteGroupResponse.DiscardUnknown(m)
 }
@@ -334,11 +303,9 @@ func (*MsgAddAdminToGroup) ProtoMessage()    {}
 func (*MsgAddAdminToGroup) Descriptor() ([]byte, []int) {
 	return fileDescriptor_ab12d409beca27e6, []int{6}
 }
-
 func (m *MsgAddAdminToGroup) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgAddAdminToGroup) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgAddAdminToGroup.Marshal(b, m, deterministic)
@@ -351,15 +318,12 @@ func (m *MsgAddAdminToGroup) XXX_Marshal(b []byte, deterministic bool) ([]byte, 
 		return b[:n], nil
 	}
 }
-
 func (m *MsgAddAdminToGroup) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgAddAdminToGroup.Merge(m, src)
 }
-
 func (m *MsgAddAdminToGroup) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgAddAdminToGroup) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgAddAdminToGroup.DiscardUnknown(m)
 }
@@ -387,7 +351,8 @@ func (m *MsgAddAdminToGroup) GetAddress() string {
 	return ""
 }
 
-type MsgAddAdminToGroupResponse struct{}
+type MsgAddAdminToGroupResponse struct {
+}
 
 func (m *MsgAddAdminToGroupResponse) Reset()         { *m = MsgAddAdminToGroupResponse{} }
 func (m *MsgAddAdminToGroupResponse) String() string { return proto.CompactTextString(m) }
@@ -395,11 +360,9 @@ func (*MsgAddAdminToGroupResponse) ProtoMessage()    {}
 func (*MsgAddAdminToGroupResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_ab12d409beca27e6, []int{7}
 }
-
 func (m *MsgAddAdminToGroupResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgAddAdminToGroupResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgAddAdminToGroupResponse.Marshal(b, m, deterministic)
@@ -412,15 +375,12 @@ func (m *MsgAddAdminToGroupResponse) XXX_Marshal(b []byte, deterministic bool) (
 		return b[:n], nil
 	}
 }
-
 func (m *MsgAddAdminToGroupResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgAddAdminToGroupResponse.Merge(m, src)
 }
-
 func (m *MsgAddAdminToGroupResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgAddAdminToGroupResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgAddAdminToGroupResponse.DiscardUnknown(m)
 }
@@ -439,11 +399,9 @@ func (*MsgRemoveAdminFromGroup) ProtoMessage()    {}
 func (*MsgRemoveAdminFromGroup) Descriptor() ([]byte, []int) {
 	return fileDescriptor_ab12d409beca27e6, []int{8}
 }
-
 func (m *MsgRemoveAdminFromGroup) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgRemoveAdminFromGroup) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgRemoveAdminFromGroup.Marshal(b, m, deterministic)
@@ -456,15 +414,12 @@ func (m *MsgRemoveAdminFromGroup) XXX_Marshal(b []byte, deterministic bool) ([]b
 		return b[:n], nil
 	}
 }
-
 func (m *MsgRemoveAdminFromGroup) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgRemoveAdminFromGroup.Merge(m, src)
 }
-
 func (m *MsgRemoveAdminFromGroup) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgRemoveAdminFromGroup) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgRemoveAdminFromGroup.DiscardUnknown(m)
 }
@@ -492,7 +447,8 @@ func (m *MsgRemoveAdminFromGroup) GetAddress() string {
 	return ""
 }
 
-type MsgRemoveAdminFromGroupResponse struct{}
+type MsgRemoveAdminFromGroupResponse struct {
+}
 
 func (m *MsgRemoveAdminFromGroupResponse) Reset()         { *m = MsgRemoveAdminFromGroupResponse{} }
 func (m *MsgRemoveAdminFromGroupResponse) String() string { return proto.CompactTextString(m) }
@@ -500,11 +456,9 @@ func (*MsgRemoveAdminFromGroupResponse) ProtoMessage()    {}
 func (*MsgRemoveAdminFromGroupResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_ab12d409beca27e6, []int{9}
 }
-
 func (m *MsgRemoveAdminFromGroupResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgRemoveAdminFromGroupResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgRemoveAdminFromGroupResponse.Marshal(b, m, deterministic)
@@ -517,15 +471,12 @@ func (m *MsgRemoveAdminFromGroupResponse) XXX_Marshal(b []byte, deterministic bo
 		return b[:n], nil
 	}
 }
-
 func (m *MsgRemoveAdminFromGroupResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgRemoveAdminFromGroupResponse.Merge(m, src)
 }
-
 func (m *MsgRemoveAdminFromGroupResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgRemoveAdminFromGroupResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgRemoveAdminFromGroupResponse.DiscardUnknown(m)
 }
@@ -658,24 +609,21 @@ type MsgServer interface {
 }
 
 // UnimplementedMsgServer can be embedded to have forward compatible implementations.
-type UnimplementedMsgServer struct{}
+type UnimplementedMsgServer struct {
+}
 
 func (*UnimplementedMsgServer) CreateGroup(ctx context.Context, req *MsgCreateGroup) (*MsgCreateGroupResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateGroup not implemented")
 }
-
 func (*UnimplementedMsgServer) UpdateGroup(ctx context.Context, req *MsgUpdateGroup) (*MsgUpdateGroupResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateGroup not implemented")
 }
-
 func (*UnimplementedMsgServer) DeleteGroup(ctx context.Context, req *MsgDeleteGroup) (*MsgDeleteGroupResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteGroup not implemented")
 }
-
 func (*UnimplementedMsgServer) AddAdminToGroup(ctx context.Context, req *MsgAddAdminToGroup) (*MsgAddAdminToGroupResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddAdminToGroup not implemented")
 }
-
 func (*UnimplementedMsgServer) RemoveAdminFromGroup(ctx context.Context, req *MsgRemoveAdminFromGroup) (*MsgRemoveAdminFromGroupResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveAdminFromGroup not implemented")
 }
@@ -1128,7 +1076,6 @@ func encodeVarintTx(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-
 func (m *MsgCreateGroup) Size() (n int) {
 	if m == nil {
 		return 0
@@ -1270,11 +1217,9 @@ func (m *MsgRemoveAdminFromGroupResponse) Size() (n int) {
 func sovTx(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
-
 func sozTx(x uint64) (n int) {
 	return sovTx(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-
 func (m *MsgCreateGroup) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1389,7 +1334,6 @@ func (m *MsgCreateGroup) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgCreateGroupResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1440,7 +1384,6 @@ func (m *MsgCreateGroupResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgUpdateGroup) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1555,7 +1498,6 @@ func (m *MsgUpdateGroup) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgUpdateGroupResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1606,7 +1548,6 @@ func (m *MsgUpdateGroupResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgDeleteGroup) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1721,7 +1662,6 @@ func (m *MsgDeleteGroup) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgDeleteGroupResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1772,7 +1712,6 @@ func (m *MsgDeleteGroupResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgAddAdminToGroup) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1919,7 +1858,6 @@ func (m *MsgAddAdminToGroup) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgAddAdminToGroupResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1970,7 +1908,6 @@ func (m *MsgAddAdminToGroupResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgRemoveAdminFromGroup) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -2117,7 +2054,6 @@ func (m *MsgRemoveAdminFromGroup) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgRemoveAdminFromGroupResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -2168,7 +2104,6 @@ func (m *MsgRemoveAdminFromGroupResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func skipTx(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0

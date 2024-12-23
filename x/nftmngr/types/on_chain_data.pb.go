@@ -5,20 +5,16 @@ package types
 
 import (
 	fmt "fmt"
+	proto "github.com/gogo/protobuf/proto"
 	io "io"
 	math "math"
 	math_bits "math/bits"
-
-	proto "github.com/gogo/protobuf/proto"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-
-var (
-	_ = fmt.Errorf
-	_ = math.Inf
-)
+var _ = fmt.Errorf
+var _ = math.Inf
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -37,11 +33,9 @@ func (*FlagStatus) ProtoMessage()    {}
 func (*FlagStatus) Descriptor() ([]byte, []int) {
 	return fileDescriptor_35d167410338c830, []int{0}
 }
-
 func (m *FlagStatus) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *FlagStatus) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_FlagStatus.Marshal(b, m, deterministic)
@@ -54,15 +48,12 @@ func (m *FlagStatus) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return b[:n], nil
 	}
 }
-
 func (m *FlagStatus) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_FlagStatus.Merge(m, src)
 }
-
 func (m *FlagStatus) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *FlagStatus) XXX_DiscardUnknown() {
 	xxx_messageInfo_FlagStatus.DiscardUnknown(m)
 }
@@ -96,11 +87,9 @@ func (*OnChainData) ProtoMessage()    {}
 func (*OnChainData) Descriptor() ([]byte, []int) {
 	return fileDescriptor_35d167410338c830, []int{1}
 }
-
 func (m *OnChainData) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *OnChainData) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_OnChainData.Marshal(b, m, deterministic)
@@ -113,15 +102,12 @@ func (m *OnChainData) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) 
 		return b[:n], nil
 	}
 }
-
 func (m *OnChainData) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_OnChainData.Merge(m, src)
 }
-
 func (m *OnChainData) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *OnChainData) XXX_DiscardUnknown() {
 	xxx_messageInfo_OnChainData.DiscardUnknown(m)
 }
@@ -320,7 +306,6 @@ func encodeVarintOnChainData(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-
 func (m *FlagStatus) Size() (n int) {
 	if m == nil {
 		return 0
@@ -373,11 +358,9 @@ func (m *OnChainData) Size() (n int) {
 func sovOnChainData(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
-
 func sozOnChainData(x uint64) (n int) {
 	return sovOnChainData(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-
 func (m *FlagStatus) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -480,7 +463,6 @@ func (m *FlagStatus) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *OnChainData) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -667,7 +649,6 @@ func (m *OnChainData) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func skipOnChainData(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0
