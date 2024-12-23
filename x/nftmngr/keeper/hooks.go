@@ -1,6 +1,8 @@
 package keeper
 
 import (
+	"fmt"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	distribtype "github.com/cosmos/cosmos-sdk/x/distribution/types"
 	abci "github.com/tendermint/tendermint/abci/types"
@@ -82,39 +84,54 @@ func (k Keeper) AfterVoteProposal(ctx sdk.Context, proposalId string) {
 // TODO:: Feat(VirtualSchema)
 // ON POC WE WILL JUST CREATE SCHEMA
 func (k Keeper) AfterProposalSuccess(ctx sdk.Context, proposalId string) {
+	fmt.Println("###############Tick: AfterProposalSuccess")
 	// validate if proposal complete
 
 	// get virtual info from proposal
-	virtualSchemaProposal, _ := k.GetVirtualSchemaProposal(ctx, proposalId)
-
-	// Count votes
-	var (
-		acceptCount  int
-		totalVotes   int
-		voteTreshold = len(virtualSchemaProposal.Registry)
-	)
-
-	for _, registry := range virtualSchemaProposal.Registry {
-		if registry.Status == types.RegistryStatus_ACCEPT {
-			acceptCount++
-		}
-		if registry.Status != types.RegistryStatus_PENDING {
-			totalVotes++
-		}
+	virtualSchemaProposal, found := k.GetVirtualSchemaProposal(ctx, proposalId)
+	if !found {
+		fmt.Println("###############Tick: AfterProposalSuccess - not found")
+		return
 	}
 
-	var virSchema = types.VirtualSchema{
+	if len(virtualSchemaProposal.Registry) == 0 {
+		fmt.Println("###############Tick: AfterProposalSuccess - no registry")
+		return
+	}
+
+	acceptCount, totalVotes := countProposalVotes(virtualSchemaProposal.Registry)
+	voteThreshold := len(virtualSchemaProposal.Registry)
+
+	if totalVotes != voteThreshold {
+		fmt.Println("###############Tick: AfterProposalSuccess - not enough votes")
+		return
+	}
+
+	virtualSchema := types.VirtualSchema{
 		VirtualNftSchemaCode: virtualSchemaProposal.VirtualSchemaCode,
 		Registry:             virtualSchemaProposal.Registry,
-		Enable:               true,
+		Enable:               acceptCount == totalVotes,
 		ExpiredAtBlock:       "0",
 	}
 
-	if acceptCount == voteTreshold {
-		virSchema.Enable = true
-	} else {
-		virSchema.Enable = false
+	fmt.Println("virtualSchemaProposal", virtualSchemaProposal)
+
+	k.SetVirtualSchema(ctx, virtualSchema)
+}
+
+func countProposalVotes(registry []*types.VirtualSchemaRegistry) (acceptCount, totalVotes int) {
+	for _, reg := range registry {
+		if reg.Status != types.RegistryStatus_PENDING {
+			if reg.Status == types.RegistryStatus_ACCEPT {
+				acceptCount++
+			}
+		}
 	}
 
-	k.SetVirtualSchema(ctx,virSchema)
+	for _, reg := range registry {
+		if reg.Status != types.RegistryStatus_PENDING {
+			totalVotes++
+		}
+	}
+	return
 }

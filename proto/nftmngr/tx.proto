@@ -404,6 +404,7 @@ message MsgDeleteVirtualSchemaResponse {}
 message MsgVoteCreateVirtualSchema {
   string creator = 1;
   string id = 2;
+  string nftSchemaCode = 3;
   RegistryStatus option = 4;
 }
 
