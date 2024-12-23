@@ -2,8 +2,6 @@ syntax = "proto3";
 package thesixnetwork.sixnft.nftmngr;
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
 
-import "gogoproto/gogo.proto";
-
 message VirtualSchemaProposal {
   string id = 1;
   string virtualSchemaCode = 2;
