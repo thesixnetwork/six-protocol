@@ -71,7 +71,7 @@
       "containerId": "oOp17la_sOUk-TUK7CEJT",
       "originalText": "Schema Combining System",
       "lineHeight": 1.25,
-      "baseline": 18
+      "baseline": 19
     },
     {
       "type": "rectangle",
@@ -153,12 +153,12 @@
       "containerId": "46u2yJ0NG7uS9Bb4JowQq",
       "originalText": "Virsual Schema",
       "lineHeight": 1.25,
-      "baseline": 18
+      "baseline": 19
     },
     {
       "type": "text",
-      "version": 1126,
-      "versionNonce": 1024647603,
+      "version": 1127,
+      "versionNonce": 1517095508,
       "isDeleted": false,
       "id": "YJAaOfiL3DnvUybqb9_T3",
       "fillStyle": "solid",
@@ -185,7 +185,7 @@
           "type": "arrow"
         }
       ],
-      "updated": 1733220775649,
+      "updated": 1734935364986,
       "link": null,
       "locked": false,
       "fontSize": 20,
@@ -293,8 +293,8 @@
     },
     {
       "type": "text",
-      "version": 1139,
-      "versionNonce": 249410963,
+      "version": 1140,
+      "versionNonce": 377386220,
       "isDeleted": false,
       "id": "VN8Kf6q8N9LHoNhWJ8tKP",
       "fillStyle": "solid",
@@ -321,7 +321,7 @@
           "type": "arrow"
         }
       ],
-      "updated": 1733225579808,
+      "updated": 1734935364986,
       "link": null,
       "locked": false,
       "fontSize": 20,
@@ -607,7 +607,7 @@
       "containerId": "e_JkZKrjcHGm6ADfVvdQS",
       "originalText": "Schema A",
       "lineHeight": 1.25,
-      "baseline": 18
+      "baseline": 19
     },
     {
       "type": "rectangle",
@@ -685,7 +685,7 @@
       "containerId": "_jMRFkTdiLm9ZyENecoqI",
       "originalText": "Schema B",
       "lineHeight": 1.25,
-      "baseline": 18
+      "baseline": 19
     },
     {
       "type": "rectangle",
@@ -747,8 +747,8 @@
     },
     {
       "type": "text",
-      "version": 126,
-      "versionNonce": 1275484435,
+      "version": 127,
+      "versionNonce": 1853923284,
       "isDeleted": false,
       "id": "-8j42xSvVW9NFhWtWtRqe",
       "fillStyle": "solid",
@@ -768,7 +768,7 @@
       "frameId": null,
       "roundness": null,
       "boundElements": [],
-      "updated": 1733220775650,
+      "updated": 1734935364986,
       "link": null,
       "locked": false,
       "fontSize": 20,
@@ -1074,29 +1074,29 @@
       "baseline": 211
     },
     {
-      "id": "zwS8yvZGsSW6S4tfU21AJ",
       "type": "rectangle",
-      "x": 1420,
-      "y": 1300,
-      "width": 440,
-      "height": 335,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "#b2f2bb",
+      "version": 53,
+      "versionNonce": 808110909,
+      "isDeleted": false,
+      "id": "zwS8yvZGsSW6S4tfU21AJ",
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "dashed",
       "roughness": 1,
       "opacity": 100,
+      "angle": 0,
+      "x": 1420,
+      "y": 1300,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "#b2f2bb",
+      "width": 440,
+      "height": 335,
+      "seed": 1775356147,
       "groupIds": [],
       "frameId": null,
       "roundness": {
         "type": 3
       },
-      "seed": 1775356147,
-      "version": 53,
-      "versionNonce": 808110909,
-      "isDeleted": false,
       "boundElements": [
         {
           "type": "text",
@@ -1108,40 +1108,40 @@
       "locked": false
     },
     {
-      "id": "rGvYRvTtvfLkx8tv7w_s0",
       "type": "text",
-      "x": 1425,
-      "y": 1305,
-      "width": 319.4997863769531,
-      "height": 325,
-      "angle": 0,
-      "strokeColor": "#1e1e1e",
-      "backgroundColor": "#b2f2bb",
+      "version": 249,
+      "versionNonce": 935049533,
+      "isDeleted": false,
+      "id": "rGvYRvTtvfLkx8tv7w_s0",
       "fillStyle": "solid",
       "strokeWidth": 2,
       "strokeStyle": "solid",
       "roughness": 1,
       "opacity": 100,
+      "angle": 0,
+      "x": 1425,
+      "y": 1305,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "#b2f2bb",
+      "width": 319.4997863769531,
+      "height": 325,
+      "seed": 676209555,
       "groupIds": [],
       "frameId": null,
       "roundness": null,
-      "seed": 676209555,
-      "version": 249,
-      "versionNonce": 935049533,
-      "isDeleted": false,
-      "boundElements": null,
+      "boundElements": [],
       "updated": 1733226238969,
       "link": null,
       "locked": false,
-      "text": "Virtual Schema Name: SchemaAB\nSchema Registry:\n    - Schema A\n        Attributes:\n         - Point\n         - Discount_A\n        Registry Status: Accept\n    - Schema B\n        Attributes:\n         - Credit\n         - Discount_B\n        Registry Status: Accept\n",
       "fontSize": 20,
       "fontFamily": 1,
+      "text": "Virtual Schema Name: SchemaAB\nSchema Registry:\n    - Schema A\n        Attributes:\n         - Point\n         - Discount_A\n        Registry Status: Accept\n    - Schema B\n        Attributes:\n         - Credit\n         - Discount_B\n        Registry Status: Accept\n",
       "textAlign": "left",
       "verticalAlign": "middle",
-      "baseline": 318,
       "containerId": "zwS8yvZGsSW6S4tfU21AJ",
       "originalText": "Virtual Schema Name: SchemaAB\nSchema Registry:\n    - Schema A\n        Attributes:\n         - Point\n         - Discount_A\n        Registry Status: Accept\n    - Schema B\n        Attributes:\n         - Credit\n         - Discount_B\n        Registry Status: Accept\n",
-      "lineHeight": 1.25
+      "lineHeight": 1.25,
+      "baseline": 319
     }
   ],
   "appState": {
