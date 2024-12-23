@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
+
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 )
 
@@ -21,7 +22,6 @@ func TestGenesisState_Validate(t *testing.T) {
 		{
 			desc: "valid genesis state",
 			genState: &types.GenesisState{
-
 				MintRequestList: []types.MintRequest{
 					{
 						Id: 0,

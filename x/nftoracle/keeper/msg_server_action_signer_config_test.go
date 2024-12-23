@@ -22,8 +22,9 @@ func TestActionSignerConfigMsgServerCreate(t *testing.T) {
 	wctx := sdk.WrapSDKContext(ctx)
 	creator := "A"
 	for i := 0; i < 5; i++ {
-		expected := &types.MsgCreateActionSignerConfig{Creator: creator,
-			Chain: strconv.Itoa(i),
+		expected := &types.MsgCreateActionSignerConfig{
+			Creator: creator,
+			Chain:   strconv.Itoa(i),
 		}
 		_, err := srv.CreateActionSignerConfig(wctx, expected)
 		require.NoError(t, err)
@@ -45,21 +46,24 @@ func TestActionSignerConfigMsgServerUpdate(t *testing.T) {
 	}{
 		{
 			desc: "Completed",
-			request: &types.MsgUpdateActionSignerConfig{Creator: creator,
-				Chain: strconv.Itoa(0),
+			request: &types.MsgUpdateActionSignerConfig{
+				Creator: creator,
+				Chain:   strconv.Itoa(0),
 			},
 		},
 		{
 			desc: "Unauthorized",
-			request: &types.MsgUpdateActionSignerConfig{Creator: "B",
-				Chain: strconv.Itoa(0),
+			request: &types.MsgUpdateActionSignerConfig{
+				Creator: "B",
+				Chain:   strconv.Itoa(0),
 			},
 			err: sdkerrors.ErrUnauthorized,
 		},
 		{
 			desc: "KeyNotFound",
-			request: &types.MsgUpdateActionSignerConfig{Creator: creator,
-				Chain: strconv.Itoa(100000),
+			request: &types.MsgUpdateActionSignerConfig{
+				Creator: creator,
+				Chain:   strconv.Itoa(100000),
 			},
 			err: sdkerrors.ErrKeyNotFound,
 		},
@@ -68,8 +72,9 @@ func TestActionSignerConfigMsgServerUpdate(t *testing.T) {
 			k, ctx := keepertest.NftoracleKeeper(t)
 			srv := keeper.NewMsgServerImpl(*k)
 			wctx := sdk.WrapSDKContext(ctx)
-			expected := &types.MsgCreateActionSignerConfig{Creator: creator,
-				Chain: strconv.Itoa(0),
+			expected := &types.MsgCreateActionSignerConfig{
+				Creator: creator,
+				Chain:   strconv.Itoa(0),
 			}
 			_, err := srv.CreateActionSignerConfig(wctx, expected)
 			require.NoError(t, err)
@@ -99,21 +104,24 @@ func TestActionSignerConfigMsgServerDelete(t *testing.T) {
 	}{
 		{
 			desc: "Completed",
-			request: &types.MsgDeleteActionSignerConfig{Creator: creator,
-				Chain: strconv.Itoa(0),
+			request: &types.MsgDeleteActionSignerConfig{
+				Creator: creator,
+				Chain:   strconv.Itoa(0),
 			},
 		},
 		{
 			desc: "Unauthorized",
-			request: &types.MsgDeleteActionSignerConfig{Creator: "B",
-				Chain: strconv.Itoa(0),
+			request: &types.MsgDeleteActionSignerConfig{
+				Creator: "B",
+				Chain:   strconv.Itoa(0),
 			},
 			err: sdkerrors.ErrUnauthorized,
 		},
 		{
 			desc: "KeyNotFound",
-			request: &types.MsgDeleteActionSignerConfig{Creator: creator,
-				Chain: strconv.Itoa(100000),
+			request: &types.MsgDeleteActionSignerConfig{
+				Creator: creator,
+				Chain:   strconv.Itoa(100000),
 			},
 			err: sdkerrors.ErrKeyNotFound,
 		},
@@ -123,8 +131,9 @@ func TestActionSignerConfigMsgServerDelete(t *testing.T) {
 			srv := keeper.NewMsgServerImpl(*k)
 			wctx := sdk.WrapSDKContext(ctx)
 
-			_, err := srv.CreateActionSignerConfig(wctx, &types.MsgCreateActionSignerConfig{Creator: creator,
-				Chain: strconv.Itoa(0),
+			_, err := srv.CreateActionSignerConfig(wctx, &types.MsgCreateActionSignerConfig{
+				Creator: creator,
+				Chain:   strconv.Itoa(0),
 			})
 			require.NoError(t, err)
 			_, err = srv.DeleteActionSignerConfig(wctx, tc.request)

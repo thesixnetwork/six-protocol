@@ -8,6 +8,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
+
 	"github.com/thesixnetwork/six-protocol/testutil/nullify"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/keeper"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
@@ -40,6 +41,7 @@ func TestActionByRefIdGet(t *testing.T) {
 		)
 	}
 }
+
 func TestActionByRefIdRemove(t *testing.T) {
 	keeper, ctx := keepertest.NftmngrKeeper(t)
 	items := createNActionByRefId(keeper, ctx, 10)

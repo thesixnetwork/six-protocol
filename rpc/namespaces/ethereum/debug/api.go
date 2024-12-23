@@ -29,6 +29,7 @@ import (
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/tendermint/tendermint/libs/log"
+
 	"github.com/thesixnetwork/six-protocol/rpc/backend"
 	rpctypes "github.com/thesixnetwork/six-protocol/rpc/types"
 )

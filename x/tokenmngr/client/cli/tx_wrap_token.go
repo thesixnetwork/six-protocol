@@ -10,6 +10,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	ethermint "github.com/evmos/ethermint/types"
 	"github.com/spf13/cobra"
+
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 

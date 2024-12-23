@@ -10,6 +10,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 )
 
@@ -73,7 +74,6 @@ func (k msgServer) SubmitVerifyCollectionOwner(goCtx context.Context, msg *types
 			if confirmer == msg.Creator {
 				return nil, sdkerrors.Wrap(types.ErrOracleConfirmedAlready, strconv.FormatUint(msg.VerifyRequestID, 10))
 			}
-
 		}
 
 		// Compare data hash with previous data
@@ -99,7 +99,7 @@ func (k msgServer) SubmitVerifyCollectionOwner(goCtx context.Context, msg *types
 		verifyRequest.Confirmers = make([]string, 0)
 	}
 
-	//mark craetor as confirmed
+	// mark craetor as confirmed
 	// verifyRequest.Confirmers[msg.Creator] = true
 	verifyRequest.Confirmers = append(verifyRequest.Confirmers, msg.Creator)
 
@@ -119,9 +119,9 @@ func (k msgServer) SubmitVerifyCollectionOwner(goCtx context.Context, msg *types
 		// Check if there is only one data hash
 		if len(verifyRequest.ContractInfo) > 1 {
 			// Update verifyRequest.Status to be FAILED
-			verifyRequest.Status = types.RequestStatus_FAILED_WITHOUT_CONCENSUS
+			verifyRequest.Status = types.RequestStatus_FAILED_WITHOUT_CONSENSUS
 		} else if verifyRequest.Signer != contractOrigingParam.ContractOwner {
-			// Update verfiyRequest.Status to be Rejected because infomation is not match
+			// Update verfiyRequest.Status to be Rejected because information is not match
 			verifyRequest.Status = types.RequestStatus_FAILED_REJECT_BY_CONSENSUS
 		} else {
 			// Update verifyRequest.Status to be SUCCESS

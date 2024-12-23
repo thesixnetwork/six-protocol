@@ -7,12 +7,11 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 )
 
-var (
-	ActiveVerifyCollectionRequestQueuePrefix = []byte{0x03}
-)
+var ActiveVerifyCollectionRequestQueuePrefix = []byte{0x03}
 
 // GetCollectionOwnerRequestCount get the total number of collectionOwnerRequest
 func (k Keeper) GetCollectionOwnerRequestCount(ctx sdk.Context) uint64 {
@@ -147,6 +146,7 @@ func (k Keeper) ActiveVerifyCollectionOwnerQueueIterator(ctx sdk.Context, endTim
 func ActiveVerifyCollectionOwnerQueueKey(requestID uint64, endTime time.Time) []byte {
 	return append(ActiveVerifyCollectionOwnerByTimeKey(endTime), GetCollectionOwnerRequestIDBytes(requestID)...)
 }
+
 func ActiveVerifyCollectionOwnerByTimeKey(endTime time.Time) []byte {
 	return append(ActiveVerifyCollectionRequestQueuePrefix, sdk.FormatTimeBytes(endTime)...)
 }

@@ -22,7 +22,8 @@ func TestActionSignerMsgServerCreate(t *testing.T) {
 	wctx := sdk.WrapSDKContext(ctx)
 	creator := "A"
 	for i := 0; i < 5; i++ {
-		expected := &types.MsgCreateActionSigner{Creator: creator,
+		expected := &types.MsgCreateActionSigner{
+			Creator:                      creator,
 			Base64EncodedSetSignerAction: strconv.Itoa(i),
 		}
 		_, err := srv.CreateActionSigner(wctx, expected)
@@ -46,20 +47,23 @@ func TestActionSignerMsgServerUpdate(t *testing.T) {
 	}{
 		{
 			desc: "Completed",
-			request: &types.MsgUpdateActionSigner{Creator: creator,
+			request: &types.MsgUpdateActionSigner{
+				Creator:                      creator,
 				Base64EncodedSetSignerAction: strconv.Itoa(0),
 			},
 		},
 		{
 			desc: "Unauthorized",
-			request: &types.MsgUpdateActionSigner{Creator: "B",
+			request: &types.MsgUpdateActionSigner{
+				Creator:                      "B",
 				Base64EncodedSetSignerAction: strconv.Itoa(0),
 			},
 			err: sdkerrors.ErrUnauthorized,
 		},
 		{
 			desc: "KeyNotFound",
-			request: &types.MsgUpdateActionSigner{Creator: creator,
+			request: &types.MsgUpdateActionSigner{
+				Creator:                      creator,
 				Base64EncodedSetSignerAction: strconv.Itoa(100000),
 			},
 			err: sdkerrors.ErrKeyNotFound,
@@ -69,7 +73,8 @@ func TestActionSignerMsgServerUpdate(t *testing.T) {
 			k, ctx := keepertest.NftoracleKeeper(t)
 			srv := keeper.NewMsgServerImpl(*k)
 			wctx := sdk.WrapSDKContext(ctx)
-			expected := &types.MsgCreateActionSigner{Creator: creator,
+			expected := &types.MsgCreateActionSigner{
+				Creator:                      creator,
 				Base64EncodedSetSignerAction: strconv.Itoa(0),
 			}
 			_, err := srv.CreateActionSigner(wctx, expected)
@@ -101,20 +106,23 @@ func TestActionSignerMsgServerDelete(t *testing.T) {
 	}{
 		{
 			desc: "Completed",
-			request: &types.MsgDeleteActionSigner{Creator: creator,
+			request: &types.MsgDeleteActionSigner{
+				Creator:                      creator,
 				Base64EncodedSetSignerAction: strconv.Itoa(0),
 			},
 		},
 		{
 			desc: "Unauthorized",
-			request: &types.MsgDeleteActionSigner{Creator: "B",
+			request: &types.MsgDeleteActionSigner{
+				Creator:                      "B",
 				Base64EncodedSetSignerAction: strconv.Itoa(0),
 			},
 			err: sdkerrors.ErrUnauthorized,
 		},
 		{
 			desc: "KeyNotFound",
-			request: &types.MsgDeleteActionSigner{Creator: creator,
+			request: &types.MsgDeleteActionSigner{
+				Creator:                      creator,
 				Base64EncodedSetSignerAction: strconv.Itoa(100000),
 			},
 			err: sdkerrors.ErrKeyNotFound,
@@ -125,7 +133,8 @@ func TestActionSignerMsgServerDelete(t *testing.T) {
 			srv := keeper.NewMsgServerImpl(*k)
 			wctx := sdk.WrapSDKContext(ctx)
 
-			_, err := srv.CreateActionSigner(wctx, &types.MsgCreateActionSigner{Creator: creator,
+			_, err := srv.CreateActionSigner(wctx, &types.MsgCreateActionSigner{
+				Creator:                      creator,
 				Base64EncodedSetSignerAction: strconv.Itoa(0),
 			})
 			require.NoError(t, err)

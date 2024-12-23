@@ -6,6 +6,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	distribtype "github.com/cosmos/cosmos-sdk/x/distribution/types"
 	abci "github.com/tendermint/tendermint/abci/types"
+
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 

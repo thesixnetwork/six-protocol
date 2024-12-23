@@ -11,6 +11,7 @@ import (
 
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	"github.com/stretchr/testify/suite"
+
 	prenftmgr "github.com/thesixnetwork/six-protocol/precompiles/nftmngr"
 	testkeeper "github.com/thesixnetwork/six-protocol/testutil/keeper"
 	nftmngrkeeper "github.com/thesixnetwork/six-protocol/x/nftmngr/keeper"

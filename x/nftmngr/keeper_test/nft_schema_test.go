@@ -8,6 +8,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
+
 	"github.com/thesixnetwork/six-protocol/testutil/nullify"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/keeper"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
@@ -40,6 +41,7 @@ func TestNFTSchemaGet(t *testing.T) {
 		)
 	}
 }
+
 func TestNFTSchemaRemove(t *testing.T) {
 	keeper, ctx := keepertest.NftmngrKeeper(t)
 	items := createNNFTSchema(keeper, ctx, 10)
@@ -189,7 +191,7 @@ func TestCreateSchema(t *testing.T) {
 		require.True(t, found)
 	}
 
-	// test action of schema 
+	// test action of schema
 	actionCount := 0
 	for _, action := range schema.OnchainData.Actions {
 		_, found := keeperTest.GetActionOfSchema(ctx, schema.Code, action.Name)
@@ -198,8 +200,7 @@ func TestCreateSchema(t *testing.T) {
 		}
 		actionCount++
 	}
-	require.Equal( t,len(schema.OnchainData.Actions), actionCount)
-
+	require.Equal(t, len(schema.OnchainData.Actions), actionCount)
 
 	// test action executor
 	executorCount := 0
@@ -212,7 +213,6 @@ func TestCreateSchema(t *testing.T) {
 	}
 
 	require.Equal(t, len(schemaInput.SystemActioners), executorCount)
-
 
 	// test schema attribute
 	attributeCount := 0

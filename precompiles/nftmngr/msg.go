@@ -10,6 +10,7 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
+
 	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
 	nftmngrtypes "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )

@@ -6,9 +6,10 @@ import (
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
-	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+
+	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 )
 
 func (k Keeper) ActionSignerAll(c context.Context, req *types.QueryAllActionSignerRequest) (*types.QueryAllActionSignerResponse, error) {
@@ -31,7 +32,6 @@ func (k Keeper) ActionSignerAll(c context.Context, req *types.QueryAllActionSign
 		actionSigners = append(actionSigners, actionSigner)
 		return nil
 	})
-
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}

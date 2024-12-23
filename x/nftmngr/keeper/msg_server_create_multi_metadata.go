@@ -14,7 +14,7 @@ import (
 func (k msgServer) CreateMultiMetadata(goCtx context.Context, msg *types.MsgCreateMultiMetadata) (*types.MsgCreateMultiMetadataResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	//limit size token_id <= 1000
+	// limit size token_id <= 1000
 	token_size := len(msg.TokenId)
 	string_token_size := string(rune(token_size))
 
@@ -22,7 +22,7 @@ func (k msgServer) CreateMultiMetadata(goCtx context.Context, msg *types.MsgCrea
 		return nil, sdkerrors.Wrap(types.ErrLimitSizeOfInput, string_token_size)
 	}
 
-	//check if id in msg.TokenId is duplicate
+	// check if id in msg.TokenId is duplicate
 	mapOfTokenId := make(map[string]bool)
 	for _, tokenId := range msg.TokenId {
 		if _, ok := mapOfTokenId[tokenId]; ok {

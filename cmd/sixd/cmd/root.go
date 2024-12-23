@@ -33,6 +33,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/crisis"
 	genutilcli "github.com/cosmos/cosmos-sdk/x/genutil/client/cli"
 	"github.com/evmos/ethermint/encoding"
+
 	sixclient "github.com/thesixnetwork/six-protocol/client"
 	"github.com/thesixnetwork/six-protocol/client/debug"
 	server "github.com/thesixnetwork/six-protocol/server"

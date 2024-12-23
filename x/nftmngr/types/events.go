@@ -35,12 +35,12 @@ const (
 	AttributeKeyCreateMetaDataTokenID = "token_id"
 	AttributeKeyCreateMetaDataResult  = "create_metadata_result"
 
-	//set base uri
+	// set base uri
 	EventTypeSetBaseURI          = "set_base_uri"
 	AttributeKeySetBaseURI       = "base_uri"
 	AttributeKeySetBaseURIResult = "set_base_uri_result"
 
-	//set method retrieval
+	// set method retrieval
 	EventTypeSetRetrievalMethod    = "set_retrieval_method"
 	AttributeKeySetRetrievalMethod = "retrieval_method"
 	AttributeKeySetRetrivalResult  = "set_retrieval_method_result"
@@ -65,21 +65,21 @@ const (
 	AttributeKeySetMetadataFormat       = "metadata_format"
 	AttributeKeySetMetadataFormatResult = "set_metadata_format_result"
 
-	//set nft schema value
+	// set nft schema value
 	EventTypeSetNFTSchemaValue          = "set_nft_schema_value"
 	AttributeKeySetNFTSchemaValue       = "nft_schema_new_value"
 	AttributeKeySetNFTSchemaValueResult = "set_nft_schema_value_result"
 
-	//toggle nft action
+	// toggle nft action
 	EventTypeToggleNFTAction          = "toggle_nft_action"
 	AttributeKeyToggleNFTAction       = "nft_action"
 	AttributeKeyToggleNFTActionResult = "toggle_nft_action_result"
 
-	//Hidden attribute
+	// Hidden attribute
 	EventTypeHiddenAttribute          = "hide_attribute"
 	AttributeKeyHiddenAttributeResult = "hide_attribute_result"
 
-	//Show attribute
+	// Show attribute
 	EventTypeShowAttribute          = "show_attribute"
 	AttributeKeyShowAttributeResult = "show_attribute_result"
 	AttributeKeyTokenId             = "token_id"

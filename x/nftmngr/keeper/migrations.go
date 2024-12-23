@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
 	v2types "github.com/thesixnetwork/six-protocol/x/nftmngr/migrations/v2/types"
 	types "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )

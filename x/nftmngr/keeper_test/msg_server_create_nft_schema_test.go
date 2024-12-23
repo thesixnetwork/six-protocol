@@ -378,7 +378,6 @@ func TestCreateSchemaOld(t *testing.T) {
 		return
 	}
 	fmt.Println(json)
-
 }
 
 func CreateAttrDefMap(attrDefs []*types.AttributeDefinition) map[string]*types.AttributeDefinition {

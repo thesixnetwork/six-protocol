@@ -10,9 +10,9 @@ import (
 	"strconv"
 	"time"
 
+	utils "github.com/thesixnetwork/six-protocol/utils"
 	nftmngrkeeper "github.com/thesixnetwork/six-protocol/x/nftmngr/keeper"
 	nftmngrtypes "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
-	utils "github.com/thesixnetwork/six-protocol/utils"
 
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 
@@ -84,7 +84,6 @@ func (k msgServer) SubmitActionResponse(goCtx context.Context, msg *types.MsgSub
 			if confirmer == msg.Creator {
 				return nil, sdkerrors.Wrap(types.ErrOracleConfirmedAlready, strconv.FormatUint(msg.ActionRequestID, 10))
 			}
-
 		}
 		// if _, ok := actionRequest.Confirmers[msg.Creator]; ok {
 		// 	return nil, sdkerrors.Wrap(types.ErrOracleConfirmedAlready, strconv.FormatUint(msg.ActionRequestID, 10)+", "+msg.Creator)
@@ -122,7 +121,7 @@ func (k msgServer) SubmitActionResponse(goCtx context.Context, msg *types.MsgSub
 		// Check if there is only one data hash
 		if len(actionRequest.DataHashes) > 1 {
 			// Update mintRequest.Status to be FAILED
-			actionRequest.Status = types.RequestStatus_FAILED_WITHOUT_CONCENSUS
+			actionRequest.Status = types.RequestStatus_FAILED_WITHOUT_CONSENSUS
 		} else {
 			// Update mintRequest.Status to be SUCCESS
 			actionRequest.Status = types.RequestStatus_SUCCESS_WITH_CONSENSUS
@@ -143,7 +142,7 @@ func (k msgServer) SubmitActionResponse(goCtx context.Context, msg *types.MsgSub
 			if !found {
 				return nil, sdkerrors.Wrap(types.ErrMetaDataNotFound, actionRequest.NftSchemaCode+":"+actionRequest.TokenId)
 			}
-			//ctx sdk.Context, nftData nftmngrtypes.NftData, originData *types.NftOriginData
+			// ctx sdk.Context, nftData nftmngrtypes.NftData, originData *types.NftOriginData
 			err = k.UpdateMetaDataFromOriginData(ctx, &nftData, actionRequest.DataHashes[0].OriginData)
 			if err != nil {
 				actionRequest.Status = types.RequestStatus_FAILED_ON_EXECUTION
@@ -225,7 +224,7 @@ func (k msgServer) PerformAction(ctx sdk.Context, actionRequest *types.ActionOra
 
 	for i := 0; i < len(required_param); i++ {
 		if actionRequest.Params[i].Name != required_param[i].Name {
-			return sdkerrors.Wrap(nftmngrtypes.ErrInvalidParameter, "input paramter name is not match to "+required_param[i].Name)
+			return sdkerrors.Wrap(nftmngrtypes.ErrInvalidParameter, "input parameter name is not match to "+required_param[i].Name)
 		}
 		if actionRequest.Params[i].Value == "" {
 			actionRequest.Params[i].Value = required_param[i].DefaultValue
@@ -440,7 +439,6 @@ func ProcessAction(meta *nftmngrtypes.Metadata, action *nftmngrtypes.Action, par
 }
 
 func (k msgServer) UpdateMetaDataFromOriginData(ctx sdk.Context, nftData *nftmngrtypes.NftData, originData *types.NftOriginData) error {
-
 	schema, found := k.nftmngrKeeper.GetNFTSchema(ctx, nftData.NftSchemaCode)
 	if !found {
 		return sdkerrors.Wrap(types.ErrNFTSchemaNotFound, nftData.NftSchemaCode)
@@ -469,4 +467,3 @@ func (k msgServer) UpdateMetaDataFromOriginData(ctx sdk.Context, nftData *nftmng
 
 	return nil
 }
-

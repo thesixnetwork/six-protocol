@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
 	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/keeper"
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"

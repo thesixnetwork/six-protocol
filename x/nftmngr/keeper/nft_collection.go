@@ -5,6 +5,7 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
@@ -47,7 +48,6 @@ func (k Keeper) GetNftCollectionDataCount(ctx sdk.Context) uint64 {
 func (k Keeper) GetNftCollection(
 	ctx sdk.Context,
 	nftSchemaCode string,
-
 ) (val types.NftCollection, found bool) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.NftCollectionKeyPrefix))
 
@@ -66,7 +66,6 @@ func (k Keeper) GetNftCollection(
 func (k Keeper) RemoveNftCollection(
 	ctx sdk.Context,
 	nftSchemaCode string,
-
 ) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.NftCollectionKeyPrefix))
 	store.Delete(types.NftCollectionKey(

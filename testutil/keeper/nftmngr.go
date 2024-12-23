@@ -1,9 +1,11 @@
 package keeper
 
 import (
-	"testing"
 	"os"
+	"testing"
+
 	"github.com/gogo/protobuf/jsonpb"
+
 	sim "github.com/thesixnetwork/six-protocol/x/nftmngr/simulation"
 
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/keeper"

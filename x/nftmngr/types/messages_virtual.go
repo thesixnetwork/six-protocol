@@ -20,7 +20,6 @@ func NewMsgCreateVirtualAction(
 	creator string,
 	code string,
 	encodeVirtualActionStruct string,
-
 ) *MsgCreateVirtualAction {
 	return &MsgCreateVirtualAction{
 		Creator:                   creator,
@@ -64,7 +63,6 @@ func NewMsgUpdateVirtual(
 	creator string,
 	code string,
 	encodeVirtualActionStruct string,
-
 ) *MsgUpdateVirtualAction {
 	return &MsgUpdateVirtualAction{
 		Creator:                   creator,
@@ -108,7 +106,6 @@ func NewMsgDeleteVirtual(
 	creator string,
 	code string,
 	actionName string,
-
 ) *MsgDeleteVirtualAction {
 	return &MsgDeleteVirtualAction{
 		Creator:       creator,
@@ -116,6 +113,7 @@ func NewMsgDeleteVirtual(
 		Name:          actionName,
 	}
 }
+
 func (msg *MsgDeleteVirtualAction) Route() string {
 	return RouterKey
 }

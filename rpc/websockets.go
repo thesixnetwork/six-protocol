@@ -27,6 +27,7 @@ import (
 	tmtypes "github.com/tendermint/tendermint/types"
 
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
+
 	"github.com/thesixnetwork/six-protocol/rpc/ethereum/pubsub"
 	rpcfilters "github.com/thesixnetwork/six-protocol/rpc/namespaces/ethereum/eth/filters"
 	"github.com/thesixnetwork/six-protocol/rpc/types"

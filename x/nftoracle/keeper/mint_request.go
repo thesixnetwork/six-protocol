@@ -12,9 +12,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/kv"
 )
 
-var (
-	ActiveMintRequestQueuePrefix = []byte{0x01}
-)
+var ActiveMintRequestQueuePrefix = []byte{0x01}
 
 var lenTime = len(sdk.FormatTimeBytes(time.Now()))
 
@@ -151,6 +149,7 @@ func (k Keeper) ActiveMintRequestQueueIterator(ctx sdk.Context, endTime time.Tim
 func ActiveMintRequestQueueKey(requestID uint64, endTime time.Time) []byte {
 	return append(ActiveMintRequestByTimeKey(endTime), GetMintRequestIDBytes(requestID)...)
 }
+
 func ActiveMintRequestByTimeKey(endTime time.Time) []byte {
 	return append(ActiveMintRequestQueuePrefix, sdk.FormatTimeBytes(endTime)...)
 }

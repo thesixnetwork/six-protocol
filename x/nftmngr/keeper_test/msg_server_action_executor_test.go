@@ -22,7 +22,8 @@ func TestActionExecutorMsgServerCreate(t *testing.T) {
 	wctx := sdk.WrapSDKContext(ctx)
 	creator := "A"
 	for i := 0; i < 5; i++ {
-		expected := &types.MsgCreateActionExecutor{Creator: creator,
+		expected := &types.MsgCreateActionExecutor{
+			Creator:         creator,
 			NftSchemaCode:   strconv.Itoa(i),
 			ExecutorAddress: strconv.Itoa(i),
 		}
@@ -47,14 +48,16 @@ func TestActionExecutorMsgServerUpdate(t *testing.T) {
 	}{
 		{
 			desc: "Completed",
-			request: &types.MsgUpdateActionExecutor{Creator: creator,
+			request: &types.MsgUpdateActionExecutor{
+				Creator:         creator,
 				NftSchemaCode:   strconv.Itoa(0),
 				ExecutorAddress: strconv.Itoa(0),
 			},
 		},
 		{
 			desc: "Unauthorized",
-			request: &types.MsgUpdateActionExecutor{Creator: "B",
+			request: &types.MsgUpdateActionExecutor{
+				Creator:         "B",
 				NftSchemaCode:   strconv.Itoa(0),
 				ExecutorAddress: strconv.Itoa(0),
 			},
@@ -62,7 +65,8 @@ func TestActionExecutorMsgServerUpdate(t *testing.T) {
 		},
 		{
 			desc: "KeyNotFound",
-			request: &types.MsgUpdateActionExecutor{Creator: creator,
+			request: &types.MsgUpdateActionExecutor{
+				Creator:         creator,
 				NftSchemaCode:   strconv.Itoa(100000),
 				ExecutorAddress: strconv.Itoa(100000),
 			},
@@ -73,7 +77,8 @@ func TestActionExecutorMsgServerUpdate(t *testing.T) {
 			k, ctx := keepertest.NftmngrKeeper(t)
 			srv := keeper.NewMsgServerImpl(*k)
 			wctx := sdk.WrapSDKContext(ctx)
-			expected := &types.MsgCreateActionExecutor{Creator: creator,
+			expected := &types.MsgCreateActionExecutor{
+				Creator:         creator,
 				NftSchemaCode:   strconv.Itoa(0),
 				ExecutorAddress: strconv.Itoa(0),
 			}
@@ -104,14 +109,16 @@ func TestActionExecutorMsgServerDelete(t *testing.T) {
 	}{
 		{
 			desc: "Completed",
-			request: &types.MsgDeleteActionExecutor{Creator: creator,
+			request: &types.MsgDeleteActionExecutor{
+				Creator:         creator,
 				NftSchemaCode:   strconv.Itoa(0),
 				ExecutorAddress: strconv.Itoa(0),
 			},
 		},
 		{
 			desc: "Unauthorized",
-			request: &types.MsgDeleteActionExecutor{Creator: "B",
+			request: &types.MsgDeleteActionExecutor{
+				Creator:         "B",
 				NftSchemaCode:   strconv.Itoa(0),
 				ExecutorAddress: strconv.Itoa(0),
 			},
@@ -119,7 +126,8 @@ func TestActionExecutorMsgServerDelete(t *testing.T) {
 		},
 		{
 			desc: "KeyNotFound",
-			request: &types.MsgDeleteActionExecutor{Creator: creator,
+			request: &types.MsgDeleteActionExecutor{
+				Creator:         creator,
 				NftSchemaCode:   strconv.Itoa(100000),
 				ExecutorAddress: strconv.Itoa(100000),
 			},
@@ -131,7 +139,8 @@ func TestActionExecutorMsgServerDelete(t *testing.T) {
 			srv := keeper.NewMsgServerImpl(*k)
 			wctx := sdk.WrapSDKContext(ctx)
 
-			_, err := srv.CreateActionExecutor(wctx, &types.MsgCreateActionExecutor{Creator: creator,
+			_, err := srv.CreateActionExecutor(wctx, &types.MsgCreateActionExecutor{
+				Creator:         creator,
 				NftSchemaCode:   strconv.Itoa(0),
 				ExecutorAddress: strconv.Itoa(0),
 			})

@@ -6,9 +6,10 @@ import (
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
-	"github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+
+	"github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
 )
 
 func (k Keeper) GroupAll(c context.Context, req *types.QueryAllGroupRequest) (*types.QueryAllGroupResponse, error) {
@@ -31,7 +32,6 @@ func (k Keeper) GroupAll(c context.Context, req *types.QueryAllGroupRequest) (*t
 		groups = append(groups, group)
 		return nil
 	})
-
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}

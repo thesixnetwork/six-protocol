@@ -6,6 +6,7 @@ import (
 	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 
 	"github.com/stretchr/testify/require"
+
 	"github.com/thesixnetwork/six-protocol/testutil/nullify"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"

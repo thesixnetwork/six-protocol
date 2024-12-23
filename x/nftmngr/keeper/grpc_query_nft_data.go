@@ -6,9 +6,10 @@ import (
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+
+	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
 func (k Keeper) NftDataAll(c context.Context, req *types.QueryAllNftDataRequest) (*types.QueryAllNftDataResponse, error) {
@@ -37,7 +38,6 @@ func (k Keeper) NftDataAll(c context.Context, req *types.QueryAllNftDataRequest)
 
 		return nil
 	})
-
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
@@ -78,7 +78,6 @@ func (k Keeper) appendDataWithSchemaAttributes(ctx sdk.Context, dataOnToken type
 			scheamAttributeValues := ConverSchemaAttributeToNFTAttributeValue(&schemaAttribute)
 			dataOnToken.OnchainAttributes = append(dataOnToken.OnchainAttributes, scheamAttributeValues)
 		}
-
 	}
 
 	return dataOnToken

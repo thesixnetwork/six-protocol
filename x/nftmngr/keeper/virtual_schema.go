@@ -3,6 +3,7 @@ package keeper
 import (
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
@@ -19,7 +20,6 @@ func (k Keeper) SetVirtualSchema(ctx sdk.Context, virSchema types.VirtualSchema)
 func (k Keeper) GetVirtualSchema(
 	ctx sdk.Context,
 	schemaCode string,
-
 ) (val types.VirtualSchema, found bool) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.VirtualSchemaKeyPrefix))
 
@@ -38,7 +38,6 @@ func (k Keeper) GetVirtualSchema(
 func (k Keeper) RemoveVirtualSchema(
 	ctx sdk.Context,
 	schemaCode string,
-
 ) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.VirtualSchemaKeyPrefix))
 	store.Delete(types.VirtualSchemaKey(

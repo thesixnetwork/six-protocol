@@ -6,9 +6,10 @@ import (
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
-	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+
+	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
 func (k Keeper) TokenBurnAll(c context.Context, req *types.QueryAllTokenBurnRequest) (*types.QueryAllTokenBurnResponse, error) {
@@ -31,7 +32,6 @@ func (k Keeper) TokenBurnAll(c context.Context, req *types.QueryAllTokenBurnRequ
 		tokenBurns = append(tokenBurns, tokenBurn)
 		return nil
 	})
-
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}

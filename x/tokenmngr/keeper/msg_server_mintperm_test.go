@@ -22,7 +22,8 @@ func TestMintpermMsgServerCreate(t *testing.T) {
 	wctx := sdk.WrapSDKContext(ctx)
 	creator := "A"
 	for i := 0; i < 5; i++ {
-		expected := &types.MsgCreateMintperm{Creator: creator,
+		expected := &types.MsgCreateMintperm{
+			Creator: creator,
 			Token:   strconv.Itoa(i),
 			Address: strconv.Itoa(i),
 		}
@@ -47,14 +48,16 @@ func TestMintpermMsgServerUpdate(t *testing.T) {
 	}{
 		{
 			desc: "Completed",
-			request: &types.MsgUpdateMintperm{Creator: creator,
+			request: &types.MsgUpdateMintperm{
+				Creator: creator,
 				Token:   strconv.Itoa(0),
 				Address: strconv.Itoa(0),
 			},
 		},
 		{
 			desc: "Unauthorized",
-			request: &types.MsgUpdateMintperm{Creator: "B",
+			request: &types.MsgUpdateMintperm{
+				Creator: "B",
 				Token:   strconv.Itoa(0),
 				Address: strconv.Itoa(0),
 			},
@@ -62,7 +65,8 @@ func TestMintpermMsgServerUpdate(t *testing.T) {
 		},
 		{
 			desc: "KeyNotFound",
-			request: &types.MsgUpdateMintperm{Creator: creator,
+			request: &types.MsgUpdateMintperm{
+				Creator: creator,
 				Token:   strconv.Itoa(100000),
 				Address: strconv.Itoa(100000),
 			},
@@ -73,7 +77,8 @@ func TestMintpermMsgServerUpdate(t *testing.T) {
 			k, ctx := keepertest.TokenmngrKeeper(t)
 			srv := keeper.NewMsgServerImpl(*k)
 			wctx := sdk.WrapSDKContext(ctx)
-			expected := &types.MsgCreateMintperm{Creator: creator,
+			expected := &types.MsgCreateMintperm{
+				Creator: creator,
 				Token:   strconv.Itoa(0),
 				Address: strconv.Itoa(0),
 			}
@@ -106,14 +111,16 @@ func TestMintpermMsgServerDelete(t *testing.T) {
 	}{
 		{
 			desc: "Completed",
-			request: &types.MsgDeleteMintperm{Creator: creator,
+			request: &types.MsgDeleteMintperm{
+				Creator: creator,
 				Token:   strconv.Itoa(0),
 				Address: strconv.Itoa(0),
 			},
 		},
 		{
 			desc: "Unauthorized",
-			request: &types.MsgDeleteMintperm{Creator: "B",
+			request: &types.MsgDeleteMintperm{
+				Creator: "B",
 				Token:   strconv.Itoa(0),
 				Address: strconv.Itoa(0),
 			},
@@ -121,7 +128,8 @@ func TestMintpermMsgServerDelete(t *testing.T) {
 		},
 		{
 			desc: "KeyNotFound",
-			request: &types.MsgDeleteMintperm{Creator: creator,
+			request: &types.MsgDeleteMintperm{
+				Creator: creator,
 				Token:   strconv.Itoa(100000),
 				Address: strconv.Itoa(100000),
 			},
@@ -133,7 +141,8 @@ func TestMintpermMsgServerDelete(t *testing.T) {
 			srv := keeper.NewMsgServerImpl(*k)
 			wctx := sdk.WrapSDKContext(ctx)
 
-			_, err := srv.CreateMintperm(wctx, &types.MsgCreateMintperm{Creator: creator,
+			_, err := srv.CreateMintperm(wctx, &types.MsgCreateMintperm{
+				Creator: creator,
 				Token:   strconv.Itoa(0),
 				Address: strconv.Itoa(0),
 			})

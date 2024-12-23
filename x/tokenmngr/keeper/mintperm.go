@@ -3,6 +3,7 @@ package keeper
 import (
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
@@ -21,7 +22,6 @@ func (k Keeper) GetMintperm(
 	ctx sdk.Context,
 	token string,
 	address string,
-
 ) (val types.Mintperm, found bool) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.MintpermKeyPrefix))
 
@@ -42,7 +42,6 @@ func (k Keeper) RemoveMintperm(
 	ctx sdk.Context,
 	token string,
 	address string,
-
 ) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.MintpermKeyPrefix))
 	store.Delete(types.MintpermKey(

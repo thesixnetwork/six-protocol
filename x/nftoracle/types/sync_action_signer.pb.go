@@ -5,21 +5,25 @@ package types
 
 import (
 	fmt "fmt"
-	_ "github.com/gogo/protobuf/gogoproto"
-	proto "github.com/gogo/protobuf/proto"
-	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
-	_ "google.golang.org/protobuf/types/known/timestamppb"
 	io "io"
 	math "math"
 	math_bits "math/bits"
 	time "time"
+
+	_ "github.com/gogo/protobuf/gogoproto"
+	proto "github.com/gogo/protobuf/proto"
+	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
+	_ "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-var _ = fmt.Errorf
-var _ = math.Inf
-var _ = time.Kitchen
+
+var (
+	_ = fmt.Errorf
+	_ = math.Inf
+	_ = time.Kitchen
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -50,9 +54,11 @@ func (*SyncActionSigner) ProtoMessage()    {}
 func (*SyncActionSigner) Descriptor() ([]byte, []int) {
 	return fileDescriptor_09731db77a3985aa, []int{0}
 }
+
 func (m *SyncActionSigner) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *SyncActionSigner) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_SyncActionSigner.Marshal(b, m, deterministic)
@@ -65,12 +71,15 @@ func (m *SyncActionSigner) XXX_Marshal(b []byte, deterministic bool) ([]byte, er
 		return b[:n], nil
 	}
 }
+
 func (m *SyncActionSigner) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_SyncActionSigner.Merge(m, src)
 }
+
 func (m *SyncActionSigner) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *SyncActionSigner) XXX_DiscardUnknown() {
 	xxx_messageInfo_SyncActionSigner.DiscardUnknown(m)
 }
@@ -188,9 +197,11 @@ func (*ParameterSyncSignerByOracle) ProtoMessage()    {}
 func (*ParameterSyncSignerByOracle) Descriptor() ([]byte, []int) {
 	return fileDescriptor_09731db77a3985aa, []int{1}
 }
+
 func (m *ParameterSyncSignerByOracle) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *ParameterSyncSignerByOracle) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_ParameterSyncSignerByOracle.Marshal(b, m, deterministic)
@@ -203,12 +214,15 @@ func (m *ParameterSyncSignerByOracle) XXX_Marshal(b []byte, deterministic bool) 
 		return b[:n], nil
 	}
 }
+
 func (m *ParameterSyncSignerByOracle) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_ParameterSyncSignerByOracle.Merge(m, src)
 }
+
 func (m *ParameterSyncSignerByOracle) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *ParameterSyncSignerByOracle) XXX_DiscardUnknown() {
 	xxx_messageInfo_ParameterSyncSignerByOracle.DiscardUnknown(m)
 }
@@ -255,9 +269,11 @@ func (*ContractInfoHash) ProtoMessage()    {}
 func (*ContractInfoHash) Descriptor() ([]byte, []int) {
 	return fileDescriptor_09731db77a3985aa, []int{2}
 }
+
 func (m *ContractInfoHash) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *ContractInfoHash) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_ContractInfoHash.Marshal(b, m, deterministic)
@@ -270,12 +286,15 @@ func (m *ContractInfoHash) XXX_Marshal(b []byte, deterministic bool) ([]byte, er
 		return b[:n], nil
 	}
 }
+
 func (m *ContractInfoHash) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_ContractInfoHash.Merge(m, src)
 }
+
 func (m *ContractInfoHash) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *ContractInfoHash) XXX_DiscardUnknown() {
 	xxx_messageInfo_ContractInfoHash.DiscardUnknown(m)
 }
@@ -593,6 +612,7 @@ func encodeVarintSyncActionSigner(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
+
 func (m *SyncActionSigner) Size() (n int) {
 	if m == nil {
 		return 0
@@ -704,9 +724,11 @@ func (m *ContractInfoHash) Size() (n int) {
 func sovSyncActionSigner(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
+
 func sozSyncActionSigner(x uint64) (n int) {
 	return sovSyncActionSigner(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
+
 func (m *SyncActionSigner) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1144,6 +1166,7 @@ func (m *SyncActionSigner) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func (m *ParameterSyncSignerByOracle) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1322,6 +1345,7 @@ func (m *ParameterSyncSignerByOracle) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func (m *ContractInfoHash) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1474,6 +1498,7 @@ func (m *ContractInfoHash) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func skipSyncActionSigner(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0

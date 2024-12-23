@@ -108,7 +108,7 @@ func (k Keeper) UpdateAttributeKeeper(ctx sdk.Context, creator, nftSchemaName st
 }
 
 func (k Keeper) ResyncAttibutesKeeper(ctx sdk.Context, creator, nftSchemaName, tokenId string) error {
-	// Retreive schema
+	// Retrieve schema
 	schema, found := k.GetNFTSchema(ctx, nftSchemaName)
 	if !found {
 		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
@@ -174,7 +174,7 @@ func (k Keeper) SetAttributeOveridingKeeper(ctx sdk.Context, creator, nftSchemaN
 }
 
 func (k Keeper) ShowAttributeKeeper(ctx sdk.Context, creator, nftSchemaName string, status bool, attributesName []string) error {
-	// Retreive schema
+	// Retrieve schema
 	schema, found := k.GetNFTSchema(ctx, nftSchemaName)
 	if !found {
 		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)

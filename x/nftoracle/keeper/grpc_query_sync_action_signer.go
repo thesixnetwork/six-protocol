@@ -7,9 +7,10 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/cosmos/cosmos-sdk/types/query"
-	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+
+	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 )
 
 func (k Keeper) SyncActionSignerAll(c context.Context, req *types.QueryAllSyncActionSignerRequest) (*types.QueryAllSyncActionSignerResponse, error) {
@@ -32,7 +33,6 @@ func (k Keeper) SyncActionSignerAll(c context.Context, req *types.QueryAllSyncAc
 		syncActionSigners = append(syncActionSigners, syncActionSigner)
 		return nil
 	})
-
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}

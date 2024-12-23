@@ -11,9 +11,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
-var (
-	ActiveActionRequestQueuePrefix = []byte{0x02}
-)
+var ActiveActionRequestQueuePrefix = []byte{0x02}
 
 // GetActionRequestCount get the total number of actionRequest
 func (k Keeper) GetActionRequestCount(ctx sdk.Context) uint64 {
@@ -148,6 +146,7 @@ func (k Keeper) ActiveActionRequestQueueIterator(ctx sdk.Context, endTime time.T
 func ActiveActionRequestQueueKey(requestID uint64, endTime time.Time) []byte {
 	return append(ActiveActionRequestByTimeKey(endTime), GetActionRequestIDBytes(requestID)...)
 }
+
 func ActiveActionRequestByTimeKey(endTime time.Time) []byte {
 	return append(ActiveActionRequestQueuePrefix, sdk.FormatTimeBytes(endTime)...)
 }

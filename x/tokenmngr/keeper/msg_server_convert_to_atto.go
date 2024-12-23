@@ -7,6 +7,7 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/ethereum/go-ethereum/common"
 	ethermint "github.com/evmos/ethermint/types"
+
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
@@ -62,7 +63,7 @@ func (k msgServer) WrapToken(goCtx context.Context, msg *types.MsgWrapToken) (*t
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is higher than current total supply")
 	}
 
-	//send to module
+	// send to module
 	if err := k.bankKeeper.SendCoinsFromAccountToModule(ctx, signer, types.ModuleName, convertAmount); err != nil {
 		return nil, sdkerrors.Wrap(types.ErrSendCoinsFromAccountToModule, "Amount of token is too high than current balance due"+err.Error())
 	}

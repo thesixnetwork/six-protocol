@@ -7,6 +7,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
@@ -41,7 +42,7 @@ func (k msgServer) CreateToken(goCtx context.Context, msg *types.MsgCreateToken)
 	// Set denom metadata to bank module
 	k.bankKeeper.SetDenomMetaData(ctx, denomMetaData)
 
-	var token = types.Token{
+	token := types.Token{
 		Creator:   msg.Creator,
 		Name:      msg.Name,
 		Base:      denomMetaData.Base,
@@ -58,7 +59,6 @@ func (k msgServer) CreateToken(goCtx context.Context, msg *types.MsgCreateToken)
 
 // ! Function will return error for there is no implementation at the moment
 func (k msgServer) UpdateToken(goCtx context.Context, msg *types.MsgUpdateToken) (*types.MsgUpdateTokenResponse, error) {
-
 	return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "operation not available")
 
 	// ctx := sdk.UnwrapSDKContext(goCtx)
