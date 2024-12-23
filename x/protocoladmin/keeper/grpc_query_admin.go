@@ -6,9 +6,10 @@ import (
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
-	"github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+
+	"github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
 )
 
 func (k Keeper) AdminAll(c context.Context, req *types.QueryAllAdminRequest) (*types.QueryAllAdminResponse, error) {
@@ -31,7 +32,6 @@ func (k Keeper) AdminAll(c context.Context, req *types.QueryAllAdminRequest) (*t
 		admins = append(admins, admin)
 		return nil
 	})
-
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}

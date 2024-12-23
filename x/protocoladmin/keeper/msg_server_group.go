@@ -5,6 +5,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+
 	"github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
 )
 
@@ -25,7 +26,7 @@ func (k msgServer) CreateGroup(goCtx context.Context, msg *types.MsgCreateGroup)
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "index already set")
 	}
 
-	var group = types.Group{
+	group := types.Group{
 		Owner: msg.Creator,
 		Name:  msg.Name,
 	}
@@ -40,7 +41,6 @@ func (k msgServer) CreateGroup(goCtx context.Context, msg *types.MsgCreateGroup)
 // ! Function will return error for there is no implementation at the moment.
 // ? Should there be update operation for group?
 func (k msgServer) UpdateGroup(goCtx context.Context, msg *types.MsgUpdateGroup) (*types.MsgUpdateGroupResponse, error) {
-
 	return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "operation not available")
 
 	// ctx := sdk.UnwrapSDKContext(goCtx)

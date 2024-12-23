@@ -3,6 +3,7 @@ package keeper
 import (
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
@@ -23,7 +24,6 @@ func (k Keeper) GetVirtualAction(
 	ctx sdk.Context,
 	code string,
 	actionName string,
-
 ) (val types.VirtualAction, found bool) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.VirtualActionKeyPrefix))
 
@@ -45,7 +45,6 @@ func (k Keeper) RemoveVirtualAction(
 	ctx sdk.Context,
 	code string,
 	actionName string,
-
 ) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.VirtualActionKeyPrefix))
 	store.Delete(types.VirtualActionKey(

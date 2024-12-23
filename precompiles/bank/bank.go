@@ -13,6 +13,7 @@ import (
 	"github.com/ethereum/go-ethereum/core/vm"
 	"github.com/evmos/ethermint/utils"
 	"github.com/tendermint/tendermint/libs/log"
+
 	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
 )
 

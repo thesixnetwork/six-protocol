@@ -8,6 +8,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	"github.com/spf13/cobra"
+
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
@@ -19,7 +20,6 @@ func CmdVoteCreateVirtualSchema() *cobra.Command {
 		Short: "Broadcast message voteCreateVirtualSchema",
 		Args:  cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-
 			proposalId := args[0]
 			argNftSchemaName := args[1]
 			argOption := args[2]

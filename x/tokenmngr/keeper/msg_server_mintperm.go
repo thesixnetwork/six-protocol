@@ -5,6 +5,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
@@ -62,7 +63,7 @@ func (k msgServer) CreateMintperm(goCtx context.Context, msg *types.MsgCreateMin
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "index already set")
 	}
 
-	var mintperm = types.Mintperm{
+	mintperm := types.Mintperm{
 		Creator: msg.Creator,
 		Token:   msg.Token,
 		Address: msg.Address,
@@ -93,7 +94,7 @@ func (k msgServer) UpdateMintperm(goCtx context.Context, msg *types.MsgUpdateMin
 		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
 	}
 
-	var mintperm = types.Mintperm{
+	mintperm := types.Mintperm{
 		Creator: msg.Creator,
 		Token:   msg.Token,
 		Address: msg.Address,

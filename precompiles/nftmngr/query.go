@@ -5,6 +5,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/accounts/abi"
+
 	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
 )
 

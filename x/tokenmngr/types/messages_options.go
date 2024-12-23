@@ -94,6 +94,7 @@ func NewMsgDeleteOptions(creator string) *MsgDeleteOptions {
 		Creator: creator,
 	}
 }
+
 func (msg *MsgDeleteOptions) Route() string {
 	return RouterKey
 }

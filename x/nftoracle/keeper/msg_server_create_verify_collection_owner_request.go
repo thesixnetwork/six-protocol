@@ -11,6 +11,7 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/crypto"
+
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 )
 
@@ -100,12 +101,11 @@ func (k msgServer) CreateVerifyCollectionOwnerRequest(goCtx context.Context, msg
 }
 
 func (k msgServer) ValidateCollectionOwnerSignature(collectionOwnerSig types.CollectionOwnerSignature) (*types.OriginContractParam, *string, error) {
-
 	sign_msg := "\x19Ethereum Signed Message:\n" + strconv.FormatInt(int64(len(collectionOwnerSig.Message)), 10) + collectionOwnerSig.Message
 
 	data := []byte(sign_msg)
 	hash := crypto.Keccak256Hash(data)
-	var hash_bytes = hash.Bytes()
+	hash_bytes := hash.Bytes()
 
 	collectionOwnerParam := &types.OriginContractParam{}
 	collectionOwnerTypeBz, err := base64.StdEncoding.DecodeString(collectionOwnerSig.Message)
@@ -117,7 +117,7 @@ func (k msgServer) ValidateCollectionOwnerSignature(collectionOwnerSig types.Col
 		return nil, nil, sdkerrors.Wrap(types.ErrParsingActionParam, err.Error())
 	}
 
-	//validate signature format
+	// validate signature format
 	decode_signature, err := hexutil.Decode(collectionOwnerSig.Signature)
 	if err != nil {
 		// log.Fatalf("Failed to decode signature: %v", msg.Signature)
@@ -126,7 +126,7 @@ func (k msgServer) ValidateCollectionOwnerSignature(collectionOwnerSig types.Col
 	signature_with_revocery_id := decode_signature
 
 	// get pulic key from signature
-	sigPublicKey, err := crypto.Ecrecover(hash_bytes, decode_signature) //recover publickey from signature and hash
+	sigPublicKey, err := crypto.Ecrecover(hash_bytes, decode_signature) // recover publickey from signature and hash
 	if err != nil {
 		return nil, nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid signature or message")
 	}

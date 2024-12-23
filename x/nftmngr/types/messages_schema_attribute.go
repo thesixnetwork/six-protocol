@@ -16,7 +16,6 @@ func NewMsgUpdateSchemaAttribute(
 	creator string,
 	nftSchemaCode string,
 	base64UpdateAttriuteDefenition string,
-
 ) *MsgUpdateSchemaAttribute {
 	return &MsgUpdateSchemaAttribute{
 		Creator:                        creator,

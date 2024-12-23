@@ -17,7 +17,6 @@ func NewMsgCreateActionExecutor(
 	creator string,
 	nftSchemaCode string,
 	executorAddress string,
-
 ) *MsgCreateActionExecutor {
 	return &MsgCreateActionExecutor{
 		Creator:         creator,
@@ -61,7 +60,6 @@ func NewMsgUpdateActionExecutor(
 	creator string,
 	nftSchemaCode string,
 	executorAddress string,
-
 ) *MsgUpdateActionExecutor {
 	return &MsgUpdateActionExecutor{
 		Creator:         creator,
@@ -105,7 +103,6 @@ func NewMsgDeleteActionExecutor(
 	creator string,
 	nftSchemaCode string,
 	executorAddress string,
-
 ) *MsgDeleteActionExecutor {
 	return &MsgDeleteActionExecutor{
 		Creator:         creator,
@@ -113,6 +110,7 @@ func NewMsgDeleteActionExecutor(
 		ExecutorAddress: executorAddress,
 	}
 }
+
 func (msg *MsgDeleteActionExecutor) Route() string {
 	return RouterKey
 }

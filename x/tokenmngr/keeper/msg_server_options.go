@@ -5,6 +5,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
@@ -22,7 +23,7 @@ func (k msgServer) CreateOptions(goCtx context.Context, msg *types.MsgCreateOpti
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "already set")
 	}
 
-	var options = types.Options{
+	options := types.Options{
 		DefaultMintee: msg.DefaultMintee,
 	}
 
@@ -47,7 +48,7 @@ func (k msgServer) UpdateOptions(goCtx context.Context, msg *types.MsgUpdateOpti
 		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "not set")
 	}
 
-	var options = types.Options{
+	options := types.Options{
 		DefaultMintee: msg.DefaultMintee,
 	}
 

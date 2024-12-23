@@ -3,6 +3,7 @@ package keeper
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
@@ -12,7 +13,7 @@ var (
 	DefaultAttoToMicroDiff = 1_000_000_000_000
 )
 
-func (k Keeper) AttoCoinConverter(ctx sdk.Context, sender sdk.AccAddress, reciever sdk.AccAddress, amount sdk.Int) error {
+func (k Keeper) AttoCoinConverter(ctx sdk.Context, sender sdk.AccAddress, receiver sdk.AccAddress, amount sdk.Int) error {
 	attoCoin := sdk.Coin{
 		Denom:  DefaultAttoDenom,
 		Amount: amount,
@@ -66,7 +67,7 @@ func (k Keeper) AttoCoinConverter(ctx sdk.Context, sender sdk.AccAddress, reciev
 
 	// send back locked micro coin
 	if err := k.bankKeeper.SendCoinsFromModuleToAccount(
-		ctx, types.ModuleName, reciever, sdk.NewCoins(microSix),
+		ctx, types.ModuleName, receiver, sdk.NewCoins(microSix),
 	); err != nil {
 		return sdkerrors.Wrap(types.ErrSendCoinsFromAccountToModule, "unable to send msg.Amounts from module to account despite previously minting msg.Amounts to module account: "+err.Error())
 	}

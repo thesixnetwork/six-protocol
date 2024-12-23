@@ -5,6 +5,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 	// "github.com/ethereum/go-ethereum/common"
 )
@@ -42,7 +43,7 @@ func (k msgServer) CreateActionSignerConfig(goCtx context.Context, msg *types.Ms
 	// 	return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid contract address")
 	// }
 
-	var actionSignerConfig = types.ActionSignerConfig{
+	actionSignerConfig := types.ActionSignerConfig{
 		Creator:         msg.Creator,
 		Chain:           msg.Chain,
 		ContractAddress: msg.ContractAddress,
@@ -100,7 +101,7 @@ func (k msgServer) UpdateActionSignerConfig(goCtx context.Context, msg *types.Ms
 	// 	return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid contract address")
 	// }
 
-	var actionSignerConfig = types.ActionSignerConfig{
+	actionSignerConfig := types.ActionSignerConfig{
 		Creator:         msg.Creator,
 		Chain:           msg.Chain,
 		ContractAddress: msg.ContractAddress,

@@ -5,6 +5,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+
 	nftmngrtypes "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 	// "github.com/ethereum/go-ethereum/common"
 )

@@ -133,6 +133,6 @@ func ProcessCrossSchemaAction(crossMetadata *types.CrossSchemaMetadata, action *
 	if err != nil {
 		return err
 	}
-	
+
 	return nil
 }

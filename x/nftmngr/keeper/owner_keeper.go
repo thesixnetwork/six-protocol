@@ -51,7 +51,7 @@ func (k Keeper) ChangeOrgOwner(ctx sdk.Context, creator, newOwner, orgName strin
 }
 
 func (k Keeper) ChangeSchemaOwner(ctx sdk.Context, creator, newOwner, nftSchemaName string) error {
-	// Retreive schema data
+	// Retrieve schema data
 	schema, found := k.GetNFTSchema(ctx, nftSchemaName)
 	if !found {
 		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, creator)

@@ -8,6 +8,7 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/tendermint/tendermint/libs/log"
+
 	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
 )
 

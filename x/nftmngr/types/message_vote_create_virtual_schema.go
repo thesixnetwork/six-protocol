@@ -9,12 +9,12 @@ const TypeMsgVoteCreateVirtualSchema = "vote_create_virtual_schema"
 
 var _ sdk.Msg = &MsgVoteCreateVirtualSchema{}
 
-func NewMsgVoteCreateVirtualSchema(creator, id, nftSchemaCode string,option RegistryStatus) *MsgVoteCreateVirtualSchema {
+func NewMsgVoteCreateVirtualSchema(creator, id, nftSchemaCode string, option RegistryStatus) *MsgVoteCreateVirtualSchema {
 	return &MsgVoteCreateVirtualSchema{
-		Creator: creator,
-		Id:      id,
+		Creator:       creator,
+		Id:            id,
 		NftSchemaCode: nftSchemaCode,
-		Option:  option,
+		Option:        option,
 	}
 }
 

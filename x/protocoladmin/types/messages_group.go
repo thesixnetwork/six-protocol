@@ -16,7 +16,6 @@ var _ sdk.Msg = &MsgCreateGroup{}
 func NewMsgCreateGroup(
 	creator string,
 	name string,
-
 ) *MsgCreateGroup {
 	return &MsgCreateGroup{
 		Creator: creator,
@@ -58,7 +57,6 @@ var _ sdk.Msg = &MsgUpdateGroup{}
 func NewMsgUpdateGroup(
 	creator string,
 	name string,
-
 ) *MsgUpdateGroup {
 	return &MsgUpdateGroup{
 		Creator: creator,
@@ -100,13 +98,13 @@ var _ sdk.Msg = &MsgDeleteGroup{}
 func NewMsgDeleteGroup(
 	owner string,
 	name string,
-
 ) *MsgDeleteGroup {
 	return &MsgDeleteGroup{
 		Creator: owner,
 		Name:    name,
 	}
 }
+
 func (msg *MsgDeleteGroup) Route() string {
 	return RouterKey
 }

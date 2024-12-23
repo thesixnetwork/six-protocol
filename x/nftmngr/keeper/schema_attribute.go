@@ -3,6 +3,7 @@ package keeper
 import (
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
@@ -21,7 +22,6 @@ func (k Keeper) GetSchemaAttribute(
 	ctx sdk.Context,
 	nftSchemaCode string,
 	name string,
-
 ) (val types.SchemaAttribute, found bool) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.SchemaAttributeKeyPrefix))
 
@@ -42,7 +42,6 @@ func (k Keeper) RemoveSchemaAttribute(
 	ctx sdk.Context,
 	nftSchemaCode string,
 	name string,
-
 ) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.SchemaAttributeKeyPrefix))
 	store.Delete(types.SchemaAttributeKey(

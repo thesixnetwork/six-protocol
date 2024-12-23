@@ -10,6 +10,7 @@ import (
 	porttypes "github.com/cosmos/ibc-go/v3/modules/core/05-port/types"
 	host "github.com/cosmos/ibc-go/v3/modules/core/24-host"
 	ibcexported "github.com/cosmos/ibc-go/v3/modules/core/exported"
+
 	keeper "github.com/thesixnetwork/six-protocol/x/tokenmngr/keeper"
 	types "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
@@ -37,7 +38,6 @@ func (am IBCModule) OnChanOpenInit(
 	counterparty channeltypes.Counterparty,
 	version string,
 ) error {
-
 	// Require portID is the portID module is bound to
 	boundPort := am.keeper.GetPort(ctx)
 	if boundPort != portID {
@@ -68,7 +68,6 @@ func (am IBCModule) OnChanOpenTry(
 	version,
 	counterpartyVersion string,
 ) error {
-
 	// Require portID is the portID module is bound to
 	boundPort := am.keeper.GetPort(ctx)
 	if boundPort != portID {

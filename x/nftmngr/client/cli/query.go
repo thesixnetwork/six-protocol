@@ -48,7 +48,7 @@ func GetQueryCmd(queryRoute string) *cobra.Command {
 	cmd.AddCommand(CmdShowActionOfSchema())
 	cmd.AddCommand(CmdListExecutorOfSchema())
 	cmd.AddCommand(CmdShowExecutorOfSchema())
-	
+
 	cmd.AddCommand(CmdListVirtualAction())
 	cmd.AddCommand(CmdShowVirtualAction())
 	cmd.AddCommand(CmdListVirtualSchema())

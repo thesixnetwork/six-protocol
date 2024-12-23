@@ -29,6 +29,7 @@ import (
 	ethermint "github.com/evmos/ethermint/types"
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
 	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
+
 	"github.com/thesixnetwork/six-protocol/rpc/types"
 )
 

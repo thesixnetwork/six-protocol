@@ -3,6 +3,7 @@ package keeper
 import (
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
 	"github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
 )
 
@@ -21,7 +22,6 @@ func (k Keeper) GetAdmin(
 	ctx sdk.Context,
 	group string,
 	admin string,
-
 ) (val types.Admin, found bool) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.AdminKeyPrefix))
 
@@ -42,7 +42,6 @@ func (k Keeper) RemoveAdmin(
 	ctx sdk.Context,
 	group string,
 	admin string,
-
 ) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.AdminKeyPrefix))
 	store.Delete(types.AdminKey(

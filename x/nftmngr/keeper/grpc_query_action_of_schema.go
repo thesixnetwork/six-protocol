@@ -6,9 +6,10 @@ import (
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+
+	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
 func (k Keeper) ActionOfSchemaAll(c context.Context, req *types.QueryAllActionOfSchemaRequest) (*types.QueryAllActionOfSchemaResponse, error) {
@@ -31,7 +32,6 @@ func (k Keeper) ActionOfSchemaAll(c context.Context, req *types.QueryAllActionOf
 		actionOfSchemas = append(actionOfSchemas, actionOfSchema)
 		return nil
 	})
-
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}

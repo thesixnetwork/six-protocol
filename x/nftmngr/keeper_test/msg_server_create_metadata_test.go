@@ -6,6 +6,7 @@ import (
 
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/gogo/protobuf/jsonpb"
+
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 

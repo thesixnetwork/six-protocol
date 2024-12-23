@@ -3,6 +3,7 @@ package keeper
 import (
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
@@ -19,7 +20,6 @@ func (k Keeper) SetMetadataCreator(ctx sdk.Context, metadataCreator types.Metada
 func (k Keeper) GetMetadataCreator(
 	ctx sdk.Context,
 	nftSchemaCode string,
-
 ) (val types.MetadataCreator, found bool) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.MetadataCreatorKeyPrefix))
 
@@ -38,7 +38,6 @@ func (k Keeper) GetMetadataCreator(
 func (k Keeper) RemoveMetadataCreator(
 	ctx sdk.Context,
 	nftSchemaCode string,
-
 ) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.MetadataCreatorKeyPrefix))
 	store.Delete(types.MetadataCreatorKey(

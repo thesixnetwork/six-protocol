@@ -22,7 +22,6 @@ func (k Keeper) GetNftData(
 	ctx sdk.Context,
 	nftSchemaCode string,
 	tokenId string,
-
 ) (val types.NftData, found bool) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.NftDataKeyPrefix))
 
@@ -43,7 +42,6 @@ func (k Keeper) RemoveNftData(
 	ctx sdk.Context,
 	nftSchemaCode string,
 	tokenId string,
-
 ) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.NftDataKeyPrefix))
 	store.Delete(types.NftDataKey(

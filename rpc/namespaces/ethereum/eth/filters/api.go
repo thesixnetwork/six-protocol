@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/cosmos/cosmos-sdk/client"
+
 	"github.com/thesixnetwork/six-protocol/rpc/types"
 
 	"github.com/tendermint/tendermint/libs/log"

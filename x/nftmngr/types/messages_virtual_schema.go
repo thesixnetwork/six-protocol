@@ -58,13 +58,13 @@ var _ sdk.Msg = &MsgDeleteVirtualSchema{}
 func NewMsgDeleteVirtualSchema(
 	creator string,
 	code string,
-
 ) *MsgDeleteVirtualSchema {
 	return &MsgDeleteVirtualSchema{
 		Creator:              creator,
 		VirtualNftSchemaCode: code,
 	}
 }
+
 func (msg *MsgDeleteVirtualSchema) Route() string {
 	return RouterKey
 }

@@ -7,6 +7,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
@@ -159,7 +160,6 @@ func (k msgServer) DeleteVirtualAction(goCtx context.Context, msg *types.MsgDele
 
 	if !isOwner {
 		return nil, sdkerrors.Wrap(types.ErrUnauthorized, msg.Creator)
-
 	}
 
 	// Check if the virtual action already exists

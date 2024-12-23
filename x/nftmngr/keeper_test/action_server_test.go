@@ -9,6 +9,7 @@ import (
 	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 
 	"github.com/stretchr/testify/require"
+
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/keeper"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
@@ -330,7 +331,7 @@ func TestCrossSchemaAction(t *testing.T) {
 			name: "Native Bridge",
 			action: types.Action{
 				Name:    "native_bridge",
-				Desc:    "Send Value accross schema",
+				Desc:    "Send Value across schema",
 				Disable: false,
 				When:    "true",
 				Then: []string{
@@ -368,8 +369,7 @@ func TestCrossSchemaAction(t *testing.T) {
 	}
 }
 
-
-func TestCrossSchemaError(t *testing.T){
+func TestCrossSchemaError(t *testing.T) {
 	// keeperTest, ctx := keepertest.NftmngrKeeper(t)
 
 	// // Setup Schema A

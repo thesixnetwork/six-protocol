@@ -6,6 +6,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
+
 	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 	"github.com/thesixnetwork/six-protocol/testutil/nullify"
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/keeper"
@@ -39,6 +40,7 @@ func TestTokenGet(t *testing.T) {
 		)
 	}
 }
+
 func TestTokenRemove(t *testing.T) {
 	keeper, ctx := keepertest.TokenmngrKeeper(t)
 	items := createNToken(keeper, ctx, 10)

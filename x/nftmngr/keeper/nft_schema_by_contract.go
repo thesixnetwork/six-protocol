@@ -3,6 +3,7 @@ package keeper
 import (
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
@@ -19,7 +20,6 @@ func (k Keeper) SetNFTSchemaByContract(ctx sdk.Context, nFTSchemaByContract type
 func (k Keeper) GetNFTSchemaByContract(
 	ctx sdk.Context,
 	originContractAddress string,
-
 ) (val types.NFTSchemaByContract, found bool) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.NFTSchemaByContractKeyPrefix))
 
@@ -38,7 +38,6 @@ func (k Keeper) GetNFTSchemaByContract(
 func (k Keeper) RemoveNFTSchemaByContract(
 	ctx sdk.Context,
 	originContractAddress string,
-
 ) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.NFTSchemaByContractKeyPrefix))
 	store.Delete(types.NFTSchemaByContractKey(

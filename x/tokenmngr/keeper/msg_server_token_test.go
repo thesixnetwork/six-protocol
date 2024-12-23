@@ -22,8 +22,9 @@ func TestTokenMsgServerCreate(t *testing.T) {
 	wctx := sdk.WrapSDKContext(ctx)
 	creator := "A"
 	for i := 0; i < 5; i++ {
-		expected := &types.MsgCreateToken{Creator: creator,
-			Name: strconv.Itoa(i),
+		expected := &types.MsgCreateToken{
+			Creator: creator,
+			Name:    strconv.Itoa(i),
 		}
 		_, err := srv.CreateToken(wctx, expected)
 		require.NoError(t, err)
@@ -45,21 +46,24 @@ func TestTokenMsgServerUpdate(t *testing.T) {
 	}{
 		{
 			desc: "Completed",
-			request: &types.MsgUpdateToken{Creator: creator,
-				Name: strconv.Itoa(0),
+			request: &types.MsgUpdateToken{
+				Creator: creator,
+				Name:    strconv.Itoa(0),
 			},
 		},
 		{
 			desc: "Unauthorized",
-			request: &types.MsgUpdateToken{Creator: "B",
-				Name: strconv.Itoa(0),
+			request: &types.MsgUpdateToken{
+				Creator: "B",
+				Name:    strconv.Itoa(0),
 			},
 			err: sdkerrors.ErrUnauthorized,
 		},
 		{
 			desc: "KeyNotFound",
-			request: &types.MsgUpdateToken{Creator: creator,
-				Name: strconv.Itoa(100000),
+			request: &types.MsgUpdateToken{
+				Creator: creator,
+				Name:    strconv.Itoa(100000),
 			},
 			err: sdkerrors.ErrKeyNotFound,
 		},
@@ -68,8 +72,9 @@ func TestTokenMsgServerUpdate(t *testing.T) {
 			k, ctx := keepertest.TokenmngrKeeper(t)
 			srv := keeper.NewMsgServerImpl(*k)
 			wctx := sdk.WrapSDKContext(ctx)
-			expected := &types.MsgCreateToken{Creator: creator,
-				Name: strconv.Itoa(0),
+			expected := &types.MsgCreateToken{
+				Creator: creator,
+				Name:    strconv.Itoa(0),
 			}
 			_, err := srv.CreateToken(wctx, expected)
 			require.NoError(t, err)
@@ -99,21 +104,24 @@ func TestTokenMsgServerDelete(t *testing.T) {
 	}{
 		{
 			desc: "Completed",
-			request: &types.MsgDeleteToken{Creator: creator,
-				Name: strconv.Itoa(0),
+			request: &types.MsgDeleteToken{
+				Creator: creator,
+				Name:    strconv.Itoa(0),
 			},
 		},
 		{
 			desc: "Unauthorized",
-			request: &types.MsgDeleteToken{Creator: "B",
-				Name: strconv.Itoa(0),
+			request: &types.MsgDeleteToken{
+				Creator: "B",
+				Name:    strconv.Itoa(0),
 			},
 			err: sdkerrors.ErrUnauthorized,
 		},
 		{
 			desc: "KeyNotFound",
-			request: &types.MsgDeleteToken{Creator: creator,
-				Name: strconv.Itoa(100000),
+			request: &types.MsgDeleteToken{
+				Creator: creator,
+				Name:    strconv.Itoa(100000),
 			},
 			err: sdkerrors.ErrKeyNotFound,
 		},
@@ -123,8 +131,9 @@ func TestTokenMsgServerDelete(t *testing.T) {
 			srv := keeper.NewMsgServerImpl(*k)
 			wctx := sdk.WrapSDKContext(ctx)
 
-			_, err := srv.CreateToken(wctx, &types.MsgCreateToken{Creator: creator,
-				Name: strconv.Itoa(0),
+			_, err := srv.CreateToken(wctx, &types.MsgCreateToken{
+				Creator: creator,
+				Name:    strconv.Itoa(0),
 			})
 			require.NoError(t, err)
 			_, err = srv.DeleteToken(wctx, tc.request)

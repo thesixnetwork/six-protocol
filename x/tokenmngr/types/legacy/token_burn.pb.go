@@ -5,16 +5,20 @@ package legacy
 
 import (
 	fmt "fmt"
-	proto "github.com/gogo/protobuf/proto"
 	io "io"
 	math "math"
 	math_bits "math/bits"
+
+	proto "github.com/gogo/protobuf/proto"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-var _ = fmt.Errorf
-var _ = math.Inf
+
+var (
+	_ = fmt.Errorf
+	_ = math.Inf
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -33,9 +37,11 @@ func (*TokenBurn) ProtoMessage()    {}
 func (*TokenBurn) Descriptor() ([]byte, []int) {
 	return fileDescriptor_2d5c61f7bfe0b239, []int{0}
 }
+
 func (m *TokenBurn) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *TokenBurn) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_TokenBurn.Marshal(b, m, deterministic)
@@ -48,12 +54,15 @@ func (m *TokenBurn) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return b[:n], nil
 	}
 }
+
 func (m *TokenBurn) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_TokenBurn.Merge(m, src)
 }
+
 func (m *TokenBurn) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *TokenBurn) XXX_DiscardUnknown() {
 	xxx_messageInfo_TokenBurn.DiscardUnknown(m)
 }
@@ -142,6 +151,7 @@ func encodeVarintTokenBurn(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
+
 func (m *TokenBurn) Size() (n int) {
 	if m == nil {
 		return 0
@@ -161,9 +171,11 @@ func (m *TokenBurn) Size() (n int) {
 func sovTokenBurn(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
+
 func sozTokenBurn(x uint64) (n int) {
 	return sovTokenBurn(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
+
 func (m *TokenBurn) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -265,6 +277,7 @@ func (m *TokenBurn) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func skipTokenBurn(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0

@@ -3,6 +3,7 @@ package keeper
 import (
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
@@ -19,7 +20,6 @@ func (k Keeper) SetActionByRefId(ctx sdk.Context, actionByRefId types.ActionByRe
 func (k Keeper) GetActionByRefId(
 	ctx sdk.Context,
 	refId string,
-
 ) (val types.ActionByRefId, found bool) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActionByRefIdKeyPrefix))
 
@@ -38,7 +38,6 @@ func (k Keeper) GetActionByRefId(
 func (k Keeper) RemoveActionByRefId(
 	ctx sdk.Context,
 	refId string,
-
 ) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActionByRefIdKeyPrefix))
 	store.Delete(types.ActionByRefIdKey(

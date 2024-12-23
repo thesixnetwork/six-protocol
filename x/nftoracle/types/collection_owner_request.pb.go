@@ -5,21 +5,25 @@ package types
 
 import (
 	fmt "fmt"
-	_ "github.com/gogo/protobuf/gogoproto"
-	proto "github.com/gogo/protobuf/proto"
-	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
-	_ "google.golang.org/protobuf/types/known/timestamppb"
 	io "io"
 	math "math"
 	math_bits "math/bits"
 	time "time"
+
+	_ "github.com/gogo/protobuf/gogoproto"
+	proto "github.com/gogo/protobuf/proto"
+	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
+	_ "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-var _ = fmt.Errorf
-var _ = math.Inf
-var _ = time.Kitchen
+
+var (
+	_ = fmt.Errorf
+	_ = math.Inf
+	_ = time.Kitchen
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -40,9 +44,11 @@ func (*OriginContractParam) ProtoMessage()    {}
 func (*OriginContractParam) Descriptor() ([]byte, []int) {
 	return fileDescriptor_5b5e5fd2fa665471, []int{0}
 }
+
 func (m *OriginContractParam) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *OriginContractParam) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_OriginContractParam.Marshal(b, m, deterministic)
@@ -55,12 +61,15 @@ func (m *OriginContractParam) XXX_Marshal(b []byte, deterministic bool) ([]byte,
 		return b[:n], nil
 	}
 }
+
 func (m *OriginContractParam) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_OriginContractParam.Merge(m, src)
 }
+
 func (m *OriginContractParam) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *OriginContractParam) XXX_DiscardUnknown() {
 	xxx_messageInfo_OriginContractParam.DiscardUnknown(m)
 }
@@ -115,9 +124,11 @@ func (*CollectionOwnerRequest) ProtoMessage()    {}
 func (*CollectionOwnerRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_5b5e5fd2fa665471, []int{1}
 }
+
 func (m *CollectionOwnerRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *CollectionOwnerRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_CollectionOwnerRequest.Marshal(b, m, deterministic)
@@ -130,12 +141,15 @@ func (m *CollectionOwnerRequest) XXX_Marshal(b []byte, deterministic bool) ([]by
 		return b[:n], nil
 	}
 }
+
 func (m *CollectionOwnerRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_CollectionOwnerRequest.Merge(m, src)
 }
+
 func (m *CollectionOwnerRequest) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *CollectionOwnerRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_CollectionOwnerRequest.DiscardUnknown(m)
 }
@@ -231,9 +245,11 @@ func (*OriginContractInfo) ProtoMessage()    {}
 func (*OriginContractInfo) Descriptor() ([]byte, []int) {
 	return fileDescriptor_5b5e5fd2fa665471, []int{2}
 }
+
 func (m *OriginContractInfo) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *OriginContractInfo) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_OriginContractInfo.Marshal(b, m, deterministic)
@@ -246,12 +262,15 @@ func (m *OriginContractInfo) XXX_Marshal(b []byte, deterministic bool) ([]byte, 
 		return b[:n], nil
 	}
 }
+
 func (m *OriginContractInfo) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_OriginContractInfo.Merge(m, src)
 }
+
 func (m *OriginContractInfo) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *OriginContractInfo) XXX_DiscardUnknown() {
 	xxx_messageInfo_OriginContractInfo.DiscardUnknown(m)
 }
@@ -546,6 +565,7 @@ func encodeVarintCollectionOwnerRequest(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
+
 func (m *OriginContractParam) Size() (n int) {
 	if m == nil {
 		return 0
@@ -643,9 +663,11 @@ func (m *OriginContractInfo) Size() (n int) {
 func sovCollectionOwnerRequest(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
+
 func sozCollectionOwnerRequest(x uint64) (n int) {
 	return sovCollectionOwnerRequest(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
+
 func (m *OriginContractParam) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -825,6 +847,7 @@ func (m *OriginContractParam) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func (m *CollectionOwnerRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1166,6 +1189,7 @@ func (m *CollectionOwnerRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func (m *OriginContractInfo) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1318,6 +1342,7 @@ func (m *OriginContractInfo) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func skipCollectionOwnerRequest(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0

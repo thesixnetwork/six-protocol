@@ -12,6 +12,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 )
 
@@ -61,7 +62,7 @@ func (k msgServer) CreateActionSigner(goCtx context.Context, msg *types.MsgCreat
 				_signerParams.ExpiredAt = endTime
 			}
 
-			var actionSigner = types.ActionSigner{
+			actionSigner := types.ActionSigner{
 				ActorAddress: _signerParams.ActorAddress,
 				OwnerAddress: *signer,
 				CreatedAt:    updatedAt,
@@ -101,7 +102,7 @@ func (k msgServer) CreateActionSigner(goCtx context.Context, msg *types.MsgCreat
 			_signerParams.ExpiredAt = endTime
 		}
 
-		var actionSigner = types.ActionSigner{
+		actionSigner := types.ActionSigner{
 			ActorAddress: _signerParams.ActorAddress,
 			OwnerAddress: *signer,
 			CreatedAt:    createdAt,
@@ -216,7 +217,7 @@ func (k msgServer) UpdateActionSigner(goCtx context.Context, msg *types.MsgUpdat
 		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "incorrect creator")
 	}
 
-	var actionSigner = types.ActionSigner{
+	actionSigner := types.ActionSigner{
 		ActorAddress: _signerParams.ActorAddress,
 		OwnerAddress: *signer,
 		CreatedAt:    updatedAt,
@@ -273,12 +274,11 @@ func (k msgServer) DeleteActionSigner(goCtx context.Context, msg *types.MsgDelet
 }
 
 func (k msgServer) ValidatesetSignernature(setSigner types.SetSignerSignature) (*types.SetSignerParams, *string, error) {
-
 	sign_msg := "\x19Ethereum Signed Message:\n" + strconv.FormatInt(int64(len(setSigner.Message)), 10) + setSigner.Message
 
 	data := []byte(sign_msg)
 	hash := crypto.Keccak256Hash(data)
-	var hash_bytes = hash.Bytes()
+	hash_bytes := hash.Bytes()
 
 	setSignerParams := &types.SetSignerParams{}
 	setSignerTypeBz, err := base64.StdEncoding.DecodeString(setSigner.Message)
@@ -290,7 +290,7 @@ func (k msgServer) ValidatesetSignernature(setSigner types.SetSignerSignature) (
 		return nil, nil, sdkerrors.Wrap(types.ErrParsingSetSignerSignature, err.Error())
 	}
 
-	//validate signature format
+	// validate signature format
 	decode_signature, err := hexutil.Decode(setSigner.Signature)
 	if err != nil {
 		// log.Fatalf("Failed to decode signature: %v", msg.Signature)
@@ -299,7 +299,7 @@ func (k msgServer) ValidatesetSignernature(setSigner types.SetSignerSignature) (
 	signature_with_revocery_id := decode_signature
 
 	// get pulic key from signature
-	sigPublicKey, err := crypto.Ecrecover(hash_bytes, decode_signature) //recover publickey from signature and hash
+	sigPublicKey, err := crypto.Ecrecover(hash_bytes, decode_signature) // recover publickey from signature and hash
 	if err != nil {
 		return nil, nil, sdkerrors.Wrap(types.ErrEcrecover, "invalid signature or message")
 	}

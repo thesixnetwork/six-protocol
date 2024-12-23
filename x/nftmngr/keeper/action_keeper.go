@@ -132,7 +132,7 @@ func (k Keeper) ActionByAdmin(ctx sdk.Context, creator, nftSchemaName, tokenId, 
 
 	for i := 0; i < len(required_param); i++ {
 		if parameters[i].Name != required_param[i].Name {
-			return nil, sdkerrors.Wrap(types.ErrInvalidParameter, "input paramter name is not match to "+required_param[i].Name)
+			return nil, sdkerrors.Wrap(types.ErrInvalidParameter, "input parameter name is not match to "+required_param[i].Name)
 		}
 		if parameters[i].Value == "" {
 			parameters[i].Value = required_param[i].DefaultValue
@@ -418,7 +418,7 @@ func (k Keeper) PerfromVirtualAction(ctx sdk.Context, creator, nftSchemaName, to
 
 	for i := 0; i < len(required_param); i++ {
 		if parameters[i].Name != required_param[i].Name {
-			return nil, sdkerrors.Wrap(types.ErrInvalidParameter, "input paramter name is not match to "+required_param[i].Name)
+			return nil, sdkerrors.Wrap(types.ErrInvalidParameter, "input parameter name is not match to "+required_param[i].Name)
 		}
 		if parameters[i].Value == "" {
 			parameters[i].Value = required_param[i].DefaultValue

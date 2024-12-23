@@ -3,6 +3,7 @@ package keeper
 import (
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
 	"github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
 )
 
@@ -21,7 +22,6 @@ func (k Keeper) SetGroup(ctx sdk.Context, group types.Group) {
 func (k Keeper) GetGroup(
 	ctx sdk.Context,
 	name string,
-
 ) (val types.Group, found bool) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.GroupKeyPrefix))
 
@@ -40,7 +40,6 @@ func (k Keeper) GetGroup(
 func (k Keeper) RemoveGroup(
 	ctx sdk.Context,
 	name string,
-
 ) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.GroupKeyPrefix))
 	store.Delete(types.GroupKey(
