@@ -11,7 +11,7 @@ func (k Keeper) SetActiveVirtualSchemaProposal(ctx sdk.Context, activeVirtualSch
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActiveVirtualSchemaProposalKeyPrefix))
 	b := k.cdc.MustMarshal(&activeVirtualSchemaProposal)
 	store.Set(types.ActiveVirtualSchemaProposalKey(
-		activeVirtualSchemaProposal.Index,
+		activeVirtualSchemaProposal.Id,
 	), b)
 }
 

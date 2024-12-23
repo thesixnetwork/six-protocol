@@ -20,6 +20,7 @@ import "nftmngr/virtual_action.proto";
 import "nftmngr/virtual_schema.proto";
 import "nftmngr/disable_virtual_schema.proto";
 import "nftmngr/active_virtual_schema_proposal.proto";
+import "nftmngr/inactive_virtual_schema_proposal.proto";
 // this line is used by starport scaffolding # genesis/proto/import
 
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
@@ -57,5 +58,6 @@ message GenesisState {
   repeated VirtualSchemaProposal virtualSchemaProposalList = 19
       [ (gogoproto.nullable) = false ];
   repeated ActiveVirtualSchemaProposal activeVirtualSchemaProposalList = 20 [(gogoproto.nullable) = false];
+  repeated InactiveVirtualSchemaProposal inactiveVirtualSchemaProposalList = 21 [(gogoproto.nullable) = false];
   // this line is used by starport scaffolding # genesis/proto/state
 }
