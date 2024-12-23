@@ -5,20 +5,16 @@ package types
 
 import (
 	fmt "fmt"
+	proto "github.com/gogo/protobuf/proto"
 	io "io"
 	math "math"
 	math_bits "math/bits"
-
-	proto "github.com/gogo/protobuf/proto"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-
-var (
-	_ = fmt.Errorf
-	_ = math.Inf
-)
+var _ = fmt.Errorf
+var _ = math.Inf
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -38,11 +34,9 @@ func (*DisableVirtualSchema) ProtoMessage()    {}
 func (*DisableVirtualSchema) Descriptor() ([]byte, []int) {
 	return fileDescriptor_d2dd6dee3450cf76, []int{0}
 }
-
 func (m *DisableVirtualSchema) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *DisableVirtualSchema) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_DisableVirtualSchema.Marshal(b, m, deterministic)
@@ -55,15 +49,12 @@ func (m *DisableVirtualSchema) XXX_Marshal(b []byte, deterministic bool) ([]byte
 		return b[:n], nil
 	}
 }
-
 func (m *DisableVirtualSchema) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_DisableVirtualSchema.Merge(m, src)
 }
-
 func (m *DisableVirtualSchema) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *DisableVirtualSchema) XXX_DiscardUnknown() {
 	xxx_messageInfo_DisableVirtualSchema.DiscardUnknown(m)
 }
@@ -105,11 +96,9 @@ func (*VirtualSchemaDisableRequest) ProtoMessage()    {}
 func (*VirtualSchemaDisableRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_d2dd6dee3450cf76, []int{1}
 }
-
 func (m *VirtualSchemaDisableRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *VirtualSchemaDisableRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_VirtualSchemaDisableRequest.Marshal(b, m, deterministic)
@@ -122,15 +111,12 @@ func (m *VirtualSchemaDisableRequest) XXX_Marshal(b []byte, deterministic bool) 
 		return b[:n], nil
 	}
 }
-
 func (m *VirtualSchemaDisableRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_VirtualSchemaDisableRequest.Merge(m, src)
 }
-
 func (m *VirtualSchemaDisableRequest) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *VirtualSchemaDisableRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_VirtualSchemaDisableRequest.DiscardUnknown(m)
 }
@@ -183,11 +169,9 @@ func (*VirtualSchemaDisableRegistry) ProtoMessage()    {}
 func (*VirtualSchemaDisableRegistry) Descriptor() ([]byte, []int) {
 	return fileDescriptor_d2dd6dee3450cf76, []int{2}
 }
-
 func (m *VirtualSchemaDisableRegistry) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *VirtualSchemaDisableRegistry) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_VirtualSchemaDisableRegistry.Marshal(b, m, deterministic)
@@ -200,15 +184,12 @@ func (m *VirtualSchemaDisableRegistry) XXX_Marshal(b []byte, deterministic bool)
 		return b[:n], nil
 	}
 }
-
 func (m *VirtualSchemaDisableRegistry) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_VirtualSchemaDisableRegistry.Merge(m, src)
 }
-
 func (m *VirtualSchemaDisableRegistry) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *VirtualSchemaDisableRegistry) XXX_DiscardUnknown() {
 	xxx_messageInfo_VirtualSchemaDisableRegistry.DiscardUnknown(m)
 }
@@ -421,7 +402,6 @@ func encodeVarintDisableVirtualSchema(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-
 func (m *DisableVirtualSchema) Size() (n int) {
 	if m == nil {
 		return 0
@@ -493,11 +473,9 @@ func (m *VirtualSchemaDisableRegistry) Size() (n int) {
 func sovDisableVirtualSchema(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
-
 func sozDisableVirtualSchema(x uint64) (n int) {
 	return sovDisableVirtualSchema(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-
 func (m *DisableVirtualSchema) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -644,7 +622,6 @@ func (m *DisableVirtualSchema) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *VirtualSchemaDisableRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -857,7 +834,6 @@ func (m *VirtualSchemaDisableRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *VirtualSchemaDisableRegistry) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -959,7 +935,6 @@ func (m *VirtualSchemaDisableRegistry) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func skipDisableVirtualSchema(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0

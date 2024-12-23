@@ -5,25 +5,21 @@ package types
 
 import (
 	fmt "fmt"
-	io "io"
-	math "math"
-	math_bits "math/bits"
-	time "time"
-
 	_ "github.com/gogo/protobuf/gogoproto"
 	proto "github.com/gogo/protobuf/proto"
 	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
 	_ "google.golang.org/protobuf/types/known/timestamppb"
+	io "io"
+	math "math"
+	math_bits "math/bits"
+	time "time"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-
-var (
-	_ = fmt.Errorf
-	_ = math.Inf
-	_ = time.Kitchen
-)
+var _ = fmt.Errorf
+var _ = math.Inf
+var _ = time.Kitchen
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -42,11 +38,9 @@ func (*ActionParameter) ProtoMessage()    {}
 func (*ActionParameter) Descriptor() ([]byte, []int) {
 	return fileDescriptor_36b7260720dc8e70, []int{0}
 }
-
 func (m *ActionParameter) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *ActionParameter) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_ActionParameter.Marshal(b, m, deterministic)
@@ -59,15 +53,12 @@ func (m *ActionParameter) XXX_Marshal(b []byte, deterministic bool) ([]byte, err
 		return b[:n], nil
 	}
 }
-
 func (m *ActionParameter) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_ActionParameter.Merge(m, src)
 }
-
 func (m *ActionParameter) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *ActionParameter) XXX_DiscardUnknown() {
 	xxx_messageInfo_ActionParameter.DiscardUnknown(m)
 }
@@ -104,11 +95,9 @@ func (*ActionOracleParam) ProtoMessage()    {}
 func (*ActionOracleParam) Descriptor() ([]byte, []int) {
 	return fileDescriptor_36b7260720dc8e70, []int{1}
 }
-
 func (m *ActionOracleParam) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *ActionOracleParam) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_ActionOracleParam.Marshal(b, m, deterministic)
@@ -121,15 +110,12 @@ func (m *ActionOracleParam) XXX_Marshal(b []byte, deterministic bool) ([]byte, e
 		return b[:n], nil
 	}
 }
-
 func (m *ActionOracleParam) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_ActionOracleParam.Merge(m, src)
 }
-
 func (m *ActionOracleParam) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *ActionOracleParam) XXX_DiscardUnknown() {
 	xxx_messageInfo_ActionOracleParam.DiscardUnknown(m)
 }
@@ -210,11 +196,9 @@ func (*ActionOracleRequest) ProtoMessage()    {}
 func (*ActionOracleRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_36b7260720dc8e70, []int{2}
 }
-
 func (m *ActionOracleRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *ActionOracleRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_ActionOracleRequest.Marshal(b, m, deterministic)
@@ -227,15 +211,12 @@ func (m *ActionOracleRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte,
 		return b[:n], nil
 	}
 }
-
 func (m *ActionOracleRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_ActionOracleRequest.Merge(m, src)
 }
-
 func (m *ActionOracleRequest) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *ActionOracleRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_ActionOracleRequest.DiscardUnknown(m)
 }
@@ -681,7 +662,6 @@ func encodeVarintActionRequest(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-
 func (m *ActionParameter) Size() (n int) {
 	if m == nil {
 		return 0
@@ -809,11 +789,9 @@ func (m *ActionOracleRequest) Size() (n int) {
 func sovActionRequest(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
-
 func sozActionRequest(x uint64) (n int) {
 	return sovActionRequest(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-
 func (m *ActionParameter) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -928,7 +906,6 @@ func (m *ActionParameter) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *ActionOracleParam) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1206,7 +1183,6 @@ func (m *ActionOracleParam) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *ActionOracleRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1710,7 +1686,6 @@ func (m *ActionOracleRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func skipActionRequest(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0

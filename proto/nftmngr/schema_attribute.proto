@@ -1,8 +1,6 @@
 syntax = "proto3";
 package thesixnetwork.sixnft.nftmngr;
-import "nftmngr/display_option.proto";
 import "nftmngr/nft_attribute_value.proto";
-import "nftmngr/attribute_definition.proto";
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
 
 message SchemaAttribute {

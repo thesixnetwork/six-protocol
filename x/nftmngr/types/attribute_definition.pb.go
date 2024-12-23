@@ -5,20 +5,16 @@ package types
 
 import (
 	fmt "fmt"
+	proto "github.com/gogo/protobuf/proto"
 	io "io"
 	math "math"
 	math_bits "math/bits"
-
-	proto "github.com/gogo/protobuf/proto"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-
-var (
-	_ = fmt.Errorf
-	_ = math.Inf
-)
+var _ = fmt.Errorf
+var _ = math.Inf
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -41,11 +37,9 @@ func (*DefaultMintValue) ProtoMessage()    {}
 func (*DefaultMintValue) Descriptor() ([]byte, []int) {
 	return fileDescriptor_92a3bff541821c50, []int{0}
 }
-
 func (m *DefaultMintValue) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *DefaultMintValue) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_DefaultMintValue.Marshal(b, m, deterministic)
@@ -58,15 +52,12 @@ func (m *DefaultMintValue) XXX_Marshal(b []byte, deterministic bool) ([]byte, er
 		return b[:n], nil
 	}
 }
-
 func (m *DefaultMintValue) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_DefaultMintValue.Merge(m, src)
 }
-
 func (m *DefaultMintValue) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *DefaultMintValue) XXX_DiscardUnknown() {
 	xxx_messageInfo_DefaultMintValue.DiscardUnknown(m)
 }
@@ -160,11 +151,9 @@ func (*AttributeDefinition) ProtoMessage()    {}
 func (*AttributeDefinition) Descriptor() ([]byte, []int) {
 	return fileDescriptor_92a3bff541821c50, []int{1}
 }
-
 func (m *AttributeDefinition) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *AttributeDefinition) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_AttributeDefinition.Marshal(b, m, deterministic)
@@ -177,15 +166,12 @@ func (m *AttributeDefinition) XXX_Marshal(b []byte, deterministic bool) ([]byte,
 		return b[:n], nil
 	}
 }
-
 func (m *AttributeDefinition) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_AttributeDefinition.Merge(m, src)
 }
-
 func (m *AttributeDefinition) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *AttributeDefinition) XXX_DiscardUnknown() {
 	xxx_messageInfo_AttributeDefinition.DiscardUnknown(m)
 }
@@ -354,7 +340,6 @@ func (m *DefaultMintValue_NumberAttributeValue) MarshalToSizedBuffer(dAtA []byte
 	}
 	return len(dAtA) - i, nil
 }
-
 func (m *DefaultMintValue_StringAttributeValue) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
@@ -376,7 +361,6 @@ func (m *DefaultMintValue_StringAttributeValue) MarshalToSizedBuffer(dAtA []byte
 	}
 	return len(dAtA) - i, nil
 }
-
 func (m *DefaultMintValue_BooleanAttributeValue) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
@@ -398,7 +382,6 @@ func (m *DefaultMintValue_BooleanAttributeValue) MarshalToSizedBuffer(dAtA []byt
 	}
 	return len(dAtA) - i, nil
 }
-
 func (m *DefaultMintValue_FloatAttributeValue) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
@@ -420,7 +403,6 @@ func (m *DefaultMintValue_FloatAttributeValue) MarshalToSizedBuffer(dAtA []byte)
 	}
 	return len(dAtA) - i, nil
 }
-
 func (m *AttributeDefinition) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
@@ -535,7 +517,6 @@ func encodeVarintAttributeDefinition(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-
 func (m *DefaultMintValue) Size() (n int) {
 	if m == nil {
 		return 0
@@ -560,7 +541,6 @@ func (m *DefaultMintValue_NumberAttributeValue) Size() (n int) {
 	}
 	return n
 }
-
 func (m *DefaultMintValue_StringAttributeValue) Size() (n int) {
 	if m == nil {
 		return 0
@@ -573,7 +553,6 @@ func (m *DefaultMintValue_StringAttributeValue) Size() (n int) {
 	}
 	return n
 }
-
 func (m *DefaultMintValue_BooleanAttributeValue) Size() (n int) {
 	if m == nil {
 		return 0
@@ -586,7 +565,6 @@ func (m *DefaultMintValue_BooleanAttributeValue) Size() (n int) {
 	}
 	return n
 }
-
 func (m *DefaultMintValue_FloatAttributeValue) Size() (n int) {
 	if m == nil {
 		return 0
@@ -599,7 +577,6 @@ func (m *DefaultMintValue_FloatAttributeValue) Size() (n int) {
 	}
 	return n
 }
-
 func (m *AttributeDefinition) Size() (n int) {
 	if m == nil {
 		return 0
@@ -644,11 +621,9 @@ func (m *AttributeDefinition) Size() (n int) {
 func sovAttributeDefinition(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
-
 func sozAttributeDefinition(x uint64) (n int) {
 	return sovAttributeDefinition(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-
 func (m *DefaultMintValue) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -839,7 +814,6 @@ func (m *DefaultMintValue) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *AttributeDefinition) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1137,7 +1111,6 @@ func (m *AttributeDefinition) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func skipAttributeDefinition(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0
