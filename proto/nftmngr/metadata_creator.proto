@@ -8,9 +8,7 @@ message MapTokenToMinter {
   string minter = 2;
 }
 
-
 message MetadataCreator {
-  string nftSchemaCode = 1; 
+  string nftSchemaCode = 1;
   repeated MapTokenToMinter metadataMintedBy = 2;
 }
-

@@ -4,8 +4,7 @@ package thesixnetwork.sixnft.nftoracle;
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftoracle/types";
 
 message ActionSignerConfig {
-  string chain = 1; 
-  string contractAddress = 2; 
+  string chain = 1;
+  string contractAddress = 2;
   string creator = 3;
 }
-

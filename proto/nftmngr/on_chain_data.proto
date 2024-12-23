@@ -11,9 +11,8 @@ message FlagStatus {
 }
 
 message OnChainData {
-  repeated AttributeDefinition nft_attributes = 1; 
-  repeated AttributeDefinition token_attributes = 2; 
-  repeated Action actions = 3; 
+  repeated AttributeDefinition nft_attributes = 1;
+  repeated AttributeDefinition token_attributes = 2;
+  repeated Action actions = 3;
   repeated FlagStatus status = 4;
 }
-

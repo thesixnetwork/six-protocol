@@ -4,9 +4,7 @@ package thesixnetwork.sixnft.nftmngr;
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
 
 message ActionOfSchema {
-  string nftSchemaCode = 1; 
-  string name = 2; 
+  string nftSchemaCode = 1;
+  string name = 2;
   uint64 index = 3;
-  
 }
-

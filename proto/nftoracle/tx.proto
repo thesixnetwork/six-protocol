@@ -9,22 +9,37 @@ option go_package = "github.com/thesixnetwork/six-protocol/x/nftoracle/types";
 
 // Msg defines the Msg service.
 service Msg {
-  rpc CreateMintRequest(MsgCreateMintRequest) returns (MsgCreateMintRequestResponse);
-  rpc SubmitMintResponse(MsgSubmitMintResponse) returns (MsgSubmitMintResponseResponse);
-  rpc CreateActionRequest(MsgCreateActionRequest) returns (MsgCreateActionRequestResponse);
-  rpc SubmitActionResponse(MsgSubmitActionResponse) returns (MsgSubmitActionResponseResponse);
-  rpc CreateVerifyCollectionOwnerRequest(MsgCreateVerifyCollectionOwnerRequest) returns (MsgCreateVerifyCollectionOwnerRequestResponse);
-  rpc SubmitVerifyCollectionOwner(MsgSubmitVerifyCollectionOwner) returns (MsgSubmitVerifyCollectionOwnerResponse);
-  rpc SetMinimumConfirmation(MsgSetMinimumConfirmation) returns (MsgSetMinimumConfirmationResponse);
-  rpc CreateActionSigner(MsgCreateActionSigner) returns (MsgCreateActionSignerResponse);
-  rpc UpdateActionSigner(MsgUpdateActionSigner) returns (MsgUpdateActionSignerResponse);
-  rpc DeleteActionSigner(MsgDeleteActionSigner) returns (MsgDeleteActionSignerResponse);
-  rpc CreateActionSignerConfig(MsgCreateActionSignerConfig) returns (MsgCreateActionSignerConfigResponse);
-  rpc UpdateActionSignerConfig(MsgUpdateActionSignerConfig) returns (MsgUpdateActionSignerConfigResponse);
-  rpc DeleteActionSignerConfig(MsgDeleteActionSignerConfig) returns (MsgDeleteActionSignerConfigResponse);
-  rpc CreateSyncActionSigner(MsgCreateSyncActionSigner) returns (MsgCreateSyncActionSignerResponse);
-  rpc SubmitSyncActionSigner(MsgSubmitSyncActionSigner) returns (MsgSubmitSyncActionSignerResponse);
-// this line is used by starport scaffolding # proto/tx/rpc
+  rpc CreateMintRequest(MsgCreateMintRequest)
+      returns (MsgCreateMintRequestResponse);
+  rpc SubmitMintResponse(MsgSubmitMintResponse)
+      returns (MsgSubmitMintResponseResponse);
+  rpc CreateActionRequest(MsgCreateActionRequest)
+      returns (MsgCreateActionRequestResponse);
+  rpc SubmitActionResponse(MsgSubmitActionResponse)
+      returns (MsgSubmitActionResponseResponse);
+  rpc CreateVerifyCollectionOwnerRequest(MsgCreateVerifyCollectionOwnerRequest)
+      returns (MsgCreateVerifyCollectionOwnerRequestResponse);
+  rpc SubmitVerifyCollectionOwner(MsgSubmitVerifyCollectionOwner)
+      returns (MsgSubmitVerifyCollectionOwnerResponse);
+  rpc SetMinimumConfirmation(MsgSetMinimumConfirmation)
+      returns (MsgSetMinimumConfirmationResponse);
+  rpc CreateActionSigner(MsgCreateActionSigner)
+      returns (MsgCreateActionSignerResponse);
+  rpc UpdateActionSigner(MsgUpdateActionSigner)
+      returns (MsgUpdateActionSignerResponse);
+  rpc DeleteActionSigner(MsgDeleteActionSigner)
+      returns (MsgDeleteActionSignerResponse);
+  rpc CreateActionSignerConfig(MsgCreateActionSignerConfig)
+      returns (MsgCreateActionSignerConfigResponse);
+  rpc UpdateActionSignerConfig(MsgUpdateActionSignerConfig)
+      returns (MsgUpdateActionSignerConfigResponse);
+  rpc DeleteActionSignerConfig(MsgDeleteActionSignerConfig)
+      returns (MsgDeleteActionSignerConfigResponse);
+  rpc CreateSyncActionSigner(MsgCreateSyncActionSigner)
+      returns (MsgCreateSyncActionSignerResponse);
+  rpc SubmitSyncActionSigner(MsgSubmitSyncActionSigner)
+      returns (MsgSubmitSyncActionSignerResponse);
+  // this line is used by starport scaffolding # proto/tx/rpc
 }
 
 message MsgCreateMintRequest {
@@ -46,9 +61,7 @@ message MsgSubmitMintResponse {
   string base64NftData = 3;
 }
 
-message MsgSubmitMintResponseResponse {
-  string mintRequestID = 1;
-}
+message MsgSubmitMintResponseResponse { string mintRequestID = 1; }
 
 message MsgCreateActionRequest {
   string creator = 1;
@@ -57,9 +70,7 @@ message MsgCreateActionRequest {
   uint64 requiredConfirm = 4;
 }
 
-message MsgCreateActionRequestResponse {
-  uint64 id = 1;
-}
+message MsgCreateActionRequestResponse { uint64 id = 1; }
 
 message MsgSubmitActionResponse {
   string creator = 1;
@@ -67,9 +78,7 @@ message MsgSubmitActionResponse {
   string base64NftData = 3;
 }
 
-message MsgSubmitActionResponseResponse {
-  string actionRequestID = 1;
-}
+message MsgSubmitActionResponseResponse { string actionRequestID = 1; }
 
 message MsgCreateVerifyCollectionOwnerRequest {
   string creator = 1;
@@ -91,18 +100,14 @@ message MsgSubmitVerifyCollectionOwner {
   string base64OriginContractInfo = 4;
 }
 
-message MsgSubmitVerifyCollectionOwnerResponse {
-  uint64 verifyRequestID = 1;
-}
+message MsgSubmitVerifyCollectionOwnerResponse { uint64 verifyRequestID = 1; }
 
 message MsgSetMinimumConfirmation {
   string creator = 1;
   string newConfirmation = 2;
 }
 
-message MsgSetMinimumConfirmationResponse {
-  string newConfirmation = 1;
-}
+message MsgSetMinimumConfirmationResponse { string newConfirmation = 1; }
 
 message MsgCreateActionSigner {
   string creator = 1;
@@ -172,9 +177,7 @@ message MsgDeleteActionSignerConfig {
   string creator = 1;
   string chain = 2;
 }
-message MsgDeleteActionSignerConfigResponse {
-  string chain = 1;
-}
+message MsgDeleteActionSignerConfigResponse { string chain = 1; }
 
 message MsgCreateSyncActionSigner {
   string creator = 1;
@@ -197,7 +200,7 @@ message MsgSubmitSyncActionSigner {
   string chain = 3;
   string actorAddress = 4;
   string ownerAddress = 5;
-  string expire_epoch = 6; 
+  string expire_epoch = 6;
   /* usign epoch because the data will came from smart contract
   and it is easier to make communication between smart contract and cosmos */
 }

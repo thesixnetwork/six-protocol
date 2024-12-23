@@ -17,18 +17,22 @@ option go_package = "github.com/thesixnetwork/six-protocol/x/nftoracle/types";
 
 // GenesisState defines the nftoracle module's genesis state.
 message GenesisState {
-  Params params = 1 [(gogoproto.nullable) = false];
-  repeated MintRequest mintRequestList = 2 [(gogoproto.nullable) = false];
+  Params params = 1 [ (gogoproto.nullable) = false ];
+  repeated MintRequest mintRequestList = 2 [ (gogoproto.nullable) = false ];
   uint64 mintRequestCount = 3;
-  repeated ActionOracleRequest actionRequestList = 4 [(gogoproto.nullable) = false];
+  repeated ActionOracleRequest actionRequestList = 4
+      [ (gogoproto.nullable) = false ];
   uint64 actionRequestCount = 5;
-  repeated CollectionOwnerRequest collectionOwnerRequestList = 6 [(gogoproto.nullable) = false];
+  repeated CollectionOwnerRequest collectionOwnerRequestList = 6
+      [ (gogoproto.nullable) = false ];
   uint64 collectionOwnerRequestCount = 7;
   OracleConfig oracle_config = 8;
-  repeated ActionSigner actionSignerList = 9 [(gogoproto.nullable) = false];
-  repeated BindedSigner bindedSignerList = 10 [(gogoproto.nullable) = false];
-  repeated ActionSignerConfig actionSignerConfigList = 13 [(gogoproto.nullable) = false];
-  repeated SyncActionSigner syncActionSignerList = 14 [(gogoproto.nullable) = false];
+  repeated ActionSigner actionSignerList = 9 [ (gogoproto.nullable) = false ];
+  repeated BindedSigner bindedSignerList = 10 [ (gogoproto.nullable) = false ];
+  repeated ActionSignerConfig actionSignerConfigList = 13
+      [ (gogoproto.nullable) = false ];
+  repeated SyncActionSigner syncActionSignerList = 14
+      [ (gogoproto.nullable) = false ];
   uint64 syncActionSignerCount = 15;
   // this line is used by starport scaffolding # genesis/proto/state
 }
