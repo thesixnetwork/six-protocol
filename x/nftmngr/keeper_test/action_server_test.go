@@ -1,11 +1,9 @@
 package keeper_test
 
 import (
-	// "fmt"
 	"testing"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	// sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 
 	"github.com/stretchr/testify/require"

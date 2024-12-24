@@ -12,6 +12,10 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
+type (
+	TokenIdVirtualAction map[string]string
+)
+
 func (k Keeper) SetupSchemaAndMetadata(ctx sdk.Context, schemaName, tokenId string) (*types.NFTSchema, *types.NftData, []*types.NftAttributeValue) {
 	var (
 		schema                    = types.NFTSchema{}
@@ -377,7 +381,7 @@ func (k Keeper) ToggleActionKeeper(ctx sdk.Context, creator, nftSchemaName, acti
 	return nil
 }
 
-func (k Keeper) PerfromVirtualAction(ctx sdk.Context, creator, nftSchemaName, tokenId, actionName, refId string, parameters []*types.ActionParameter) (changeList [][]byte, err error) {
+func (k Keeper) PerfromVirtualAction(ctx sdk.Context, creator, vitualSchemaName string, tokenIdMap TokenIdVirtualAction, actionName, refId string, parameters []*types.ActionParameter) (changeList [][]byte, err error) {
 	var (
 		change_list            = [][]byte{}
 		schemaList             = []*types.NFTSchema{}
@@ -388,13 +392,13 @@ func (k Keeper) PerfromVirtualAction(ctx sdk.Context, creator, nftSchemaName, to
 	)
 
 	// get virtual schema
-	virtualSchema, found := k.GetVirtualSchema(ctx, nftSchemaName)
+	virtualSchema, found := k.GetVirtualSchema(ctx, vitualSchemaName)
 	if !found {
-		return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
+		return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, vitualSchemaName)
 	}
 
 	// get virtual action
-	vitualAction, found := k.GetVirtualAction(ctx, nftSchemaName, actionName)
+	vitualAction, found := k.GetVirtualAction(ctx, vitualSchemaName, actionName)
 	if found {
 		if vitualAction.Disable {
 			return nil, sdkerrors.Wrap(types.ErrActionIsDisabled, actionName)
@@ -427,9 +431,9 @@ func (k Keeper) PerfromVirtualAction(ctx sdk.Context, creator, nftSchemaName, to
 
 	// get schema component
 	for _, schemaRegistry := range virtualSchema.Registry {
-		schema, tokenData, convertedSchemaAttributes := k.SetupSchemaAndMetadata(ctx, schemaRegistry.NftSchemaCode, tokenId)
+		schema, tokenData, convertedSchemaAttributes := k.SetupSchemaAndMetadata(ctx, schemaRegistry.NftSchemaCode, tokenIdMap[schemaRegistry.NftSchemaCode])
 		if (schema == nil) || (tokenData == nil) || (convertedSchemaAttributes == nil) {
-			return changeList, sdkerrors.Wrap(types.ErrMetadataDoesNotExists, nftSchemaName)
+			return changeList, sdkerrors.Wrap(types.ErrMetadataDoesNotExists, vitualSchemaName)
 		}
 		schemaList = append(schemaList, schema)
 		tokenDataList = append(tokenDataList, tokenData)
@@ -461,7 +465,7 @@ func (k Keeper) PerfromVirtualAction(ctx sdk.Context, creator, nftSchemaName, to
 		k.SetNftData(ctx, *crossMetadata.GetNftData(schemaRegistry.NftSchemaCode))
 
 		for _, change := range crossMetadata.GetChangeList(schemaRegistry.NftSchemaCode) {
-			val, found := k.GetSchemaAttribute(ctx, nftSchemaName, change.Key)
+			val, found := k.GetSchemaAttribute(ctx, vitualSchemaName, change.Key)
 			if found {
 				switch val.DataType {
 				case "string":
@@ -523,8 +527,8 @@ func (k Keeper) PerfromVirtualAction(ctx sdk.Context, creator, nftSchemaName, to
 		k.SetActionByRefId(ctx, types.ActionByRefId{
 			RefId:         refId,
 			Creator:       creator,
-			NftSchemaCode: nftSchemaName,
-			TokenId:       tokenId,
+			NftSchemaCode: vitualSchemaName,
+			// TokenId:       tokenId,
 			Action:        vitualAction.Name,
 		})
 	}
