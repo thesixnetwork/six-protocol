@@ -5,6 +5,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/auth/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
+	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 	nftadmintypes "github.com/thesixnetwork/six-protocol/x/nftadmin/types"
 )
 
@@ -34,4 +35,9 @@ type StakingKeeper interface {
 
 type DistributionKeeper interface {
 	AllocateTokensToValidator(ctx sdk.Context, val stakingtypes.ValidatorI, tokens sdk.DecCoins)
+}
+
+type GovKeeper interface {
+	GetDepositParams(ctx sdk.Context) govtypes.DepositParams
+	GetVotingParams(ctx sdk.Context) govtypes.VotingParams
 }

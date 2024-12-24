@@ -17,144 +17,53 @@ option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
 
 // Msg defines the Msg service.
 service Msg {
-  rpc CreateNFTSchema(MsgCreateNFTSchema) returns (MsgCreateNFTSchemaResponse) {
-    option (google.api.http).post =
-        "/thesixnetwork.sixnft.nftmngr.MsgCreateNFTSchema";
-  };
-  rpc CreateMetadata(MsgCreateMetadata) returns (MsgCreateMetadataResponse) {
-    option (google.api.http).post =
-        "/thesixnetwork.sixnft.nftmngr.MsgCreateMetadata";
-  };
-  rpc PerformActionByAdmin(MsgPerformActionByAdmin)
-      returns (MsgPerformActionByAdminResponse) {
-    option (google.api.http).post =
-        "/thesixnetwork.sixnft.nftmngr.MsgPerformActionByAdmin";
-  };
-  rpc AddAttribute(MsgAddAttribute) returns (MsgAddAttributeResponse) {
-    option (google.api.http).post =
-        "/thesixnetwork.sixnft.nftmngr.MsgAddAttribute";
-  };
-  rpc AddAction(MsgAddAction) returns (MsgAddActionResponse) {
-    option (google.api.http).post =
-        "/thesixnetwork.sixnft.nftmngr.MsgAddAction";
-  };
-  rpc SetBaseUri(MsgSetBaseUri) returns (MsgSetBaseUriResponse) {
-    option (google.api.http).post =
-        "/thesixnetwork.sixnft.nftmngr.MsgSetBaseUri";
-  };
-  rpc ToggleAction(MsgToggleAction) returns (MsgToggleActionResponse) {
-    option (google.api.http).post =
-        "/thesixnetwork.sixnft.nftmngr.MsgToggleAction";
-  };
+  rpc CreateNFTSchema(MsgCreateNFTSchema) returns (MsgCreateNFTSchemaResponse);
+  rpc CreateMetadata(MsgCreateMetadata) returns (MsgCreateMetadataResponse);
+  rpc PerformActionByAdmin(MsgPerformActionByAdmin) returns (MsgPerformActionByAdminResponse);
+  rpc AddAttribute(MsgAddAttribute) returns (MsgAddAttributeResponse);
+  rpc AddAction(MsgAddAction) returns (MsgAddActionResponse);
+  rpc SetBaseUri(MsgSetBaseUri) returns (MsgSetBaseUriResponse);
+  rpc ToggleAction(MsgToggleAction) returns (MsgToggleActionResponse);
   rpc ChangeSchemaOwner(MsgChangeSchemaOwner)
-      returns (MsgChangeSchemaOwnerResponse) {
-    option (google.api.http).post =
-        "/thesixnetwork.sixnft.nftmngr.MsgChangeSchemaOwner";
-  };
+      returns (MsgChangeSchemaOwnerResponse);
   rpc ResyncAttributes(MsgResyncAttributes)
-      returns (MsgResyncAttributesResponse) {
-    option (google.api.http).post =
-        "/thesixnetwork.sixnft.nftmngr.MsgResyncAttributes";
-  };
-  rpc ShowAttributes(MsgShowAttributes) returns (MsgShowAttributesResponse) {
-    option (google.api.http).post =
-        "/thesixnetwork.sixnft.nftmngr.MsgShowAttributes";
-  };
-  rpc SetFeeConfig(MsgSetFeeConfig) returns (MsgSetFeeConfigResponse) {
-    option (google.api.http).post =
-        "/thesixnetwork.sixnft.nftmngr.MsgSetFeeConfig";
-  };
-  rpc SetMintauth(MsgSetMintauth) returns (MsgSetMintauthResponse) {
-    option (google.api.http).post =
-        "/thesixnetwork.sixnft.nftmngr.MsgSetMintauth";
-  };
-  rpc ChangeOrgOwner(MsgChangeOrgOwner) returns (MsgChangeOrgOwnerResponse) {
-    option (google.api.http).post =
-        "/thesixnetwork.sixnft.nftmngr.MsgChangeOrgOwner";
-  };
+      returns (MsgResyncAttributesResponse);
+  rpc ShowAttributes(MsgShowAttributes) returns (MsgShowAttributesResponse);
+  rpc SetFeeConfig(MsgSetFeeConfig) returns (MsgSetFeeConfigResponse);
+  rpc SetMintauth(MsgSetMintauth) returns (MsgSetMintauthResponse);
+  rpc ChangeOrgOwner(MsgChangeOrgOwner) returns (MsgChangeOrgOwnerResponse);
   rpc CreateMultiMetadata(MsgCreateMultiMetadata)
-      returns (MsgCreateMultiMetadataResponse) {
-    option (google.api.http).post =
-        "/thesixnetwork.sixnft.nftmngr.MsgCreateMultiMetadata";
-  };
+      returns (MsgCreateMultiMetadataResponse);
   rpc SetUriRetrievalMethod(MsgSetUriRetrievalMethod)
-      returns (MsgSetUriRetrievalMethodResponse) {
-    option (google.api.http).post =
-        "/thesixnetwork.sixnft.nftmngr.MsgSetUriRetrievalMethod";
-  };
-  rpc SetOriginChain(MsgSetOriginChain) returns (MsgSetOriginChainResponse) {
-    option (google.api.http).post =
-        "/thesixnetwork.sixnft.nftmngr.MsgSetOriginChain";
-  };
+      returns (MsgSetUriRetrievalMethodResponse);
+  rpc SetOriginChain(MsgSetOriginChain) returns (MsgSetOriginChainResponse);
   rpc SetOriginContract(MsgSetOriginContract)
-      returns (MsgSetOriginContractResponse) {
-    option (google.api.http).post =
-        "/thesixnetwork.sixnft.nftmngr.MsgSetOriginContract";
-  };
+      returns (MsgSetOriginContractResponse);
   rpc SetAttributeOveriding(MsgSetAttributeOveriding)
-      returns (MsgSetAttributeOveridingResponse) {
-    option (google.api.http).post =
-        "/thesixnetwork.sixnft.nftmngr.MsgSetAttributeOveriding";
-  };
+      returns (MsgSetAttributeOveridingResponse);
   rpc SetMetadataFormat(MsgSetMetadataFormat)
-      returns (MsgSetMetadataFormatResponse) {
-    option (google.api.http).post =
-        "/thesixnetwork.sixnft.nftmngr.MsgSetMetadataFormat";
-  };
+      returns (MsgSetMetadataFormatResponse);
   rpc CreateActionExecutor(MsgCreateActionExecutor)
-      returns (MsgCreateActionExecutorResponse) {
-    option (google.api.http).post =
-        "/thesixnetwork.sixnft.nftmngr.MsgCreateActionExecutor";
-  };
+      returns (MsgCreateActionExecutorResponse);
   rpc DeleteActionExecutor(MsgDeleteActionExecutor)
-      returns (MsgDeleteActionExecutorResponse) {
-    option (google.api.http).post =
-        "/thesixnetwork.sixnft.nftmngr.MsgDeleteActionExecutor";
-  };
+      returns (MsgDeleteActionExecutorResponse);
   rpc UpdateSchemaAttribute(MsgUpdateSchemaAttribute)
-      returns (MsgUpdateSchemaAttributeResponse) {
-    option (google.api.http).post =
-        "/thesixnetwork.sixnft.nftmngr.MsgUpdateSchemaAttributeZ";
-  };
-  rpc UpdateAction(MsgUpdateAction) returns (MsgUpdateActionResponse) {
-    option (google.api.http).post =
-        "/thesixnetwork.sixnft.nftmngr.MsgUpdateAction";
-  };
+      returns (MsgUpdateSchemaAttributeResponse);
+  rpc UpdateAction(MsgUpdateAction) returns (MsgUpdateActionResponse);
   rpc CreateVirtualAction(MsgCreateVirtualAction)
-      returns (MsgCreateVirtualActionResponse) {
-    option (google.api.http).post =
-        "/thesixnetwork.sixnft.nftmngr.MsgCreateVirtualAction";
-  };
+      returns (MsgCreateVirtualActionResponse);
   rpc UpdateVirtualAction(MsgUpdateVirtualAction)
-      returns (MsgUpdateVirtualActionResponse) {
-    option (google.api.http).post =
-        "/thesixnetwork.sixnft.nftmngr.MsgUpdateVirtualAction";
-  };
+      returns (MsgUpdateVirtualActionResponse);
   rpc DeleteVirtualAction(MsgDeleteVirtualAction)
-      returns (MsgDeleteVirtualActionResponse) {
-    option (google.api.http).post =
-        "/thesixnetwork.sixnft.nftmngr.MsgDeleteVirtualAction";
-  };
+      returns (MsgDeleteVirtualActionResponse);
   rpc CreateVirtualSchemaProposal(MsgCreateVirtualSchemaProposal)
-      returns (MsgCreateVirtualSchemaResponse) {
-    option (google.api.http).post =
-        "/thesixnetwork.sixnft.nftmngr.MsgCreateVirtualSchemaProposal";
-  };
+      returns (MsgCreateVirtualSchemaResponse);
   rpc DeleteVirtualSchema(MsgDeleteVirtualSchema)
-      returns (MsgDeleteVirtualSchemaResponse) {
-    option (google.api.http).post =
-        "/thesixnetwork.sixnft.nftmngr.MsgDeleteVirtualSchema";
-  };
+      returns (MsgDeleteVirtualSchemaResponse);
   rpc VoteCreateVirtualSchema(MsgVoteCreateVirtualSchema)
-      returns (MsgVoteCreateVirtualSchemaResponse) {
-    option (google.api.http).post =
-        "/thesixnetwork.sixnft.nftmngr.MsgVoteCreateVirtualSchema";
-  };
+      returns (MsgVoteCreateVirtualSchemaResponse);
   rpc DisableVirtualSchemaProposal(MsgDisableVirtualSchemaProposal)
-      returns (MsgDisableVirtualSchemaProposalResponse) {
-    option (google.api.http).post =
-        "/thesixnetwork.sixnft.nftmngr.MsgDisableVirtualSchemaProposal";
-  };
+      returns (MsgDisableVirtualSchemaProposalResponse);
   // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -486,6 +395,7 @@ message MsgCreateVirtualSchemaProposal {
 message MsgCreateVirtualSchemaResponse {
   string id = 1;
   string virtualNftSchemaCode = 2;
+  
 }
 
 // TODO:: Feat(VirtualSchema)

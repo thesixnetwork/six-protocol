@@ -23,6 +23,7 @@ type (
 		bankKeeper         types.BankKeeper
 		stakingKeeper      types.StakingKeeper
 		distributionKeeper types.DistributionKeeper
+		govKeeper          types.GovKeeper
 	}
 )
 
@@ -35,6 +36,7 @@ func NewKeeper(
 	bankKeeper types.BankKeeper,
 	stakingKeeper types.StakingKeeper,
 	distributionKeeper types.DistributionKeeper,
+	govKeeper types.GovKeeper,
 ) *Keeper {
 	// set KeyTable if it has not already been set
 	if !ps.HasKeyTable() {
@@ -50,6 +52,7 @@ func NewKeeper(
 		bankKeeper:         bankKeeper,
 		stakingKeeper:      stakingKeeper,
 		distributionKeeper: distributionKeeper,
+		govKeeper:          govKeeper,
 	}
 }
 
