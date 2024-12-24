@@ -26,15 +26,12 @@ import (
 
 // Suppress "imported and not used" errors
 var _ codes.Code
-
-var (
-	_ io.Reader
-	_ status.Status
-	_ = runtime.String
-	_ = utilities.NewDoubleArray
-	_ = descriptor.ForMessage
-	_ = metadata.Join
-)
+var _ io.Reader
+var _ status.Status
+var _ = runtime.String
+var _ = utilities.NewDoubleArray
+var _ = descriptor.ForMessage
+var _ = metadata.Join
 
 func request_Query_Params_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq QueryParamsRequest
@@ -42,6 +39,7 @@ func request_Query_Params_0(ctx context.Context, marshaler runtime.Marshaler, cl
 
 	msg, err := client.Params(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_Params_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -50,6 +48,7 @@ func local_request_Query_Params_0(ctx context.Context, marshaler runtime.Marshal
 
 	msg, err := server.Params(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
 func request_Query_NFTSchema_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -76,6 +75,7 @@ func request_Query_NFTSchema_0(ctx context.Context, marshaler runtime.Marshaler,
 
 	msg, err := client.NFTSchema(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_NFTSchema_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -102,9 +102,12 @@ func local_request_Query_NFTSchema_0(ctx context.Context, marshaler runtime.Mars
 
 	msg, err := server.NFTSchema(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
-var filter_Query_NFTSchemaAll_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+var (
+	filter_Query_NFTSchemaAll_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+)
 
 func request_Query_NFTSchemaAll_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq QueryAllNFTSchemaRequest
@@ -119,6 +122,7 @@ func request_Query_NFTSchemaAll_0(ctx context.Context, marshaler runtime.Marshal
 
 	msg, err := client.NFTSchemaAll(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_NFTSchemaAll_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -134,9 +138,12 @@ func local_request_Query_NFTSchemaAll_0(ctx context.Context, marshaler runtime.M
 
 	msg, err := server.NFTSchemaAll(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
-var filter_Query_NftData_0 = &utilities.DoubleArray{Encoding: map[string]int{"nftSchemaCode": 0, "tokenId": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
+var (
+	filter_Query_NftData_0 = &utilities.DoubleArray{Encoding: map[string]int{"nftSchemaCode": 0, "tokenId": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
+)
 
 func request_Query_NftData_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq QueryGetNftDataRequest
@@ -180,6 +187,7 @@ func request_Query_NftData_0(ctx context.Context, marshaler runtime.Marshaler, c
 
 	msg, err := client.NftData(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_NftData_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -224,9 +232,12 @@ func local_request_Query_NftData_0(ctx context.Context, marshaler runtime.Marsha
 
 	msg, err := server.NftData(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
-var filter_Query_NftDataAll_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+var (
+	filter_Query_NftDataAll_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+)
 
 func request_Query_NftDataAll_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq QueryAllNftDataRequest
@@ -241,6 +252,7 @@ func request_Query_NftDataAll_0(ctx context.Context, marshaler runtime.Marshaler
 
 	msg, err := client.NftDataAll(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_NftDataAll_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -256,6 +268,7 @@ func local_request_Query_NftDataAll_0(ctx context.Context, marshaler runtime.Mar
 
 	msg, err := server.NftDataAll(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
 func request_Query_ActionByRefId_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -282,6 +295,7 @@ func request_Query_ActionByRefId_0(ctx context.Context, marshaler runtime.Marsha
 
 	msg, err := client.ActionByRefId(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_ActionByRefId_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -308,9 +322,12 @@ func local_request_Query_ActionByRefId_0(ctx context.Context, marshaler runtime.
 
 	msg, err := server.ActionByRefId(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
-var filter_Query_ActionByRefIdAll_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+var (
+	filter_Query_ActionByRefIdAll_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+)
 
 func request_Query_ActionByRefIdAll_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq QueryAllActionByRefIdRequest
@@ -325,6 +342,7 @@ func request_Query_ActionByRefIdAll_0(ctx context.Context, marshaler runtime.Mar
 
 	msg, err := client.ActionByRefIdAll(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_ActionByRefIdAll_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -340,6 +358,7 @@ func local_request_Query_ActionByRefIdAll_0(ctx context.Context, marshaler runti
 
 	msg, err := server.ActionByRefIdAll(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
 func request_Query_Organization_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -366,6 +385,7 @@ func request_Query_Organization_0(ctx context.Context, marshaler runtime.Marshal
 
 	msg, err := client.Organization(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_Organization_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -392,9 +412,12 @@ func local_request_Query_Organization_0(ctx context.Context, marshaler runtime.M
 
 	msg, err := server.Organization(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
-var filter_Query_OrganizationAll_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+var (
+	filter_Query_OrganizationAll_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+)
 
 func request_Query_OrganizationAll_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq QueryAllOrganizationRequest
@@ -409,6 +432,7 @@ func request_Query_OrganizationAll_0(ctx context.Context, marshaler runtime.Mars
 
 	msg, err := client.OrganizationAll(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_OrganizationAll_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -424,9 +448,12 @@ func local_request_Query_OrganizationAll_0(ctx context.Context, marshaler runtim
 
 	msg, err := server.OrganizationAll(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
-var filter_Query_NftCollection_0 = &utilities.DoubleArray{Encoding: map[string]int{"nftSchemaCode": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+var (
+	filter_Query_NftCollection_0 = &utilities.DoubleArray{Encoding: map[string]int{"nftSchemaCode": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+)
 
 func request_Query_NftCollection_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq QueryGetNftCollectionRequest
@@ -459,6 +486,7 @@ func request_Query_NftCollection_0(ctx context.Context, marshaler runtime.Marsha
 
 	msg, err := client.NftCollection(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_NftCollection_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -492,6 +520,7 @@ func local_request_Query_NftCollection_0(ctx context.Context, marshaler runtime.
 
 	msg, err := server.NftCollection(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
 func request_Query_NFTSchemaByContract_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -518,6 +547,7 @@ func request_Query_NFTSchemaByContract_0(ctx context.Context, marshaler runtime.
 
 	msg, err := client.NFTSchemaByContract(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_NFTSchemaByContract_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -544,9 +574,12 @@ func local_request_Query_NFTSchemaByContract_0(ctx context.Context, marshaler ru
 
 	msg, err := server.NFTSchemaByContract(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
-var filter_Query_NFTSchemaByContractAll_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+var (
+	filter_Query_NFTSchemaByContractAll_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+)
 
 func request_Query_NFTSchemaByContractAll_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq QueryAllNFTSchemaByContractRequest
@@ -561,6 +594,7 @@ func request_Query_NFTSchemaByContractAll_0(ctx context.Context, marshaler runti
 
 	msg, err := client.NFTSchemaByContractAll(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_NFTSchemaByContractAll_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -576,6 +610,7 @@ func local_request_Query_NFTSchemaByContractAll_0(ctx context.Context, marshaler
 
 	msg, err := server.NFTSchemaByContractAll(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
 func request_Query_NFTFeeConfig_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -584,6 +619,7 @@ func request_Query_NFTFeeConfig_0(ctx context.Context, marshaler runtime.Marshal
 
 	msg, err := client.NFTFeeConfig(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_NFTFeeConfig_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -592,6 +628,7 @@ func local_request_Query_NFTFeeConfig_0(ctx context.Context, marshaler runtime.M
 
 	msg, err := server.NFTFeeConfig(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
 func request_Query_NFTFeeBalance_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -600,6 +637,7 @@ func request_Query_NFTFeeBalance_0(ctx context.Context, marshaler runtime.Marsha
 
 	msg, err := client.NFTFeeBalance(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_NFTFeeBalance_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -608,6 +646,7 @@ func local_request_Query_NFTFeeBalance_0(ctx context.Context, marshaler runtime.
 
 	msg, err := server.NFTFeeBalance(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
 func request_Query_MetadataCreator_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -634,6 +673,7 @@ func request_Query_MetadataCreator_0(ctx context.Context, marshaler runtime.Mars
 
 	msg, err := client.MetadataCreator(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_MetadataCreator_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -660,9 +700,12 @@ func local_request_Query_MetadataCreator_0(ctx context.Context, marshaler runtim
 
 	msg, err := server.MetadataCreator(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
-var filter_Query_MetadataCreatorAll_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+var (
+	filter_Query_MetadataCreatorAll_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+)
 
 func request_Query_MetadataCreatorAll_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq QueryAllMetadataCreatorRequest
@@ -677,6 +720,7 @@ func request_Query_MetadataCreatorAll_0(ctx context.Context, marshaler runtime.M
 
 	msg, err := client.MetadataCreatorAll(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_MetadataCreatorAll_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -692,6 +736,7 @@ func local_request_Query_MetadataCreatorAll_0(ctx context.Context, marshaler run
 
 	msg, err := server.MetadataCreatorAll(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
 func request_Query_ActionExecutor_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -729,6 +774,7 @@ func request_Query_ActionExecutor_0(ctx context.Context, marshaler runtime.Marsh
 
 	msg, err := client.ActionExecutor(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_ActionExecutor_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -766,9 +812,12 @@ func local_request_Query_ActionExecutor_0(ctx context.Context, marshaler runtime
 
 	msg, err := server.ActionExecutor(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
-var filter_Query_ActionExecutorAll_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+var (
+	filter_Query_ActionExecutorAll_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+)
 
 func request_Query_ActionExecutorAll_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq QueryAllActionExecutorRequest
@@ -783,6 +832,7 @@ func request_Query_ActionExecutorAll_0(ctx context.Context, marshaler runtime.Ma
 
 	msg, err := client.ActionExecutorAll(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_ActionExecutorAll_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -798,6 +848,7 @@ func local_request_Query_ActionExecutorAll_0(ctx context.Context, marshaler runt
 
 	msg, err := server.ActionExecutorAll(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
 func request_Query_SchemaAttribute_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -835,6 +886,7 @@ func request_Query_SchemaAttribute_0(ctx context.Context, marshaler runtime.Mars
 
 	msg, err := client.SchemaAttribute(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_SchemaAttribute_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -872,9 +924,12 @@ func local_request_Query_SchemaAttribute_0(ctx context.Context, marshaler runtim
 
 	msg, err := server.SchemaAttribute(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
-var filter_Query_SchemaAttributeAll_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+var (
+	filter_Query_SchemaAttributeAll_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+)
 
 func request_Query_SchemaAttributeAll_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq QueryAllSchemaAttributeRequest
@@ -889,6 +944,7 @@ func request_Query_SchemaAttributeAll_0(ctx context.Context, marshaler runtime.M
 
 	msg, err := client.SchemaAttributeAll(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_SchemaAttributeAll_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -904,6 +960,7 @@ func local_request_Query_SchemaAttributeAll_0(ctx context.Context, marshaler run
 
 	msg, err := server.SchemaAttributeAll(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
 func request_Query_ListAttributeBySchema_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -930,6 +987,7 @@ func request_Query_ListAttributeBySchema_0(ctx context.Context, marshaler runtim
 
 	msg, err := client.ListAttributeBySchema(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_ListAttributeBySchema_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -956,6 +1014,7 @@ func local_request_Query_ListAttributeBySchema_0(ctx context.Context, marshaler 
 
 	msg, err := server.ListAttributeBySchema(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
 func request_Query_ActionOfSchema_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -993,6 +1052,7 @@ func request_Query_ActionOfSchema_0(ctx context.Context, marshaler runtime.Marsh
 
 	msg, err := client.ActionOfSchema(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_ActionOfSchema_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1030,9 +1090,12 @@ func local_request_Query_ActionOfSchema_0(ctx context.Context, marshaler runtime
 
 	msg, err := server.ActionOfSchema(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
-var filter_Query_ActionOfSchemaAll_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+var (
+	filter_Query_ActionOfSchemaAll_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+)
 
 func request_Query_ActionOfSchemaAll_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq QueryAllActionOfSchemaRequest
@@ -1047,6 +1110,7 @@ func request_Query_ActionOfSchemaAll_0(ctx context.Context, marshaler runtime.Ma
 
 	msg, err := client.ActionOfSchemaAll(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_ActionOfSchemaAll_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1062,6 +1126,7 @@ func local_request_Query_ActionOfSchemaAll_0(ctx context.Context, marshaler runt
 
 	msg, err := server.ActionOfSchemaAll(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
 func request_Query_ExecutorOfSchema_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1088,6 +1153,7 @@ func request_Query_ExecutorOfSchema_0(ctx context.Context, marshaler runtime.Mar
 
 	msg, err := client.ExecutorOfSchema(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_ExecutorOfSchema_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1114,9 +1180,12 @@ func local_request_Query_ExecutorOfSchema_0(ctx context.Context, marshaler runti
 
 	msg, err := server.ExecutorOfSchema(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
-var filter_Query_ExecutorOfSchemaAll_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+var (
+	filter_Query_ExecutorOfSchemaAll_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+)
 
 func request_Query_ExecutorOfSchemaAll_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq QueryAllExecutorOfSchemaRequest
@@ -1131,6 +1200,7 @@ func request_Query_ExecutorOfSchemaAll_0(ctx context.Context, marshaler runtime.
 
 	msg, err := client.ExecutorOfSchemaAll(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_ExecutorOfSchemaAll_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1146,9 +1216,12 @@ func local_request_Query_ExecutorOfSchemaAll_0(ctx context.Context, marshaler ru
 
 	msg, err := server.ExecutorOfSchemaAll(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
-var filter_Query_VirtualAction_0 = &utilities.DoubleArray{Encoding: map[string]int{"nftSchemaCode": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+var (
+	filter_Query_VirtualAction_0 = &utilities.DoubleArray{Encoding: map[string]int{"nftSchemaCode": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+)
 
 func request_Query_VirtualAction_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq QueryGetVirtualActionRequest
@@ -1181,6 +1254,7 @@ func request_Query_VirtualAction_0(ctx context.Context, marshaler runtime.Marsha
 
 	msg, err := client.VirtualAction(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_VirtualAction_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1214,9 +1288,12 @@ func local_request_Query_VirtualAction_0(ctx context.Context, marshaler runtime.
 
 	msg, err := server.VirtualAction(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
-var filter_Query_VirtualActionAll_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+var (
+	filter_Query_VirtualActionAll_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+)
 
 func request_Query_VirtualActionAll_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq QueryAllVirtualActionRequest
@@ -1231,6 +1308,7 @@ func request_Query_VirtualActionAll_0(ctx context.Context, marshaler runtime.Mar
 
 	msg, err := client.VirtualActionAll(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_VirtualActionAll_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1246,6 +1324,7 @@ func local_request_Query_VirtualActionAll_0(ctx context.Context, marshaler runti
 
 	msg, err := server.VirtualActionAll(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
 func request_Query_VirtualSchema_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1272,6 +1351,7 @@ func request_Query_VirtualSchema_0(ctx context.Context, marshaler runtime.Marsha
 
 	msg, err := client.VirtualSchema(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_VirtualSchema_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1298,9 +1378,12 @@ func local_request_Query_VirtualSchema_0(ctx context.Context, marshaler runtime.
 
 	msg, err := server.VirtualSchema(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
-var filter_Query_VirtualSchemaAll_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+var (
+	filter_Query_VirtualSchemaAll_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+)
 
 func request_Query_VirtualSchemaAll_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq QueryAllVirtualSchemaRequest
@@ -1315,6 +1398,7 @@ func request_Query_VirtualSchemaAll_0(ctx context.Context, marshaler runtime.Mar
 
 	msg, err := client.VirtualSchemaAll(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_VirtualSchemaAll_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1330,6 +1414,7 @@ func local_request_Query_VirtualSchemaAll_0(ctx context.Context, marshaler runti
 
 	msg, err := server.VirtualSchemaAll(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
 func request_Query_DisableVirtualSchema_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1356,6 +1441,7 @@ func request_Query_DisableVirtualSchema_0(ctx context.Context, marshaler runtime
 
 	msg, err := client.DisableVirtualSchema(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_DisableVirtualSchema_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1382,9 +1468,12 @@ func local_request_Query_DisableVirtualSchema_0(ctx context.Context, marshaler r
 
 	msg, err := server.DisableVirtualSchema(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
-var filter_Query_DisableVirtualSchemaAll_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+var (
+	filter_Query_DisableVirtualSchemaAll_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+)
 
 func request_Query_DisableVirtualSchemaAll_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq QueryAllDisableVirtualSchemaRequest
@@ -1399,6 +1488,7 @@ func request_Query_DisableVirtualSchemaAll_0(ctx context.Context, marshaler runt
 
 	msg, err := client.DisableVirtualSchemaAll(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_DisableVirtualSchemaAll_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1414,6 +1504,7 @@ func local_request_Query_DisableVirtualSchemaAll_0(ctx context.Context, marshale
 
 	msg, err := server.DisableVirtualSchemaAll(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
 func request_Query_VirtualSchemaProposal_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1440,6 +1531,7 @@ func request_Query_VirtualSchemaProposal_0(ctx context.Context, marshaler runtim
 
 	msg, err := client.VirtualSchemaProposal(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_VirtualSchemaProposal_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1466,9 +1558,12 @@ func local_request_Query_VirtualSchemaProposal_0(ctx context.Context, marshaler 
 
 	msg, err := server.VirtualSchemaProposal(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
-var filter_Query_VirtualSchemaProposalAll_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+var (
+	filter_Query_VirtualSchemaProposalAll_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+)
 
 func request_Query_VirtualSchemaProposalAll_0(ctx context.Context, marshaler runtime.Marshaler, client QueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq QueryAllVirtualSchemaProposalRequest
@@ -1483,6 +1578,7 @@ func request_Query_VirtualSchemaProposalAll_0(ctx context.Context, marshaler run
 
 	msg, err := client.VirtualSchemaProposalAll(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
+
 }
 
 func local_request_Query_VirtualSchemaProposalAll_0(ctx context.Context, marshaler runtime.Marshaler, server QueryServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1498,6 +1594,7 @@ func local_request_Query_VirtualSchemaProposalAll_0(ctx context.Context, marshal
 
 	msg, err := server.VirtualSchemaProposalAll(ctx, &protoReq)
 	return msg, metadata, err
+
 }
 
 // RegisterQueryHandlerServer registers the http handlers for service Query to "mux".
@@ -1505,6 +1602,7 @@ func local_request_Query_VirtualSchemaProposalAll_0(ctx context.Context, marshal
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterQueryHandlerFromEndpoint instead.
 func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, server QueryServer) error {
+
 	mux.Handle("GET", pattern_Query_Params_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -1525,6 +1623,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_Params_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_NFTSchema_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1547,6 +1646,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_NFTSchema_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_NFTSchemaAll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1569,6 +1669,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_NFTSchemaAll_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_NftData_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1591,6 +1692,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_NftData_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_NftDataAll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1613,6 +1715,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_NftDataAll_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_ActionByRefId_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1635,6 +1738,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_ActionByRefId_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_ActionByRefIdAll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1657,6 +1761,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_ActionByRefIdAll_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_Organization_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1679,6 +1784,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_Organization_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_OrganizationAll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1701,6 +1807,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_OrganizationAll_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_NftCollection_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1723,6 +1830,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_NftCollection_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_NFTSchemaByContract_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1745,6 +1853,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_NFTSchemaByContract_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_NFTSchemaByContractAll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1767,6 +1876,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_NFTSchemaByContractAll_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_NFTFeeConfig_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1789,6 +1899,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_NFTFeeConfig_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_NFTFeeBalance_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1811,6 +1922,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_NFTFeeBalance_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_MetadataCreator_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1833,6 +1945,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_MetadataCreator_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_MetadataCreatorAll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1855,6 +1968,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_MetadataCreatorAll_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_ActionExecutor_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1877,6 +1991,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_ActionExecutor_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_ActionExecutorAll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1899,6 +2014,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_ActionExecutorAll_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_SchemaAttribute_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1921,6 +2037,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_SchemaAttribute_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_SchemaAttributeAll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1943,6 +2060,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_SchemaAttributeAll_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_ListAttributeBySchema_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1965,6 +2083,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_ListAttributeBySchema_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_ActionOfSchema_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1987,6 +2106,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_ActionOfSchema_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_ActionOfSchemaAll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2009,6 +2129,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_ActionOfSchemaAll_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_ExecutorOfSchema_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2031,6 +2152,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_ExecutorOfSchema_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_ExecutorOfSchemaAll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2053,6 +2175,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_ExecutorOfSchemaAll_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_VirtualAction_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2075,6 +2198,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_VirtualAction_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_VirtualActionAll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2097,6 +2221,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_VirtualActionAll_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_VirtualSchema_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2119,6 +2244,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_VirtualSchema_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_VirtualSchemaAll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2141,6 +2267,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_VirtualSchemaAll_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_DisableVirtualSchema_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2163,6 +2290,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_DisableVirtualSchema_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_DisableVirtualSchemaAll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2185,6 +2313,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_DisableVirtualSchemaAll_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_VirtualSchemaProposal_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2207,6 +2336,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_VirtualSchemaProposal_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_VirtualSchemaProposalAll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2229,6 +2359,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		}
 
 		forward_Query_VirtualSchemaProposalAll_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	return nil
@@ -2271,6 +2402,7 @@ func RegisterQueryHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
 // "QueryClient" to call the correct interceptors.
 func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, client QueryClient) error {
+
 	mux.Handle("GET", pattern_Query_Params_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -2288,6 +2420,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_Params_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_NFTSchema_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2307,6 +2440,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_NFTSchema_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_NFTSchemaAll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2326,6 +2460,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_NFTSchemaAll_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_NftData_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2345,6 +2480,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_NftData_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_NftDataAll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2364,6 +2500,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_NftDataAll_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_ActionByRefId_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2383,6 +2520,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_ActionByRefId_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_ActionByRefIdAll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2402,6 +2540,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_ActionByRefIdAll_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_Organization_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2421,6 +2560,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_Organization_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_OrganizationAll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2440,6 +2580,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_OrganizationAll_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_NftCollection_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2459,6 +2600,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_NftCollection_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_NFTSchemaByContract_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2478,6 +2620,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_NFTSchemaByContract_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_NFTSchemaByContractAll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2497,6 +2640,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_NFTSchemaByContractAll_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_NFTFeeConfig_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2516,6 +2660,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_NFTFeeConfig_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_NFTFeeBalance_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2535,6 +2680,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_NFTFeeBalance_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_MetadataCreator_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2554,6 +2700,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_MetadataCreator_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_MetadataCreatorAll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2573,6 +2720,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_MetadataCreatorAll_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_ActionExecutor_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2592,6 +2740,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_ActionExecutor_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_ActionExecutorAll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2611,6 +2760,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_ActionExecutorAll_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_SchemaAttribute_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2630,6 +2780,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_SchemaAttribute_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_SchemaAttributeAll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2649,6 +2800,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_SchemaAttributeAll_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_ListAttributeBySchema_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2668,6 +2820,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_ListAttributeBySchema_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_ActionOfSchema_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2687,6 +2840,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_ActionOfSchema_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_ActionOfSchemaAll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2706,6 +2860,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_ActionOfSchemaAll_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_ExecutorOfSchema_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2725,6 +2880,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_ExecutorOfSchema_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_ExecutorOfSchemaAll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2744,6 +2900,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_ExecutorOfSchemaAll_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_VirtualAction_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2763,6 +2920,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_VirtualAction_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_VirtualActionAll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2782,6 +2940,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_VirtualActionAll_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_VirtualSchema_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2801,6 +2960,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_VirtualSchema_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_VirtualSchemaAll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2820,6 +2980,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_VirtualSchemaAll_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_DisableVirtualSchema_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2839,6 +3000,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_DisableVirtualSchema_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_DisableVirtualSchemaAll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2858,6 +3020,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_DisableVirtualSchemaAll_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_VirtualSchemaProposal_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2877,6 +3040,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_VirtualSchemaProposal_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("GET", pattern_Query_VirtualSchemaProposalAll_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2896,6 +3060,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		}
 
 		forward_Query_VirtualSchemaProposalAll_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	return nil
@@ -2952,21 +3117,21 @@ var (
 
 	pattern_Query_ExecutorOfSchemaAll_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"thesixnetwork", "sixnft", "nftmngr", "executor_of_schema"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_VirtualAction_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"thesixnetwork", "six-protocol", "nftmngr", "virtual_action", "nftSchemaCode"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_VirtualAction_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"thesixnetwork", "sixnft", "nftmngr", "virtual_action", "nftSchemaCode"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_VirtualActionAll_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"thesixnetwork", "six-protocol", "nftmngr", "virtual_action"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_VirtualActionAll_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"thesixnetwork", "sixnft", "nftmngr", "virtual_action"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_VirtualSchema_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"thesixnetwork", "six-protocol", "nftmngr", "virtual_schema", "nftSchemaCode"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_VirtualSchema_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"thesixnetwork", "sixnft", "nftmngr", "virtual_schema", "nftSchemaCode"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_VirtualSchemaAll_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"thesixnetwork", "six-protocol", "nftmngr", "virtual_schema"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_VirtualSchemaAll_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"thesixnetwork", "sixnft", "nftmngr", "virtual_schema"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_DisableVirtualSchema_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"thesixnetwork", "six-protocol", "nftmngr", "disable_virtual_schema", "index"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_DisableVirtualSchema_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"thesixnetwork", "sixnft", "nftmngr", "disable_virtual_schema", "index"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_DisableVirtualSchemaAll_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"thesixnetwork", "six-protocol", "nftmngr", "disable_virtual_schema"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_DisableVirtualSchemaAll_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"thesixnetwork", "sixnft", "nftmngr", "disable_virtual_schema"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_VirtualSchemaProposal_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"thesixnetwork", "six-protocol", "nftmngr", "virtual_schema_proposal", "index"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_VirtualSchemaProposal_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"thesixnetwork", "sixnft", "nftmngr", "virtual_schema_proposal", "index"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Query_VirtualSchemaProposalAll_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"thesixnetwork", "six-protocol", "nftmngr", "virtual_schema_proposal"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Query_VirtualSchemaProposalAll_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"thesixnetwork", "sixnft", "nftmngr", "virtual_schema_proposal"}, "", runtime.AssumeColonVerbOpt(true)))
 )
 
 var (
