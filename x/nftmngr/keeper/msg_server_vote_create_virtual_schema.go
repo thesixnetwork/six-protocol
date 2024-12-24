@@ -22,6 +22,11 @@ func (k msgServer) VoteCreateVirtualSchema(goCtx context.Context, msg *types.Msg
 		return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, msg.Id)
 	}
 
+	// chck if proposal still active
+	if active := k.IsProposalActive(ctx, virtualSchemaProposal); !active {
+		return nil, sdkerrors.Wrap(types.ErrProposalExpired, msg.Id)
+	}
+
 	srcSchema, found := k.GetNFTSchema(ctx, msg.NftSchemaCode)
 	if !found {
 		return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, msg.NftSchemaCode)
@@ -51,13 +56,13 @@ func (k msgServer) VoteCreateVirtualSchema(goCtx context.Context, msg *types.Msg
 	virtualSchemaProposal.Registry[registryIndex].Status = msg.Option
 
 	// 5. Check if voting is complete and process results
-	_, totalVotes := countVotes(virtualSchemaProposal.Registry)
-	voteTreshold := len(virtualSchemaProposal.Registry)
+	// _, totalVotes := countVotes(virtualSchemaProposal.Registry)
+	// voteTreshold := len(virtualSchemaProposal.Registry)
 
-	// Check if all votes are in
-	if totalVotes == voteTreshold {
-		k.AfterProposalSuccess(ctx, virtualSchemaProposal.Id)
-	}
+	// // Check if all votes are in
+	// if totalVotes == voteTreshold {
+	// 	k.AfterProposalSuccess(ctx, virtualSchemaProposal.Id)
+	// }
 
 	// save
 	k.SetVirtualSchemaProposal(ctx, virtualSchemaProposal)

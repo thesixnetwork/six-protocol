@@ -84,20 +84,12 @@ func (k Keeper) AfterVoteProposal(ctx sdk.Context, proposalId string) {
 
 // TODO:: Feat(VirtualSchema)
 // ON POC WE WILL JUST CREATE SCHEMA
-func (k Keeper) AfterProposalSuccess(ctx sdk.Context, proposalId string) {
+func (k Keeper) AfterProposalSuccess(ctx sdk.Context, virtualSchemaProposal types.VirtualSchemaProposal) (pass bool) {
 	fmt.Println("###############Tick: AfterProposalSuccess")
-	// validate if proposal complete
-
-	// get virtual info from proposal
-	virtualSchemaProposal, found := k.GetVirtualSchemaProposal(ctx, proposalId)
-	if !found {
-		fmt.Println("###############Tick: AfterProposalSuccess - not found")
-		return
-	}
 
 	if len(virtualSchemaProposal.Registry) == 0 {
 		fmt.Println("###############Tick: AfterProposalSuccess - no registry")
-		return
+		return false
 	}
 
 	acceptCount, totalVotes := countProposalVotes(virtualSchemaProposal.Registry)
@@ -105,7 +97,10 @@ func (k Keeper) AfterProposalSuccess(ctx sdk.Context, proposalId string) {
 
 	if totalVotes != voteThreshold {
 		fmt.Println("###############Tick: AfterProposalSuccess - not enough votes")
-		return
+		fmt.Printf("#### TOTAL VOTE: %v ######\n", totalVotes)
+		fmt.Printf("#### ACCEPT COUNT: %v ######\n", acceptCount)
+		fmt.Printf("#### VOTE THESHOLD: %v ######\n", voteThreshold)
+		return false
 	}
 
 	virtualSchema := types.VirtualSchema{
@@ -115,9 +110,13 @@ func (k Keeper) AfterProposalSuccess(ctx sdk.Context, proposalId string) {
 		ExpiredAtBlock:       "0",
 	}
 
-	fmt.Println("virtualSchemaProposal", virtualSchemaProposal)
+	fmt.Println("####### virtualSchemaProposal", virtualSchemaProposal)
 
 	k.SetVirtualSchema(ctx, virtualSchema)
+	k.RemoveActiveVirtualSchemaProposal(ctx, virtualSchemaProposal.Id)
+	k.SetInactiveVirtualSchemaProposal(ctx, types.InactiveVirtualSchemaProposal{Id: virtualSchemaProposal.Id})
+
+	return true
 }
 
 func countProposalVotes(registry []*types.VirtualSchemaRegistry) (acceptCount, totalVotes int) {

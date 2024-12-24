@@ -1,11 +1,18 @@
 syntax = "proto3";
 package thesixnetwork.sixprotocol.nftmngr;
+
+import "gogoproto/gogo.proto";
+import "google/protobuf/timestamp.proto";
+
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
 
 message VirtualSchemaProposal {
   string id = 1;
   string virtualSchemaCode = 2;
   repeated VirtualSchemaRegistry registry = 3;
+  google.protobuf.Timestamp submitTime = 4 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
+  google.protobuf.Timestamp votinStartTime = 5 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
+  google.protobuf.Timestamp votingEndTime = 6 [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
 }
 
 message VirtualSchema {

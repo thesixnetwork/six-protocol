@@ -55,14 +55,23 @@ func (k msgServer) CreateVirtualSchemaProposal(goCtx context.Context, msg *types
 	proposalId := lastProposalId + 1
 	strProposalId := strconv.FormatInt(int64(proposalId), 10)
 
+	submitTime := ctx.BlockHeader().Time
+	votingPeriod := k.govKeeper.GetVotingParams(ctx).VotingPeriod
+
+	endTime := submitTime.Add(votingPeriod)
+
 	k.SetVirtualSchemaProposal(ctx, types.VirtualSchemaProposal{
 		Id:                strProposalId,
 		VirtualSchemaCode: msg.VirtualNftSchemaCode,
 		Registry:          registry,
+		SubmitTime:        submitTime,
+		VotinStartTime:    submitTime,
+		VotingEndTime:     endTime,
 	})
 
-	// TODO:: Feat(VirtualSchema)
-	// proposal expiration
+	k.SetActiveVirtualSchemaProposal(ctx, types.ActiveVirtualSchemaProposal{
+		Id: strProposalId,
+	})
 
 	return &types.MsgCreateVirtualSchemaResponse{
 		Id:                   strProposalId,
