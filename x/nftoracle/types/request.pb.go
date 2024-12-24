@@ -5,21 +5,17 @@ package types
 
 import (
 	fmt "fmt"
+	proto "github.com/gogo/protobuf/proto"
+	_ "google.golang.org/protobuf/types/known/timestamppb"
 	io "io"
 	math "math"
 	math_bits "math/bits"
-
-	proto "github.com/gogo/protobuf/proto"
-	_ "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-
-var (
-	_ = fmt.Errorf
-	_ = math.Inf
-)
+var _ = fmt.Errorf
+var _ = math.Inf
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -76,11 +72,9 @@ func (*NftOriginData) ProtoMessage()    {}
 func (*NftOriginData) Descriptor() ([]byte, []int) {
 	return fileDescriptor_f60220a52ce49438, []int{0}
 }
-
 func (m *NftOriginData) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *NftOriginData) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_NftOriginData.Marshal(b, m, deterministic)
@@ -93,15 +87,12 @@ func (m *NftOriginData) XXX_Marshal(b []byte, deterministic bool) ([]byte, error
 		return b[:n], nil
 	}
 }
-
 func (m *NftOriginData) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_NftOriginData.Merge(m, src)
 }
-
 func (m *NftOriginData) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *NftOriginData) XXX_DiscardUnknown() {
 	xxx_messageInfo_NftOriginData.DiscardUnknown(m)
 }
@@ -141,11 +132,9 @@ func (*DataHash) ProtoMessage()    {}
 func (*DataHash) Descriptor() ([]byte, []int) {
 	return fileDescriptor_f60220a52ce49438, []int{1}
 }
-
 func (m *DataHash) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *DataHash) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_DataHash.Marshal(b, m, deterministic)
@@ -158,15 +147,12 @@ func (m *DataHash) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return b[:n], nil
 	}
 }
-
 func (m *DataHash) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_DataHash.Merge(m, src)
 }
-
 func (m *DataHash) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *DataHash) XXX_DiscardUnknown() {
 	xxx_messageInfo_DataHash.DiscardUnknown(m)
 }
@@ -347,7 +333,6 @@ func encodeVarintRequest(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-
 func (m *NftOriginData) Size() (n int) {
 	if m == nil {
 		return 0
@@ -397,11 +382,9 @@ func (m *DataHash) Size() (n int) {
 func sovRequest(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
-
 func sozRequest(x uint64) (n int) {
 	return sovRequest(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-
 func (m *NftOriginData) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -550,7 +533,6 @@ func (m *NftOriginData) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *DataHash) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -703,7 +685,6 @@ func (m *DataHash) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func skipRequest(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0
