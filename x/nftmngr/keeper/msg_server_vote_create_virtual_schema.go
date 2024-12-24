@@ -55,30 +55,7 @@ func (k msgServer) VoteCreateVirtualSchema(goCtx context.Context, msg *types.Msg
 	// 4. Update vote
 	virtualSchemaProposal.Registry[registryIndex].Status = msg.Option
 
-	// 5. Check if voting is complete and process results
-	// _, totalVotes := countVotes(virtualSchemaProposal.Registry)
-	// voteTreshold := len(virtualSchemaProposal.Registry)
-
-	// // Check if all votes are in
-	// if totalVotes == voteTreshold {
-	// 	k.AfterProposalSuccess(ctx, virtualSchemaProposal.Id)
-	// }
-
-	// save
 	k.SetVirtualSchemaProposal(ctx, virtualSchemaProposal)
 
 	return &types.MsgVoteCreateVirtualSchemaResponse{}, nil
-}
-
-// countVotes returns the number of accept votes and total votes cast
-func countVotes(registry []*types.VirtualSchemaRegistry) (acceptCount, totalVotes int) {
-	for _, reg := range registry {
-		if reg.Status != types.RegistryStatus_PENDING {
-			totalVotes++
-			if reg.Status == types.RegistryStatus_ACCEPT {
-				acceptCount++
-			}
-		}
-	}
-	return
 }
