@@ -7,6 +7,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	"github.com/spf13/cobra"
+
 	nftmngrutils "github.com/thesixnetwork/six-protocol/x/nftmngr/client/utils"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
@@ -23,9 +24,9 @@ func CmdPerformVirtualAction() *cobra.Command {
 			argActionFilePath := args[0]
 			if len(args) > 1 {
 				refId = args[1]
-			}else{
-        refId = ""
-      }
+			} else {
+				refId = ""
+			}
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
