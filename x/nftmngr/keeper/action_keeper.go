@@ -366,7 +366,6 @@ func (k Keeper) AddVirtualActionKeeper(ctx sdk.Context, creator string, nftSchem
 		}
 	}
 
-	// save index of action
 	k.SetActionOfSchema(ctx, types.ActionOfSchema{
 		Name:          newAction.Name,
 		NftSchemaCode: nftSchemaName,
@@ -383,6 +382,7 @@ func (k Keeper) AddVirtualActionKeeper(ctx sdk.Context, creator string, nftSchem
 		Disable:         newAction.Disable,
 		AllowedActioner: newAction.AllowedActioner,
 	})
+
 	return nil
 }
 
