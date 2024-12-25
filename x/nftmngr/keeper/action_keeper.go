@@ -329,6 +329,63 @@ func (k Keeper) AddActionKeeper(ctx sdk.Context, creator string, nftSchemaName s
 	return nil
 }
 
+func (k Keeper) AddVirtualActionKeeper(ctx sdk.Context, creator string, nftSchemaName string, newAction types.Action) error {
+	isOwner := false
+	virtualSchema, found := k.GetVirtualSchema(ctx, nftSchemaName)
+	if !found {
+		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
+	}
+
+	for _, schemaRegistry := range virtualSchema.Registry {
+		actualSchema, found := k.GetNFTSchema(ctx, schemaRegistry.NftSchemaCode)
+		if !found {
+			return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, schemaRegistry.NftSchemaCode)
+		}
+		if creator == actualSchema.Owner {
+			isOwner = true
+			break
+		}
+	}
+
+	if !isOwner {
+		return sdkerrors.Wrap(types.ErrUnauthorized, creator)
+	}
+
+	// validate Action data
+	err := ValidateVirutualAction(&newAction)
+	if err != nil {
+		return sdkerrors.Wrap(types.ErrValidatingMetadata, err.Error())
+	}
+
+	allSchemaAction := k.GetAllActionOfSchema(ctx)
+
+	count := 0
+	for _, action := range allSchemaAction {
+		if action.NftSchemaCode == nftSchemaName {
+			count++
+		}
+	}
+
+	// save index of action
+	k.SetActionOfSchema(ctx, types.ActionOfSchema{
+		Name:          newAction.Name,
+		NftSchemaCode: nftSchemaName,
+		Index:         uint64(count),
+	})
+
+	k.SetVirtualAction(ctx, types.VirtualAction{
+		NftSchemaCode:   nftSchemaName,
+		Name:            newAction.Name,
+		Desc:            newAction.Desc,
+		When:            newAction.When,
+		Then:            newAction.Then,
+		Params:          newAction.Params,
+		Disable:         newAction.Disable,
+		AllowedActioner: newAction.AllowedActioner,
+	})
+	return nil
+}
+
 func (k Keeper) UpdateActionKeeper(ctx sdk.Context, creator, nftSchemaName string, updateAction types.Action) error {
 	// get existing action
 	actionOfSchema, found := k.GetActionOfSchema(ctx, nftSchemaName, updateAction.Name)
@@ -384,6 +441,7 @@ func (k Keeper) PerformVirtualKeeper(ctx sdk.Context, creator, vitualSchemaName 
 		crossSchemaOveride     = types.CrossSchemaAttributeOverriding{}
 		schemaGlobalAttributes = types.CrossSchemaGlobalAttributes{}
 		shareAttributeName     = types.CrossSchemaSharedAttributeName{}
+		isOwner                = false
 	)
 
 	// get virtual schema
@@ -422,6 +480,22 @@ func (k Keeper) PerformVirtualKeeper(ctx sdk.Context, creator, vitualSchemaName 
 		if parameters[i].Value == "" {
 			parameters[i].Value = required_param[i].DefaultValue
 		}
+	}
+
+	// Check if creator is owner of vitualSchema
+	for _, schemaRegistry := range virtualSchema.Registry {
+		actualSchema, found := k.GetNFTSchema(ctx, schemaRegistry.NftSchemaCode)
+		if !found {
+			return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, schemaRegistry.NftSchemaCode)
+		}
+		if creator == actualSchema.Owner {
+			isOwner = true
+			break
+		}
+	}
+
+	if !isOwner {
+		return nil, sdkerrors.Wrap(types.ErrUnauthorized, creator)
 	}
 
 	// get schema component
@@ -516,7 +590,7 @@ func (k Keeper) PerformVirtualKeeper(ctx sdk.Context, creator, vitualSchemaName 
 		}
 
 		individualChangeList, _ := json.Marshal(crossMetadata.GetChangeList(schemaRegistry.NftSchemaCode))
-    changeList = append(changeList, individualChangeList[i])
+		changeList = append(changeList, individualChangeList[i])
 	}
 
 	// Check action with reference exists

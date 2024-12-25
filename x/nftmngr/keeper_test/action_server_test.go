@@ -147,20 +147,7 @@ type virtualActionTestCase struct {
 }
 
 func setupVirtualAction(t *testing.T, keeper *keeper.Keeper, ctx sdk.Context, virtualSchema *types.VirtualSchema, action types.Action) *types.VirtualAction {
-	keeper.AddActionKeeper(ctx, "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq", virtualSchema.VirtualNftSchemaCode, action)
-
-	virtualAction := types.VirtualAction{
-		NftSchemaCode:   virtualSchema.VirtualNftSchemaCode,
-		Name:            action.Name,
-		Desc:            action.Desc,
-		Disable:         action.Disable,
-		When:            action.When,
-		Then:            action.Then,
-		AllowedActioner: action.AllowedActioner,
-		Params:          action.Params,
-	}
-	keeper.SetVirtualAction(ctx, virtualAction)
-
+  keeper.AddVirtualActionKeeper(ctx, "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq", virtualSchema.VirtualNftSchemaCode, action)
 	storedAction, found := keeper.GetVirtualAction(ctx, virtualSchema.VirtualNftSchemaCode, action.Name)
 	require.True(t, found)
 	require.Equal(t, action, *storedAction.ToAction())
