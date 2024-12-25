@@ -69190,6 +69190,11 @@ definitions:
         type: string
       token_id:
         type: string
+  thesixnetwork.sixprotocol.nftmngr.MsgPerformVirtualActionResponse:
+    type: object
+    properties:
+      nftSchemaName:
+        type: string
   thesixnetwork.sixprotocol.nftmngr.MsgResyncAttributesResponse:
     type: object
     properties:
@@ -71952,6 +71957,13 @@ definitions:
     type: object
     properties:
       value:
+        type: string
+  thesixnetwork.sixprotocol.nftmngr.TokenIdMap:
+    type: object
+    properties:
+      nftSchemaName:
+        type: string
+      tokenId:
         type: string
   thesixnetwork.sixprotocol.nftmngr.URIRetrievalMethod:
     type: string

@@ -12,10 +12,6 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
-type (
-	TokenIdVirtualAction map[string]string
-)
-
 func (k Keeper) SetupSchemaAndMetadata(ctx sdk.Context, schemaName, tokenId string) (*types.NFTSchema, *types.NftData, []*types.NftAttributeValue) {
 	var (
 		schema                    = types.NFTSchema{}
@@ -76,7 +72,7 @@ func (k Keeper) SetupSchemaAndMetadata(ctx sdk.Context, schemaName, tokenId stri
 	return &schema, &tokenData, convertedSchemaAttributes
 }
 
-func (k Keeper) ActionByAdmin(ctx sdk.Context, creator, nftSchemaName, tokenId, actionName, refId string, parameters []*types.ActionParameter) (changelist []byte, err error) {
+func (k Keeper) ActionByAdmin(ctx sdk.Context, creator, nftSchemaName, tokenId, actionName, refId string, parameters []*types.ActionParameter) (changelist types.ActionChangeList, err error) {
 	schema, found := k.GetNFTSchema(ctx, nftSchemaName)
 	if !found {
 		return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
@@ -381,9 +377,8 @@ func (k Keeper) ToggleActionKeeper(ctx sdk.Context, creator, nftSchemaName, acti
 	return nil
 }
 
-func (k Keeper) PerfromVirtualAction(ctx sdk.Context, creator, vitualSchemaName string, tokenIdMap TokenIdVirtualAction, actionName, refId string, parameters []*types.ActionParameter) (changeList [][]byte, err error) {
+func (k Keeper) PerformVirtualKeeper(ctx sdk.Context, creator, vitualSchemaName string, tokenIdMap []*types.TokenIdMap, actionName, refId string, parameters []*types.ActionParameter) (changeList types.ActionChangeList, err error) {
 	var (
-		change_list            = [][]byte{}
 		schemaList             = []*types.NFTSchema{}
 		tokenDataList          = []*types.NftData{}
 		crossSchemaOveride     = types.CrossSchemaAttributeOverriding{}
@@ -431,7 +426,15 @@ func (k Keeper) PerfromVirtualAction(ctx sdk.Context, creator, vitualSchemaName 
 
 	// get schema component
 	for _, schemaRegistry := range virtualSchema.Registry {
-		schema, tokenData, convertedSchemaAttributes := k.SetupSchemaAndMetadata(ctx, schemaRegistry.NftSchemaCode, tokenIdMap[schemaRegistry.NftSchemaCode])
+		tokenIdOFSchema := ""
+		for _, tokenId := range tokenIdMap {
+			if tokenId.NftSchemaName == schemaRegistry.NftSchemaCode {
+				tokenIdOFSchema = tokenId.TokenId
+				break
+			}
+		}
+
+		schema, tokenData, convertedSchemaAttributes := k.SetupSchemaAndMetadata(ctx, schemaRegistry.NftSchemaCode, tokenIdOFSchema)
 		if (schema == nil) || (tokenData == nil) || (convertedSchemaAttributes == nil) {
 			return changeList, sdkerrors.Wrap(types.ErrMetadataDoesNotExists, vitualSchemaName)
 		}
@@ -461,7 +464,7 @@ func (k Keeper) PerfromVirtualAction(ctx sdk.Context, creator, vitualSchemaName 
 		return nil, sdkerrors.Wrap(types.ErrEmptyChangeList, actionName)
 	}
 
-	for _, schemaRegistry := range virtualSchema.Registry {
+	for i, schemaRegistry := range virtualSchema.Registry {
 		k.SetNftData(ctx, *crossMetadata.GetNftData(schemaRegistry.NftSchemaCode))
 
 		for _, change := range crossMetadata.GetChangeList(schemaRegistry.NftSchemaCode) {
@@ -513,7 +516,7 @@ func (k Keeper) PerfromVirtualAction(ctx sdk.Context, creator, vitualSchemaName 
 		}
 
 		individualChangeList, _ := json.Marshal(crossMetadata.GetChangeList(schemaRegistry.NftSchemaCode))
-		change_list = append(change_list, individualChangeList)
+    changeList = append(changeList, individualChangeList[i])
 	}
 
 	// Check action with reference exists
@@ -529,9 +532,9 @@ func (k Keeper) PerfromVirtualAction(ctx sdk.Context, creator, vitualSchemaName 
 			Creator:       creator,
 			NftSchemaCode: vitualSchemaName,
 			// TokenId:       tokenId,
-			Action:        vitualAction.Name,
+			Action: vitualAction.Name,
 		})
 	}
 
-	return change_list, nil
+	return changeList, nil
 }

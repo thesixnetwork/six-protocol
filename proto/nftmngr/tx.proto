@@ -64,7 +64,8 @@ service Msg {
       returns (MsgVoteCreateVirtualSchemaResponse);
   rpc DisableVirtualSchemaProposal(MsgDisableVirtualSchemaProposal)
       returns (MsgDisableVirtualSchemaProposalResponse);
-  // this line is used by starport scaffolding # proto/tx/rpc
+    rpc PerformVirtualAction(MsgPerformVirtualAction) returns (MsgPerformVirtualActionResponse);
+// this line is used by starport scaffolding # proto/tx/rpc
 }
 
 enum AttributeLocation {
@@ -425,4 +426,21 @@ message MsgDisableVirtualSchemaProposalResponse {
   string proposalId = 2;
 }
 
+message MsgPerformVirtualAction {
+  string creator = 1;
+  string nftSchemaName = 2;
+  repeated TokenIdMap tokenIdMap = 3;
+  string action = 4;
+  string refId = 5;
+  repeated ActionParameter parameters = 6;
+}
+
+message MsgPerformVirtualActionResponse {
+  string nftSchemaName = 2;
+}
+
+message TokenIdMap {
+  string nftSchemaName = 1;
+  string tokenId = 2;
+}
 // this line is used by starport scaffolding # proto/tx/message
