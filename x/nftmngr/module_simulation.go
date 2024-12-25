@@ -77,6 +77,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgDisableVirtualSchemaProposal int = 100
 
+	opWeightMsgPerformVirtualAction = "op_weight_msg_perform_virtual_action"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgPerformVirtualAction int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -277,6 +281,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 	operations = append(operations, simulation.NewWeightedOperation(
 		weightMsgDisableVirtualSchemaProposal,
 		nftmngrsimulation.SimulateMsgDisableVirtualSchemaProposal(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgPerformVirtualAction int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgPerformVirtualAction, &weightMsgPerformVirtualAction, nil,
+		func(_ *rand.Rand) {
+			weightMsgPerformVirtualAction = defaultWeightMsgPerformVirtualAction
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgPerformVirtualAction,
+		nftmngrsimulation.SimulateMsgPerformVirtualAction(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
 	// this line is used by starport scaffolding # simapp/module/operation

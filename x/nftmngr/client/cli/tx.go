@@ -25,6 +25,7 @@ const (
 func GetTxCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                        types.ModuleName,
+		Aliases:                    []string{"meta"},
 		Short:                      fmt.Sprintf("%s transactions subcommands", types.ModuleName),
 		DisableFlagParsing:         true,
 		SuggestionsMinimumDistance: 2,
@@ -62,6 +63,7 @@ func GetTxCmd() *cobra.Command {
 	cmd.AddCommand(CmdDeleteVirtualSchema())
 	cmd.AddCommand(CmdVoteCreateVirtualSchema())
 	cmd.AddCommand(CmdDisableVirtualSchemaProposal())
+	cmd.AddCommand(CmdPerformVirtualAction())
 	// this line is used by starport scaffolding # 1
 
 	return cmd

@@ -212,14 +212,12 @@ func (k Keeper) GetAllInactiveVirtualSchemaProposal(ctx sdk.Context) (list []typ
 	return
 }
 
-
 func (k Keeper) ActiveProposalQueryIterator(ctx sdk.Context, endTime time.Time) sdk.Iterator {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActiveVirtualSchemaProposalKeyPrefix))
 	iterator := sdk.KVStorePrefixIterator(store, []byte{})
 
 	return iterator
 }
-
 
 func (k Keeper) InactiveProposalQueryIterator(ctx sdk.Context, endTime time.Time) sdk.Iterator {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.InactiveVirtualSchemaProposalKeyPrefix))

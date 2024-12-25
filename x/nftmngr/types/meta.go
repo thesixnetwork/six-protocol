@@ -25,6 +25,10 @@ type (
 	MapAllKey              map[string]*MetadataAttribute
 	OtherUpdatedTokenDatas map[string]*NftData
 	ChangeList             []*MetadataChange
+
+	// for response
+	ActionChangeList        []byte
+	VirtualActionChangeList map[string]ActionChangeList
 )
 
 type Metadata struct {

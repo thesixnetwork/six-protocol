@@ -42,7 +42,7 @@ type NftmngrKeeper interface {
 	// #     SETTER       #
 	// #                  #
 	// ####################
-	ActionByAdmin(ctx sdk.Context, creator, nftSchemaName, tokenId, actionName, refId string, parameters []*nftmngrtypes.ActionParameter) (changelist []byte, err error)
+	ActionByAdmin(ctx sdk.Context, creator, nftSchemaName, tokenId, actionName, refId string, parameters []*nftmngrtypes.ActionParameter) (nftmngrtypes.ActionChangeList, error)
 	AddAttributeKeeper(ctx sdk.Context, creator string, nftSchemaName string, new_add_attribute nftmngrtypes.AttributeDefinition, location nftmngrtypes.AttributeLocation) error
 	UpdateAttributeKeeper(ctx sdk.Context, creator, nftSchemaName string, update_attribute nftmngrtypes.AttributeDefinition) error
 	ResyncAttibutesKeeper(ctx sdk.Context, creator, nftSchemaName, tokenId string) error

@@ -15,6 +15,7 @@ func GetQueryCmd(queryRoute string) *cobra.Command {
 	// Group nftmngr queries under a subcommand
 	cmd := &cobra.Command{
 		Use:                        types.ModuleName,
+		Aliases:                    []string{"meta"},
 		Short:                      fmt.Sprintf("Querying commands for the %s module", types.ModuleName),
 		DisableFlagParsing:         true,
 		SuggestionsMinimumDistance: 2,
