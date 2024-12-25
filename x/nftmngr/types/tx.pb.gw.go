@@ -26,16 +26,17 @@ import (
 
 // Suppress "imported and not used" errors
 var _ codes.Code
-var _ io.Reader
-var _ status.Status
-var _ = runtime.String
-var _ = utilities.NewDoubleArray
-var _ = descriptor.ForMessage
-var _ = metadata.Join
 
 var (
-	filter_Msg_CreateNFTSchema_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+	_ io.Reader
+	_ status.Status
+	_ = runtime.String
+	_ = utilities.NewDoubleArray
+	_ = descriptor.ForMessage
+	_ = metadata.Join
 )
+
+var filter_Msg_CreateNFTSchema_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Msg_CreateNFTSchema_0(ctx context.Context, marshaler runtime.Marshaler, client MsgClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq MsgCreateNFTSchema
@@ -50,7 +51,6 @@ func request_Msg_CreateNFTSchema_0(ctx context.Context, marshaler runtime.Marsha
 
 	msg, err := client.CreateNFTSchema(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Msg_CreateNFTSchema_0(ctx context.Context, marshaler runtime.Marshaler, server MsgServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -66,12 +66,9 @@ func local_request_Msg_CreateNFTSchema_0(ctx context.Context, marshaler runtime.
 
 	msg, err := server.CreateNFTSchema(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Msg_CreateMetadata_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Msg_CreateMetadata_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Msg_CreateMetadata_0(ctx context.Context, marshaler runtime.Marshaler, client MsgClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq MsgCreateMetadata
@@ -86,7 +83,6 @@ func request_Msg_CreateMetadata_0(ctx context.Context, marshaler runtime.Marshal
 
 	msg, err := client.CreateMetadata(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Msg_CreateMetadata_0(ctx context.Context, marshaler runtime.Marshaler, server MsgServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -102,12 +98,9 @@ func local_request_Msg_CreateMetadata_0(ctx context.Context, marshaler runtime.M
 
 	msg, err := server.CreateMetadata(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Msg_PerformActionByAdmin_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Msg_PerformActionByAdmin_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Msg_PerformActionByAdmin_0(ctx context.Context, marshaler runtime.Marshaler, client MsgClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq MsgPerformActionByAdmin
@@ -122,7 +115,6 @@ func request_Msg_PerformActionByAdmin_0(ctx context.Context, marshaler runtime.M
 
 	msg, err := client.PerformActionByAdmin(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Msg_PerformActionByAdmin_0(ctx context.Context, marshaler runtime.Marshaler, server MsgServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -138,12 +130,9 @@ func local_request_Msg_PerformActionByAdmin_0(ctx context.Context, marshaler run
 
 	msg, err := server.PerformActionByAdmin(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Msg_AddAttribute_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Msg_AddAttribute_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Msg_AddAttribute_0(ctx context.Context, marshaler runtime.Marshaler, client MsgClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq MsgAddAttribute
@@ -158,7 +147,6 @@ func request_Msg_AddAttribute_0(ctx context.Context, marshaler runtime.Marshaler
 
 	msg, err := client.AddAttribute(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Msg_AddAttribute_0(ctx context.Context, marshaler runtime.Marshaler, server MsgServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -174,12 +162,9 @@ func local_request_Msg_AddAttribute_0(ctx context.Context, marshaler runtime.Mar
 
 	msg, err := server.AddAttribute(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Msg_AddAction_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Msg_AddAction_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Msg_AddAction_0(ctx context.Context, marshaler runtime.Marshaler, client MsgClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq MsgAddAction
@@ -194,7 +179,6 @@ func request_Msg_AddAction_0(ctx context.Context, marshaler runtime.Marshaler, c
 
 	msg, err := client.AddAction(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Msg_AddAction_0(ctx context.Context, marshaler runtime.Marshaler, server MsgServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -210,12 +194,9 @@ func local_request_Msg_AddAction_0(ctx context.Context, marshaler runtime.Marsha
 
 	msg, err := server.AddAction(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Msg_SetBaseUri_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Msg_SetBaseUri_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Msg_SetBaseUri_0(ctx context.Context, marshaler runtime.Marshaler, client MsgClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq MsgSetBaseUri
@@ -230,7 +211,6 @@ func request_Msg_SetBaseUri_0(ctx context.Context, marshaler runtime.Marshaler, 
 
 	msg, err := client.SetBaseUri(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Msg_SetBaseUri_0(ctx context.Context, marshaler runtime.Marshaler, server MsgServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -246,12 +226,9 @@ func local_request_Msg_SetBaseUri_0(ctx context.Context, marshaler runtime.Marsh
 
 	msg, err := server.SetBaseUri(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Msg_ToggleAction_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Msg_ToggleAction_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Msg_ToggleAction_0(ctx context.Context, marshaler runtime.Marshaler, client MsgClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq MsgToggleAction
@@ -266,7 +243,6 @@ func request_Msg_ToggleAction_0(ctx context.Context, marshaler runtime.Marshaler
 
 	msg, err := client.ToggleAction(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Msg_ToggleAction_0(ctx context.Context, marshaler runtime.Marshaler, server MsgServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -282,12 +258,9 @@ func local_request_Msg_ToggleAction_0(ctx context.Context, marshaler runtime.Mar
 
 	msg, err := server.ToggleAction(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Msg_ChangeSchemaOwner_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Msg_ChangeSchemaOwner_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Msg_ChangeSchemaOwner_0(ctx context.Context, marshaler runtime.Marshaler, client MsgClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq MsgChangeSchemaOwner
@@ -302,7 +275,6 @@ func request_Msg_ChangeSchemaOwner_0(ctx context.Context, marshaler runtime.Mars
 
 	msg, err := client.ChangeSchemaOwner(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Msg_ChangeSchemaOwner_0(ctx context.Context, marshaler runtime.Marshaler, server MsgServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -318,12 +290,9 @@ func local_request_Msg_ChangeSchemaOwner_0(ctx context.Context, marshaler runtim
 
 	msg, err := server.ChangeSchemaOwner(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Msg_ResyncAttributes_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Msg_ResyncAttributes_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Msg_ResyncAttributes_0(ctx context.Context, marshaler runtime.Marshaler, client MsgClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq MsgResyncAttributes
@@ -338,7 +307,6 @@ func request_Msg_ResyncAttributes_0(ctx context.Context, marshaler runtime.Marsh
 
 	msg, err := client.ResyncAttributes(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Msg_ResyncAttributes_0(ctx context.Context, marshaler runtime.Marshaler, server MsgServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -354,12 +322,9 @@ func local_request_Msg_ResyncAttributes_0(ctx context.Context, marshaler runtime
 
 	msg, err := server.ResyncAttributes(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Msg_ShowAttributes_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Msg_ShowAttributes_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Msg_ShowAttributes_0(ctx context.Context, marshaler runtime.Marshaler, client MsgClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq MsgShowAttributes
@@ -374,7 +339,6 @@ func request_Msg_ShowAttributes_0(ctx context.Context, marshaler runtime.Marshal
 
 	msg, err := client.ShowAttributes(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Msg_ShowAttributes_0(ctx context.Context, marshaler runtime.Marshaler, server MsgServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -390,12 +354,9 @@ func local_request_Msg_ShowAttributes_0(ctx context.Context, marshaler runtime.M
 
 	msg, err := server.ShowAttributes(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Msg_SetFeeConfig_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Msg_SetFeeConfig_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Msg_SetFeeConfig_0(ctx context.Context, marshaler runtime.Marshaler, client MsgClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq MsgSetFeeConfig
@@ -410,7 +371,6 @@ func request_Msg_SetFeeConfig_0(ctx context.Context, marshaler runtime.Marshaler
 
 	msg, err := client.SetFeeConfig(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Msg_SetFeeConfig_0(ctx context.Context, marshaler runtime.Marshaler, server MsgServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -426,12 +386,9 @@ func local_request_Msg_SetFeeConfig_0(ctx context.Context, marshaler runtime.Mar
 
 	msg, err := server.SetFeeConfig(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Msg_SetMintauth_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Msg_SetMintauth_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Msg_SetMintauth_0(ctx context.Context, marshaler runtime.Marshaler, client MsgClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq MsgSetMintauth
@@ -446,7 +403,6 @@ func request_Msg_SetMintauth_0(ctx context.Context, marshaler runtime.Marshaler,
 
 	msg, err := client.SetMintauth(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Msg_SetMintauth_0(ctx context.Context, marshaler runtime.Marshaler, server MsgServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -462,12 +418,9 @@ func local_request_Msg_SetMintauth_0(ctx context.Context, marshaler runtime.Mars
 
 	msg, err := server.SetMintauth(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Msg_ChangeOrgOwner_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Msg_ChangeOrgOwner_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Msg_ChangeOrgOwner_0(ctx context.Context, marshaler runtime.Marshaler, client MsgClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq MsgChangeOrgOwner
@@ -482,7 +435,6 @@ func request_Msg_ChangeOrgOwner_0(ctx context.Context, marshaler runtime.Marshal
 
 	msg, err := client.ChangeOrgOwner(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Msg_ChangeOrgOwner_0(ctx context.Context, marshaler runtime.Marshaler, server MsgServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -498,12 +450,9 @@ func local_request_Msg_ChangeOrgOwner_0(ctx context.Context, marshaler runtime.M
 
 	msg, err := server.ChangeOrgOwner(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Msg_CreateMultiMetadata_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Msg_CreateMultiMetadata_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Msg_CreateMultiMetadata_0(ctx context.Context, marshaler runtime.Marshaler, client MsgClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq MsgCreateMultiMetadata
@@ -518,7 +467,6 @@ func request_Msg_CreateMultiMetadata_0(ctx context.Context, marshaler runtime.Ma
 
 	msg, err := client.CreateMultiMetadata(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Msg_CreateMultiMetadata_0(ctx context.Context, marshaler runtime.Marshaler, server MsgServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -534,12 +482,9 @@ func local_request_Msg_CreateMultiMetadata_0(ctx context.Context, marshaler runt
 
 	msg, err := server.CreateMultiMetadata(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Msg_SetUriRetrievalMethod_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Msg_SetUriRetrievalMethod_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Msg_SetUriRetrievalMethod_0(ctx context.Context, marshaler runtime.Marshaler, client MsgClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq MsgSetUriRetrievalMethod
@@ -554,7 +499,6 @@ func request_Msg_SetUriRetrievalMethod_0(ctx context.Context, marshaler runtime.
 
 	msg, err := client.SetUriRetrievalMethod(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Msg_SetUriRetrievalMethod_0(ctx context.Context, marshaler runtime.Marshaler, server MsgServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -570,12 +514,9 @@ func local_request_Msg_SetUriRetrievalMethod_0(ctx context.Context, marshaler ru
 
 	msg, err := server.SetUriRetrievalMethod(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Msg_SetOriginChain_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Msg_SetOriginChain_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Msg_SetOriginChain_0(ctx context.Context, marshaler runtime.Marshaler, client MsgClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq MsgSetOriginChain
@@ -590,7 +531,6 @@ func request_Msg_SetOriginChain_0(ctx context.Context, marshaler runtime.Marshal
 
 	msg, err := client.SetOriginChain(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Msg_SetOriginChain_0(ctx context.Context, marshaler runtime.Marshaler, server MsgServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -606,12 +546,9 @@ func local_request_Msg_SetOriginChain_0(ctx context.Context, marshaler runtime.M
 
 	msg, err := server.SetOriginChain(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Msg_SetOriginContract_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Msg_SetOriginContract_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Msg_SetOriginContract_0(ctx context.Context, marshaler runtime.Marshaler, client MsgClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq MsgSetOriginContract
@@ -626,7 +563,6 @@ func request_Msg_SetOriginContract_0(ctx context.Context, marshaler runtime.Mars
 
 	msg, err := client.SetOriginContract(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Msg_SetOriginContract_0(ctx context.Context, marshaler runtime.Marshaler, server MsgServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -642,12 +578,9 @@ func local_request_Msg_SetOriginContract_0(ctx context.Context, marshaler runtim
 
 	msg, err := server.SetOriginContract(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Msg_SetAttributeOveriding_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Msg_SetAttributeOveriding_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Msg_SetAttributeOveriding_0(ctx context.Context, marshaler runtime.Marshaler, client MsgClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq MsgSetAttributeOveriding
@@ -662,7 +595,6 @@ func request_Msg_SetAttributeOveriding_0(ctx context.Context, marshaler runtime.
 
 	msg, err := client.SetAttributeOveriding(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Msg_SetAttributeOveriding_0(ctx context.Context, marshaler runtime.Marshaler, server MsgServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -678,12 +610,9 @@ func local_request_Msg_SetAttributeOveriding_0(ctx context.Context, marshaler ru
 
 	msg, err := server.SetAttributeOveriding(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Msg_SetMetadataFormat_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Msg_SetMetadataFormat_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Msg_SetMetadataFormat_0(ctx context.Context, marshaler runtime.Marshaler, client MsgClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq MsgSetMetadataFormat
@@ -698,7 +627,6 @@ func request_Msg_SetMetadataFormat_0(ctx context.Context, marshaler runtime.Mars
 
 	msg, err := client.SetMetadataFormat(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Msg_SetMetadataFormat_0(ctx context.Context, marshaler runtime.Marshaler, server MsgServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -714,12 +642,9 @@ func local_request_Msg_SetMetadataFormat_0(ctx context.Context, marshaler runtim
 
 	msg, err := server.SetMetadataFormat(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Msg_CreateActionExecutor_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Msg_CreateActionExecutor_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Msg_CreateActionExecutor_0(ctx context.Context, marshaler runtime.Marshaler, client MsgClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq MsgCreateActionExecutor
@@ -734,7 +659,6 @@ func request_Msg_CreateActionExecutor_0(ctx context.Context, marshaler runtime.M
 
 	msg, err := client.CreateActionExecutor(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Msg_CreateActionExecutor_0(ctx context.Context, marshaler runtime.Marshaler, server MsgServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -750,12 +674,9 @@ func local_request_Msg_CreateActionExecutor_0(ctx context.Context, marshaler run
 
 	msg, err := server.CreateActionExecutor(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Msg_DeleteActionExecutor_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Msg_DeleteActionExecutor_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Msg_DeleteActionExecutor_0(ctx context.Context, marshaler runtime.Marshaler, client MsgClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq MsgDeleteActionExecutor
@@ -770,7 +691,6 @@ func request_Msg_DeleteActionExecutor_0(ctx context.Context, marshaler runtime.M
 
 	msg, err := client.DeleteActionExecutor(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Msg_DeleteActionExecutor_0(ctx context.Context, marshaler runtime.Marshaler, server MsgServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -786,12 +706,9 @@ func local_request_Msg_DeleteActionExecutor_0(ctx context.Context, marshaler run
 
 	msg, err := server.DeleteActionExecutor(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Msg_UpdateSchemaAttribute_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Msg_UpdateSchemaAttribute_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Msg_UpdateSchemaAttribute_0(ctx context.Context, marshaler runtime.Marshaler, client MsgClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq MsgUpdateSchemaAttribute
@@ -806,7 +723,6 @@ func request_Msg_UpdateSchemaAttribute_0(ctx context.Context, marshaler runtime.
 
 	msg, err := client.UpdateSchemaAttribute(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Msg_UpdateSchemaAttribute_0(ctx context.Context, marshaler runtime.Marshaler, server MsgServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -822,12 +738,9 @@ func local_request_Msg_UpdateSchemaAttribute_0(ctx context.Context, marshaler ru
 
 	msg, err := server.UpdateSchemaAttribute(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Msg_UpdateAction_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Msg_UpdateAction_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Msg_UpdateAction_0(ctx context.Context, marshaler runtime.Marshaler, client MsgClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq MsgUpdateAction
@@ -842,7 +755,6 @@ func request_Msg_UpdateAction_0(ctx context.Context, marshaler runtime.Marshaler
 
 	msg, err := client.UpdateAction(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Msg_UpdateAction_0(ctx context.Context, marshaler runtime.Marshaler, server MsgServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -858,12 +770,9 @@ func local_request_Msg_UpdateAction_0(ctx context.Context, marshaler runtime.Mar
 
 	msg, err := server.UpdateAction(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Msg_CreateVirtualAction_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Msg_CreateVirtualAction_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Msg_CreateVirtualAction_0(ctx context.Context, marshaler runtime.Marshaler, client MsgClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq MsgCreateVirtualAction
@@ -878,7 +787,6 @@ func request_Msg_CreateVirtualAction_0(ctx context.Context, marshaler runtime.Ma
 
 	msg, err := client.CreateVirtualAction(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Msg_CreateVirtualAction_0(ctx context.Context, marshaler runtime.Marshaler, server MsgServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -894,12 +802,9 @@ func local_request_Msg_CreateVirtualAction_0(ctx context.Context, marshaler runt
 
 	msg, err := server.CreateVirtualAction(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Msg_UpdateVirtualAction_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Msg_UpdateVirtualAction_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Msg_UpdateVirtualAction_0(ctx context.Context, marshaler runtime.Marshaler, client MsgClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq MsgUpdateVirtualAction
@@ -914,7 +819,6 @@ func request_Msg_UpdateVirtualAction_0(ctx context.Context, marshaler runtime.Ma
 
 	msg, err := client.UpdateVirtualAction(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Msg_UpdateVirtualAction_0(ctx context.Context, marshaler runtime.Marshaler, server MsgServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -930,12 +834,9 @@ func local_request_Msg_UpdateVirtualAction_0(ctx context.Context, marshaler runt
 
 	msg, err := server.UpdateVirtualAction(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Msg_DeleteVirtualAction_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Msg_DeleteVirtualAction_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Msg_DeleteVirtualAction_0(ctx context.Context, marshaler runtime.Marshaler, client MsgClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq MsgDeleteVirtualAction
@@ -950,7 +851,6 @@ func request_Msg_DeleteVirtualAction_0(ctx context.Context, marshaler runtime.Ma
 
 	msg, err := client.DeleteVirtualAction(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Msg_DeleteVirtualAction_0(ctx context.Context, marshaler runtime.Marshaler, server MsgServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -966,12 +866,9 @@ func local_request_Msg_DeleteVirtualAction_0(ctx context.Context, marshaler runt
 
 	msg, err := server.DeleteVirtualAction(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Msg_CreateVirtualSchemaProposal_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Msg_CreateVirtualSchemaProposal_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Msg_CreateVirtualSchemaProposal_0(ctx context.Context, marshaler runtime.Marshaler, client MsgClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq MsgCreateVirtualSchemaProposal
@@ -986,7 +883,6 @@ func request_Msg_CreateVirtualSchemaProposal_0(ctx context.Context, marshaler ru
 
 	msg, err := client.CreateVirtualSchemaProposal(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Msg_CreateVirtualSchemaProposal_0(ctx context.Context, marshaler runtime.Marshaler, server MsgServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1002,12 +898,9 @@ func local_request_Msg_CreateVirtualSchemaProposal_0(ctx context.Context, marsha
 
 	msg, err := server.CreateVirtualSchemaProposal(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Msg_DeleteVirtualSchema_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Msg_DeleteVirtualSchema_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Msg_DeleteVirtualSchema_0(ctx context.Context, marshaler runtime.Marshaler, client MsgClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq MsgDeleteVirtualSchema
@@ -1022,7 +915,6 @@ func request_Msg_DeleteVirtualSchema_0(ctx context.Context, marshaler runtime.Ma
 
 	msg, err := client.DeleteVirtualSchema(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Msg_DeleteVirtualSchema_0(ctx context.Context, marshaler runtime.Marshaler, server MsgServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1038,12 +930,9 @@ func local_request_Msg_DeleteVirtualSchema_0(ctx context.Context, marshaler runt
 
 	msg, err := server.DeleteVirtualSchema(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Msg_VoteCreateVirtualSchema_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Msg_VoteCreateVirtualSchema_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Msg_VoteCreateVirtualSchema_0(ctx context.Context, marshaler runtime.Marshaler, client MsgClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq MsgVoteCreateVirtualSchema
@@ -1058,7 +947,6 @@ func request_Msg_VoteCreateVirtualSchema_0(ctx context.Context, marshaler runtim
 
 	msg, err := client.VoteCreateVirtualSchema(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Msg_VoteCreateVirtualSchema_0(ctx context.Context, marshaler runtime.Marshaler, server MsgServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1074,12 +962,9 @@ func local_request_Msg_VoteCreateVirtualSchema_0(ctx context.Context, marshaler 
 
 	msg, err := server.VoteCreateVirtualSchema(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
-var (
-	filter_Msg_DisableVirtualSchemaProposal_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
+var filter_Msg_DisableVirtualSchemaProposal_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 
 func request_Msg_DisableVirtualSchemaProposal_0(ctx context.Context, marshaler runtime.Marshaler, client MsgClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq MsgDisableVirtualSchemaProposal
@@ -1094,7 +979,6 @@ func request_Msg_DisableVirtualSchemaProposal_0(ctx context.Context, marshaler r
 
 	msg, err := client.DisableVirtualSchemaProposal(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
-
 }
 
 func local_request_Msg_DisableVirtualSchemaProposal_0(ctx context.Context, marshaler runtime.Marshaler, server MsgServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -1110,7 +994,6 @@ func local_request_Msg_DisableVirtualSchemaProposal_0(ctx context.Context, marsh
 
 	msg, err := server.DisableVirtualSchemaProposal(ctx, &protoReq)
 	return msg, metadata, err
-
 }
 
 // RegisterMsgHandlerServer registers the http handlers for service Msg to "mux".
@@ -1118,7 +1001,6 @@ func local_request_Msg_DisableVirtualSchemaProposal_0(ctx context.Context, marsh
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 // Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterMsgHandlerFromEndpoint instead.
 func RegisterMsgHandlerServer(ctx context.Context, mux *runtime.ServeMux, server MsgServer) error {
-
 	mux.Handle("POST", pattern_Msg_CreateNFTSchema_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -1139,7 +1021,6 @@ func RegisterMsgHandlerServer(ctx context.Context, mux *runtime.ServeMux, server
 		}
 
 		forward_Msg_CreateNFTSchema_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_CreateMetadata_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1162,7 +1043,6 @@ func RegisterMsgHandlerServer(ctx context.Context, mux *runtime.ServeMux, server
 		}
 
 		forward_Msg_CreateMetadata_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_PerformActionByAdmin_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1185,7 +1065,6 @@ func RegisterMsgHandlerServer(ctx context.Context, mux *runtime.ServeMux, server
 		}
 
 		forward_Msg_PerformActionByAdmin_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_AddAttribute_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1208,7 +1087,6 @@ func RegisterMsgHandlerServer(ctx context.Context, mux *runtime.ServeMux, server
 		}
 
 		forward_Msg_AddAttribute_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_AddAction_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1231,7 +1109,6 @@ func RegisterMsgHandlerServer(ctx context.Context, mux *runtime.ServeMux, server
 		}
 
 		forward_Msg_AddAction_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_SetBaseUri_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1254,7 +1131,6 @@ func RegisterMsgHandlerServer(ctx context.Context, mux *runtime.ServeMux, server
 		}
 
 		forward_Msg_SetBaseUri_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_ToggleAction_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1277,7 +1153,6 @@ func RegisterMsgHandlerServer(ctx context.Context, mux *runtime.ServeMux, server
 		}
 
 		forward_Msg_ToggleAction_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_ChangeSchemaOwner_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1300,7 +1175,6 @@ func RegisterMsgHandlerServer(ctx context.Context, mux *runtime.ServeMux, server
 		}
 
 		forward_Msg_ChangeSchemaOwner_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_ResyncAttributes_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1323,7 +1197,6 @@ func RegisterMsgHandlerServer(ctx context.Context, mux *runtime.ServeMux, server
 		}
 
 		forward_Msg_ResyncAttributes_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_ShowAttributes_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1346,7 +1219,6 @@ func RegisterMsgHandlerServer(ctx context.Context, mux *runtime.ServeMux, server
 		}
 
 		forward_Msg_ShowAttributes_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_SetFeeConfig_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1369,7 +1241,6 @@ func RegisterMsgHandlerServer(ctx context.Context, mux *runtime.ServeMux, server
 		}
 
 		forward_Msg_SetFeeConfig_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_SetMintauth_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1392,7 +1263,6 @@ func RegisterMsgHandlerServer(ctx context.Context, mux *runtime.ServeMux, server
 		}
 
 		forward_Msg_SetMintauth_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_ChangeOrgOwner_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1415,7 +1285,6 @@ func RegisterMsgHandlerServer(ctx context.Context, mux *runtime.ServeMux, server
 		}
 
 		forward_Msg_ChangeOrgOwner_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_CreateMultiMetadata_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1438,7 +1307,6 @@ func RegisterMsgHandlerServer(ctx context.Context, mux *runtime.ServeMux, server
 		}
 
 		forward_Msg_CreateMultiMetadata_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_SetUriRetrievalMethod_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1461,7 +1329,6 @@ func RegisterMsgHandlerServer(ctx context.Context, mux *runtime.ServeMux, server
 		}
 
 		forward_Msg_SetUriRetrievalMethod_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_SetOriginChain_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1484,7 +1351,6 @@ func RegisterMsgHandlerServer(ctx context.Context, mux *runtime.ServeMux, server
 		}
 
 		forward_Msg_SetOriginChain_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_SetOriginContract_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1507,7 +1373,6 @@ func RegisterMsgHandlerServer(ctx context.Context, mux *runtime.ServeMux, server
 		}
 
 		forward_Msg_SetOriginContract_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_SetAttributeOveriding_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1530,7 +1395,6 @@ func RegisterMsgHandlerServer(ctx context.Context, mux *runtime.ServeMux, server
 		}
 
 		forward_Msg_SetAttributeOveriding_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_SetMetadataFormat_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1553,7 +1417,6 @@ func RegisterMsgHandlerServer(ctx context.Context, mux *runtime.ServeMux, server
 		}
 
 		forward_Msg_SetMetadataFormat_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_CreateActionExecutor_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1576,7 +1439,6 @@ func RegisterMsgHandlerServer(ctx context.Context, mux *runtime.ServeMux, server
 		}
 
 		forward_Msg_CreateActionExecutor_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_DeleteActionExecutor_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1599,7 +1461,6 @@ func RegisterMsgHandlerServer(ctx context.Context, mux *runtime.ServeMux, server
 		}
 
 		forward_Msg_DeleteActionExecutor_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_UpdateSchemaAttribute_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1622,7 +1483,6 @@ func RegisterMsgHandlerServer(ctx context.Context, mux *runtime.ServeMux, server
 		}
 
 		forward_Msg_UpdateSchemaAttribute_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_UpdateAction_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1645,7 +1505,6 @@ func RegisterMsgHandlerServer(ctx context.Context, mux *runtime.ServeMux, server
 		}
 
 		forward_Msg_UpdateAction_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_CreateVirtualAction_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1668,7 +1527,6 @@ func RegisterMsgHandlerServer(ctx context.Context, mux *runtime.ServeMux, server
 		}
 
 		forward_Msg_CreateVirtualAction_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_UpdateVirtualAction_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1691,7 +1549,6 @@ func RegisterMsgHandlerServer(ctx context.Context, mux *runtime.ServeMux, server
 		}
 
 		forward_Msg_UpdateVirtualAction_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_DeleteVirtualAction_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1714,7 +1571,6 @@ func RegisterMsgHandlerServer(ctx context.Context, mux *runtime.ServeMux, server
 		}
 
 		forward_Msg_DeleteVirtualAction_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_CreateVirtualSchemaProposal_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1737,7 +1593,6 @@ func RegisterMsgHandlerServer(ctx context.Context, mux *runtime.ServeMux, server
 		}
 
 		forward_Msg_CreateVirtualSchemaProposal_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_DeleteVirtualSchema_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1760,7 +1615,6 @@ func RegisterMsgHandlerServer(ctx context.Context, mux *runtime.ServeMux, server
 		}
 
 		forward_Msg_DeleteVirtualSchema_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_VoteCreateVirtualSchema_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1783,7 +1637,6 @@ func RegisterMsgHandlerServer(ctx context.Context, mux *runtime.ServeMux, server
 		}
 
 		forward_Msg_VoteCreateVirtualSchema_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_DisableVirtualSchemaProposal_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1806,7 +1659,6 @@ func RegisterMsgHandlerServer(ctx context.Context, mux *runtime.ServeMux, server
 		}
 
 		forward_Msg_DisableVirtualSchemaProposal_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	return nil
@@ -1849,7 +1701,6 @@ func RegisterMsgHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.C
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
 // "MsgClient" to call the correct interceptors.
 func RegisterMsgHandlerClient(ctx context.Context, mux *runtime.ServeMux, client MsgClient) error {
-
 	mux.Handle("POST", pattern_Msg_CreateNFTSchema_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -1867,7 +1718,6 @@ func RegisterMsgHandlerClient(ctx context.Context, mux *runtime.ServeMux, client
 		}
 
 		forward_Msg_CreateNFTSchema_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_CreateMetadata_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1887,7 +1737,6 @@ func RegisterMsgHandlerClient(ctx context.Context, mux *runtime.ServeMux, client
 		}
 
 		forward_Msg_CreateMetadata_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_PerformActionByAdmin_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1907,7 +1756,6 @@ func RegisterMsgHandlerClient(ctx context.Context, mux *runtime.ServeMux, client
 		}
 
 		forward_Msg_PerformActionByAdmin_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_AddAttribute_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1927,7 +1775,6 @@ func RegisterMsgHandlerClient(ctx context.Context, mux *runtime.ServeMux, client
 		}
 
 		forward_Msg_AddAttribute_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_AddAction_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1947,7 +1794,6 @@ func RegisterMsgHandlerClient(ctx context.Context, mux *runtime.ServeMux, client
 		}
 
 		forward_Msg_AddAction_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_SetBaseUri_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1967,7 +1813,6 @@ func RegisterMsgHandlerClient(ctx context.Context, mux *runtime.ServeMux, client
 		}
 
 		forward_Msg_SetBaseUri_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_ToggleAction_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -1987,7 +1832,6 @@ func RegisterMsgHandlerClient(ctx context.Context, mux *runtime.ServeMux, client
 		}
 
 		forward_Msg_ToggleAction_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_ChangeSchemaOwner_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2007,7 +1851,6 @@ func RegisterMsgHandlerClient(ctx context.Context, mux *runtime.ServeMux, client
 		}
 
 		forward_Msg_ChangeSchemaOwner_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_ResyncAttributes_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2027,7 +1870,6 @@ func RegisterMsgHandlerClient(ctx context.Context, mux *runtime.ServeMux, client
 		}
 
 		forward_Msg_ResyncAttributes_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_ShowAttributes_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2047,7 +1889,6 @@ func RegisterMsgHandlerClient(ctx context.Context, mux *runtime.ServeMux, client
 		}
 
 		forward_Msg_ShowAttributes_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_SetFeeConfig_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2067,7 +1908,6 @@ func RegisterMsgHandlerClient(ctx context.Context, mux *runtime.ServeMux, client
 		}
 
 		forward_Msg_SetFeeConfig_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_SetMintauth_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2087,7 +1927,6 @@ func RegisterMsgHandlerClient(ctx context.Context, mux *runtime.ServeMux, client
 		}
 
 		forward_Msg_SetMintauth_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_ChangeOrgOwner_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2107,7 +1946,6 @@ func RegisterMsgHandlerClient(ctx context.Context, mux *runtime.ServeMux, client
 		}
 
 		forward_Msg_ChangeOrgOwner_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_CreateMultiMetadata_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2127,7 +1965,6 @@ func RegisterMsgHandlerClient(ctx context.Context, mux *runtime.ServeMux, client
 		}
 
 		forward_Msg_CreateMultiMetadata_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_SetUriRetrievalMethod_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2147,7 +1984,6 @@ func RegisterMsgHandlerClient(ctx context.Context, mux *runtime.ServeMux, client
 		}
 
 		forward_Msg_SetUriRetrievalMethod_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_SetOriginChain_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2167,7 +2003,6 @@ func RegisterMsgHandlerClient(ctx context.Context, mux *runtime.ServeMux, client
 		}
 
 		forward_Msg_SetOriginChain_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_SetOriginContract_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2187,7 +2022,6 @@ func RegisterMsgHandlerClient(ctx context.Context, mux *runtime.ServeMux, client
 		}
 
 		forward_Msg_SetOriginContract_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_SetAttributeOveriding_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2207,7 +2041,6 @@ func RegisterMsgHandlerClient(ctx context.Context, mux *runtime.ServeMux, client
 		}
 
 		forward_Msg_SetAttributeOveriding_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_SetMetadataFormat_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2227,7 +2060,6 @@ func RegisterMsgHandlerClient(ctx context.Context, mux *runtime.ServeMux, client
 		}
 
 		forward_Msg_SetMetadataFormat_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_CreateActionExecutor_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2247,7 +2079,6 @@ func RegisterMsgHandlerClient(ctx context.Context, mux *runtime.ServeMux, client
 		}
 
 		forward_Msg_CreateActionExecutor_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_DeleteActionExecutor_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2267,7 +2098,6 @@ func RegisterMsgHandlerClient(ctx context.Context, mux *runtime.ServeMux, client
 		}
 
 		forward_Msg_DeleteActionExecutor_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_UpdateSchemaAttribute_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2287,7 +2117,6 @@ func RegisterMsgHandlerClient(ctx context.Context, mux *runtime.ServeMux, client
 		}
 
 		forward_Msg_UpdateSchemaAttribute_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_UpdateAction_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2307,7 +2136,6 @@ func RegisterMsgHandlerClient(ctx context.Context, mux *runtime.ServeMux, client
 		}
 
 		forward_Msg_UpdateAction_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_CreateVirtualAction_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2327,7 +2155,6 @@ func RegisterMsgHandlerClient(ctx context.Context, mux *runtime.ServeMux, client
 		}
 
 		forward_Msg_CreateVirtualAction_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_UpdateVirtualAction_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2347,7 +2174,6 @@ func RegisterMsgHandlerClient(ctx context.Context, mux *runtime.ServeMux, client
 		}
 
 		forward_Msg_UpdateVirtualAction_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_DeleteVirtualAction_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2367,7 +2193,6 @@ func RegisterMsgHandlerClient(ctx context.Context, mux *runtime.ServeMux, client
 		}
 
 		forward_Msg_DeleteVirtualAction_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_CreateVirtualSchemaProposal_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2387,7 +2212,6 @@ func RegisterMsgHandlerClient(ctx context.Context, mux *runtime.ServeMux, client
 		}
 
 		forward_Msg_CreateVirtualSchemaProposal_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_DeleteVirtualSchema_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2407,7 +2231,6 @@ func RegisterMsgHandlerClient(ctx context.Context, mux *runtime.ServeMux, client
 		}
 
 		forward_Msg_DeleteVirtualSchema_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_VoteCreateVirtualSchema_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2427,7 +2250,6 @@ func RegisterMsgHandlerClient(ctx context.Context, mux *runtime.ServeMux, client
 		}
 
 		forward_Msg_VoteCreateVirtualSchema_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	mux.Handle("POST", pattern_Msg_DisableVirtualSchemaProposal_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -2447,7 +2269,6 @@ func RegisterMsgHandlerClient(ctx context.Context, mux *runtime.ServeMux, client
 		}
 
 		forward_Msg_DisableVirtualSchemaProposal_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
-
 	})
 
 	return nil

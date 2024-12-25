@@ -6,6 +6,7 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
+
 	nftadmintypes "github.com/thesixnetwork/six-protocol/x/nftadmin/types"
 )
 

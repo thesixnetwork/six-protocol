@@ -10,7 +10,6 @@ const TypeMsgPerformVirtualAction = "perform_virtual_action"
 var _ sdk.Msg = &MsgPerformVirtualAction{}
 
 func NewMsgPerformVirtualAction(creator, nftSchemaName string, tokenIdsInput []*TokenIdMap, actionName string, paramInput []*ActionParameter, refId string) *MsgPerformVirtualAction {
-
 	return &MsgPerformVirtualAction{
 		Creator:       creator,
 		NftSchemaName: nftSchemaName,
