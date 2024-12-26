@@ -2,9 +2,7 @@ package keeper
 
 import (
 	"context"
-	"encoding/base64"
 
-	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
@@ -35,52 +33,59 @@ func (k msgServer) CreateVirtualAction(goCtx context.Context, msg *types.MsgCrea
 		return nil, sdkerrors.Wrap(types.ErrUnauthorized, msg.Creator)
 	}
 
-	newVirtualAction, err := base64.StdEncoding.DecodeString(msg.Base64VirtualActionStruct)
-	if err != nil {
-		return nil, sdkerrors.Wrap(types.ErrParsingBase64, err.Error())
-	}
+	listNewVirtualAction := []*types.VirtualAction{}
 
-	virtualAction := types.VirtualAction{}
-	err = k.cdc.(*codec.ProtoCodec).UnmarshalJSON(newVirtualAction, &virtualAction)
-	if err != nil {
+	if err := msg.CheckDuplicateAction(); err != nil {
 		return nil, err
 	}
 
-	// Check if the virtual action already exists
-	_, found = k.GetVirtualAction(
-		ctx,
-		msg.NftSchemaCode,
-		virtualAction.Name,
-	)
+	for _, newAction := range msg.NewActions {
 
-	if found {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "index already set")
+		virtualAction := types.VirtualAction{
+			NftSchemaCode:   msg.NftSchemaCode,
+			Name:            newAction.Name,
+			Desc:            newAction.Desc,
+			When:            newAction.When,
+			Then:            newAction.Then,
+			Disable:         newAction.Disable,
+			AllowedActioner: newAction.AllowedActioner,
+			Params:          newAction.Params,
+		}
+
+		// Check if the virtual action already exists
+		_, found = k.GetVirtualAction(
+			ctx,
+			msg.NftSchemaCode,
+			virtualAction.Name,
+		)
+
+		if found {
+			return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "index already set")
+		}
+
+		err := ValidateVirutualAction(virtualAction.ToAction())
+		if err != nil {
+			return nil, err
+		}
+
+		k.SetVirtualAction(
+			ctx,
+			virtualAction,
+		)
+
+		listNewVirtualAction = append(listNewVirtualAction, &virtualAction)
 	}
-
-	err = ValidateVirutualAction(virtualAction.ToAction())
-	if err != nil {
-		return nil, err
-	}
-
-	// TODO:: verify more about action
-	// 1. attribute in action is found in registry
-
-	k.SetVirtualAction(
-		ctx,
-		virtualAction,
-	)
 
 	ctx.EventManager().EmitEvents(sdk.Events{
 		sdk.NewEvent(
 			types.EventTypeAddAction,
 			sdk.NewAttribute(types.AttributeKeyNftSchemaCode, msg.NftSchemaCode),
-			sdk.NewAttribute(types.AttributeKeyAddActionName, virtualAction.Name),
 		),
 	})
 
 	return &types.MsgCreateVirtualActionResponse{
 		NftSchemaCode: msg.NftSchemaCode,
-		VirtualAction: &virtualAction,
+		VirtualAction: listNewVirtualAction,
 	}, nil
 }
 
@@ -108,33 +113,49 @@ func (k msgServer) UpdateVirtualAction(goCtx context.Context, msg *types.MsgUpda
 		return nil, sdkerrors.Wrap(types.ErrUnauthorized, msg.Creator)
 	}
 
-	toUpdateAction, err := base64.StdEncoding.DecodeString(msg.Base64VirtualActionStruct)
-	if err != nil {
-		return nil, sdkerrors.Wrap(types.ErrParsingBase64, err.Error())
-	}
-
-	toUpdateVirtualAction := types.VirtualAction{}
-	err = k.cdc.(*codec.ProtoCodec).UnmarshalJSON(toUpdateAction, &toUpdateVirtualAction)
-	if err != nil {
+	if err := msg.CheckDuplicateAction(); err != nil {
 		return nil, err
 	}
 
-	// Check if the virtual action already exists
-	_, found = k.GetVirtualAction(
-		ctx,
-		msg.NftSchemaCode,
-		toUpdateVirtualAction.Name,
-	)
+	listNewVirtualAction := []*types.VirtualAction{}
 
-	if !found {
-		return nil, sdkerrors.Wrap(types.ErrActionDoesNotExists, toUpdateVirtualAction.Name)
+	for _, newAction := range msg.NewActions {
+		toUpdateVirtualAction := types.VirtualAction{
+			NftSchemaCode:   msg.NftSchemaCode,
+			Name:            newAction.Name,
+			Desc:            newAction.Desc,
+			Disable:         newAction.Disable,
+			When:            newAction.When,
+			Then:            newAction.Then,
+			AllowedActioner: newAction.AllowedActioner,
+			Params:          newAction.Params,
+		}
+
+		// Check if the virtual action already exists
+		_, found = k.GetVirtualAction(
+			ctx,
+			msg.NftSchemaCode,
+			toUpdateVirtualAction.Name,
+		)
+
+		if !found {
+			return nil, sdkerrors.Wrap(types.ErrActionDoesNotExists, toUpdateVirtualAction.Name)
+		}
+
+		k.SetVirtualAction(ctx, toUpdateVirtualAction)
+		listNewVirtualAction = append(listNewVirtualAction, &toUpdateVirtualAction)
 	}
 
-	k.SetVirtualAction(ctx, toUpdateVirtualAction)
+	ctx.EventManager().EmitEvents(sdk.Events{
+		sdk.NewEvent(
+			types.EventTypeAddAction,
+			sdk.NewAttribute(types.AttributeKeyNftSchemaCode, msg.NftSchemaCode),
+		),
+	})
 
 	return &types.MsgUpdateVirtualActionResponse{
 		NftSchemaCode: msg.NftSchemaCode,
-		VirtualAction: &toUpdateVirtualAction,
+		VirtualAction: listNewVirtualAction,
 	}, nil
 }
 

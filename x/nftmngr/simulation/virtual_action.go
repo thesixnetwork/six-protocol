@@ -29,14 +29,16 @@ func SimulateMsgCreateVirtualAction(
 
 		i := r.Int()
 		msg := &types.MsgCreateVirtualAction{
-			Creator:                   simAccount.Address.String(),
-			NftSchemaCode:             strconv.Itoa(i),
-			Base64VirtualActionStruct: strconv.Itoa(i),
+			Creator:       simAccount.Address.String(),
+			NftSchemaCode: strconv.Itoa(i),
+			NewActions:    []*types.Action{},
 		}
 
-		_, found := k.GetVirtualAction(ctx, msg.NftSchemaCode, msg.Base64VirtualActionStruct)
-		if found {
-			return simtypes.NoOpMsg(types.ModuleName, msg.Type(), "VirtualAction already exist"), nil, nil
+		for _, newAction := range msg.NewActions {
+			_, found := k.GetVirtualAction(ctx, msg.NftSchemaCode, newAction.Name)
+			if found {
+				return simtypes.NoOpMsg(types.ModuleName, msg.Type(), "VirtualAction already exist"), nil, nil
+			}
 		}
 
 		txCtx := simulation.OperationInput{

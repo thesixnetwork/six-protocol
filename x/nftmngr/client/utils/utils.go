@@ -4,6 +4,8 @@ import (
 	"os"
 
 	"github.com/cosmos/cosmos-sdk/codec"
+
+	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
 type (
@@ -65,9 +67,9 @@ func NewVirtualSchemaActionJSON(code string, tokenIds []TokenIds, actionName str
 	}
 }
 
-func ParseActionJSON(cdc *codec.LegacyAmino, proposalFile string) (VirtualSchemaActionJSON, error) {
+func ParseActionJSON(cdc *codec.LegacyAmino, actionFile string) (VirtualSchemaActionJSON, error) {
 	request := VirtualSchemaActionJSON{}
-	contents, err := os.ReadFile(proposalFile)
+	contents, err := os.ReadFile(actionFile)
 	if err != nil {
 		return request, err
 	}
@@ -75,4 +77,19 @@ func ParseActionJSON(cdc *codec.LegacyAmino, proposalFile string) (VirtualSchema
 		return request, err
 	}
 	return request, nil
+}
+
+func ParseNewVirtualActionJSON(cdc *codec.LegacyAmino, newActionFile string) ([]*types.Action, error) {
+	newAction := []*types.Action{}
+
+	contents, err := os.ReadFile(newActionFile)
+	if err != nil {
+		return newAction, err
+	}
+
+	if err := cdc.UnmarshalJSON(contents, &newAction); err != nil {
+		return newAction, err
+	}
+
+	return newAction, err
 }

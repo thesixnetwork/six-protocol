@@ -19,12 +19,12 @@ var _ sdk.Msg = &MsgCreateVirtualAction{}
 func NewMsgCreateVirtualAction(
 	creator string,
 	code string,
-	encodeVirtualActionStruct string,
+	newActions []*Action,
 ) *MsgCreateVirtualAction {
 	return &MsgCreateVirtualAction{
-		Creator:                   creator,
-		NftSchemaCode:             code,
-		Base64VirtualActionStruct: encodeVirtualActionStruct,
+		Creator:       creator,
+		NftSchemaCode: code,
+		NewActions:    newActions,
 	}
 }
 
@@ -57,17 +57,34 @@ func (msg *MsgCreateVirtualAction) ValidateBasic() error {
 	return nil
 }
 
+func (msg *MsgCreateVirtualAction) CheckDuplicateAction() error {
+	actionNames := make(map[string]bool)
+	for _, action := range msg.NewActions {
+		if _, existed := actionNames[action.Name]; existed {
+			return sdkerrors.Wrapf(ErrDuplicateActionName, "duplicate action: %s", action)
+		}
+
+		paramName := make(map[string]bool)
+		for _, param := range action.Params {
+			if _, existed := paramName[param.Name]; existed {
+				return sdkerrors.Wrapf(ErrInvalidParameter, "duplicate action name: %s", action)
+			}
+		}
+	}
+	return nil
+}
+
 var _ sdk.Msg = &MsgUpdateVirtualAction{}
 
 func NewMsgUpdateVirtual(
 	creator string,
 	code string,
-	encodeVirtualActionStruct string,
+	newActions []*Action,
 ) *MsgUpdateVirtualAction {
 	return &MsgUpdateVirtualAction{
-		Creator:                   creator,
-		NftSchemaCode:             code,
-		Base64VirtualActionStruct: encodeVirtualActionStruct,
+		Creator:       creator,
+		NftSchemaCode: code,
+		NewActions:    newActions,
 	}
 }
 
@@ -96,6 +113,23 @@ func (msg *MsgUpdateVirtualAction) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+	}
+	return nil
+}
+
+func (msg *MsgUpdateVirtualAction) CheckDuplicateAction() error {
+	actionNames := make(map[string]bool)
+	for _, action := range msg.NewActions {
+		if _, existed := actionNames[action.Name]; existed {
+			return sdkerrors.Wrapf(ErrDuplicateActionName, "duplicate action: %s", action)
+		}
+
+		paramName := make(map[string]bool)
+		for _, param := range action.Params {
+			if _, existed := paramName[param.Name]; existed {
+				return sdkerrors.Wrapf(ErrInvalidParameter, "duplicate action name: %s", action)
+			}
+		}
 	}
 	return nil
 }
