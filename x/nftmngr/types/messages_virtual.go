@@ -5,8 +5,7 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
-// TODO:: Feat(VirtualSchema)
-// TODO:: Only Recheck
+// TODO:: TEST(VirtualSchema)
 
 const (
 	TypeMsgCreateVirtual = "create_virtual_action"
