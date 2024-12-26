@@ -3043,7 +3043,6 @@ func (m *MsgUpdateActionResponse) GetName() string {
 	return ""
 }
 
-// TODO:: Feat(VirtualSchema)
 type MsgCreateVirtualAction struct {
 	Creator       string    `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
 	NftSchemaCode string    `protobuf:"bytes,2,opt,name=nftSchemaCode,proto3" json:"nftSchemaCode,omitempty"`
@@ -3104,7 +3103,6 @@ func (m *MsgCreateVirtualAction) GetNewActions() []*Action {
 	return nil
 }
 
-// TODO:: Feat(VirtualSchema)
 type MsgCreateVirtualActionResponse struct {
 	NftSchemaCode string           `protobuf:"bytes,1,opt,name=nftSchemaCode,proto3" json:"nftSchemaCode,omitempty"`
 	VirtualAction []*VirtualAction `protobuf:"bytes,2,rep,name=virtualAction,proto3" json:"virtualAction,omitempty"`
@@ -3157,7 +3155,6 @@ func (m *MsgCreateVirtualActionResponse) GetVirtualAction() []*VirtualAction {
 	return nil
 }
 
-// TODO:: Feat(VirtualSchema)
 type MsgUpdateVirtualAction struct {
 	Creator       string    `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
 	NftSchemaCode string    `protobuf:"bytes,2,opt,name=nftSchemaCode,proto3" json:"nftSchemaCode,omitempty"`
@@ -3218,7 +3215,6 @@ func (m *MsgUpdateVirtualAction) GetNewActions() []*Action {
 	return nil
 }
 
-// TODO:: Feat(VirtualSchema)
 type MsgUpdateVirtualActionResponse struct {
 	NftSchemaCode string           `protobuf:"bytes,1,opt,name=nftSchemaCode,proto3" json:"nftSchemaCode,omitempty"`
 	VirtualAction []*VirtualAction `protobuf:"bytes,2,rep,name=virtualAction,proto3" json:"virtualAction,omitempty"`
@@ -3271,7 +3267,6 @@ func (m *MsgUpdateVirtualActionResponse) GetVirtualAction() []*VirtualAction {
 	return nil
 }
 
-// TODO:: Feat(VirtualSchema)
 type MsgDeleteVirtualAction struct {
 	Creator       string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
 	NftSchemaCode string `protobuf:"bytes,2,opt,name=nftSchemaCode,proto3" json:"nftSchemaCode,omitempty"`
@@ -3332,7 +3327,6 @@ func (m *MsgDeleteVirtualAction) GetName() string {
 	return ""
 }
 
-// TODO:: Feat(VirtualSchema)
 type MsgDeleteVirtualActionResponse struct {
 	Creator string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
 	Status  string `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
@@ -3385,7 +3379,6 @@ func (m *MsgDeleteVirtualActionResponse) GetStatus() string {
 	return ""
 }
 
-// TODO:: Feat(VirtualSchema)
 type MsgCreateVirtualSchemaProposal struct {
 	Creator              string                         `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
 	VirtualNftSchemaCode string                         `protobuf:"bytes,2,opt,name=virtualNftSchemaCode,proto3" json:"virtualNftSchemaCode,omitempty"`
@@ -3498,7 +3491,6 @@ func (m *MsgCreateVirtualSchemaResponse) GetVirtualNftSchemaCode() string {
 	return ""
 }
 
-// TODO:: Feat(VirtualSchema)
 type MsgDeleteVirtualSchema struct {
 	Creator              string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
 	VirtualNftSchemaCode string `protobuf:"bytes,2,opt,name=virtualNftSchemaCode,proto3" json:"virtualNftSchemaCode,omitempty"`

@@ -35635,6 +35635,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -36139,6 +36142,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -36644,6 +36650,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -37149,6 +37158,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -37649,6 +37661,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -38394,6 +38409,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -38977,6 +38995,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -39344,6 +39365,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -40620,6 +40644,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -41389,6 +41416,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -41887,6 +41917,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -42615,6 +42648,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -43181,6 +43217,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -43741,6 +43780,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -44287,6 +44329,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -69110,7 +69155,6 @@ definitions:
             TODO:
             1. Policy of action (who can use action)
             2. Proposal to enable and disable action
-    title: 'TODO:: Feat(VirtualSchema)'
   thesixnetwork.sixprotocol.nftmngr.MsgCreateVirtualSchemaResponse:
     type: object
     properties:
@@ -69132,7 +69176,6 @@ definitions:
         type: string
       status:
         type: string
-    title: 'TODO:: Feat(VirtualSchema)'
   thesixnetwork.sixprotocol.nftmngr.MsgDeleteVirtualSchemaResponse:
     type: object
   thesixnetwork.sixprotocol.nftmngr.MsgDisableVirtualSchemaProposalResponse:
@@ -69289,7 +69332,6 @@ definitions:
             TODO:
             1. Policy of action (who can use action)
             2. Proposal to enable and disable action
-    title: 'TODO:: Feat(VirtualSchema)'
   thesixnetwork.sixprotocol.nftmngr.MsgVoteCreateVirtualSchemaResponse:
     type: object
   thesixnetwork.sixprotocol.nftmngr.NFTFeeBalance:
