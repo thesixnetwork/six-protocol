@@ -1,8 +1,6 @@
 package keeper
 
 import (
-	"fmt"
-
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	distribtype "github.com/cosmos/cosmos-sdk/x/distribution/types"
 	abci "github.com/tendermint/tendermint/abci/types"
@@ -76,19 +74,11 @@ func (k Keeper) ProcessFeeAmount(ctx sdk.Context, bondedVotes []abci.VoteInfo) e
 	return nil
 }
 
-func (k Keeper) AfterProposalSubmission(ctx sdk.Context, proposalId string) {
-}
-
-func (k Keeper) AfterVoteProposal(ctx sdk.Context, proposalId string) {
-}
-
-// TODO:: Feat(VirtualSchema)
+// TODO:: TEST(VirtualSchema)
 // ON POC WE WILL JUST CREATE SCHEMA
 func (k Keeper) AfterProposalSuccess(ctx sdk.Context, virtualSchemaProposal types.VirtualSchemaProposal) (pass bool) {
-	fmt.Println("###############Tick: AfterProposalSuccess")
 
 	if len(virtualSchemaProposal.Registry) == 0 {
-		fmt.Println("###############Tick: AfterProposalSuccess - no registry")
 		return false
 	}
 
@@ -96,10 +86,6 @@ func (k Keeper) AfterProposalSuccess(ctx sdk.Context, virtualSchemaProposal type
 	voteThreshold := len(virtualSchemaProposal.Registry)
 
 	if totalVotes != voteThreshold {
-		fmt.Println("###############Tick: AfterProposalSuccess - not enough votes")
-		fmt.Printf("#### TOTAL VOTE: %v ######\n", totalVotes)
-		fmt.Printf("#### ACCEPT COUNT: %v ######\n", acceptCount)
-		fmt.Printf("#### VOTE THESHOLD: %v ######\n", voteThreshold)
 		return false
 	}
 
@@ -109,8 +95,6 @@ func (k Keeper) AfterProposalSuccess(ctx sdk.Context, virtualSchemaProposal type
 		Enable:               acceptCount == totalVotes,
 		ExpiredAtBlock:       "0",
 	}
-
-	fmt.Println("####### virtualSchemaProposal", virtualSchemaProposal)
 
 	k.SetVirtualSchema(ctx, virtualSchema)
 	k.RemoveActiveVirtualSchemaProposal(ctx, virtualSchemaProposal.Id)

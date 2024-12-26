@@ -9,30 +9,9 @@ import (
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
-// TODO:: Feat(VirtualSchema)
+// TODO:: TEST(VirtualSchema)
 func (k msgServer) CreateVirtualAction(goCtx context.Context, msg *types.MsgCreateVirtualAction) (*types.MsgCreateVirtualActionResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
-
-	virtualSchema, found := k.GetVirtualSchema(ctx, msg.NftSchemaCode)
-	if !found {
-		return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, msg.NftSchemaCode)
-	}
-
-	isOwner := false
-	for _, schemaRegistry := range virtualSchema.Registry {
-		srcSchema, found := k.GetNFTSchema(ctx, schemaRegistry.NftSchemaCode)
-		if !found {
-			return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, schemaRegistry.NftSchemaCode)
-		}
-		if msg.Creator == srcSchema.Owner {
-			isOwner = true
-		}
-	}
-
-	if !isOwner {
-		return nil, sdkerrors.Wrap(types.ErrUnauthorized, msg.Creator)
-	}
-
 	listNewVirtualAction := []*types.VirtualAction{}
 
 	if err := msg.CheckDuplicateAction(); err != nil {
@@ -40,40 +19,21 @@ func (k msgServer) CreateVirtualAction(goCtx context.Context, msg *types.MsgCrea
 	}
 
 	for _, newAction := range msg.NewActions {
-
-		virtualAction := types.VirtualAction{
-			NftSchemaCode:   msg.NftSchemaCode,
-			Name:            newAction.Name,
-			Desc:            newAction.Desc,
-			When:            newAction.When,
-			Then:            newAction.Then,
-			Disable:         newAction.Disable,
-			AllowedActioner: newAction.AllowedActioner,
-			Params:          newAction.Params,
-		}
-
-		// Check if the virtual action already exists
-		_, found = k.GetVirtualAction(
-			ctx,
-			msg.NftSchemaCode,
-			virtualAction.Name,
-		)
-
-		if found {
-			return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "index already set")
-		}
-
-		err := ValidateVirutualAction(virtualAction.ToAction())
+		err := k.AddVirtualActionKeeper(ctx, msg.Creator, msg.NftSchemaCode, *newAction)
 		if err != nil {
 			return nil, err
 		}
 
-		k.SetVirtualAction(
-			ctx,
-			virtualAction,
-		)
-
-		listNewVirtualAction = append(listNewVirtualAction, &virtualAction)
+		listNewVirtualAction = append(listNewVirtualAction, &types.VirtualAction{
+			NftSchemaCode: msg.NftSchemaCode,
+			Name: newAction.Name,
+			Desc: newAction.Desc,
+			When: newAction.When,
+			Then: newAction.Then,
+			Disable: newAction.Disable,
+			AllowedActioner: newAction.AllowedActioner,
+			Params: newAction.Params,
+		})
 	}
 
 	ctx.EventManager().EmitEvents(sdk.Events{
@@ -89,61 +49,31 @@ func (k msgServer) CreateVirtualAction(goCtx context.Context, msg *types.MsgCrea
 	}, nil
 }
 
-// TODO:: Feat(VirtualSchema)
+// TODO:: TEST(VirtualSchema)
 func (k msgServer) UpdateVirtualAction(goCtx context.Context, msg *types.MsgUpdateVirtualAction) (*types.MsgUpdateVirtualActionResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
-
-	virtualSchema, found := k.GetVirtualSchema(ctx, msg.NftSchemaCode)
-	if !found {
-		return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, msg.NftSchemaCode)
-	}
-
-	isOwner := false
-	for _, schemaRegistry := range virtualSchema.Registry {
-		srcSchema, found := k.GetNFTSchema(ctx, schemaRegistry.NftSchemaCode)
-		if !found {
-			return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, schemaRegistry.NftSchemaCode)
-		}
-		if msg.Creator == srcSchema.Owner {
-			isOwner = true
-		}
-	}
-
-	if !isOwner {
-		return nil, sdkerrors.Wrap(types.ErrUnauthorized, msg.Creator)
-	}
+	listNewVirtualAction := []*types.VirtualAction{}
 
 	if err := msg.CheckDuplicateAction(); err != nil {
 		return nil, err
 	}
 
-	listNewVirtualAction := []*types.VirtualAction{}
-
 	for _, newAction := range msg.NewActions {
-		toUpdateVirtualAction := types.VirtualAction{
-			NftSchemaCode:   msg.NftSchemaCode,
-			Name:            newAction.Name,
-			Desc:            newAction.Desc,
-			Disable:         newAction.Disable,
-			When:            newAction.When,
-			Then:            newAction.Then,
+		err := k.UpdateVirtualActionKeeper(ctx, msg.Creator, msg.NftSchemaCode, *newAction)
+		if err != nil {
+			return nil, err
+		}
+
+		listNewVirtualAction = append(listNewVirtualAction, &types.VirtualAction{
+			NftSchemaCode: msg.NftSchemaCode,
+			Name: newAction.Name,
+			Desc: newAction.Desc,
+			When: newAction.When,
+			Then: newAction.Then,
+			Disable: newAction.Disable,
 			AllowedActioner: newAction.AllowedActioner,
-			Params:          newAction.Params,
-		}
-
-		// Check if the virtual action already exists
-		_, found = k.GetVirtualAction(
-			ctx,
-			msg.NftSchemaCode,
-			toUpdateVirtualAction.Name,
-		)
-
-		if !found {
-			return nil, sdkerrors.Wrap(types.ErrActionDoesNotExists, toUpdateVirtualAction.Name)
-		}
-
-		k.SetVirtualAction(ctx, toUpdateVirtualAction)
-		listNewVirtualAction = append(listNewVirtualAction, &toUpdateVirtualAction)
+			Params: newAction.Params,
+		})
 	}
 
 	ctx.EventManager().EmitEvents(sdk.Events{
@@ -159,7 +89,7 @@ func (k msgServer) UpdateVirtualAction(goCtx context.Context, msg *types.MsgUpda
 	}, nil
 }
 
-// TODO:: Feat(VirtualSchema)
+// TODO:: TEST(VirtualSchema)
 func (k msgServer) DeleteVirtualAction(goCtx context.Context, msg *types.MsgDeleteVirtualAction) (*types.MsgDeleteVirtualActionResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 

@@ -10,7 +10,7 @@ import (
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
-// TODO:: Feat(VirtualSchema)
+// TODO:: TEST(VirtualSchema)
 func CmdCreateVirtualSchema() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "create-virtual-schema [schemaCode] [proposal-file]",

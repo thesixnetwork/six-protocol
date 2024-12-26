@@ -10,7 +10,7 @@ import (
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
-// TODO:: Feat(VirtualSchema)
+// TODO:: TEST(VirtualSchema)
 func CmdListVirtualSchema() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list-virtual-schema",
@@ -44,7 +44,7 @@ func CmdListVirtualSchema() *cobra.Command {
 	return cmd
 }
 
-// TODO:: Feat(VirtualSchema)
+// TODO:: TEST(VirtualSchema)
 func CmdShowVirtualSchema() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "show-virtual-schema [schemaCode]",

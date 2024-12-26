@@ -7,7 +7,7 @@ import (
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
-// TODO:: Feat(VirtualSchema)
+// TODO:: TEST(VirtualSchema)
 // SetVirtualAction set a specific virtual in the store from its index
 func (k Keeper) SetVirtualAction(ctx sdk.Context, virtual types.VirtualAction) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.VirtualActionKeyPrefix))
@@ -18,7 +18,7 @@ func (k Keeper) SetVirtualAction(ctx sdk.Context, virtual types.VirtualAction) {
 	), b)
 }
 
-// TODO:: Feat(VirtualSchema)
+// TODO:: TEST(VirtualSchema)
 // GetVirtualAction returns a virtual from its index
 func (k Keeper) GetVirtualAction(
 	ctx sdk.Context,
@@ -39,7 +39,7 @@ func (k Keeper) GetVirtualAction(
 	return val, true
 }
 
-// TODO:: Feat(VirtualSchema)
+// TODO:: TEST(VirtualSchema)
 // RemoveVirtualAction removes a virtual from the store
 func (k Keeper) RemoveVirtualAction(
 	ctx sdk.Context,
@@ -53,7 +53,7 @@ func (k Keeper) RemoveVirtualAction(
 	))
 }
 
-// TODO:: Feat(VirtualSchema)
+// TODO:: TEST(VirtualSchema)
 // GetAllVirtualAction returns all virtual
 func (k Keeper) GetAllVirtualAction(ctx sdk.Context) (list []types.VirtualAction) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.VirtualActionKeyPrefix))

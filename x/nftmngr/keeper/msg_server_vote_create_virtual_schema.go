@@ -9,7 +9,7 @@ import (
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
-// TODO:: Feat(VirtualSchema)
+// TODO:: TEST(VirtualSchema)
 // 1. Check if virtual schema is exist
 // 2. Check if virtual schema is enable
 // 3. Check if voter(creator) is owner of some src schema
