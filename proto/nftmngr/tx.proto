@@ -11,6 +11,7 @@ import "nftmngr/on_chain_data.proto";
 import "nftmngr/attribute_definition.proto";
 import "nftmngr/nft_attribute_value.proto";
 import "nftmngr/virtual_schema.proto";
+import "nftmngr/action.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
@@ -64,7 +65,7 @@ service Msg {
       returns (MsgVoteCreateVirtualSchemaResponse);
   rpc DisableVirtualSchemaProposal(MsgDisableVirtualSchemaProposal)
       returns (MsgDisableVirtualSchemaProposalResponse);
-    rpc PerformVirtualAction(MsgPerformVirtualAction) returns (MsgPerformVirtualActionResponse);
+  rpc PerformVirtualAction(MsgPerformVirtualAction) returns (MsgPerformVirtualActionResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -354,32 +355,39 @@ message MsgUpdateActionResponse {
   string name = 2;
 }
 
+// TODO:: Feat(VirtualSchema)
 message MsgCreateVirtualAction {
   string creator = 1;
   string nftSchemaCode = 2;
-  string base64VirtualActionStruct = 3;
+  repeated Action newActions = 3;
 }
 
+// TODO:: Feat(VirtualSchema)
 message MsgCreateVirtualActionResponse {
   string nftSchemaCode = 1;
-  VirtualAction virtualAction = 2;
+  repeated VirtualAction virtualAction = 2;
 }
 
+// TODO:: Feat(VirtualSchema)
 message MsgUpdateVirtualAction {
   string creator = 1;
   string nftSchemaCode = 2;
-  string base64VirtualActionStruct = 3;
-}
-message MsgUpdateVirtualActionResponse {
-  string nftSchemaCode = 1;
-  VirtualAction virtualAction = 2;
+  repeated Action newActions = 3;
 }
 
+// TODO:: Feat(VirtualSchema)
+message MsgUpdateVirtualActionResponse {
+  string nftSchemaCode = 1;
+  repeated VirtualAction virtualAction = 2;
+}
+
+// TODO:: Feat(VirtualSchema)
 message MsgDeleteVirtualAction {
   string creator = 1;
   string nftSchemaCode = 2;
   string name = 3;
 }
+// TODO:: Feat(VirtualSchema)
 message MsgDeleteVirtualActionResponse {
   string creator = 1;
   string status = 2;

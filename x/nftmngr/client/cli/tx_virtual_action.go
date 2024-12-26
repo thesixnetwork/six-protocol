@@ -6,19 +6,25 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	"github.com/spf13/cobra"
 
+	nftmngrutils "github.com/thesixnetwork/six-protocol/x/nftmngr/client/utils"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
 func CmdCreateVirtualAction() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "add-virtual-action [code] [base64NewAction]",
+		Use:   "add-virtual-action [code] [new-action-file-path]",
 		Short: "add a new virtual action to virtual schema",
 		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			argCode := args[0]
-			argBase64ActionStruct := args[1]
+			argFilePath := args[1]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
+			if err != nil {
+				return err
+			}
+
+			newAction, err := nftmngrutils.ParseNewVirtualActionJSON(clientCtx.LegacyAmino, argFilePath)
 			if err != nil {
 				return err
 			}
@@ -26,7 +32,7 @@ func CmdCreateVirtualAction() *cobra.Command {
 			msg := types.NewMsgCreateVirtualAction(
 				clientCtx.GetFromAddress().String(),
 				argCode,
-				argBase64ActionStruct,
+				newAction,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err
@@ -42,15 +48,20 @@ func CmdCreateVirtualAction() *cobra.Command {
 
 func CmdUpdateVirtualAction() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "update-virtual [code] [base64ActionToUpdate]",
+		Use:   "update-virtual [code] [new-action-file-path]",
 		Short: "Update a virtual",
 		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			// Get value arguments
 			argCode := args[0]
-			argBase64ActionStruct := args[1]
+			argFilePath := args[1]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
+			if err != nil {
+				return err
+			}
+
+			newAction, err := nftmngrutils.ParseNewVirtualActionJSON(clientCtx.LegacyAmino, argFilePath)
 			if err != nil {
 				return err
 			}
@@ -58,7 +69,7 @@ func CmdUpdateVirtualAction() *cobra.Command {
 			msg := types.NewMsgUpdateVirtual(
 				clientCtx.GetFromAddress().String(),
 				argCode,
-				argBase64ActionStruct,
+				newAction,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err
