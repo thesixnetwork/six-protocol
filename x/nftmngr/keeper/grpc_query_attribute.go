@@ -12,6 +12,30 @@ import (
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
+func (k Keeper) ListAttributeBySchema(goCtx context.Context, req *types.QueryListAttributeBySchemaRequest) (*types.QueryListAttributeBySchemaResponse, error) {
+	if req == nil {
+		return nil, status.Error(codes.InvalidArgument, "invalid request")
+	}
+
+	var schemaAttributes []types.SchemaAttribute
+	ctx := sdk.UnwrapSDKContext(goCtx)
+
+	store := ctx.KVStore(k.storeKey)
+	iterator := sdk.KVStorePrefixIterator(store, []byte{})
+
+	defer iterator.Close()
+
+	for ; iterator.Valid(); iterator.Next() {
+		var schemaAttribute types.SchemaAttribute
+		k.cdc.MustUnmarshal(iterator.Value(), &schemaAttribute)
+		if schemaAttribute.NftSchemaCode == req.NftSchemaCode {
+			schemaAttributes = append(schemaAttributes, schemaAttribute)
+		}
+	}
+
+	return &types.QueryListAttributeBySchemaResponse{SchemaAttribute: schemaAttributes}, nil
+}
+
 func (k Keeper) SchemaAttributeAll(c context.Context, req *types.QueryAllSchemaAttributeRequest) (*types.QueryAllSchemaAttributeResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")

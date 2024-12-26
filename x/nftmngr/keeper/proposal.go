@@ -138,7 +138,6 @@ func (k Keeper) IterateInactiveProposal(ctx sdk.Context, endTime time.Time, cb f
 }
 
 func (k Keeper) IterateActiveProposal(ctx sdk.Context, endTime time.Time, cb func(proposal types.VirtualSchemaProposal) (stop bool)) {
-	fmt.Println("######### IterateActiveProposal")
 
 	iterator := k.ActiveProposalQueryIterator(ctx, endTime)
 	defer iterator.Close()
