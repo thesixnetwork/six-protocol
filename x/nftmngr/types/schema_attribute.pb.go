@@ -5,20 +5,16 @@ package types
 
 import (
 	fmt "fmt"
+	proto "github.com/gogo/protobuf/proto"
 	io "io"
 	math "math"
 	math_bits "math/bits"
-
-	proto "github.com/gogo/protobuf/proto"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-
-var (
-	_ = fmt.Errorf
-	_ = math.Inf
-)
+var _ = fmt.Errorf
+var _ = math.Inf
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -40,11 +36,9 @@ func (*SchemaAttribute) ProtoMessage()    {}
 func (*SchemaAttribute) Descriptor() ([]byte, []int) {
 	return fileDescriptor_8228233d6832e497, []int{0}
 }
-
 func (m *SchemaAttribute) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *SchemaAttribute) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_SchemaAttribute.Marshal(b, m, deterministic)
@@ -57,15 +51,12 @@ func (m *SchemaAttribute) XXX_Marshal(b []byte, deterministic bool) ([]byte, err
 		return b[:n], nil
 	}
 }
-
 func (m *SchemaAttribute) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_SchemaAttribute.Merge(m, src)
 }
-
 func (m *SchemaAttribute) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *SchemaAttribute) XXX_DiscardUnknown() {
 	xxx_messageInfo_SchemaAttribute.DiscardUnknown(m)
 }
@@ -122,11 +113,9 @@ func (*SchemaAttributeValue) ProtoMessage()    {}
 func (*SchemaAttributeValue) Descriptor() ([]byte, []int) {
 	return fileDescriptor_8228233d6832e497, []int{1}
 }
-
 func (m *SchemaAttributeValue) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *SchemaAttributeValue) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_SchemaAttributeValue.Marshal(b, m, deterministic)
@@ -139,15 +128,12 @@ func (m *SchemaAttributeValue) XXX_Marshal(b []byte, deterministic bool) ([]byte
 		return b[:n], nil
 	}
 }
-
 func (m *SchemaAttributeValue) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_SchemaAttributeValue.Merge(m, src)
 }
-
 func (m *SchemaAttributeValue) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *SchemaAttributeValue) XXX_DiscardUnknown() {
 	xxx_messageInfo_SchemaAttributeValue.DiscardUnknown(m)
 }
@@ -375,7 +361,6 @@ func (m *SchemaAttributeValue_NumberAttributeValue) MarshalToSizedBuffer(dAtA []
 	}
 	return len(dAtA) - i, nil
 }
-
 func (m *SchemaAttributeValue_StringAttributeValue) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
@@ -397,7 +382,6 @@ func (m *SchemaAttributeValue_StringAttributeValue) MarshalToSizedBuffer(dAtA []
 	}
 	return len(dAtA) - i, nil
 }
-
 func (m *SchemaAttributeValue_BooleanAttributeValue) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
@@ -419,7 +403,6 @@ func (m *SchemaAttributeValue_BooleanAttributeValue) MarshalToSizedBuffer(dAtA [
 	}
 	return len(dAtA) - i, nil
 }
-
 func (m *SchemaAttributeValue_FloatAttributeValue) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
@@ -441,7 +424,6 @@ func (m *SchemaAttributeValue_FloatAttributeValue) MarshalToSizedBuffer(dAtA []b
 	}
 	return len(dAtA) - i, nil
 }
-
 func encodeVarintSchemaAttribute(dAtA []byte, offset int, v uint64) int {
 	offset -= sovSchemaAttribute(v)
 	base := offset
@@ -453,7 +435,6 @@ func encodeVarintSchemaAttribute(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-
 func (m *SchemaAttribute) Size() (n int) {
 	if m == nil {
 		return 0
@@ -507,7 +488,6 @@ func (m *SchemaAttributeValue_NumberAttributeValue) Size() (n int) {
 	}
 	return n
 }
-
 func (m *SchemaAttributeValue_StringAttributeValue) Size() (n int) {
 	if m == nil {
 		return 0
@@ -520,7 +500,6 @@ func (m *SchemaAttributeValue_StringAttributeValue) Size() (n int) {
 	}
 	return n
 }
-
 func (m *SchemaAttributeValue_BooleanAttributeValue) Size() (n int) {
 	if m == nil {
 		return 0
@@ -533,7 +512,6 @@ func (m *SchemaAttributeValue_BooleanAttributeValue) Size() (n int) {
 	}
 	return n
 }
-
 func (m *SchemaAttributeValue_FloatAttributeValue) Size() (n int) {
 	if m == nil {
 		return 0
@@ -550,11 +528,9 @@ func (m *SchemaAttributeValue_FloatAttributeValue) Size() (n int) {
 func sovSchemaAttribute(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
-
 func sozSchemaAttribute(x uint64) (n int) {
 	return sovSchemaAttribute(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-
 func (m *SchemaAttribute) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -769,7 +745,6 @@ func (m *SchemaAttribute) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *SchemaAttributeValue) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -960,7 +935,6 @@ func (m *SchemaAttributeValue) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func skipSchemaAttribute(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0
