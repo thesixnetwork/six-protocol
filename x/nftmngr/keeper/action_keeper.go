@@ -2,7 +2,6 @@ package keeper
 
 import (
 	"encoding/json"
-
 	"strconv"
 	"time"
 
@@ -455,6 +454,15 @@ func (k Keeper) UpdateVirtualActionKeeper(ctx sdk.Context, creator, nftSchemaNam
 }
 
 func (k Keeper) ToggleActionKeeper(ctx sdk.Context, creator, nftSchemaName, actionName string, status bool) error {
+	isVirtual := false
+	if _, found := k.GetVirtualSchema(ctx, nftSchemaName); found {
+		isVirtual = true
+	}
+
+	if isVirtual {
+		return k.ToggleVirtualActionKeeper(ctx, creator, nftSchemaName, actionName, status)
+	}
+
 	schema, found := k.GetNFTSchema(ctx, nftSchemaName)
 	if !found {
 		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
@@ -472,6 +480,48 @@ func (k Keeper) ToggleActionKeeper(ctx sdk.Context, creator, nftSchemaName, acti
 	}
 
 	k.SetNFTSchema(ctx, schema)
+
+	return nil
+}
+
+func (k Keeper) ToggleVirtualActionKeeper(ctx sdk.Context, creator, nftSchemaName, actionName string, status bool) error {
+	isOwner := false
+	virtualSchema, found := k.GetVirtualSchema(ctx, nftSchemaName)
+	if !found {
+		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
+	}
+
+	for _, schemaRegistry := range virtualSchema.Registry {
+		actualSchema, found := k.GetNFTSchema(ctx, schemaRegistry.NftSchemaCode)
+		if !found {
+			return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, schemaRegistry.NftSchemaCode)
+		}
+		if creator == actualSchema.Owner {
+			isOwner = true
+			break
+		}
+	}
+
+	action, found := k.GetVirtualAction(ctx, nftSchemaName, actionName)
+	if !found {
+		return sdkerrors.Wrap(types.ErrActionDoesNotExists, actionName)
+	}
+
+	if !isOwner {
+		return sdkerrors.Wrap(types.ErrUnauthorized, creator)
+	}
+
+	// save
+	k.SetVirtualAction(ctx, types.VirtualAction{
+		NftSchemaCode:   nftSchemaName,
+		Name:            action.Name,
+		Desc:            action.Desc,
+		When:            action.When,
+		Then:            action.Then,
+		Params:          action.Params,
+		Disable:         status,
+		AllowedActioner: action.AllowedActioner,
+	})
 
 	return nil
 }

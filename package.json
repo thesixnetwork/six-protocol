@@ -16,6 +16,7 @@
   "workspaces":[
     "vue/",
     "contracts/",
-    "ts-client/"
+    "ts-client/",
+    "typescript/"
   ]
 }
