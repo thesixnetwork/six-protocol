@@ -20,7 +20,8 @@ option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
 service Msg {
   rpc CreateNFTSchema(MsgCreateNFTSchema) returns (MsgCreateNFTSchemaResponse);
   rpc CreateMetadata(MsgCreateMetadata) returns (MsgCreateMetadataResponse);
-  rpc PerformActionByAdmin(MsgPerformActionByAdmin) returns (MsgPerformActionByAdminResponse);
+  rpc PerformActionByAdmin(MsgPerformActionByAdmin)
+      returns (MsgPerformActionByAdminResponse);
   rpc AddAttribute(MsgAddAttribute) returns (MsgAddAttributeResponse);
   rpc AddAction(MsgAddAction) returns (MsgAddActionResponse);
   rpc SetBaseUri(MsgSetBaseUri) returns (MsgSetBaseUriResponse);
@@ -65,8 +66,9 @@ service Msg {
       returns (MsgVoteCreateVirtualSchemaResponse);
   rpc DisableVirtualSchemaProposal(MsgDisableVirtualSchemaProposal)
       returns (MsgDisableVirtualSchemaProposalResponse);
-  rpc PerformVirtualAction(MsgPerformVirtualAction) returns (MsgPerformVirtualActionResponse);
-// this line is used by starport scaffolding # proto/tx/rpc
+  rpc PerformVirtualAction(MsgPerformVirtualAction)
+      returns (MsgPerformVirtualActionResponse);
+  // this line is used by starport scaffolding # proto/tx/rpc
 }
 
 enum AttributeLocation {
@@ -398,7 +400,6 @@ message MsgCreateVirtualSchemaProposal {
 message MsgCreateVirtualSchemaResponse {
   string id = 1;
   string virtualNftSchemaCode = 2;
-  
 }
 
 message MsgDeleteVirtualSchema {
@@ -436,9 +437,7 @@ message MsgPerformVirtualAction {
   repeated ActionParameter parameters = 6;
 }
 
-message MsgPerformVirtualActionResponse {
-  string nftSchemaName = 2;
-}
+message MsgPerformVirtualActionResponse { string nftSchemaName = 2; }
 
 message TokenIdMap {
   string nftSchemaName = 1;
