@@ -228,7 +228,6 @@ func (k msgServer) SetMintauth(goCtx context.Context, msg *types.MsgSetMintauth)
 	}, nil
 }
 
-
 func (k msgServer) SetMetadataFormat(goCtx context.Context, msg *types.MsgSetMetadataFormat) (*types.MsgSetMetadataFormatResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 

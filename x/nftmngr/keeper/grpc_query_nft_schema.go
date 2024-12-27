@@ -99,4 +99,3 @@ func (k Keeper) NFTSchemaByContract(c context.Context, req *types.QueryGetNFTSch
 
 	return &types.QueryGetNFTSchemaByContractResponse{NFTSchemaByContract: val}, nil
 }
-

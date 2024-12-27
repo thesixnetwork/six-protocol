@@ -71,7 +71,6 @@ func TestMsgUpdateSchemaAttribute_ValidateBasic(t *testing.T) {
 	}
 }
 
-
 func TestMsgShowAttributes_ValidateBasic(t *testing.T) {
 	tests := []struct {
 		name string
