@@ -2,6 +2,8 @@ package keeper
 
 import (
 	"encoding/json"
+	"fmt"
+
 	// "fmt"
 	"strconv"
 	"time"
@@ -552,7 +554,9 @@ func (k Keeper) PerformVirtualKeeper(ctx sdk.Context, creator, vitualSchemaName 
 
 		schema, tokenData, convertedSchemaAttributes := k.SetupSchemaAndMetadata(ctx, schemaRegistry.NftSchemaCode, tokenIdOFSchema)
 		if (schema == nil) || (tokenData == nil) || (convertedSchemaAttributes == nil) {
-			return changeList, sdkerrors.Wrap(types.ErrMetadataDoesNotExists, vitualSchemaName)
+			fmt.Printf("############### SCHEMA CODE: %v ##################\n", schemaRegistry.NftSchemaCode)
+			fmt.Printf("############### TOKEN ID: %v ##################\n", tokenIdOFSchema)
+			return changeList, sdkerrors.Wrap(types.ErrMetadataDoesNotExists, schemaRegistry.NftSchemaCode)
 		}
 		schemaList = append(schemaList, schema)
 		tokenDataList = append(tokenDataList, tokenData)
