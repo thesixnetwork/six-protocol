@@ -61,7 +61,6 @@ func (k Keeper) GetAllActionByRefId(ctx sdk.Context) (list []types.ActionByRefId
 	return
 }
 
-
 // SetActionOfSchema set a specific actionOfSchema in the store from its index
 func (k Keeper) SetActionOfSchema(ctx sdk.Context, actionOfSchema types.ActionOfSchema) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActionOfSchemaKeyPrefix))

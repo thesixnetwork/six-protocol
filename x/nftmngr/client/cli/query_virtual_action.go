@@ -58,7 +58,7 @@ func CmdShowVirtualAction() *cobra.Command {
 
 			params := &types.QueryGetVirtualActionRequest{
 				NftSchemaCode: nftSchemaCodeArg,
-				Name: nameArg,
+				Name:          nameArg,
 			}
 
 			res, err := queryClient.VirtualAction(context.Background(), params)

@@ -34,7 +34,6 @@ func ActiveVirtualSchemaProposalKey(
 	return key
 }
 
-
 // VirtualSchemaProposalKey returns the store key to retrieve a VirtualSchemaProposal from the index fields
 func VirtualSchemaProposalKey(
 	id string,
@@ -60,7 +59,6 @@ func AttributeOfSchemaKey(
 
 	return key
 }
-
 
 // DisableVirtualSchemaKey returns the store key to retrieve a DisableVirtualSchema from the index fields
 func DisableVirtualSchemaKey(

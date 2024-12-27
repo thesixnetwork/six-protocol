@@ -54,7 +54,6 @@ func (k Keeper) RemoveNFTFeeConfig(ctx sdk.Context) {
 	store.Delete([]byte{0})
 }
 
-
 // RemoveNFTFeeBalance removes nFTFeeBalance from the store
 func (k Keeper) RemoveNFTFeeBalance(ctx sdk.Context) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.NFTFeeBalanceKey))

@@ -56,7 +56,6 @@ func (k Keeper) VirtualSchemaProposal(c context.Context, req *types.QueryGetVirt
 	return &types.QueryGetVirtualSchemaProposalResponse{VirtualSchemaProposal: val}, nil
 }
 
-
 func (k Keeper) VirtualSchemaAll(c context.Context, req *types.QueryAllVirtualSchemaRequest) (*types.QueryAllVirtualSchemaResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")

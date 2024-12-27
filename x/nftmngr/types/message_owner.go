@@ -46,7 +46,6 @@ func (msg *MsgChangeOrgOwner) ValidateBasic() error {
 	return nil
 }
 
-
 const TypeMsgChangeSchemaOwner = "change_schema_owner"
 
 var _ sdk.Msg = &MsgChangeSchemaOwner{}

@@ -5,16 +5,20 @@ package types
 
 import (
 	fmt "fmt"
-	proto "github.com/gogo/protobuf/proto"
 	io "io"
 	math "math"
 	math_bits "math/bits"
+
+	proto "github.com/gogo/protobuf/proto"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-var _ = fmt.Errorf
-var _ = math.Inf
+
+var (
+	_ = fmt.Errorf
+	_ = math.Inf
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -34,9 +38,11 @@ func (*DisplayOption) ProtoMessage()    {}
 func (*DisplayOption) Descriptor() ([]byte, []int) {
 	return fileDescriptor_38983a60548f9882, []int{0}
 }
+
 func (m *DisplayOption) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *DisplayOption) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_DisplayOption.Marshal(b, m, deterministic)
@@ -49,12 +55,15 @@ func (m *DisplayOption) XXX_Marshal(b []byte, deterministic bool) ([]byte, error
 		return b[:n], nil
 	}
 }
+
 func (m *DisplayOption) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_DisplayOption.Merge(m, src)
 }
+
 func (m *DisplayOption) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *DisplayOption) XXX_DiscardUnknown() {
 	xxx_messageInfo_DisplayOption.DiscardUnknown(m)
 }
@@ -168,6 +177,7 @@ func encodeVarintDisplayOption(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
+
 func (m *DisplayOption) Size() (n int) {
 	if m == nil {
 		return 0
@@ -192,9 +202,11 @@ func (m *DisplayOption) Size() (n int) {
 func sovDisplayOption(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
+
 func sozDisplayOption(x uint64) (n int) {
 	return sovDisplayOption(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
+
 func (m *DisplayOption) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -345,6 +357,7 @@ func (m *DisplayOption) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func skipDisplayOption(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0

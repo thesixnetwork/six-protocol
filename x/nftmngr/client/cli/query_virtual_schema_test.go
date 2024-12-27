@@ -31,9 +31,9 @@ func networkWithVirtualSchemaObjects(t *testing.T, n int) (*network.Network, []t
 	for i := 0; i < n; i++ {
 		virSchema := types.VirtualSchema{
 			VirtualNftSchemaCode: strconv.Itoa(i),
-			Registry: []*types.VirtualSchemaRegistry{},
-			Enable: true,
-			ExpiredAtBlock: strconv.Itoa(i),
+			Registry:             []*types.VirtualSchemaRegistry{},
+			Enable:               true,
+			ExpiredAtBlock:       strconv.Itoa(i),
 		}
 		nullify.Fill(&virSchema)
 		state.VirtualSchemaList = append(state.VirtualSchemaList, virSchema)

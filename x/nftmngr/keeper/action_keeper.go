@@ -450,7 +450,7 @@ func (k Keeper) UpdateVirtualActionKeeper(ctx sdk.Context, creator, nftSchemaNam
 		Disable:         updateAction.Disable,
 		AllowedActioner: updateAction.AllowedActioner,
 	})
-	
+
 	return nil
 }
 

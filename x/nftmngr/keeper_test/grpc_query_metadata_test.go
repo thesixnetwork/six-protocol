@@ -342,6 +342,7 @@ func TestNftDataQueryPaginated(t *testing.T) {
 		require.ErrorIs(t, err, status.Error(codes.InvalidArgument, "invalid request"))
 	})
 }
+
 func createNNFTSchemaByContract(keeper *keeper.Keeper, ctx sdk.Context, n int) []types.NFTSchemaByContract {
 	items := make([]types.NFTSchemaByContract, n)
 	for i := range items {

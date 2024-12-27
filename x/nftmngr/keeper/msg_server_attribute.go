@@ -79,7 +79,6 @@ func (k msgServer) ResyncAttributes(goCtx context.Context, msg *types.MsgResyncA
 	}, nil
 }
 
-
 func (k msgServer) UpdateSchemaAttribute(goCtx context.Context, msg *types.MsgUpdateSchemaAttribute) (*types.MsgUpdateSchemaAttributeResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 

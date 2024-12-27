@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	TypeMsgAddAttribute = "add_attribute"
+	TypeMsgAddAttribute   = "add_attribute"
 	TypeMsgShowAttributes = "show_attributes"
 )
 
@@ -137,7 +137,6 @@ func (msg *MsgShowAttributes) ValidateBasic() error {
 	}
 	return nil
 }
-
 
 const TypeMsgSetAttributeOveriding = "set_attribute_overiding"
 

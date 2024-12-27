@@ -77,7 +77,6 @@ func (k Keeper) ProcessFeeAmount(ctx sdk.Context, bondedVotes []abci.VoteInfo) e
 // TODO:: TEST(VirtualSchema)
 // ON POC WE WILL JUST CREATE SCHEMA
 func (k Keeper) AfterProposalSuccess(ctx sdk.Context, virtualSchemaProposal types.VirtualSchemaProposal) (pass bool) {
-
 	if len(virtualSchemaProposal.Registry) == 0 {
 		return false
 	}
