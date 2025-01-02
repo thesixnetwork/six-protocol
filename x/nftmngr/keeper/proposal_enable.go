@@ -1,6 +1,9 @@
 package keeper
 
 import (
+	"fmt"
+	"time"
+
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
@@ -62,24 +65,24 @@ func (k Keeper) GetAllEnableVirtualSchemaProposal(ctx sdk.Context) (list []types
 	return
 }
 
-// func (k Keeper) IterateActiveProposalEnableVirtualSchema(ctx sdk.Context, endTime time.Time, cb func(proposal types.EnableVirtualSchemaProposal) (stop bool)) {
-// 	iterator := k.ActiveProposalDisableVirtualSchemaQueryIterator(ctx, endTime)
-// 	defer iterator.Close()
+func (k Keeper) IterateActiveProposalEnableVirtualSchema(ctx sdk.Context, endTime time.Time, cb func(proposal types.EnableVirtualSchemaProposal) (stop bool)) {
+	iterator := k.ActiveProposalEnableVirtualSchemaQueryIterator(ctx, endTime)
+	defer iterator.Close()
 
-// 	for ; iterator.Valid(); iterator.Next() {
-// 		var val types.ActiveVirtualSchemaProposal
-// 		k.cdc.MustUnmarshal(iterator.Value(), &val)
+	for ; iterator.Valid(); iterator.Next() {
+		var val types.ActiveVirtualSchemaProposal
+		k.cdc.MustUnmarshal(iterator.Value(), &val)
 
-// 		proposal, found := k.GetDisableVirtualSchemaProposal(ctx, val.Id)
-// 		if !found {
-// 			panic(fmt.Sprintf("proposal %d does not exist", &val.Id))
-// 		}
+		proposal, found := k.GetEnableVirtualSchemaProposal(ctx, val.Id)
+		if !found {
+			panic(fmt.Sprintf("proposal %d does not exist", &val.Id))
+		}
 
-// 		if cb(proposal) {
-// 			break
-// 		}
-// 	}
-// }
+		if cb(proposal) {
+			break
+		}
+	}
+}
 
 // SetInactiveEnableVirtualSchemaProposal set a specific inactiveEnableVirtualSchemaProposal in the store from its index
 func (k Keeper) SetInactiveEnableVirtualSchemaProposal(ctx sdk.Context, inactiveEnableVirtualSchemaProposal types.InactiveEnableVirtualSchemaProposal) {
@@ -137,9 +140,7 @@ func (k Keeper) GetAllInactiveEnableVirtualSchemaProposal(ctx sdk.Context) (list
 	return
 }
 
-
-
-///// ###################
+// /// ###################
 // SetActiveEnableVirtualSchemaProposal set a specific activeEnableVirtualSchemaProposal in the store from its index
 func (k Keeper) SetActiveEnableVirtualSchemaProposal(ctx sdk.Context, activeEnableVirtualSchemaProposal types.ActiveEnableVirtualSchemaProposal) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActiveEnableVirtualSchemaProposalKeyPrefix))

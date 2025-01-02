@@ -126,6 +126,32 @@ func (k Keeper) AfterProposalDisableVirtualSchemaSuccess(ctx sdk.Context, disabl
 	return true
 }
 
+func (k Keeper) AfterProposalEnableVirtualSchemaSuccess(ctx sdk.Context, enableVirtualSchemaProposal types.EnableVirtualSchemaProposal) (pass bool) {
+	if len(enableVirtualSchemaProposal.Registry) == 0 {
+		return false
+	}
+
+	acceptCount, totalVotes := countProposalVotes(enableVirtualSchemaProposal.Registry)
+	voteThreshold := len(enableVirtualSchemaProposal.Registry)
+
+	if totalVotes != voteThreshold {
+		return false
+	}
+
+	virtualSchema := types.VirtualSchema{
+		VirtualNftSchemaCode: enableVirtualSchemaProposal.VirtualSchemaCode,
+		Registry:             enableVirtualSchemaProposal.Registry,
+		Enable:               acceptCount == totalVotes,
+	}
+
+	k.SetVirtualSchema(ctx, virtualSchema)
+	k.RemoveActiveEnableVirtualSchemaProposal(ctx, enableVirtualSchemaProposal.Id)
+	k.SetInactiveEnableVirtualSchemaProposal(ctx, types.InactiveEnableVirtualSchemaProposal{Id: enableVirtualSchemaProposal.Id})
+
+	return true
+}
+
+
 func countProposalVotes(registry []*types.VirtualSchemaRegistry) (acceptCount, totalVotes int) {
 	for _, reg := range registry {
 		if reg.Status != types.RegistryStatus_PENDING {
