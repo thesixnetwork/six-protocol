@@ -311,3 +311,4 @@ func (k Keeper) GetInactiveDisableVirtualSchemaProposal(
 	k.cdc.MustUnmarshal(b, &val)
 	return val, true
 }
+

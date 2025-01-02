@@ -293,6 +293,16 @@ service Query {
 		option (google.api.http).get = "/thesixnetwork/six-protocol/nftmngr/enable_virtual_schema_proposal";
 	}
 
+// Queries a InactiveEnableVirtualSchemaProposal by index.
+	rpc InactiveEnableVirtualSchemaProposal(QueryGetInactiveEnableVirtualSchemaProposalRequest) returns (QueryGetInactiveEnableVirtualSchemaProposalResponse) {
+		option (google.api.http).get = "/thesixnetwork/six-protocol/nftmngr/inactive_enable_virtual_schema_proposal/{index}";
+	}
+
+	// Queries a list of InactiveEnableVirtualSchemaProposal items.
+	rpc InactiveEnableVirtualSchemaProposalAll(QueryAllInactiveEnableVirtualSchemaProposalRequest) returns (QueryAllInactiveEnableVirtualSchemaProposalResponse) {
+		option (google.api.http).get = "/thesixnetwork/six-protocol/nftmngr/inactive_enable_virtual_schema_proposal";
+	}
+
 // this line is used by starport scaffolding # 2
 }
 
@@ -649,6 +659,24 @@ message QueryAllEnableVirtualSchemaProposalRequest {
 
 message QueryAllEnableVirtualSchemaProposalResponse {
 	repeated EnableVirtualSchemaProposal enableVirtualSchemaProposal = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetInactiveEnableVirtualSchemaProposalRequest {
+	  string index = 1;
+
+}
+
+message QueryGetInactiveEnableVirtualSchemaProposalResponse {
+	InactiveEnableVirtualSchemaProposal inactiveEnableVirtualSchemaProposal = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllInactiveEnableVirtualSchemaProposalRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllInactiveEnableVirtualSchemaProposalResponse {
+	repeated InactiveEnableVirtualSchemaProposal inactiveEnableVirtualSchemaProposal = 1 [(gogoproto.nullable) = false];
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 

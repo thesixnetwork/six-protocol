@@ -75,3 +75,5 @@ message EnableVirtualSchemaProposal {
   google.protobuf.Timestamp votingEndTime = 6
       [ (gogoproto.stdtime) = true, (gogoproto.nullable) = false ];
 }
+
+message InactiveEnableVirtualSchemaProposal { string id = 1; }
