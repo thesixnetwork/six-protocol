@@ -64,5 +64,6 @@ message GenesisState {
       inactiveDisableVirtualSchemaProposalList = 23
       [ (gogoproto.nullable) = false ];
   repeated EnableVirtualSchemaProposal enableVirtualSchemaProposalList = 24 [(gogoproto.nullable) = false];
+  repeated InactiveEnableVirtualSchemaProposal inactiveEnableVirtualSchemaProposalList = 25 [(gogoproto.nullable) = false];
   // this line is used by starport scaffolding # genesis/proto/state
 }

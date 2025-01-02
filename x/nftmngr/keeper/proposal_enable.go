@@ -80,3 +80,60 @@ func (k Keeper) GetAllEnableVirtualSchemaProposal(ctx sdk.Context) (list []types
 // 		}
 // 	}
 // }
+
+
+// SetInactiveEnableVirtualSchemaProposal set a specific inactiveEnableVirtualSchemaProposal in the store from its index
+func (k Keeper) SetInactiveEnableVirtualSchemaProposal(ctx sdk.Context, inactiveEnableVirtualSchemaProposal types.InactiveEnableVirtualSchemaProposal) {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.InactiveEnableVirtualSchemaProposalKeyPrefix))
+	b := k.cdc.MustMarshal(&inactiveEnableVirtualSchemaProposal)
+	store.Set(types.InactiveEnableVirtualSchemaProposalKey(
+		inactiveEnableVirtualSchemaProposal.Id,
+	), b)
+}
+
+// GetInactiveEnableVirtualSchemaProposal returns a inactiveEnableVirtualSchemaProposal from its index
+func (k Keeper) GetInactiveEnableVirtualSchemaProposal(
+	ctx sdk.Context,
+	index string,
+
+) (val types.InactiveEnableVirtualSchemaProposal, found bool) {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.InactiveEnableVirtualSchemaProposalKeyPrefix))
+
+	b := store.Get(types.InactiveEnableVirtualSchemaProposalKey(
+		index,
+	))
+	if b == nil {
+		return val, false
+	}
+
+	k.cdc.MustUnmarshal(b, &val)
+	return val, true
+}
+
+// RemoveInactiveEnableVirtualSchemaProposal removes a inactiveEnableVirtualSchemaProposal from the store
+func (k Keeper) RemoveInactiveEnableVirtualSchemaProposal(
+	ctx sdk.Context,
+	index string,
+
+) {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.InactiveEnableVirtualSchemaProposalKeyPrefix))
+	store.Delete(types.InactiveEnableVirtualSchemaProposalKey(
+		index,
+	))
+}
+
+// GetAllInactiveEnableVirtualSchemaProposal returns all inactiveEnableVirtualSchemaProposal
+func (k Keeper) GetAllInactiveEnableVirtualSchemaProposal(ctx sdk.Context) (list []types.InactiveEnableVirtualSchemaProposal) {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.InactiveEnableVirtualSchemaProposalKeyPrefix))
+	iterator := sdk.KVStorePrefixIterator(store, []byte{})
+
+	defer iterator.Close()
+
+	for ; iterator.Valid(); iterator.Next() {
+		var val types.InactiveEnableVirtualSchemaProposal
+		k.cdc.MustUnmarshal(iterator.Value(), &val)
+		list = append(list, val)
+	}
+
+	return
+}

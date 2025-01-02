@@ -188,3 +188,93 @@ func (k Keeper) ActiveDisableVirtualSchemaProposal(c context.Context, req *types
 
 	return &types.QueryGetActiveDisableVirtualSchemaProposalResponse{ActiveDisableVirtualSchemaProposal: val}, nil
 }
+
+func (k Keeper) InactiveEnableVirtualSchemaProposalAll(c context.Context, req *types.QueryAllInactiveEnableVirtualSchemaProposalRequest) (*types.QueryAllInactiveEnableVirtualSchemaProposalResponse, error) {
+	if req == nil {
+		return nil, status.Error(codes.InvalidArgument, "invalid request")
+	}
+
+	var inactiveEnableVirtualSchemaProposals []types.InactiveEnableVirtualSchemaProposal
+	ctx := sdk.UnwrapSDKContext(c)
+
+	store := ctx.KVStore(k.storeKey)
+	inactiveEnableVirtualSchemaProposalStore := prefix.NewStore(store, types.KeyPrefix(types.InactiveEnableVirtualSchemaProposalKeyPrefix))
+
+	pageRes, err := query.Paginate(inactiveEnableVirtualSchemaProposalStore, req.Pagination, func(key []byte, value []byte) error {
+		var inactiveEnableVirtualSchemaProposal types.InactiveEnableVirtualSchemaProposal
+		if err := k.cdc.Unmarshal(value, &inactiveEnableVirtualSchemaProposal); err != nil {
+			return err
+		}
+
+		inactiveEnableVirtualSchemaProposals = append(inactiveEnableVirtualSchemaProposals, inactiveEnableVirtualSchemaProposal)
+		return nil
+	})
+
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	return &types.QueryAllInactiveEnableVirtualSchemaProposalResponse{InactiveEnableVirtualSchemaProposal: inactiveEnableVirtualSchemaProposals, Pagination: pageRes}, nil
+}
+
+func (k Keeper) InactiveEnableVirtualSchemaProposal(c context.Context, req *types.QueryGetInactiveEnableVirtualSchemaProposalRequest) (*types.QueryGetInactiveEnableVirtualSchemaProposalResponse, error) {
+	if req == nil {
+		return nil, status.Error(codes.InvalidArgument, "invalid request")
+	}
+	ctx := sdk.UnwrapSDKContext(c)
+
+	val, found := k.GetInactiveEnableVirtualSchemaProposal(
+		ctx,
+		req.Index,
+	)
+	if !found {
+		return nil, status.Error(codes.NotFound, "not found")
+	}
+
+	return &types.QueryGetInactiveEnableVirtualSchemaProposalResponse{InactiveEnableVirtualSchemaProposal: val}, nil
+}
+
+func (k Keeper) InactiveDisableVirtualSchemaProposalAll(c context.Context, req *types.QueryAllInactiveDisableVirtualSchemaProposalRequest) (*types.QueryAllInactiveDisableVirtualSchemaProposalResponse, error) {
+	if req == nil {
+		return nil, status.Error(codes.InvalidArgument, "invalid request")
+	}
+
+	var inactiveDisableVirtualSchemaProposals []types.InactiveDisableVirtualSchemaProposal
+	ctx := sdk.UnwrapSDKContext(c)
+
+	store := ctx.KVStore(k.storeKey)
+	inactiveDisableVirtualSchemaProposalStore := prefix.NewStore(store, types.KeyPrefix(types.InactiveDisableVirtualSchemaProposalKeyPrefix))
+
+	pageRes, err := query.Paginate(inactiveDisableVirtualSchemaProposalStore, req.Pagination, func(key []byte, value []byte) error {
+		var inactiveDisableVirtualSchemaProposal types.InactiveDisableVirtualSchemaProposal
+		if err := k.cdc.Unmarshal(value, &inactiveDisableVirtualSchemaProposal); err != nil {
+			return err
+		}
+
+		inactiveDisableVirtualSchemaProposals = append(inactiveDisableVirtualSchemaProposals, inactiveDisableVirtualSchemaProposal)
+		return nil
+	})
+
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	return &types.QueryAllInactiveDisableVirtualSchemaProposalResponse{InactiveDisableVirtualSchemaProposal: inactiveDisableVirtualSchemaProposals, Pagination: pageRes}, nil
+}
+
+func (k Keeper) InactiveDisableVirtualSchemaProposal(c context.Context, req *types.QueryGetInactiveDisableVirtualSchemaProposalRequest) (*types.QueryGetInactiveDisableVirtualSchemaProposalResponse, error) {
+	if req == nil {
+		return nil, status.Error(codes.InvalidArgument, "invalid request")
+	}
+	ctx := sdk.UnwrapSDKContext(c)
+
+	val, found := k.GetInactiveDisableVirtualSchemaProposal(
+		ctx,
+		req.Index,
+	)
+	if !found {
+		return nil, status.Error(codes.NotFound, "not found")
+	}
+
+	return &types.QueryGetInactiveDisableVirtualSchemaProposalResponse{InactiveDisableVirtualSchemaProposal: val}, nil
+}

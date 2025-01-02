@@ -259,3 +259,55 @@ func TestInactiveDisableVirtualSchemaProposalGetAll(t *testing.T) {
 		nullify.Fill(keeper.GetAllInactiveDisableVirtualSchemaProposal(ctx)),
 	)
 }
+
+
+
+// Prevent strconv unused error
+var _ = strconv.IntSize
+
+func createNInactiveEnableVirtualSchemaProposal(keeper *keeper.Keeper, ctx sdk.Context, n int) []types.InactiveEnableVirtualSchemaProposal {
+	items := make([]types.InactiveEnableVirtualSchemaProposal, n)
+	for i := range items {
+		items[i].Id = strconv.Itoa(i)
+
+		keeper.SetInactiveEnableVirtualSchemaProposal(ctx, items[i])
+	}
+	return items
+}
+
+func TestInactiveEnableVirtualSchemaProposalGet(t *testing.T) {
+	keeper, ctx := keepertest.NftmngrKeeper(t)
+	items := createNInactiveEnableVirtualSchemaProposal(keeper, ctx, 10)
+	for _, item := range items {
+		rst, found := keeper.GetInactiveEnableVirtualSchemaProposal(ctx,
+			item.Id,
+		)
+		require.True(t, found)
+		require.Equal(t,
+			nullify.Fill(&item),
+			nullify.Fill(&rst),
+		)
+	}
+}
+func TestInactiveEnableVirtualSchemaProposalRemove(t *testing.T) {
+	keeper, ctx := keepertest.NftmngrKeeper(t)
+	items := createNInactiveEnableVirtualSchemaProposal(keeper, ctx, 10)
+	for _, item := range items {
+		keeper.RemoveInactiveEnableVirtualSchemaProposal(ctx,
+			item.Id,
+		)
+		_, found := keeper.GetInactiveEnableVirtualSchemaProposal(ctx,
+			item.Id,
+		)
+		require.False(t, found)
+	}
+}
+
+func TestInactiveEnableVirtualSchemaProposalGetAll(t *testing.T) {
+	keeper, ctx := keepertest.NftmngrKeeper(t)
+	items := createNInactiveEnableVirtualSchemaProposal(keeper, ctx, 10)
+	require.ElementsMatch(t,
+		nullify.Fill(items),
+		nullify.Fill(keeper.GetAllInactiveEnableVirtualSchemaProposal(ctx)),
+	)
+}
