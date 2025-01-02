@@ -36,6 +36,10 @@ jobs:
           
           echo "Changing to wiki directory..."
           cd wiki
+
+          echo "Git config"
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
           
           echo "Adding files to git..."
           git add .
