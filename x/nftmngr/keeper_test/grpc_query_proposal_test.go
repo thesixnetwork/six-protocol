@@ -128,33 +128,33 @@ func TestVirtualSchemaProposalQueryPaginated(t *testing.T) {
 // Prevent strconv unused error
 var _ = strconv.IntSize
 
-func TestActiveDislabeVirtualSchemaProposalQuerySingle(t *testing.T) {
+func TestActiveDisableVirtualSchemaProposalQuerySingle(t *testing.T) {
 	keeper, ctx := keepertest.NftmngrKeeper(t)
 	wctx := sdk.WrapSDKContext(ctx)
-	msgs := createNActiveDislabeVirtualSchemaProposal(keeper, ctx, 2)
+	msgs := createNActiveDisableVirtualSchemaProposal(keeper, ctx, 2)
 	for _, tc := range []struct {
 		desc     string
-		request  *types.QueryGetActiveDislabeVirtualSchemaProposalRequest
-		response *types.QueryGetActiveDislabeVirtualSchemaProposalResponse
+		request  *types.QueryGetActiveDisableVirtualSchemaProposalRequest
+		response *types.QueryGetActiveDisableVirtualSchemaProposalResponse
 		err      error
 	}{
 		{
 			desc: "First",
-			request: &types.QueryGetActiveDislabeVirtualSchemaProposalRequest{
+			request: &types.QueryGetActiveDisableVirtualSchemaProposalRequest{
 				Index: msgs[0].Id,
 			},
-			response: &types.QueryGetActiveDislabeVirtualSchemaProposalResponse{ActiveDislabeVirtualSchemaProposal: msgs[0]},
+			response: &types.QueryGetActiveDisableVirtualSchemaProposalResponse{ActiveDisableVirtualSchemaProposal: msgs[0]},
 		},
 		{
 			desc: "Second",
-			request: &types.QueryGetActiveDislabeVirtualSchemaProposalRequest{
+			request: &types.QueryGetActiveDisableVirtualSchemaProposalRequest{
 				Index: msgs[1].Id,
 			},
-			response: &types.QueryGetActiveDislabeVirtualSchemaProposalResponse{ActiveDislabeVirtualSchemaProposal: msgs[1]},
+			response: &types.QueryGetActiveDisableVirtualSchemaProposalResponse{ActiveDisableVirtualSchemaProposal: msgs[1]},
 		},
 		{
 			desc: "KeyNotFound",
-			request: &types.QueryGetActiveDislabeVirtualSchemaProposalRequest{
+			request: &types.QueryGetActiveDisableVirtualSchemaProposalRequest{
 				Index: strconv.Itoa(100000),
 			},
 			err: status.Error(codes.NotFound, "not found"),
@@ -165,7 +165,7 @@ func TestActiveDislabeVirtualSchemaProposalQuerySingle(t *testing.T) {
 		},
 	} {
 		t.Run(tc.desc, func(t *testing.T) {
-			response, err := keeper.ActiveDislabeVirtualSchemaProposal(wctx, tc.request)
+			response, err := keeper.ActiveDisableVirtualSchemaProposal(wctx, tc.request)
 			if tc.err != nil {
 				require.ErrorIs(t, err, tc.err)
 			} else {
@@ -179,13 +179,13 @@ func TestActiveDislabeVirtualSchemaProposalQuerySingle(t *testing.T) {
 	}
 }
 
-func TestActiveDislabeVirtualSchemaProposalQueryPaginated(t *testing.T) {
+func TestActiveDisableVirtualSchemaProposalQueryPaginated(t *testing.T) {
 	keeper, ctx := keepertest.NftmngrKeeper(t)
 	wctx := sdk.WrapSDKContext(ctx)
-	msgs := createNActiveDislabeVirtualSchemaProposal(keeper, ctx, 5)
+	msgs := createNActiveDisableVirtualSchemaProposal(keeper, ctx, 5)
 
-	request := func(next []byte, offset, limit uint64, total bool) *types.QueryAllActiveDislabeVirtualSchemaProposalRequest {
-		return &types.QueryAllActiveDislabeVirtualSchemaProposalRequest{
+	request := func(next []byte, offset, limit uint64, total bool) *types.QueryAllActiveDisableVirtualSchemaProposalRequest {
+		return &types.QueryAllActiveDisableVirtualSchemaProposalRequest{
 			Pagination: &query.PageRequest{
 				Key:        next,
 				Offset:     offset,
@@ -197,12 +197,12 @@ func TestActiveDislabeVirtualSchemaProposalQueryPaginated(t *testing.T) {
 	t.Run("ByOffset", func(t *testing.T) {
 		step := 2
 		for i := 0; i < len(msgs); i += step {
-			resp, err := keeper.ActiveDislabeVirtualSchemaProposalAll(wctx, request(nil, uint64(i), uint64(step), false))
+			resp, err := keeper.ActiveDisableVirtualSchemaProposalAll(wctx, request(nil, uint64(i), uint64(step), false))
 			require.NoError(t, err)
-			require.LessOrEqual(t, len(resp.ActiveDislabeVirtualSchemaProposal), step)
+			require.LessOrEqual(t, len(resp.ActiveDisableVirtualSchemaProposal), step)
 			require.Subset(t,
 				nullify.Fill(msgs),
-				nullify.Fill(resp.ActiveDislabeVirtualSchemaProposal),
+				nullify.Fill(resp.ActiveDisableVirtualSchemaProposal),
 			)
 		}
 	})
@@ -210,27 +210,27 @@ func TestActiveDislabeVirtualSchemaProposalQueryPaginated(t *testing.T) {
 		step := 2
 		var next []byte
 		for i := 0; i < len(msgs); i += step {
-			resp, err := keeper.ActiveDislabeVirtualSchemaProposalAll(wctx, request(next, 0, uint64(step), false))
+			resp, err := keeper.ActiveDisableVirtualSchemaProposalAll(wctx, request(next, 0, uint64(step), false))
 			require.NoError(t, err)
-			require.LessOrEqual(t, len(resp.ActiveDislabeVirtualSchemaProposal), step)
+			require.LessOrEqual(t, len(resp.ActiveDisableVirtualSchemaProposal), step)
 			require.Subset(t,
 				nullify.Fill(msgs),
-				nullify.Fill(resp.ActiveDislabeVirtualSchemaProposal),
+				nullify.Fill(resp.ActiveDisableVirtualSchemaProposal),
 			)
 			next = resp.Pagination.NextKey
 		}
 	})
 	t.Run("Total", func(t *testing.T) {
-		resp, err := keeper.ActiveDislabeVirtualSchemaProposalAll(wctx, request(nil, 0, 0, true))
+		resp, err := keeper.ActiveDisableVirtualSchemaProposalAll(wctx, request(nil, 0, 0, true))
 		require.NoError(t, err)
 		require.Equal(t, len(msgs), int(resp.Pagination.Total))
 		require.ElementsMatch(t,
 			nullify.Fill(msgs),
-			nullify.Fill(resp.ActiveDislabeVirtualSchemaProposal),
+			nullify.Fill(resp.ActiveDisableVirtualSchemaProposal),
 		)
 	})
 	t.Run("InvalidRequest", func(t *testing.T) {
-		_, err := keeper.ActiveDislabeVirtualSchemaProposalAll(wctx, nil)
+		_, err := keeper.ActiveDisableVirtualSchemaProposalAll(wctx, nil)
 		require.ErrorIs(t, err, status.Error(codes.InvalidArgument, "invalid request"))
 	})
 }

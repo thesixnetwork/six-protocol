@@ -163,21 +163,21 @@ func TestVirtualSchemaProposalGetAll(t *testing.T) {
 // Prevent strconv unused error
 var _ = strconv.IntSize
 
-func createNActiveDislabeVirtualSchemaProposal(keeper *keeper.Keeper, ctx sdk.Context, n int) []types.ActiveDislabeVirtualSchemaProposal {
-	items := make([]types.ActiveDislabeVirtualSchemaProposal, n)
+func createNActiveDisableVirtualSchemaProposal(keeper *keeper.Keeper, ctx sdk.Context, n int) []types.ActiveDisableVirtualSchemaProposal {
+	items := make([]types.ActiveDisableVirtualSchemaProposal, n)
 	for i := range items {
 		items[i].Id = strconv.Itoa(i)
 
-		keeper.SetActiveDislabeVirtualSchemaProposal(ctx, items[i])
+		keeper.SetActiveDisableVirtualSchemaProposal(ctx, items[i])
 	}
 	return items
 }
 
-func TestActiveDislabeVirtualSchemaProposalGet(t *testing.T) {
+func TestActiveDisableVirtualSchemaProposalGet(t *testing.T) {
 	keeper, ctx := keepertest.NftmngrKeeper(t)
-	items := createNActiveDislabeVirtualSchemaProposal(keeper, ctx, 10)
+	items := createNActiveDisableVirtualSchemaProposal(keeper, ctx, 10)
 	for _, item := range items {
-		rst, found := keeper.GetActiveDislabeVirtualSchemaProposal(ctx,
+		rst, found := keeper.GetActiveDisableVirtualSchemaProposal(ctx,
 			item.Id,
 		)
 		require.True(t, found)
@@ -187,26 +187,26 @@ func TestActiveDislabeVirtualSchemaProposalGet(t *testing.T) {
 		)
 	}
 }
-func TestActiveDislabeVirtualSchemaProposalRemove(t *testing.T) {
+func TestActiveDisableVirtualSchemaProposalRemove(t *testing.T) {
 	keeper, ctx := keepertest.NftmngrKeeper(t)
-	items := createNActiveDislabeVirtualSchemaProposal(keeper, ctx, 10)
+	items := createNActiveDisableVirtualSchemaProposal(keeper, ctx, 10)
 	for _, item := range items {
-		keeper.RemoveActiveDislabeVirtualSchemaProposal(ctx,
+		keeper.RemoveActiveDisableVirtualSchemaProposal(ctx,
 			item.Id,
 		)
-		_, found := keeper.GetActiveDislabeVirtualSchemaProposal(ctx,
+		_, found := keeper.GetActiveDisableVirtualSchemaProposal(ctx,
 			item.Id,
 		)
 		require.False(t, found)
 	}
 }
 
-func TestActiveDislabeVirtualSchemaProposalGetAll(t *testing.T) {
+func TestActiveDisableVirtualSchemaProposalGetAll(t *testing.T) {
 	keeper, ctx := keepertest.NftmngrKeeper(t)
-	items := createNActiveDislabeVirtualSchemaProposal(keeper, ctx, 10)
+	items := createNActiveDisableVirtualSchemaProposal(keeper, ctx, 10)
 	require.ElementsMatch(t,
 		nullify.Fill(items),
-		nullify.Fill(keeper.GetAllActiveDislabeVirtualSchemaProposal(ctx)),
+		nullify.Fill(keeper.GetAllActiveDisableVirtualSchemaProposal(ctx)),
 	)
 }
 

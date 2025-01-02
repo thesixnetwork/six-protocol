@@ -144,24 +144,24 @@ func (k Keeper) DisableVirtualSchemaProposal(c context.Context, req *types.Query
 	return &types.QueryGetDisableVirtualSchemaProposalResponse{DisableVirtualSchemaProposal: val}, nil
 }
 
-func (k Keeper) ActiveDislabeVirtualSchemaProposalAll(c context.Context, req *types.QueryAllActiveDislabeVirtualSchemaProposalRequest) (*types.QueryAllActiveDislabeVirtualSchemaProposalResponse, error) {
+func (k Keeper) ActiveDisableVirtualSchemaProposalAll(c context.Context, req *types.QueryAllActiveDisableVirtualSchemaProposalRequest) (*types.QueryAllActiveDisableVirtualSchemaProposalResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
-	var activeDislabeVirtualSchemaProposals []types.ActiveDislabeVirtualSchemaProposal
+	var activeDisableVirtualSchemaProposals []types.ActiveDisableVirtualSchemaProposal
 	ctx := sdk.UnwrapSDKContext(c)
 
 	store := ctx.KVStore(k.storeKey)
-	activeDislabeVirtualSchemaProposalStore := prefix.NewStore(store, types.KeyPrefix(types.ActiveDislabeVirtualSchemaProposalKeyPrefix))
+	activeDisableVirtualSchemaProposalStore := prefix.NewStore(store, types.KeyPrefix(types.ActiveDisableVirtualSchemaProposalKeyPrefix))
 
-	pageRes, err := query.Paginate(activeDislabeVirtualSchemaProposalStore, req.Pagination, func(key []byte, value []byte) error {
-		var activeDislabeVirtualSchemaProposal types.ActiveDislabeVirtualSchemaProposal
-		if err := k.cdc.Unmarshal(value, &activeDislabeVirtualSchemaProposal); err != nil {
+	pageRes, err := query.Paginate(activeDisableVirtualSchemaProposalStore, req.Pagination, func(key []byte, value []byte) error {
+		var activeDisableVirtualSchemaProposal types.ActiveDisableVirtualSchemaProposal
+		if err := k.cdc.Unmarshal(value, &activeDisableVirtualSchemaProposal); err != nil {
 			return err
 		}
 
-		activeDislabeVirtualSchemaProposals = append(activeDislabeVirtualSchemaProposals, activeDislabeVirtualSchemaProposal)
+		activeDisableVirtualSchemaProposals = append(activeDisableVirtualSchemaProposals, activeDisableVirtualSchemaProposal)
 		return nil
 	})
 
@@ -169,16 +169,16 @@ func (k Keeper) ActiveDislabeVirtualSchemaProposalAll(c context.Context, req *ty
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 
-	return &types.QueryAllActiveDislabeVirtualSchemaProposalResponse{ActiveDislabeVirtualSchemaProposal: activeDislabeVirtualSchemaProposals, Pagination: pageRes}, nil
+	return &types.QueryAllActiveDisableVirtualSchemaProposalResponse{ActiveDisableVirtualSchemaProposal: activeDisableVirtualSchemaProposals, Pagination: pageRes}, nil
 }
 
-func (k Keeper) ActiveDislabeVirtualSchemaProposal(c context.Context, req *types.QueryGetActiveDislabeVirtualSchemaProposalRequest) (*types.QueryGetActiveDislabeVirtualSchemaProposalResponse, error) {
+func (k Keeper) ActiveDisableVirtualSchemaProposal(c context.Context, req *types.QueryGetActiveDisableVirtualSchemaProposalRequest) (*types.QueryGetActiveDisableVirtualSchemaProposalResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 	ctx := sdk.UnwrapSDKContext(c)
 
-	val, found := k.GetActiveDislabeVirtualSchemaProposal(
+	val, found := k.GetActiveDisableVirtualSchemaProposal(
 		ctx,
 		req.Index,
 	)
@@ -186,5 +186,5 @@ func (k Keeper) ActiveDislabeVirtualSchemaProposal(c context.Context, req *types
 		return nil, status.Error(codes.NotFound, "not found")
 	}
 
-	return &types.QueryGetActiveDislabeVirtualSchemaProposalResponse{ActiveDislabeVirtualSchemaProposal: val}, nil
+	return &types.QueryGetActiveDisableVirtualSchemaProposalResponse{ActiveDisableVirtualSchemaProposal: val}, nil
 }

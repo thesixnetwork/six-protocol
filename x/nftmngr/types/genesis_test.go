@@ -170,7 +170,7 @@ func TestGenesisState_Validate(t *testing.T) {
 						Id: "1",
 					},
 				},
-				ActiveDislabeVirtualSchemaProposalList: []types.ActiveDislabeVirtualSchemaProposal{
+				ActiveDisableVirtualSchemaProposalList: []types.ActiveDisableVirtualSchemaProposal{
 					{
 						Id: "0",
 					},
@@ -439,9 +439,9 @@ func TestGenesisState_Validate(t *testing.T) {
 			valid: false,
 		},
 		{
-			desc: "duplicated activeDislabeVirtualSchemaProposal",
+			desc: "duplicated activeDisableVirtualSchemaProposal",
 			genState: &types.GenesisState{
-				ActiveDislabeVirtualSchemaProposalList: []types.ActiveDislabeVirtualSchemaProposal{
+				ActiveDisableVirtualSchemaProposalList: []types.ActiveDisableVirtualSchemaProposal{
 					{
 						Id: "0",
 					},
