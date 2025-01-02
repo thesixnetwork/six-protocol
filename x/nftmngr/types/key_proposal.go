@@ -20,8 +20,8 @@ const (
 	// InactiveVirtualSchemaProposalKeyPrefix is the prefix to retrieve all InactiveVirtualSchemaProposal
 	InactiveVirtualSchemaProposalKeyPrefix = "InactiveVirtualSchemaProposal/value/"
 
-	// ActiveDislabeVirtualSchemaProposalKeyPrefix is the prefix to retrieve all ActiveDislabeVirtualSchemaProposal
-	ActiveDislabeVirtualSchemaProposalKeyPrefix = "ActiveDislabeVirtualSchemaProposal/value/"
+	// ActiveDisableVirtualSchemaProposalKeyPrefix is the prefix to retrieve all ActiveDisableVirtualSchemaProposal
+	ActiveDisableVirtualSchemaProposalKeyPrefix = "ActiveDisableVirtualSchemaProposal/value/"
 
 	// InactiveDisableVirtualSchemaProposalKeyPrefix is the prefix to retrieve all InactiveDisableVirtualSchemaProposal
 	InactiveDisableVirtualSchemaProposalKeyPrefix = "InactiveDisableVirtualSchemaProposal/value/"
@@ -92,8 +92,8 @@ func InactiveVirtualSchemaProposalKey(
 	return key
 }
 
-// ActiveDislabeVirtualSchemaProposalKey returns the store key to retrieve a ActiveDislabeVirtualSchemaProposal from the index fields
-func ActiveDislabeVirtualSchemaProposalKey(
+// ActiveDisableVirtualSchemaProposalKey returns the store key to retrieve a ActiveDisableVirtualSchemaProposal from the index fields
+func ActiveDisableVirtualSchemaProposalKey(
 	index string,
 ) []byte {
 	var key []byte

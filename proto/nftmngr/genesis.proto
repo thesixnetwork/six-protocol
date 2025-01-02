@@ -58,8 +58,8 @@ message GenesisState {
       [ (gogoproto.nullable) = false ];
   repeated InactiveVirtualSchemaProposal inactiveVirtualSchemaProposalList = 21
       [ (gogoproto.nullable) = false ];
-  repeated ActiveDislabeVirtualSchemaProposal
-      activeDislabeVirtualSchemaProposalList = 22
+  repeated ActiveDisableVirtualSchemaProposal
+      activeDisableVirtualSchemaProposalList = 22
       [ (gogoproto.nullable) = false ];
   repeated InactiveDisableVirtualSchemaProposal
       inactiveDisableVirtualSchemaProposalList = 23

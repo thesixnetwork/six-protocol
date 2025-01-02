@@ -9,10 +9,10 @@ import (
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
-func CmdListActiveDislabeVirtualSchemaProposal() *cobra.Command {
+func CmdListActiveDisableVirtualSchemaProposal() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list-active-dislabe-virtual-schema-proposal",
-		Short: "list all activeDislabeVirtualSchemaProposal",
+		Short: "list all activeDisableVirtualSchemaProposal",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx := client.GetClientContextFromCmd(cmd)
 
@@ -23,11 +23,11 @@ func CmdListActiveDislabeVirtualSchemaProposal() *cobra.Command {
 
 			queryClient := types.NewQueryClient(clientCtx)
 
-			params := &types.QueryAllActiveDislabeVirtualSchemaProposalRequest{
+			params := &types.QueryAllActiveDisableVirtualSchemaProposalRequest{
 				Pagination: pageReq,
 			}
 
-			res, err := queryClient.ActiveDislabeVirtualSchemaProposalAll(context.Background(), params)
+			res, err := queryClient.ActiveDisableVirtualSchemaProposalAll(context.Background(), params)
 			if err != nil {
 				return err
 			}
@@ -42,10 +42,10 @@ func CmdListActiveDislabeVirtualSchemaProposal() *cobra.Command {
 	return cmd
 }
 
-func CmdShowActiveDislabeVirtualSchemaProposal() *cobra.Command {
+func CmdShowActiveDisableVirtualSchemaProposal() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "show-active-dislabe-virtual-schema-proposal [index]",
-		Short: "shows a activeDislabeVirtualSchemaProposal",
+		Short: "shows a activeDisableVirtualSchemaProposal",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			clientCtx := client.GetClientContextFromCmd(cmd)
@@ -54,11 +54,11 @@ func CmdShowActiveDislabeVirtualSchemaProposal() *cobra.Command {
 
 			argIndex := args[0]
 
-			params := &types.QueryGetActiveDislabeVirtualSchemaProposalRequest{
+			params := &types.QueryGetActiveDisableVirtualSchemaProposalRequest{
 				Index: argIndex,
 			}
 
-			res, err := queryClient.ActiveDislabeVirtualSchemaProposal(context.Background(), params)
+			res, err := queryClient.ActiveDisableVirtualSchemaProposal(context.Background(), params)
 			if err != nil {
 				return err
 			}

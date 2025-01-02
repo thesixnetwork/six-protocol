@@ -26,6 +26,6 @@ message DisableVirtualSchemaRegistry {
   RegistryStatus status = 2;
 }
 
-message ActiveDislabeVirtualSchemaProposal { string id = 1; }
+message ActiveDisableVirtualSchemaProposal { string id = 1; }
 
 message InactiveDisableVirtualSchemaProposal { string id = 1; }

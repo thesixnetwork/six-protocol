@@ -21,27 +21,27 @@ import (
 // Prevent strconv unused error
 var _ = strconv.IntSize
 
-func networkWithActiveDislabeVirtualSchemaProposalObjects(t *testing.T, n int) (*network.Network, []types.ActiveDislabeVirtualSchemaProposal) {
+func networkWithActiveDisableVirtualSchemaProposalObjects(t *testing.T, n int) (*network.Network, []types.ActiveDisableVirtualSchemaProposal) {
 	t.Helper()
 	cfg := network.DefaultConfig()
 	state := types.GenesisState{}
 	require.NoError(t, cfg.Codec.UnmarshalJSON(cfg.GenesisState[types.ModuleName], &state))
 
 	for i := 0; i < n; i++ {
-		activeDislabeVirtualSchemaProposal := types.ActiveDislabeVirtualSchemaProposal{
+		activeDisableVirtualSchemaProposal := types.ActiveDisableVirtualSchemaProposal{
 			Id: strconv.Itoa(i),
 		}
-		nullify.Fill(&activeDislabeVirtualSchemaProposal)
-		state.ActiveDislabeVirtualSchemaProposalList = append(state.ActiveDislabeVirtualSchemaProposalList, activeDislabeVirtualSchemaProposal)
+		nullify.Fill(&activeDisableVirtualSchemaProposal)
+		state.ActiveDisableVirtualSchemaProposalList = append(state.ActiveDisableVirtualSchemaProposalList, activeDisableVirtualSchemaProposal)
 	}
 	buf, err := cfg.Codec.MarshalJSON(&state)
 	require.NoError(t, err)
 	cfg.GenesisState[types.ModuleName] = buf
-	return network.New(t, cfg), state.ActiveDislabeVirtualSchemaProposalList
+	return network.New(t, cfg), state.ActiveDisableVirtualSchemaProposalList
 }
 
-func TestShowActiveDislabeVirtualSchemaProposal(t *testing.T) {
-	net, objs := networkWithActiveDislabeVirtualSchemaProposalObjects(t, 2)
+func TestShowActiveDisableVirtualSchemaProposal(t *testing.T) {
+	net, objs := networkWithActiveDisableVirtualSchemaProposalObjects(t, 2)
 
 	ctx := net.Validators[0].ClientCtx
 	common := []string{
@@ -53,7 +53,7 @@ func TestShowActiveDislabeVirtualSchemaProposal(t *testing.T) {
 
 		args []string
 		err  error
-		obj  types.ActiveDislabeVirtualSchemaProposal
+		obj  types.ActiveDisableVirtualSchemaProposal
 	}{
 		{
 			desc:    "found",
@@ -75,27 +75,27 @@ func TestShowActiveDislabeVirtualSchemaProposal(t *testing.T) {
 				tc.idIndex,
 			}
 			args = append(args, tc.args...)
-			out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdShowActiveDislabeVirtualSchemaProposal(), args)
+			out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdShowActiveDisableVirtualSchemaProposal(), args)
 			if tc.err != nil {
 				stat, ok := status.FromError(tc.err)
 				require.True(t, ok)
 				require.ErrorIs(t, stat.Err(), tc.err)
 			} else {
 				require.NoError(t, err)
-				var resp types.QueryGetActiveDislabeVirtualSchemaProposalResponse
+				var resp types.QueryGetActiveDisableVirtualSchemaProposalResponse
 				require.NoError(t, net.Config.Codec.UnmarshalJSON(out.Bytes(), &resp))
-				require.NotNil(t, resp.ActiveDislabeVirtualSchemaProposal)
+				require.NotNil(t, resp.ActiveDisableVirtualSchemaProposal)
 				require.Equal(t,
 					nullify.Fill(&tc.obj),
-					nullify.Fill(&resp.ActiveDislabeVirtualSchemaProposal),
+					nullify.Fill(&resp.ActiveDisableVirtualSchemaProposal),
 				)
 			}
 		})
 	}
 }
 
-func TestListActiveDislabeVirtualSchemaProposal(t *testing.T) {
-	net, objs := networkWithActiveDislabeVirtualSchemaProposalObjects(t, 5)
+func TestListActiveDisableVirtualSchemaProposal(t *testing.T) {
+	net, objs := networkWithActiveDisableVirtualSchemaProposalObjects(t, 5)
 
 	ctx := net.Validators[0].ClientCtx
 	request := func(next []byte, offset, limit uint64, total bool) []string {
@@ -117,14 +117,14 @@ func TestListActiveDislabeVirtualSchemaProposal(t *testing.T) {
 		step := 2
 		for i := 0; i < len(objs); i += step {
 			args := request(nil, uint64(i), uint64(step), false)
-			out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdListActiveDislabeVirtualSchemaProposal(), args)
+			out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdListActiveDisableVirtualSchemaProposal(), args)
 			require.NoError(t, err)
-			var resp types.QueryAllActiveDislabeVirtualSchemaProposalResponse
+			var resp types.QueryAllActiveDisableVirtualSchemaProposalResponse
 			require.NoError(t, net.Config.Codec.UnmarshalJSON(out.Bytes(), &resp))
-			require.LessOrEqual(t, len(resp.ActiveDislabeVirtualSchemaProposal), step)
+			require.LessOrEqual(t, len(resp.ActiveDisableVirtualSchemaProposal), step)
 			require.Subset(t,
 				nullify.Fill(objs),
-				nullify.Fill(resp.ActiveDislabeVirtualSchemaProposal),
+				nullify.Fill(resp.ActiveDisableVirtualSchemaProposal),
 			)
 		}
 	})
@@ -133,29 +133,29 @@ func TestListActiveDislabeVirtualSchemaProposal(t *testing.T) {
 		var next []byte
 		for i := 0; i < len(objs); i += step {
 			args := request(next, 0, uint64(step), false)
-			out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdListActiveDislabeVirtualSchemaProposal(), args)
+			out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdListActiveDisableVirtualSchemaProposal(), args)
 			require.NoError(t, err)
-			var resp types.QueryAllActiveDislabeVirtualSchemaProposalResponse
+			var resp types.QueryAllActiveDisableVirtualSchemaProposalResponse
 			require.NoError(t, net.Config.Codec.UnmarshalJSON(out.Bytes(), &resp))
-			require.LessOrEqual(t, len(resp.ActiveDislabeVirtualSchemaProposal), step)
+			require.LessOrEqual(t, len(resp.ActiveDisableVirtualSchemaProposal), step)
 			require.Subset(t,
 				nullify.Fill(objs),
-				nullify.Fill(resp.ActiveDislabeVirtualSchemaProposal),
+				nullify.Fill(resp.ActiveDisableVirtualSchemaProposal),
 			)
 			next = resp.Pagination.NextKey
 		}
 	})
 	t.Run("Total", func(t *testing.T) {
 		args := request(nil, 0, uint64(len(objs)), true)
-		out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdListActiveDislabeVirtualSchemaProposal(), args)
+		out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdListActiveDisableVirtualSchemaProposal(), args)
 		require.NoError(t, err)
-		var resp types.QueryAllActiveDislabeVirtualSchemaProposalResponse
+		var resp types.QueryAllActiveDisableVirtualSchemaProposalResponse
 		require.NoError(t, net.Config.Codec.UnmarshalJSON(out.Bytes(), &resp))
 		require.NoError(t, err)
 		require.Equal(t, len(objs), int(resp.Pagination.Total))
 		require.ElementsMatch(t,
 			nullify.Fill(objs),
-			nullify.Fill(resp.ActiveDislabeVirtualSchemaProposal),
+			nullify.Fill(resp.ActiveDisableVirtualSchemaProposal),
 		)
 	})
 }
