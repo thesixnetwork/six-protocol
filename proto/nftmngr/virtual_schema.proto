@@ -77,3 +77,5 @@ message EnableVirtualSchemaProposal {
 }
 
 message InactiveEnableVirtualSchemaProposal { string id = 1; }
+
+message ActiveEnableVirtualSchemaProposal { string id = 1; }
