@@ -1,0 +1,34 @@
+{
+    "nft_schema_code": "sixnetwork.develop_v073",
+    "token_id": "1",
+    "token_owner": "6x1dk4vh8x995dcrqxr7ku25ykp7nc6g6f7nx6yuh",
+    "owner_address_type": "INTERNAL_ADDRESS",
+    "origin_image": "https://ipfsgw.sixnetwork.io/ipfs/QmZvQMoiZzLdcdFAoWYj8tMchZNsyL3qMBKmxjUU164ibL/TOKENID.png",
+    "onchain_image": "",
+    "token_uri": "",
+    "origin_attributes": [
+      {
+        "name": "background",
+        "string_attribute_value": {
+          "value": "Gradient_Orange"
+        },
+        "hidden_to_marketplace": false
+      },
+      {
+        "name": "tier",
+        "string_attribute_value": {
+          "value": "Normal"
+        },
+        "hidden_to_marketplace": false
+      }
+    ],
+    "onchain_attributes": [
+      {
+        "name": "tier",
+        "string_attribute_value": {
+          "value": "Normal"
+        },
+        "hidden_to_marketplace": false
+      }
+    ]
+  }

@@ -78,7 +78,7 @@ import (
 	upgradekeeper "github.com/cosmos/cosmos-sdk/x/upgrade/keeper"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 
-	//IBC packages
+	// IBC packages
 	"github.com/cosmos/ibc-go/v3/modules/apps/transfer"
 	ibctransferkeeper "github.com/cosmos/ibc-go/v3/modules/apps/transfer/keeper"
 	ibctransfertypes "github.com/cosmos/ibc-go/v3/modules/apps/transfer/types"
@@ -125,16 +125,16 @@ import (
 
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
-	//module for six data layer
-	nftadminmodule "github.com/thesixnetwork/sixnft/x/nftadmin"
-	nftadminmodulekeeper "github.com/thesixnetwork/sixnft/x/nftadmin/keeper"
-	nftadminmoduletypes "github.com/thesixnetwork/sixnft/x/nftadmin/types"
-	nftmngrmodule "github.com/thesixnetwork/sixnft/x/nftmngr"
-	nftmngrmodulekeeper "github.com/thesixnetwork/sixnft/x/nftmngr/keeper"
-	nftmngrmoduletypes "github.com/thesixnetwork/sixnft/x/nftmngr/types"
-	nftoraclemodule "github.com/thesixnetwork/sixnft/x/nftoracle"
-	nftoraclemodulekeeper "github.com/thesixnetwork/sixnft/x/nftoracle/keeper"
-	nftoraclemoduletypes "github.com/thesixnetwork/sixnft/x/nftoracle/types"
+	// module for six data layer
+	nftadminmodule "github.com/thesixnetwork/six-protocol/x/nftadmin"
+	nftadminmodulekeeper "github.com/thesixnetwork/six-protocol/x/nftadmin/keeper"
+	nftadminmoduletypes "github.com/thesixnetwork/six-protocol/x/nftadmin/types"
+	nftmngrmodule "github.com/thesixnetwork/six-protocol/x/nftmngr"
+	nftmngrmodulekeeper "github.com/thesixnetwork/six-protocol/x/nftmngr/keeper"
+	nftmngrmoduletypes "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+	nftoraclemodule "github.com/thesixnetwork/six-protocol/x/nftoracle"
+	nftoraclemodulekeeper "github.com/thesixnetwork/six-protocol/x/nftoracle/keeper"
+	nftoraclemoduletypes "github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 
 	// tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
@@ -200,7 +200,7 @@ var (
 		nftoraclemodule.AppModuleBasic{},
 		nftadminmodule.AppModuleBasic{},
 
-		//evm
+		// evm
 		evm.AppModuleBasic{},
 		feemarket.AppModuleBasic{},
 		// erc20.AppModuleBasic{},
@@ -226,11 +226,10 @@ var (
 	}
 )
 
-var (
-	// _ cosmoscmd.App           = (*App)(nil)
-	_ servertypes.Application = (*App)(nil)
-	// _ simapp.App              = (*App)(nil)
-)
+// _ cosmoscmd.App           = (*App)(nil)
+var _ servertypes.Application = (*App)(nil)
+
+// _ simapp.App              = (*App)(nil)
 
 func init() {
 	userHomeDir, err := os.UserHomeDir()
@@ -654,6 +653,7 @@ func New(
 		appCodec,
 		app.BankKeeper,
 		app.AccountKeeper,
+		app.TokenmngrKeeper,
 		app.NftmngrKeeper,
 	); err != nil {
 		panic(err)
@@ -663,7 +663,7 @@ func New(
 
 	// NOTE: we may consider parsing `appOpts` inside module constructors. For the moment
 	// we prefer to be more strict in what arguments the modules expect.
-	var skipGenesisInvariants = cast.ToBool(appOpts.Get(crisis.FlagSkipGenesisInvariants))
+	skipGenesisInvariants := cast.ToBool(appOpts.Get(crisis.FlagSkipGenesisInvariants))
 
 	// NOTE: Any module instantiated in the module manager that is later modified
 	// must be passed by reference here.
@@ -1044,9 +1044,7 @@ func (app *App) SimulationManager() *module.SimulationManager {
 	return app.sm
 }
 
-var (
-	AddrLen = 20
-)
+var AddrLen = 20
 
 // VerifyAddressFormat verifis the address is compatible with ethereum
 func VerifyAddressFormat(bz []byte) error {

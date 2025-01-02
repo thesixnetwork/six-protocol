@@ -1,0 +1,173 @@
+{
+    "code": "sixnetwork.develop_v073",
+    "name": "EXAMPLE_SCHEMA",
+    "owner": "0xNFTOWNER",
+    "origin_data": {
+      "origin_base_uri": "",
+      "uri_retrieval_method": "BASE",
+      "origin_chain": "FIVENET",
+      "origin_contract_address": "0x40df0C834CE7549e9234D11525aD1f7E7CF48E88",
+      "attribute_overriding": "CHAIN",
+      "metadata_format": "opensea",
+      "origin_attributes": [
+        {
+          "name": "background",
+          "data_type": "string",
+          "display_value_field": "value",
+          "display_option": {
+            "opensea": {
+              "trait_type": "Background"
+            }
+          }
+        },
+        {
+          "name": "tier",
+          "data_type": "string",
+          "display_value_field": "value",
+          "display_option": {
+            "opensea": {
+              "trait_type": "Tier"
+            }
+          }
+        }
+      ]
+    },
+    "onchain_data": {
+      "nft_attributes": [
+        {
+          "name": "tumbler_stock",
+          "default_mint_value": {
+            "float_attribute_value": {
+              "value": 600.0
+            }
+          },
+          "data_type": "float",
+          "required": true,
+          "display_value_field": "value",
+          "display_option": {
+            "opensea": {
+              "trait_type": "Tumbler Price"
+            }
+          },
+          "hidden_overide": false,
+          "hidden_to_marketplace": true
+        },
+        {
+          "name": "all_check_in",
+          "default_mint_value": {
+            "number_attribute_value": {
+              "value": 0
+            }
+          },
+          "data_type": "number",
+          "required": true,
+          "display_value_field": "value",
+          "display_option": {
+            "opensea": {
+              "trait_type": "Tumbler Price"
+            }
+          },
+          "hidden_overide": false,
+          "hidden_to_marketplace": true
+        }
+      ],
+      "token_attributes": [
+        {
+          "name": "tier",
+          "default_mint_value": {
+            "string_attribute_value": {
+              "value": ""
+            }
+          },
+          "data_type": "string",
+          "required": true,
+          "display_value_field": "value",
+          "display_option": {
+            "opensea": {
+              "trait_type": "Tier"
+            }
+          },
+          "hidden_overide": false,
+          "hidden_to_marketplace": false
+        },
+        {
+          "name": "points",
+          "default_mint_value": {
+            "float_attribute_value": {
+              "value": 0
+            }
+          },
+          "data_type": "float",
+          "required": true,
+          "display_value_field": "value",
+          "display_option": {
+            "opensea": {
+              "trait_type": "Points"
+            }
+          },
+          "hidden_overide": false,
+          "hidden_to_marketplace": false
+        },
+        {
+          "name": "is_checked_in",
+          "default_mint_value": {
+            "boolean_attribute_value": {
+              "value": false
+            }
+          },
+          "data_type": "boolean",
+          "required": true,
+          "display_value_field": "value",
+          "display_option": {
+            "bool_true_value": "Yes",
+            "bool_false_value": "No",
+            "opensea": {
+              "trait_type": "Checked In"
+            }
+          },
+          "hidden_overide": false,
+          "hidden_to_marketplace": false
+        }
+      ],
+      "actions": [
+        {
+          "name": "check_in",
+          "desc": "Check In to Event",
+          "params": [],
+          "when": "meta.GetBoolean('is_checked_in') == false",
+          "then": [
+            "meta.SetFloat('points', meta.GetFloat('points') + 50.0)",
+            "meta.SetNumber('all_check_in', meta.GetNumber('all_check_in') + 1)",
+            "meta.SetBoolean('is_checked_in', true)"
+          ]
+        },
+        {
+          "name": "mission",
+          "desc": "Do mission",
+          "params": [],
+          "when": "meta.GetBoolean('is_checked_in') == true",
+          "then": [
+            "meta.SetFloat('points', meta.GetFloat('points') + 70.0)"
+          ]
+        },
+        {
+          "name": "change_tier",
+          "desc": "Change Tier",
+          "params": [
+          ],
+          "when": "meta.GetBoolean('is_checked_in') == true",
+          "then": [
+            "meta.SetString('tier', 'gold')"
+          ]
+        }
+      ]
+    },
+    "system_actioners": [
+      "6x1y7lhzzum3nu77nz0pcwqth42yxm84zg3d957mr",
+      "6x1pmktx7s530v89zqey823m74aayx7w2932puayq",
+      "6x1l83jjk2ylhxhgy35hz6e3k2phxsapl0cft36hh",
+      "6x1m53akq8td5tc9gq6wge47gqglaaq649q3l7jlm",
+      "6x1tt59zm6rak6hh0fmr97vuyjd0hste7622p3upu"
+    ],
+    "mint_authorization": "system"
+  }
