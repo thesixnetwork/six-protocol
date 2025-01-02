@@ -5,7 +5,7 @@ on:
     paths:
       - 'docs/wiki/**'  # Monitors changes in docs folder
     branches:
-      - development  # or your default branch
+      - main  # or your default branch
 
 jobs:
   sync-wiki:
