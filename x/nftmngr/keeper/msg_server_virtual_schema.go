@@ -3,7 +3,6 @@ package keeper
 import (
 	"context"
 	"strconv"
-	"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -118,16 +117,6 @@ func (k msgServer) DeleteVirtualSchema(goCtx context.Context, msg *types.MsgDele
 func (k msgServer) DisableVirtualSchemaProposal(goCtx context.Context, msg *types.MsgDisableVirtualSchemaProposal) (*types.MsgDisableVirtualSchemaProposalResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	currentBlock := ctx.BlockHeight()
-	proposalEndBlock, err := strconv.ParseInt(msg.ProposalExpiredBlock, 10, 64)
-	if err != nil {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidHeight, msg.ProposalExpiredBlock)
-	}
-
-	if currentBlock >= proposalEndBlock {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidHeight, msg.ProposalExpiredBlock)
-	}
-
 	virtualSchema, found := k.GetVirtualSchema(ctx, msg.VirtualNftSchemaCode)
 	if !found {
 		return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, msg.VirtualNftSchemaCode)
@@ -150,20 +139,25 @@ func (k msgServer) DisableVirtualSchemaProposal(goCtx context.Context, msg *type
 	}
 
 	if !isOwner {
-		return nil, sdkerrors.Wrap(types.ErrUnauthorized, msg.Creator)
+		return nil, sdkerrors.Wrap(types.ErrUnauthorized, "Only owner of registry schema can create proposal")
 	}
 
 	// iterate to assing id of proposal
-	allProposal := k.GetAllDisableVirtualSchemaProposal(ctx)
-	proposalId := len(allProposal) + 1
+	lastProposalId := len(k.GetAllDisableVirtualSchemaProposal(ctx))
+	proposalId := lastProposalId + 1
+	strProposalId := strconv.FormatInt(int64(proposalId), 10)
+
+	submitTime := ctx.BlockHeader().Time
+	votingPeriod := k.govKeeper.GetVotingParams(ctx).VotingPeriod
+	endTime := submitTime.Add(votingPeriod)
 
 	k.SetDisableVirtualSchemaProposal(ctx, types.DisableVirtualSchemaProposal{
-		Id:                strconv.FormatInt(int64(proposalId), 10),
+		Id:                strProposalId,
 		VirtualSchemaCode: "",
 		Registry:          []*types.VirtualSchemaRegistry{},
-		SubmitTime:        time.Time{},
-		VotinStartTime:    time.Time{},
-		VotingEndTime:     time.Time{},
+		SubmitTime:        submitTime,
+		VotinStartTime:    submitTime,
+		VotingEndTime:     endTime,
 	})
 
 	return &types.MsgDisableVirtualSchemaProposalResponse{}, nil
