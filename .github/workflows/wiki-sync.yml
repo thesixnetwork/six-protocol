@@ -3,9 +3,9 @@ name: Sync Wiki
 on:
   push:
     paths:
-      - 'docs/wiki/**'  # Monitors changes in docs folder
+      - 'docs/wiki/**'
     branches:
-      - main  # or your default branch
+      - main
 
 jobs:
   sync-wiki:
@@ -21,17 +21,17 @@ jobs:
 
       - name: Clone wiki
         run: |
-          git clone "https://${{ github.token }}@github.com/${{ github.repository }}.wiki.git" wiki
-        
+          git clone "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git" wiki
+
       - name: Sync docs to wiki
         run: |
-          # Clear existing wiki content (optional)
+          set -e
+          echo "Clearing existing wiki content"
           rm -rf wiki/*
-          
-          # Copy docs to wiki
-          cp -r docs/wiki/* wiki/
-          
-          # Push to wiki
+          echo "Copying docs to wiki"
+          cp -r docs/wiki/* wiki/ || echo "No files to copy"
           cd wiki
+          echo "Adding files to git"
           git add .
+          echo "Checking for changes"
           git diff --quiet && git diff --staged --quiet || (git commit -m "docs: sync from main repo ${GITHUB_SHA}" && git push)
