@@ -46,6 +46,7 @@ var (
 	ErrSchemaNotFound                            = sdkerrors.Register(ModuleName, 125, "Schema not found")
 	ErrInvalidOperation                          = sdkerrors.Register(ModuleName, 126, "Invalid Operation")
 	ErrAttributeNotAllowedToShare                = sdkerrors.Register(ModuleName, 127, "The Attribute in not shared by owner")
+	ErrProposalIdDoesNotExists                   = sdkerrors.Register(ModuleName, 128, "Virtual Schema Proposal ID Does Not Exist")
 	// Schema (200-299)
 	ErrSchemaAlreadyExists             = sdkerrors.Register(ModuleName, 200, "Schema already exists")
 	ErrValidatingNFTSchema             = sdkerrors.Register(ModuleName, 201, "Error validating NFT schema")

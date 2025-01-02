@@ -45998,6 +45998,7 @@ paths:
                                 title: get from smart contract
                               expire_epoch:
                                 type: string
+                                title: get from smart contract
                           hash:
                             type: string
                             format: byte
@@ -46173,6 +46174,7 @@ paths:
                               title: get from smart contract
                             expire_epoch:
                               type: string
+                              title: get from smart contract
                         hash:
                           type: string
                           format: byte
@@ -72330,6 +72332,7 @@ definitions:
             title: get from smart contract
           expire_epoch:
             type: string
+            title: get from smart contract
       hash:
         type: string
         format: byte
@@ -72649,6 +72652,7 @@ definitions:
         title: get from smart contract
       expire_epoch:
         type: string
+        title: get from smart contract
   thesixnetwork.sixprotocol.nftoracle.Params:
     type: object
     properties:
@@ -73130,6 +73134,7 @@ definitions:
                         title: get from smart contract
                       expire_epoch:
                         type: string
+                        title: get from smart contract
                   hash:
                     type: string
                     format: byte
@@ -73527,6 +73532,7 @@ definitions:
                       title: get from smart contract
                     expire_epoch:
                       type: string
+                      title: get from smart contract
                 hash:
                   type: string
                   format: byte
@@ -73626,6 +73632,7 @@ definitions:
                   title: get from smart contract
                 expire_epoch:
                   type: string
+                  title: get from smart contract
             hash:
               type: string
               format: byte
