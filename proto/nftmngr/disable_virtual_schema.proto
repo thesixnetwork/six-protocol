@@ -19,16 +19,13 @@ message DisableVirtualSchemaProposal {
       [ (gogoproto.stdtime) = true, (gogoproto.nullable) = false ];
 }
 
-message VirtualSchemaDisableRequest {
-  string virtualNftSchemaCode = 1;
-}
+message VirtualSchemaDisableRequest { string virtualNftSchemaCode = 1; }
 
 message DisableVirtualSchemaRegistry {
   string nftSchemaCode = 1;
   RegistryStatus status = 2;
 }
 
+message ActiveDislabeVirtualSchemaProposal { string id = 1; }
 
-message ActiveDislabeVirtualSchemaProposal {string id = 1;}
-
-message InactiveDisableVirtualSchemaProposal {string id = 1;}
+message InactiveDisableVirtualSchemaProposal { string id = 1; }
