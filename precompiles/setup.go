@@ -38,6 +38,7 @@ func InitializePrecompiles(
 	cdc codec.BinaryCodec,
 	bankKeeper common.BankKeeper,
 	accountKeeper common.AccountKeeper,
+  tokenmngrKeeper common.TokenmngrKeeper,
 	nftmngrKeeper common.NftmngrKeeper,
 ) error {
 	SetupMtx.Lock()
@@ -49,8 +50,7 @@ func InitializePrecompiles(
 	if err != nil {
 		return err
 	}
-
-	bridgep, err := bridge.NewPrecompile(bankKeeper, accountKeeper)
+	bridgep, err := bridge.NewPrecompile(bankKeeper, accountKeeper, tokenmngrKeeper)
 	if err != nil {
 		return err
 	}
@@ -70,13 +70,14 @@ func InitializePrecompiles(
 		addPrecompileToVM(nftmngrp)
 		Initialized = true
 	}
+
 	return nil
 }
 
 func GetPrecompileInfo(name string) PrecompileInfo {
 	if !Initialized {
 		// Precompile Info does not require any keeper state
-		_ = InitializePrecompiles(true, nil, nil, nil, nil)
+		_ = InitializePrecompiles(true, nil, nil, nil, nil, nil)
 	}
 	i, ok := PrecompileNamesToInfo[name]
 	if !ok {

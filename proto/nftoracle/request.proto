@@ -1,0 +1,27 @@
+syntax = "proto3";
+package thesixnetwork.sixprotocol.nftoracle;
+import "nftoracle/opensea.proto";
+import "google/protobuf/timestamp.proto";
+option go_package = "github.com/thesixnetwork/six-protocol/x/nftoracle/types";
+
+enum RequestStatus {
+  PENDING = 0;
+  SUCCESS_WITH_CONSENSUS = 1;
+  FAILED_WITHOUT_CONCENSUS = 2;
+  EXPIRED = 3;
+  FAILED_ON_EXECUTION = 4;
+  FAILED_REJECT_BY_CONSENSUS = 5;
+}
+
+
+message NftOriginData {
+  string image = 1;
+  string holder_address = 2;
+  repeated Trait traits = 3;
+}
+
+message DataHash {
+  NftOriginData origin_data = 1;
+  bytes hash = 2;
+  repeated string confirmers = 3;
+}

@@ -12,9 +12,9 @@ import (
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	"github.com/stretchr/testify/suite"
 	prenftmgr "github.com/thesixnetwork/six-protocol/precompiles/nftmngr"
-	testkeeper "github.com/thesixnetwork/sixnft/testutil/keeper"
-	nftmngrkeeper "github.com/thesixnetwork/sixnft/x/nftmngr/keeper"
-	nftmngrtype "github.com/thesixnetwork/sixnft/x/nftmngr/types"
+	testkeeper "github.com/thesixnetwork/six-protocol/testutil/keeper"
+	nftmngrkeeper "github.com/thesixnetwork/six-protocol/x/nftmngr/keeper"
+	nftmngrtype "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
 type NftmngrPrecompileTestSuite struct {

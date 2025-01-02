@@ -11,32 +11,7 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
-	nftmngrtypes "github.com/thesixnetwork/sixnft/x/nftmngr/types"
-)
-
-const (
-	AddAction            = "addAction"
-	AddAttribute         = "addAttribute"
-	ChangeOrgOwner       = "changeOrgOwner"
-	ChangeSchemaOwner    = "changeSchemaOwner"
-	CreateMetadata       = "createMetadata"
-	CreateSchema         = "createSchema"
-	ActionByAdmin        = "actionByAdmin"
-	ResyncAttribute      = "resyncAttribute"
-	UpdateAttribute      = "updateSchemaAttribute"
-	AttributeOveride     = "attributeOveride"
-	SetBaseURI           = "setBaseURI"
-	SetMetadataFormat    = "setMetadataFormat"
-	SetMintAuth          = "setMintAuth"
-	SetOriginChain       = "setOriginChain"
-	SetOriginContract    = "setOriginContract"
-	SetUriRetreival      = "setUriRetreival"
-	ShowAttribute        = "showAttribute"
-	ToggleAction         = "toggleAction"
-	UpdateAction         = "updateAction"
-	AddActionExecutor    = "addActionExecutor"
-	RemoveActionExecutor = "removeActionExecutor"
-	IsActionExecutor     = "isActionExecutor"
+	nftmngrtypes "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
 func (p PrecompileExecutor) addAction(ctx sdk.Context, caller common.Address, method *abi.Method, args []interface{}, value *big.Int, readOnly bool) ([]byte, error) {

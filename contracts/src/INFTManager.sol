@@ -99,7 +99,7 @@ interface INFTMNGR {
 
     function setUriRetreival(
         string memory nftSchemaName,
-        string memory newOriginContract
+        string memory newUri
     ) external returns (bool success);
 
     function showAttribute(
@@ -121,7 +121,18 @@ interface INFTMNGR {
 
     // QUERY
     function isActionExecutor(
-        string memory nftSchemaame,
+        string memory nftSchemaName,
         address executor
-    ) external returns (bool success);
+    ) external view returns (bool isExecutor);
+
+    function isSchemaOwner(
+        string memory nftSchemaName,
+        address ownerAddress
+    ) external view returns (bool isSchemaOwner);
+
+    function getAttributeValue(
+        string memory nftSchemaName,
+        string memory tokenId,
+        string memory attributeName
+    ) external view returns (string memory value);
 }
