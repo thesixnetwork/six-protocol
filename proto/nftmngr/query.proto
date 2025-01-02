@@ -20,7 +20,6 @@ import "nftmngr/executor_of_schema.proto";
 import "nftmngr/virtual_action.proto";
 import "nftmngr/nft_data.proto";
 import "nftmngr/virtual_schema.proto";
-import "nftmngr/disable_virtual_schema.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";

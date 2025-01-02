@@ -151,12 +151,13 @@ func (k msgServer) DisableVirtualSchemaProposal(goCtx context.Context, msg *type
 	votingPeriod := k.govKeeper.GetVotingParams(ctx).VotingPeriod
 	endTime := submitTime.Add(votingPeriod)
 
-	registry := []*types.DisableVirtualSchemaRegistry{}
+	registry := []*types.VirtualSchemaRegistry{}
 
 	for _, reqRegistry := range virtualSchema.Registry {
-		registry = append(registry, &types.DisableVirtualSchemaRegistry{
+		registry = append(registry, &types.VirtualSchemaRegistry{
 			NftSchemaCode: reqRegistry.NftSchemaCode,
 			Status:        types.RegistryStatus_PENDING,
+			SharedAttributes: reqRegistry.SharedAttributes,
 		})
 	}
 
@@ -167,6 +168,10 @@ func (k msgServer) DisableVirtualSchemaProposal(goCtx context.Context, msg *type
 		SubmitTime:        submitTime,
 		VotinStartTime:    submitTime,
 		VotingEndTime:     endTime,
+	})
+
+	k.SetActiveDisableVirtualSchemaProposal(ctx, types.ActiveDisableVirtualSchemaProposal{
+		Id: strProposalId,
 	})
 
 	return &types.MsgDisableVirtualSchemaProposalResponse{Creator: msg.Creator, ProposalId: strProposalId}, nil
