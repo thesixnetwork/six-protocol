@@ -22,7 +22,6 @@ message VirtualSchema {
   string virtualNftSchemaCode = 1;
   repeated VirtualSchemaRegistry registry = 2;
   bool enable = 3;
-  string expiredAtBlock = 4;
   // link wih virtual action. We will not put in here to reduce redundance info
 }
 

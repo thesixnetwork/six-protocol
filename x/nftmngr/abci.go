@@ -14,7 +14,7 @@ func EndBlocker(ctx sdk.Context, k keeper.Keeper) {
 	defer telemetry.ModuleMeasureSince(types.ModuleName, time.Now(), telemetry.MetricKeyEndBlocker)
 
 	k.IterateActiveProposal(ctx, ctx.BlockHeader().Time, func(proposal types.VirtualSchemaProposal) (stop bool) {
-		pass := k.AfterProposalSuccess(ctx, proposal)
+		pass := k.AfterProposalCreateVirtualSchemaSuccess(ctx, proposal)
 		return pass
 	})
 }
