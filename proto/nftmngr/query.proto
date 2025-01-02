@@ -283,7 +283,17 @@ service Query {
                                    "inactive_disable_virtual_schema_proposal";
   }
 
-  // this line is used by starport scaffolding # 2
+  // Queries a EnableVirtualSchemaProposal by index.
+	rpc EnableVirtualSchemaProposal(QueryGetEnableVirtualSchemaProposalRequest) returns (QueryGetEnableVirtualSchemaProposalResponse) {
+		option (google.api.http).get = "/thesixnetwork/six-protocol/nftmngr/enable_virtual_schema_proposal/{index}";
+	}
+
+	// Queries a list of EnableVirtualSchemaProposal items.
+	rpc EnableVirtualSchemaProposalAll(QueryAllEnableVirtualSchemaProposalRequest) returns (QueryAllEnableVirtualSchemaProposalResponse) {
+		option (google.api.http).get = "/thesixnetwork/six-protocol/nftmngr/enable_virtual_schema_proposal";
+	}
+
+// this line is used by starport scaffolding # 2
 }
 
 // QueryParamsRequest is request type for the Query/Params RPC method.
@@ -622,6 +632,24 @@ message QueryAllInactiveDisableVirtualSchemaProposalResponse {
   repeated InactiveDisableVirtualSchemaProposal
       inactiveDisableVirtualSchemaProposal = 1 [ (gogoproto.nullable) = false ];
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetEnableVirtualSchemaProposalRequest {
+	  string index = 1;
+
+}
+
+message QueryGetEnableVirtualSchemaProposalResponse {
+	EnableVirtualSchemaProposal enableVirtualSchemaProposal = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllEnableVirtualSchemaProposalRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllEnableVirtualSchemaProposalResponse {
+	repeated EnableVirtualSchemaProposal enableVirtualSchemaProposal = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
 // this line is used by starport scaffolding # 3

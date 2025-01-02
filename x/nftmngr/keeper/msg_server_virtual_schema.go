@@ -155,8 +155,8 @@ func (k msgServer) DisableVirtualSchemaProposal(goCtx context.Context, msg *type
 
 	for _, reqRegistry := range virtualSchema.Registry {
 		registry = append(registry, &types.VirtualSchemaRegistry{
-			NftSchemaCode: reqRegistry.NftSchemaCode,
-			Status:        types.RegistryStatus_PENDING,
+			NftSchemaCode:    reqRegistry.NftSchemaCode,
+			Status:           types.RegistryStatus_PENDING,
 			SharedAttributes: reqRegistry.SharedAttributes,
 		})
 	}
