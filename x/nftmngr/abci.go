@@ -22,4 +22,9 @@ func EndBlocker(ctx sdk.Context, k keeper.Keeper) {
 		pass := k.AfterProposalDisableVirtualSchemaSuccess(ctx, proposal)
 		return pass
 	})
+
+	k.IterateActiveProposalEnableVirtualSchema(ctx, ctx.BlockHeader().Time, func(proposal types.EnableVirtualSchemaProposal) (stop bool) {
+		pass := k.AfterProposalEnableVirtualSchemaSuccess(ctx, types.EnableVirtualSchemaProposal(proposal))
+		return pass
+	})
 }
