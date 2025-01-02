@@ -25,7 +25,7 @@ func DefaultGenesis() *GenesisState {
 		ExecutorOfSchemaList:              []ExecutorOfSchema{},
 		VirtualActionList:                 []VirtualAction{},
 		VirtualSchemaList:                 []VirtualSchema{},
-		DisableVirtualSchemaList:          []DisableVirtualSchema{},
+		DisableVirtualSchemaProposalList:  []DisableVirtualSchemaProposal{},
 		VirtualSchemaProposalList:         []VirtualSchemaProposal{},
 		ActiveVirtualSchemaProposalList:   []ActiveVirtualSchemaProposal{},
 		InactiveVirtualSchemaProposalList: []InactiveVirtualSchemaProposal{},
@@ -170,7 +170,7 @@ func (gs GenesisState) Validate() error {
 	// Check for duplicated index in disableVirtualSchema
 	disableVirtualSchemaIndexMap := make(map[string]struct{})
 
-	for _, elem := range gs.DisableVirtualSchemaList {
+	for _, elem := range gs.DisableVirtualSchemaProposalList {
 		index := string(DisableVirtualSchemaKey(elem.Id))
 		if _, ok := disableVirtualSchemaIndexMap[index]; ok {
 			return fmt.Errorf("duplicated index for disableVirtualSchema")

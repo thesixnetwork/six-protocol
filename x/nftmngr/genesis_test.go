@@ -144,7 +144,7 @@ func TestGenesis(t *testing.T) {
 				VirtualNftSchemaCode: "1",
 			},
 		},
-		DisableVirtualSchemaList: []types.DisableVirtualSchema{
+		DisableVirtualSchemaProposalList: []types.DisableVirtualSchemaProposal{
 			{
 				Id: "0",
 			},
@@ -202,7 +202,7 @@ func TestGenesis(t *testing.T) {
 	require.ElementsMatch(t, genesisState.ExecutorOfSchemaList, got.ExecutorOfSchemaList)
 	require.ElementsMatch(t, genesisState.VirtualActionList, got.VirtualActionList)
 	require.ElementsMatch(t, genesisState.VirtualSchemaList, got.VirtualSchemaList)
-	require.ElementsMatch(t, genesisState.DisableVirtualSchemaList, got.DisableVirtualSchemaList)
+	require.ElementsMatch(t, genesisState.DisableVirtualSchemaProposalList, got.DisableVirtualSchemaProposalList)
 	require.ElementsMatch(t, genesisState.VirtualSchemaProposalList, got.VirtualSchemaProposalList)
 	require.ElementsMatch(t, genesisState.ActiveVirtualSchemaProposalList, got.ActiveVirtualSchemaProposalList)
 	require.ElementsMatch(t, genesisState.InactiveVirtualSchemaProposalList, got.InactiveVirtualSchemaProposalList)

@@ -222,15 +222,15 @@ service Query {
   }
 
   // Queries a DisableVirtualSchema by index.
-  rpc DisableVirtualSchema(QueryGetDisableVirtualSchemaRequest)
-      returns (QueryGetDisableVirtualSchemaResponse) {
+  rpc DisableVirtualSchemaProposal(QueryGetDisableVirtualSchemaProposalRequest)
+      returns (QueryGetDisableVirtualSchemaProposalResponse) {
     option (google.api.http).get =
         "/thesixnetwork/sixnft/nftmngr/disable_virtual_schema/{index}";
   }
 
   // Queries a list of DisableVirtualSchema items.
-  rpc DisableVirtualSchemaAll(QueryAllDisableVirtualSchemaRequest)
-      returns (QueryAllDisableVirtualSchemaResponse) {
+  rpc DisableVirtualSchemaProposalAll(QueryAllDisableVirtualSchemaProposalRequest)
+      returns (QueryAllDisableVirtualSchemaProposalResponse) {
     option (google.api.http).get =
         "/thesixnetwork/sixnft/nftmngr/disable_virtual_schema";
   }
@@ -486,19 +486,19 @@ message QueryAllVirtualSchemaResponse {
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
-message QueryGetDisableVirtualSchemaRequest { string index = 1; }
+message QueryGetDisableVirtualSchemaProposalRequest { string index = 1; }
 
-message QueryGetDisableVirtualSchemaResponse {
-  DisableVirtualSchema disableVirtualSchema = 1
+message QueryGetDisableVirtualSchemaProposalResponse {
+  DisableVirtualSchemaProposal disableVirtualSchemaProposal = 1
       [ (gogoproto.nullable) = false ];
 }
 
-message QueryAllDisableVirtualSchemaRequest {
+message QueryAllDisableVirtualSchemaProposalRequest {
   cosmos.base.query.v1beta1.PageRequest pagination = 1;
 }
 
-message QueryAllDisableVirtualSchemaResponse {
-  repeated DisableVirtualSchema disableVirtualSchema = 1
+message QueryAllDisableVirtualSchemaProposalResponse {
+  repeated DisableVirtualSchemaProposal disableVirtualSchemaProposal = 1
       [ (gogoproto.nullable) = false ];
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }

@@ -21,23 +21,23 @@ import (
 // Prevent strconv unused error
 var _ = strconv.IntSize
 
-func networkWithDisableVirtualSchemaObjects(t *testing.T, n int) (*network.Network, []types.DisableVirtualSchema) {
+func networkWithDisableVirtualSchemaObjects(t *testing.T, n int) (*network.Network, []types.DisableVirtualSchemaProposal) {
 	t.Helper()
 	cfg := network.DefaultConfig()
 	state := types.GenesisState{}
 	require.NoError(t, cfg.Codec.UnmarshalJSON(cfg.GenesisState[types.ModuleName], &state))
 
 	for i := 0; i < n; i++ {
-		disableVirtualSchema := types.DisableVirtualSchema{
+		disableVirtualSchema := types.DisableVirtualSchemaProposal{
 			Id: strconv.Itoa(i),
 		}
 		nullify.Fill(&disableVirtualSchema)
-		state.DisableVirtualSchemaList = append(state.DisableVirtualSchemaList, disableVirtualSchema)
+		state.DisableVirtualSchemaProposalList = append(state.DisableVirtualSchemaProposalList, disableVirtualSchema)
 	}
 	buf, err := cfg.Codec.MarshalJSON(&state)
 	require.NoError(t, err)
 	cfg.GenesisState[types.ModuleName] = buf
-	return network.New(t, cfg), state.DisableVirtualSchemaList
+	return network.New(t, cfg), state.DisableVirtualSchemaProposalList
 }
 
 func TestShowDisableVirtualSchema(t *testing.T) {
@@ -53,7 +53,7 @@ func TestShowDisableVirtualSchema(t *testing.T) {
 
 		args []string
 		err  error
-		obj  types.DisableVirtualSchema
+		obj  types.DisableVirtualSchemaProposal
 	}{
 		{
 			desc:    "found",
@@ -82,12 +82,12 @@ func TestShowDisableVirtualSchema(t *testing.T) {
 				require.ErrorIs(t, stat.Err(), tc.err)
 			} else {
 				require.NoError(t, err)
-				var resp types.QueryGetDisableVirtualSchemaResponse
+				var resp types.QueryGetDisableVirtualSchemaProposalResponse
 				require.NoError(t, net.Config.Codec.UnmarshalJSON(out.Bytes(), &resp))
-				require.NotNil(t, resp.DisableVirtualSchema)
+				require.NotNil(t, resp.DisableVirtualSchemaProposal)
 				require.Equal(t,
 					nullify.Fill(&tc.obj),
-					nullify.Fill(&resp.DisableVirtualSchema),
+					nullify.Fill(&resp.DisableVirtualSchemaProposal),
 				)
 			}
 		})
@@ -119,12 +119,12 @@ func TestListDisableVirtualSchema(t *testing.T) {
 			args := request(nil, uint64(i), uint64(step), false)
 			out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdListDisableVirtualSchema(), args)
 			require.NoError(t, err)
-			var resp types.QueryAllDisableVirtualSchemaResponse
+			var resp types.QueryAllDisableVirtualSchemaProposalResponse
 			require.NoError(t, net.Config.Codec.UnmarshalJSON(out.Bytes(), &resp))
-			require.LessOrEqual(t, len(resp.DisableVirtualSchema), step)
+			require.LessOrEqual(t, len(resp.DisableVirtualSchemaProposal), step)
 			require.Subset(t,
 				nullify.Fill(objs),
-				nullify.Fill(resp.DisableVirtualSchema),
+				nullify.Fill(resp.DisableVirtualSchemaProposal),
 			)
 		}
 	})
@@ -135,12 +135,12 @@ func TestListDisableVirtualSchema(t *testing.T) {
 			args := request(next, 0, uint64(step), false)
 			out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdListDisableVirtualSchema(), args)
 			require.NoError(t, err)
-			var resp types.QueryAllDisableVirtualSchemaResponse
+			var resp types.QueryAllDisableVirtualSchemaProposalResponse
 			require.NoError(t, net.Config.Codec.UnmarshalJSON(out.Bytes(), &resp))
-			require.LessOrEqual(t, len(resp.DisableVirtualSchema), step)
+			require.LessOrEqual(t, len(resp.DisableVirtualSchemaProposal), step)
 			require.Subset(t,
 				nullify.Fill(objs),
-				nullify.Fill(resp.DisableVirtualSchema),
+				nullify.Fill(resp.DisableVirtualSchemaProposal),
 			)
 			next = resp.Pagination.NextKey
 		}
@@ -149,13 +149,13 @@ func TestListDisableVirtualSchema(t *testing.T) {
 		args := request(nil, 0, uint64(len(objs)), true)
 		out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdListDisableVirtualSchema(), args)
 		require.NoError(t, err)
-		var resp types.QueryAllDisableVirtualSchemaResponse
+		var resp types.QueryAllDisableVirtualSchemaProposalResponse
 		require.NoError(t, net.Config.Codec.UnmarshalJSON(out.Bytes(), &resp))
 		require.NoError(t, err)
 		require.Equal(t, len(objs), int(resp.Pagination.Total))
 		require.ElementsMatch(t,
 			nullify.Fill(objs),
-			nullify.Fill(resp.DisableVirtualSchema),
+			nullify.Fill(resp.DisableVirtualSchemaProposal),
 		)
 	})
 }
