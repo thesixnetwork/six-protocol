@@ -420,7 +420,6 @@ message MsgVoteCreateVirtualSchemaResponse {}
 message MsgDisableVirtualSchemaProposal {
   string creator = 1;
   string virtualNftSchemaCode = 2;
-  string proposalExpiredBlock = 3;
 }
 
 message MsgDisableVirtualSchemaProposalResponse {
