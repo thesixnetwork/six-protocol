@@ -81,7 +81,6 @@ func (k Keeper) GetAllEnableVirtualSchemaProposal(ctx sdk.Context) (list []types
 // 	}
 // }
 
-
 // SetInactiveEnableVirtualSchemaProposal set a specific inactiveEnableVirtualSchemaProposal in the store from its index
 func (k Keeper) SetInactiveEnableVirtualSchemaProposal(ctx sdk.Context, inactiveEnableVirtualSchemaProposal types.InactiveEnableVirtualSchemaProposal) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.InactiveEnableVirtualSchemaProposalKeyPrefix))
@@ -131,6 +130,65 @@ func (k Keeper) GetAllInactiveEnableVirtualSchemaProposal(ctx sdk.Context) (list
 
 	for ; iterator.Valid(); iterator.Next() {
 		var val types.InactiveEnableVirtualSchemaProposal
+		k.cdc.MustUnmarshal(iterator.Value(), &val)
+		list = append(list, val)
+	}
+
+	return
+}
+
+
+
+///// ###################
+// SetActiveEnableVirtualSchemaProposal set a specific activeEnableVirtualSchemaProposal in the store from its index
+func (k Keeper) SetActiveEnableVirtualSchemaProposal(ctx sdk.Context, activeEnableVirtualSchemaProposal types.ActiveEnableVirtualSchemaProposal) {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActiveEnableVirtualSchemaProposalKeyPrefix))
+	b := k.cdc.MustMarshal(&activeEnableVirtualSchemaProposal)
+	store.Set(types.ActiveEnableVirtualSchemaProposalKey(
+		activeEnableVirtualSchemaProposal.Id,
+	), b)
+}
+
+// GetActiveEnableVirtualSchemaProposal returns a activeEnableVirtualSchemaProposal from its index
+func (k Keeper) GetActiveEnableVirtualSchemaProposal(
+	ctx sdk.Context,
+	index string,
+
+) (val types.ActiveEnableVirtualSchemaProposal, found bool) {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActiveEnableVirtualSchemaProposalKeyPrefix))
+
+	b := store.Get(types.ActiveEnableVirtualSchemaProposalKey(
+		index,
+	))
+	if b == nil {
+		return val, false
+	}
+
+	k.cdc.MustUnmarshal(b, &val)
+	return val, true
+}
+
+// RemoveActiveEnableVirtualSchemaProposal removes a activeEnableVirtualSchemaProposal from the store
+func (k Keeper) RemoveActiveEnableVirtualSchemaProposal(
+	ctx sdk.Context,
+	index string,
+
+) {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActiveEnableVirtualSchemaProposalKeyPrefix))
+	store.Delete(types.ActiveEnableVirtualSchemaProposalKey(
+		index,
+	))
+}
+
+// GetAllActiveEnableVirtualSchemaProposal returns all activeEnableVirtualSchemaProposal
+func (k Keeper) GetAllActiveEnableVirtualSchemaProposal(ctx sdk.Context) (list []types.ActiveEnableVirtualSchemaProposal) {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActiveEnableVirtualSchemaProposalKeyPrefix))
+	iterator := sdk.KVStorePrefixIterator(store, []byte{})
+
+	defer iterator.Close()
+
+	for ; iterator.Valid(); iterator.Next() {
+		var val types.ActiveEnableVirtualSchemaProposal
 		k.cdc.MustUnmarshal(iterator.Value(), &val)
 		list = append(list, val)
 	}
