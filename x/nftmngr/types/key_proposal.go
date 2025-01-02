@@ -15,7 +15,7 @@ const (
 	AttributeOfSchemaKeyPrefix = "AttributeOfSchema/value/"
 
 	// DisableVirtualSchemaKeyPrefix is the prefix to retrieve all DisableVirtualSchema
-	DisableVirtualSchemaKeyPrefix = "DisableVirtualSchema/value/"
+	DisableVirtualSchemaProposalKeyPrefix = "DisableVirtualSchemaProposal/value/"
 
 	// InactiveVirtualSchemaProposalKeyPrefix is the prefix to retrieve all InactiveVirtualSchemaProposal
 	InactiveVirtualSchemaProposalKeyPrefix = "InactiveVirtualSchemaProposal/value/"

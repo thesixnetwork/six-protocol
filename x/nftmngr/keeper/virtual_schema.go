@@ -62,8 +62,8 @@ func (k Keeper) GetAllVirtualSchema(ctx sdk.Context) (list []types.VirtualSchema
 }
 
 // SetDisableVirtualSchema set a specific disableVirtualSchema in the store from its index
-func (k Keeper) SetDisableVirtualSchema(ctx sdk.Context, disableVirtualSchema types.DisableVirtualSchema) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.DisableVirtualSchemaKeyPrefix))
+func (k Keeper) SetDisableVirtualSchemaProposal(ctx sdk.Context, disableVirtualSchema types.DisableVirtualSchemaProposal) {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.DisableVirtualSchemaProposalKeyPrefix))
 	b := k.cdc.MustMarshal(&disableVirtualSchema)
 	store.Set(types.DisableVirtualSchemaKey(
 		disableVirtualSchema.Id,
@@ -71,11 +71,11 @@ func (k Keeper) SetDisableVirtualSchema(ctx sdk.Context, disableVirtualSchema ty
 }
 
 // GetDisableVirtualSchema returns a disableVirtualSchema from its index
-func (k Keeper) GetDisableVirtualSchema(
+func (k Keeper) GetDisableVirtualSchemaProposal(
 	ctx sdk.Context,
 	id string,
-) (val types.DisableVirtualSchema, found bool) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.DisableVirtualSchemaKeyPrefix))
+) (val types.DisableVirtualSchemaProposal, found bool) {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.DisableVirtualSchemaProposalKeyPrefix))
 
 	b := store.Get(types.DisableVirtualSchemaKey(
 		id,
@@ -89,25 +89,25 @@ func (k Keeper) GetDisableVirtualSchema(
 }
 
 // RemoveDisableVirtualSchema removes a disableVirtualSchema from the store
-func (k Keeper) RemoveDisableVirtualSchema(
+func (k Keeper) RemoveDisableVirtualSchemaProposal(
 	ctx sdk.Context,
 	id string,
 ) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.DisableVirtualSchemaKeyPrefix))
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.DisableVirtualSchemaProposalKeyPrefix))
 	store.Delete(types.DisableVirtualSchemaKey(
 		id,
 	))
 }
 
 // GetAllDisableVirtualSchema returns all disableVirtualSchema
-func (k Keeper) GetAllDisableVirtualSchema(ctx sdk.Context) (list []types.DisableVirtualSchema) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.DisableVirtualSchemaKeyPrefix))
+func (k Keeper) GetAllDisableVirtualSchemaProposal(ctx sdk.Context) (list []types.DisableVirtualSchemaProposal) {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.DisableVirtualSchemaProposalKeyPrefix))
 	iterator := sdk.KVStorePrefixIterator(store, []byte{})
 
 	defer iterator.Close()
 
 	for ; iterator.Valid(); iterator.Next() {
-		var val types.DisableVirtualSchema
+		var val types.DisableVirtualSchemaProposal
 		k.cdc.MustUnmarshal(iterator.Value(), &val)
 		list = append(list, val)
 	}

@@ -138,7 +138,7 @@ func TestGenesisState_Validate(t *testing.T) {
 						VirtualNftSchemaCode: "1",
 					},
 				},
-				DisableVirtualSchemaList: []types.DisableVirtualSchema{
+				DisableVirtualSchemaProposalList: []types.DisableVirtualSchemaProposal{
 					{
 						Id: "0",
 					},
@@ -369,7 +369,7 @@ func TestGenesisState_Validate(t *testing.T) {
 		{
 			desc: "duplicated disableVirtualSchema",
 			genState: &types.GenesisState{
-				DisableVirtualSchemaList: []types.DisableVirtualSchema{
+				DisableVirtualSchemaProposalList: []types.DisableVirtualSchemaProposal{
 					{
 						Id: "0",
 					},

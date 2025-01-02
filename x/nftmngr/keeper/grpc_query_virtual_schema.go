@@ -100,19 +100,19 @@ func (k Keeper) VirtualSchema(c context.Context, req *types.QueryGetVirtualSchem
 	return &types.QueryGetVirtualSchemaResponse{VirtualSchema: val}, nil
 }
 
-func (k Keeper) DisableVirtualSchemaAll(c context.Context, req *types.QueryAllDisableVirtualSchemaRequest) (*types.QueryAllDisableVirtualSchemaResponse, error) {
+func (k Keeper) DisableVirtualSchemaProposalAll(c context.Context, req *types.QueryAllDisableVirtualSchemaProposalRequest) (*types.QueryAllDisableVirtualSchemaProposalResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
-	var disableVirtualSchemas []types.DisableVirtualSchema
+	var disableVirtualSchemas []types.DisableVirtualSchemaProposal
 	ctx := sdk.UnwrapSDKContext(c)
 
 	store := ctx.KVStore(k.storeKey)
-	disableVirtualSchemaStore := prefix.NewStore(store, types.KeyPrefix(types.DisableVirtualSchemaKeyPrefix))
+	disableVirtualSchemaStore := prefix.NewStore(store, types.KeyPrefix(types.DisableVirtualSchemaProposalKeyPrefix))
 
 	pageRes, err := query.Paginate(disableVirtualSchemaStore, req.Pagination, func(key []byte, value []byte) error {
-		var disableVirtualSchema types.DisableVirtualSchema
+		var disableVirtualSchema types.DisableVirtualSchemaProposal
 		if err := k.cdc.Unmarshal(value, &disableVirtualSchema); err != nil {
 			return err
 		}
@@ -124,16 +124,16 @@ func (k Keeper) DisableVirtualSchemaAll(c context.Context, req *types.QueryAllDi
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 
-	return &types.QueryAllDisableVirtualSchemaResponse{DisableVirtualSchema: disableVirtualSchemas, Pagination: pageRes}, nil
+	return &types.QueryAllDisableVirtualSchemaProposalResponse{DisableVirtualSchemaProposal: disableVirtualSchemas, Pagination: pageRes}, nil
 }
 
-func (k Keeper) DisableVirtualSchema(c context.Context, req *types.QueryGetDisableVirtualSchemaRequest) (*types.QueryGetDisableVirtualSchemaResponse, error) {
+func (k Keeper) DisableVirtualSchemaProposal(c context.Context, req *types.QueryGetDisableVirtualSchemaProposalRequest) (*types.QueryGetDisableVirtualSchemaProposalResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 	ctx := sdk.UnwrapSDKContext(c)
 
-	val, found := k.GetDisableVirtualSchema(
+	val, found := k.GetDisableVirtualSchemaProposal(
 		ctx,
 		req.Index,
 	)
@@ -141,5 +141,5 @@ func (k Keeper) DisableVirtualSchema(c context.Context, req *types.QueryGetDisab
 		return nil, status.Error(codes.NotFound, "not found")
 	}
 
-	return &types.QueryGetDisableVirtualSchemaResponse{DisableVirtualSchema: val}, nil
+	return &types.QueryGetDisableVirtualSchemaProposalResponse{DisableVirtualSchemaProposal: val}, nil
 }

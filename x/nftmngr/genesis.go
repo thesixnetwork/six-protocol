@@ -75,8 +75,8 @@ func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) 
 		k.SetVirtualSchema(ctx, elem)
 	}
 	// Set all the disableVirtualSchema
-	for _, elem := range genState.DisableVirtualSchemaList {
-		k.SetDisableVirtualSchema(ctx, elem)
+	for _, elem := range genState.DisableVirtualSchemaProposalList {
+		k.SetDisableVirtualSchemaProposal(ctx, elem)
 	}
 	// Set all the virtualSchemaProposal
 	for _, elem := range genState.VirtualSchemaProposalList {
@@ -122,7 +122,7 @@ func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
 	genesis.ExecutorOfSchemaList = k.GetAllExecutorOfSchema(ctx)
 	genesis.VirtualActionList = k.GetAllVirtualAction(ctx)
 	genesis.VirtualSchemaList = k.GetAllVirtualSchema(ctx)
-	genesis.DisableVirtualSchemaList = k.GetAllDisableVirtualSchema(ctx)
+	genesis.DisableVirtualSchemaProposalList = k.GetAllDisableVirtualSchemaProposal(ctx)
 	genesis.VirtualSchemaProposalList = k.GetAllVirtualSchemaProposal(ctx)
 	genesis.ActiveVirtualSchemaProposalList = k.GetAllActiveVirtualSchemaProposal(ctx)
 	genesis.InactiveVirtualSchemaProposalList = k.GetAllInactiveVirtualSchemaProposal(ctx)

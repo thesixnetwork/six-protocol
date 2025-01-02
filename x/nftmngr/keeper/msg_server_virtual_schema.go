@@ -3,6 +3,7 @@ package keeper
 import (
 	"context"
 	"strconv"
+	"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -153,13 +154,16 @@ func (k msgServer) DisableVirtualSchemaProposal(goCtx context.Context, msg *type
 	}
 
 	// iterate to assing id of proposal
-	allProposal := k.GetAllDisableVirtualSchema(ctx)
+	allProposal := k.GetAllDisableVirtualSchemaProposal(ctx)
 	proposalId := len(allProposal) + 1
 
-	k.SetDisableVirtualSchema(ctx, types.DisableVirtualSchema{
-		Id:                   strconv.FormatInt(int64(proposalId), 10),
-		VirtualNftSchemaCode: msg.VirtualNftSchemaCode,
-		ProposalExpiredBlock: msg.ProposalExpiredBlock,
+	k.SetDisableVirtualSchemaProposal(ctx, types.DisableVirtualSchemaProposal{
+		Id:                strconv.FormatInt(int64(proposalId), 10),
+		VirtualSchemaCode: "",
+		Registry:          []*types.VirtualSchemaRegistry{},
+		SubmitTime:        time.Time{},
+		VotinStartTime:    time.Time{},
+		VotingEndTime:     time.Time{},
 	})
 
 	return &types.MsgDisableVirtualSchemaProposalResponse{}, nil

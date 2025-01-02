@@ -24,11 +24,11 @@ func CmdListDisableVirtualSchema() *cobra.Command {
 
 			queryClient := types.NewQueryClient(clientCtx)
 
-			params := &types.QueryAllDisableVirtualSchemaRequest{
+			params := &types.QueryAllDisableVirtualSchemaProposalRequest{
 				Pagination: pageReq,
 			}
 
-			res, err := queryClient.DisableVirtualSchemaAll(context.Background(), params)
+			res, err := queryClient.DisableVirtualSchemaProposalAll(context.Background(), params)
 			if err != nil {
 				return err
 			}
@@ -55,11 +55,11 @@ func CmdShowDisableVirtualSchema() *cobra.Command {
 
 			argIndex := args[0]
 
-			params := &types.QueryGetDisableVirtualSchemaRequest{
+			params := &types.QueryGetDisableVirtualSchemaProposalRequest{
 				Index: argIndex,
 			}
 
-			res, err := queryClient.DisableVirtualSchema(context.Background(), params)
+			res, err := queryClient.DisableVirtualSchemaProposal(context.Background(), params)
 			if err != nil {
 				return err
 			}
