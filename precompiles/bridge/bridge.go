@@ -12,7 +12,6 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/vm"
 	"github.com/evmos/ethermint/utils"
-	tkmngrtypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 	"github.com/tendermint/tendermint/libs/log"
 	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
 )
@@ -23,8 +22,6 @@ const (
 
 const (
 	BridgeAddress = "0x0000000000000000000000000000000000001069"
-
-	tokenmngrModuleName = "tokenmngr"
 	bridgeDiffTreshold  = 1
 )
 
@@ -47,18 +44,20 @@ func GetABI() abi.ABI {
 }
 
 type PrecompileExecutor struct {
-	bankKeeper     pcommon.BankKeeper
-	accountKeeper  pcommon.AccountKeeper
-	SendToCosmosID []byte
-	address        common.Address
+	bankKeeper      pcommon.BankKeeper
+	accountKeeper   pcommon.AccountKeeper
+	tokenmngrKeeper pcommon.TokenmngrKeeper
+	SendToCosmosID  []byte
+	address         common.Address
 }
 
-func NewPrecompile(bankKeeper pcommon.BankKeeper, accountKeeper pcommon.AccountKeeper) (*pcommon.Precompile, error) {
+func NewPrecompile(bankKeeper pcommon.BankKeeper, accountKeeper pcommon.AccountKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper) (*pcommon.Precompile, error) {
 	newAbi := GetABI()
 	p := &PrecompileExecutor{
-		bankKeeper:    bankKeeper,
-		accountKeeper: accountKeeper,
-		address:       common.HexToAddress(BridgeAddress),
+		bankKeeper:      bankKeeper,
+		accountKeeper:   accountKeeper,
+		tokenmngrKeeper: tokenmngrKeeper,
+		address:         common.HexToAddress(BridgeAddress),
 	}
 
 	for name, m := range newAbi.Methods {
@@ -140,33 +139,9 @@ func (p PrecompileExecutor) sendToCosmos(ctx sdk.Context, caller common.Address,
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is higher than current total supply")
 	}
 
-	//send evm coin to module account
-	convertAmount := sdk.NewCoins(sdk.NewCoin("asix", intAmount))
-	if err := p.bankKeeper.SendCoinsFromAccountToModule(ctx, senderCosmoAddr, tokenmngrModuleName, convertAmount); err != nil {
-		return nil, sdkerrors.Wrap(tkmngrtypes.ErrSendCoinsFromAccountToModule, "Amount of token is too high than current balance due")
-	}
-
-	if err := p.bankKeeper.BurnCoins(ctx, tokenmngrModuleName, convertAmount); err != nil {
-		return nil, sdkerrors.Wrap(tkmngrtypes.ErrBurnCoinsFromModuleAccount, "invali amount to burn")
-	}
-
-	// convert amount for burn to usix
-	microSix := sdk.NewCoin("usix", intAmount.QuoRaw(1_000_000_000_000))
-
-	// get the module account balance
-	tokenmngrModuleAccount := p.accountKeeper.GetModuleAddress(tokenmngrModuleName)
-	moduleBalance := p.bankKeeper.GetBalance(ctx, tokenmngrModuleAccount, "usix")
-
-	// check if module account balance is enough to send
-	if moduleBalance.Amount.LT(microSix.Amount) {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInsufficientFunds, "module account balance is not enough to send")
-	}
-
-	// send to receiver
-	if err := p.bankKeeper.SendCoinsFromModuleToAccount(
-		ctx, tokenmngrModuleName, receiverCosmoAddr, sdk.NewCoins(microSix),
-	); err != nil {
-		return nil, sdkerrors.Wrap(tkmngrtypes.ErrSendCoinsFromAccountToModule, "unable to send msg.Amounts from module to account despite previously minting msg.Amounts to module account")
+	err = p.tokenmngrKeeper.AttoCoinConverter(ctx, senderCosmoAddr, receiverCosmoAddr, intAmount)
+	if err != nil {
+		return nil, err
 	}
 
 	return method.Outputs.Pack(true)

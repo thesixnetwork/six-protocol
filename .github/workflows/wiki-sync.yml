@@ -1,0 +1,37 @@
+name: Sync Wiki
+
+on:
+  push:
+    paths:
+      - 'docs/wiki/**'  # Monitors changes in docs folder
+    branches:
+      - main  # or your default branch
+
+jobs:
+  sync-wiki:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+
+      - name: Clone wiki
+        run: |
+          git clone "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git" wiki
+        
+      - name: Sync docs to wiki
+        run: |
+          # Clear existing wiki content (optional)
+          rm -rf wiki/*
+          
+          # Copy docs to wiki
+          cp -r docs/* wiki/
+          
+          # Push to wiki
+          cd wiki
+          git add .
+          git diff --quiet && git diff --staged --quiet || (git commit -m "docs: sync from main repo ${GITHUB_SHA}" && git push)
