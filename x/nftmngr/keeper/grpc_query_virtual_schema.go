@@ -143,3 +143,48 @@ func (k Keeper) DisableVirtualSchemaProposal(c context.Context, req *types.Query
 
 	return &types.QueryGetDisableVirtualSchemaProposalResponse{DisableVirtualSchemaProposal: val}, nil
 }
+
+func (k Keeper) ActiveDislabeVirtualSchemaProposalAll(c context.Context, req *types.QueryAllActiveDislabeVirtualSchemaProposalRequest) (*types.QueryAllActiveDislabeVirtualSchemaProposalResponse, error) {
+	if req == nil {
+		return nil, status.Error(codes.InvalidArgument, "invalid request")
+	}
+
+	var activeDislabeVirtualSchemaProposals []types.ActiveDislabeVirtualSchemaProposal
+	ctx := sdk.UnwrapSDKContext(c)
+
+	store := ctx.KVStore(k.storeKey)
+	activeDislabeVirtualSchemaProposalStore := prefix.NewStore(store, types.KeyPrefix(types.ActiveDislabeVirtualSchemaProposalKeyPrefix))
+
+	pageRes, err := query.Paginate(activeDislabeVirtualSchemaProposalStore, req.Pagination, func(key []byte, value []byte) error {
+		var activeDislabeVirtualSchemaProposal types.ActiveDislabeVirtualSchemaProposal
+		if err := k.cdc.Unmarshal(value, &activeDislabeVirtualSchemaProposal); err != nil {
+			return err
+		}
+
+		activeDislabeVirtualSchemaProposals = append(activeDislabeVirtualSchemaProposals, activeDislabeVirtualSchemaProposal)
+		return nil
+	})
+
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	return &types.QueryAllActiveDislabeVirtualSchemaProposalResponse{ActiveDislabeVirtualSchemaProposal: activeDislabeVirtualSchemaProposals, Pagination: pageRes}, nil
+}
+
+func (k Keeper) ActiveDislabeVirtualSchemaProposal(c context.Context, req *types.QueryGetActiveDislabeVirtualSchemaProposalRequest) (*types.QueryGetActiveDislabeVirtualSchemaProposalResponse, error) {
+	if req == nil {
+		return nil, status.Error(codes.InvalidArgument, "invalid request")
+	}
+	ctx := sdk.UnwrapSDKContext(c)
+
+	val, found := k.GetActiveDislabeVirtualSchemaProposal(
+		ctx,
+		req.Index,
+	)
+	if !found {
+		return nil, status.Error(codes.NotFound, "not found")
+	}
+
+	return &types.QueryGetActiveDislabeVirtualSchemaProposalResponse{ActiveDislabeVirtualSchemaProposal: val}, nil
+}

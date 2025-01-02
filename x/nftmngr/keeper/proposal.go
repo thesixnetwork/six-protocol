@@ -227,3 +227,60 @@ func (k Keeper) InactiveProposalQueryIterator(ctx sdk.Context, endTime time.Time
 func (k Keeper) IsProposalActive(ctx sdk.Context, proposal types.VirtualSchemaProposal) bool {
 	return ctx.BlockTime().Before(proposal.VotingEndTime)
 }
+
+
+// SetActiveDislabeVirtualSchemaProposal set a specific activeDislabeVirtualSchemaProposal in the store from its index
+func (k Keeper) SetActiveDislabeVirtualSchemaProposal(ctx sdk.Context, activeDislabeVirtualSchemaProposal types.ActiveDislabeVirtualSchemaProposal) {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActiveDislabeVirtualSchemaProposalKeyPrefix))
+	b := k.cdc.MustMarshal(&activeDislabeVirtualSchemaProposal)
+	store.Set(types.ActiveDislabeVirtualSchemaProposalKey(
+		activeDislabeVirtualSchemaProposal.Id,
+	), b)
+}
+
+// GetActiveDislabeVirtualSchemaProposal returns a activeDislabeVirtualSchemaProposal from its index
+func (k Keeper) GetActiveDislabeVirtualSchemaProposal(
+	ctx sdk.Context,
+	index string,
+
+) (val types.ActiveDislabeVirtualSchemaProposal, found bool) {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActiveDislabeVirtualSchemaProposalKeyPrefix))
+
+	b := store.Get(types.ActiveDislabeVirtualSchemaProposalKey(
+		index,
+	))
+	if b == nil {
+		return val, false
+	}
+
+	k.cdc.MustUnmarshal(b, &val)
+	return val, true
+}
+
+// RemoveActiveDislabeVirtualSchemaProposal removes a activeDislabeVirtualSchemaProposal from the store
+func (k Keeper) RemoveActiveDislabeVirtualSchemaProposal(
+	ctx sdk.Context,
+	index string,
+
+) {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActiveDislabeVirtualSchemaProposalKeyPrefix))
+	store.Delete(types.ActiveDislabeVirtualSchemaProposalKey(
+		index,
+	))
+}
+
+// GetAllActiveDislabeVirtualSchemaProposal returns all activeDislabeVirtualSchemaProposal
+func (k Keeper) GetAllActiveDislabeVirtualSchemaProposal(ctx sdk.Context) (list []types.ActiveDislabeVirtualSchemaProposal) {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActiveDislabeVirtualSchemaProposalKeyPrefix))
+	iterator := sdk.KVStorePrefixIterator(store, []byte{})
+
+	defer iterator.Close()
+
+	for ; iterator.Valid(); iterator.Next() {
+		var val types.ActiveDislabeVirtualSchemaProposal
+		k.cdc.MustUnmarshal(iterator.Value(), &val)
+		list = append(list, val)
+	}
+
+	return
+}

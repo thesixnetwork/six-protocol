@@ -159,3 +159,53 @@ func TestVirtualSchemaProposalGetAll(t *testing.T) {
 		nullify.Fill(keeper.GetAllVirtualSchemaProposal(ctx)),
 	)
 }
+
+// Prevent strconv unused error
+var _ = strconv.IntSize
+
+func createNActiveDislabeVirtualSchemaProposal(keeper *keeper.Keeper, ctx sdk.Context, n int) []types.ActiveDislabeVirtualSchemaProposal {
+	items := make([]types.ActiveDislabeVirtualSchemaProposal, n)
+	for i := range items {
+		items[i].Id = strconv.Itoa(i)
+
+		keeper.SetActiveDislabeVirtualSchemaProposal(ctx, items[i])
+	}
+	return items
+}
+
+func TestActiveDislabeVirtualSchemaProposalGet(t *testing.T) {
+	keeper, ctx := keepertest.NftmngrKeeper(t)
+	items := createNActiveDislabeVirtualSchemaProposal(keeper, ctx, 10)
+	for _, item := range items {
+		rst, found := keeper.GetActiveDislabeVirtualSchemaProposal(ctx,
+			item.Id,
+		)
+		require.True(t, found)
+		require.Equal(t,
+			nullify.Fill(&item),
+			nullify.Fill(&rst),
+		)
+	}
+}
+func TestActiveDislabeVirtualSchemaProposalRemove(t *testing.T) {
+	keeper, ctx := keepertest.NftmngrKeeper(t)
+	items := createNActiveDislabeVirtualSchemaProposal(keeper, ctx, 10)
+	for _, item := range items {
+		keeper.RemoveActiveDislabeVirtualSchemaProposal(ctx,
+			item.Id,
+		)
+		_, found := keeper.GetActiveDislabeVirtualSchemaProposal(ctx,
+			item.Id,
+		)
+		require.False(t, found)
+	}
+}
+
+func TestActiveDislabeVirtualSchemaProposalGetAll(t *testing.T) {
+	keeper, ctx := keepertest.NftmngrKeeper(t)
+	items := createNActiveDislabeVirtualSchemaProposal(keeper, ctx, 10)
+	require.ElementsMatch(t,
+		nullify.Fill(items),
+		nullify.Fill(keeper.GetAllActiveDislabeVirtualSchemaProposal(ctx)),
+	)
+}
