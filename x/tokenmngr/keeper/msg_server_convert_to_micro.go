@@ -19,7 +19,7 @@ func (k msgServer) UnwrapToken(goCtx context.Context, msg *types.MsgUnwrapToken)
 	}
 
 	// accept only zero after decimal point (atto)
-	if !msg.Amount.Amount.ModRaw(1_000_000_000_000).IsZero() {
+	if !msg.Amount.Amount.ModRaw(int64(DefaultAttoToMicroDiff)).IsZero() {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is prohibit from module")
 	}
 
@@ -40,7 +40,7 @@ func (k msgServer) UnwrapToken(goCtx context.Context, msg *types.MsgUnwrapToken)
 		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "token does not exist")
 	}
 
-	if token.Base != "asix" {
+	if token.Base != DefaultAttoDenom {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "token is not asix")
 	}
 
@@ -66,11 +66,11 @@ func (k msgServer) UnwrapToken(goCtx context.Context, msg *types.MsgUnwrapToken)
 		return nil, err
 	}
 
-	microSix := sdk.NewCoin("usix", msg.Amount.Amount.QuoRaw(1_000_000_000_000))
+	microSix := sdk.NewCoin(DefaultMicroDenom, msg.Amount.Amount.QuoRaw(int64(DefaultAttoToMicroDiff)))
 
 	// get the module account balance
 	tokenmngrModuleAccount := k.accountKeeper.GetModuleAddress(types.ModuleName)
-	moduleBalance := k.bankKeeper.GetBalance(ctx, tokenmngrModuleAccount, "usix")
+	moduleBalance := k.bankKeeper.GetBalance(ctx, tokenmngrModuleAccount, DefaultMicroDenom)
 
 	// check if module account balance is enough to send
 	if moduleBalance.Amount.LT(microSix.Amount) {

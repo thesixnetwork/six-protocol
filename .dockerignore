@@ -7,3 +7,6 @@ release/
 
 ts-client/
 build/sixnode*
+
+*/node_module/**
+node_module/
