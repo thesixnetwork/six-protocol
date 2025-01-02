@@ -27,3 +27,6 @@ message DisableVirtualSchemaRegistry {
   string nftSchemaCode = 1;
   RegistryStatus status = 2;
 }
+
+
+message ActiveDislabeVirtualSchemaProposal {string id = 1;}

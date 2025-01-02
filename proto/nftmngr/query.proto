@@ -249,7 +249,17 @@ service Query {
         "/thesixnetwork/sixnft/nftmngr/virtual_schema_proposal";
   }
 
-  // this line is used by starport scaffolding # 2
+  // Queries a ActiveDislabeVirtualSchemaProposal by index.
+	rpc ActiveDislabeVirtualSchemaProposal(QueryGetActiveDislabeVirtualSchemaProposalRequest) returns (QueryGetActiveDislabeVirtualSchemaProposalResponse) {
+		option (google.api.http).get = "/thesixnetwork/six-protocol/nftmngr/active_dislabe_virtual_schema_proposal/{index}";
+	}
+
+	// Queries a list of ActiveDislabeVirtualSchemaProposal items.
+	rpc ActiveDislabeVirtualSchemaProposalAll(QueryAllActiveDislabeVirtualSchemaProposalRequest) returns (QueryAllActiveDislabeVirtualSchemaProposalResponse) {
+		option (google.api.http).get = "/thesixnetwork/six-protocol/nftmngr/active_dislabe_virtual_schema_proposal";
+	}
+
+// this line is used by starport scaffolding # 2
 }
 
 // QueryParamsRequest is request type for the Query/Params RPC method.
@@ -552,6 +562,24 @@ message QueryAllInactiveVirtualSchemaProposalResponse {
   repeated InactiveVirtualSchemaProposal inactiveVirtualSchemaProposal = 1
       [ (gogoproto.nullable) = false ];
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetActiveDislabeVirtualSchemaProposalRequest {
+	  string index = 1;
+
+}
+
+message QueryGetActiveDislabeVirtualSchemaProposalResponse {
+	ActiveDislabeVirtualSchemaProposal activeDislabeVirtualSchemaProposal = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllActiveDislabeVirtualSchemaProposalRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllActiveDislabeVirtualSchemaProposalResponse {
+	repeated ActiveDislabeVirtualSchemaProposal activeDislabeVirtualSchemaProposal = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
 // this line is used by starport scaffolding # 3
