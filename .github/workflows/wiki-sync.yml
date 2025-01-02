@@ -26,12 +26,33 @@ jobs:
       - name: Sync docs to wiki
         run: |
           set -e
-          echo "Clearing existing wiki content"
+          echo "Starting wiki sync process..."
+          
+          echo "Clearing existing wiki content..."
           rm -rf wiki/*
-          echo "Copying docs to wiki"
+          
+          echo "Copying docs to wiki..."
           cp -r docs/wiki/* wiki/ || echo "No files to copy"
+          
+          echo "Changing to wiki directory..."
           cd wiki
-          echo "Adding files to git"
+          
+          echo "Adding files to git..."
           git add .
-          echo "Checking for changes"
-          git diff --quiet && git diff --staged --quiet || (git commit -m "docs: sync from main repo ${GITHUB_SHA}" && git push)
+          
+          echo "Checking for changes in working directory..."
+          git diff --quiet || echo "Changes detected in working directory"
+          
+          echo "Checking for staged changes..."
+          git diff --staged --quiet || echo "Staged changes detected"
+          
+          echo "Committing and pushing if changes exist..."
+          git diff --quiet && git diff --staged --quiet || (
+            echo "Creating commit..." && \
+            git commit -m "docs: sync from main repo ${GITHUB_SHA}" && \
+            echo "Pushing changes..." && \
+            git push && \
+            echo "Changes pushed successfully!"
+          )
+          
+          echo "Wiki sync completed!"
