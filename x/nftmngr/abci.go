@@ -18,7 +18,7 @@ func EndBlocker(ctx sdk.Context, k keeper.Keeper) {
 		return pass
 	})
 
-	k.IterateActiveProposalDisalbeVirtualSchema(ctx, ctx.BlockHeader().Time, func(proposal types.DisableVirtualSchemaProposal) (stop bool) {
+	k.IterateActiveProposalDisableVirtualSchema(ctx, ctx.BlockHeader().Time, func(proposal types.DisableVirtualSchemaProposal) (stop bool) {
 		pass := k.AfterProposalDisableVirtualSchemaSuccess(ctx, proposal)
 		return pass
 	})

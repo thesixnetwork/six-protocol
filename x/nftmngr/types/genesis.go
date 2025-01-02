@@ -31,6 +31,7 @@ func DefaultGenesis() *GenesisState {
 		InactiveVirtualSchemaProposalList:        []InactiveVirtualSchemaProposal{},
 		ActiveDisableVirtualSchemaProposalList:   []ActiveDisableVirtualSchemaProposal{},
 		InactiveDisableVirtualSchemaProposalList: []InactiveDisableVirtualSchemaProposal{},
+		EnableVirtualSchemaProposalList:          []EnableVirtualSchemaProposal{},
 		// this line is used by starport scaffolding # genesis/types/default
 		Params: DefaultParams(),
 	}
@@ -228,6 +229,16 @@ func (gs GenesisState) Validate() error {
 			return fmt.Errorf("duplicated index for inactiveDisableVirtualSchemaProposal")
 		}
 		inactiveDisableVirtualSchemaProposalIndexMap[index] = struct{}{}
+	}
+	// Check for duplicated index in enableVirtualSchemaProposal
+	enableVirtualSchemaProposalIndexMap := make(map[string]struct{})
+
+	for _, elem := range gs.EnableVirtualSchemaProposalList {
+		index := string(EnableVirtualSchemaProposalKey(elem.Id))
+		if _, ok := enableVirtualSchemaProposalIndexMap[index]; ok {
+			return fmt.Errorf("duplicated index for enableVirtualSchemaProposal")
+		}
+		enableVirtualSchemaProposalIndexMap[index] = struct{}{}
 	}
 	// this line is used by starport scaffolding # genesis/types/validate
 

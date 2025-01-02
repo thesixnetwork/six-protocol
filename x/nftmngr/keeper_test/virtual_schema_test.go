@@ -221,3 +221,53 @@ func TestDisableVirtualSchemaQueryPaginated(t *testing.T) {
 		require.ErrorIs(t, err, status.Error(codes.InvalidArgument, "invalid request"))
 	})
 }
+
+// Prevent strconv unused error
+var _ = strconv.IntSize
+
+func createNEnableVirtualSchemaProposal(keeper *keeper.Keeper, ctx sdk.Context, n int) []types.EnableVirtualSchemaProposal {
+	items := make([]types.EnableVirtualSchemaProposal, n)
+	for i := range items {
+		items[i].Id = strconv.Itoa(i)
+
+		keeper.SetEnableVirtualSchemaProposal(ctx, items[i])
+	}
+	return items
+}
+
+func TestEnableVirtualSchemaProposalGet(t *testing.T) {
+	keeper, ctx := keepertest.NftmngrKeeper(t)
+	items := createNEnableVirtualSchemaProposal(keeper, ctx, 10)
+	for _, item := range items {
+		rst, found := keeper.GetEnableVirtualSchemaProposal(ctx,
+			item.Id,
+		)
+		require.True(t, found)
+		require.Equal(t,
+			nullify.Fill(&item),
+			nullify.Fill(&rst),
+		)
+	}
+}
+func TestEnableVirtualSchemaProposalRemove(t *testing.T) {
+	keeper, ctx := keepertest.NftmngrKeeper(t)
+	items := createNEnableVirtualSchemaProposal(keeper, ctx, 10)
+	for _, item := range items {
+		keeper.RemoveEnableVirtualSchemaProposal(ctx,
+			item.Id,
+		)
+		_, found := keeper.GetEnableVirtualSchemaProposal(ctx,
+			item.Id,
+		)
+		require.False(t, found)
+	}
+}
+
+func TestEnableVirtualSchemaProposalGetAll(t *testing.T) {
+	keeper, ctx := keepertest.NftmngrKeeper(t)
+	items := createNEnableVirtualSchemaProposal(keeper, ctx, 10)
+	require.ElementsMatch(t,
+		nullify.Fill(items),
+		nullify.Fill(keeper.GetAllEnableVirtualSchemaProposal(ctx)),
+	)
+}

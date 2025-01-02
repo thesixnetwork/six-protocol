@@ -329,7 +329,7 @@ func TestCrossSchemaAction(t *testing.T) {
 		Registry: []*types.VirtualSchemaRegistry{
 			&registrySchemaA, &registrySchemaB,
 		},
-		Enable:         false,
+		Enable: false,
 	}
 
 	keeperTest.SetVirtualSchema(ctx, virtualSchema)
