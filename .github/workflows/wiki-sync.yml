@@ -21,7 +21,7 @@ jobs:
 
       - name: Clone wiki
         run: |
-          git clone "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git" wiki
+          git clone "https://${{ github.token }}@github.com/${{ github.repository }}.wiki.git" wiki
         
       - name: Sync docs to wiki
         run: |
@@ -29,7 +29,7 @@ jobs:
           rm -rf wiki/*
           
           # Copy docs to wiki
-          cp -r docs/* wiki/
+          cp -r docs/wiki/* wiki/
           
           # Push to wiki
           cd wiki
