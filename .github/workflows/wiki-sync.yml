@@ -22,41 +22,20 @@ jobs:
       - name: Clone wiki
         run: |
           git clone https://${{ secrets.GH_TOKEN }}@github.com/thesixnetwork/six-protocol.wiki.git wiki
-
-      - name: Sync docs to wiki
+      
+      - name: Copy doc to wiki
         run: |
-          set -e
-          echo "Starting wiki sync process..."
-          
-          echo "Clearing existing wiki content..."
-          rm -rf wiki/*
-          
-          echo "Copying docs to wiki..."
-          cp -r docs/wiki/* wiki/ || echo "No files to copy"
-          
-          echo "Changing to wiki directory..."
-          cd wiki
+          cp -Rv docs/wiki/* wiki/
+      
+      - name: Commit and push changes
+        working-directory: wiki
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git add .
+            git commit -m "chore: auto-update wiki from docs"
+            git push origin wiki
+          else
+            echo "No changes to commit"
+          fi
 
-          echo "Git config"
-          git config --global user.name "GitHub Action"
-          git config --global user.email "action@github.com"
-          
-          echo "Adding files to git..."
-          git add .
-          
-          echo "Checking for changes in working directory..."
-          git diff --quiet || echo "Changes detected in working directory"
-          
-          echo "Checking for staged changes..."
-          git diff --staged --quiet || echo "Staged changes detected"
-          
-          echo "Committing and pushing if changes exist..."
-          git diff --quiet && git diff --staged --quiet || (
-            echo "Creating commit..." && \
-            git commit -m "docs: sync from main repo ${GITHUB_SHA}" && \
-            echo "Pushing changes..." && \
-            git push https://${{ secrets.GH_TOKEN }}@github.com/thesixnetwork/six-protocol.wiki.git && \
-            echo "Changes pushed successfully!"
-          )
-          
-          echo "Wiki sync completed!"
+
