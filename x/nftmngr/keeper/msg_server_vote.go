@@ -19,7 +19,7 @@ func (k msgServer) VoteCreateVirtualSchema(goCtx context.Context, msg *types.Msg
 
 	virtualSchemaProposal, found := k.GetVirtualSchemaProposal(ctx, msg.Id)
 	if !found {
-		return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, msg.Id)
+		return nil, sdkerrors.Wrap(types.ErrProposalIdDoesNotExists, msg.Id)
 	}
 
 	// chck if proposal still active
