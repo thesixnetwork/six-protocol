@@ -13,8 +13,13 @@ import (
 func EndBlocker(ctx sdk.Context, k keeper.Keeper) {
 	defer telemetry.ModuleMeasureSince(types.ModuleName, time.Now(), telemetry.MetricKeyEndBlocker)
 
-	k.IterateActiveProposal(ctx, ctx.BlockHeader().Time, func(proposal types.VirtualSchemaProposal) (stop bool) {
+	k.IterateActiveProposalCreateVirtualSchema(ctx, ctx.BlockHeader().Time, func(proposal types.VirtualSchemaProposal) (stop bool) {
 		pass := k.AfterProposalCreateVirtualSchemaSuccess(ctx, proposal)
+		return pass
+	})
+
+	k.IterateActiveProposalDisalbeVirtualSchema(ctx, ctx.BlockHeader().Time, func(proposal types.DisableVirtualSchemaProposal) (stop bool) {
+		pass := k.AfterProposalDisableVirtualSchemaSuccess(ctx, proposal)
 		return pass
 	})
 }

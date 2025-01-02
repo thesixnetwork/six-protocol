@@ -45,3 +45,22 @@ message VirtualSchemaRegistryRequest {
 message ActiveVirtualSchemaProposal { string id = 1; }
 
 message InactiveVirtualSchemaProposal { string id = 1; }
+
+
+message DisableVirtualSchemaProposal {
+  string id = 1;
+  string virtualSchemaCode = 2;
+  repeated VirtualSchemaRegistry registry = 3;
+  google.protobuf.Timestamp submitTime = 4
+      [ (gogoproto.stdtime) = true, (gogoproto.nullable) = false ];
+  google.protobuf.Timestamp votinStartTime = 5
+      [ (gogoproto.stdtime) = true, (gogoproto.nullable) = false ];
+  google.protobuf.Timestamp votingEndTime = 6
+      [ (gogoproto.stdtime) = true, (gogoproto.nullable) = false ];
+}
+
+message VirtualSchemaDisableRequest { string virtualNftSchemaCode = 1; }
+
+message ActiveDisableVirtualSchemaProposal { string id = 1; }
+
+message InactiveDisableVirtualSchemaProposal { string id = 1; }
