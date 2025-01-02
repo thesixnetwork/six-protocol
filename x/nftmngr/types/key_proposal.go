@@ -31,6 +31,9 @@ const (
 
 	// InactiveEnableVirtualSchemaProposalKeyPrefix is the prefix to retrieve all InactiveEnableVirtualSchemaProposal
 	InactiveEnableVirtualSchemaProposalKeyPrefix = "InactiveEnableVirtualSchemaProposal/value/"
+
+	// ActiveEnableVirtualSchemaProposalKeyPrefix is the prefix to retrieve all ActiveEnableVirtualSchemaProposal
+	ActiveEnableVirtualSchemaProposalKeyPrefix = "ActiveEnableVirtualSchemaProposal/value/"
 )
 
 // ActiveVirtualSchemaProposalKey returns the store key to retrieve a ActiveVirtualSchemaProposal from the index fields
@@ -139,6 +142,19 @@ func EnableVirtualSchemaProposalKey(
 
 // InactiveEnableVirtualSchemaProposalKey returns the store key to retrieve a InactiveEnableVirtualSchemaProposal from the index fields
 func InactiveEnableVirtualSchemaProposalKey(
+	index string,
+) []byte {
+	var key []byte
+
+	indexBytes := []byte(index)
+	key = append(key, indexBytes...)
+	key = append(key, []byte("/")...)
+
+	return key
+}
+
+// ActiveEnableVirtualSchemaProposalKey returns the store key to retrieve a ActiveEnableVirtualSchemaProposal from the index fields
+func ActiveEnableVirtualSchemaProposalKey(
 	index string,
 ) []byte {
 	var key []byte
