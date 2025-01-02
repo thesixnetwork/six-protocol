@@ -330,7 +330,6 @@ func TestCrossSchemaAction(t *testing.T) {
 			&registrySchemaA, &registrySchemaB,
 		},
 		Enable:         false,
-		ExpiredAtBlock: "0",
 	}
 
 	keeperTest.SetVirtualSchema(ctx, virtualSchema)
