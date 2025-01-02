@@ -10,7 +10,7 @@ import "google/protobuf/timestamp.proto";
 message DisableVirtualSchemaProposal {
   string id = 1;
   string virtualSchemaCode = 2;
-  repeated VirtualSchemaRegistry registry = 3;
+  repeated DisableVirtualSchemaRegistry registry = 3;
   google.protobuf.Timestamp submitTime = 4
       [ (gogoproto.stdtime) = true, (gogoproto.nullable) = false ];
   google.protobuf.Timestamp votinStartTime = 5

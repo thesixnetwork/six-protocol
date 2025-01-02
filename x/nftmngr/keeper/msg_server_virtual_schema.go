@@ -123,7 +123,7 @@ func (k msgServer) DisableVirtualSchemaProposal(goCtx context.Context, msg *type
 	}
 
 	if !virtualSchema.Enable {
-		return nil, sdkerrors.Wrap(types.ErrSchemaIsDisable, msg.VirtualNftSchemaCode)
+		return nil, sdkerrors.Wrap(types.ErrSchemaIsDisable, "This virtual Schema already disable")
 	}
 
 	isOwner := false
@@ -151,14 +151,23 @@ func (k msgServer) DisableVirtualSchemaProposal(goCtx context.Context, msg *type
 	votingPeriod := k.govKeeper.GetVotingParams(ctx).VotingPeriod
 	endTime := submitTime.Add(votingPeriod)
 
+	registry := []*types.DisableVirtualSchemaRegistry{}
+
+	for _, reqRegistry := range virtualSchema.Registry {
+		registry = append(registry, &types.DisableVirtualSchemaRegistry{
+			NftSchemaCode: reqRegistry.NftSchemaCode,
+			Status: types.RegistryStatus_PENDING,
+		})
+	}
+
 	k.SetDisableVirtualSchemaProposal(ctx, types.DisableVirtualSchemaProposal{
 		Id:                strProposalId,
-		VirtualSchemaCode: "",
-		Registry:          []*types.VirtualSchemaRegistry{},
+		VirtualSchemaCode: msg.VirtualNftSchemaCode,
+		Registry:          registry,
 		SubmitTime:        submitTime,
 		VotinStartTime:    submitTime,
 		VotingEndTime:     endTime,
 	})
 
-	return &types.MsgDisableVirtualSchemaProposalResponse{}, nil
+	return &types.MsgDisableVirtualSchemaProposalResponse{Creator: msg.Creator, ProposalId: strProposalId}, nil
 }
