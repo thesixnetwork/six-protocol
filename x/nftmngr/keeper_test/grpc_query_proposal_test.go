@@ -125,7 +125,6 @@ func TestVirtualSchemaProposalQueryPaginated(t *testing.T) {
 	})
 }
 
-
 // Prevent strconv unused error
 var _ = strconv.IntSize
 

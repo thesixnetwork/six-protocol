@@ -30,3 +30,5 @@ message DisableVirtualSchemaRegistry {
 
 
 message ActiveDislabeVirtualSchemaProposal {string id = 1;}
+
+message InactiveDisableVirtualSchemaProposal {string id = 1;}

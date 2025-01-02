@@ -228,7 +228,6 @@ func (k Keeper) IsProposalActive(ctx sdk.Context, proposal types.VirtualSchemaPr
 	return ctx.BlockTime().Before(proposal.VotingEndTime)
 }
 
-
 // SetActiveDislabeVirtualSchemaProposal set a specific activeDislabeVirtualSchemaProposal in the store from its index
 func (k Keeper) SetActiveDislabeVirtualSchemaProposal(ctx sdk.Context, activeDislabeVirtualSchemaProposal types.ActiveDislabeVirtualSchemaProposal) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActiveDislabeVirtualSchemaProposalKeyPrefix))
@@ -278,6 +277,62 @@ func (k Keeper) GetAllActiveDislabeVirtualSchemaProposal(ctx sdk.Context) (list 
 
 	for ; iterator.Valid(); iterator.Next() {
 		var val types.ActiveDislabeVirtualSchemaProposal
+		k.cdc.MustUnmarshal(iterator.Value(), &val)
+		list = append(list, val)
+	}
+
+	return
+}
+
+// SetInactiveDisableVirtualSchemaProposal set a specific inactiveDisableVirtualSchemaProposal in the store from its index
+func (k Keeper) SetInactiveDisableVirtualSchemaProposal(ctx sdk.Context, inactiveDisableVirtualSchemaProposal types.InactiveDisableVirtualSchemaProposal) {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.InactiveDisableVirtualSchemaProposalKeyPrefix))
+	b := k.cdc.MustMarshal(&inactiveDisableVirtualSchemaProposal)
+	store.Set(types.InactiveDisableVirtualSchemaProposalKey(
+		inactiveDisableVirtualSchemaProposal.Id,
+	), b)
+}
+
+// GetInactiveDisableVirtualSchemaProposal returns a inactiveDisableVirtualSchemaProposal from its index
+func (k Keeper) GetInactiveDisableVirtualSchemaProposal(
+	ctx sdk.Context,
+	index string,
+
+) (val types.InactiveDisableVirtualSchemaProposal, found bool) {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.InactiveDisableVirtualSchemaProposalKeyPrefix))
+
+	b := store.Get(types.InactiveDisableVirtualSchemaProposalKey(
+		index,
+	))
+	if b == nil {
+		return val, false
+	}
+
+	k.cdc.MustUnmarshal(b, &val)
+	return val, true
+}
+
+// RemoveInactiveDisableVirtualSchemaProposal removes a inactiveDisableVirtualSchemaProposal from the store
+func (k Keeper) RemoveInactiveDisableVirtualSchemaProposal(
+	ctx sdk.Context,
+	index string,
+
+) {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.InactiveDisableVirtualSchemaProposalKeyPrefix))
+	store.Delete(types.InactiveDisableVirtualSchemaProposalKey(
+		index,
+	))
+}
+
+// GetAllInactiveDisableVirtualSchemaProposal returns all inactiveDisableVirtualSchemaProposal
+func (k Keeper) GetAllInactiveDisableVirtualSchemaProposal(ctx sdk.Context) (list []types.InactiveDisableVirtualSchemaProposal) {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.InactiveDisableVirtualSchemaProposalKeyPrefix))
+	iterator := sdk.KVStorePrefixIterator(store, []byte{})
+
+	defer iterator.Close()
+
+	for ; iterator.Valid(); iterator.Next() {
+		var val types.InactiveDisableVirtualSchemaProposal
 		k.cdc.MustUnmarshal(iterator.Value(), &val)
 		list = append(list, val)
 	}
