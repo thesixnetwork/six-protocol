@@ -55,7 +55,7 @@ jobs:
             echo "Creating commit..." && \
             git commit -m "docs: sync from main repo ${GITHUB_SHA}" && \
             echo "Pushing changes..." && \
-            git push "https://${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.wiki.git" && \
+            git push https://${{ secrets.GH_TOKEN }}@github.com/thesixnetwork/six-protocol.wiki.git && \
             echo "Changes pushed successfully!"
           )
           
