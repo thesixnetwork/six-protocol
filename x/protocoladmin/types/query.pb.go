@@ -6,10 +6,6 @@ package types
 import (
 	context "context"
 	fmt "fmt"
-	io "io"
-	math "math"
-	math_bits "math/bits"
-
 	query "github.com/cosmos/cosmos-sdk/types/query"
 	_ "github.com/gogo/protobuf/gogoproto"
 	grpc1 "github.com/gogo/protobuf/grpc"
@@ -18,15 +14,15 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	io "io"
+	math "math"
+	math_bits "math/bits"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-
-var (
-	_ = fmt.Errorf
-	_ = math.Inf
-)
+var _ = fmt.Errorf
+var _ = math.Inf
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -35,7 +31,8 @@ var (
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 // QueryParamsRequest is request type for the Query/Params RPC method.
-type QueryParamsRequest struct{}
+type QueryParamsRequest struct {
+}
 
 func (m *QueryParamsRequest) Reset()         { *m = QueryParamsRequest{} }
 func (m *QueryParamsRequest) String() string { return proto.CompactTextString(m) }
@@ -43,11 +40,9 @@ func (*QueryParamsRequest) ProtoMessage()    {}
 func (*QueryParamsRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_c18cfa9512e721ba, []int{0}
 }
-
 func (m *QueryParamsRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *QueryParamsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_QueryParamsRequest.Marshal(b, m, deterministic)
@@ -60,15 +55,12 @@ func (m *QueryParamsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, 
 		return b[:n], nil
 	}
 }
-
 func (m *QueryParamsRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_QueryParamsRequest.Merge(m, src)
 }
-
 func (m *QueryParamsRequest) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *QueryParamsRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_QueryParamsRequest.DiscardUnknown(m)
 }
@@ -87,11 +79,9 @@ func (*QueryParamsResponse) ProtoMessage()    {}
 func (*QueryParamsResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_c18cfa9512e721ba, []int{1}
 }
-
 func (m *QueryParamsResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *QueryParamsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_QueryParamsResponse.Marshal(b, m, deterministic)
@@ -104,15 +94,12 @@ func (m *QueryParamsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte,
 		return b[:n], nil
 	}
 }
-
 func (m *QueryParamsResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_QueryParamsResponse.Merge(m, src)
 }
-
 func (m *QueryParamsResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *QueryParamsResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_QueryParamsResponse.DiscardUnknown(m)
 }
@@ -136,11 +123,9 @@ func (*QueryGetGroupRequest) ProtoMessage()    {}
 func (*QueryGetGroupRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_c18cfa9512e721ba, []int{2}
 }
-
 func (m *QueryGetGroupRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *QueryGetGroupRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_QueryGetGroupRequest.Marshal(b, m, deterministic)
@@ -153,15 +138,12 @@ func (m *QueryGetGroupRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte
 		return b[:n], nil
 	}
 }
-
 func (m *QueryGetGroupRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_QueryGetGroupRequest.Merge(m, src)
 }
-
 func (m *QueryGetGroupRequest) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *QueryGetGroupRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_QueryGetGroupRequest.DiscardUnknown(m)
 }
@@ -185,11 +167,9 @@ func (*QueryGetGroupResponse) ProtoMessage()    {}
 func (*QueryGetGroupResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_c18cfa9512e721ba, []int{3}
 }
-
 func (m *QueryGetGroupResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *QueryGetGroupResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_QueryGetGroupResponse.Marshal(b, m, deterministic)
@@ -202,15 +182,12 @@ func (m *QueryGetGroupResponse) XXX_Marshal(b []byte, deterministic bool) ([]byt
 		return b[:n], nil
 	}
 }
-
 func (m *QueryGetGroupResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_QueryGetGroupResponse.Merge(m, src)
 }
-
 func (m *QueryGetGroupResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *QueryGetGroupResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_QueryGetGroupResponse.DiscardUnknown(m)
 }
@@ -234,11 +211,9 @@ func (*QueryAllGroupRequest) ProtoMessage()    {}
 func (*QueryAllGroupRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_c18cfa9512e721ba, []int{4}
 }
-
 func (m *QueryAllGroupRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *QueryAllGroupRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_QueryAllGroupRequest.Marshal(b, m, deterministic)
@@ -251,15 +226,12 @@ func (m *QueryAllGroupRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte
 		return b[:n], nil
 	}
 }
-
 func (m *QueryAllGroupRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_QueryAllGroupRequest.Merge(m, src)
 }
-
 func (m *QueryAllGroupRequest) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *QueryAllGroupRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_QueryAllGroupRequest.DiscardUnknown(m)
 }
@@ -284,11 +256,9 @@ func (*QueryAllGroupResponse) ProtoMessage()    {}
 func (*QueryAllGroupResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_c18cfa9512e721ba, []int{5}
 }
-
 func (m *QueryAllGroupResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *QueryAllGroupResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_QueryAllGroupResponse.Marshal(b, m, deterministic)
@@ -301,15 +271,12 @@ func (m *QueryAllGroupResponse) XXX_Marshal(b []byte, deterministic bool) ([]byt
 		return b[:n], nil
 	}
 }
-
 func (m *QueryAllGroupResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_QueryAllGroupResponse.Merge(m, src)
 }
-
 func (m *QueryAllGroupResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *QueryAllGroupResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_QueryAllGroupResponse.DiscardUnknown(m)
 }
@@ -341,11 +308,9 @@ func (*QueryGetAdminRequest) ProtoMessage()    {}
 func (*QueryGetAdminRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_c18cfa9512e721ba, []int{6}
 }
-
 func (m *QueryGetAdminRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *QueryGetAdminRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_QueryGetAdminRequest.Marshal(b, m, deterministic)
@@ -358,15 +323,12 @@ func (m *QueryGetAdminRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte
 		return b[:n], nil
 	}
 }
-
 func (m *QueryGetAdminRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_QueryGetAdminRequest.Merge(m, src)
 }
-
 func (m *QueryGetAdminRequest) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *QueryGetAdminRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_QueryGetAdminRequest.DiscardUnknown(m)
 }
@@ -397,11 +359,9 @@ func (*QueryGetAdminResponse) ProtoMessage()    {}
 func (*QueryGetAdminResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_c18cfa9512e721ba, []int{7}
 }
-
 func (m *QueryGetAdminResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *QueryGetAdminResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_QueryGetAdminResponse.Marshal(b, m, deterministic)
@@ -414,15 +374,12 @@ func (m *QueryGetAdminResponse) XXX_Marshal(b []byte, deterministic bool) ([]byt
 		return b[:n], nil
 	}
 }
-
 func (m *QueryGetAdminResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_QueryGetAdminResponse.Merge(m, src)
 }
-
 func (m *QueryGetAdminResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *QueryGetAdminResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_QueryGetAdminResponse.DiscardUnknown(m)
 }
@@ -446,11 +403,9 @@ func (*QueryAllAdminRequest) ProtoMessage()    {}
 func (*QueryAllAdminRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_c18cfa9512e721ba, []int{8}
 }
-
 func (m *QueryAllAdminRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *QueryAllAdminRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_QueryAllAdminRequest.Marshal(b, m, deterministic)
@@ -463,15 +418,12 @@ func (m *QueryAllAdminRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte
 		return b[:n], nil
 	}
 }
-
 func (m *QueryAllAdminRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_QueryAllAdminRequest.Merge(m, src)
 }
-
 func (m *QueryAllAdminRequest) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *QueryAllAdminRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_QueryAllAdminRequest.DiscardUnknown(m)
 }
@@ -496,11 +448,9 @@ func (*QueryAllAdminResponse) ProtoMessage()    {}
 func (*QueryAllAdminResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_c18cfa9512e721ba, []int{9}
 }
-
 func (m *QueryAllAdminResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *QueryAllAdminResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_QueryAllAdminResponse.Marshal(b, m, deterministic)
@@ -513,15 +463,12 @@ func (m *QueryAllAdminResponse) XXX_Marshal(b []byte, deterministic bool) ([]byt
 		return b[:n], nil
 	}
 }
-
 func (m *QueryAllAdminResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_QueryAllAdminResponse.Merge(m, src)
 }
-
 func (m *QueryAllAdminResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *QueryAllAdminResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_QueryAllAdminResponse.DiscardUnknown(m)
 }
@@ -553,11 +500,9 @@ func (*QueryListAdminOfGroupRequest) ProtoMessage()    {}
 func (*QueryListAdminOfGroupRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_c18cfa9512e721ba, []int{10}
 }
-
 func (m *QueryListAdminOfGroupRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *QueryListAdminOfGroupRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_QueryListAdminOfGroupRequest.Marshal(b, m, deterministic)
@@ -570,15 +515,12 @@ func (m *QueryListAdminOfGroupRequest) XXX_Marshal(b []byte, deterministic bool)
 		return b[:n], nil
 	}
 }
-
 func (m *QueryListAdminOfGroupRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_QueryListAdminOfGroupRequest.Merge(m, src)
 }
-
 func (m *QueryListAdminOfGroupRequest) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *QueryListAdminOfGroupRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_QueryListAdminOfGroupRequest.DiscardUnknown(m)
 }
@@ -610,11 +552,9 @@ func (*QueryListAdminOfGroupResponse) ProtoMessage()    {}
 func (*QueryListAdminOfGroupResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_c18cfa9512e721ba, []int{11}
 }
-
 func (m *QueryListAdminOfGroupResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *QueryListAdminOfGroupResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_QueryListAdminOfGroupResponse.Marshal(b, m, deterministic)
@@ -627,15 +567,12 @@ func (m *QueryListAdminOfGroupResponse) XXX_Marshal(b []byte, deterministic bool
 		return b[:n], nil
 	}
 }
-
 func (m *QueryListAdminOfGroupResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_QueryListAdminOfGroupResponse.Merge(m, src)
 }
-
 func (m *QueryListAdminOfGroupResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *QueryListAdminOfGroupResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_QueryListAdminOfGroupResponse.DiscardUnknown(m)
 }
@@ -826,28 +763,24 @@ type QueryServer interface {
 }
 
 // UnimplementedQueryServer can be embedded to have forward compatible implementations.
-type UnimplementedQueryServer struct{}
+type UnimplementedQueryServer struct {
+}
 
 func (*UnimplementedQueryServer) Params(ctx context.Context, req *QueryParamsRequest) (*QueryParamsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Params not implemented")
 }
-
 func (*UnimplementedQueryServer) Group(ctx context.Context, req *QueryGetGroupRequest) (*QueryGetGroupResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Group not implemented")
 }
-
 func (*UnimplementedQueryServer) GroupAll(ctx context.Context, req *QueryAllGroupRequest) (*QueryAllGroupResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GroupAll not implemented")
 }
-
 func (*UnimplementedQueryServer) Admin(ctx context.Context, req *QueryGetAdminRequest) (*QueryGetAdminResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Admin not implemented")
 }
-
 func (*UnimplementedQueryServer) AdminAll(ctx context.Context, req *QueryAllAdminRequest) (*QueryAllAdminResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AdminAll not implemented")
 }
-
 func (*UnimplementedQueryServer) ListAdminOfGroup(ctx context.Context, req *QueryListAdminOfGroupRequest) (*QueryListAdminOfGroupResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListAdminOfGroup not implemented")
 }
@@ -1451,7 +1384,6 @@ func encodeVarintQuery(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-
 func (m *QueryParamsRequest) Size() (n int) {
 	if m == nil {
 		return 0
@@ -1627,11 +1559,9 @@ func (m *QueryListAdminOfGroupResponse) Size() (n int) {
 func sovQuery(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
-
 func sozQuery(x uint64) (n int) {
 	return sovQuery(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-
 func (m *QueryParamsRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1682,7 +1612,6 @@ func (m *QueryParamsRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *QueryParamsResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1766,7 +1695,6 @@ func (m *QueryParamsResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *QueryGetGroupRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1849,7 +1777,6 @@ func (m *QueryGetGroupRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *QueryGetGroupResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1933,7 +1860,6 @@ func (m *QueryGetGroupResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *QueryAllGroupRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -2020,7 +1946,6 @@ func (m *QueryAllGroupRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *QueryAllGroupResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -2141,7 +2066,6 @@ func (m *QueryAllGroupResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *QueryGetAdminRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -2256,7 +2180,6 @@ func (m *QueryGetAdminRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *QueryGetAdminResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -2340,7 +2263,6 @@ func (m *QueryGetAdminResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *QueryAllAdminRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -2427,7 +2349,6 @@ func (m *QueryAllAdminRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *QueryAllAdminResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -2548,7 +2469,6 @@ func (m *QueryAllAdminResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *QueryListAdminOfGroupRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -2667,7 +2587,6 @@ func (m *QueryListAdminOfGroupRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *QueryListAdminOfGroupResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -2786,7 +2705,6 @@ func (m *QueryListAdminOfGroupResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func skipQuery(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0
