@@ -65,8 +65,8 @@ func (k Keeper) GetAllEnableVirtualSchemaProposal(ctx sdk.Context) (list []types
 	return
 }
 
-func (k Keeper) IterateActiveProposalEnableVirtualSchema(ctx sdk.Context, endTime time.Time, cb func(proposal types.EnableVirtualSchemaProposal) (stop bool)) {
-	iterator := k.ActiveProposalEnableVirtualSchemaQueryIterator(ctx, endTime)
+func (k Keeper) EnableVirtualSchemaIterateActiveProposal(ctx sdk.Context, endTime time.Time, cb func(proposal types.EnableVirtualSchemaProposal) (stop bool)) {
+	iterator := k.EnableVirtualSchemaActiveProposalQueryIterator(ctx, endTime)
 	defer iterator.Close()
 
 	for ; iterator.Valid(); iterator.Next() {
@@ -83,6 +83,14 @@ func (k Keeper) IterateActiveProposalEnableVirtualSchema(ctx sdk.Context, endTim
 		}
 	}
 }
+
+func (k Keeper) EnableVirtualSchemaActiveProposalQueryIterator(ctx sdk.Context, endTime time.Time) sdk.Iterator {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActiveEnableVirtualSchemaProposalKeyPrefix))
+	iterator := sdk.KVStorePrefixIterator(store, []byte{})
+
+	return iterator
+}
+
 
 // SetInactiveEnableVirtualSchemaProposal set a specific inactiveEnableVirtualSchemaProposal in the store from its index
 func (k Keeper) SetInactiveEnableVirtualSchemaProposal(ctx sdk.Context, inactiveEnableVirtualSchemaProposal types.InactiveEnableVirtualSchemaProposal) {
@@ -140,7 +148,6 @@ func (k Keeper) GetAllInactiveEnableVirtualSchemaProposal(ctx sdk.Context) (list
 	return
 }
 
-// /// ###################
 // SetActiveEnableVirtualSchemaProposal set a specific activeEnableVirtualSchemaProposal in the store from its index
 func (k Keeper) SetActiveEnableVirtualSchemaProposal(ctx sdk.Context, activeEnableVirtualSchemaProposal types.ActiveEnableVirtualSchemaProposal) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActiveEnableVirtualSchemaProposalKeyPrefix))
