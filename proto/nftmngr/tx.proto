@@ -64,11 +64,13 @@ service Msg {
       returns (MsgDeleteVirtualSchemaResponse);
   rpc VoteCreateVirtualSchema(MsgVoteCreateVirtualSchema)
       returns (MsgVoteCreateVirtualSchemaResponse);
-  rpc DisableVirtualSchemaProposal(MsgDisableVirtualSchemaProposal)
-      returns (MsgDisableVirtualSchemaProposalResponse);
   rpc PerformVirtualAction(MsgPerformVirtualAction)
       returns (MsgPerformVirtualActionResponse);
-  // this line is used by starport scaffolding # proto/tx/rpc
+  rpc EnableVirtualSchemaProposal(MsgEnableVirtualSchemaProposal) 
+      returns (MsgEnableVirtualSchemaProposalResponse);
+  rpc DisableVirtualSchemaProposal(MsgDisableVirtualSchemaProposal)
+      returns (MsgDisableVirtualSchemaProposalResponse);
+// this line is used by starport scaffolding # proto/tx/rpc
 }
 
 enum AttributeLocation {
@@ -417,16 +419,6 @@ message MsgVoteCreateVirtualSchema {
 
 message MsgVoteCreateVirtualSchemaResponse {}
 
-message MsgDisableVirtualSchemaProposal {
-  string creator = 1;
-  string virtualNftSchemaCode = 2;
-}
-
-message MsgDisableVirtualSchemaProposalResponse {
-  string creator = 1;
-  string proposalId = 2;
-}
-
 message MsgPerformVirtualAction {
   string creator = 1;
   string nftSchemaName = 2;
@@ -442,4 +434,24 @@ message TokenIdMap {
   string nftSchemaName = 1;
   string tokenId = 2;
 }
+message MsgEnableVirtualSchemaProposal {
+  string creator = 1;
+  string virtualNftSchemaCode = 2;
+}
+
+message MsgEnableVirtualSchemaProposalResponse {
+  string creator = 1;
+  string proposalId = 2;
+}
+
+message MsgDisableVirtualSchemaProposal {
+  string creator = 1;
+  string virtualNftSchemaCode = 2;
+}
+
+message MsgDisableVirtualSchemaProposalResponse {
+  string creator = 1;
+  string proposalId = 2;
+}
+
 // this line is used by starport scaffolding # proto/tx/message

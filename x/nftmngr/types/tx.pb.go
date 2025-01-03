@@ -6,10 +6,6 @@ package types
 import (
 	context "context"
 	fmt "fmt"
-	io "io"
-	math "math"
-	math_bits "math/bits"
-
 	types "github.com/cosmos/cosmos-sdk/codec/types"
 	_ "github.com/gogo/protobuf/gogoproto"
 	grpc1 "github.com/gogo/protobuf/grpc"
@@ -18,15 +14,15 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	io "io"
+	math "math"
+	math_bits "math/bits"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-
-var (
-	_ = fmt.Errorf
-	_ = math.Inf
-)
+var _ = fmt.Errorf
+var _ = math.Inf
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -117,11 +113,9 @@ func (*MsgCreateNFTSchema) ProtoMessage()    {}
 func (*MsgCreateNFTSchema) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{0}
 }
-
 func (m *MsgCreateNFTSchema) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgCreateNFTSchema) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgCreateNFTSchema.Marshal(b, m, deterministic)
@@ -134,15 +128,12 @@ func (m *MsgCreateNFTSchema) XXX_Marshal(b []byte, deterministic bool) ([]byte, 
 		return b[:n], nil
 	}
 }
-
 func (m *MsgCreateNFTSchema) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgCreateNFTSchema.Merge(m, src)
 }
-
 func (m *MsgCreateNFTSchema) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgCreateNFTSchema) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgCreateNFTSchema.DiscardUnknown(m)
 }
@@ -173,11 +164,9 @@ func (*MsgCreateNFTSchemaResponse) ProtoMessage()    {}
 func (*MsgCreateNFTSchemaResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{1}
 }
-
 func (m *MsgCreateNFTSchemaResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgCreateNFTSchemaResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgCreateNFTSchemaResponse.Marshal(b, m, deterministic)
@@ -190,15 +179,12 @@ func (m *MsgCreateNFTSchemaResponse) XXX_Marshal(b []byte, deterministic bool) (
 		return b[:n], nil
 	}
 }
-
 func (m *MsgCreateNFTSchemaResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgCreateNFTSchemaResponse.Merge(m, src)
 }
-
 func (m *MsgCreateNFTSchemaResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgCreateNFTSchemaResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgCreateNFTSchemaResponse.DiscardUnknown(m)
 }
@@ -225,11 +211,9 @@ func (*MsgCreateMetadata) ProtoMessage()    {}
 func (*MsgCreateMetadata) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{2}
 }
-
 func (m *MsgCreateMetadata) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgCreateMetadata) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgCreateMetadata.Marshal(b, m, deterministic)
@@ -242,15 +226,12 @@ func (m *MsgCreateMetadata) XXX_Marshal(b []byte, deterministic bool) ([]byte, e
 		return b[:n], nil
 	}
 }
-
 func (m *MsgCreateMetadata) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgCreateMetadata.Merge(m, src)
 }
-
 func (m *MsgCreateMetadata) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgCreateMetadata) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgCreateMetadata.DiscardUnknown(m)
 }
@@ -296,11 +277,9 @@ func (*MsgCreateMetadataResponse) ProtoMessage()    {}
 func (*MsgCreateMetadataResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{3}
 }
-
 func (m *MsgCreateMetadataResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgCreateMetadataResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgCreateMetadataResponse.Marshal(b, m, deterministic)
@@ -313,15 +292,12 @@ func (m *MsgCreateMetadataResponse) XXX_Marshal(b []byte, deterministic bool) ([
 		return b[:n], nil
 	}
 }
-
 func (m *MsgCreateMetadataResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgCreateMetadataResponse.Merge(m, src)
 }
-
 func (m *MsgCreateMetadataResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgCreateMetadataResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgCreateMetadataResponse.DiscardUnknown(m)
 }
@@ -355,11 +331,9 @@ func (*MsgCreateMultiMetadata) ProtoMessage()    {}
 func (*MsgCreateMultiMetadata) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{4}
 }
-
 func (m *MsgCreateMultiMetadata) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgCreateMultiMetadata) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgCreateMultiMetadata.Marshal(b, m, deterministic)
@@ -372,15 +346,12 @@ func (m *MsgCreateMultiMetadata) XXX_Marshal(b []byte, deterministic bool) ([]by
 		return b[:n], nil
 	}
 }
-
 func (m *MsgCreateMultiMetadata) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgCreateMultiMetadata.Merge(m, src)
 }
-
 func (m *MsgCreateMultiMetadata) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgCreateMultiMetadata) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgCreateMultiMetadata.DiscardUnknown(m)
 }
@@ -426,11 +397,9 @@ func (*MsgCreateMultiMetadataResponse) ProtoMessage()    {}
 func (*MsgCreateMultiMetadataResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{5}
 }
-
 func (m *MsgCreateMultiMetadataResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgCreateMultiMetadataResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgCreateMultiMetadataResponse.Marshal(b, m, deterministic)
@@ -443,15 +412,12 @@ func (m *MsgCreateMultiMetadataResponse) XXX_Marshal(b []byte, deterministic boo
 		return b[:n], nil
 	}
 }
-
 func (m *MsgCreateMultiMetadataResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgCreateMultiMetadataResponse.Merge(m, src)
 }
-
 func (m *MsgCreateMultiMetadataResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgCreateMultiMetadataResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgCreateMultiMetadataResponse.DiscardUnknown(m)
 }
@@ -483,11 +449,9 @@ func (*OpenseaAttribute) ProtoMessage()    {}
 func (*OpenseaAttribute) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{6}
 }
-
 func (m *OpenseaAttribute) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *OpenseaAttribute) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_OpenseaAttribute.Marshal(b, m, deterministic)
@@ -500,15 +464,12 @@ func (m *OpenseaAttribute) XXX_Marshal(b []byte, deterministic bool) ([]byte, er
 		return b[:n], nil
 	}
 }
-
 func (m *OpenseaAttribute) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_OpenseaAttribute.Merge(m, src)
 }
-
 func (m *OpenseaAttribute) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *OpenseaAttribute) XXX_DiscardUnknown() {
 	xxx_messageInfo_OpenseaAttribute.DiscardUnknown(m)
 }
@@ -539,11 +500,9 @@ func (*UpdatedOpenseaAttributes) ProtoMessage()    {}
 func (*UpdatedOpenseaAttributes) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{7}
 }
-
 func (m *UpdatedOpenseaAttributes) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *UpdatedOpenseaAttributes) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_UpdatedOpenseaAttributes.Marshal(b, m, deterministic)
@@ -556,15 +515,12 @@ func (m *UpdatedOpenseaAttributes) XXX_Marshal(b []byte, deterministic bool) ([]
 		return b[:n], nil
 	}
 }
-
 func (m *UpdatedOpenseaAttributes) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_UpdatedOpenseaAttributes.Merge(m, src)
 }
-
 func (m *UpdatedOpenseaAttributes) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *UpdatedOpenseaAttributes) XXX_DiscardUnknown() {
 	xxx_messageInfo_UpdatedOpenseaAttributes.DiscardUnknown(m)
 }
@@ -590,11 +546,9 @@ func (*UpdatedOriginData) ProtoMessage()    {}
 func (*UpdatedOriginData) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{8}
 }
-
 func (m *UpdatedOriginData) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *UpdatedOriginData) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_UpdatedOriginData.Marshal(b, m, deterministic)
@@ -607,15 +561,12 @@ func (m *UpdatedOriginData) XXX_Marshal(b []byte, deterministic bool) ([]byte, e
 		return b[:n], nil
 	}
 }
-
 func (m *UpdatedOriginData) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_UpdatedOriginData.Merge(m, src)
 }
-
 func (m *UpdatedOriginData) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *UpdatedOriginData) XXX_DiscardUnknown() {
 	xxx_messageInfo_UpdatedOriginData.DiscardUnknown(m)
 }
@@ -667,11 +618,9 @@ func (*ActionParameter) ProtoMessage()    {}
 func (*ActionParameter) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{9}
 }
-
 func (m *ActionParameter) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *ActionParameter) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_ActionParameter.Marshal(b, m, deterministic)
@@ -684,15 +633,12 @@ func (m *ActionParameter) XXX_Marshal(b []byte, deterministic bool) ([]byte, err
 		return b[:n], nil
 	}
 }
-
 func (m *ActionParameter) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_ActionParameter.Merge(m, src)
 }
-
 func (m *ActionParameter) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *ActionParameter) XXX_DiscardUnknown() {
 	xxx_messageInfo_ActionParameter.DiscardUnknown(m)
 }
@@ -728,11 +674,9 @@ func (*MsgPerformActionByAdmin) ProtoMessage()    {}
 func (*MsgPerformActionByAdmin) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{10}
 }
-
 func (m *MsgPerformActionByAdmin) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgPerformActionByAdmin) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgPerformActionByAdmin.Marshal(b, m, deterministic)
@@ -745,15 +689,12 @@ func (m *MsgPerformActionByAdmin) XXX_Marshal(b []byte, deterministic bool) ([]b
 		return b[:n], nil
 	}
 }
-
 func (m *MsgPerformActionByAdmin) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgPerformActionByAdmin.Merge(m, src)
 }
-
 func (m *MsgPerformActionByAdmin) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgPerformActionByAdmin) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgPerformActionByAdmin.DiscardUnknown(m)
 }
@@ -813,11 +754,9 @@ func (*MsgPerformActionByAdminResponse) ProtoMessage()    {}
 func (*MsgPerformActionByAdminResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{11}
 }
-
 func (m *MsgPerformActionByAdminResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgPerformActionByAdminResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgPerformActionByAdminResponse.Marshal(b, m, deterministic)
@@ -830,15 +769,12 @@ func (m *MsgPerformActionByAdminResponse) XXX_Marshal(b []byte, deterministic bo
 		return b[:n], nil
 	}
 }
-
 func (m *MsgPerformActionByAdminResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgPerformActionByAdminResponse.Merge(m, src)
 }
-
 func (m *MsgPerformActionByAdminResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgPerformActionByAdminResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgPerformActionByAdminResponse.DiscardUnknown(m)
 }
@@ -872,11 +808,9 @@ func (*MsgAddAttribute) ProtoMessage()    {}
 func (*MsgAddAttribute) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{12}
 }
-
 func (m *MsgAddAttribute) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgAddAttribute) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgAddAttribute.Marshal(b, m, deterministic)
@@ -889,15 +823,12 @@ func (m *MsgAddAttribute) XXX_Marshal(b []byte, deterministic bool) ([]byte, err
 		return b[:n], nil
 	}
 }
-
 func (m *MsgAddAttribute) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgAddAttribute.Merge(m, src)
 }
-
 func (m *MsgAddAttribute) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgAddAttribute) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgAddAttribute.DiscardUnknown(m)
 }
@@ -943,11 +874,9 @@ func (*MsgAddAttributeResponse) ProtoMessage()    {}
 func (*MsgAddAttributeResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{13}
 }
-
 func (m *MsgAddAttributeResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgAddAttributeResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgAddAttributeResponse.Marshal(b, m, deterministic)
@@ -960,15 +889,12 @@ func (m *MsgAddAttributeResponse) XXX_Marshal(b []byte, deterministic bool) ([]b
 		return b[:n], nil
 	}
 }
-
 func (m *MsgAddAttributeResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgAddAttributeResponse.Merge(m, src)
 }
-
 func (m *MsgAddAttributeResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgAddAttributeResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgAddAttributeResponse.DiscardUnknown(m)
 }
@@ -1001,11 +927,9 @@ func (*MsgAddAction) ProtoMessage()    {}
 func (*MsgAddAction) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{14}
 }
-
 func (m *MsgAddAction) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgAddAction) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgAddAction.Marshal(b, m, deterministic)
@@ -1018,15 +942,12 @@ func (m *MsgAddAction) XXX_Marshal(b []byte, deterministic bool) ([]byte, error)
 		return b[:n], nil
 	}
 }
-
 func (m *MsgAddAction) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgAddAction.Merge(m, src)
 }
-
 func (m *MsgAddAction) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgAddAction) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgAddAction.DiscardUnknown(m)
 }
@@ -1065,11 +986,9 @@ func (*MsgAddActionResponse) ProtoMessage()    {}
 func (*MsgAddActionResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{15}
 }
-
 func (m *MsgAddActionResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgAddActionResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgAddActionResponse.Marshal(b, m, deterministic)
@@ -1082,15 +1001,12 @@ func (m *MsgAddActionResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte
 		return b[:n], nil
 	}
 }
-
 func (m *MsgAddActionResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgAddActionResponse.Merge(m, src)
 }
-
 func (m *MsgAddActionResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgAddActionResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgAddActionResponse.DiscardUnknown(m)
 }
@@ -1123,11 +1039,9 @@ func (*MsgSetBaseUri) ProtoMessage()    {}
 func (*MsgSetBaseUri) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{16}
 }
-
 func (m *MsgSetBaseUri) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgSetBaseUri) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgSetBaseUri.Marshal(b, m, deterministic)
@@ -1140,15 +1054,12 @@ func (m *MsgSetBaseUri) XXX_Marshal(b []byte, deterministic bool) ([]byte, error
 		return b[:n], nil
 	}
 }
-
 func (m *MsgSetBaseUri) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgSetBaseUri.Merge(m, src)
 }
-
 func (m *MsgSetBaseUri) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgSetBaseUri) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgSetBaseUri.DiscardUnknown(m)
 }
@@ -1187,11 +1098,9 @@ func (*MsgSetBaseUriResponse) ProtoMessage()    {}
 func (*MsgSetBaseUriResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{17}
 }
-
 func (m *MsgSetBaseUriResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgSetBaseUriResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgSetBaseUriResponse.Marshal(b, m, deterministic)
@@ -1204,15 +1113,12 @@ func (m *MsgSetBaseUriResponse) XXX_Marshal(b []byte, deterministic bool) ([]byt
 		return b[:n], nil
 	}
 }
-
 func (m *MsgSetBaseUriResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgSetBaseUriResponse.Merge(m, src)
 }
-
 func (m *MsgSetBaseUriResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgSetBaseUriResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgSetBaseUriResponse.DiscardUnknown(m)
 }
@@ -1246,11 +1152,9 @@ func (*MsgToggleAction) ProtoMessage()    {}
 func (*MsgToggleAction) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{18}
 }
-
 func (m *MsgToggleAction) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgToggleAction) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgToggleAction.Marshal(b, m, deterministic)
@@ -1263,15 +1167,12 @@ func (m *MsgToggleAction) XXX_Marshal(b []byte, deterministic bool) ([]byte, err
 		return b[:n], nil
 	}
 }
-
 func (m *MsgToggleAction) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgToggleAction.Merge(m, src)
 }
-
 func (m *MsgToggleAction) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgToggleAction) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgToggleAction.DiscardUnknown(m)
 }
@@ -1318,11 +1219,9 @@ func (*MsgToggleActionResponse) ProtoMessage()    {}
 func (*MsgToggleActionResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{19}
 }
-
 func (m *MsgToggleActionResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgToggleActionResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgToggleActionResponse.Marshal(b, m, deterministic)
@@ -1335,15 +1234,12 @@ func (m *MsgToggleActionResponse) XXX_Marshal(b []byte, deterministic bool) ([]b
 		return b[:n], nil
 	}
 }
-
 func (m *MsgToggleActionResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgToggleActionResponse.Merge(m, src)
 }
-
 func (m *MsgToggleActionResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgToggleActionResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgToggleActionResponse.DiscardUnknown(m)
 }
@@ -1383,11 +1279,9 @@ func (*MsgChangeSchemaOwner) ProtoMessage()    {}
 func (*MsgChangeSchemaOwner) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{20}
 }
-
 func (m *MsgChangeSchemaOwner) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgChangeSchemaOwner) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgChangeSchemaOwner.Marshal(b, m, deterministic)
@@ -1400,15 +1294,12 @@ func (m *MsgChangeSchemaOwner) XXX_Marshal(b []byte, deterministic bool) ([]byte
 		return b[:n], nil
 	}
 }
-
 func (m *MsgChangeSchemaOwner) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgChangeSchemaOwner.Merge(m, src)
 }
-
 func (m *MsgChangeSchemaOwner) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgChangeSchemaOwner) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgChangeSchemaOwner.DiscardUnknown(m)
 }
@@ -1447,11 +1338,9 @@ func (*MsgChangeSchemaOwnerResponse) ProtoMessage()    {}
 func (*MsgChangeSchemaOwnerResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{21}
 }
-
 func (m *MsgChangeSchemaOwnerResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgChangeSchemaOwnerResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgChangeSchemaOwnerResponse.Marshal(b, m, deterministic)
@@ -1464,15 +1353,12 @@ func (m *MsgChangeSchemaOwnerResponse) XXX_Marshal(b []byte, deterministic bool)
 		return b[:n], nil
 	}
 }
-
 func (m *MsgChangeSchemaOwnerResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgChangeSchemaOwnerResponse.Merge(m, src)
 }
-
 func (m *MsgChangeSchemaOwnerResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgChangeSchemaOwnerResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgChangeSchemaOwnerResponse.DiscardUnknown(m)
 }
@@ -1504,11 +1390,9 @@ func (*MsgResyncAttributesResponse) ProtoMessage()    {}
 func (*MsgResyncAttributesResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{22}
 }
-
 func (m *MsgResyncAttributesResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgResyncAttributesResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgResyncAttributesResponse.Marshal(b, m, deterministic)
@@ -1521,15 +1405,12 @@ func (m *MsgResyncAttributesResponse) XXX_Marshal(b []byte, deterministic bool) 
 		return b[:n], nil
 	}
 }
-
 func (m *MsgResyncAttributesResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgResyncAttributesResponse.Merge(m, src)
 }
-
 func (m *MsgResyncAttributesResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgResyncAttributesResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgResyncAttributesResponse.DiscardUnknown(m)
 }
@@ -1563,11 +1444,9 @@ func (*MsgShowAttributes) ProtoMessage()    {}
 func (*MsgShowAttributes) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{23}
 }
-
 func (m *MsgShowAttributes) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgShowAttributes) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgShowAttributes.Marshal(b, m, deterministic)
@@ -1580,15 +1459,12 @@ func (m *MsgShowAttributes) XXX_Marshal(b []byte, deterministic bool) ([]byte, e
 		return b[:n], nil
 	}
 }
-
 func (m *MsgShowAttributes) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgShowAttributes.Merge(m, src)
 }
-
 func (m *MsgShowAttributes) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgShowAttributes) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgShowAttributes.DiscardUnknown(m)
 }
@@ -1633,11 +1509,9 @@ func (*MsgShowAttributesResponse) ProtoMessage()    {}
 func (*MsgShowAttributesResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{24}
 }
-
 func (m *MsgShowAttributesResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgShowAttributesResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgShowAttributesResponse.Marshal(b, m, deterministic)
@@ -1650,15 +1524,12 @@ func (m *MsgShowAttributesResponse) XXX_Marshal(b []byte, deterministic bool) ([
 		return b[:n], nil
 	}
 }
-
 func (m *MsgShowAttributesResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgShowAttributesResponse.Merge(m, src)
 }
-
 func (m *MsgShowAttributesResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgShowAttributesResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgShowAttributesResponse.DiscardUnknown(m)
 }
@@ -1684,11 +1555,9 @@ func (*MsgResyncAttributes) ProtoMessage()    {}
 func (*MsgResyncAttributes) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{25}
 }
-
 func (m *MsgResyncAttributes) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgResyncAttributes) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgResyncAttributes.Marshal(b, m, deterministic)
@@ -1701,15 +1570,12 @@ func (m *MsgResyncAttributes) XXX_Marshal(b []byte, deterministic bool) ([]byte,
 		return b[:n], nil
 	}
 }
-
 func (m *MsgResyncAttributes) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgResyncAttributes.Merge(m, src)
 }
-
 func (m *MsgResyncAttributes) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgResyncAttributes) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgResyncAttributes.DiscardUnknown(m)
 }
@@ -1749,11 +1615,9 @@ func (*MsgSetFeeConfig) ProtoMessage()    {}
 func (*MsgSetFeeConfig) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{26}
 }
-
 func (m *MsgSetFeeConfig) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgSetFeeConfig) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgSetFeeConfig.Marshal(b, m, deterministic)
@@ -1766,15 +1630,12 @@ func (m *MsgSetFeeConfig) XXX_Marshal(b []byte, deterministic bool) ([]byte, err
 		return b[:n], nil
 	}
 }
-
 func (m *MsgSetFeeConfig) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgSetFeeConfig.Merge(m, src)
 }
-
 func (m *MsgSetFeeConfig) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgSetFeeConfig) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgSetFeeConfig.DiscardUnknown(m)
 }
@@ -1802,7 +1663,8 @@ func (m *MsgSetFeeConfig) GetFeeSubject() FeeSubject {
 	return FeeSubject_CREATE_NFT_SCHEMA
 }
 
-type MsgSetFeeConfigResponse struct{}
+type MsgSetFeeConfigResponse struct {
+}
 
 func (m *MsgSetFeeConfigResponse) Reset()         { *m = MsgSetFeeConfigResponse{} }
 func (m *MsgSetFeeConfigResponse) String() string { return proto.CompactTextString(m) }
@@ -1810,11 +1672,9 @@ func (*MsgSetFeeConfigResponse) ProtoMessage()    {}
 func (*MsgSetFeeConfigResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{27}
 }
-
 func (m *MsgSetFeeConfigResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgSetFeeConfigResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgSetFeeConfigResponse.Marshal(b, m, deterministic)
@@ -1827,15 +1687,12 @@ func (m *MsgSetFeeConfigResponse) XXX_Marshal(b []byte, deterministic bool) ([]b
 		return b[:n], nil
 	}
 }
-
 func (m *MsgSetFeeConfigResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgSetFeeConfigResponse.Merge(m, src)
 }
-
 func (m *MsgSetFeeConfigResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgSetFeeConfigResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgSetFeeConfigResponse.DiscardUnknown(m)
 }
@@ -1854,11 +1711,9 @@ func (*MsgSetMintauth) ProtoMessage()    {}
 func (*MsgSetMintauth) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{28}
 }
-
 func (m *MsgSetMintauth) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgSetMintauth) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgSetMintauth.Marshal(b, m, deterministic)
@@ -1871,15 +1726,12 @@ func (m *MsgSetMintauth) XXX_Marshal(b []byte, deterministic bool) ([]byte, erro
 		return b[:n], nil
 	}
 }
-
 func (m *MsgSetMintauth) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgSetMintauth.Merge(m, src)
 }
-
 func (m *MsgSetMintauth) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgSetMintauth) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgSetMintauth.DiscardUnknown(m)
 }
@@ -1917,11 +1769,9 @@ func (*MsgSetMintauthResponse) ProtoMessage()    {}
 func (*MsgSetMintauthResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{29}
 }
-
 func (m *MsgSetMintauthResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgSetMintauthResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgSetMintauthResponse.Marshal(b, m, deterministic)
@@ -1934,15 +1784,12 @@ func (m *MsgSetMintauthResponse) XXX_Marshal(b []byte, deterministic bool) ([]by
 		return b[:n], nil
 	}
 }
-
 func (m *MsgSetMintauthResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgSetMintauthResponse.Merge(m, src)
 }
-
 func (m *MsgSetMintauthResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgSetMintauthResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgSetMintauthResponse.DiscardUnknown(m)
 }
@@ -1968,11 +1815,9 @@ func (*MsgChangeOrgOwner) ProtoMessage()    {}
 func (*MsgChangeOrgOwner) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{30}
 }
-
 func (m *MsgChangeOrgOwner) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgChangeOrgOwner) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgChangeOrgOwner.Marshal(b, m, deterministic)
@@ -1985,15 +1830,12 @@ func (m *MsgChangeOrgOwner) XXX_Marshal(b []byte, deterministic bool) ([]byte, e
 		return b[:n], nil
 	}
 }
-
 func (m *MsgChangeOrgOwner) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgChangeOrgOwner.Merge(m, src)
 }
-
 func (m *MsgChangeOrgOwner) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgChangeOrgOwner) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgChangeOrgOwner.DiscardUnknown(m)
 }
@@ -2033,11 +1875,9 @@ func (*MsgChangeOrgOwnerResponse) ProtoMessage()    {}
 func (*MsgChangeOrgOwnerResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{31}
 }
-
 func (m *MsgChangeOrgOwnerResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgChangeOrgOwnerResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgChangeOrgOwnerResponse.Marshal(b, m, deterministic)
@@ -2050,15 +1890,12 @@ func (m *MsgChangeOrgOwnerResponse) XXX_Marshal(b []byte, deterministic bool) ([
 		return b[:n], nil
 	}
 }
-
 func (m *MsgChangeOrgOwnerResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgChangeOrgOwnerResponse.Merge(m, src)
 }
-
 func (m *MsgChangeOrgOwnerResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgChangeOrgOwnerResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgChangeOrgOwnerResponse.DiscardUnknown(m)
 }
@@ -2098,11 +1935,9 @@ func (*MsgSetUriRetrievalMethod) ProtoMessage()    {}
 func (*MsgSetUriRetrievalMethod) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{32}
 }
-
 func (m *MsgSetUriRetrievalMethod) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgSetUriRetrievalMethod) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgSetUriRetrievalMethod.Marshal(b, m, deterministic)
@@ -2115,15 +1950,12 @@ func (m *MsgSetUriRetrievalMethod) XXX_Marshal(b []byte, deterministic bool) ([]
 		return b[:n], nil
 	}
 }
-
 func (m *MsgSetUriRetrievalMethod) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgSetUriRetrievalMethod.Merge(m, src)
 }
-
 func (m *MsgSetUriRetrievalMethod) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgSetUriRetrievalMethod) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgSetUriRetrievalMethod.DiscardUnknown(m)
 }
@@ -2162,11 +1994,9 @@ func (*MsgSetUriRetrievalMethodResponse) ProtoMessage()    {}
 func (*MsgSetUriRetrievalMethodResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{33}
 }
-
 func (m *MsgSetUriRetrievalMethodResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgSetUriRetrievalMethodResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgSetUriRetrievalMethodResponse.Marshal(b, m, deterministic)
@@ -2179,15 +2009,12 @@ func (m *MsgSetUriRetrievalMethodResponse) XXX_Marshal(b []byte, deterministic b
 		return b[:n], nil
 	}
 }
-
 func (m *MsgSetUriRetrievalMethodResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgSetUriRetrievalMethodResponse.Merge(m, src)
 }
-
 func (m *MsgSetUriRetrievalMethodResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgSetUriRetrievalMethodResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgSetUriRetrievalMethodResponse.DiscardUnknown(m)
 }
@@ -2220,11 +2047,9 @@ func (*MsgSetOriginChain) ProtoMessage()    {}
 func (*MsgSetOriginChain) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{34}
 }
-
 func (m *MsgSetOriginChain) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgSetOriginChain) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgSetOriginChain.Marshal(b, m, deterministic)
@@ -2237,15 +2062,12 @@ func (m *MsgSetOriginChain) XXX_Marshal(b []byte, deterministic bool) ([]byte, e
 		return b[:n], nil
 	}
 }
-
 func (m *MsgSetOriginChain) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgSetOriginChain.Merge(m, src)
 }
-
 func (m *MsgSetOriginChain) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgSetOriginChain) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgSetOriginChain.DiscardUnknown(m)
 }
@@ -2284,11 +2106,9 @@ func (*MsgSetOriginChainResponse) ProtoMessage()    {}
 func (*MsgSetOriginChainResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{35}
 }
-
 func (m *MsgSetOriginChainResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgSetOriginChainResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgSetOriginChainResponse.Marshal(b, m, deterministic)
@@ -2301,15 +2121,12 @@ func (m *MsgSetOriginChainResponse) XXX_Marshal(b []byte, deterministic bool) ([
 		return b[:n], nil
 	}
 }
-
 func (m *MsgSetOriginChainResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgSetOriginChainResponse.Merge(m, src)
 }
-
 func (m *MsgSetOriginChainResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgSetOriginChainResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgSetOriginChainResponse.DiscardUnknown(m)
 }
@@ -2342,11 +2159,9 @@ func (*MsgSetOriginContract) ProtoMessage()    {}
 func (*MsgSetOriginContract) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{36}
 }
-
 func (m *MsgSetOriginContract) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgSetOriginContract) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgSetOriginContract.Marshal(b, m, deterministic)
@@ -2359,15 +2174,12 @@ func (m *MsgSetOriginContract) XXX_Marshal(b []byte, deterministic bool) ([]byte
 		return b[:n], nil
 	}
 }
-
 func (m *MsgSetOriginContract) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgSetOriginContract.Merge(m, src)
 }
-
 func (m *MsgSetOriginContract) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgSetOriginContract) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgSetOriginContract.DiscardUnknown(m)
 }
@@ -2406,11 +2218,9 @@ func (*MsgSetOriginContractResponse) ProtoMessage()    {}
 func (*MsgSetOriginContractResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{37}
 }
-
 func (m *MsgSetOriginContractResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgSetOriginContractResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgSetOriginContractResponse.Marshal(b, m, deterministic)
@@ -2423,15 +2233,12 @@ func (m *MsgSetOriginContractResponse) XXX_Marshal(b []byte, deterministic bool)
 		return b[:n], nil
 	}
 }
-
 func (m *MsgSetOriginContractResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgSetOriginContractResponse.Merge(m, src)
 }
-
 func (m *MsgSetOriginContractResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgSetOriginContractResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgSetOriginContractResponse.DiscardUnknown(m)
 }
@@ -2464,11 +2271,9 @@ func (*MsgSetAttributeOveriding) ProtoMessage()    {}
 func (*MsgSetAttributeOveriding) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{38}
 }
-
 func (m *MsgSetAttributeOveriding) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgSetAttributeOveriding) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgSetAttributeOveriding.Marshal(b, m, deterministic)
@@ -2481,15 +2286,12 @@ func (m *MsgSetAttributeOveriding) XXX_Marshal(b []byte, deterministic bool) ([]
 		return b[:n], nil
 	}
 }
-
 func (m *MsgSetAttributeOveriding) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgSetAttributeOveriding.Merge(m, src)
 }
-
 func (m *MsgSetAttributeOveriding) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgSetAttributeOveriding) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgSetAttributeOveriding.DiscardUnknown(m)
 }
@@ -2528,11 +2330,9 @@ func (*MsgSetAttributeOveridingResponse) ProtoMessage()    {}
 func (*MsgSetAttributeOveridingResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{39}
 }
-
 func (m *MsgSetAttributeOveridingResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgSetAttributeOveridingResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgSetAttributeOveridingResponse.Marshal(b, m, deterministic)
@@ -2545,15 +2345,12 @@ func (m *MsgSetAttributeOveridingResponse) XXX_Marshal(b []byte, deterministic b
 		return b[:n], nil
 	}
 }
-
 func (m *MsgSetAttributeOveridingResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgSetAttributeOveridingResponse.Merge(m, src)
 }
-
 func (m *MsgSetAttributeOveridingResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgSetAttributeOveridingResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgSetAttributeOveridingResponse.DiscardUnknown(m)
 }
@@ -2586,11 +2383,9 @@ func (*MsgSetMetadataFormat) ProtoMessage()    {}
 func (*MsgSetMetadataFormat) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{40}
 }
-
 func (m *MsgSetMetadataFormat) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgSetMetadataFormat) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgSetMetadataFormat.Marshal(b, m, deterministic)
@@ -2603,15 +2398,12 @@ func (m *MsgSetMetadataFormat) XXX_Marshal(b []byte, deterministic bool) ([]byte
 		return b[:n], nil
 	}
 }
-
 func (m *MsgSetMetadataFormat) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgSetMetadataFormat.Merge(m, src)
 }
-
 func (m *MsgSetMetadataFormat) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgSetMetadataFormat) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgSetMetadataFormat.DiscardUnknown(m)
 }
@@ -2650,11 +2442,9 @@ func (*MsgSetMetadataFormatResponse) ProtoMessage()    {}
 func (*MsgSetMetadataFormatResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{41}
 }
-
 func (m *MsgSetMetadataFormatResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgSetMetadataFormatResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgSetMetadataFormatResponse.Marshal(b, m, deterministic)
@@ -2667,15 +2457,12 @@ func (m *MsgSetMetadataFormatResponse) XXX_Marshal(b []byte, deterministic bool)
 		return b[:n], nil
 	}
 }
-
 func (m *MsgSetMetadataFormatResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgSetMetadataFormatResponse.Merge(m, src)
 }
-
 func (m *MsgSetMetadataFormatResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgSetMetadataFormatResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgSetMetadataFormatResponse.DiscardUnknown(m)
 }
@@ -2708,11 +2495,9 @@ func (*MsgCreateActionExecutor) ProtoMessage()    {}
 func (*MsgCreateActionExecutor) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{42}
 }
-
 func (m *MsgCreateActionExecutor) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgCreateActionExecutor) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgCreateActionExecutor.Marshal(b, m, deterministic)
@@ -2725,15 +2510,12 @@ func (m *MsgCreateActionExecutor) XXX_Marshal(b []byte, deterministic bool) ([]b
 		return b[:n], nil
 	}
 }
-
 func (m *MsgCreateActionExecutor) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgCreateActionExecutor.Merge(m, src)
 }
-
 func (m *MsgCreateActionExecutor) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgCreateActionExecutor) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgCreateActionExecutor.DiscardUnknown(m)
 }
@@ -2772,11 +2554,9 @@ func (*MsgCreateActionExecutorResponse) ProtoMessage()    {}
 func (*MsgCreateActionExecutorResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{43}
 }
-
 func (m *MsgCreateActionExecutorResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgCreateActionExecutorResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgCreateActionExecutorResponse.Marshal(b, m, deterministic)
@@ -2789,15 +2569,12 @@ func (m *MsgCreateActionExecutorResponse) XXX_Marshal(b []byte, deterministic bo
 		return b[:n], nil
 	}
 }
-
 func (m *MsgCreateActionExecutorResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgCreateActionExecutorResponse.Merge(m, src)
 }
-
 func (m *MsgCreateActionExecutorResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgCreateActionExecutorResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgCreateActionExecutorResponse.DiscardUnknown(m)
 }
@@ -2830,11 +2607,9 @@ func (*MsgUpdateActionExecutor) ProtoMessage()    {}
 func (*MsgUpdateActionExecutor) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{44}
 }
-
 func (m *MsgUpdateActionExecutor) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgUpdateActionExecutor) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgUpdateActionExecutor.Marshal(b, m, deterministic)
@@ -2847,15 +2622,12 @@ func (m *MsgUpdateActionExecutor) XXX_Marshal(b []byte, deterministic bool) ([]b
 		return b[:n], nil
 	}
 }
-
 func (m *MsgUpdateActionExecutor) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgUpdateActionExecutor.Merge(m, src)
 }
-
 func (m *MsgUpdateActionExecutor) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgUpdateActionExecutor) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgUpdateActionExecutor.DiscardUnknown(m)
 }
@@ -2894,11 +2666,9 @@ func (*MsgUpdateActionExecutorResponse) ProtoMessage()    {}
 func (*MsgUpdateActionExecutorResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{45}
 }
-
 func (m *MsgUpdateActionExecutorResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgUpdateActionExecutorResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgUpdateActionExecutorResponse.Marshal(b, m, deterministic)
@@ -2911,15 +2681,12 @@ func (m *MsgUpdateActionExecutorResponse) XXX_Marshal(b []byte, deterministic bo
 		return b[:n], nil
 	}
 }
-
 func (m *MsgUpdateActionExecutorResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgUpdateActionExecutorResponse.Merge(m, src)
 }
-
 func (m *MsgUpdateActionExecutorResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgUpdateActionExecutorResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgUpdateActionExecutorResponse.DiscardUnknown(m)
 }
@@ -2952,11 +2719,9 @@ func (*MsgDeleteActionExecutor) ProtoMessage()    {}
 func (*MsgDeleteActionExecutor) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{46}
 }
-
 func (m *MsgDeleteActionExecutor) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgDeleteActionExecutor) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgDeleteActionExecutor.Marshal(b, m, deterministic)
@@ -2969,15 +2734,12 @@ func (m *MsgDeleteActionExecutor) XXX_Marshal(b []byte, deterministic bool) ([]b
 		return b[:n], nil
 	}
 }
-
 func (m *MsgDeleteActionExecutor) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgDeleteActionExecutor.Merge(m, src)
 }
-
 func (m *MsgDeleteActionExecutor) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgDeleteActionExecutor) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgDeleteActionExecutor.DiscardUnknown(m)
 }
@@ -3016,11 +2778,9 @@ func (*MsgDeleteActionExecutorResponse) ProtoMessage()    {}
 func (*MsgDeleteActionExecutorResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{47}
 }
-
 func (m *MsgDeleteActionExecutorResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgDeleteActionExecutorResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgDeleteActionExecutorResponse.Marshal(b, m, deterministic)
@@ -3033,15 +2793,12 @@ func (m *MsgDeleteActionExecutorResponse) XXX_Marshal(b []byte, deterministic bo
 		return b[:n], nil
 	}
 }
-
 func (m *MsgDeleteActionExecutorResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgDeleteActionExecutorResponse.Merge(m, src)
 }
-
 func (m *MsgDeleteActionExecutorResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgDeleteActionExecutorResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgDeleteActionExecutorResponse.DiscardUnknown(m)
 }
@@ -3074,11 +2831,9 @@ func (*MsgUpdateSchemaAttribute) ProtoMessage()    {}
 func (*MsgUpdateSchemaAttribute) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{48}
 }
-
 func (m *MsgUpdateSchemaAttribute) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgUpdateSchemaAttribute) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgUpdateSchemaAttribute.Marshal(b, m, deterministic)
@@ -3091,15 +2846,12 @@ func (m *MsgUpdateSchemaAttribute) XXX_Marshal(b []byte, deterministic bool) ([]
 		return b[:n], nil
 	}
 }
-
 func (m *MsgUpdateSchemaAttribute) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgUpdateSchemaAttribute.Merge(m, src)
 }
-
 func (m *MsgUpdateSchemaAttribute) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgUpdateSchemaAttribute) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgUpdateSchemaAttribute.DiscardUnknown(m)
 }
@@ -3138,11 +2890,9 @@ func (*MsgUpdateSchemaAttributeResponse) ProtoMessage()    {}
 func (*MsgUpdateSchemaAttributeResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{49}
 }
-
 func (m *MsgUpdateSchemaAttributeResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgUpdateSchemaAttributeResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgUpdateSchemaAttributeResponse.Marshal(b, m, deterministic)
@@ -3155,15 +2905,12 @@ func (m *MsgUpdateSchemaAttributeResponse) XXX_Marshal(b []byte, deterministic b
 		return b[:n], nil
 	}
 }
-
 func (m *MsgUpdateSchemaAttributeResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgUpdateSchemaAttributeResponse.Merge(m, src)
 }
-
 func (m *MsgUpdateSchemaAttributeResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgUpdateSchemaAttributeResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgUpdateSchemaAttributeResponse.DiscardUnknown(m)
 }
@@ -3196,11 +2943,9 @@ func (*MsgUpdateAction) ProtoMessage()    {}
 func (*MsgUpdateAction) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{50}
 }
-
 func (m *MsgUpdateAction) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgUpdateAction) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgUpdateAction.Marshal(b, m, deterministic)
@@ -3213,15 +2958,12 @@ func (m *MsgUpdateAction) XXX_Marshal(b []byte, deterministic bool) ([]byte, err
 		return b[:n], nil
 	}
 }
-
 func (m *MsgUpdateAction) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgUpdateAction.Merge(m, src)
 }
-
 func (m *MsgUpdateAction) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgUpdateAction) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgUpdateAction.DiscardUnknown(m)
 }
@@ -3260,11 +3002,9 @@ func (*MsgUpdateActionResponse) ProtoMessage()    {}
 func (*MsgUpdateActionResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{51}
 }
-
 func (m *MsgUpdateActionResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgUpdateActionResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgUpdateActionResponse.Marshal(b, m, deterministic)
@@ -3277,15 +3017,12 @@ func (m *MsgUpdateActionResponse) XXX_Marshal(b []byte, deterministic bool) ([]b
 		return b[:n], nil
 	}
 }
-
 func (m *MsgUpdateActionResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgUpdateActionResponse.Merge(m, src)
 }
-
 func (m *MsgUpdateActionResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgUpdateActionResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgUpdateActionResponse.DiscardUnknown(m)
 }
@@ -3318,11 +3055,9 @@ func (*MsgCreateVirtualAction) ProtoMessage()    {}
 func (*MsgCreateVirtualAction) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{52}
 }
-
 func (m *MsgCreateVirtualAction) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgCreateVirtualAction) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgCreateVirtualAction.Marshal(b, m, deterministic)
@@ -3335,15 +3070,12 @@ func (m *MsgCreateVirtualAction) XXX_Marshal(b []byte, deterministic bool) ([]by
 		return b[:n], nil
 	}
 }
-
 func (m *MsgCreateVirtualAction) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgCreateVirtualAction.Merge(m, src)
 }
-
 func (m *MsgCreateVirtualAction) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgCreateVirtualAction) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgCreateVirtualAction.DiscardUnknown(m)
 }
@@ -3382,11 +3114,9 @@ func (*MsgCreateVirtualActionResponse) ProtoMessage()    {}
 func (*MsgCreateVirtualActionResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{53}
 }
-
 func (m *MsgCreateVirtualActionResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgCreateVirtualActionResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgCreateVirtualActionResponse.Marshal(b, m, deterministic)
@@ -3399,15 +3129,12 @@ func (m *MsgCreateVirtualActionResponse) XXX_Marshal(b []byte, deterministic boo
 		return b[:n], nil
 	}
 }
-
 func (m *MsgCreateVirtualActionResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgCreateVirtualActionResponse.Merge(m, src)
 }
-
 func (m *MsgCreateVirtualActionResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgCreateVirtualActionResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgCreateVirtualActionResponse.DiscardUnknown(m)
 }
@@ -3440,11 +3167,9 @@ func (*MsgUpdateVirtualAction) ProtoMessage()    {}
 func (*MsgUpdateVirtualAction) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{54}
 }
-
 func (m *MsgUpdateVirtualAction) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgUpdateVirtualAction) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgUpdateVirtualAction.Marshal(b, m, deterministic)
@@ -3457,15 +3182,12 @@ func (m *MsgUpdateVirtualAction) XXX_Marshal(b []byte, deterministic bool) ([]by
 		return b[:n], nil
 	}
 }
-
 func (m *MsgUpdateVirtualAction) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgUpdateVirtualAction.Merge(m, src)
 }
-
 func (m *MsgUpdateVirtualAction) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgUpdateVirtualAction) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgUpdateVirtualAction.DiscardUnknown(m)
 }
@@ -3504,11 +3226,9 @@ func (*MsgUpdateVirtualActionResponse) ProtoMessage()    {}
 func (*MsgUpdateVirtualActionResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{55}
 }
-
 func (m *MsgUpdateVirtualActionResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgUpdateVirtualActionResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgUpdateVirtualActionResponse.Marshal(b, m, deterministic)
@@ -3521,15 +3241,12 @@ func (m *MsgUpdateVirtualActionResponse) XXX_Marshal(b []byte, deterministic boo
 		return b[:n], nil
 	}
 }
-
 func (m *MsgUpdateVirtualActionResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgUpdateVirtualActionResponse.Merge(m, src)
 }
-
 func (m *MsgUpdateVirtualActionResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgUpdateVirtualActionResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgUpdateVirtualActionResponse.DiscardUnknown(m)
 }
@@ -3562,11 +3279,9 @@ func (*MsgDeleteVirtualAction) ProtoMessage()    {}
 func (*MsgDeleteVirtualAction) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{56}
 }
-
 func (m *MsgDeleteVirtualAction) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgDeleteVirtualAction) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgDeleteVirtualAction.Marshal(b, m, deterministic)
@@ -3579,15 +3294,12 @@ func (m *MsgDeleteVirtualAction) XXX_Marshal(b []byte, deterministic bool) ([]by
 		return b[:n], nil
 	}
 }
-
 func (m *MsgDeleteVirtualAction) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgDeleteVirtualAction.Merge(m, src)
 }
-
 func (m *MsgDeleteVirtualAction) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgDeleteVirtualAction) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgDeleteVirtualAction.DiscardUnknown(m)
 }
@@ -3626,11 +3338,9 @@ func (*MsgDeleteVirtualActionResponse) ProtoMessage()    {}
 func (*MsgDeleteVirtualActionResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{57}
 }
-
 func (m *MsgDeleteVirtualActionResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgDeleteVirtualActionResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgDeleteVirtualActionResponse.Marshal(b, m, deterministic)
@@ -3643,15 +3353,12 @@ func (m *MsgDeleteVirtualActionResponse) XXX_Marshal(b []byte, deterministic boo
 		return b[:n], nil
 	}
 }
-
 func (m *MsgDeleteVirtualActionResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgDeleteVirtualActionResponse.Merge(m, src)
 }
-
 func (m *MsgDeleteVirtualActionResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgDeleteVirtualActionResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgDeleteVirtualActionResponse.DiscardUnknown(m)
 }
@@ -3684,11 +3391,9 @@ func (*MsgCreateVirtualSchemaProposal) ProtoMessage()    {}
 func (*MsgCreateVirtualSchemaProposal) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{58}
 }
-
 func (m *MsgCreateVirtualSchemaProposal) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgCreateVirtualSchemaProposal) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgCreateVirtualSchemaProposal.Marshal(b, m, deterministic)
@@ -3701,15 +3406,12 @@ func (m *MsgCreateVirtualSchemaProposal) XXX_Marshal(b []byte, deterministic boo
 		return b[:n], nil
 	}
 }
-
 func (m *MsgCreateVirtualSchemaProposal) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgCreateVirtualSchemaProposal.Merge(m, src)
 }
-
 func (m *MsgCreateVirtualSchemaProposal) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgCreateVirtualSchemaProposal) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgCreateVirtualSchemaProposal.DiscardUnknown(m)
 }
@@ -3748,11 +3450,9 @@ func (*MsgCreateVirtualSchemaResponse) ProtoMessage()    {}
 func (*MsgCreateVirtualSchemaResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{59}
 }
-
 func (m *MsgCreateVirtualSchemaResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgCreateVirtualSchemaResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgCreateVirtualSchemaResponse.Marshal(b, m, deterministic)
@@ -3765,15 +3465,12 @@ func (m *MsgCreateVirtualSchemaResponse) XXX_Marshal(b []byte, deterministic boo
 		return b[:n], nil
 	}
 }
-
 func (m *MsgCreateVirtualSchemaResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgCreateVirtualSchemaResponse.Merge(m, src)
 }
-
 func (m *MsgCreateVirtualSchemaResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgCreateVirtualSchemaResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgCreateVirtualSchemaResponse.DiscardUnknown(m)
 }
@@ -3805,11 +3502,9 @@ func (*MsgDeleteVirtualSchema) ProtoMessage()    {}
 func (*MsgDeleteVirtualSchema) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{60}
 }
-
 func (m *MsgDeleteVirtualSchema) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgDeleteVirtualSchema) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgDeleteVirtualSchema.Marshal(b, m, deterministic)
@@ -3822,15 +3517,12 @@ func (m *MsgDeleteVirtualSchema) XXX_Marshal(b []byte, deterministic bool) ([]by
 		return b[:n], nil
 	}
 }
-
 func (m *MsgDeleteVirtualSchema) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgDeleteVirtualSchema.Merge(m, src)
 }
-
 func (m *MsgDeleteVirtualSchema) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgDeleteVirtualSchema) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgDeleteVirtualSchema.DiscardUnknown(m)
 }
@@ -3851,7 +3543,8 @@ func (m *MsgDeleteVirtualSchema) GetVirtualNftSchemaCode() string {
 	return ""
 }
 
-type MsgDeleteVirtualSchemaResponse struct{}
+type MsgDeleteVirtualSchemaResponse struct {
+}
 
 func (m *MsgDeleteVirtualSchemaResponse) Reset()         { *m = MsgDeleteVirtualSchemaResponse{} }
 func (m *MsgDeleteVirtualSchemaResponse) String() string { return proto.CompactTextString(m) }
@@ -3859,11 +3552,9 @@ func (*MsgDeleteVirtualSchemaResponse) ProtoMessage()    {}
 func (*MsgDeleteVirtualSchemaResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{61}
 }
-
 func (m *MsgDeleteVirtualSchemaResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgDeleteVirtualSchemaResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgDeleteVirtualSchemaResponse.Marshal(b, m, deterministic)
@@ -3876,15 +3567,12 @@ func (m *MsgDeleteVirtualSchemaResponse) XXX_Marshal(b []byte, deterministic boo
 		return b[:n], nil
 	}
 }
-
 func (m *MsgDeleteVirtualSchemaResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgDeleteVirtualSchemaResponse.Merge(m, src)
 }
-
 func (m *MsgDeleteVirtualSchemaResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgDeleteVirtualSchemaResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgDeleteVirtualSchemaResponse.DiscardUnknown(m)
 }
@@ -3904,11 +3592,9 @@ func (*MsgVoteCreateVirtualSchema) ProtoMessage()    {}
 func (*MsgVoteCreateVirtualSchema) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{62}
 }
-
 func (m *MsgVoteCreateVirtualSchema) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgVoteCreateVirtualSchema) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgVoteCreateVirtualSchema.Marshal(b, m, deterministic)
@@ -3921,15 +3607,12 @@ func (m *MsgVoteCreateVirtualSchema) XXX_Marshal(b []byte, deterministic bool) (
 		return b[:n], nil
 	}
 }
-
 func (m *MsgVoteCreateVirtualSchema) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgVoteCreateVirtualSchema.Merge(m, src)
 }
-
 func (m *MsgVoteCreateVirtualSchema) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgVoteCreateVirtualSchema) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgVoteCreateVirtualSchema.DiscardUnknown(m)
 }
@@ -3964,7 +3647,8 @@ func (m *MsgVoteCreateVirtualSchema) GetOption() RegistryStatus {
 	return RegistryStatus_PENDING
 }
 
-type MsgVoteCreateVirtualSchemaResponse struct{}
+type MsgVoteCreateVirtualSchemaResponse struct {
+}
 
 func (m *MsgVoteCreateVirtualSchemaResponse) Reset()         { *m = MsgVoteCreateVirtualSchemaResponse{} }
 func (m *MsgVoteCreateVirtualSchemaResponse) String() string { return proto.CompactTextString(m) }
@@ -3972,11 +3656,9 @@ func (*MsgVoteCreateVirtualSchemaResponse) ProtoMessage()    {}
 func (*MsgVoteCreateVirtualSchemaResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_17e298b08d1e9780, []int{63}
 }
-
 func (m *MsgVoteCreateVirtualSchemaResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgVoteCreateVirtualSchemaResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgVoteCreateVirtualSchemaResponse.Marshal(b, m, deterministic)
@@ -3989,136 +3671,17 @@ func (m *MsgVoteCreateVirtualSchemaResponse) XXX_Marshal(b []byte, deterministic
 		return b[:n], nil
 	}
 }
-
 func (m *MsgVoteCreateVirtualSchemaResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgVoteCreateVirtualSchemaResponse.Merge(m, src)
 }
-
 func (m *MsgVoteCreateVirtualSchemaResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgVoteCreateVirtualSchemaResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgVoteCreateVirtualSchemaResponse.DiscardUnknown(m)
 }
 
 var xxx_messageInfo_MsgVoteCreateVirtualSchemaResponse proto.InternalMessageInfo
-
-type MsgDisableVirtualSchemaProposal struct {
-	Creator              string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	VirtualNftSchemaCode string `protobuf:"bytes,2,opt,name=virtualNftSchemaCode,proto3" json:"virtualNftSchemaCode,omitempty"`
-}
-
-func (m *MsgDisableVirtualSchemaProposal) Reset()         { *m = MsgDisableVirtualSchemaProposal{} }
-func (m *MsgDisableVirtualSchemaProposal) String() string { return proto.CompactTextString(m) }
-func (*MsgDisableVirtualSchemaProposal) ProtoMessage()    {}
-func (*MsgDisableVirtualSchemaProposal) Descriptor() ([]byte, []int) {
-	return fileDescriptor_17e298b08d1e9780, []int{64}
-}
-
-func (m *MsgDisableVirtualSchemaProposal) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-
-func (m *MsgDisableVirtualSchemaProposal) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_MsgDisableVirtualSchemaProposal.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-
-func (m *MsgDisableVirtualSchemaProposal) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgDisableVirtualSchemaProposal.Merge(m, src)
-}
-
-func (m *MsgDisableVirtualSchemaProposal) XXX_Size() int {
-	return m.Size()
-}
-
-func (m *MsgDisableVirtualSchemaProposal) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgDisableVirtualSchemaProposal.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_MsgDisableVirtualSchemaProposal proto.InternalMessageInfo
-
-func (m *MsgDisableVirtualSchemaProposal) GetCreator() string {
-	if m != nil {
-		return m.Creator
-	}
-	return ""
-}
-
-func (m *MsgDisableVirtualSchemaProposal) GetVirtualNftSchemaCode() string {
-	if m != nil {
-		return m.VirtualNftSchemaCode
-	}
-	return ""
-}
-
-type MsgDisableVirtualSchemaProposalResponse struct {
-	Creator    string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	ProposalId string `protobuf:"bytes,2,opt,name=proposalId,proto3" json:"proposalId,omitempty"`
-}
-
-func (m *MsgDisableVirtualSchemaProposalResponse) Reset() {
-	*m = MsgDisableVirtualSchemaProposalResponse{}
-}
-func (m *MsgDisableVirtualSchemaProposalResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgDisableVirtualSchemaProposalResponse) ProtoMessage()    {}
-func (*MsgDisableVirtualSchemaProposalResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_17e298b08d1e9780, []int{65}
-}
-
-func (m *MsgDisableVirtualSchemaProposalResponse) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-
-func (m *MsgDisableVirtualSchemaProposalResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_MsgDisableVirtualSchemaProposalResponse.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-
-func (m *MsgDisableVirtualSchemaProposalResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgDisableVirtualSchemaProposalResponse.Merge(m, src)
-}
-
-func (m *MsgDisableVirtualSchemaProposalResponse) XXX_Size() int {
-	return m.Size()
-}
-
-func (m *MsgDisableVirtualSchemaProposalResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgDisableVirtualSchemaProposalResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_MsgDisableVirtualSchemaProposalResponse proto.InternalMessageInfo
-
-func (m *MsgDisableVirtualSchemaProposalResponse) GetCreator() string {
-	if m != nil {
-		return m.Creator
-	}
-	return ""
-}
-
-func (m *MsgDisableVirtualSchemaProposalResponse) GetProposalId() string {
-	if m != nil {
-		return m.ProposalId
-	}
-	return ""
-}
 
 type MsgPerformVirtualAction struct {
 	Creator       string             `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
@@ -4133,13 +3696,11 @@ func (m *MsgPerformVirtualAction) Reset()         { *m = MsgPerformVirtualAction
 func (m *MsgPerformVirtualAction) String() string { return proto.CompactTextString(m) }
 func (*MsgPerformVirtualAction) ProtoMessage()    {}
 func (*MsgPerformVirtualAction) Descriptor() ([]byte, []int) {
-	return fileDescriptor_17e298b08d1e9780, []int{66}
+	return fileDescriptor_17e298b08d1e9780, []int{64}
 }
-
 func (m *MsgPerformVirtualAction) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgPerformVirtualAction) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgPerformVirtualAction.Marshal(b, m, deterministic)
@@ -4152,15 +3713,12 @@ func (m *MsgPerformVirtualAction) XXX_Marshal(b []byte, deterministic bool) ([]b
 		return b[:n], nil
 	}
 }
-
 func (m *MsgPerformVirtualAction) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgPerformVirtualAction.Merge(m, src)
 }
-
 func (m *MsgPerformVirtualAction) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgPerformVirtualAction) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgPerformVirtualAction.DiscardUnknown(m)
 }
@@ -4217,13 +3775,11 @@ func (m *MsgPerformVirtualActionResponse) Reset()         { *m = MsgPerformVirtu
 func (m *MsgPerformVirtualActionResponse) String() string { return proto.CompactTextString(m) }
 func (*MsgPerformVirtualActionResponse) ProtoMessage()    {}
 func (*MsgPerformVirtualActionResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_17e298b08d1e9780, []int{67}
+	return fileDescriptor_17e298b08d1e9780, []int{65}
 }
-
 func (m *MsgPerformVirtualActionResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MsgPerformVirtualActionResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MsgPerformVirtualActionResponse.Marshal(b, m, deterministic)
@@ -4236,15 +3792,12 @@ func (m *MsgPerformVirtualActionResponse) XXX_Marshal(b []byte, deterministic bo
 		return b[:n], nil
 	}
 }
-
 func (m *MsgPerformVirtualActionResponse) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MsgPerformVirtualActionResponse.Merge(m, src)
 }
-
 func (m *MsgPerformVirtualActionResponse) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MsgPerformVirtualActionResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_MsgPerformVirtualActionResponse.DiscardUnknown(m)
 }
@@ -4267,13 +3820,11 @@ func (m *TokenIdMap) Reset()         { *m = TokenIdMap{} }
 func (m *TokenIdMap) String() string { return proto.CompactTextString(m) }
 func (*TokenIdMap) ProtoMessage()    {}
 func (*TokenIdMap) Descriptor() ([]byte, []int) {
-	return fileDescriptor_17e298b08d1e9780, []int{68}
+	return fileDescriptor_17e298b08d1e9780, []int{66}
 }
-
 func (m *TokenIdMap) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *TokenIdMap) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_TokenIdMap.Marshal(b, m, deterministic)
@@ -4286,15 +3837,12 @@ func (m *TokenIdMap) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return b[:n], nil
 	}
 }
-
 func (m *TokenIdMap) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_TokenIdMap.Merge(m, src)
 }
-
 func (m *TokenIdMap) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *TokenIdMap) XXX_DiscardUnknown() {
 	xxx_messageInfo_TokenIdMap.DiscardUnknown(m)
 }
@@ -4311,6 +3859,218 @@ func (m *TokenIdMap) GetNftSchemaName() string {
 func (m *TokenIdMap) GetTokenId() string {
 	if m != nil {
 		return m.TokenId
+	}
+	return ""
+}
+
+type MsgEnableVirtualSchemaProposal struct {
+	Creator              string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	VirtualNftSchemaCode string `protobuf:"bytes,2,opt,name=virtualNftSchemaCode,proto3" json:"virtualNftSchemaCode,omitempty"`
+}
+
+func (m *MsgEnableVirtualSchemaProposal) Reset()         { *m = MsgEnableVirtualSchemaProposal{} }
+func (m *MsgEnableVirtualSchemaProposal) String() string { return proto.CompactTextString(m) }
+func (*MsgEnableVirtualSchemaProposal) ProtoMessage()    {}
+func (*MsgEnableVirtualSchemaProposal) Descriptor() ([]byte, []int) {
+	return fileDescriptor_17e298b08d1e9780, []int{67}
+}
+func (m *MsgEnableVirtualSchemaProposal) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgEnableVirtualSchemaProposal) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgEnableVirtualSchemaProposal.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgEnableVirtualSchemaProposal) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgEnableVirtualSchemaProposal.Merge(m, src)
+}
+func (m *MsgEnableVirtualSchemaProposal) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgEnableVirtualSchemaProposal) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgEnableVirtualSchemaProposal.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgEnableVirtualSchemaProposal proto.InternalMessageInfo
+
+func (m *MsgEnableVirtualSchemaProposal) GetCreator() string {
+	if m != nil {
+		return m.Creator
+	}
+	return ""
+}
+
+func (m *MsgEnableVirtualSchemaProposal) GetVirtualNftSchemaCode() string {
+	if m != nil {
+		return m.VirtualNftSchemaCode
+	}
+	return ""
+}
+
+type MsgEnableVirtualSchemaProposalResponse struct {
+	Creator    string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	ProposalId string `protobuf:"bytes,2,opt,name=proposalId,proto3" json:"proposalId,omitempty"`
+}
+
+func (m *MsgEnableVirtualSchemaProposalResponse) Reset() {
+	*m = MsgEnableVirtualSchemaProposalResponse{}
+}
+func (m *MsgEnableVirtualSchemaProposalResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgEnableVirtualSchemaProposalResponse) ProtoMessage()    {}
+func (*MsgEnableVirtualSchemaProposalResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_17e298b08d1e9780, []int{68}
+}
+func (m *MsgEnableVirtualSchemaProposalResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgEnableVirtualSchemaProposalResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgEnableVirtualSchemaProposalResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgEnableVirtualSchemaProposalResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgEnableVirtualSchemaProposalResponse.Merge(m, src)
+}
+func (m *MsgEnableVirtualSchemaProposalResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgEnableVirtualSchemaProposalResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgEnableVirtualSchemaProposalResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgEnableVirtualSchemaProposalResponse proto.InternalMessageInfo
+
+func (m *MsgEnableVirtualSchemaProposalResponse) GetCreator() string {
+	if m != nil {
+		return m.Creator
+	}
+	return ""
+}
+
+func (m *MsgEnableVirtualSchemaProposalResponse) GetProposalId() string {
+	if m != nil {
+		return m.ProposalId
+	}
+	return ""
+}
+
+type MsgDisableVirtualSchemaProposal struct {
+	Creator              string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	VirtualNftSchemaCode string `protobuf:"bytes,2,opt,name=virtualNftSchemaCode,proto3" json:"virtualNftSchemaCode,omitempty"`
+}
+
+func (m *MsgDisableVirtualSchemaProposal) Reset()         { *m = MsgDisableVirtualSchemaProposal{} }
+func (m *MsgDisableVirtualSchemaProposal) String() string { return proto.CompactTextString(m) }
+func (*MsgDisableVirtualSchemaProposal) ProtoMessage()    {}
+func (*MsgDisableVirtualSchemaProposal) Descriptor() ([]byte, []int) {
+	return fileDescriptor_17e298b08d1e9780, []int{69}
+}
+func (m *MsgDisableVirtualSchemaProposal) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgDisableVirtualSchemaProposal) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgDisableVirtualSchemaProposal.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgDisableVirtualSchemaProposal) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgDisableVirtualSchemaProposal.Merge(m, src)
+}
+func (m *MsgDisableVirtualSchemaProposal) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgDisableVirtualSchemaProposal) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgDisableVirtualSchemaProposal.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgDisableVirtualSchemaProposal proto.InternalMessageInfo
+
+func (m *MsgDisableVirtualSchemaProposal) GetCreator() string {
+	if m != nil {
+		return m.Creator
+	}
+	return ""
+}
+
+func (m *MsgDisableVirtualSchemaProposal) GetVirtualNftSchemaCode() string {
+	if m != nil {
+		return m.VirtualNftSchemaCode
+	}
+	return ""
+}
+
+type MsgDisableVirtualSchemaProposalResponse struct {
+	Creator    string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	ProposalId string `protobuf:"bytes,2,opt,name=proposalId,proto3" json:"proposalId,omitempty"`
+}
+
+func (m *MsgDisableVirtualSchemaProposalResponse) Reset() {
+	*m = MsgDisableVirtualSchemaProposalResponse{}
+}
+func (m *MsgDisableVirtualSchemaProposalResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgDisableVirtualSchemaProposalResponse) ProtoMessage()    {}
+func (*MsgDisableVirtualSchemaProposalResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_17e298b08d1e9780, []int{70}
+}
+func (m *MsgDisableVirtualSchemaProposalResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgDisableVirtualSchemaProposalResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgDisableVirtualSchemaProposalResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgDisableVirtualSchemaProposalResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgDisableVirtualSchemaProposalResponse.Merge(m, src)
+}
+func (m *MsgDisableVirtualSchemaProposalResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgDisableVirtualSchemaProposalResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgDisableVirtualSchemaProposalResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgDisableVirtualSchemaProposalResponse proto.InternalMessageInfo
+
+func (m *MsgDisableVirtualSchemaProposalResponse) GetCreator() string {
+	if m != nil {
+		return m.Creator
+	}
+	return ""
+}
+
+func (m *MsgDisableVirtualSchemaProposalResponse) GetProposalId() string {
+	if m != nil {
+		return m.ProposalId
 	}
 	return ""
 }
@@ -4383,174 +4143,178 @@ func init() {
 	proto.RegisterType((*MsgDeleteVirtualSchemaResponse)(nil), "thesixnetwork.sixprotocol.nftmngr.MsgDeleteVirtualSchemaResponse")
 	proto.RegisterType((*MsgVoteCreateVirtualSchema)(nil), "thesixnetwork.sixprotocol.nftmngr.MsgVoteCreateVirtualSchema")
 	proto.RegisterType((*MsgVoteCreateVirtualSchemaResponse)(nil), "thesixnetwork.sixprotocol.nftmngr.MsgVoteCreateVirtualSchemaResponse")
-	proto.RegisterType((*MsgDisableVirtualSchemaProposal)(nil), "thesixnetwork.sixprotocol.nftmngr.MsgDisableVirtualSchemaProposal")
-	proto.RegisterType((*MsgDisableVirtualSchemaProposalResponse)(nil), "thesixnetwork.sixprotocol.nftmngr.MsgDisableVirtualSchemaProposalResponse")
 	proto.RegisterType((*MsgPerformVirtualAction)(nil), "thesixnetwork.sixprotocol.nftmngr.MsgPerformVirtualAction")
 	proto.RegisterType((*MsgPerformVirtualActionResponse)(nil), "thesixnetwork.sixprotocol.nftmngr.MsgPerformVirtualActionResponse")
 	proto.RegisterType((*TokenIdMap)(nil), "thesixnetwork.sixprotocol.nftmngr.TokenIdMap")
+	proto.RegisterType((*MsgEnableVirtualSchemaProposal)(nil), "thesixnetwork.sixprotocol.nftmngr.MsgEnableVirtualSchemaProposal")
+	proto.RegisterType((*MsgEnableVirtualSchemaProposalResponse)(nil), "thesixnetwork.sixprotocol.nftmngr.MsgEnableVirtualSchemaProposalResponse")
+	proto.RegisterType((*MsgDisableVirtualSchemaProposal)(nil), "thesixnetwork.sixprotocol.nftmngr.MsgDisableVirtualSchemaProposal")
+	proto.RegisterType((*MsgDisableVirtualSchemaProposalResponse)(nil), "thesixnetwork.sixprotocol.nftmngr.MsgDisableVirtualSchemaProposalResponse")
 }
 
 func init() { proto.RegisterFile("nftmngr/tx.proto", fileDescriptor_17e298b08d1e9780) }
 
 var fileDescriptor_17e298b08d1e9780 = []byte{
-	// 2497 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xcc, 0x5b, 0xcf, 0x6f, 0x1b, 0xc7,
-	0xf5, 0xd7, 0x52, 0x8e, 0x2c, 0x3d, 0xd9, 0xfa, 0xb1, 0x96, 0x1d, 0x9a, 0x76, 0x18, 0x67, 0xbe,
-	0x81, 0xbf, 0xae, 0x81, 0x50, 0x0e, 0xe3, 0x24, 0xb5, 0xdd, 0x38, 0xa5, 0x64, 0xa9, 0x71, 0x6b,
-	0x4a, 0xc6, 0x92, 0x76, 0x9b, 0x36, 0x06, 0xbd, 0x22, 0x87, 0xab, 0x6d, 0xa8, 0x5d, 0x66, 0x77,
-	0x68, 0x49, 0x2d, 0x60, 0xa4, 0x48, 0x81, 0x02, 0x05, 0x8a, 0x16, 0x08, 0x50, 0xb4, 0x97, 0x16,
-	0x48, 0x6e, 0x39, 0xf4, 0xda, 0x7f, 0x21, 0xc7, 0x14, 0xbd, 0xf4, 0x54, 0x14, 0xf6, 0xdf, 0x50,
-	0xa0, 0xc7, 0x62, 0x67, 0x66, 0x97, 0x33, 0xdc, 0x21, 0x35, 0x4b, 0xda, 0x4d, 0x6e, 0xdc, 0x99,
-	0x79, 0x9f, 0xf7, 0x63, 0xde, 0x7b, 0x33, 0xf3, 0x9e, 0x04, 0x4b, 0x5e, 0x9b, 0xec, 0x79, 0x4e,
-	0xb0, 0x4a, 0x0e, 0x4a, 0xdd, 0xc0, 0x27, 0xbe, 0xf9, 0x0a, 0xd9, 0xc5, 0xa1, 0x7b, 0xe0, 0x61,
-	0xb2, 0xef, 0x07, 0x1f, 0x96, 0x42, 0xf7, 0x80, 0x8e, 0x37, 0xfd, 0x4e, 0x89, 0xaf, 0x2d, 0x9c,
-	0x77, 0x7c, 0xdf, 0xe9, 0xe0, 0x55, 0xbb, 0xeb, 0xae, 0xda, 0x9e, 0xe7, 0x13, 0x9b, 0xb8, 0xbe,
-	0x17, 0x32, 0x80, 0xc2, 0x59, 0x3e, 0x4b, 0xbf, 0x76, 0x7a, 0xed, 0x55, 0xdb, 0x3b, 0xe4, 0x53,
-	0x2b, 0x8e, 0xef, 0xf8, 0xf4, 0xe7, 0x6a, 0xf4, 0x8b, 0x8f, 0xbe, 0x14, 0xcb, 0x60, 0x37, 0x23,
-	0x9c, 0x06, 0x3e, 0xc0, 0xcd, 0x1e, 0xf1, 0x03, 0x3e, 0x5d, 0x8c, 0xa7, 0xc3, 0xe6, 0x2e, 0xde,
-	0xb3, 0x1b, 0x36, 0x21, 0x81, 0xbb, 0xd3, 0x23, 0x98, 0xcf, 0x9f, 0x8f, 0xe7, 0x1f, 0xb9, 0x01,
-	0xe9, 0xd9, 0x9d, 0x06, 0x83, 0xe1, 0xb3, 0xe7, 0xe2, 0x59, 0xdf, 0x6b, 0x34, 0x77, 0x6d, 0xd7,
-	0x6b, 0xb4, 0x6c, 0x62, 0xf3, 0x49, 0x94, 0x70, 0x8e, 0x31, 0x1b, 0x2d, 0xdc, 0x76, 0x3d, 0x57,
-	0x00, 0x78, 0x25, 0x5e, 0xe3, 0xb5, 0x49, 0x9f, 0x77, 0xe3, 0x91, 0xdd, 0xe9, 0x0d, 0x95, 0x80,
-	0x49, 0x1a, 0x2b, 0x2d, 0xab, 0xc7, 0x46, 0xd1, 0x8f, 0xc0, 0xac, 0x86, 0xce, 0x7a, 0x80, 0x6d,
-	0x82, 0xb7, 0x36, 0xeb, 0x35, 0x4a, 0x61, 0xe6, 0xe1, 0x78, 0x33, 0x1a, 0xf2, 0x83, 0xbc, 0x71,
-	0xc1, 0xb8, 0x34, 0x67, 0xc5, 0x9f, 0xe6, 0x25, 0x58, 0xf4, 0xda, 0x84, 0x2d, 0x5b, 0xb3, 0x43,
-	0xfc, 0xd6, 0xd5, 0x7c, 0x8e, 0xae, 0x18, 0x1c, 0x46, 0x57, 0xa0, 0x90, 0x46, 0xb6, 0x70, 0xd8,
-	0xf5, 0xbd, 0x10, 0x9b, 0x26, 0x1c, 0x6b, 0xfa, 0x2d, 0xcc, 0xe1, 0xe9, 0x6f, 0xf4, 0xa9, 0x01,
-	0xcb, 0x09, 0x49, 0x15, 0x13, 0x3b, 0x32, 0xd1, 0x08, 0x59, 0x5e, 0x85, 0x93, 0x09, 0xd3, 0xf5,
-	0x08, 0x8c, 0x49, 0x22, 0x0f, 0x46, 0xf4, 0xc4, 0xff, 0x10, 0x7b, 0xb7, 0x5b, 0xf9, 0x69, 0x46,
-	0xcf, 0x3f, 0x23, 0xfa, 0x1d, 0x2a, 0xeb, 0xd6, 0x66, 0xfd, 0x96, 0x4d, 0xec, 0xfc, 0x31, 0x46,
-	0x2f, 0x0d, 0xa2, 0x9f, 0xc0, 0xd9, 0x94, 0x50, 0x89, 0x1a, 0x29, 0x11, 0x8c, 0x23, 0x44, 0xc8,
-	0x49, 0x22, 0xa0, 0x3f, 0x18, 0x70, 0xa6, 0x8f, 0xde, 0xeb, 0x10, 0xf7, 0xf9, 0xe8, 0x3d, 0x9d,
-	0x5d, 0xef, 0x87, 0x50, 0x54, 0x4b, 0x36, 0x89, 0xf2, 0xa2, 0x1c, 0xe8, 0x01, 0x2c, 0x6d, 0x77,
-	0xb1, 0x17, 0x62, 0xbb, 0x12, 0xfb, 0xb3, 0xf9, 0x12, 0x00, 0x09, 0x6c, 0x97, 0x34, 0xc8, 0x61,
-	0x37, 0x06, 0x9c, 0xa3, 0x23, 0xf5, 0xc3, 0x2e, 0x36, 0x2f, 0xc3, 0x0b, 0xd4, 0xe3, 0xa9, 0xca,
-	0xf3, 0xe5, 0x95, 0x12, 0x0b, 0xf2, 0x52, 0x1c, 0xe4, 0xa5, 0x8a, 0x77, 0x68, 0xb1, 0x25, 0xc8,
-	0x87, 0xfc, 0xbd, 0x6e, 0xcb, 0x26, 0xb8, 0x35, 0xc8, 0x25, 0x34, 0x6b, 0x00, 0x49, 0x0c, 0x85,
-	0x79, 0xe3, 0xc2, 0xf4, 0xa5, 0xf9, 0xf2, 0x1b, 0xa5, 0x23, 0x53, 0x4e, 0x69, 0x10, 0xc9, 0x12,
-	0x60, 0xd0, 0x27, 0x06, 0x2c, 0xc7, 0x1c, 0x03, 0xd7, 0x71, 0xbd, 0xc8, 0x8e, 0xe6, 0x0f, 0xe1,
-	0xb8, 0xcf, 0xa8, 0xa8, 0x3a, 0xf3, 0xe5, 0x1b, 0x1a, 0x7c, 0x86, 0x09, 0xfe, 0xde, 0x94, 0x15,
-	0xa3, 0xad, 0x9d, 0x86, 0x53, 0x3d, 0xb6, 0xac, 0xe1, 0x53, 0x76, 0x34, 0xa5, 0xa0, 0x1b, 0xb0,
-	0x58, 0xa1, 0x11, 0x7e, 0xd7, 0x0e, 0xec, 0x3d, 0x4c, 0x70, 0x10, 0x05, 0x9b, 0x67, 0xef, 0x25,
-	0xc1, 0x16, 0xfd, 0x36, 0x57, 0x44, 0x4b, 0xce, 0xc5, 0x36, 0xfb, 0x8f, 0x01, 0x2f, 0x56, 0x43,
-	0xe7, 0x2e, 0x0e, 0xda, 0x7e, 0xb0, 0xc7, 0x70, 0xd6, 0x0e, 0x2b, 0xad, 0x3d, 0xd7, 0x1b, 0xe1,
-	0x90, 0x17, 0x69, 0x52, 0xe0, 0xe9, 0xa6, 0xd1, 0x1c, 0x23, 0x14, 0xcf, 0xc0, 0x0c, 0x4b, 0x4b,
-	0xdc, 0x17, 0xf9, 0x97, 0x79, 0x1a, 0x66, 0x02, 0xdc, 0x6e, 0xb8, 0xad, 0xfc, 0x0b, 0x4c, 0xcc,
-	0x00, 0xb7, 0x6f, 0xb7, 0x4c, 0x0b, 0xa0, 0x1b, 0x6b, 0x17, 0xe6, 0x67, 0xe8, 0xf6, 0x95, 0x35,
-	0xcc, 0x3a, 0x60, 0x18, 0x4b, 0x40, 0x41, 0x2d, 0x78, 0x79, 0x88, 0xe6, 0x89, 0xc3, 0x2b, 0xf4,
-	0x54, 0xba, 0xfc, 0x59, 0x98, 0xa5, 0x8a, 0x45, 0x72, 0x0f, 0x04, 0xfc, 0xdf, 0x0d, 0x58, 0xac,
-	0x86, 0x4e, 0xa5, 0xd5, 0xea, 0xfb, 0xfc, 0x70, 0xc3, 0xc6, 0x59, 0x32, 0xd7, 0xcf, 0x92, 0xe6,
-	0x5d, 0x98, 0xed, 0xf8, 0x4d, 0x7a, 0xd4, 0x51, 0x2b, 0x2e, 0x94, 0xaf, 0xea, 0x68, 0x1e, 0x73,
-	0xbb, 0xc3, 0x69, 0xad, 0x04, 0xc5, 0xfc, 0x2e, 0x9c, 0xe3, 0xa1, 0x8f, 0xf7, 0xe9, 0xba, 0x1e,
-	0xc1, 0xb7, 0x70, 0x1b, 0xb3, 0xf3, 0x87, 0xef, 0xc8, 0xa8, 0x25, 0xa8, 0x42, 0xbd, 0x46, 0x54,
-	0x6a, 0x54, 0xa2, 0x4f, 0xfc, 0x31, 0xd7, 0xf7, 0x47, 0xd4, 0x86, 0x13, 0x1c, 0x82, 0xed, 0x7c,
-	0x36, 0xa3, 0x5c, 0x82, 0xc5, 0xbe, 0x7c, 0xcd, 0xc4, 0x36, 0x73, 0xd6, 0xe0, 0x30, 0xba, 0x09,
-	0x2b, 0x22, 0x9f, 0xcc, 0x72, 0x3e, 0x80, 0x93, 0xd5, 0xd0, 0xa9, 0x61, 0x12, 0x1d, 0x73, 0xf7,
-	0x02, 0x37, 0xa3, 0xa0, 0x45, 0x00, 0x0f, 0xef, 0x73, 0x5a, 0x2e, 0xa3, 0x30, 0x82, 0xde, 0x81,
-	0xd3, 0x12, 0xfc, 0x48, 0xf9, 0x96, 0x60, 0xba, 0x17, 0xb8, 0x1c, 0x3f, 0xfa, 0x89, 0x7c, 0xea,
-	0x5d, 0x75, 0xdf, 0x71, 0x3a, 0x78, 0x2c, 0x43, 0xf6, 0x03, 0x71, 0x5a, 0x0a, 0xc4, 0x33, 0x30,
-	0x13, 0x12, 0x9b, 0xf4, 0x42, 0xea, 0x0e, 0xb3, 0x16, 0xff, 0x42, 0xef, 0xd3, 0x9d, 0x17, 0x19,
-	0x66, 0xb5, 0xa8, 0x00, 0x3d, 0x2d, 0x41, 0x07, 0x74, 0xa7, 0xd6, 0x77, 0x6d, 0xcf, 0xc1, 0x2c,
-	0xb8, 0xb6, 0xf7, 0x3d, 0x1c, 0x4c, 0x7c, 0x30, 0x16, 0x60, 0xd6, 0xc3, 0xfb, 0x14, 0x8b, 0x2b,
-	0x99, 0x7c, 0xa3, 0x87, 0x70, 0x5e, 0xc5, 0x33, 0xe3, 0x91, 0x27, 0x72, 0xc8, 0x0d, 0x70, 0x78,
-	0x00, 0xe7, 0xaa, 0xa1, 0x63, 0xe1, 0xf0, 0xd0, 0x6b, 0xf6, 0xf3, 0xfa, 0x33, 0xbb, 0x50, 0xfc,
-	0x96, 0xdd, 0xa1, 0x6a, 0xbb, 0xfe, 0xbe, 0x70, 0xdc, 0x4d, 0x6a, 0x32, 0x13, 0x8e, 0x85, 0xbb,
-	0xfe, 0x3e, 0xdf, 0x20, 0xfa, 0xdb, 0xbc, 0x08, 0x0b, 0xc9, 0xd9, 0xb7, 0x65, 0xef, 0xe1, 0xc8,
-	0x33, 0xa2, 0xe3, 0x7d, 0x60, 0x14, 0x5d, 0xa3, 0xf7, 0x27, 0x59, 0xa0, 0x44, 0xdd, 0xf3, 0x30,
-	0x97, 0x70, 0x8a, 0x4f, 0xfb, 0x64, 0x00, 0xf9, 0x70, 0x4a, 0x61, 0xab, 0xe7, 0x77, 0x23, 0x44,
-	0x5f, 0xb0, 0xec, 0x5c, 0xc3, 0x64, 0x13, 0xe3, 0x75, 0xdf, 0x6b, 0xbb, 0xce, 0x08, 0x6e, 0x25,
-	0x30, 0x3d, 0xbc, 0x9f, 0xac, 0x94, 0xae, 0xc3, 0x8a, 0x19, 0xb3, 0x0a, 0xd0, 0xc6, 0xb8, 0xd6,
-	0xdb, 0xf9, 0x29, 0x6e, 0x12, 0x9e, 0xbb, 0x5f, 0xd3, 0xc8, 0xdd, 0x9b, 0x09, 0x91, 0x25, 0x00,
-	0xa0, 0xb3, 0x34, 0xf4, 0x44, 0x59, 0x63, 0xb3, 0xa2, 0xcf, 0x0c, 0x58, 0x60, 0x73, 0x55, 0xd7,
-	0x23, 0x76, 0x8f, 0xec, 0x4e, 0x6c, 0xb4, 0xbb, 0x30, 0x1f, 0xe1, 0xf8, 0x81, 0xfb, 0x33, 0x5c,
-	0xf7, 0xb9, 0xf4, 0x25, 0x9d, 0x93, 0xa7, 0x4f, 0x65, 0x89, 0x10, 0xe8, 0x26, 0xbd, 0xfa, 0x0a,
-	0x32, 0x66, 0x0b, 0x02, 0xe4, 0xb0, 0xd7, 0x02, 0x8d, 0xd5, 0xed, 0xc0, 0x39, 0x2a, 0x39, 0xe4,
-	0xe1, 0xb8, 0x1f, 0x38, 0x5b, 0xfd, 0xec, 0x13, 0x7f, 0x46, 0x39, 0x99, 0xf8, 0x5b, 0x72, 0x4a,
-	0x10, 0x46, 0xd0, 0x1e, 0x7b, 0x01, 0x48, 0x8c, 0x12, 0x59, 0x05, 0x58, 0x43, 0x86, 0x2d, 0xc0,
-	0xac, 0xdf, 0x69, 0x49, 0x59, 0x20, 0xfe, 0x1e, 0x99, 0x83, 0x02, 0xc8, 0x33, 0xbb, 0xd0, 0xf4,
-	0x4f, 0x02, 0x17, 0x3f, 0xb2, 0x3b, 0x55, 0x4c, 0x76, 0xfd, 0xd6, 0x08, 0xf5, 0x8a, 0x00, 0xe1,
-	0xe0, 0x16, 0x0a, 0x23, 0x34, 0xd2, 0xf0, 0x3e, 0x83, 0xa1, 0x2c, 0x5f, 0xb0, 0xfa, 0x03, 0xe8,
-	0x21, 0x5c, 0x18, 0xc6, 0x33, 0xd1, 0x54, 0xe6, 0x60, 0x8c, 0xe6, 0x90, 0xe3, 0xb1, 0x9c, 0x70,
-	0xe8, 0xb1, 0xbc, 0x84, 0x09, 0xbb, 0x1a, 0xaf, 0x47, 0x6f, 0xe0, 0x09, 0xd4, 0xb9, 0x08, 0x0b,
-	0x91, 0xc1, 0xfa, 0x58, 0xdc, 0x8c, 0x03, 0xa3, 0xa8, 0xc9, 0xb2, 0x8f, 0xc4, 0x56, 0x5b, 0xa3,
-	0x34, 0x93, 0x9c, 0x92, 0xc9, 0xc7, 0x06, 0x3d, 0xaa, 0xfa, 0x5c, 0x7c, 0x8f, 0x04, 0x76, 0x93,
-	0x4c, 0xa0, 0x1f, 0xcb, 0x2d, 0x31, 0x50, 0xa5, 0xd5, 0x0a, 0x70, 0x18, 0x72, 0x1d, 0x15, 0x33,
-	0xc8, 0xa3, 0x07, 0x57, 0x4a, 0x02, 0x6d, 0x55, 0xd5, 0xfc, 0x72, 0x43, 0xf9, 0x7d, 0x6c, 0xc4,
-	0x5e, 0x9a, 0x24, 0xe6, 0xed, 0x47, 0x38, 0x70, 0x5b, 0xae, 0xe7, 0x4c, 0xa0, 0xf6, 0x65, 0x58,
-	0x8a, 0x6c, 0x1b, 0x23, 0x45, 0x6f, 0x3e, 0xee, 0xac, 0xa9, 0x71, 0xd4, 0x8e, 0x7d, 0x36, 0x2d,
-	0x81, 0xb6, 0xda, 0x08, 0x4e, 0x88, 0xb8, 0x5c, 0x22, 0x69, 0x0c, 0x79, 0xf1, 0xe6, 0xc6, 0x0f,
-	0xe0, 0x4d, 0x3f, 0xd8, 0xb3, 0xc9, 0xc4, 0xb1, 0xc8, 0x60, 0xf8, 0x9e, 0xf6, 0x07, 0xd0, 0x07,
-	0xf1, 0x56, 0xca, 0xfc, 0x32, 0xc6, 0x21, 0x47, 0xcf, 0x0d, 0xa2, 0x7f, 0xc2, 0x5e, 0x78, 0xec,
-	0x5d, 0xcf, 0x6e, 0x6c, 0x1b, 0xbc, 0xd0, 0x35, 0xf1, 0x19, 0x71, 0x09, 0x16, 0xe3, 0xa2, 0x99,
-	0xec, 0xb1, 0x83, 0xc3, 0xe8, 0x23, 0xfa, 0xd8, 0x52, 0x09, 0x91, 0xf1, 0x26, 0xa4, 0x60, 0x99,
-	0x53, 0xb3, 0xe4, 0x8a, 0xb3, 0x97, 0xf5, 0xd7, 0xac, 0xb8, 0x4a, 0x88, 0xe7, 0xad, 0xf8, 0x2d,
-	0xdc, 0xc1, 0x5f, 0xbb, 0xe2, 0x2a, 0x21, 0x9e, 0x9b, 0xe2, 0x9f, 0xb1, 0x1c, 0xc5, 0x8c, 0xcd,
-	0x10, 0x74, 0x1e, 0xdd, 0x7a, 0x9a, 0x6f, 0x42, 0x91, 0x5d, 0xeb, 0xf8, 0x5e, 0xa6, 0xdf, 0xcd,
-	0xcc, 0x10, 0x47, 0xac, 0x42, 0x1f, 0xd0, 0x2c, 0xa6, 0x94, 0x31, 0xa3, 0x61, 0x54, 0xaf, 0xd5,
-	0x5f, 0xb0, 0x0b, 0xad, 0xe8, 0x6f, 0x13, 0x6b, 0x5e, 0x02, 0x73, 0x47, 0xd4, 0x49, 0x7c, 0x2e,
-	0x2a, 0x66, 0x50, 0x2d, 0x15, 0x77, 0xcf, 0x40, 0xb1, 0xcf, 0xc5, 0xc2, 0xe9, 0x7d, 0x56, 0xef,
-	0x7e, 0x46, 0xfa, 0xdd, 0xa6, 0x4f, 0x74, 0x06, 0x16, 0xd2, 0xda, 0xe9, 0x7c, 0xf9, 0x5b, 0xda,
-	0xc5, 0x25, 0x4b, 0x20, 0x46, 0x7f, 0x32, 0x84, 0x22, 0xaa, 0x24, 0x65, 0x46, 0x13, 0xdc, 0x87,
-	0x93, 0x8f, 0x44, 0x72, 0x5a, 0x4a, 0x9d, 0x2f, 0x5f, 0xd1, 0x10, 0x4b, 0x66, 0x2b, 0xc3, 0xc4,
-	0x66, 0x64, 0x9b, 0xf3, 0x4d, 0x37, 0xa3, 0x42, 0xca, 0x6f, 0x88, 0x19, 0x3b, 0xd4, 0x8a, 0x2c,
-	0xb9, 0x3d, 0x5b, 0x2b, 0xc6, 0xbe, 0x3f, 0x2d, 0xf8, 0xbe, 0x45, 0xad, 0xa1, 0xe0, 0x26, 0x3e,
-	0x4a, 0x86, 0x70, 0xed, 0x17, 0x5b, 0x18, 0xbb, 0xb8, 0xd8, 0xf2, 0x37, 0x85, 0xa7, 0x32, 0x31,
-	0xee, 0x06, 0x7e, 0xd7, 0x0f, 0xed, 0xce, 0x08, 0xd0, 0x32, 0xac, 0x70, 0x7b, 0x6c, 0x29, 0x34,
-	0x52, 0xce, 0x99, 0x36, 0xcc, 0x06, 0xd8, 0x71, 0x43, 0x12, 0x1c, 0x72, 0xe7, 0x78, 0x57, 0x7f,
-	0x17, 0xe2, 0x66, 0x12, 0xa3, 0xb7, 0xf0, 0x47, 0x3d, 0x1c, 0x92, 0xb5, 0x63, 0x5f, 0xfe, 0xf3,
-	0xe5, 0x29, 0x2b, 0x81, 0x45, 0xad, 0x61, 0x2a, 0x25, 0x76, 0x5a, 0x80, 0x9c, 0xdb, 0xe2, 0xda,
-	0xe4, 0xdc, 0xd6, 0x38, 0x8a, 0xa0, 0x76, 0x7a, 0xef, 0x8f, 0xec, 0xa2, 0x8d, 0xc3, 0xe7, 0x42,
-	0x7a, 0xd7, 0x65, 0x6d, 0xd0, 0x5f, 0x0d, 0xda, 0x72, 0xbb, 0xef, 0x13, 0xac, 0x50, 0x7a, 0x84,
-	0x38, 0xcc, 0x0c, 0xb9, 0xc4, 0x0c, 0x29, 0xd7, 0x9c, 0x56, 0x07, 0xf8, 0x8c, 0xdf, 0x4d, 0x2a,
-	0xc4, 0x0b, 0xe5, 0xd7, 0x35, 0xf6, 0x2f, 0xde, 0xb2, 0x1a, 0xf5, 0x3a, 0x8b, 0x03, 0xa0, 0x57,
-	0x01, 0x0d, 0x17, 0x3c, 0xd1, 0xcf, 0x67, 0x57, 0x08, 0x37, 0xb4, 0x77, 0x3a, 0xff, 0x0b, 0x1f,
-	0x45, 0x4d, 0xf8, 0xff, 0x23, 0x18, 0x6a, 0x44, 0x5c, 0x11, 0xa0, 0xcb, 0x57, 0x27, 0xe5, 0x3a,
-	0x61, 0x04, 0x7d, 0x91, 0x13, 0x5b, 0x2e, 0xe3, 0x64, 0x0f, 0xa1, 0xa6, 0x21, 0x0f, 0x9a, 0x55,
-	0x00, 0x5e, 0xda, 0xaa, 0xda, 0x5d, 0x1e, 0x66, 0x3a, 0x15, 0xa7, 0x7a, 0x42, 0x64, 0x09, 0x00,
-	0x43, 0xbb, 0x34, 0x2b, 0xc0, 0xfa, 0x32, 0xcf, 0xbf, 0x49, 0xf3, 0x3d, 0xb1, 0x49, 0x73, 0xf4,
-	0x49, 0x30, 0xd4, 0x32, 0xe8, 0x0e, 0x40, 0x5f, 0xc9, 0x34, 0x8d, 0xa1, 0xb2, 0xe6, 0xd0, 0xaa,
-	0xeb, 0xe5, 0x1b, 0xb0, 0x9c, 0x6a, 0xb0, 0x98, 0xcb, 0x70, 0x72, 0x6b, 0xb3, 0xde, 0xa8, 0xd4,
-	0xeb, 0xd6, 0xed, 0xb5, 0x7b, 0xf5, 0x8d, 0xa5, 0x29, 0xf3, 0x14, 0x2c, 0xd6, 0xb7, 0x7f, 0xb0,
-	0xb1, 0x25, 0x0c, 0x1a, 0x97, 0x11, 0xcc, 0x0b, 0x35, 0x32, 0x13, 0x60, 0xa6, 0xf6, 0x7e, 0xad,
-	0xbe, 0x51, 0x5d, 0x9a, 0x32, 0x8f, 0xc3, 0x74, 0xe5, 0xce, 0x9d, 0x25, 0xe3, 0xf2, 0xff, 0x01,
-	0xf4, 0xab, 0x80, 0xe6, 0x69, 0x58, 0x5e, 0xb7, 0x36, 0x2a, 0xf5, 0x8d, 0x46, 0xc4, 0xa0, 0xb6,
-	0xfe, 0xde, 0x46, 0xb5, 0xb2, 0x34, 0x55, 0xfe, 0x37, 0x82, 0xe9, 0x6a, 0xe8, 0x98, 0xbf, 0x32,
-	0x60, 0x71, 0xb0, 0xa3, 0xff, 0xa6, 0x86, 0xe1, 0xd3, 0xed, 0xfa, 0xc2, 0x3b, 0x63, 0x91, 0x25,
-	0x7b, 0xf1, 0x4b, 0x03, 0x16, 0x06, 0xda, 0xf9, 0x57, 0xb3, 0x20, 0xc6, 0x54, 0x85, 0xef, 0x8c,
-	0x43, 0x95, 0x88, 0xf1, 0x7b, 0x03, 0x56, 0x94, 0x2d, 0xcd, 0xeb, 0x7a, 0xb0, 0x2a, 0xda, 0xc2,
-	0xda, 0xf8, 0xb4, 0x89, 0x60, 0x8f, 0xe1, 0x84, 0xd4, 0x09, 0x2c, 0xeb, 0x61, 0x8a, 0x34, 0x85,
-	0xeb, 0xd9, 0x69, 0x12, 0xfe, 0x3d, 0x98, 0xeb, 0x77, 0xdc, 0x56, 0xf5, 0x81, 0x28, 0x41, 0xe1,
-	0xed, 0x8c, 0x04, 0x09, 0xdb, 0x03, 0x00, 0xa1, 0x81, 0x76, 0x45, 0x0f, 0xa6, 0x4f, 0x51, 0xf8,
-	0x76, 0x56, 0x0a, 0xd1, 0xe0, 0x52, 0x73, 0x4c, 0xd3, 0xe0, 0x22, 0x8d, 0xae, 0xc1, 0x95, 0x3d,
-	0xb1, 0xdf, 0x18, 0xb0, 0x9c, 0xee, 0x68, 0x69, 0x1a, 0x32, 0x45, 0x58, 0x78, 0x77, 0x4c, 0xc2,
-	0x44, 0x9e, 0x5f, 0x1b, 0xb0, 0x94, 0xea, 0xaf, 0xbc, 0xa5, 0x87, 0x3a, 0x48, 0x57, 0xb8, 0x39,
-	0x1e, 0x9d, 0x94, 0x2d, 0x06, 0x1a, 0x57, 0x9a, 0xd9, 0x42, 0xa6, 0xd2, 0xcd, 0x16, 0x43, 0x7a,
-	0x52, 0x8f, 0xe1, 0x84, 0xd4, 0x00, 0x2a, 0x6b, 0x7b, 0x5b, 0x42, 0xa3, 0xeb, 0x23, 0xaa, 0xe6,
-	0x8d, 0xf9, 0x73, 0x98, 0x17, 0x1b, 0x37, 0xaf, 0x6b, 0x43, 0xc5, 0x24, 0x85, 0x6b, 0x99, 0x49,
-	0xe4, 0x8c, 0x2d, 0xb7, 0x54, 0xae, 0x66, 0x71, 0xb2, 0x98, 0x4a, 0x3b, 0x63, 0xab, 0xbb, 0x2a,
-	0x9f, 0x1a, 0x70, 0x4a, 0xf5, 0x47, 0x51, 0xd7, 0x32, 0x9d, 0x03, 0x22, 0x69, 0xa1, 0x32, 0x36,
-	0x69, 0x22, 0xd5, 0x1f, 0x0d, 0x38, 0xad, 0xee, 0xcb, 0xdc, 0xd0, 0xb6, 0x78, 0x9a, 0xb8, 0xb0,
-	0x3e, 0x01, 0xb1, 0x1c, 0x3c, 0x72, 0x77, 0xe5, 0xaa, 0x36, 0xae, 0x40, 0xa5, 0x1d, 0x3c, 0xea,
-	0x96, 0x4a, 0x94, 0xe0, 0xd2, 0x7d, 0x90, 0xb7, 0xb3, 0x62, 0x72, 0x42, 0xdd, 0x04, 0x37, 0xbc,
-	0xef, 0xc1, 0xb7, 0x4c, 0xd1, 0xa4, 0xd0, 0xdf, 0xb2, 0x34, 0x71, 0x86, 0x2d, 0x1b, 0xd1, 0x9c,
-	0xe0, 0xb6, 0x1a, 0x68, 0x2b, 0xe8, 0xdb, 0x4a, 0x26, 0xcc, 0x60, 0xab, 0x21, 0x8d, 0x85, 0xe8,
-	0x9a, 0xa4, 0xec, 0x0b, 0x5c, 0xcf, 0x12, 0x3a, 0x32, 0xad, 0xee, 0x35, 0x69, 0x64, 0x2b, 0x20,
-	0x12, 0x4c, 0x59, 0xbe, 0xd6, 0x14, 0x4c, 0x45, 0xab, 0x2b, 0xd8, 0xc8, 0x8a, 0x75, 0xe4, 0x5d,
-	0xea, 0xf2, 0xb2, 0xa6, 0x77, 0x29, 0x89, 0x75, 0xbd, 0x6b, 0x74, 0xd1, 0xf8, 0x31, 0x9c, 0x90,
-	0xca, 0xbe, 0xe5, 0x2c, 0xa0, 0xd9, 0xae, 0x3a, 0xca, 0xda, 0x6e, 0x3f, 0x85, 0xcb, 0x6f, 0xda,
-	0x4c, 0x29, 0x5c, 0x22, 0xcd, 0x96, 0xc2, 0xd5, 0xaf, 0xc3, 0x48, 0x2a, 0x55, 0xb5, 0xf3, 0x5a,
-	0x16, 0x4d, 0xc7, 0x92, 0x6a, 0x54, 0xf5, 0x32, 0x92, 0x4a, 0x55, 0x3d, 0xbc, 0x96, 0xc5, 0x47,
-	0xc7, 0x92, 0x6a, 0x54, 0x15, 0xf1, 0x73, 0x03, 0xce, 0x8d, 0x2a, 0x08, 0x8e, 0xb3, 0x1d, 0x32,
-	0x44, 0x61, 0x7c, 0x88, 0xe1, 0xb6, 0xe3, 0x2f, 0xde, 0x71, 0x6c, 0xc7, 0x5f, 0xbd, 0x95, 0xb1,
-	0x49, 0x13, 0xa9, 0xfe, 0x6c, 0xc0, 0x8b, 0xc3, 0x0a, 0x71, 0x9a, 0x8f, 0xea, 0x21, 0xe4, 0x85,
-	0x8d, 0x89, 0xc8, 0x13, 0x09, 0xff, 0x62, 0xc0, 0xf9, 0x91, 0xb5, 0x34, 0xdd, 0x04, 0x39, 0x02,
-	0xa3, 0xf0, 0xfd, 0xc9, 0x31, 0x54, 0xaf, 0x78, 0x39, 0x4a, 0xb2, 0xbd, 0xe2, 0xe5, 0x30, 0x59,
-	0x1b, 0x9f, 0x36, 0x16, 0x6c, 0x6d, 0xfb, 0xcb, 0x27, 0x45, 0xe3, 0xab, 0x27, 0x45, 0xe3, 0x5f,
-	0x4f, 0x8a, 0xc6, 0xef, 0x9e, 0x16, 0xa7, 0xbe, 0x7a, 0x5a, 0x9c, 0xfa, 0xc7, 0xd3, 0xe2, 0xd4,
-	0x8f, 0xdf, 0x74, 0x5c, 0xb2, 0xdb, 0xdb, 0x29, 0x35, 0xfd, 0xbd, 0x55, 0x89, 0xcf, 0x6a, 0xe8,
-	0x1e, 0xbc, 0x16, 0x33, 0x5a, 0x3d, 0x58, 0x4d, 0xfe, 0xfd, 0xe5, 0xb0, 0x8b, 0xc3, 0x9d, 0x19,
-	0x3a, 0xf3, 0xc6, 0x7f, 0x03, 0x00, 0x00, 0xff, 0xff, 0xcb, 0xb8, 0x12, 0x49, 0x16, 0x33, 0x00,
-	0x00,
+	// 2530 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xcc, 0x5b, 0x5f, 0x6f, 0x1b, 0xc7,
+	0x11, 0xd7, 0x51, 0xb6, 0x2c, 0x8d, 0x6c, 0xfd, 0x39, 0xcb, 0x0e, 0x4d, 0x3b, 0x8c, 0xb3, 0x35,
+	0x5c, 0xd7, 0x40, 0x28, 0x87, 0x71, 0x92, 0xda, 0x6e, 0x9c, 0x52, 0xb2, 0xd4, 0xb8, 0x35, 0x25,
+	0xe3, 0x48, 0xbb, 0x4d, 0x1b, 0x83, 0x3e, 0x91, 0xcb, 0xd3, 0x35, 0xe4, 0x1d, 0x73, 0xb7, 0xb4,
+	0xa4, 0x16, 0x30, 0x52, 0xa4, 0x40, 0x81, 0x02, 0x45, 0x0b, 0x04, 0x28, 0xda, 0x97, 0x16, 0x88,
+	0xdf, 0x52, 0xa0, 0xaf, 0xfd, 0x0a, 0x79, 0x4c, 0xd1, 0x97, 0x3e, 0x15, 0x85, 0xfd, 0x25, 0xfa,
+	0x58, 0xdc, 0xee, 0xde, 0x71, 0x8f, 0xb7, 0x3c, 0xed, 0x91, 0x76, 0x92, 0x37, 0xde, 0xde, 0xcd,
+	0x6f, 0x7e, 0x33, 0x3b, 0x3b, 0xbb, 0x3b, 0x23, 0xc1, 0x92, 0xd3, 0x26, 0x5d, 0xc7, 0xf2, 0x56,
+	0xc9, 0x7e, 0xa9, 0xe7, 0xb9, 0xc4, 0xd5, 0x5f, 0x25, 0xbb, 0xd8, 0xb7, 0xf7, 0x1d, 0x4c, 0xf6,
+	0x5c, 0xef, 0xc3, 0x92, 0x6f, 0xef, 0xd3, 0xf1, 0xa6, 0xdb, 0x29, 0xf1, 0x6f, 0x0b, 0xe7, 0x2c,
+	0xd7, 0xb5, 0x3a, 0x78, 0xd5, 0xec, 0xd9, 0xab, 0xa6, 0xe3, 0xb8, 0xc4, 0x24, 0xb6, 0xeb, 0xf8,
+	0x0c, 0xa0, 0x70, 0x86, 0xbf, 0xa5, 0x4f, 0x3b, 0xfd, 0xf6, 0xaa, 0xe9, 0x1c, 0xf0, 0x57, 0x2b,
+	0x96, 0x6b, 0xb9, 0xf4, 0xe7, 0x6a, 0xf0, 0x8b, 0x8f, 0xbe, 0x1c, 0x72, 0x30, 0x9b, 0x01, 0x4e,
+	0x03, 0xef, 0xe3, 0x66, 0x9f, 0xb8, 0x1e, 0x7f, 0x5d, 0x0c, 0x5f, 0xfb, 0xcd, 0x5d, 0xdc, 0x35,
+	0x1b, 0x26, 0x21, 0x9e, 0xbd, 0xd3, 0x27, 0x98, 0xbf, 0x3f, 0x17, 0xbe, 0x7f, 0x64, 0x7b, 0xa4,
+	0x6f, 0x76, 0x1a, 0x0c, 0x86, 0xbf, 0x3d, 0x1b, 0xbe, 0x75, 0x9d, 0x46, 0x73, 0xd7, 0xb4, 0x9d,
+	0x46, 0xcb, 0x24, 0x26, 0x7f, 0x89, 0x22, 0xcd, 0x21, 0x66, 0xa3, 0x85, 0xdb, 0xb6, 0x63, 0x0b,
+	0x00, 0xaf, 0x86, 0xdf, 0x38, 0x6d, 0x32, 0xd0, 0xdd, 0x78, 0x64, 0x76, 0xfa, 0x23, 0x19, 0x30,
+	0xa6, 0xa1, 0xd1, 0x71, 0xf3, 0xd8, 0x28, 0xfa, 0x09, 0xe8, 0x55, 0xdf, 0x5a, 0xf7, 0xb0, 0x49,
+	0xf0, 0xd6, 0x66, 0xbd, 0x46, 0x25, 0xf4, 0x3c, 0x1c, 0x6b, 0x06, 0x43, 0xae, 0x97, 0xd7, 0xce,
+	0x6b, 0x97, 0xe6, 0x8c, 0xf0, 0x51, 0xbf, 0x04, 0x8b, 0x4e, 0x9b, 0xb0, 0xcf, 0xd6, 0x4c, 0x1f,
+	0xbf, 0x75, 0x35, 0x9f, 0xa3, 0x5f, 0x0c, 0x0f, 0xa3, 0x2b, 0x50, 0x48, 0x22, 0x1b, 0xd8, 0xef,
+	0xb9, 0x8e, 0x8f, 0x75, 0x1d, 0x8e, 0x34, 0xdd, 0x16, 0xe6, 0xf0, 0xf4, 0x37, 0xfa, 0x54, 0x83,
+	0xe5, 0x48, 0xa4, 0x8a, 0x89, 0x19, 0xb8, 0x28, 0x85, 0xcb, 0x05, 0x38, 0x11, 0x29, 0x5d, 0x0f,
+	0xc0, 0x18, 0x93, 0xf8, 0x60, 0x20, 0x4f, 0xdc, 0x0f, 0xb1, 0x73, 0xbb, 0x95, 0x9f, 0x66, 0xf2,
+	0xfc, 0x31, 0x90, 0xdf, 0xa1, 0x5c, 0xb7, 0x36, 0xeb, 0xb7, 0x4c, 0x62, 0xe6, 0x8f, 0x30, 0xf9,
+	0xd8, 0x20, 0xfa, 0x19, 0x9c, 0x49, 0x90, 0x8a, 0xcc, 0x48, 0x50, 0xd0, 0x0e, 0xa1, 0x90, 0x8b,
+	0x51, 0x40, 0x7f, 0xd2, 0xe0, 0xf4, 0x00, 0xbd, 0xdf, 0x21, 0xf6, 0x8b, 0xb1, 0x7b, 0x3a, 0xbb,
+	0xdd, 0x0f, 0xa1, 0x28, 0x67, 0x36, 0x89, 0xf1, 0x22, 0x0f, 0xf4, 0x00, 0x96, 0xb6, 0x7b, 0xd8,
+	0xf1, 0xb1, 0x59, 0x09, 0xe3, 0x59, 0x7f, 0x19, 0x80, 0x78, 0xa6, 0x4d, 0x1a, 0xe4, 0xa0, 0x17,
+	0x02, 0xce, 0xd1, 0x91, 0xfa, 0x41, 0x0f, 0xeb, 0x97, 0xe1, 0x28, 0x8d, 0x78, 0x6a, 0xf2, 0x7c,
+	0x79, 0xa5, 0xc4, 0x16, 0x79, 0x29, 0x5c, 0xe4, 0xa5, 0x8a, 0x73, 0x60, 0xb0, 0x4f, 0x90, 0x0b,
+	0xf9, 0x7b, 0xbd, 0x96, 0x49, 0x70, 0x6b, 0x58, 0x8b, 0xaf, 0xd7, 0x00, 0xa2, 0x35, 0xe4, 0xe7,
+	0xb5, 0xf3, 0xd3, 0x97, 0xe6, 0xcb, 0x6f, 0x94, 0x0e, 0x4d, 0x39, 0xa5, 0x61, 0x24, 0x43, 0x80,
+	0x41, 0x9f, 0x68, 0xb0, 0x1c, 0x6a, 0xf4, 0x6c, 0xcb, 0x76, 0x02, 0x3f, 0xea, 0x3f, 0x86, 0x63,
+	0x2e, 0x93, 0xa2, 0xe6, 0xcc, 0x97, 0x6f, 0x28, 0xe8, 0x19, 0x45, 0xfc, 0xbd, 0x29, 0x23, 0x44,
+	0x5b, 0x3b, 0x05, 0x27, 0xfb, 0xec, 0xb3, 0x86, 0x4b, 0xd5, 0xd1, 0x94, 0x82, 0x6e, 0xc0, 0x62,
+	0x85, 0xae, 0xf0, 0xbb, 0xa6, 0x67, 0x76, 0x31, 0xc1, 0x5e, 0xb0, 0xd8, 0x1c, 0xb3, 0x1b, 0x2d,
+	0xb6, 0xe0, 0xb7, 0xbe, 0x22, 0x7a, 0x72, 0x2e, 0xf4, 0xd9, 0xff, 0x34, 0x78, 0xa9, 0xea, 0x5b,
+	0x77, 0xb1, 0xd7, 0x76, 0xbd, 0x2e, 0xc3, 0x59, 0x3b, 0xa8, 0xb4, 0xba, 0xb6, 0x93, 0x12, 0x90,
+	0x17, 0x69, 0x52, 0xe0, 0xe9, 0xa6, 0xd1, 0x1c, 0x63, 0x29, 0x9e, 0x86, 0x19, 0x96, 0x96, 0x78,
+	0x2c, 0xf2, 0x27, 0xfd, 0x14, 0xcc, 0x78, 0xb8, 0xdd, 0xb0, 0x5b, 0xf9, 0xa3, 0x8c, 0xa6, 0x87,
+	0xdb, 0xb7, 0x5b, 0xba, 0x01, 0xd0, 0x0b, 0xad, 0xf3, 0xf3, 0x33, 0x74, 0xfa, 0xca, 0x0a, 0x6e,
+	0x1d, 0x72, 0x8c, 0x21, 0xa0, 0xa0, 0x16, 0xbc, 0x32, 0xc2, 0xf2, 0x28, 0xe0, 0x25, 0x76, 0x4a,
+	0x43, 0xfe, 0x0c, 0xcc, 0x52, 0xc3, 0x02, 0xde, 0x43, 0x0b, 0xfe, 0x5f, 0x1a, 0x2c, 0x56, 0x7d,
+	0xab, 0xd2, 0x6a, 0x0d, 0x62, 0x7e, 0xb4, 0x63, 0xc3, 0x2c, 0x99, 0x1b, 0x64, 0x49, 0xfd, 0x2e,
+	0xcc, 0x76, 0xdc, 0x26, 0xdd, 0xea, 0xa8, 0x17, 0x17, 0xca, 0x57, 0x55, 0x2c, 0x0f, 0xb5, 0xdd,
+	0xe1, 0xb2, 0x46, 0x84, 0xa2, 0x7f, 0x1f, 0xce, 0xf2, 0xa5, 0x8f, 0xf7, 0xe8, 0x77, 0x7d, 0x82,
+	0x6f, 0xe1, 0x36, 0x66, 0xfb, 0x0f, 0x9f, 0x91, 0xb4, 0x4f, 0x50, 0x85, 0x46, 0x8d, 0x68, 0x54,
+	0x5a, 0xa2, 0x8f, 0xe2, 0x31, 0x37, 0x88, 0x47, 0xd4, 0x86, 0xe3, 0x1c, 0x82, 0xcd, 0x7c, 0x36,
+	0xa7, 0x5c, 0x82, 0xc5, 0x01, 0xbf, 0x66, 0xe4, 0x9b, 0x39, 0x63, 0x78, 0x18, 0xdd, 0x84, 0x15,
+	0x51, 0x4f, 0x66, 0x9e, 0x0f, 0xe0, 0x44, 0xd5, 0xb7, 0x6a, 0x98, 0x04, 0xdb, 0xdc, 0x3d, 0xcf,
+	0xce, 0x48, 0xb4, 0x08, 0xe0, 0xe0, 0x3d, 0x2e, 0xcb, 0x39, 0x0a, 0x23, 0xe8, 0x1d, 0x38, 0x15,
+	0x83, 0x4f, 0xe5, 0xb7, 0x04, 0xd3, 0x7d, 0xcf, 0xe6, 0xf8, 0xc1, 0x4f, 0xe4, 0xd2, 0xe8, 0xaa,
+	0xbb, 0x96, 0xd5, 0xc1, 0x63, 0x39, 0x72, 0xb0, 0x10, 0xa7, 0x63, 0x0b, 0xf1, 0x34, 0xcc, 0xf8,
+	0xc4, 0x24, 0x7d, 0x9f, 0x86, 0xc3, 0xac, 0xc1, 0x9f, 0xd0, 0xfb, 0x74, 0xe6, 0x45, 0x85, 0x59,
+	0x3d, 0x2a, 0x40, 0x4f, 0xc7, 0xa0, 0x3d, 0x3a, 0x53, 0xeb, 0xbb, 0xa6, 0x63, 0x61, 0xb6, 0xb8,
+	0xb6, 0xf7, 0x1c, 0xec, 0x4d, 0xbc, 0x31, 0x16, 0x60, 0xd6, 0xc1, 0x7b, 0x14, 0x8b, 0x1b, 0x19,
+	0x3d, 0xa3, 0x87, 0x70, 0x4e, 0xa6, 0x33, 0xe3, 0x96, 0x27, 0x6a, 0xc8, 0x0d, 0x69, 0x78, 0x00,
+	0x67, 0xab, 0xbe, 0x65, 0x60, 0xff, 0xc0, 0x69, 0x0e, 0xf2, 0xfa, 0x73, 0x3b, 0x50, 0xfc, 0x9e,
+	0x9d, 0xa1, 0x6a, 0xbb, 0xee, 0x9e, 0xb0, 0xdd, 0x4d, 0xea, 0x32, 0x1d, 0x8e, 0xf8, 0xbb, 0xee,
+	0x1e, 0x9f, 0x20, 0xfa, 0x5b, 0xbf, 0x08, 0x0b, 0xd1, 0xde, 0xb7, 0x65, 0x76, 0x71, 0x10, 0x19,
+	0xc1, 0xf6, 0x3e, 0x34, 0x8a, 0xae, 0xd1, 0xf3, 0x53, 0x9c, 0x50, 0x64, 0xee, 0x39, 0x98, 0x8b,
+	0x34, 0x85, 0xbb, 0x7d, 0x34, 0x80, 0x5c, 0x38, 0x29, 0xf1, 0xd5, 0x8b, 0x3b, 0x11, 0xa2, 0xcf,
+	0x59, 0x76, 0xae, 0x61, 0xb2, 0x89, 0xf1, 0xba, 0xeb, 0xb4, 0x6d, 0x2b, 0x45, 0x5b, 0x09, 0x74,
+	0x07, 0xef, 0x45, 0x5f, 0xc6, 0x8e, 0xc3, 0x92, 0x37, 0x7a, 0x15, 0xa0, 0x8d, 0x71, 0xad, 0xbf,
+	0xf3, 0x73, 0xdc, 0x24, 0x3c, 0x77, 0xbf, 0xa6, 0x90, 0xbb, 0x37, 0x23, 0x21, 0x43, 0x00, 0x40,
+	0x67, 0xe8, 0xd2, 0x13, 0xb9, 0x86, 0x6e, 0x45, 0x9f, 0x69, 0xb0, 0xc0, 0xde, 0x55, 0x6d, 0x87,
+	0x98, 0x7d, 0xb2, 0x3b, 0xb1, 0xd3, 0xee, 0xc2, 0x7c, 0x80, 0xe3, 0x7a, 0xf6, 0x2f, 0x70, 0xdd,
+	0xe5, 0xec, 0x4b, 0x2a, 0x3b, 0xcf, 0x40, 0xca, 0x10, 0x21, 0xd0, 0x4d, 0x7a, 0xf4, 0x15, 0x38,
+	0x66, 0x5b, 0x04, 0xc8, 0x62, 0xb7, 0x05, 0xba, 0x56, 0xb7, 0x3d, 0xeb, 0xb0, 0xe4, 0x90, 0x87,
+	0x63, 0xae, 0x67, 0x6d, 0x0d, 0xb2, 0x4f, 0xf8, 0x18, 0xe4, 0x64, 0xe2, 0x6e, 0xc5, 0x53, 0x82,
+	0x30, 0x82, 0xba, 0xec, 0x06, 0x10, 0x53, 0x14, 0x71, 0x15, 0x60, 0xb5, 0x38, 0x6c, 0x01, 0x66,
+	0xdd, 0x4e, 0x2b, 0x96, 0x05, 0xc2, 0xe7, 0xd4, 0x1c, 0xe4, 0x41, 0x9e, 0xf9, 0x85, 0xa6, 0x7f,
+	0xe2, 0xd9, 0xf8, 0x91, 0xd9, 0xa9, 0x62, 0xb2, 0xeb, 0xb6, 0x52, 0xcc, 0x2b, 0x02, 0xf8, 0xc3,
+	0x53, 0x28, 0x8c, 0xd0, 0x95, 0x86, 0xf7, 0x18, 0x0c, 0x55, 0x79, 0xd4, 0x18, 0x0c, 0xa0, 0x87,
+	0x70, 0x7e, 0x94, 0xce, 0xc8, 0xd2, 0xb8, 0x06, 0x2d, 0x5d, 0x43, 0x8e, 0xaf, 0xe5, 0x48, 0x43,
+	0x9f, 0xe5, 0x25, 0x4c, 0xd8, 0xd1, 0x78, 0x3d, 0xb8, 0x03, 0x4f, 0x60, 0xce, 0x45, 0x58, 0x08,
+	0x1c, 0x36, 0xc0, 0xe2, 0x6e, 0x1c, 0x1a, 0x45, 0x4d, 0x96, 0x7d, 0x62, 0x6a, 0x95, 0x2d, 0x4a,
+	0x2a, 0xc9, 0x49, 0x95, 0x7c, 0xac, 0xd1, 0xad, 0x6a, 0xa0, 0xc5, 0x75, 0x88, 0x67, 0x36, 0xc9,
+	0x04, 0xf6, 0xb1, 0xdc, 0x12, 0x02, 0x55, 0x5a, 0x2d, 0x0f, 0xfb, 0x3e, 0xb7, 0x51, 0xf2, 0x06,
+	0x39, 0x74, 0xe3, 0x4a, 0x30, 0x50, 0x36, 0x55, 0xae, 0x2f, 0x37, 0x52, 0xdf, 0xc7, 0x5a, 0x18,
+	0xa5, 0x51, 0x62, 0xde, 0x7e, 0x84, 0x3d, 0xbb, 0x65, 0x3b, 0xd6, 0x04, 0x66, 0x5f, 0x86, 0xa5,
+	0xc0, 0xb7, 0x21, 0x52, 0x70, 0xe7, 0xe3, 0xc1, 0x9a, 0x18, 0x47, 0xed, 0x30, 0x66, 0x93, 0x0c,
+	0x94, 0xcd, 0x46, 0x70, 0x5c, 0xc4, 0xe5, 0x8c, 0x62, 0x63, 0xc8, 0x09, 0x27, 0x37, 0xbc, 0x00,
+	0x6f, 0xba, 0x5e, 0xd7, 0x24, 0x13, 0xaf, 0x45, 0x06, 0xc3, 0xe7, 0x74, 0x30, 0x80, 0x3e, 0x08,
+	0xa7, 0x32, 0xae, 0x2f, 0xe3, 0x3a, 0xe4, 0xe8, 0xb9, 0x61, 0xf4, 0x4f, 0xd8, 0x0d, 0x8f, 0xdd,
+	0xeb, 0xd9, 0x89, 0x6d, 0x83, 0x17, 0xba, 0x26, 0xde, 0x23, 0x2e, 0xc1, 0x62, 0x58, 0x34, 0x8b,
+	0x47, 0xec, 0xf0, 0x30, 0xfa, 0x88, 0x5e, 0xb6, 0x64, 0x24, 0x32, 0x9e, 0x84, 0x24, 0x2a, 0x73,
+	0x72, 0x95, 0xdc, 0x70, 0x76, 0xb3, 0xfe, 0x9a, 0x0d, 0x97, 0x91, 0x78, 0xd1, 0x86, 0xdf, 0xc2,
+	0x1d, 0xfc, 0xb5, 0x1b, 0x2e, 0x23, 0xf1, 0xc2, 0x0c, 0xff, 0x8c, 0xe5, 0x28, 0xe6, 0x6c, 0x86,
+	0xa0, 0x72, 0xe9, 0x56, 0xb3, 0x7c, 0x13, 0x8a, 0xec, 0x58, 0xc7, 0xe7, 0x32, 0x79, 0x6f, 0x66,
+	0x8e, 0x38, 0xe4, 0x2b, 0xf4, 0x01, 0xcd, 0x62, 0x52, 0x8e, 0x19, 0x1d, 0x23, 0xbb, 0xad, 0xfe,
+	0x8a, 0x1d, 0x68, 0xc5, 0x78, 0x9b, 0xd8, 0xf2, 0x12, 0xe8, 0x3b, 0xa2, 0x4d, 0xe2, 0x75, 0x51,
+	0xf2, 0x06, 0xd5, 0x12, 0xeb, 0xee, 0x39, 0x18, 0xf6, 0x44, 0x2c, 0x9c, 0xde, 0x67, 0xf5, 0xee,
+	0xe7, 0x64, 0xdf, 0x6d, 0x7a, 0x45, 0x67, 0x60, 0x3e, 0xad, 0x9d, 0xce, 0x97, 0xbf, 0xa3, 0x5c,
+	0x5c, 0x32, 0x04, 0x61, 0xf4, 0x17, 0x4d, 0x28, 0xa2, 0xc6, 0x58, 0x66, 0x74, 0xc1, 0x7d, 0x38,
+	0xf1, 0x48, 0x14, 0xa7, 0xa5, 0xd4, 0xf9, 0xf2, 0x15, 0x05, 0x5a, 0x71, 0xb5, 0x71, 0x98, 0xd0,
+	0x8d, 0x6c, 0x72, 0xbe, 0xe9, 0x6e, 0x94, 0xb0, 0xfc, 0x86, 0xb8, 0xb1, 0x43, 0xbd, 0xc8, 0x92,
+	0xdb, 0xf3, 0xf5, 0x62, 0x18, 0xfb, 0xd3, 0x42, 0xec, 0x1b, 0xd4, 0x1b, 0x12, 0x6d, 0xe2, 0xa5,
+	0x64, 0x84, 0xd6, 0x41, 0xb1, 0x85, 0xa9, 0x0b, 0x8b, 0x2d, 0xff, 0x94, 0x44, 0x2a, 0xa3, 0x71,
+	0xd7, 0x73, 0x7b, 0xae, 0x6f, 0x76, 0x52, 0x40, 0xcb, 0xb0, 0xc2, 0xfd, 0xb1, 0x25, 0xb1, 0x48,
+	0xfa, 0x4e, 0x37, 0x61, 0xd6, 0xc3, 0x96, 0xed, 0x13, 0xef, 0x80, 0x07, 0xc7, 0xbb, 0xea, 0xb3,
+	0x10, 0x36, 0x93, 0x98, 0xbc, 0x81, 0x3f, 0xea, 0x63, 0x9f, 0xac, 0x1d, 0xf9, 0xe2, 0x3f, 0xaf,
+	0x4c, 0x19, 0x11, 0x2c, 0x6a, 0x8d, 0x32, 0x29, 0xf2, 0xd3, 0x02, 0xe4, 0xec, 0x16, 0xb7, 0x26,
+	0x67, 0xb7, 0xc6, 0x31, 0x04, 0xb5, 0x93, 0x73, 0x7f, 0x68, 0x17, 0x6d, 0x1c, 0x3d, 0xe7, 0x93,
+	0xb3, 0x1e, 0xb7, 0x06, 0xfd, 0x43, 0xa3, 0x2d, 0xb7, 0xfb, 0x2e, 0xc1, 0x12, 0xa3, 0x53, 0xe8,
+	0x30, 0x37, 0xe4, 0x22, 0x37, 0x24, 0x42, 0x73, 0x5a, 0xbe, 0xc0, 0x67, 0xdc, 0x5e, 0x54, 0x21,
+	0x5e, 0x28, 0xbf, 0xae, 0x30, 0x7f, 0xe1, 0x94, 0xd5, 0x68, 0xd4, 0x19, 0x1c, 0x00, 0x5d, 0x00,
+	0x34, 0x9a, 0x78, 0x64, 0xdf, 0xe7, 0x39, 0xb1, 0x39, 0x31, 0xce, 0x3a, 0x13, 0x6e, 0xff, 0xf1,
+	0x41, 0xbd, 0x0a, 0xc0, 0x8b, 0x40, 0x55, 0xb3, 0xc7, 0x03, 0x52, 0xa5, 0x36, 0x53, 0x8f, 0x84,
+	0x0c, 0x01, 0x60, 0x64, 0x3f, 0x63, 0x05, 0x58, 0x07, 0xe3, 0xc5, 0xb7, 0x33, 0x7e, 0x20, 0xb6,
+	0x33, 0x0e, 0xcf, 0x99, 0x23, 0x3d, 0x83, 0xee, 0x00, 0x0c, 0x8c, 0x4c, 0xca, 0x68, 0x32, 0x6f,
+	0x8e, 0xae, 0x4f, 0x3a, 0x34, 0x8a, 0x37, 0x1c, 0x73, 0xa7, 0xf3, 0x55, 0xa4, 0x19, 0xb4, 0x03,
+	0x17, 0xd3, 0xf5, 0x29, 0xe4, 0xcc, 0x22, 0x40, 0x8f, 0x7f, 0x1d, 0x19, 0x24, 0x8c, 0x20, 0x97,
+	0x1d, 0x6d, 0x6d, 0xff, 0xab, 0x32, 0xaa, 0x09, 0xdf, 0x3e, 0x44, 0xe1, 0xe4, 0x56, 0x5d, 0xbe,
+	0x01, 0xcb, 0x89, 0xa6, 0x91, 0xbe, 0x0c, 0x27, 0xb6, 0x36, 0xeb, 0x8d, 0x4a, 0xbd, 0x6e, 0xdc,
+	0x5e, 0xbb, 0x57, 0xdf, 0x58, 0x9a, 0xd2, 0x4f, 0xc2, 0x62, 0x7d, 0xfb, 0x47, 0x1b, 0x5b, 0xc2,
+	0xa0, 0x76, 0x19, 0xc1, 0xbc, 0x50, 0xf7, 0xd3, 0x01, 0x66, 0x6a, 0xef, 0xd7, 0xea, 0x1b, 0xd5,
+	0xa5, 0x29, 0xfd, 0x18, 0x4c, 0x57, 0xee, 0xdc, 0x59, 0xd2, 0x2e, 0x7f, 0x0b, 0x60, 0x50, 0xd9,
+	0xd4, 0x4f, 0xc1, 0xf2, 0xba, 0xb1, 0x51, 0xa9, 0x6f, 0x34, 0x02, 0x05, 0xb5, 0xf5, 0xf7, 0x36,
+	0xaa, 0x95, 0xa5, 0xa9, 0xf2, 0x93, 0x0b, 0x30, 0x5d, 0xf5, 0x2d, 0xfd, 0x37, 0x1a, 0x2c, 0x0e,
+	0xff, 0x95, 0xc2, 0x9b, 0x0a, 0x4b, 0x24, 0xf9, 0x27, 0x08, 0x85, 0x77, 0xc6, 0x12, 0x8b, 0x3c,
+	0xfa, 0x6b, 0x0d, 0x16, 0x86, 0xfe, 0x44, 0xe1, 0x6a, 0x16, 0xc4, 0x50, 0xaa, 0xf0, 0xbd, 0x71,
+	0xa4, 0x22, 0x1a, 0x7f, 0xd4, 0x60, 0x45, 0xda, 0xa6, 0xbd, 0xae, 0x06, 0x2b, 0x93, 0x2d, 0xac,
+	0x8d, 0x2f, 0x1b, 0x11, 0x7b, 0x0c, 0xc7, 0x63, 0xdd, 0xcd, 0xb2, 0x1a, 0xa6, 0x28, 0x53, 0xb8,
+	0x9e, 0x5d, 0x26, 0xd2, 0xdf, 0x87, 0xb9, 0x41, 0x17, 0x71, 0x55, 0x1d, 0x88, 0x0a, 0x14, 0xde,
+	0xce, 0x28, 0x10, 0xa9, 0xdd, 0x07, 0x10, 0x9a, 0x82, 0x57, 0xd4, 0x60, 0x06, 0x12, 0x85, 0xef,
+	0x66, 0x95, 0x10, 0x1d, 0x1e, 0x6b, 0xf8, 0x29, 0x3a, 0x5c, 0x94, 0x51, 0x75, 0xb8, 0xb4, 0xcf,
+	0xf7, 0x3b, 0x0d, 0x96, 0x93, 0x5d, 0x3a, 0x45, 0x47, 0x26, 0x04, 0x0b, 0xef, 0x8e, 0x29, 0x18,
+	0xf1, 0xf9, 0xad, 0x06, 0x4b, 0x89, 0x9e, 0xd1, 0x5b, 0x6a, 0xa8, 0xc3, 0x72, 0x85, 0x9b, 0xe3,
+	0xc9, 0xc5, 0xb2, 0xc5, 0x50, 0x33, 0x4e, 0x31, 0x5b, 0xc4, 0xa5, 0x54, 0xb3, 0xc5, 0x88, 0x3e,
+	0xdb, 0x63, 0x38, 0x1e, 0x6b, 0x6a, 0x95, 0x95, 0xa3, 0x2d, 0x92, 0x51, 0x8d, 0x11, 0x59, 0x43,
+	0x4a, 0xff, 0x25, 0xcc, 0x8b, 0xcd, 0xa8, 0xd7, 0x95, 0xa1, 0x42, 0x91, 0xc2, 0xb5, 0xcc, 0x22,
+	0xf1, 0x8c, 0x1d, 0x6f, 0x13, 0x5d, 0xcd, 0x12, 0x64, 0xa1, 0x94, 0x72, 0xc6, 0x96, 0x77, 0x8a,
+	0x3e, 0xd5, 0xe0, 0xa4, 0xec, 0x0f, 0xbd, 0xae, 0x65, 0xda, 0x07, 0x44, 0xd1, 0x42, 0x65, 0x6c,
+	0xd1, 0x88, 0xd5, 0x9f, 0x35, 0x38, 0x25, 0xef, 0x35, 0xdd, 0x50, 0xf6, 0x78, 0x52, 0xb8, 0xb0,
+	0x3e, 0x81, 0x70, 0x7c, 0xf1, 0xc4, 0x3b, 0x46, 0x57, 0x95, 0x71, 0x05, 0x29, 0xe5, 0xc5, 0x23,
+	0x6f, 0x13, 0x05, 0x09, 0x2e, 0xd9, 0xdb, 0x79, 0x3b, 0x2b, 0x26, 0x17, 0x54, 0x4d, 0x70, 0xa3,
+	0x7b, 0x39, 0x7c, 0xca, 0x24, 0x8d, 0x17, 0xf5, 0x29, 0x4b, 0x0a, 0x67, 0x98, 0xb2, 0x94, 0x86,
+	0x0b, 0xf7, 0xd5, 0x50, 0xab, 0x44, 0xdd, 0x57, 0x71, 0xc1, 0x0c, 0xbe, 0x1a, 0xd1, 0x2c, 0x09,
+	0x8e, 0x49, 0xd2, 0x5e, 0xc7, 0xf5, 0x2c, 0x4b, 0x27, 0x2e, 0xab, 0x7a, 0x4c, 0x4a, 0x6d, 0x6f,
+	0x04, 0xc4, 0xa4, 0x25, 0x79, 0x45, 0x62, 0x32, 0x59, 0x55, 0x62, 0xa9, 0x55, 0xf8, 0x20, 0xba,
+	0xe4, 0x25, 0x73, 0xc5, 0xe8, 0x92, 0x0a, 0xab, 0x46, 0x57, 0x7a, 0x21, 0xfc, 0x31, 0x1c, 0x8f,
+	0x95, 0xb2, 0xcb, 0x59, 0x40, 0xb3, 0x1d, 0x75, 0xa4, 0xf5, 0xea, 0x41, 0x0a, 0x8f, 0x57, 0x1f,
+	0x32, 0xa5, 0xf0, 0x98, 0x68, 0xb6, 0x14, 0x2e, 0xbf, 0xc7, 0x07, 0xac, 0x64, 0x15, 0xdc, 0x6b,
+	0x59, 0x2c, 0x1d, 0x8b, 0x55, 0x5a, 0x45, 0x36, 0x60, 0x25, 0xab, 0x88, 0x5e, 0xcb, 0x12, 0xa3,
+	0x63, 0xb1, 0x4a, 0xab, 0x8c, 0x3e, 0xd1, 0xe0, 0x6c, 0x5a, 0x91, 0x73, 0x9c, 0xe9, 0x88, 0x43,
+	0x14, 0xc6, 0x87, 0x18, 0xed, 0x3b, 0x7e, 0xe3, 0x1d, 0xc7, 0x77, 0xfc, 0xd6, 0x5b, 0x19, 0x5b,
+	0x34, 0x62, 0xf5, 0x57, 0x0d, 0x5e, 0x1a, 0x55, 0x5c, 0x54, 0xbc, 0x54, 0x8f, 0x10, 0x2f, 0x6c,
+	0x4c, 0x24, 0x2e, 0xbb, 0x14, 0xc7, 0x83, 0x2e, 0xdb, 0xa5, 0x38, 0x1e, 0x75, 0x6b, 0xe3, 0xcb,
+	0x46, 0xc4, 0xfe, 0xa6, 0xc1, 0xd9, 0xb4, 0xa2, 0x97, 0xe2, 0xec, 0xa4, 0x40, 0x14, 0x6e, 0x4f,
+	0x0c, 0x11, 0xb1, 0xfd, 0xbb, 0x06, 0xe7, 0x52, 0xcb, 0x59, 0xaa, 0xfb, 0x4c, 0x0a, 0x46, 0xe1,
+	0x87, 0x93, 0x63, 0x84, 0x84, 0xd7, 0xb6, 0xbf, 0x78, 0x5a, 0xd4, 0xbe, 0x7c, 0x5a, 0xd4, 0xfe,
+	0xfb, 0xb4, 0xa8, 0xfd, 0xe1, 0x59, 0x71, 0xea, 0xcb, 0x67, 0xc5, 0xa9, 0x7f, 0x3f, 0x2b, 0x4e,
+	0xfd, 0xf4, 0x4d, 0xcb, 0x26, 0xbb, 0xfd, 0x9d, 0x52, 0xd3, 0xed, 0xae, 0xc6, 0xf4, 0xad, 0xfa,
+	0xf6, 0xfe, 0x6b, 0xa1, 0xc2, 0xd5, 0xfd, 0xd5, 0xe8, 0x1f, 0x90, 0x0e, 0x7a, 0xd8, 0xdf, 0x99,
+	0xa1, 0x6f, 0xde, 0xf8, 0x7f, 0x00, 0x00, 0x00, 0xff, 0xff, 0xbd, 0x7c, 0xa3, 0x0a, 0x98, 0x34,
+	0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -4594,8 +4358,9 @@ type MsgClient interface {
 	CreateVirtualSchemaProposal(ctx context.Context, in *MsgCreateVirtualSchemaProposal, opts ...grpc.CallOption) (*MsgCreateVirtualSchemaResponse, error)
 	DeleteVirtualSchema(ctx context.Context, in *MsgDeleteVirtualSchema, opts ...grpc.CallOption) (*MsgDeleteVirtualSchemaResponse, error)
 	VoteCreateVirtualSchema(ctx context.Context, in *MsgVoteCreateVirtualSchema, opts ...grpc.CallOption) (*MsgVoteCreateVirtualSchemaResponse, error)
-	DisableVirtualSchemaProposal(ctx context.Context, in *MsgDisableVirtualSchemaProposal, opts ...grpc.CallOption) (*MsgDisableVirtualSchemaProposalResponse, error)
 	PerformVirtualAction(ctx context.Context, in *MsgPerformVirtualAction, opts ...grpc.CallOption) (*MsgPerformVirtualActionResponse, error)
+	EnableVirtualSchemaProposal(ctx context.Context, in *MsgEnableVirtualSchemaProposal, opts ...grpc.CallOption) (*MsgEnableVirtualSchemaProposalResponse, error)
+	DisableVirtualSchemaProposal(ctx context.Context, in *MsgDisableVirtualSchemaProposal, opts ...grpc.CallOption) (*MsgDisableVirtualSchemaProposalResponse, error)
 }
 
 type msgClient struct {
@@ -4867,18 +4632,27 @@ func (c *msgClient) VoteCreateVirtualSchema(ctx context.Context, in *MsgVoteCrea
 	return out, nil
 }
 
-func (c *msgClient) DisableVirtualSchemaProposal(ctx context.Context, in *MsgDisableVirtualSchemaProposal, opts ...grpc.CallOption) (*MsgDisableVirtualSchemaProposalResponse, error) {
-	out := new(MsgDisableVirtualSchemaProposalResponse)
-	err := c.cc.Invoke(ctx, "/thesixnetwork.sixprotocol.nftmngr.Msg/DisableVirtualSchemaProposal", in, out, opts...)
+func (c *msgClient) PerformVirtualAction(ctx context.Context, in *MsgPerformVirtualAction, opts ...grpc.CallOption) (*MsgPerformVirtualActionResponse, error) {
+	out := new(MsgPerformVirtualActionResponse)
+	err := c.cc.Invoke(ctx, "/thesixnetwork.sixprotocol.nftmngr.Msg/PerformVirtualAction", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *msgClient) PerformVirtualAction(ctx context.Context, in *MsgPerformVirtualAction, opts ...grpc.CallOption) (*MsgPerformVirtualActionResponse, error) {
-	out := new(MsgPerformVirtualActionResponse)
-	err := c.cc.Invoke(ctx, "/thesixnetwork.sixprotocol.nftmngr.Msg/PerformVirtualAction", in, out, opts...)
+func (c *msgClient) EnableVirtualSchemaProposal(ctx context.Context, in *MsgEnableVirtualSchemaProposal, opts ...grpc.CallOption) (*MsgEnableVirtualSchemaProposalResponse, error) {
+	out := new(MsgEnableVirtualSchemaProposalResponse)
+	err := c.cc.Invoke(ctx, "/thesixnetwork.sixprotocol.nftmngr.Msg/EnableVirtualSchemaProposal", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) DisableVirtualSchemaProposal(ctx context.Context, in *MsgDisableVirtualSchemaProposal, opts ...grpc.CallOption) (*MsgDisableVirtualSchemaProposalResponse, error) {
+	out := new(MsgDisableVirtualSchemaProposalResponse)
+	err := c.cc.Invoke(ctx, "/thesixnetwork.sixprotocol.nftmngr.Msg/DisableVirtualSchemaProposal", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -4916,135 +4690,110 @@ type MsgServer interface {
 	CreateVirtualSchemaProposal(context.Context, *MsgCreateVirtualSchemaProposal) (*MsgCreateVirtualSchemaResponse, error)
 	DeleteVirtualSchema(context.Context, *MsgDeleteVirtualSchema) (*MsgDeleteVirtualSchemaResponse, error)
 	VoteCreateVirtualSchema(context.Context, *MsgVoteCreateVirtualSchema) (*MsgVoteCreateVirtualSchemaResponse, error)
-	DisableVirtualSchemaProposal(context.Context, *MsgDisableVirtualSchemaProposal) (*MsgDisableVirtualSchemaProposalResponse, error)
 	PerformVirtualAction(context.Context, *MsgPerformVirtualAction) (*MsgPerformVirtualActionResponse, error)
+	EnableVirtualSchemaProposal(context.Context, *MsgEnableVirtualSchemaProposal) (*MsgEnableVirtualSchemaProposalResponse, error)
+	DisableVirtualSchemaProposal(context.Context, *MsgDisableVirtualSchemaProposal) (*MsgDisableVirtualSchemaProposalResponse, error)
 }
 
 // UnimplementedMsgServer can be embedded to have forward compatible implementations.
-type UnimplementedMsgServer struct{}
+type UnimplementedMsgServer struct {
+}
 
 func (*UnimplementedMsgServer) CreateNFTSchema(ctx context.Context, req *MsgCreateNFTSchema) (*MsgCreateNFTSchemaResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateNFTSchema not implemented")
 }
-
 func (*UnimplementedMsgServer) CreateMetadata(ctx context.Context, req *MsgCreateMetadata) (*MsgCreateMetadataResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateMetadata not implemented")
 }
-
 func (*UnimplementedMsgServer) PerformActionByAdmin(ctx context.Context, req *MsgPerformActionByAdmin) (*MsgPerformActionByAdminResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PerformActionByAdmin not implemented")
 }
-
 func (*UnimplementedMsgServer) AddAttribute(ctx context.Context, req *MsgAddAttribute) (*MsgAddAttributeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddAttribute not implemented")
 }
-
 func (*UnimplementedMsgServer) AddAction(ctx context.Context, req *MsgAddAction) (*MsgAddActionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddAction not implemented")
 }
-
 func (*UnimplementedMsgServer) SetBaseUri(ctx context.Context, req *MsgSetBaseUri) (*MsgSetBaseUriResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetBaseUri not implemented")
 }
-
 func (*UnimplementedMsgServer) ToggleAction(ctx context.Context, req *MsgToggleAction) (*MsgToggleActionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ToggleAction not implemented")
 }
-
 func (*UnimplementedMsgServer) ChangeSchemaOwner(ctx context.Context, req *MsgChangeSchemaOwner) (*MsgChangeSchemaOwnerResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ChangeSchemaOwner not implemented")
 }
-
 func (*UnimplementedMsgServer) ResyncAttributes(ctx context.Context, req *MsgResyncAttributes) (*MsgResyncAttributesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ResyncAttributes not implemented")
 }
-
 func (*UnimplementedMsgServer) ShowAttributes(ctx context.Context, req *MsgShowAttributes) (*MsgShowAttributesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ShowAttributes not implemented")
 }
-
 func (*UnimplementedMsgServer) SetFeeConfig(ctx context.Context, req *MsgSetFeeConfig) (*MsgSetFeeConfigResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetFeeConfig not implemented")
 }
-
 func (*UnimplementedMsgServer) SetMintauth(ctx context.Context, req *MsgSetMintauth) (*MsgSetMintauthResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetMintauth not implemented")
 }
-
 func (*UnimplementedMsgServer) ChangeOrgOwner(ctx context.Context, req *MsgChangeOrgOwner) (*MsgChangeOrgOwnerResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ChangeOrgOwner not implemented")
 }
-
 func (*UnimplementedMsgServer) CreateMultiMetadata(ctx context.Context, req *MsgCreateMultiMetadata) (*MsgCreateMultiMetadataResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateMultiMetadata not implemented")
 }
-
 func (*UnimplementedMsgServer) SetUriRetrievalMethod(ctx context.Context, req *MsgSetUriRetrievalMethod) (*MsgSetUriRetrievalMethodResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetUriRetrievalMethod not implemented")
 }
-
 func (*UnimplementedMsgServer) SetOriginChain(ctx context.Context, req *MsgSetOriginChain) (*MsgSetOriginChainResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetOriginChain not implemented")
 }
-
 func (*UnimplementedMsgServer) SetOriginContract(ctx context.Context, req *MsgSetOriginContract) (*MsgSetOriginContractResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetOriginContract not implemented")
 }
-
 func (*UnimplementedMsgServer) SetAttributeOveriding(ctx context.Context, req *MsgSetAttributeOveriding) (*MsgSetAttributeOveridingResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetAttributeOveriding not implemented")
 }
-
 func (*UnimplementedMsgServer) SetMetadataFormat(ctx context.Context, req *MsgSetMetadataFormat) (*MsgSetMetadataFormatResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetMetadataFormat not implemented")
 }
-
 func (*UnimplementedMsgServer) CreateActionExecutor(ctx context.Context, req *MsgCreateActionExecutor) (*MsgCreateActionExecutorResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateActionExecutor not implemented")
 }
-
 func (*UnimplementedMsgServer) DeleteActionExecutor(ctx context.Context, req *MsgDeleteActionExecutor) (*MsgDeleteActionExecutorResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteActionExecutor not implemented")
 }
-
 func (*UnimplementedMsgServer) UpdateSchemaAttribute(ctx context.Context, req *MsgUpdateSchemaAttribute) (*MsgUpdateSchemaAttributeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateSchemaAttribute not implemented")
 }
-
 func (*UnimplementedMsgServer) UpdateAction(ctx context.Context, req *MsgUpdateAction) (*MsgUpdateActionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAction not implemented")
 }
-
 func (*UnimplementedMsgServer) CreateVirtualAction(ctx context.Context, req *MsgCreateVirtualAction) (*MsgCreateVirtualActionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateVirtualAction not implemented")
 }
-
 func (*UnimplementedMsgServer) UpdateVirtualAction(ctx context.Context, req *MsgUpdateVirtualAction) (*MsgUpdateVirtualActionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateVirtualAction not implemented")
 }
-
 func (*UnimplementedMsgServer) DeleteVirtualAction(ctx context.Context, req *MsgDeleteVirtualAction) (*MsgDeleteVirtualActionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteVirtualAction not implemented")
 }
-
 func (*UnimplementedMsgServer) CreateVirtualSchemaProposal(ctx context.Context, req *MsgCreateVirtualSchemaProposal) (*MsgCreateVirtualSchemaResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateVirtualSchemaProposal not implemented")
 }
-
 func (*UnimplementedMsgServer) DeleteVirtualSchema(ctx context.Context, req *MsgDeleteVirtualSchema) (*MsgDeleteVirtualSchemaResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteVirtualSchema not implemented")
 }
-
 func (*UnimplementedMsgServer) VoteCreateVirtualSchema(ctx context.Context, req *MsgVoteCreateVirtualSchema) (*MsgVoteCreateVirtualSchemaResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method VoteCreateVirtualSchema not implemented")
 }
-
-func (*UnimplementedMsgServer) DisableVirtualSchemaProposal(ctx context.Context, req *MsgDisableVirtualSchemaProposal) (*MsgDisableVirtualSchemaProposalResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DisableVirtualSchemaProposal not implemented")
-}
-
 func (*UnimplementedMsgServer) PerformVirtualAction(ctx context.Context, req *MsgPerformVirtualAction) (*MsgPerformVirtualActionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PerformVirtualAction not implemented")
+}
+func (*UnimplementedMsgServer) EnableVirtualSchemaProposal(ctx context.Context, req *MsgEnableVirtualSchemaProposal) (*MsgEnableVirtualSchemaProposalResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EnableVirtualSchemaProposal not implemented")
+}
+func (*UnimplementedMsgServer) DisableVirtualSchemaProposal(ctx context.Context, req *MsgDisableVirtualSchemaProposal) (*MsgDisableVirtualSchemaProposalResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DisableVirtualSchemaProposal not implemented")
 }
 
 func RegisterMsgServer(s grpc1.Server, srv MsgServer) {
@@ -5573,24 +5322,6 @@ func _Msg_VoteCreateVirtualSchema_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Msg_DisableVirtualSchemaProposal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgDisableVirtualSchemaProposal)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MsgServer).DisableVirtualSchemaProposal(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/thesixnetwork.sixprotocol.nftmngr.Msg/DisableVirtualSchemaProposal",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).DisableVirtualSchemaProposal(ctx, req.(*MsgDisableVirtualSchemaProposal))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Msg_PerformVirtualAction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(MsgPerformVirtualAction)
 	if err := dec(in); err != nil {
@@ -5605,6 +5336,42 @@ func _Msg_PerformVirtualAction_Handler(srv interface{}, ctx context.Context, dec
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).PerformVirtualAction(ctx, req.(*MsgPerformVirtualAction))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_EnableVirtualSchemaProposal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgEnableVirtualSchemaProposal)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).EnableVirtualSchemaProposal(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/thesixnetwork.sixprotocol.nftmngr.Msg/EnableVirtualSchemaProposal",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).EnableVirtualSchemaProposal(ctx, req.(*MsgEnableVirtualSchemaProposal))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_DisableVirtualSchemaProposal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgDisableVirtualSchemaProposal)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).DisableVirtualSchemaProposal(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/thesixnetwork.sixprotocol.nftmngr.Msg/DisableVirtualSchemaProposal",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).DisableVirtualSchemaProposal(ctx, req.(*MsgDisableVirtualSchemaProposal))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -5730,12 +5497,16 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 			Handler:    _Msg_VoteCreateVirtualSchema_Handler,
 		},
 		{
-			MethodName: "DisableVirtualSchemaProposal",
-			Handler:    _Msg_DisableVirtualSchemaProposal_Handler,
-		},
-		{
 			MethodName: "PerformVirtualAction",
 			Handler:    _Msg_PerformVirtualAction_Handler,
+		},
+		{
+			MethodName: "EnableVirtualSchemaProposal",
+			Handler:    _Msg_EnableVirtualSchemaProposal_Handler,
+		},
+		{
+			MethodName: "DisableVirtualSchemaProposal",
+			Handler:    _Msg_DisableVirtualSchemaProposal_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -6121,7 +5892,6 @@ func (m *UpdatedOriginData_Opensea) MarshalToSizedBuffer(dAtA []byte) (int, erro
 	}
 	return len(dAtA) - i, nil
 }
-
 func (m *ActionParameter) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
@@ -8387,80 +8157,6 @@ func (m *MsgVoteCreateVirtualSchemaResponse) MarshalToSizedBuffer(dAtA []byte) (
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgDisableVirtualSchemaProposal) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *MsgDisableVirtualSchemaProposal) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *MsgDisableVirtualSchemaProposal) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.VirtualNftSchemaCode) > 0 {
-		i -= len(m.VirtualNftSchemaCode)
-		copy(dAtA[i:], m.VirtualNftSchemaCode)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.VirtualNftSchemaCode)))
-		i--
-		dAtA[i] = 0x12
-	}
-	if len(m.Creator) > 0 {
-		i -= len(m.Creator)
-		copy(dAtA[i:], m.Creator)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *MsgDisableVirtualSchemaProposalResponse) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *MsgDisableVirtualSchemaProposalResponse) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *MsgDisableVirtualSchemaProposalResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.ProposalId) > 0 {
-		i -= len(m.ProposalId)
-		copy(dAtA[i:], m.ProposalId)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.ProposalId)))
-		i--
-		dAtA[i] = 0x12
-	}
-	if len(m.Creator) > 0 {
-		i -= len(m.Creator)
-		copy(dAtA[i:], m.Creator)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
 func (m *MsgPerformVirtualAction) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
@@ -8607,6 +8303,154 @@ func (m *TokenIdMap) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
+func (m *MsgEnableVirtualSchemaProposal) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgEnableVirtualSchemaProposal) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgEnableVirtualSchemaProposal) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.VirtualNftSchemaCode) > 0 {
+		i -= len(m.VirtualNftSchemaCode)
+		copy(dAtA[i:], m.VirtualNftSchemaCode)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.VirtualNftSchemaCode)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Creator) > 0 {
+		i -= len(m.Creator)
+		copy(dAtA[i:], m.Creator)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgEnableVirtualSchemaProposalResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgEnableVirtualSchemaProposalResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgEnableVirtualSchemaProposalResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.ProposalId) > 0 {
+		i -= len(m.ProposalId)
+		copy(dAtA[i:], m.ProposalId)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.ProposalId)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Creator) > 0 {
+		i -= len(m.Creator)
+		copy(dAtA[i:], m.Creator)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgDisableVirtualSchemaProposal) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgDisableVirtualSchemaProposal) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgDisableVirtualSchemaProposal) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.VirtualNftSchemaCode) > 0 {
+		i -= len(m.VirtualNftSchemaCode)
+		copy(dAtA[i:], m.VirtualNftSchemaCode)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.VirtualNftSchemaCode)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Creator) > 0 {
+		i -= len(m.Creator)
+		copy(dAtA[i:], m.Creator)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgDisableVirtualSchemaProposalResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgDisableVirtualSchemaProposalResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgDisableVirtualSchemaProposalResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.ProposalId) > 0 {
+		i -= len(m.ProposalId)
+		copy(dAtA[i:], m.ProposalId)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.ProposalId)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Creator) > 0 {
+		i -= len(m.Creator)
+		copy(dAtA[i:], m.Creator)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintTx(dAtA []byte, offset int, v uint64) int {
 	offset -= sovTx(v)
 	base := offset
@@ -8618,7 +8462,6 @@ func encodeVarintTx(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-
 func (m *MsgCreateNFTSchema) Size() (n int) {
 	if m == nil {
 		return 0
@@ -8793,7 +8636,6 @@ func (m *UpdatedOriginData_Opensea) Size() (n int) {
 	}
 	return n
 }
-
 func (m *ActionParameter) Size() (n int) {
 	if m == nil {
 		return 0
@@ -9842,40 +9684,6 @@ func (m *MsgVoteCreateVirtualSchemaResponse) Size() (n int) {
 	return n
 }
 
-func (m *MsgDisableVirtualSchemaProposal) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.Creator)
-	if l > 0 {
-		n += 1 + l + sovTx(uint64(l))
-	}
-	l = len(m.VirtualNftSchemaCode)
-	if l > 0 {
-		n += 1 + l + sovTx(uint64(l))
-	}
-	return n
-}
-
-func (m *MsgDisableVirtualSchemaProposalResponse) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.Creator)
-	if l > 0 {
-		n += 1 + l + sovTx(uint64(l))
-	}
-	l = len(m.ProposalId)
-	if l > 0 {
-		n += 1 + l + sovTx(uint64(l))
-	}
-	return n
-}
-
 func (m *MsgPerformVirtualAction) Size() (n int) {
 	if m == nil {
 		return 0
@@ -9943,14 +9751,80 @@ func (m *TokenIdMap) Size() (n int) {
 	return n
 }
 
+func (m *MsgEnableVirtualSchemaProposal) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Creator)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.VirtualNftSchemaCode)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	return n
+}
+
+func (m *MsgEnableVirtualSchemaProposalResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Creator)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.ProposalId)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	return n
+}
+
+func (m *MsgDisableVirtualSchemaProposal) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Creator)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.VirtualNftSchemaCode)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	return n
+}
+
+func (m *MsgDisableVirtualSchemaProposalResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Creator)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.ProposalId)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	return n
+}
+
 func sovTx(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
-
 func sozTx(x uint64) (n int) {
 	return sovTx(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-
 func (m *MsgCreateNFTSchema) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -10065,7 +9939,6 @@ func (m *MsgCreateNFTSchema) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgCreateNFTSchemaResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -10148,7 +10021,6 @@ func (m *MsgCreateNFTSchemaResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgCreateMetadata) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -10327,7 +10199,6 @@ func (m *MsgCreateMetadata) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgCreateMetadataResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -10442,7 +10313,6 @@ func (m *MsgCreateMetadataResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgCreateMultiMetadata) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -10621,7 +10491,6 @@ func (m *MsgCreateMultiMetadata) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgCreateMultiMetadataResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -10736,7 +10605,6 @@ func (m *MsgCreateMultiMetadataResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *OpenseaAttribute) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -10855,7 +10723,6 @@ func (m *OpenseaAttribute) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *UpdatedOpenseaAttributes) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -10940,7 +10807,6 @@ func (m *UpdatedOpenseaAttributes) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *UpdatedOriginData) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -11026,7 +10892,6 @@ func (m *UpdatedOriginData) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *ActionParameter) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -11141,7 +11006,6 @@ func (m *ActionParameter) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgPerformActionByAdmin) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -11386,7 +11250,6 @@ func (m *MsgPerformActionByAdmin) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgPerformActionByAdminResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -11501,7 +11364,6 @@ func (m *MsgPerformActionByAdminResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgAddAttribute) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -11667,7 +11529,6 @@ func (m *MsgAddAttribute) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgAddAttributeResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -11782,7 +11643,6 @@ func (m *MsgAddAttributeResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgAddAction) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -11929,7 +11789,6 @@ func (m *MsgAddAction) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgAddActionResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -12044,7 +11903,6 @@ func (m *MsgAddActionResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgSetBaseUri) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -12191,7 +12049,6 @@ func (m *MsgSetBaseUri) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgSetBaseUriResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -12306,7 +12163,6 @@ func (m *MsgSetBaseUriResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgToggleAction) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -12473,7 +12329,6 @@ func (m *MsgToggleAction) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgToggleActionResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -12608,7 +12463,6 @@ func (m *MsgToggleActionResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgChangeSchemaOwner) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -12755,7 +12609,6 @@ func (m *MsgChangeSchemaOwner) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgChangeSchemaOwnerResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -12870,7 +12723,6 @@ func (m *MsgChangeSchemaOwnerResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgResyncAttributesResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -12985,7 +12837,6 @@ func (m *MsgResyncAttributesResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgShowAttributes) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -13152,7 +13003,6 @@ func (m *MsgShowAttributes) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgShowAttributesResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -13235,7 +13085,6 @@ func (m *MsgShowAttributesResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgResyncAttributes) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -13382,7 +13231,6 @@ func (m *MsgResyncAttributes) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgSetFeeConfig) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -13516,7 +13364,6 @@ func (m *MsgSetFeeConfig) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgSetFeeConfigResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -13567,7 +13414,6 @@ func (m *MsgSetFeeConfigResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgSetMintauth) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -13701,7 +13547,6 @@ func (m *MsgSetMintauth) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgSetMintauthResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -13784,7 +13629,6 @@ func (m *MsgSetMintauthResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgChangeOrgOwner) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -13931,7 +13775,6 @@ func (m *MsgChangeOrgOwner) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgChangeOrgOwnerResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -14078,7 +13921,6 @@ func (m *MsgChangeOrgOwnerResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgSetUriRetrievalMethod) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -14212,7 +14054,6 @@ func (m *MsgSetUriRetrievalMethod) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgSetUriRetrievalMethodResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -14327,7 +14168,6 @@ func (m *MsgSetUriRetrievalMethodResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgSetOriginChain) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -14474,7 +14314,6 @@ func (m *MsgSetOriginChain) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgSetOriginChainResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -14589,7 +14428,6 @@ func (m *MsgSetOriginChainResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgSetOriginContract) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -14736,7 +14574,6 @@ func (m *MsgSetOriginContract) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgSetOriginContractResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -14851,7 +14688,6 @@ func (m *MsgSetOriginContractResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgSetAttributeOveriding) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -14985,7 +14821,6 @@ func (m *MsgSetAttributeOveriding) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgSetAttributeOveridingResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -15100,7 +14935,6 @@ func (m *MsgSetAttributeOveridingResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgSetMetadataFormat) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -15247,7 +15081,6 @@ func (m *MsgSetMetadataFormat) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgSetMetadataFormatResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -15362,7 +15195,6 @@ func (m *MsgSetMetadataFormatResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgCreateActionExecutor) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -15509,7 +15341,6 @@ func (m *MsgCreateActionExecutor) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgCreateActionExecutorResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -15624,7 +15455,6 @@ func (m *MsgCreateActionExecutorResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgUpdateActionExecutor) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -15771,7 +15601,6 @@ func (m *MsgUpdateActionExecutor) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgUpdateActionExecutorResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -15886,7 +15715,6 @@ func (m *MsgUpdateActionExecutorResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgDeleteActionExecutor) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -16033,7 +15861,6 @@ func (m *MsgDeleteActionExecutor) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgDeleteActionExecutorResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -16148,7 +15975,6 @@ func (m *MsgDeleteActionExecutorResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgUpdateSchemaAttribute) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -16295,7 +16121,6 @@ func (m *MsgUpdateSchemaAttribute) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgUpdateSchemaAttributeResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -16410,7 +16235,6 @@ func (m *MsgUpdateSchemaAttributeResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgUpdateAction) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -16557,7 +16381,6 @@ func (m *MsgUpdateAction) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgUpdateActionResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -16672,7 +16495,6 @@ func (m *MsgUpdateActionResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgCreateVirtualAction) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -16821,7 +16643,6 @@ func (m *MsgCreateVirtualAction) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgCreateVirtualActionResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -16938,7 +16759,6 @@ func (m *MsgCreateVirtualActionResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgUpdateVirtualAction) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -17087,7 +16907,6 @@ func (m *MsgUpdateVirtualAction) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgUpdateVirtualActionResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -17204,7 +17023,6 @@ func (m *MsgUpdateVirtualActionResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgDeleteVirtualAction) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -17351,7 +17169,6 @@ func (m *MsgDeleteVirtualAction) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgDeleteVirtualActionResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -17466,7 +17283,6 @@ func (m *MsgDeleteVirtualActionResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgCreateVirtualSchemaProposal) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -17615,7 +17431,6 @@ func (m *MsgCreateVirtualSchemaProposal) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgCreateVirtualSchemaResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -17730,7 +17545,6 @@ func (m *MsgCreateVirtualSchemaResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgDeleteVirtualSchema) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -17845,7 +17659,6 @@ func (m *MsgDeleteVirtualSchema) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgDeleteVirtualSchemaResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -17896,7 +17709,6 @@ func (m *MsgDeleteVirtualSchemaResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgVoteCreateVirtualSchema) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -18062,7 +17874,6 @@ func (m *MsgVoteCreateVirtualSchema) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgVoteCreateVirtualSchemaResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -18113,237 +17924,6 @@ func (m *MsgVoteCreateVirtualSchemaResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
-func (m *MsgDisableVirtualSchemaProposal) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowTx
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: MsgDisableVirtualSchemaProposal: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgDisableVirtualSchemaProposal: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Creator = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field VirtualNftSchemaCode", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.VirtualNftSchemaCode = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipTx(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthTx
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-
-func (m *MsgDisableVirtualSchemaProposalResponse) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowTx
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: MsgDisableVirtualSchemaProposalResponse: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgDisableVirtualSchemaProposalResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Creator = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field ProposalId", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.ProposalId = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipTx(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthTx
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-
 func (m *MsgPerformVirtualAction) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -18590,7 +18170,6 @@ func (m *MsgPerformVirtualAction) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *MsgPerformVirtualActionResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -18673,7 +18252,6 @@ func (m *MsgPerformVirtualActionResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *TokenIdMap) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -18788,7 +18366,462 @@ func (m *TokenIdMap) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+func (m *MsgEnableVirtualSchemaProposal) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgEnableVirtualSchemaProposal: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgEnableVirtualSchemaProposal: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Creator = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field VirtualNftSchemaCode", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.VirtualNftSchemaCode = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
 
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgEnableVirtualSchemaProposalResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgEnableVirtualSchemaProposalResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgEnableVirtualSchemaProposalResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Creator = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ProposalId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ProposalId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgDisableVirtualSchemaProposal) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgDisableVirtualSchemaProposal: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgDisableVirtualSchemaProposal: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Creator = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field VirtualNftSchemaCode", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.VirtualNftSchemaCode = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgDisableVirtualSchemaProposalResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgDisableVirtualSchemaProposalResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgDisableVirtualSchemaProposalResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Creator = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ProposalId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ProposalId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
 func skipTx(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0

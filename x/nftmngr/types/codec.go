@@ -40,6 +40,7 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgVoteCreateVirtualSchema{}, "nftmngr/VoteCreateVirtualSchema", nil)
 	cdc.RegisterConcrete(&MsgDisableVirtualSchemaProposal{}, "nftmngr/DisableVirtualSchemaProposal", nil)
 	cdc.RegisterConcrete(&MsgPerformVirtualAction{}, "nftmngr/PerformVirtualAction", nil)
+	cdc.RegisterConcrete(&MsgEnableVirtualSchemaProposal{}, "nftmngr/EnableVirtualSchema", nil)
 	// this line is used by starport scaffolding # 2
 }
 
@@ -129,6 +130,9 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgPerformVirtualAction{},
+	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgEnableVirtualSchemaProposal{},
 	)
 	// this line is used by starport scaffolding # 3
 	msgservice.RegisterMsgServiceDesc(registry, &_Msg_serviceDesc)
