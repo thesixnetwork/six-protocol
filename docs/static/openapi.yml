@@ -35627,6 +35627,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -36119,6 +36122,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -36640,6 +36646,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -37161,6 +37170,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -37653,6 +37665,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -38153,6 +38168,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -38657,6 +38675,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -39162,6 +39183,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -39692,6 +39716,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -40217,6 +40244,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -40962,6 +40992,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -41545,6 +41578,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -41912,6 +41948,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -43188,6 +43227,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -43957,6 +43999,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -44455,6 +44500,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -45183,6 +45231,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -45749,6 +45800,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -46307,6 +46361,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -46851,6 +46908,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -71785,8 +71845,13 @@ definitions:
         type: string
       proposalId:
         type: string
-  thesixnetwork.sixprotocol.nftmngr.MsgEnableVirtualSchemaResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgEnableVirtualSchemaProposalResponse:
     type: object
+    properties:
+      creator:
+        type: string
+      proposalId:
+        type: string
   thesixnetwork.sixprotocol.nftmngr.MsgPerformActionByAdminResponse:
     type: object
     properties:
