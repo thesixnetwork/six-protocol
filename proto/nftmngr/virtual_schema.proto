@@ -46,7 +46,6 @@ message ActiveVirtualSchemaProposal { string id = 1; }
 
 message InactiveVirtualSchemaProposal { string id = 1; }
 
-
 message DisableVirtualSchemaProposal {
   string id = 1;
   string virtualSchemaCode = 2;
@@ -62,7 +61,6 @@ message DisableVirtualSchemaProposal {
 message ActiveDisableVirtualSchemaProposal { string id = 1; }
 
 message InactiveDisableVirtualSchemaProposal { string id = 1; }
-
 
 message EnableVirtualSchemaProposal {
   string id = 1;
