@@ -68,7 +68,7 @@ var (
 	ErrSchemaNotInRegistry             = sdkerrors.Register(ModuleName, 217, "This schema is not register")
 	ErrSchemaIsDisable                 = sdkerrors.Register(ModuleName, 218, "This schema is disable")
 	ErrProposalExpired                 = sdkerrors.Register(ModuleName, 219, "End of voting period for this proposal")
-	ErrSchemaIsEnabled                 = sdkerrors.Register(ModuleName, 218, "This schema is already enable")
+	ErrSchemaIsEnabled                 = sdkerrors.Register(ModuleName, 220, "This schema is already enable")
 	// Action (300-399)
 	ErrRefIdAlreadyExists          = sdkerrors.Register(ModuleName, 300, "RefId already exists")
 	ErrEmptyChangeList             = sdkerrors.Register(ModuleName, 301, "No changes were updated")
