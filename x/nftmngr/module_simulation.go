@@ -85,6 +85,14 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgEnableVirtualSchema int = 100
 
+	opWeightMsgVoteDisableVirtualSchema = "op_weight_msg_vote_disable_virtual_schema"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgVoteDisableVirtualSchema int = 100
+
+	opWeightMsgVoteEnableVirtualSchema = "op_weight_msg_vote_enable_virtual_schema"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgVoteEnableVirtualSchema int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -307,6 +315,28 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 	operations = append(operations, simulation.NewWeightedOperation(
 		weightMsgEnableVirtualSchema,
 		nftmngrsimulation.SimulateMsgEnableVirtualSchema(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgVoteDisableVirtualSchema int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgVoteDisableVirtualSchema, &weightMsgVoteDisableVirtualSchema, nil,
+		func(_ *rand.Rand) {
+			weightMsgVoteDisableVirtualSchema = defaultWeightMsgVoteDisableVirtualSchema
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgVoteDisableVirtualSchema,
+		nftmngrsimulation.SimulateMsgVoteDisableVirtualSchema(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgVoteEnableVirtualSchema int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgVoteEnableVirtualSchema, &weightMsgVoteEnableVirtualSchema, nil,
+		func(_ *rand.Rand) {
+			weightMsgVoteEnableVirtualSchema = defaultWeightMsgVoteEnableVirtualSchema
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgVoteEnableVirtualSchema,
+		nftmngrsimulation.SimulateMsgVoteEnableVirtualSchema(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
 	// this line is used by starport scaffolding # simapp/module/operation

@@ -62,14 +62,18 @@ service Msg {
       returns (MsgCreateVirtualSchemaResponse);
   rpc DeleteVirtualSchema(MsgDeleteVirtualSchema)
       returns (MsgDeleteVirtualSchemaResponse);
-  rpc VoteCreateVirtualSchema(MsgVoteCreateVirtualSchema)
-      returns (MsgVoteCreateVirtualSchemaResponse);
   rpc PerformVirtualAction(MsgPerformVirtualAction)
       returns (MsgPerformVirtualActionResponse);
   rpc EnableVirtualSchemaProposal(MsgEnableVirtualSchemaProposal) 
       returns (MsgEnableVirtualSchemaProposalResponse);
   rpc DisableVirtualSchemaProposal(MsgDisableVirtualSchemaProposal)
       returns (MsgDisableVirtualSchemaProposalResponse);
+  rpc VoteCreateVirtualSchema(MsgVoteCreateVirtualSchema)
+    returns (MsgVoteCreateVirtualSchemaResponse);
+  rpc VoteDisableVirtualSchema(MsgVoteDisableVirtualSchema) 
+    returns (MsgVoteDisableVirtualSchemaResponse);
+  rpc VoteEnableVirtualSchema(MsgVoteEnableVirtualSchema) 
+    returns (MsgVoteEnableVirtualSchemaResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -410,15 +414,6 @@ message MsgDeleteVirtualSchema {
 }
 message MsgDeleteVirtualSchemaResponse {}
 
-message MsgVoteCreateVirtualSchema {
-  string creator = 1;
-  string id = 2;
-  string nftSchemaCode = 3;
-  RegistryStatus option = 4;
-}
-
-message MsgVoteCreateVirtualSchemaResponse {}
-
 message MsgPerformVirtualAction {
   string creator = 1;
   string nftSchemaName = 2;
@@ -452,6 +447,35 @@ message MsgDisableVirtualSchemaProposal {
 message MsgDisableVirtualSchemaProposalResponse {
   string creator = 1;
   string proposalId = 2;
+}
+
+message MsgVoteCreateVirtualSchema {
+  string creator = 1;
+  string id = 2;
+  string nftSchemaCode = 3;
+  RegistryStatus option = 4;
+}
+
+message MsgVoteCreateVirtualSchemaResponse {}
+
+message MsgVoteDisableVirtualSchema {
+  string creator = 1;
+  string id = 2;
+  string nftSchemaCode = 3;
+  RegistryStatus option = 4;
+}
+
+message MsgVoteDisableVirtualSchemaResponse {
+}
+
+message MsgVoteEnableVirtualSchema {
+  string creator = 1;
+  string id = 2;
+  string nftSchemaCode = 3;
+  RegistryStatus option = 4;
+}
+
+message MsgVoteEnableVirtualSchemaResponse {
 }
 
 // this line is used by starport scaffolding # proto/tx/message
