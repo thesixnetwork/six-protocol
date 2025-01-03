@@ -177,7 +177,6 @@ func (k msgServer) DisableVirtualSchemaProposal(goCtx context.Context, msg *type
 	return &types.MsgDisableVirtualSchemaProposalResponse{Creator: msg.Creator, ProposalId: strProposalId}, nil
 }
 
-
 func (k msgServer) EnableVirtualSchemaProposal(goCtx context.Context, msg *types.MsgEnableVirtualSchemaProposal) (*types.MsgEnableVirtualSchemaProposalResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
