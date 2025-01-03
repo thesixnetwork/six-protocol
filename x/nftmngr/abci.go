@@ -13,18 +13,18 @@ import (
 func EndBlocker(ctx sdk.Context, k keeper.Keeper) {
 	defer telemetry.ModuleMeasureSince(types.ModuleName, time.Now(), telemetry.MetricKeyEndBlocker)
 
-	k.IterateActiveProposalCreateVirtualSchema(ctx, ctx.BlockHeader().Time, func(proposal types.VirtualSchemaProposal) (stop bool) {
-		pass := k.AfterProposalCreateVirtualSchemaSuccess(ctx, proposal)
+	k.CreateVirtualSchemaIterateActiveProposal(ctx, ctx.BlockHeader().Time, func(proposal types.VirtualSchemaProposal) (stop bool) {
+		pass := k.CreateVirtualSchemaAfterProposalSuccess(ctx, proposal)
 		return pass
 	})
 
-	k.IterateActiveProposalDisableVirtualSchema(ctx, ctx.BlockHeader().Time, func(proposal types.DisableVirtualSchemaProposal) (stop bool) {
-		pass := k.AfterProposalDisableVirtualSchemaSuccess(ctx, proposal)
+	k.DisableVirtualSchemaIterateActiveProposal(ctx, ctx.BlockHeader().Time, func(proposal types.DisableVirtualSchemaProposal) (stop bool) {
+		pass := k.DisableVirtualSchemaAfterProposalSuccess(ctx, proposal)
 		return pass
 	})
 
-	k.IterateActiveProposalEnableVirtualSchema(ctx, ctx.BlockHeader().Time, func(proposal types.EnableVirtualSchemaProposal) (stop bool) {
-		pass := k.AfterProposalEnableVirtualSchemaSuccess(ctx, types.EnableVirtualSchemaProposal(proposal))
+	k.EnableVirtualSchemaIterateActiveProposal(ctx, ctx.BlockHeader().Time, func(proposal types.EnableVirtualSchemaProposal) (stop bool) {
+		pass := k.EnableVirtualSchemaAfterProposalSuccess(ctx, proposal)
 		return pass
 	})
 }

@@ -76,7 +76,7 @@ func (k Keeper) ProcessFeeAmount(ctx sdk.Context, bondedVotes []abci.VoteInfo) e
 
 // TODO:: TEST(VirtualSchema)
 // ON POC WE WILL JUST CREATE SCHEMA
-func (k Keeper) AfterProposalCreateVirtualSchemaSuccess(ctx sdk.Context, virtualSchemaProposal types.VirtualSchemaProposal) (pass bool) {
+func (k Keeper) CreateVirtualSchemaAfterProposalSuccess(ctx sdk.Context, virtualSchemaProposal types.VirtualSchemaProposal) (pass bool) {
 	if len(virtualSchemaProposal.Registry) == 0 {
 		return false
 	}
@@ -101,7 +101,7 @@ func (k Keeper) AfterProposalCreateVirtualSchemaSuccess(ctx sdk.Context, virtual
 	return true
 }
 
-func (k Keeper) AfterProposalDisableVirtualSchemaSuccess(ctx sdk.Context, disableVirtualSchemaProposal types.DisableVirtualSchemaProposal) (pass bool) {
+func (k Keeper) DisableVirtualSchemaAfterProposalSuccess(ctx sdk.Context, disableVirtualSchemaProposal types.DisableVirtualSchemaProposal) (pass bool) {
 	if len(disableVirtualSchemaProposal.Registry) == 0 {
 		return false
 	}
@@ -126,7 +126,7 @@ func (k Keeper) AfterProposalDisableVirtualSchemaSuccess(ctx sdk.Context, disabl
 	return true
 }
 
-func (k Keeper) AfterProposalEnableVirtualSchemaSuccess(ctx sdk.Context, enableVirtualSchemaProposal types.EnableVirtualSchemaProposal) (pass bool) {
+func (k Keeper) EnableVirtualSchemaAfterProposalSuccess(ctx sdk.Context, enableVirtualSchemaProposal types.EnableVirtualSchemaProposal) (pass bool) {
 	if len(enableVirtualSchemaProposal.Registry) == 0 {
 		return false
 	}
