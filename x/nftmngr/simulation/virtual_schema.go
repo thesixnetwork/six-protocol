@@ -101,7 +101,6 @@ func SimulateMsgDeleteVirtualSchema(
 	}
 }
 
-
 func SimulateMsgDisableVirtualSchemaProposal(
 	ak types.AccountKeeper,
 	bk types.BankKeeper,
