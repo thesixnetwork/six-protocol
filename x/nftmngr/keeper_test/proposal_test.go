@@ -187,6 +187,7 @@ func TestActiveDisableVirtualSchemaProposalGet(t *testing.T) {
 		)
 	}
 }
+
 func TestActiveDisableVirtualSchemaProposalRemove(t *testing.T) {
 	keeper, ctx := keepertest.NftmngrKeeper(t)
 	items := createNActiveDisableVirtualSchemaProposal(keeper, ctx, 10)
@@ -237,6 +238,7 @@ func TestInactiveDisableVirtualSchemaProposalGet(t *testing.T) {
 		)
 	}
 }
+
 func TestInactiveDisableVirtualSchemaProposalRemove(t *testing.T) {
 	keeper, ctx := keepertest.NftmngrKeeper(t)
 	items := createNInactiveDisableVirtualSchemaProposal(keeper, ctx, 10)
@@ -287,6 +289,7 @@ func TestInactiveEnableVirtualSchemaProposalGet(t *testing.T) {
 		)
 	}
 }
+
 func TestInactiveEnableVirtualSchemaProposalRemove(t *testing.T) {
 	keeper, ctx := keepertest.NftmngrKeeper(t)
 	items := createNInactiveEnableVirtualSchemaProposal(keeper, ctx, 10)
@@ -337,6 +340,7 @@ func TestActiveEnableVirtualSchemaProposalGet(t *testing.T) {
 		)
 	}
 }
+
 func TestActiveEnableVirtualSchemaProposalRemove(t *testing.T) {
 	keeper, ctx := keepertest.NftmngrKeeper(t)
 	items := createNActiveEnableVirtualSchemaProposal(keeper, ctx, 10)

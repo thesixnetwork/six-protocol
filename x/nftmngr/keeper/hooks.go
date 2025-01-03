@@ -151,7 +151,6 @@ func (k Keeper) EnableVirtualSchemaAfterProposalSuccess(ctx sdk.Context, enableV
 	return true
 }
 
-
 func countProposalVotes(registry []*types.VirtualSchemaRegistry) (acceptCount, totalVotes int) {
 	for _, reg := range registry {
 		if reg.Status != types.RegistryStatus_PENDING {

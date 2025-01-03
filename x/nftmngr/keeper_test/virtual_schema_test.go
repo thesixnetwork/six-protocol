@@ -249,6 +249,7 @@ func TestEnableVirtualSchemaProposalGet(t *testing.T) {
 		)
 	}
 }
+
 func TestEnableVirtualSchemaProposalRemove(t *testing.T) {
 	keeper, ctx := keepertest.NftmngrKeeper(t)
 	items := createNEnableVirtualSchemaProposal(keeper, ctx, 10)
