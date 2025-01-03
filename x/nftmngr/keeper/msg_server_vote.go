@@ -59,3 +59,21 @@ func (k msgServer) VoteCreateVirtualSchema(goCtx context.Context, msg *types.Msg
 
 	return &types.MsgVoteCreateVirtualSchemaResponse{}, nil
 }
+
+func (k msgServer) VoteDisableVirtualSchema(goCtx context.Context, msg *types.MsgVoteDisableVirtualSchema) (*types.MsgVoteDisableVirtualSchemaResponse, error) {
+	ctx := sdk.UnwrapSDKContext(goCtx)
+
+	// TODO: Handling the message
+	_ = ctx
+
+	return &types.MsgVoteDisableVirtualSchemaResponse{}, nil
+}
+
+func (k msgServer) VoteEnableVirtualSchema(goCtx context.Context, msg *types.MsgVoteEnableVirtualSchema) (*types.MsgVoteEnableVirtualSchemaResponse, error) {
+	ctx := sdk.UnwrapSDKContext(goCtx)
+
+	// TODO: Handling the message
+	_ = ctx
+
+	return &types.MsgVoteEnableVirtualSchemaResponse{}, nil
+}

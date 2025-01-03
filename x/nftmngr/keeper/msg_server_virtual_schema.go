@@ -225,12 +225,12 @@ func (k msgServer) EnableVirtualSchemaProposal(goCtx context.Context, msg *types
 	}
 
 	k.SetEnableVirtualSchemaProposal(ctx, types.EnableVirtualSchemaProposal{
-		Id: strProposalId,
+		Id:                strProposalId,
 		VirtualSchemaCode: msg.VirtualNftSchemaCode,
-		Registry: registry,
-		SubmitTime: submitTime,
-		VotinStartTime: submitTime,
-		VotingEndTime: endTime,
+		Registry:          registry,
+		SubmitTime:        submitTime,
+		VotinStartTime:    submitTime,
+		VotingEndTime:     endTime,
 	})
 
 	k.SetActiveEnableVirtualSchemaProposal(ctx, types.ActiveEnableVirtualSchemaProposal{

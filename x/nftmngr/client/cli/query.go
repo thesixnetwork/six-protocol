@@ -51,20 +51,12 @@ func GetQueryCmd(queryRoute string) *cobra.Command {
 	cmd.AddCommand(CmdShowVirtualAction())
 	cmd.AddCommand(CmdListVirtualSchema())
 	cmd.AddCommand(CmdShowVirtualSchema())
-	cmd.AddCommand(CmdListDisableVirtualSchema())
-	cmd.AddCommand(CmdShowDisableVirtualSchema())
+	cmd.AddCommand(CmdListDisableVirtualSchemaProposal())
+	cmd.AddCommand(CmdShowDisableVirtualSchemaProposal())
 	cmd.AddCommand(CmdShowVirtualSchemaProposal())
 	cmd.AddCommand(CmdListVirtualSchemaProposal())
-	cmd.AddCommand(CmdListActiveDisableVirtualSchemaProposal())
-	cmd.AddCommand(CmdShowActiveDisableVirtualSchemaProposal())
-	cmd.AddCommand(CmdListInactiveDisableVirtualSchemaProposal())
-	cmd.AddCommand(CmdShowInactiveDisableVirtualSchemaProposal())
 	cmd.AddCommand(CmdListEnableVirtualSchemaProposal())
 	cmd.AddCommand(CmdShowEnableVirtualSchemaProposal())
-	cmd.AddCommand(CmdListInactiveEnableVirtualSchemaProposal())
-	cmd.AddCommand(CmdShowInactiveEnableVirtualSchemaProposal())
-	cmd.AddCommand(CmdListActiveEnableVirtualSchemaProposal())
-	cmd.AddCommand(CmdShowActiveEnableVirtualSchemaProposal())
 	// this line is used by starport scaffolding # 1
 
 	return cmd
