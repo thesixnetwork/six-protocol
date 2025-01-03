@@ -180,8 +180,62 @@ func (k msgServer) DisableVirtualSchemaProposal(goCtx context.Context, msg *type
 func (k msgServer) EnableVirtualSchemaProposal(goCtx context.Context, msg *types.MsgEnableVirtualSchemaProposal) (*types.MsgEnableVirtualSchemaProposalResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	// TODO: Handling the message
-	_ = ctx
+	virtualSchema, found := k.GetVirtualSchema(ctx, msg.VirtualNftSchemaCode)
+	if !found {
+		return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, msg.VirtualNftSchemaCode)
+	}
 
-	return &types.MsgEnableVirtualSchemaProposalResponse{}, nil
+	if virtualSchema.Enable {
+		return nil, sdkerrors.Wrap(types.ErrSchemaIsEnabled, "This virtual Schema already enable")
+	}
+
+	isOwner := false
+	// check if creator is path of schema registry owner
+	for _, registry := range virtualSchema.Registry {
+		schema, found := k.GetNFTSchema(ctx, registry.NftSchemaCode)
+		if !found {
+			return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, registry.NftSchemaCode)
+		}
+		if schema.Owner == msg.Creator {
+			isOwner = true
+		}
+	}
+
+	if !isOwner {
+		return nil, sdkerrors.Wrap(types.ErrUnauthorized, "Only owner of registry schema can create proposal")
+	}
+
+	// iterate to assing id of proposal
+	lastProposalId := len(k.GetAllActiveEnableVirtualSchemaProposal(ctx))
+	proposalId := lastProposalId + 1
+	strProposalId := strconv.FormatInt(int64(proposalId), 10)
+
+	submitTime := ctx.BlockHeader().Time
+	votingPeriod := k.govKeeper.GetVotingParams(ctx).VotingPeriod
+	endTime := submitTime.Add(votingPeriod)
+
+	registry := []*types.VirtualSchemaRegistry{}
+
+	for _, reqRegistry := range virtualSchema.Registry {
+		registry = append(registry, &types.VirtualSchemaRegistry{
+			NftSchemaCode:    reqRegistry.NftSchemaCode,
+			Status:           types.RegistryStatus_PENDING,
+			SharedAttributes: reqRegistry.SharedAttributes,
+		})
+	}
+
+	k.SetEnableVirtualSchemaProposal(ctx, types.EnableVirtualSchemaProposal{
+		Id: strProposalId,
+		VirtualSchemaCode: msg.VirtualNftSchemaCode,
+		Registry: registry,
+		SubmitTime: submitTime,
+		VotinStartTime: submitTime,
+		VotingEndTime: endTime,
+	})
+
+	k.SetActiveEnableVirtualSchemaProposal(ctx, types.ActiveEnableVirtualSchemaProposal{
+		Id: strProposalId,
+	})
+
+	return &types.MsgEnableVirtualSchemaProposalResponse{Creator: msg.Creator, ProposalId: strProposalId}, nil
 }
