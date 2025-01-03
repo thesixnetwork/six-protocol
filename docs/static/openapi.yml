@@ -35623,6 +35623,13 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/six-protocol/nftmngr/active_dislabe_virtual_schema_proposal/{index}':
@@ -35847,14 +35854,8 @@ paths:
                 items:
                   type: object
                   properties:
-                    index:
+                    id:
                       type: string
-                    virtualSchemaCode:
-                      type: string
-                    registry:
-                      type: string
-                    enable:
-                      type: boolean
               pagination:
                 type: object
                 properties:
@@ -36114,6 +36115,13 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/six-protocol/nftmngr/active_enable_virtual_schema_proposal/{index}':
@@ -36129,14 +36137,8 @@ paths:
               activeEnableVirtualSchemaProposal:
                 type: object
                 properties:
-                  index:
+                  id:
                     type: string
-                  virtualSchemaCode:
-                    type: string
-                  registry:
-                    type: string
-                  enable:
-                    type: boolean
         default:
           description: An unexpected error response.
           schema:
@@ -36631,6 +36633,13 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
           in: query
           required: false
           type: boolean
@@ -37148,6 +37157,13 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/six-protocol/nftmngr/inactive_disable_virtual_schema_proposal/{index}':
@@ -37630,6 +37646,13 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
           in: query
           required: false
           type: boolean
@@ -38123,6 +38146,13 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
           in: query
           required: false
           type: boolean
@@ -38623,6 +38653,13 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/action_executor/{nftSchemaCode}/{executorAddress}':
@@ -39118,6 +39155,13 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
           in: query
           required: false
           type: boolean
@@ -39644,6 +39688,13 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/disable_virtual_schema/{index}':
@@ -40159,6 +40210,13 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
           in: query
           required: false
           type: boolean
@@ -40900,6 +40958,13 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/metadata_creator/{nftSchemaCode}':
@@ -41476,6 +41541,13 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   /thesixnetwork/sixnft/nftmngr/nft_data:
@@ -41833,6 +41905,13 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
           in: query
           required: false
           type: boolean
@@ -43105,6 +43184,13 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/nft_schema/{code}':
@@ -43867,6 +43953,13 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/nft_schema_by_contract/{originContractAddress}':
@@ -44355,6 +44448,13 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
           in: query
           required: false
           type: boolean
@@ -45079,6 +45179,13 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/schema_attribute/{nftSchemaCode}/{name}':
@@ -45638,6 +45745,13 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/virtual_action/{nftSchemaCode}':
@@ -46189,6 +46303,13 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/virtual_schema/{nftSchemaCode}':
@@ -46723,6 +46844,13 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
           in: query
           required: false
           type: boolean
@@ -71217,14 +71345,8 @@ definitions:
   thesixnetwork.sixprotocol.nftmngr.ActiveEnableVirtualSchemaProposal:
     type: object
     properties:
-      index:
+      id:
         type: string
-      virtualSchemaCode:
-        type: string
-      registry:
-        type: string
-      enable:
-        type: boolean
   thesixnetwork.sixprotocol.nftmngr.AllowedActioner:
     type: string
     enum:
@@ -71663,6 +71785,8 @@ definitions:
         type: string
       proposalId:
         type: string
+  thesixnetwork.sixprotocol.nftmngr.MsgEnableVirtualSchemaResponse:
+    type: object
   thesixnetwork.sixprotocol.nftmngr.MsgPerformActionByAdminResponse:
     type: object
     properties:
@@ -72702,14 +72826,8 @@ definitions:
         items:
           type: object
           properties:
-            index:
+            id:
               type: string
-            virtualSchemaCode:
-              type: string
-            registry:
-              type: string
-            enable:
-              type: boolean
       pagination:
         type: object
         properties:
@@ -73830,14 +73948,8 @@ definitions:
       activeEnableVirtualSchemaProposal:
         type: object
         properties:
-          index:
+          id:
             type: string
-          virtualSchemaCode:
-            type: string
-          registry:
-            type: string
-          enable:
-            type: boolean
   thesixnetwork.sixprotocol.nftmngr.QueryGetDisableVirtualSchemaProposalResponse:
     type: object
     properties:
