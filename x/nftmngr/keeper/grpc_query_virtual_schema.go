@@ -164,7 +164,6 @@ func (k Keeper) ActiveDisableVirtualSchemaProposalAll(c context.Context, req *ty
 		activeDisableVirtualSchemaProposals = append(activeDisableVirtualSchemaProposals, activeDisableVirtualSchemaProposal)
 		return nil
 	})
-
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
@@ -209,7 +208,6 @@ func (k Keeper) InactiveEnableVirtualSchemaProposalAll(c context.Context, req *t
 		inactiveEnableVirtualSchemaProposals = append(inactiveEnableVirtualSchemaProposals, inactiveEnableVirtualSchemaProposal)
 		return nil
 	})
-
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
@@ -254,7 +252,6 @@ func (k Keeper) InactiveDisableVirtualSchemaProposalAll(c context.Context, req *
 		inactiveDisableVirtualSchemaProposals = append(inactiveDisableVirtualSchemaProposals, inactiveDisableVirtualSchemaProposal)
 		return nil
 	})
-
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
@@ -299,7 +296,6 @@ func (k Keeper) EnableVirtualSchemaProposalAll(c context.Context, req *types.Que
 		enableVirtualSchemaProposals = append(enableVirtualSchemaProposals, enableVirtualSchemaProposal)
 		return nil
 	})
-
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
@@ -324,7 +320,6 @@ func (k Keeper) EnableVirtualSchemaProposal(c context.Context, req *types.QueryG
 	return &types.QueryGetEnableVirtualSchemaProposalResponse{EnableVirtualSchemaProposal: val}, nil
 }
 
-
 func (k Keeper) ActiveEnableVirtualSchemaProposalAll(c context.Context, req *types.QueryAllActiveEnableVirtualSchemaProposalRequest) (*types.QueryAllActiveEnableVirtualSchemaProposalResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
@@ -345,7 +340,6 @@ func (k Keeper) ActiveEnableVirtualSchemaProposalAll(c context.Context, req *typ
 		activeEnableVirtualSchemaProposals = append(activeEnableVirtualSchemaProposals, activeEnableVirtualSchemaProposal)
 		return nil
 	})
-
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}

@@ -64,7 +64,6 @@ func (k Keeper) GetAllDisableVirtualSchemaProposal(ctx sdk.Context) (list []type
 	return
 }
 
-
 // SetActiveDisableVirtualSchemaProposal set a specific activeDisableVirtualSchemaProposal in the store from its index
 func (k Keeper) SetActiveDisableVirtualSchemaProposal(ctx sdk.Context, activeDisableVirtualSchemaProposal types.ActiveDisableVirtualSchemaProposal) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActiveDisableVirtualSchemaProposalKeyPrefix))
@@ -78,7 +77,6 @@ func (k Keeper) SetActiveDisableVirtualSchemaProposal(ctx sdk.Context, activeDis
 func (k Keeper) GetActiveDisableVirtualSchemaProposal(
 	ctx sdk.Context,
 	index string,
-
 ) (val types.ActiveDisableVirtualSchemaProposal, found bool) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActiveDisableVirtualSchemaProposalKeyPrefix))
 
@@ -97,7 +95,6 @@ func (k Keeper) GetActiveDisableVirtualSchemaProposal(
 func (k Keeper) RemoveActiveDisableVirtualSchemaProposal(
 	ctx sdk.Context,
 	index string,
-
 ) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActiveDisableVirtualSchemaProposalKeyPrefix))
 	store.Delete(types.ActiveDisableVirtualSchemaProposalKey(
@@ -134,7 +131,6 @@ func (k Keeper) SetInactiveDisableVirtualSchemaProposal(ctx sdk.Context, inactiv
 func (k Keeper) GetInactiveDisableVirtualSchemaProposal(
 	ctx sdk.Context,
 	index string,
-
 ) (val types.InactiveDisableVirtualSchemaProposal, found bool) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.InactiveDisableVirtualSchemaProposalKeyPrefix))
 
@@ -149,12 +145,10 @@ func (k Keeper) GetInactiveDisableVirtualSchemaProposal(
 	return val, true
 }
 
-
 // RemoveInactiveDisableVirtualSchemaProposal removes a inactiveDisableVirtualSchemaProposal from the store
 func (k Keeper) RemoveInactiveDisableVirtualSchemaProposal(
 	ctx sdk.Context,
 	index string,
-
 ) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.InactiveDisableVirtualSchemaProposalKeyPrefix))
 	store.Delete(types.InactiveDisableVirtualSchemaProposalKey(

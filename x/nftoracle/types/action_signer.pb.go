@@ -5,21 +5,25 @@ package types
 
 import (
 	fmt "fmt"
-	_ "github.com/gogo/protobuf/gogoproto"
-	proto "github.com/gogo/protobuf/proto"
-	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
-	_ "google.golang.org/protobuf/types/known/timestamppb"
 	io "io"
 	math "math"
 	math_bits "math/bits"
 	time "time"
+
+	_ "github.com/gogo/protobuf/gogoproto"
+	proto "github.com/gogo/protobuf/proto"
+	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
+	_ "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-var _ = fmt.Errorf
-var _ = math.Inf
-var _ = time.Kitchen
+
+var (
+	_ = fmt.Errorf
+	_ = math.Inf
+	_ = time.Kitchen
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -67,9 +71,11 @@ func (*ActionSigner) ProtoMessage()    {}
 func (*ActionSigner) Descriptor() ([]byte, []int) {
 	return fileDescriptor_cb36fd886ff3e92e, []int{0}
 }
+
 func (m *ActionSigner) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *ActionSigner) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_ActionSigner.Marshal(b, m, deterministic)
@@ -82,12 +88,15 @@ func (m *ActionSigner) XXX_Marshal(b []byte, deterministic bool) ([]byte, error)
 		return b[:n], nil
 	}
 }
+
 func (m *ActionSigner) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_ActionSigner.Merge(m, src)
 }
+
 func (m *ActionSigner) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *ActionSigner) XXX_DiscardUnknown() {
 	xxx_messageInfo_ActionSigner.DiscardUnknown(m)
 }
@@ -147,9 +156,11 @@ func (*SetSignerSignature) ProtoMessage()    {}
 func (*SetSignerSignature) Descriptor() ([]byte, []int) {
 	return fileDescriptor_cb36fd886ff3e92e, []int{1}
 }
+
 func (m *SetSignerSignature) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *SetSignerSignature) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_SetSignerSignature.Marshal(b, m, deterministic)
@@ -162,12 +173,15 @@ func (m *SetSignerSignature) XXX_Marshal(b []byte, deterministic bool) ([]byte, 
 		return b[:n], nil
 	}
 }
+
 func (m *SetSignerSignature) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_SetSignerSignature.Merge(m, src)
 }
+
 func (m *SetSignerSignature) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *SetSignerSignature) XXX_DiscardUnknown() {
 	xxx_messageInfo_SetSignerSignature.DiscardUnknown(m)
 }
@@ -200,9 +214,11 @@ func (*SetSignerParams) ProtoMessage()    {}
 func (*SetSignerParams) Descriptor() ([]byte, []int) {
 	return fileDescriptor_cb36fd886ff3e92e, []int{2}
 }
+
 func (m *SetSignerParams) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *SetSignerParams) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_SetSignerParams.Marshal(b, m, deterministic)
@@ -215,12 +231,15 @@ func (m *SetSignerParams) XXX_Marshal(b []byte, deterministic bool) ([]byte, err
 		return b[:n], nil
 	}
 }
+
 func (m *SetSignerParams) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_SetSignerParams.Merge(m, src)
 }
+
 func (m *SetSignerParams) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *SetSignerParams) XXX_DiscardUnknown() {
 	xxx_messageInfo_SetSignerParams.DiscardUnknown(m)
 }
@@ -448,6 +467,7 @@ func encodeVarintActionSigner(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
+
 func (m *ActionSigner) Size() (n int) {
 	if m == nil {
 		return 0
@@ -515,9 +535,11 @@ func (m *SetSignerParams) Size() (n int) {
 func sovActionSigner(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
+
 func sozActionSigner(x uint64) (n int) {
 	return sovActionSigner(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
+
 func (m *ActionSigner) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -749,6 +771,7 @@ func (m *ActionSigner) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func (m *SetSignerSignature) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -863,6 +886,7 @@ func (m *SetSignerSignature) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func (m *SetSignerParams) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1010,6 +1034,7 @@ func (m *SetSignerParams) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func skipActionSigner(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0

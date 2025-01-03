@@ -6,6 +6,7 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
@@ -22,7 +23,6 @@ func (k Keeper) SetEnableVirtualSchemaProposal(ctx sdk.Context, enableVirtualSch
 func (k Keeper) GetEnableVirtualSchemaProposal(
 	ctx sdk.Context,
 	index string,
-
 ) (val types.EnableVirtualSchemaProposal, found bool) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.EnableVirtualSchemaProposalKeyPrefix))
 
@@ -41,7 +41,6 @@ func (k Keeper) GetEnableVirtualSchemaProposal(
 func (k Keeper) RemoveEnableVirtualSchemaProposal(
 	ctx sdk.Context,
 	index string,
-
 ) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.EnableVirtualSchemaProposalKeyPrefix))
 	store.Delete(types.EnableVirtualSchemaProposalKey(
@@ -91,7 +90,6 @@ func (k Keeper) EnableVirtualSchemaActiveProposalQueryIterator(ctx sdk.Context, 
 	return iterator
 }
 
-
 // SetInactiveEnableVirtualSchemaProposal set a specific inactiveEnableVirtualSchemaProposal in the store from its index
 func (k Keeper) SetInactiveEnableVirtualSchemaProposal(ctx sdk.Context, inactiveEnableVirtualSchemaProposal types.InactiveEnableVirtualSchemaProposal) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.InactiveEnableVirtualSchemaProposalKeyPrefix))
@@ -105,7 +103,6 @@ func (k Keeper) SetInactiveEnableVirtualSchemaProposal(ctx sdk.Context, inactive
 func (k Keeper) GetInactiveEnableVirtualSchemaProposal(
 	ctx sdk.Context,
 	index string,
-
 ) (val types.InactiveEnableVirtualSchemaProposal, found bool) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.InactiveEnableVirtualSchemaProposalKeyPrefix))
 
@@ -124,7 +121,6 @@ func (k Keeper) GetInactiveEnableVirtualSchemaProposal(
 func (k Keeper) RemoveInactiveEnableVirtualSchemaProposal(
 	ctx sdk.Context,
 	index string,
-
 ) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.InactiveEnableVirtualSchemaProposalKeyPrefix))
 	store.Delete(types.InactiveEnableVirtualSchemaProposalKey(
@@ -161,7 +157,6 @@ func (k Keeper) SetActiveEnableVirtualSchemaProposal(ctx sdk.Context, activeEnab
 func (k Keeper) GetActiveEnableVirtualSchemaProposal(
 	ctx sdk.Context,
 	index string,
-
 ) (val types.ActiveEnableVirtualSchemaProposal, found bool) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActiveEnableVirtualSchemaProposalKeyPrefix))
 
@@ -180,7 +175,6 @@ func (k Keeper) GetActiveEnableVirtualSchemaProposal(
 func (k Keeper) RemoveActiveEnableVirtualSchemaProposal(
 	ctx sdk.Context,
 	index string,
-
 ) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActiveEnableVirtualSchemaProposalKeyPrefix))
 	store.Delete(types.ActiveEnableVirtualSchemaProposalKey(
