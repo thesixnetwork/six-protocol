@@ -25,7 +25,7 @@ func (k msgServer) CreateVirtualAction(goCtx context.Context, msg *types.MsgCrea
 		}
 
 		listNewVirtualAction = append(listNewVirtualAction, &types.VirtualAction{
-			NftSchemaCode:   msg.NftSchemaCode,
+			VirtualNftSchemaCode:   msg.NftSchemaCode,
 			Name:            newAction.Name,
 			Desc:            newAction.Desc,
 			When:            newAction.When,
@@ -65,7 +65,7 @@ func (k msgServer) UpdateVirtualAction(goCtx context.Context, msg *types.MsgUpda
 		}
 
 		listNewVirtualAction = append(listNewVirtualAction, &types.VirtualAction{
-			NftSchemaCode:   msg.NftSchemaCode,
+			VirtualNftSchemaCode:   msg.NftSchemaCode,
 			Name:            newAction.Name,
 			Desc:            newAction.Desc,
 			When:            newAction.When,

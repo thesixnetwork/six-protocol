@@ -20,7 +20,7 @@ var _ = strconv.IntSize
 func createNVirtualAction(keeper *keeper.Keeper, ctx sdk.Context, n int) []types.VirtualAction {
 	items := make([]types.VirtualAction, n)
 	for i := range items {
-		items[i].NftSchemaCode = strconv.Itoa(i)
+		items[i].VirtualNftSchemaCode = strconv.Itoa(i)
 
 		keeper.SetVirtualAction(ctx, items[i])
 	}
@@ -33,7 +33,7 @@ func TestVirtualActionGet(t *testing.T) {
 	items := createNVirtualAction(keeper, ctx, 10)
 	for _, item := range items {
 		rst, found := keeper.GetVirtualAction(ctx,
-			item.NftSchemaCode,
+			item.VirtualNftSchemaCode,
 			item.Name,
 		)
 		require.True(t, found)
@@ -50,11 +50,11 @@ func TestVirtualActionRemove(t *testing.T) {
 	items := createNVirtualAction(keeper, ctx, 10)
 	for _, item := range items {
 		keeper.RemoveVirtualAction(ctx,
-			item.NftSchemaCode,
+			item.VirtualNftSchemaCode,
 			item.Name,
 		)
 		_, found := keeper.GetVirtualAction(ctx,
-			item.NftSchemaCode,
+			item.VirtualNftSchemaCode,
 			item.Name,
 		)
 		require.False(t, found)

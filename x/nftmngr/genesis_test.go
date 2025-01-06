@@ -116,7 +116,7 @@ func TestGenesis(t *testing.T) {
 		},
 		VirtualActionList: []types.VirtualAction{
 			{
-				NftSchemaCode:   "0",
+				VirtualNftSchemaCode:   "0",
 				Name:            "",
 				Desc:            "",
 				Disable:         false,
@@ -126,7 +126,7 @@ func TestGenesis(t *testing.T) {
 				Params:          []*types.ActionParams{},
 			},
 			{
-				NftSchemaCode:   "0",
+				VirtualNftSchemaCode:   "0",
 				Name:            "",
 				Desc:            "",
 				Disable:         false,

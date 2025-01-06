@@ -12,7 +12,7 @@ import "gogoproto/gogo.proto";
    2. Proposal to enable and disable action
 */
 message VirtualAction {
-  string nftSchemaCode = 1;
+  string virtualNftSchemaCode = 1;
   string name = 2;
   string desc = 3;
   bool disable = 4;

@@ -28,3 +28,14 @@ message NFTSchemaINPUT {
   bool isVerified = 8;
   string mint_authorization = 9;
 }
+
+message NFTSchemaQueryResult {
+  string code = 1;
+  string name = 2;
+  string owner = 3;
+  string description = 4;
+  OriginData origin_data = 5;
+  OnChainDataResult onchain_data = 6;
+  bool isVerified = 7;
+  string mint_authorization = 8;
+}

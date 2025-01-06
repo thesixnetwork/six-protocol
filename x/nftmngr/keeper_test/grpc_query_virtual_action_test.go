@@ -32,7 +32,7 @@ func TestVirtualActionQuerySingle(t *testing.T) {
 		{
 			desc: "First",
 			request: &types.QueryGetVirtualActionRequest{
-				NftSchemaCode: msgs[0].NftSchemaCode,
+				NftSchemaCode: msgs[0].VirtualNftSchemaCode,
 				Name:          msgs[0].Name,
 			},
 			response: &types.QueryGetVirtualActionResponse{VirtualAction: msgs[0]},
@@ -40,7 +40,7 @@ func TestVirtualActionQuerySingle(t *testing.T) {
 		{
 			desc: "Second",
 			request: &types.QueryGetVirtualActionRequest{
-				NftSchemaCode: msgs[1].NftSchemaCode,
+				NftSchemaCode: msgs[1].VirtualNftSchemaCode,
 				Name:          msgs[1].Name,
 			},
 			response: &types.QueryGetVirtualActionResponse{VirtualAction: msgs[1]},

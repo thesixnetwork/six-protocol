@@ -278,7 +278,7 @@ message QueryParamsResponse {
 message QueryGetNFTSchemaRequest { string code = 1; }
 
 message QueryGetNFTSchemaResponse {
-  NFTSchema nFTSchema = 1 [ (gogoproto.nullable) = false ];
+  NFTSchemaQueryResult nFTSchema = 1 [ (gogoproto.nullable) = false ];
 }
 
 message QueryAllNFTSchemaRequest {
@@ -286,7 +286,7 @@ message QueryAllNFTSchemaRequest {
 }
 
 message QueryAllNFTSchemaResponse {
-  repeated NFTSchema nFTSchema = 1 [ (gogoproto.nullable) = false ];
+  repeated NFTSchemaQueryResult nFTSchema = 1 [ (gogoproto.nullable) = false ];
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 

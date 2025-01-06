@@ -122,11 +122,11 @@ func TestGenesisState_Validate(t *testing.T) {
 				},
 				VirtualActionList: []types.VirtualAction{
 					{
-						NftSchemaCode: "0",
+						VirtualNftSchemaCode: "0",
 						Name:          "0",
 					},
 					{
-						NftSchemaCode: "0",
+						VirtualNftSchemaCode: "0",
 						Name:          "0",
 					},
 				},
@@ -381,11 +381,11 @@ func TestGenesisState_Validate(t *testing.T) {
 			genState: &types.GenesisState{
 				VirtualActionList: []types.VirtualAction{
 					{
-						NftSchemaCode: "0",
+						VirtualNftSchemaCode: "0",
 						Name:          "0",
 					},
 					{
-						NftSchemaCode: "0",
+						VirtualNftSchemaCode: "0",
 						Name:          "0",
 					},
 				},

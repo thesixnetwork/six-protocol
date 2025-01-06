@@ -119,7 +119,7 @@ func (AppModule) GenerateGenesisState(simState *module.SimulationState) {
 		ExecutorOfSchemaList:    []types.ExecutorOfSchema{},
 		VirtualActionList: []types.VirtualAction{
 			{
-				NftSchemaCode:   "0",
+				VirtualNftSchemaCode:   "0",
 				Name:            "",
 				Desc:            "",
 				Disable:         false,
@@ -129,7 +129,7 @@ func (AppModule) GenerateGenesisState(simState *module.SimulationState) {
 				Params:          []*types.ActionParams{},
 			},
 			{
-				NftSchemaCode:   "1",
+				VirtualNftSchemaCode:   "1",
 				Name:            "",
 				Desc:            "",
 				Disable:         false,
