@@ -8,16 +8,11 @@ import (
 )
 
 func RegisterCodec(cdc *codec.LegacyAmino) {
+	// general
 	cdc.RegisterConcrete(&MsgCreateNFTSchema{}, "nftmngr/CreateNFTSchema", nil)
 	cdc.RegisterConcrete(&MsgCreateMetadata{}, "nftmngr/CreateMetadata", nil)
-	cdc.RegisterConcrete(&MsgPerformActionByAdmin{}, "nftmngr/PerformActionByAdmin", nil)
-	cdc.RegisterConcrete(&MsgAddAttribute{}, "nftmngr/AddAttribute", nil)
-	cdc.RegisterConcrete(&MsgAddAction{}, "nftmngr/AddAction", nil)
 	cdc.RegisterConcrete(&MsgSetBaseUri{}, "nftmngr/SetBaseUri", nil)
-	cdc.RegisterConcrete(&MsgToggleAction{}, "nftmngr/ToggleAction", nil)
 	cdc.RegisterConcrete(&MsgChangeSchemaOwner{}, "nftmngr/ChangeSchemaOwner", nil)
-	cdc.RegisterConcrete(&MsgResyncAttributes{}, "nftmngr/ResyncAttributes", nil)
-	cdc.RegisterConcrete(&MsgShowAttributes{}, "nftmngr/ShowAttributes", nil)
 	cdc.RegisterConcrete(&MsgSetFeeConfig{}, "nftmngr/SetFeeConfig", nil)
 	cdc.RegisterConcrete(&MsgSetMintauth{}, "nftmngr/SetMintauth", nil)
 	cdc.RegisterConcrete(&MsgChangeOrgOwner{}, "nftmngr/ChageOrgOwner", nil)
@@ -26,98 +21,81 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgSetOriginContract{}, "nftmngr/SetOriginContract", nil)
 	cdc.RegisterConcrete(&MsgSetAttributeOveriding{}, "nftmngr/SetAttributeOveriding", nil)
 	cdc.RegisterConcrete(&MsgSetMetadataFormat{}, "nftmngr/SetMetadataFormat", nil)
+
+	// attributes
+	cdc.RegisterConcrete(&MsgAddAttribute{}, "nftmngr/AddAttribute", nil)
+	cdc.RegisterConcrete(&MsgResyncAttributes{}, "nftmngr/ResyncAttributes", nil)
+	cdc.RegisterConcrete(&MsgShowAttributes{}, "nftmngr/ShowAttributes", nil)
+	cdc.RegisterConcrete(&MsgUpdateSchemaAttribute{}, "nftmngr/UpdateSchemaAttribute", nil)
+	// action
+	cdc.RegisterConcrete(&MsgPerformActionByAdmin{}, "nftmngr/PerformActionByAdmin", nil)
+	cdc.RegisterConcrete(&MsgAddAction{}, "nftmngr/AddAction", nil)
+	cdc.RegisterConcrete(&MsgToggleAction{}, "nftmngr/ToggleAction", nil)
+	cdc.RegisterConcrete(&MsgUpdateAction{}, "nftmngr/UpdateAction", nil)
+	// executor
 	cdc.RegisterConcrete(&MsgCreateActionExecutor{}, "nftmngr/CreateActionExecutor", nil)
 	cdc.RegisterConcrete(&MsgUpdateActionExecutor{}, "nftmngr/UpdateActionExecutor", nil)
 	cdc.RegisterConcrete(&MsgDeleteActionExecutor{}, "nftmngr/DeleteActionExecutor", nil)
-	cdc.RegisterConcrete(&MsgUpdateSchemaAttribute{}, "nftmngr/UpdateSchemaAttribute", nil)
-	cdc.RegisterConcrete(&MsgUpdateAction{}, "nftmngr/UpdateAction", nil)
+	// virtual schema
+	cdc.RegisterConcrete(&MsgCreateVirtualSchemaProposal{}, "nftmngr/CreateVirtualSchema", nil)
+	// virtual action
+	cdc.RegisterConcrete(&MsgPerformVirtualAction{}, "nftmngr/PerformVirtualAction", nil)
 	cdc.RegisterConcrete(&MsgCreateVirtualAction{}, "nftmngr/CreateVirtualAction", nil)
 	cdc.RegisterConcrete(&MsgUpdateVirtualAction{}, "nftmngr/UpdateVirtualAction", nil)
 	cdc.RegisterConcrete(&MsgDeleteVirtualAction{}, "nftmngr/DeleteVirtualAction", nil)
-	cdc.RegisterConcrete(&MsgCreateVirtualSchemaProposal{}, "nftmngr/CreateVirtualSchema", nil)
-	cdc.RegisterConcrete(&MsgPerformVirtualAction{}, "nftmngr/PerformVirtualAction", nil)
+	// proposal
 	cdc.RegisterConcrete(&MsgVoteVirtualSchemaProposal{}, "nftmngr/VoteVirtualSchemaProposal", nil)
 	// this line is used by starport scaffolding # 2
 }
 
 func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
-	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgCreateNFTSchema{},
-	)
-	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgCreateMetadata{},
-	)
-	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgPerformActionByAdmin{},
-	)
-	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgAddAttribute{},
-	)
-	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgAddAction{},
-	)
-	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgToggleAction{},
-	)
-	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgSetBaseUri{},
-	)
-	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgChangeSchemaOwner{},
-	)
-	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgResyncAttributes{},
-	)
-	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgShowAttributes{},
-	)
+	// general
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgSetFeeConfig{},
-	)
-	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgCreateMetadata{},
+		&MsgSetBaseUri{},
+		&MsgChangeSchemaOwner{},
 		&MsgSetMintauth{},
-	)
-	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgChangeOrgOwner{},
-	)
-	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgSetUriRetrievalMethod{},
-	)
-	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgSetOriginChain{},
-	)
-	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgSetOriginContract{},
-	)
-	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgSetAttributeOveriding{},
-	)
-	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgSetMetadataFormat{},
 	)
+	// attributes
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgAddAttribute{},
+		&MsgResyncAttributes{},
+		&MsgShowAttributes{},
+		&MsgUpdateSchemaAttribute{},
+	)
+	// action
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgPerformActionByAdmin{},
+		&MsgAddAction{},
+		&MsgToggleAction{},
+		&MsgUpdateAction{},
+	)
+	// executor
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgCreateActionExecutor{},
 		&MsgUpdateActionExecutor{},
 		&MsgDeleteActionExecutor{},
 	)
-	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgUpdateSchemaAttribute{},
-	)
-	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgUpdateAction{},
-	)
+	// virtual schema
+	// virtual action
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgCreateVirtualAction{},
 		&MsgUpdateVirtualAction{},
 		&MsgDeleteVirtualAction{},
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgCreateVirtualSchemaProposal{},
-	)
-	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgPerformVirtualAction{},
 	)
+	// proposal
 	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgCreateVirtualSchemaProposal{},
 		&MsgVoteVirtualSchemaProposal{},
 	)
 	// this line is used by starport scaffolding # 3

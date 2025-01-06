@@ -62,9 +62,9 @@ service Msg {
       returns (MsgCreateVirtualSchemaResponse);
   rpc PerformVirtualAction(MsgPerformVirtualAction)
       returns (MsgPerformVirtualActionResponse);
-  rpc VoteVirtualSchemaProposal(MsgVoteVirtualSchemaProposal) 
+  rpc VoteVirtualSchemaProposal(MsgVoteVirtualSchemaProposal)
       returns (MsgVoteVirtualSchemaProposalResponse);
-// this line is used by starport scaffolding # proto/tx/rpc
+  // this line is used by starport scaffolding # proto/tx/rpc
 }
 
 enum AttributeLocation {
@@ -423,7 +423,6 @@ message MsgVoteVirtualSchemaProposal {
   RegistryStatus option = 4;
 }
 
-message MsgVoteVirtualSchemaProposalResponse {
-}
+message MsgVoteVirtualSchemaProposalResponse {}
 
 // this line is used by starport scaffolding # proto/tx/message
