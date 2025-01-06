@@ -156,7 +156,7 @@ func (gs GenesisState) Validate() error {
 	VirtualActionIndexMap := make(map[string]struct{})
 
 	for _, elem := range gs.VirtualActionList {
-		index := string(VirtualActionKey(elem.NftSchemaCode, elem.Name))
+		index := string(VirtualActionKey(elem.VirtualNftSchemaCode, elem.Name))
 		if _, ok := VirtualActionIndexMap[index]; ok {
 			return fmt.Errorf("duplicated index for VirtualAction")
 		}

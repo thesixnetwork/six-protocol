@@ -13,7 +13,7 @@ func (k Keeper) SetVirtualAction(ctx sdk.Context, virtual types.VirtualAction) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.VirtualActionKeyPrefix))
 	b := k.cdc.MustMarshal(&virtual)
 	store.Set(types.VirtualActionKey(
-		virtual.NftSchemaCode,
+		virtual.VirtualNftSchemaCode,
 		virtual.Name,
 	), b)
 }

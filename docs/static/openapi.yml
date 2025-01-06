@@ -35652,13 +35652,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/six-protocol/nftmngr/enable_virtual_schema_proposal/{index}':
@@ -36181,13 +36174,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/action_by_ref_id/{refId}':
@@ -36682,13 +36668,6 @@ paths:
             when key
 
             is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
           in: query
           required: false
           type: boolean
@@ -37187,13 +37166,6 @@ paths:
             when key
 
             is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
           in: query
           required: false
           type: boolean
@@ -37720,13 +37692,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/disable_virtual_schema/{index}':
@@ -38242,13 +38207,6 @@ paths:
             when key
 
             is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
           in: query
           required: false
           type: boolean
@@ -38990,13 +38948,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/metadata_creator/{nftSchemaCode}':
@@ -39573,13 +39524,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   /thesixnetwork/sixnft/nftmngr/nft_data:
@@ -39937,13 +39881,6 @@ paths:
             when key
 
             is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
           in: query
           required: false
           type: boolean
@@ -40944,6 +40881,52 @@ paths:
                                       type: boolean
                                     default_value:
                                       type: string
+                        virtual_actions:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              virtualNftSchemaCode:
+                                type: string
+                              name:
+                                type: string
+                              desc:
+                                type: string
+                              disable:
+                                type: boolean
+                              when:
+                                type: string
+                              then:
+                                type: array
+                                items:
+                                  type: string
+                              allowedActioner:
+                                type: string
+                                enum:
+                                  - ALLOWED_ACTIONER_ALL
+                                  - ALLOWED_ACTIONER_SYSTEM_ONLY
+                                  - ALLOWED_ACTIONER_USER_ONLY
+                                default: ALLOWED_ACTIONER_ALL
+                                title: 'NOTE: Policy of virtual action'
+                              params:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    name:
+                                      type: string
+                                    desc:
+                                      type: string
+                                    data_type:
+                                      type: string
+                                    required:
+                                      type: boolean
+                                    default_value:
+                                      type: string
+                            title: |-
+                              TODO:
+                              1. Policy of action (who can use action)
+                              2. Proposal to enable and disable action
                         status:
                           type: array
                           items:
@@ -41213,13 +41196,6 @@ paths:
             when key
 
             is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
           in: query
           required: false
           type: boolean
@@ -41500,6 +41476,52 @@ paths:
                                     type: boolean
                                   default_value:
                                     type: string
+                      virtual_actions:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            virtualNftSchemaCode:
+                              type: string
+                            name:
+                              type: string
+                            desc:
+                              type: string
+                            disable:
+                              type: boolean
+                            when:
+                              type: string
+                            then:
+                              type: array
+                              items:
+                                type: string
+                            allowedActioner:
+                              type: string
+                              enum:
+                                - ALLOWED_ACTIONER_ALL
+                                - ALLOWED_ACTIONER_SYSTEM_ONLY
+                                - ALLOWED_ACTIONER_USER_ONLY
+                              default: ALLOWED_ACTIONER_ALL
+                              title: 'NOTE: Policy of virtual action'
+                            params:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  name:
+                                    type: string
+                                  desc:
+                                    type: string
+                                  data_type:
+                                    type: string
+                                  required:
+                                    type: boolean
+                                  default_value:
+                                    type: string
+                          title: |-
+                            TODO:
+                            1. Policy of action (who can use action)
+                            2. Proposal to enable and disable action
                       status:
                         type: array
                         items:
@@ -41982,13 +42004,6 @@ paths:
             when key
 
             is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
           in: query
           required: false
           type: boolean
@@ -42480,13 +42495,6 @@ paths:
             when key
 
             is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
           in: query
           required: false
           type: boolean
@@ -43211,13 +43219,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/schema_attribute/{nftSchemaCode}/{name}':
@@ -43477,7 +43478,7 @@ paths:
                 items:
                   type: object
                   properties:
-                    nftSchemaCode:
+                    virtualNftSchemaCode:
                       type: string
                     name:
                       type: string
@@ -43777,13 +43778,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/virtual_action/{nftSchemaCode}':
@@ -43799,7 +43793,7 @@ paths:
               virtualAction:
                 type: object
                 properties:
-                  nftSchemaCode:
+                  virtualNftSchemaCode:
                     type: string
                   name:
                     type: string
@@ -44332,13 +44326,6 @@ paths:
             when key
 
             is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
           in: query
           required: false
           type: boolean
@@ -44876,13 +44863,6 @@ paths:
             when key
 
             is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
           in: query
           required: false
           type: boolean
@@ -69726,7 +69706,7 @@ definitions:
         items:
           type: object
           properties:
-            nftSchemaCode:
+            virtualNftSchemaCode:
               type: string
             name:
               type: string
@@ -69910,7 +69890,7 @@ definitions:
         items:
           type: object
           properties:
-            nftSchemaCode:
+            virtualNftSchemaCode:
               type: string
             name:
               type: string
@@ -69988,7 +69968,16 @@ definitions:
                 portion:
                   type: number
                   format: float
-  thesixnetwork.sixprotocol.nftmngr.NFTSchema:
+  thesixnetwork.sixprotocol.nftmngr.NFTSchemaByContract:
+    type: object
+    properties:
+      originContractAddress:
+        type: string
+      schemaCodes:
+        type: array
+        items:
+          type: string
+  thesixnetwork.sixprotocol.nftmngr.NFTSchemaQueryResult:
     type: object
     properties:
       code:
@@ -70253,6 +70242,52 @@ definitions:
                         type: boolean
                       default_value:
                         type: string
+          virtual_actions:
+            type: array
+            items:
+              type: object
+              properties:
+                virtualNftSchemaCode:
+                  type: string
+                name:
+                  type: string
+                desc:
+                  type: string
+                disable:
+                  type: boolean
+                when:
+                  type: string
+                then:
+                  type: array
+                  items:
+                    type: string
+                allowedActioner:
+                  type: string
+                  enum:
+                    - ALLOWED_ACTIONER_ALL
+                    - ALLOWED_ACTIONER_SYSTEM_ONLY
+                    - ALLOWED_ACTIONER_USER_ONLY
+                  default: ALLOWED_ACTIONER_ALL
+                  title: 'NOTE: Policy of virtual action'
+                params:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      desc:
+                        type: string
+                      data_type:
+                        type: string
+                      required:
+                        type: boolean
+                      default_value:
+                        type: string
+              title: |-
+                TODO:
+                1. Policy of action (who can use action)
+                2. Proposal to enable and disable action
           status:
             type: array
             items:
@@ -70266,15 +70301,6 @@ definitions:
         type: boolean
       mint_authorization:
         type: string
-  thesixnetwork.sixprotocol.nftmngr.NFTSchemaByContract:
-    type: object
-    properties:
-      originContractAddress:
-        type: string
-      schemaCodes:
-        type: array
-        items:
-          type: string
   thesixnetwork.sixprotocol.nftmngr.NftAttributeValue:
     type: object
     properties:
@@ -70393,7 +70419,7 @@ definitions:
       value:
         type: string
         format: uint64
-  thesixnetwork.sixprotocol.nftmngr.OnChainData:
+  thesixnetwork.sixprotocol.nftmngr.OnChainDataResult:
     type: object
     properties:
       nft_attributes:
@@ -70561,6 +70587,52 @@ definitions:
                     type: boolean
                   default_value:
                     type: string
+      virtual_actions:
+        type: array
+        items:
+          type: object
+          properties:
+            virtualNftSchemaCode:
+              type: string
+            name:
+              type: string
+            desc:
+              type: string
+            disable:
+              type: boolean
+            when:
+              type: string
+            then:
+              type: array
+              items:
+                type: string
+            allowedActioner:
+              type: string
+              enum:
+                - ALLOWED_ACTIONER_ALL
+                - ALLOWED_ACTIONER_SYSTEM_ONLY
+                - ALLOWED_ACTIONER_USER_ONLY
+              default: ALLOWED_ACTIONER_ALL
+              title: 'NOTE: Policy of virtual action'
+            params:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  desc:
+                    type: string
+                  data_type:
+                    type: string
+                  required:
+                    type: boolean
+                  default_value:
+                    type: string
+          title: |-
+            TODO:
+            1. Policy of action (who can use action)
+            2. Proposal to enable and disable action
       status:
         type: array
         items:
@@ -71324,6 +71396,52 @@ definitions:
                               type: boolean
                             default_value:
                               type: string
+                virtual_actions:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      virtualNftSchemaCode:
+                        type: string
+                      name:
+                        type: string
+                      desc:
+                        type: string
+                      disable:
+                        type: boolean
+                      when:
+                        type: string
+                      then:
+                        type: array
+                        items:
+                          type: string
+                      allowedActioner:
+                        type: string
+                        enum:
+                          - ALLOWED_ACTIONER_ALL
+                          - ALLOWED_ACTIONER_SYSTEM_ONLY
+                          - ALLOWED_ACTIONER_USER_ONLY
+                        default: ALLOWED_ACTIONER_ALL
+                        title: 'NOTE: Policy of virtual action'
+                      params:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            desc:
+                              type: string
+                            data_type:
+                              type: string
+                            required:
+                              type: boolean
+                            default_value:
+                              type: string
+                    title: |-
+                      TODO:
+                      1. Policy of action (who can use action)
+                      2. Proposal to enable and disable action
                 status:
                   type: array
                   items:
@@ -71586,7 +71704,7 @@ definitions:
         items:
           type: object
           properties:
-            nftSchemaCode:
+            virtualNftSchemaCode:
               type: string
             name:
               type: string
@@ -72235,6 +72353,52 @@ definitions:
                             type: boolean
                           default_value:
                             type: string
+              virtual_actions:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    virtualNftSchemaCode:
+                      type: string
+                    name:
+                      type: string
+                    desc:
+                      type: string
+                    disable:
+                      type: boolean
+                    when:
+                      type: string
+                    then:
+                      type: array
+                      items:
+                        type: string
+                    allowedActioner:
+                      type: string
+                      enum:
+                        - ALLOWED_ACTIONER_ALL
+                        - ALLOWED_ACTIONER_SYSTEM_ONLY
+                        - ALLOWED_ACTIONER_USER_ONLY
+                      default: ALLOWED_ACTIONER_ALL
+                      title: 'NOTE: Policy of virtual action'
+                    params:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          desc:
+                            type: string
+                          data_type:
+                            type: string
+                          required:
+                            type: boolean
+                          default_value:
+                            type: string
+                  title: |-
+                    TODO:
+                    1. Policy of action (who can use action)
+                    2. Proposal to enable and disable action
               status:
                 type: array
                 items:
@@ -72502,7 +72666,7 @@ definitions:
       virtualAction:
         type: object
         properties:
-          nftSchemaCode:
+          virtualNftSchemaCode:
             type: string
           name:
             type: string
@@ -72748,7 +72912,7 @@ definitions:
   thesixnetwork.sixprotocol.nftmngr.VirtualAction:
     type: object
     properties:
-      nftSchemaCode:
+      virtualNftSchemaCode:
         type: string
       name:
         type: string

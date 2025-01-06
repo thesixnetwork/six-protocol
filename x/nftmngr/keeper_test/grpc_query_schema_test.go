@@ -33,14 +33,14 @@ func TestNFTSchemaQuerySingle(t *testing.T) {
 			request: &types.QueryGetNFTSchemaRequest{
 				Code: msgs[0].Code,
 			},
-			response: &types.QueryGetNFTSchemaResponse{NFTSchema: msgs[0]},
+			response: &types.QueryGetNFTSchemaResponse{NFTSchema: msgs[0].ResultWithEmptyVirtualAction()},
 		},
 		{
 			desc: "Second",
 			request: &types.QueryGetNFTSchemaRequest{
 				Code: msgs[1].Code,
 			},
-			response: &types.QueryGetNFTSchemaResponse{NFTSchema: msgs[1]},
+			response: &types.QueryGetNFTSchemaResponse{NFTSchema: msgs[1].ResultWithEmptyVirtualAction()},
 		},
 		{
 			desc: "KeyNotFound",

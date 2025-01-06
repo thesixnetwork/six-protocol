@@ -372,7 +372,7 @@ func (k Keeper) AddVirtualActionKeeper(ctx sdk.Context, creator string, nftSchem
 	})
 
 	k.SetVirtualAction(ctx, types.VirtualAction{
-		NftSchemaCode:   nftSchemaName,
+		VirtualNftSchemaCode:   nftSchemaName,
 		Name:            newAction.Name,
 		Desc:            newAction.Desc,
 		When:            newAction.When,
@@ -440,7 +440,7 @@ func (k Keeper) UpdateVirtualActionKeeper(ctx sdk.Context, creator, nftSchemaNam
 	}
 
 	k.SetVirtualAction(ctx, types.VirtualAction{
-		NftSchemaCode:   nftSchemaName,
+		VirtualNftSchemaCode:   nftSchemaName,
 		Name:            updateAction.Name,
 		Desc:            updateAction.Desc,
 		When:            updateAction.When,
@@ -513,7 +513,7 @@ func (k Keeper) ToggleVirtualActionKeeper(ctx sdk.Context, creator, nftSchemaNam
 
 	// save
 	k.SetVirtualAction(ctx, types.VirtualAction{
-		NftSchemaCode:   nftSchemaName,
+		VirtualNftSchemaCode:   nftSchemaName,
 		Name:            action.Name,
 		Desc:            action.Desc,
 		When:            action.When,

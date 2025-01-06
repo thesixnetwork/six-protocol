@@ -86,7 +86,7 @@ func SimulateMsgUpdateVirtualAction(
 		}
 		msg.Creator = simAccount.Address.String()
 
-		msg.NftSchemaCode = virtual.NftSchemaCode
+		msg.NftSchemaCode = virtual.VirtualNftSchemaCode
 
 		txCtx := simulation.OperationInput{
 			R:               r,
@@ -132,7 +132,7 @@ func SimulateMsgDeleteVirtualAction(
 		}
 		msg.Creator = simAccount.Address.String()
 
-		msg.NftSchemaCode = virtual.NftSchemaCode
+		msg.NftSchemaCode = virtual.VirtualNftSchemaCode
 
 		txCtx := simulation.OperationInput{
 			R:               r,
