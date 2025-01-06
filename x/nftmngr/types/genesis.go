@@ -25,15 +25,9 @@ func DefaultGenesis() *GenesisState {
 		ExecutorOfSchemaList:                     []ExecutorOfSchema{},
 		VirtualActionList:                        []VirtualAction{},
 		VirtualSchemaList:                        []VirtualSchema{},
-		DisableVirtualSchemaProposalList:         []DisableVirtualSchemaProposal{},
 		VirtualSchemaProposalList:                []VirtualSchemaProposal{},
 		ActiveVirtualSchemaProposalList:          []ActiveVirtualSchemaProposal{},
 		InactiveVirtualSchemaProposalList:        []InactiveVirtualSchemaProposal{},
-		ActiveDisableVirtualSchemaProposalList:   []ActiveDisableVirtualSchemaProposal{},
-		InactiveDisableVirtualSchemaProposalList: []InactiveDisableVirtualSchemaProposal{},
-		EnableVirtualSchemaProposalList:          []EnableVirtualSchemaProposal{},
-		InactiveEnableVirtualSchemaProposalList:  []InactiveEnableVirtualSchemaProposal{},
-		ActiveEnableVirtualSchemaProposalList:    []ActiveEnableVirtualSchemaProposal{},
 		// this line is used by starport scaffolding # genesis/types/default
 		Params: DefaultParams(),
 	}
@@ -172,16 +166,6 @@ func (gs GenesisState) Validate() error {
 		}
 		virSchemaIndexMap[index] = struct{}{}
 	}
-	// Check for duplicated index in disableVirtualSchema
-	disableVirtualSchemaIndexMap := make(map[string]struct{})
-
-	for _, elem := range gs.DisableVirtualSchemaProposalList {
-		index := string(DisableVirtualSchemaKey(elem.Id))
-		if _, ok := disableVirtualSchemaIndexMap[index]; ok {
-			return fmt.Errorf("duplicated index for disableVirtualSchema")
-		}
-		disableVirtualSchemaIndexMap[index] = struct{}{}
-	}
 	// Check for duplicated index in virtualSchemaProposal
 	virtualSchemaProposalIndexMap := make(map[string]struct{})
 
@@ -211,56 +195,6 @@ func (gs GenesisState) Validate() error {
 			return fmt.Errorf("duplicated index for inactiveVirtualSchemaProposal")
 		}
 		inactiveVirtualSchemaProposalIndexMap[index] = struct{}{}
-	}
-	// Check for duplicated index in activeDisableVirtualSchemaProposal
-	activeDisableVirtualSchemaProposalIndexMap := make(map[string]struct{})
-
-	for _, elem := range gs.ActiveDisableVirtualSchemaProposalList {
-		index := string(ActiveDisableVirtualSchemaProposalKey(elem.Id))
-		if _, ok := activeDisableVirtualSchemaProposalIndexMap[index]; ok {
-			return fmt.Errorf("duplicated index for activeDisableVirtualSchemaProposal")
-		}
-		activeDisableVirtualSchemaProposalIndexMap[index] = struct{}{}
-	}
-	// Check for duplicated index in inactiveDisableVirtualSchemaProposal
-	inactiveDisableVirtualSchemaProposalIndexMap := make(map[string]struct{})
-
-	for _, elem := range gs.InactiveDisableVirtualSchemaProposalList {
-		index := string(InactiveDisableVirtualSchemaProposalKey(elem.Id))
-		if _, ok := inactiveDisableVirtualSchemaProposalIndexMap[index]; ok {
-			return fmt.Errorf("duplicated index for inactiveDisableVirtualSchemaProposal")
-		}
-		inactiveDisableVirtualSchemaProposalIndexMap[index] = struct{}{}
-	}
-	// Check for duplicated index in enableVirtualSchemaProposal
-	enableVirtualSchemaProposalIndexMap := make(map[string]struct{})
-
-	for _, elem := range gs.EnableVirtualSchemaProposalList {
-		index := string(EnableVirtualSchemaProposalKey(elem.Id))
-		if _, ok := enableVirtualSchemaProposalIndexMap[index]; ok {
-			return fmt.Errorf("duplicated index for enableVirtualSchemaProposal")
-		}
-		enableVirtualSchemaProposalIndexMap[index] = struct{}{}
-	}
-	// Check for duplicated index in inactiveEnableVirtualSchemaProposal
-	inactiveEnableVirtualSchemaProposalIndexMap := make(map[string]struct{})
-
-	for _, elem := range gs.InactiveEnableVirtualSchemaProposalList {
-		index := string(InactiveEnableVirtualSchemaProposalKey(elem.Id))
-		if _, ok := inactiveEnableVirtualSchemaProposalIndexMap[index]; ok {
-			return fmt.Errorf("duplicated index for inactiveEnableVirtualSchemaProposal")
-		}
-		inactiveEnableVirtualSchemaProposalIndexMap[index] = struct{}{}
-	}
-	// Check for duplicated index in activeEnableVirtualSchemaProposal
-	activeEnableVirtualSchemaProposalIndexMap := make(map[string]struct{})
-
-	for _, elem := range gs.ActiveEnableVirtualSchemaProposalList {
-		index := string(ActiveEnableVirtualSchemaProposalKey(elem.Id))
-		if _, ok := activeEnableVirtualSchemaProposalIndexMap[index]; ok {
-			return fmt.Errorf("duplicated index for activeEnableVirtualSchemaProposal")
-		}
-		activeEnableVirtualSchemaProposalIndexMap[index] = struct{}{}
 	}
 	// this line is used by starport scaffolding # genesis/types/validate
 

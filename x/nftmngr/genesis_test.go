@@ -116,24 +116,24 @@ func TestGenesis(t *testing.T) {
 		},
 		VirtualActionList: []types.VirtualAction{
 			{
-				VirtualNftSchemaCode:   "0",
-				Name:            "",
-				Desc:            "",
-				Disable:         false,
-				When:            "",
-				Then:            []string{},
-				AllowedActioner: 0,
-				Params:          []*types.ActionParams{},
+				VirtualNftSchemaCode: "0",
+				Name:                 "",
+				Desc:                 "",
+				Disable:              false,
+				When:                 "",
+				Then:                 []string{},
+				AllowedActioner:      0,
+				Params:               []*types.ActionParams{},
 			},
 			{
-				VirtualNftSchemaCode:   "0",
-				Name:            "",
-				Desc:            "",
-				Disable:         false,
-				When:            "",
-				Then:            []string{},
-				AllowedActioner: 0,
-				Params:          []*types.ActionParams{},
+				VirtualNftSchemaCode: "0",
+				Name:                 "",
+				Desc:                 "",
+				Disable:              false,
+				When:                 "",
+				Then:                 []string{},
+				AllowedActioner:      0,
+				Params:               []*types.ActionParams{},
 			},
 		},
 		VirtualSchemaList: []types.VirtualSchema{
@@ -142,14 +142,6 @@ func TestGenesis(t *testing.T) {
 			},
 			{
 				VirtualNftSchemaCode: "1",
-			},
-		},
-		DisableVirtualSchemaProposalList: []types.DisableVirtualSchemaProposal{
-			{
-				Id: "0",
-			},
-			{
-				Id: "1",
 			},
 		},
 		VirtualSchemaProposalList: []types.VirtualSchemaProposal{
@@ -169,46 +161,6 @@ func TestGenesis(t *testing.T) {
 			},
 		},
 		InactiveVirtualSchemaProposalList: []types.InactiveVirtualSchemaProposal{
-			{
-				Id: "0",
-			},
-			{
-				Id: "1",
-			},
-		},
-		ActiveDisableVirtualSchemaProposalList: []types.ActiveDisableVirtualSchemaProposal{
-			{
-				Id: "0",
-			},
-			{
-				Id: "1",
-			},
-		},
-		InactiveDisableVirtualSchemaProposalList: []types.InactiveDisableVirtualSchemaProposal{
-			{
-				Id: "0",
-			},
-			{
-				Id: "1",
-			},
-		},
-		EnableVirtualSchemaProposalList: []types.EnableVirtualSchemaProposal{
-			{
-				Id: "0",
-			},
-			{
-				Id: "1",
-			},
-		},
-		InactiveEnableVirtualSchemaProposalList: []types.InactiveEnableVirtualSchemaProposal{
-			{
-				Id: "0",
-			},
-			{
-				Id: "1",
-			},
-		},
-		ActiveEnableVirtualSchemaProposalList: []types.ActiveEnableVirtualSchemaProposal{
 			{
 				Id: "0",
 			},
@@ -242,14 +194,8 @@ func TestGenesis(t *testing.T) {
 	require.ElementsMatch(t, genesisState.ExecutorOfSchemaList, got.ExecutorOfSchemaList)
 	require.ElementsMatch(t, genesisState.VirtualActionList, got.VirtualActionList)
 	require.ElementsMatch(t, genesisState.VirtualSchemaList, got.VirtualSchemaList)
-	require.ElementsMatch(t, genesisState.DisableVirtualSchemaProposalList, got.DisableVirtualSchemaProposalList)
 	require.ElementsMatch(t, genesisState.VirtualSchemaProposalList, got.VirtualSchemaProposalList)
 	require.ElementsMatch(t, genesisState.ActiveVirtualSchemaProposalList, got.ActiveVirtualSchemaProposalList)
 	require.ElementsMatch(t, genesisState.InactiveVirtualSchemaProposalList, got.InactiveVirtualSchemaProposalList)
-	require.ElementsMatch(t, genesisState.ActiveDisableVirtualSchemaProposalList, got.ActiveDisableVirtualSchemaProposalList)
-	require.ElementsMatch(t, genesisState.InactiveDisableVirtualSchemaProposalList, got.InactiveDisableVirtualSchemaProposalList)
-	require.ElementsMatch(t, genesisState.EnableVirtualSchemaProposalList, got.EnableVirtualSchemaProposalList)
-	require.ElementsMatch(t, genesisState.InactiveEnableVirtualSchemaProposalList, got.InactiveEnableVirtualSchemaProposalList)
-	require.ElementsMatch(t, genesisState.ActiveEnableVirtualSchemaProposalList, got.ActiveEnableVirtualSchemaProposalList)
 	// this line is used by starport scaffolding # genesis/test/assert
 }

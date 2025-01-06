@@ -372,14 +372,14 @@ func (k Keeper) AddVirtualActionKeeper(ctx sdk.Context, creator string, nftSchem
 	})
 
 	k.SetVirtualAction(ctx, types.VirtualAction{
-		VirtualNftSchemaCode:   nftSchemaName,
-		Name:            newAction.Name,
-		Desc:            newAction.Desc,
-		When:            newAction.When,
-		Then:            newAction.Then,
-		Params:          newAction.Params,
-		Disable:         newAction.Disable,
-		AllowedActioner: newAction.AllowedActioner,
+		VirtualNftSchemaCode: nftSchemaName,
+		Name:                 newAction.Name,
+		Desc:                 newAction.Desc,
+		When:                 newAction.When,
+		Then:                 newAction.Then,
+		Params:               newAction.Params,
+		Disable:              newAction.Disable,
+		AllowedActioner:      newAction.AllowedActioner,
 	})
 
 	return nil
@@ -440,14 +440,14 @@ func (k Keeper) UpdateVirtualActionKeeper(ctx sdk.Context, creator, nftSchemaNam
 	}
 
 	k.SetVirtualAction(ctx, types.VirtualAction{
-		VirtualNftSchemaCode:   nftSchemaName,
-		Name:            updateAction.Name,
-		Desc:            updateAction.Desc,
-		When:            updateAction.When,
-		Then:            updateAction.Then,
-		Params:          updateAction.Params,
-		Disable:         updateAction.Disable,
-		AllowedActioner: updateAction.AllowedActioner,
+		VirtualNftSchemaCode: nftSchemaName,
+		Name:                 updateAction.Name,
+		Desc:                 updateAction.Desc,
+		When:                 updateAction.When,
+		Then:                 updateAction.Then,
+		Params:               updateAction.Params,
+		Disable:              updateAction.Disable,
+		AllowedActioner:      updateAction.AllowedActioner,
 	})
 
 	return nil
@@ -513,14 +513,14 @@ func (k Keeper) ToggleVirtualActionKeeper(ctx sdk.Context, creator, nftSchemaNam
 
 	// save
 	k.SetVirtualAction(ctx, types.VirtualAction{
-		VirtualNftSchemaCode:   nftSchemaName,
-		Name:            action.Name,
-		Desc:            action.Desc,
-		When:            action.When,
-		Then:            action.Then,
-		Params:          action.Params,
-		Disable:         status,
-		AllowedActioner: action.AllowedActioner,
+		VirtualNftSchemaCode: nftSchemaName,
+		Name:                 action.Name,
+		Desc:                 action.Desc,
+		When:                 action.When,
+		Then:                 action.Then,
+		Params:               action.Params,
+		Disable:              status,
+		AllowedActioner:      action.AllowedActioner,
 	})
 
 	return nil

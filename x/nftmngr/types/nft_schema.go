@@ -2,12 +2,12 @@ package types
 
 func (m *NFTSchema) ResultWithEmptyVirtualAction() NFTSchemaQueryResult {
 	result := NFTSchemaQueryResult{
-		Code:              m.Code,
-		Name:              m.Name,
-		Owner:             m.Owner,
-		Description:       m.Description,
-		OriginData:        m.OriginData,
-		OnchainData:       &OnChainDataResult{
+		Code:        m.Code,
+		Name:        m.Name,
+		Owner:       m.Owner,
+		Description: m.Description,
+		OriginData:  m.OriginData,
+		OnchainData: &OnChainDataResult{
 			NftAttributes:   m.OnchainData.NftAttributes,
 			TokenAttributes: m.OnchainData.TokenAttributes,
 			Actions:         m.OnchainData.Actions,
@@ -20,7 +20,6 @@ func (m *NFTSchema) ResultWithEmptyVirtualAction() NFTSchemaQueryResult {
 
 	return result
 }
-
 
 func (m *NFTSchemaQueryResult) AppendVirtualAction(newVirtualAction *VirtualAction) *NFTSchemaQueryResult {
 	result := m

@@ -18,13 +18,13 @@ func EndBlocker(ctx sdk.Context, k keeper.Keeper) {
 		return pass
 	})
 
-	k.DisableVirtualSchemaIterateActiveProposal(ctx, ctx.BlockHeader().Time, func(proposal types.DisableVirtualSchemaProposal) (stop bool) {
-		pass := k.DisableVirtualSchemaAfterProposalSuccess(ctx, proposal)
-		return pass
-	})
+	// k.DisableVirtualSchemaIterateActiveProposal(ctx, ctx.BlockHeader().Time, func(proposal types.DisableVirtualSchemaProposal) (stop bool) {
+	// 	pass := k.DisableVirtualSchemaAfterProposalSuccess(ctx, proposal)
+	// 	return pass
+	// })
 
-	k.EnableVirtualSchemaIterateActiveProposal(ctx, ctx.BlockHeader().Time, func(proposal types.EnableVirtualSchemaProposal) (stop bool) {
-		pass := k.EnableVirtualSchemaAfterProposalSuccess(ctx, proposal)
-		return pass
-	})
+	// k.EnableVirtualSchemaIterateActiveProposal(ctx, ctx.BlockHeader().Time, func(proposal types.EnableVirtualSchemaProposal) (stop bool) {
+	// 	pass := k.EnableVirtualSchemaAfterProposalSuccess(ctx, proposal)
+	// 	return pass
+	// })
 }
