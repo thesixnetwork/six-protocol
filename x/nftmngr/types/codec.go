@@ -21,7 +21,6 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgSetFeeConfig{}, "nftmngr/SetFeeConfig", nil)
 	cdc.RegisterConcrete(&MsgSetMintauth{}, "nftmngr/SetMintauth", nil)
 	cdc.RegisterConcrete(&MsgChangeOrgOwner{}, "nftmngr/ChageOrgOwner", nil)
-	cdc.RegisterConcrete(&MsgCreateMultiMetadata{}, "nftmngr/CreateMultiMetadata", nil)
 	cdc.RegisterConcrete(&MsgSetUriRetrievalMethod{}, "nftmngr/SetUriRetrievalMethod", nil)
 	cdc.RegisterConcrete(&MsgSetOriginChain{}, "nftmngr/SetOriginChain", nil)
 	cdc.RegisterConcrete(&MsgSetOriginContract{}, "nftmngr/SetOriginContract", nil)
@@ -80,9 +79,6 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgChangeOrgOwner{},
-	)
-	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgCreateMultiMetadata{},
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgSetUriRetrievalMethod{},
