@@ -36,13 +36,8 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgUpdateVirtualAction{}, "nftmngr/UpdateVirtualAction", nil)
 	cdc.RegisterConcrete(&MsgDeleteVirtualAction{}, "nftmngr/DeleteVirtualAction", nil)
 	cdc.RegisterConcrete(&MsgCreateVirtualSchemaProposal{}, "nftmngr/CreateVirtualSchema", nil)
-	cdc.RegisterConcrete(&MsgDeleteVirtualSchema{}, "nftmngr/DeleteVirtualSchema", nil)
-	cdc.RegisterConcrete(&MsgVoteCreateVirtualSchema{}, "nftmngr/VoteCreateVirtualSchema", nil)
-	cdc.RegisterConcrete(&MsgDisableVirtualSchemaProposal{}, "nftmngr/DisableVirtualSchemaProposal", nil)
 	cdc.RegisterConcrete(&MsgPerformVirtualAction{}, "nftmngr/PerformVirtualAction", nil)
-	cdc.RegisterConcrete(&MsgEnableVirtualSchemaProposal{}, "nftmngr/EnableVirtualSchema", nil)
-	cdc.RegisterConcrete(&MsgVoteDisableVirtualSchema{}, "nftmngr/VoteDisableVirtualSchema", nil)
-	cdc.RegisterConcrete(&MsgVoteEnableVirtualSchema{}, "nftmngr/VoteEnableVirtualSchema", nil)
+	cdc.RegisterConcrete(&MsgVoteVirtualSchemaProposal{}, "nftmngr/VoteVirtualSchemaProposal", nil)
 	// this line is used by starport scaffolding # 2
 }
 
@@ -122,25 +117,12 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgCreateVirtualSchemaProposal{},
-		&MsgDeleteVirtualSchema{},
-	)
-	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgVoteCreateVirtualSchema{},
-	)
-	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgDisableVirtualSchemaProposal{},
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgPerformVirtualAction{},
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgEnableVirtualSchemaProposal{},
-	)
-	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgVoteDisableVirtualSchema{},
-	)
-	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgVoteEnableVirtualSchema{},
+		&MsgVoteVirtualSchemaProposal{},
 	)
 	// this line is used by starport scaffolding # 3
 	msgservice.RegisterMsgServiceDesc(registry, &_Msg_serviceDesc)

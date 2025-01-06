@@ -90,9 +90,6 @@ func NewHandler(k keeper.Keeper) sdk.Handler {
 		case *types.MsgCreateVirtualSchemaProposal:
 			res, err := msgServer.CreateVirtualSchemaProposal(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
-		case *types.MsgVoteCreateVirtualSchema:
-			res, err := msgServer.VoteCreateVirtualSchema(sdk.WrapSDKContext(ctx), msg)
-			return sdk.WrapServiceResult(ctx, res, err)
 		case *types.MsgPerformVirtualAction:
 			res, err := msgServer.PerformVirtualAction(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)

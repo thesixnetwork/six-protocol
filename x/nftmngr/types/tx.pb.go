@@ -3383,6 +3383,7 @@ type MsgCreateVirtualSchemaProposal struct {
 	Creator              string                         `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
 	VirtualNftSchemaCode string                         `protobuf:"bytes,2,opt,name=virtualNftSchemaCode,proto3" json:"virtualNftSchemaCode,omitempty"`
 	Registry             []VirtualSchemaRegistryRequest `protobuf:"bytes,3,rep,name=registry,proto3" json:"registry"`
+	PropsalType          ProposalType                   `protobuf:"varint,4,opt,name=propsalType,proto3,enum=thesixnetwork.sixprotocol.nftmngr.ProposalType" json:"propsalType,omitempty"`
 }
 
 func (m *MsgCreateVirtualSchemaProposal) Reset()         { *m = MsgCreateVirtualSchemaProposal{} }
@@ -3439,9 +3440,17 @@ func (m *MsgCreateVirtualSchemaProposal) GetRegistry() []VirtualSchemaRegistryRe
 	return nil
 }
 
+func (m *MsgCreateVirtualSchemaProposal) GetPropsalType() ProposalType {
+	if m != nil {
+		return m.PropsalType
+	}
+	return ProposalType_CREATE
+}
+
 type MsgCreateVirtualSchemaResponse struct {
-	Id                   string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	VirtualNftSchemaCode string `protobuf:"bytes,2,opt,name=virtualNftSchemaCode,proto3" json:"virtualNftSchemaCode,omitempty"`
+	Id                   string       `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	VirtualNftSchemaCode string       `protobuf:"bytes,2,opt,name=virtualNftSchemaCode,proto3" json:"virtualNftSchemaCode,omitempty"`
+	PropsalType          ProposalType `protobuf:"varint,3,opt,name=propsalType,proto3,enum=thesixnetwork.sixprotocol.nftmngr.ProposalType" json:"propsalType,omitempty"`
 }
 
 func (m *MsgCreateVirtualSchemaResponse) Reset()         { *m = MsgCreateVirtualSchemaResponse{} }
@@ -3491,93 +3500,12 @@ func (m *MsgCreateVirtualSchemaResponse) GetVirtualNftSchemaCode() string {
 	return ""
 }
 
-type MsgDeleteVirtualSchema struct {
-	Creator              string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	VirtualNftSchemaCode string `protobuf:"bytes,2,opt,name=virtualNftSchemaCode,proto3" json:"virtualNftSchemaCode,omitempty"`
-}
-
-func (m *MsgDeleteVirtualSchema) Reset()         { *m = MsgDeleteVirtualSchema{} }
-func (m *MsgDeleteVirtualSchema) String() string { return proto.CompactTextString(m) }
-func (*MsgDeleteVirtualSchema) ProtoMessage()    {}
-func (*MsgDeleteVirtualSchema) Descriptor() ([]byte, []int) {
-	return fileDescriptor_17e298b08d1e9780, []int{60}
-}
-func (m *MsgDeleteVirtualSchema) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *MsgDeleteVirtualSchema) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_MsgDeleteVirtualSchema.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *MsgDeleteVirtualSchema) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgDeleteVirtualSchema.Merge(m, src)
-}
-func (m *MsgDeleteVirtualSchema) XXX_Size() int {
-	return m.Size()
-}
-func (m *MsgDeleteVirtualSchema) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgDeleteVirtualSchema.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_MsgDeleteVirtualSchema proto.InternalMessageInfo
-
-func (m *MsgDeleteVirtualSchema) GetCreator() string {
+func (m *MsgCreateVirtualSchemaResponse) GetPropsalType() ProposalType {
 	if m != nil {
-		return m.Creator
+		return m.PropsalType
 	}
-	return ""
+	return ProposalType_CREATE
 }
-
-func (m *MsgDeleteVirtualSchema) GetVirtualNftSchemaCode() string {
-	if m != nil {
-		return m.VirtualNftSchemaCode
-	}
-	return ""
-}
-
-type MsgDeleteVirtualSchemaResponse struct {
-}
-
-func (m *MsgDeleteVirtualSchemaResponse) Reset()         { *m = MsgDeleteVirtualSchemaResponse{} }
-func (m *MsgDeleteVirtualSchemaResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgDeleteVirtualSchemaResponse) ProtoMessage()    {}
-func (*MsgDeleteVirtualSchemaResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_17e298b08d1e9780, []int{61}
-}
-func (m *MsgDeleteVirtualSchemaResponse) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *MsgDeleteVirtualSchemaResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_MsgDeleteVirtualSchemaResponse.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *MsgDeleteVirtualSchemaResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgDeleteVirtualSchemaResponse.Merge(m, src)
-}
-func (m *MsgDeleteVirtualSchemaResponse) XXX_Size() int {
-	return m.Size()
-}
-func (m *MsgDeleteVirtualSchemaResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgDeleteVirtualSchemaResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_MsgDeleteVirtualSchemaResponse proto.InternalMessageInfo
 
 type MsgPerformVirtualAction struct {
 	Creator       string             `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
@@ -3592,7 +3520,7 @@ func (m *MsgPerformVirtualAction) Reset()         { *m = MsgPerformVirtualAction
 func (m *MsgPerformVirtualAction) String() string { return proto.CompactTextString(m) }
 func (*MsgPerformVirtualAction) ProtoMessage()    {}
 func (*MsgPerformVirtualAction) Descriptor() ([]byte, []int) {
-	return fileDescriptor_17e298b08d1e9780, []int{62}
+	return fileDescriptor_17e298b08d1e9780, []int{60}
 }
 func (m *MsgPerformVirtualAction) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -3671,7 +3599,7 @@ func (m *MsgPerformVirtualActionResponse) Reset()         { *m = MsgPerformVirtu
 func (m *MsgPerformVirtualActionResponse) String() string { return proto.CompactTextString(m) }
 func (*MsgPerformVirtualActionResponse) ProtoMessage()    {}
 func (*MsgPerformVirtualActionResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_17e298b08d1e9780, []int{63}
+	return fileDescriptor_17e298b08d1e9780, []int{61}
 }
 func (m *MsgPerformVirtualActionResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -3716,7 +3644,7 @@ func (m *TokenIdMap) Reset()         { *m = TokenIdMap{} }
 func (m *TokenIdMap) String() string { return proto.CompactTextString(m) }
 func (*TokenIdMap) ProtoMessage()    {}
 func (*TokenIdMap) Descriptor() ([]byte, []int) {
-	return fileDescriptor_17e298b08d1e9780, []int{64}
+	return fileDescriptor_17e298b08d1e9780, []int{62}
 }
 func (m *TokenIdMap) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -3759,237 +3687,25 @@ func (m *TokenIdMap) GetTokenId() string {
 	return ""
 }
 
-type MsgEnableVirtualSchemaProposal struct {
-	Creator              string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	VirtualNftSchemaCode string `protobuf:"bytes,2,opt,name=virtualNftSchemaCode,proto3" json:"virtualNftSchemaCode,omitempty"`
-}
-
-func (m *MsgEnableVirtualSchemaProposal) Reset()         { *m = MsgEnableVirtualSchemaProposal{} }
-func (m *MsgEnableVirtualSchemaProposal) String() string { return proto.CompactTextString(m) }
-func (*MsgEnableVirtualSchemaProposal) ProtoMessage()    {}
-func (*MsgEnableVirtualSchemaProposal) Descriptor() ([]byte, []int) {
-	return fileDescriptor_17e298b08d1e9780, []int{65}
-}
-func (m *MsgEnableVirtualSchemaProposal) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *MsgEnableVirtualSchemaProposal) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_MsgEnableVirtualSchemaProposal.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *MsgEnableVirtualSchemaProposal) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgEnableVirtualSchemaProposal.Merge(m, src)
-}
-func (m *MsgEnableVirtualSchemaProposal) XXX_Size() int {
-	return m.Size()
-}
-func (m *MsgEnableVirtualSchemaProposal) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgEnableVirtualSchemaProposal.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_MsgEnableVirtualSchemaProposal proto.InternalMessageInfo
-
-func (m *MsgEnableVirtualSchemaProposal) GetCreator() string {
-	if m != nil {
-		return m.Creator
-	}
-	return ""
-}
-
-func (m *MsgEnableVirtualSchemaProposal) GetVirtualNftSchemaCode() string {
-	if m != nil {
-		return m.VirtualNftSchemaCode
-	}
-	return ""
-}
-
-type MsgEnableVirtualSchemaProposalResponse struct {
-	Creator    string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	ProposalId string `protobuf:"bytes,2,opt,name=proposalId,proto3" json:"proposalId,omitempty"`
-}
-
-func (m *MsgEnableVirtualSchemaProposalResponse) Reset() {
-	*m = MsgEnableVirtualSchemaProposalResponse{}
-}
-func (m *MsgEnableVirtualSchemaProposalResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgEnableVirtualSchemaProposalResponse) ProtoMessage()    {}
-func (*MsgEnableVirtualSchemaProposalResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_17e298b08d1e9780, []int{66}
-}
-func (m *MsgEnableVirtualSchemaProposalResponse) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *MsgEnableVirtualSchemaProposalResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_MsgEnableVirtualSchemaProposalResponse.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *MsgEnableVirtualSchemaProposalResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgEnableVirtualSchemaProposalResponse.Merge(m, src)
-}
-func (m *MsgEnableVirtualSchemaProposalResponse) XXX_Size() int {
-	return m.Size()
-}
-func (m *MsgEnableVirtualSchemaProposalResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgEnableVirtualSchemaProposalResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_MsgEnableVirtualSchemaProposalResponse proto.InternalMessageInfo
-
-func (m *MsgEnableVirtualSchemaProposalResponse) GetCreator() string {
-	if m != nil {
-		return m.Creator
-	}
-	return ""
-}
-
-func (m *MsgEnableVirtualSchemaProposalResponse) GetProposalId() string {
-	if m != nil {
-		return m.ProposalId
-	}
-	return ""
-}
-
-type MsgDisableVirtualSchemaProposal struct {
-	Creator              string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	VirtualNftSchemaCode string `protobuf:"bytes,2,opt,name=virtualNftSchemaCode,proto3" json:"virtualNftSchemaCode,omitempty"`
-}
-
-func (m *MsgDisableVirtualSchemaProposal) Reset()         { *m = MsgDisableVirtualSchemaProposal{} }
-func (m *MsgDisableVirtualSchemaProposal) String() string { return proto.CompactTextString(m) }
-func (*MsgDisableVirtualSchemaProposal) ProtoMessage()    {}
-func (*MsgDisableVirtualSchemaProposal) Descriptor() ([]byte, []int) {
-	return fileDescriptor_17e298b08d1e9780, []int{67}
-}
-func (m *MsgDisableVirtualSchemaProposal) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *MsgDisableVirtualSchemaProposal) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_MsgDisableVirtualSchemaProposal.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *MsgDisableVirtualSchemaProposal) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgDisableVirtualSchemaProposal.Merge(m, src)
-}
-func (m *MsgDisableVirtualSchemaProposal) XXX_Size() int {
-	return m.Size()
-}
-func (m *MsgDisableVirtualSchemaProposal) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgDisableVirtualSchemaProposal.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_MsgDisableVirtualSchemaProposal proto.InternalMessageInfo
-
-func (m *MsgDisableVirtualSchemaProposal) GetCreator() string {
-	if m != nil {
-		return m.Creator
-	}
-	return ""
-}
-
-func (m *MsgDisableVirtualSchemaProposal) GetVirtualNftSchemaCode() string {
-	if m != nil {
-		return m.VirtualNftSchemaCode
-	}
-	return ""
-}
-
-type MsgDisableVirtualSchemaProposalResponse struct {
-	Creator    string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	ProposalId string `protobuf:"bytes,2,opt,name=proposalId,proto3" json:"proposalId,omitempty"`
-}
-
-func (m *MsgDisableVirtualSchemaProposalResponse) Reset() {
-	*m = MsgDisableVirtualSchemaProposalResponse{}
-}
-func (m *MsgDisableVirtualSchemaProposalResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgDisableVirtualSchemaProposalResponse) ProtoMessage()    {}
-func (*MsgDisableVirtualSchemaProposalResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_17e298b08d1e9780, []int{68}
-}
-func (m *MsgDisableVirtualSchemaProposalResponse) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *MsgDisableVirtualSchemaProposalResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_MsgDisableVirtualSchemaProposalResponse.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *MsgDisableVirtualSchemaProposalResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgDisableVirtualSchemaProposalResponse.Merge(m, src)
-}
-func (m *MsgDisableVirtualSchemaProposalResponse) XXX_Size() int {
-	return m.Size()
-}
-func (m *MsgDisableVirtualSchemaProposalResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgDisableVirtualSchemaProposalResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_MsgDisableVirtualSchemaProposalResponse proto.InternalMessageInfo
-
-func (m *MsgDisableVirtualSchemaProposalResponse) GetCreator() string {
-	if m != nil {
-		return m.Creator
-	}
-	return ""
-}
-
-func (m *MsgDisableVirtualSchemaProposalResponse) GetProposalId() string {
-	if m != nil {
-		return m.ProposalId
-	}
-	return ""
-}
-
-type MsgVoteCreateVirtualSchema struct {
+type MsgVoteVirtualSchemaProposal struct {
 	Creator       string         `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
 	Id            string         `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
 	NftSchemaCode string         `protobuf:"bytes,3,opt,name=nftSchemaCode,proto3" json:"nftSchemaCode,omitempty"`
 	Option        RegistryStatus `protobuf:"varint,4,opt,name=option,proto3,enum=thesixnetwork.sixprotocol.nftmngr.RegistryStatus" json:"option,omitempty"`
 }
 
-func (m *MsgVoteCreateVirtualSchema) Reset()         { *m = MsgVoteCreateVirtualSchema{} }
-func (m *MsgVoteCreateVirtualSchema) String() string { return proto.CompactTextString(m) }
-func (*MsgVoteCreateVirtualSchema) ProtoMessage()    {}
-func (*MsgVoteCreateVirtualSchema) Descriptor() ([]byte, []int) {
-	return fileDescriptor_17e298b08d1e9780, []int{69}
+func (m *MsgVoteVirtualSchemaProposal) Reset()         { *m = MsgVoteVirtualSchemaProposal{} }
+func (m *MsgVoteVirtualSchemaProposal) String() string { return proto.CompactTextString(m) }
+func (*MsgVoteVirtualSchemaProposal) ProtoMessage()    {}
+func (*MsgVoteVirtualSchemaProposal) Descriptor() ([]byte, []int) {
+	return fileDescriptor_17e298b08d1e9780, []int{63}
 }
-func (m *MsgVoteCreateVirtualSchema) XXX_Unmarshal(b []byte) error {
+func (m *MsgVoteVirtualSchemaProposal) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgVoteCreateVirtualSchema) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgVoteVirtualSchemaProposal) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgVoteCreateVirtualSchema.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgVoteVirtualSchemaProposal.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -3999,61 +3715,61 @@ func (m *MsgVoteCreateVirtualSchema) XXX_Marshal(b []byte, deterministic bool) (
 		return b[:n], nil
 	}
 }
-func (m *MsgVoteCreateVirtualSchema) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgVoteCreateVirtualSchema.Merge(m, src)
+func (m *MsgVoteVirtualSchemaProposal) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgVoteVirtualSchemaProposal.Merge(m, src)
 }
-func (m *MsgVoteCreateVirtualSchema) XXX_Size() int {
+func (m *MsgVoteVirtualSchemaProposal) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgVoteCreateVirtualSchema) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgVoteCreateVirtualSchema.DiscardUnknown(m)
+func (m *MsgVoteVirtualSchemaProposal) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgVoteVirtualSchemaProposal.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgVoteCreateVirtualSchema proto.InternalMessageInfo
+var xxx_messageInfo_MsgVoteVirtualSchemaProposal proto.InternalMessageInfo
 
-func (m *MsgVoteCreateVirtualSchema) GetCreator() string {
+func (m *MsgVoteVirtualSchemaProposal) GetCreator() string {
 	if m != nil {
 		return m.Creator
 	}
 	return ""
 }
 
-func (m *MsgVoteCreateVirtualSchema) GetId() string {
+func (m *MsgVoteVirtualSchemaProposal) GetId() string {
 	if m != nil {
 		return m.Id
 	}
 	return ""
 }
 
-func (m *MsgVoteCreateVirtualSchema) GetNftSchemaCode() string {
+func (m *MsgVoteVirtualSchemaProposal) GetNftSchemaCode() string {
 	if m != nil {
 		return m.NftSchemaCode
 	}
 	return ""
 }
 
-func (m *MsgVoteCreateVirtualSchema) GetOption() RegistryStatus {
+func (m *MsgVoteVirtualSchemaProposal) GetOption() RegistryStatus {
 	if m != nil {
 		return m.Option
 	}
 	return RegistryStatus_PENDING
 }
 
-type MsgVoteCreateVirtualSchemaResponse struct {
+type MsgVoteVirtualSchemaProposalResponse struct {
 }
 
-func (m *MsgVoteCreateVirtualSchemaResponse) Reset()         { *m = MsgVoteCreateVirtualSchemaResponse{} }
-func (m *MsgVoteCreateVirtualSchemaResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgVoteCreateVirtualSchemaResponse) ProtoMessage()    {}
-func (*MsgVoteCreateVirtualSchemaResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_17e298b08d1e9780, []int{70}
+func (m *MsgVoteVirtualSchemaProposalResponse) Reset()         { *m = MsgVoteVirtualSchemaProposalResponse{} }
+func (m *MsgVoteVirtualSchemaProposalResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgVoteVirtualSchemaProposalResponse) ProtoMessage()    {}
+func (*MsgVoteVirtualSchemaProposalResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_17e298b08d1e9780, []int{64}
 }
-func (m *MsgVoteCreateVirtualSchemaResponse) XXX_Unmarshal(b []byte) error {
+func (m *MsgVoteVirtualSchemaProposalResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *MsgVoteCreateVirtualSchemaResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *MsgVoteVirtualSchemaProposalResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_MsgVoteCreateVirtualSchemaResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_MsgVoteVirtualSchemaProposalResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -4063,225 +3779,17 @@ func (m *MsgVoteCreateVirtualSchemaResponse) XXX_Marshal(b []byte, deterministic
 		return b[:n], nil
 	}
 }
-func (m *MsgVoteCreateVirtualSchemaResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgVoteCreateVirtualSchemaResponse.Merge(m, src)
+func (m *MsgVoteVirtualSchemaProposalResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgVoteVirtualSchemaProposalResponse.Merge(m, src)
 }
-func (m *MsgVoteCreateVirtualSchemaResponse) XXX_Size() int {
+func (m *MsgVoteVirtualSchemaProposalResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *MsgVoteCreateVirtualSchemaResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgVoteCreateVirtualSchemaResponse.DiscardUnknown(m)
+func (m *MsgVoteVirtualSchemaProposalResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgVoteVirtualSchemaProposalResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_MsgVoteCreateVirtualSchemaResponse proto.InternalMessageInfo
-
-type MsgVoteDisableVirtualSchema struct {
-	Creator       string         `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	Id            string         `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
-	NftSchemaCode string         `protobuf:"bytes,3,opt,name=nftSchemaCode,proto3" json:"nftSchemaCode,omitempty"`
-	Option        RegistryStatus `protobuf:"varint,4,opt,name=option,proto3,enum=thesixnetwork.sixprotocol.nftmngr.RegistryStatus" json:"option,omitempty"`
-}
-
-func (m *MsgVoteDisableVirtualSchema) Reset()         { *m = MsgVoteDisableVirtualSchema{} }
-func (m *MsgVoteDisableVirtualSchema) String() string { return proto.CompactTextString(m) }
-func (*MsgVoteDisableVirtualSchema) ProtoMessage()    {}
-func (*MsgVoteDisableVirtualSchema) Descriptor() ([]byte, []int) {
-	return fileDescriptor_17e298b08d1e9780, []int{71}
-}
-func (m *MsgVoteDisableVirtualSchema) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *MsgVoteDisableVirtualSchema) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_MsgVoteDisableVirtualSchema.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *MsgVoteDisableVirtualSchema) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgVoteDisableVirtualSchema.Merge(m, src)
-}
-func (m *MsgVoteDisableVirtualSchema) XXX_Size() int {
-	return m.Size()
-}
-func (m *MsgVoteDisableVirtualSchema) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgVoteDisableVirtualSchema.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_MsgVoteDisableVirtualSchema proto.InternalMessageInfo
-
-func (m *MsgVoteDisableVirtualSchema) GetCreator() string {
-	if m != nil {
-		return m.Creator
-	}
-	return ""
-}
-
-func (m *MsgVoteDisableVirtualSchema) GetId() string {
-	if m != nil {
-		return m.Id
-	}
-	return ""
-}
-
-func (m *MsgVoteDisableVirtualSchema) GetNftSchemaCode() string {
-	if m != nil {
-		return m.NftSchemaCode
-	}
-	return ""
-}
-
-func (m *MsgVoteDisableVirtualSchema) GetOption() RegistryStatus {
-	if m != nil {
-		return m.Option
-	}
-	return RegistryStatus_PENDING
-}
-
-type MsgVoteDisableVirtualSchemaResponse struct {
-}
-
-func (m *MsgVoteDisableVirtualSchemaResponse) Reset()         { *m = MsgVoteDisableVirtualSchemaResponse{} }
-func (m *MsgVoteDisableVirtualSchemaResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgVoteDisableVirtualSchemaResponse) ProtoMessage()    {}
-func (*MsgVoteDisableVirtualSchemaResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_17e298b08d1e9780, []int{72}
-}
-func (m *MsgVoteDisableVirtualSchemaResponse) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *MsgVoteDisableVirtualSchemaResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_MsgVoteDisableVirtualSchemaResponse.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *MsgVoteDisableVirtualSchemaResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgVoteDisableVirtualSchemaResponse.Merge(m, src)
-}
-func (m *MsgVoteDisableVirtualSchemaResponse) XXX_Size() int {
-	return m.Size()
-}
-func (m *MsgVoteDisableVirtualSchemaResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgVoteDisableVirtualSchemaResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_MsgVoteDisableVirtualSchemaResponse proto.InternalMessageInfo
-
-type MsgVoteEnableVirtualSchema struct {
-	Creator       string         `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	Id            string         `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
-	NftSchemaCode string         `protobuf:"bytes,3,opt,name=nftSchemaCode,proto3" json:"nftSchemaCode,omitempty"`
-	Option        RegistryStatus `protobuf:"varint,4,opt,name=option,proto3,enum=thesixnetwork.sixprotocol.nftmngr.RegistryStatus" json:"option,omitempty"`
-}
-
-func (m *MsgVoteEnableVirtualSchema) Reset()         { *m = MsgVoteEnableVirtualSchema{} }
-func (m *MsgVoteEnableVirtualSchema) String() string { return proto.CompactTextString(m) }
-func (*MsgVoteEnableVirtualSchema) ProtoMessage()    {}
-func (*MsgVoteEnableVirtualSchema) Descriptor() ([]byte, []int) {
-	return fileDescriptor_17e298b08d1e9780, []int{73}
-}
-func (m *MsgVoteEnableVirtualSchema) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *MsgVoteEnableVirtualSchema) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_MsgVoteEnableVirtualSchema.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *MsgVoteEnableVirtualSchema) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgVoteEnableVirtualSchema.Merge(m, src)
-}
-func (m *MsgVoteEnableVirtualSchema) XXX_Size() int {
-	return m.Size()
-}
-func (m *MsgVoteEnableVirtualSchema) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgVoteEnableVirtualSchema.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_MsgVoteEnableVirtualSchema proto.InternalMessageInfo
-
-func (m *MsgVoteEnableVirtualSchema) GetCreator() string {
-	if m != nil {
-		return m.Creator
-	}
-	return ""
-}
-
-func (m *MsgVoteEnableVirtualSchema) GetId() string {
-	if m != nil {
-		return m.Id
-	}
-	return ""
-}
-
-func (m *MsgVoteEnableVirtualSchema) GetNftSchemaCode() string {
-	if m != nil {
-		return m.NftSchemaCode
-	}
-	return ""
-}
-
-func (m *MsgVoteEnableVirtualSchema) GetOption() RegistryStatus {
-	if m != nil {
-		return m.Option
-	}
-	return RegistryStatus_PENDING
-}
-
-type MsgVoteEnableVirtualSchemaResponse struct {
-}
-
-func (m *MsgVoteEnableVirtualSchemaResponse) Reset()         { *m = MsgVoteEnableVirtualSchemaResponse{} }
-func (m *MsgVoteEnableVirtualSchemaResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgVoteEnableVirtualSchemaResponse) ProtoMessage()    {}
-func (*MsgVoteEnableVirtualSchemaResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_17e298b08d1e9780, []int{74}
-}
-func (m *MsgVoteEnableVirtualSchemaResponse) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *MsgVoteEnableVirtualSchemaResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_MsgVoteEnableVirtualSchemaResponse.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *MsgVoteEnableVirtualSchemaResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgVoteEnableVirtualSchemaResponse.Merge(m, src)
-}
-func (m *MsgVoteEnableVirtualSchemaResponse) XXX_Size() int {
-	return m.Size()
-}
-func (m *MsgVoteEnableVirtualSchemaResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgVoteEnableVirtualSchemaResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_MsgVoteEnableVirtualSchemaResponse proto.InternalMessageInfo
+var xxx_messageInfo_MsgVoteVirtualSchemaProposalResponse proto.InternalMessageInfo
 
 func init() {
 	proto.RegisterEnum("thesixnetwork.sixprotocol.nftmngr.AttributeLocation", AttributeLocation_name, AttributeLocation_value)
@@ -4347,190 +3855,171 @@ func init() {
 	proto.RegisterType((*MsgDeleteVirtualActionResponse)(nil), "thesixnetwork.sixprotocol.nftmngr.MsgDeleteVirtualActionResponse")
 	proto.RegisterType((*MsgCreateVirtualSchemaProposal)(nil), "thesixnetwork.sixprotocol.nftmngr.MsgCreateVirtualSchemaProposal")
 	proto.RegisterType((*MsgCreateVirtualSchemaResponse)(nil), "thesixnetwork.sixprotocol.nftmngr.MsgCreateVirtualSchemaResponse")
-	proto.RegisterType((*MsgDeleteVirtualSchema)(nil), "thesixnetwork.sixprotocol.nftmngr.MsgDeleteVirtualSchema")
-	proto.RegisterType((*MsgDeleteVirtualSchemaResponse)(nil), "thesixnetwork.sixprotocol.nftmngr.MsgDeleteVirtualSchemaResponse")
 	proto.RegisterType((*MsgPerformVirtualAction)(nil), "thesixnetwork.sixprotocol.nftmngr.MsgPerformVirtualAction")
 	proto.RegisterType((*MsgPerformVirtualActionResponse)(nil), "thesixnetwork.sixprotocol.nftmngr.MsgPerformVirtualActionResponse")
 	proto.RegisterType((*TokenIdMap)(nil), "thesixnetwork.sixprotocol.nftmngr.TokenIdMap")
-	proto.RegisterType((*MsgEnableVirtualSchemaProposal)(nil), "thesixnetwork.sixprotocol.nftmngr.MsgEnableVirtualSchemaProposal")
-	proto.RegisterType((*MsgEnableVirtualSchemaProposalResponse)(nil), "thesixnetwork.sixprotocol.nftmngr.MsgEnableVirtualSchemaProposalResponse")
-	proto.RegisterType((*MsgDisableVirtualSchemaProposal)(nil), "thesixnetwork.sixprotocol.nftmngr.MsgDisableVirtualSchemaProposal")
-	proto.RegisterType((*MsgDisableVirtualSchemaProposalResponse)(nil), "thesixnetwork.sixprotocol.nftmngr.MsgDisableVirtualSchemaProposalResponse")
-	proto.RegisterType((*MsgVoteCreateVirtualSchema)(nil), "thesixnetwork.sixprotocol.nftmngr.MsgVoteCreateVirtualSchema")
-	proto.RegisterType((*MsgVoteCreateVirtualSchemaResponse)(nil), "thesixnetwork.sixprotocol.nftmngr.MsgVoteCreateVirtualSchemaResponse")
-	proto.RegisterType((*MsgVoteDisableVirtualSchema)(nil), "thesixnetwork.sixprotocol.nftmngr.MsgVoteDisableVirtualSchema")
-	proto.RegisterType((*MsgVoteDisableVirtualSchemaResponse)(nil), "thesixnetwork.sixprotocol.nftmngr.MsgVoteDisableVirtualSchemaResponse")
-	proto.RegisterType((*MsgVoteEnableVirtualSchema)(nil), "thesixnetwork.sixprotocol.nftmngr.MsgVoteEnableVirtualSchema")
-	proto.RegisterType((*MsgVoteEnableVirtualSchemaResponse)(nil), "thesixnetwork.sixprotocol.nftmngr.MsgVoteEnableVirtualSchemaResponse")
+	proto.RegisterType((*MsgVoteVirtualSchemaProposal)(nil), "thesixnetwork.sixprotocol.nftmngr.MsgVoteVirtualSchemaProposal")
+	proto.RegisterType((*MsgVoteVirtualSchemaProposalResponse)(nil), "thesixnetwork.sixprotocol.nftmngr.MsgVoteVirtualSchemaProposalResponse")
 }
 
 func init() { proto.RegisterFile("nftmngr/tx.proto", fileDescriptor_17e298b08d1e9780) }
 
 var fileDescriptor_17e298b08d1e9780 = []byte{
-	// 2598 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xd4, 0x5b, 0xcf, 0x6f, 0x1b, 0xc7,
-	0xf5, 0xd7, 0x52, 0xb6, 0x2c, 0x3d, 0xd9, 0xfa, 0xb1, 0x96, 0x1d, 0x9a, 0x76, 0x18, 0x67, 0x92,
-	0xaf, 0xbf, 0xae, 0x81, 0x50, 0x0e, 0xe3, 0x24, 0xb5, 0xdd, 0x38, 0xa5, 0x64, 0xa9, 0x71, 0x6b,
-	0x4a, 0xc6, 0x92, 0x76, 0x9b, 0x36, 0x06, 0xbd, 0x22, 0x87, 0xab, 0x6d, 0xa8, 0x5d, 0x66, 0x77,
-	0x68, 0x49, 0x2d, 0x60, 0xa4, 0x48, 0x81, 0x02, 0x05, 0x8a, 0x16, 0x08, 0x50, 0xb4, 0x97, 0x16,
-	0x70, 0x6e, 0x29, 0xd0, 0x6b, 0xfb, 0x27, 0xe4, 0x98, 0xa2, 0x97, 0x9e, 0x8a, 0xc2, 0xbe, 0xf5,
-	0x2f, 0xe8, 0xb1, 0xd8, 0x99, 0xd9, 0xe5, 0x2c, 0x77, 0xb8, 0x9a, 0x25, 0xad, 0xc4, 0xbd, 0x71,
-	0x67, 0xf7, 0xf3, 0x79, 0x3f, 0xe6, 0xcd, 0x9b, 0x99, 0xf7, 0x24, 0x58, 0x70, 0xda, 0x64, 0xc7,
-	0xb1, 0xbc, 0x65, 0xb2, 0x57, 0xea, 0x7a, 0x2e, 0x71, 0xf5, 0x97, 0xc9, 0x36, 0xf6, 0xed, 0x3d,
-	0x07, 0x93, 0x5d, 0xd7, 0xfb, 0xb0, 0xe4, 0xdb, 0x7b, 0x74, 0xbc, 0xe9, 0x76, 0x4a, 0xfc, 0xdb,
-	0xc2, 0x39, 0xcb, 0x75, 0xad, 0x0e, 0x5e, 0x36, 0xbb, 0xf6, 0xb2, 0xe9, 0x38, 0x2e, 0x31, 0x89,
-	0xed, 0x3a, 0x3e, 0x23, 0x28, 0x9c, 0xe1, 0x6f, 0xe9, 0xd3, 0x56, 0xaf, 0xbd, 0x6c, 0x3a, 0xfb,
-	0xfc, 0xd5, 0x92, 0xe5, 0x5a, 0x2e, 0xfd, 0xb9, 0x1c, 0xfc, 0xe2, 0xa3, 0x2f, 0x86, 0x3a, 0x98,
-	0xcd, 0x80, 0xa7, 0x81, 0xf7, 0x70, 0xb3, 0x47, 0x5c, 0x8f, 0xbf, 0x2e, 0x86, 0xaf, 0xfd, 0xe6,
-	0x36, 0xde, 0x31, 0x1b, 0x26, 0x21, 0x9e, 0xbd, 0xd5, 0x23, 0x98, 0xbf, 0x3f, 0x17, 0xbe, 0x7f,
-	0x68, 0x7b, 0xa4, 0x67, 0x76, 0x1a, 0x8c, 0x86, 0xbf, 0x3d, 0x1b, 0xbe, 0x75, 0x9d, 0x46, 0x73,
-	0xdb, 0xb4, 0x9d, 0x46, 0xcb, 0x24, 0x26, 0x7f, 0x89, 0x22, 0xc9, 0x21, 0x67, 0xa3, 0x85, 0xdb,
-	0xb6, 0x63, 0x0b, 0x04, 0x2f, 0x87, 0xdf, 0x38, 0x6d, 0xd2, 0x97, 0xdd, 0x78, 0x68, 0x76, 0x7a,
-	0x43, 0x35, 0x60, 0x9a, 0x86, 0x46, 0xc7, 0xcd, 0x63, 0xa3, 0xe8, 0x07, 0xa0, 0x57, 0x7d, 0x6b,
-	0xd5, 0xc3, 0x26, 0xc1, 0x1b, 0xeb, 0xf5, 0x1a, 0x45, 0xe8, 0x79, 0x38, 0xd6, 0x0c, 0x86, 0x5c,
-	0x2f, 0xaf, 0x9d, 0xd7, 0x2e, 0xce, 0x18, 0xe1, 0xa3, 0x7e, 0x11, 0xe6, 0x9d, 0x36, 0x61, 0x9f,
-	0xad, 0x98, 0x3e, 0x7e, 0xeb, 0x4a, 0x3e, 0x47, 0xbf, 0x18, 0x1c, 0x46, 0x97, 0xa1, 0x90, 0x64,
-	0x36, 0xb0, 0xdf, 0x75, 0x1d, 0x1f, 0xeb, 0x3a, 0x1c, 0x69, 0xba, 0x2d, 0xcc, 0xe9, 0xe9, 0x6f,
-	0xf4, 0xa9, 0x06, 0x8b, 0x11, 0xa4, 0x8a, 0x89, 0x19, 0xb8, 0x28, 0x45, 0x97, 0x57, 0xe1, 0x44,
-	0x24, 0x74, 0x35, 0x20, 0x63, 0x9a, 0xc4, 0x07, 0x03, 0x3c, 0x71, 0x3f, 0xc4, 0xce, 0xad, 0x56,
-	0x7e, 0x92, 0xe1, 0xf9, 0x63, 0x80, 0xdf, 0xa2, 0xba, 0x6e, 0xac, 0xd7, 0x6f, 0x9a, 0xc4, 0xcc,
-	0x1f, 0x61, 0xf8, 0xd8, 0x20, 0xfa, 0x11, 0x9c, 0x49, 0x28, 0x15, 0x99, 0x91, 0x50, 0x41, 0x3b,
-	0x40, 0x85, 0x5c, 0x4c, 0x05, 0xf4, 0x3b, 0x0d, 0x4e, 0xf7, 0xd9, 0x7b, 0x1d, 0x62, 0x1f, 0x8e,
-	0xdd, 0x93, 0xd9, 0xed, 0x7e, 0x00, 0x45, 0xb9, 0x66, 0xe3, 0x18, 0x2f, 0xea, 0x81, 0xee, 0xc3,
-	0xc2, 0x66, 0x17, 0x3b, 0x3e, 0x36, 0x2b, 0x61, 0x3c, 0xeb, 0x2f, 0x02, 0x10, 0xcf, 0xb4, 0x49,
-	0x83, 0xec, 0x77, 0x43, 0xc2, 0x19, 0x3a, 0x52, 0xdf, 0xef, 0x62, 0xfd, 0x12, 0x1c, 0xa5, 0x11,
-	0x4f, 0x4d, 0x9e, 0x2d, 0x2f, 0x95, 0xd8, 0x22, 0x2f, 0x85, 0x8b, 0xbc, 0x54, 0x71, 0xf6, 0x0d,
-	0xf6, 0x09, 0x72, 0x21, 0x7f, 0xb7, 0xdb, 0x32, 0x09, 0x6e, 0x0d, 0x4a, 0xf1, 0xf5, 0x1a, 0x40,
-	0xb4, 0x86, 0xfc, 0xbc, 0x76, 0x7e, 0xf2, 0xe2, 0x6c, 0xf9, 0x8d, 0xd2, 0x81, 0x29, 0xa7, 0x34,
-	0xc8, 0x64, 0x08, 0x34, 0xe8, 0x13, 0x0d, 0x16, 0x43, 0x89, 0x9e, 0x6d, 0xd9, 0x4e, 0xe0, 0x47,
-	0xfd, 0xfb, 0x70, 0xcc, 0x65, 0x28, 0x6a, 0xce, 0x6c, 0xf9, 0xba, 0x82, 0x9c, 0x61, 0x8a, 0xbf,
-	0x37, 0x61, 0x84, 0x6c, 0x2b, 0xa7, 0xe0, 0x64, 0x8f, 0x7d, 0xd6, 0x70, 0xa9, 0x38, 0x9a, 0x52,
-	0xd0, 0x75, 0x98, 0xaf, 0xd0, 0x15, 0x7e, 0xc7, 0xf4, 0xcc, 0x1d, 0x4c, 0xb0, 0x17, 0x2c, 0x36,
-	0xc7, 0xdc, 0x89, 0x16, 0x5b, 0xf0, 0x5b, 0x5f, 0x12, 0x3d, 0x39, 0x13, 0xfa, 0xec, 0x3f, 0x1a,
-	0xbc, 0x50, 0xf5, 0xad, 0x3b, 0xd8, 0x6b, 0xbb, 0xde, 0x0e, 0xe3, 0x59, 0xd9, 0xaf, 0xb4, 0x76,
-	0x6c, 0x27, 0x25, 0x20, 0x2f, 0xd0, 0xa4, 0xc0, 0xd3, 0x4d, 0xa3, 0x39, 0xc2, 0x52, 0x3c, 0x0d,
-	0x53, 0x2c, 0x2d, 0xf1, 0x58, 0xe4, 0x4f, 0xfa, 0x29, 0x98, 0xf2, 0x70, 0xbb, 0x61, 0xb7, 0xf2,
-	0x47, 0x99, 0x9a, 0x1e, 0x6e, 0xdf, 0x6a, 0xe9, 0x06, 0x40, 0x37, 0xb4, 0xce, 0xcf, 0x4f, 0xd1,
-	0xe9, 0x2b, 0x2b, 0xb8, 0x75, 0xc0, 0x31, 0x86, 0xc0, 0x82, 0x5a, 0xf0, 0xd2, 0x10, 0xcb, 0xa3,
-	0x80, 0x97, 0xd8, 0x29, 0x0d, 0xf9, 0x33, 0x30, 0x4d, 0x0d, 0x0b, 0xf4, 0x1e, 0x58, 0xf0, 0x7f,
-	0xd7, 0x60, 0xbe, 0xea, 0x5b, 0x95, 0x56, 0xab, 0x1f, 0xf3, 0xc3, 0x1d, 0x1b, 0x66, 0xc9, 0x5c,
-	0x3f, 0x4b, 0xea, 0x77, 0x60, 0xba, 0xe3, 0x36, 0xe9, 0x56, 0x47, 0xbd, 0x38, 0x57, 0xbe, 0xa2,
-	0x62, 0x79, 0x28, 0xed, 0x36, 0xc7, 0x1a, 0x11, 0x8b, 0xfe, 0x6d, 0x38, 0xcb, 0x97, 0x3e, 0xde,
-	0xa5, 0xdf, 0xf5, 0x08, 0xbe, 0x89, 0xdb, 0x98, 0xed, 0x3f, 0x7c, 0x46, 0xd2, 0x3e, 0x41, 0x15,
-	0x1a, 0x35, 0xa2, 0x51, 0x69, 0x89, 0x3e, 0x8a, 0xc7, 0x5c, 0x3f, 0x1e, 0x51, 0x1b, 0x8e, 0x73,
-	0x0a, 0x36, 0xf3, 0xd9, 0x9c, 0x72, 0x11, 0xe6, 0xfb, 0xfa, 0x35, 0x23, 0xdf, 0xcc, 0x18, 0x83,
-	0xc3, 0xe8, 0x06, 0x2c, 0x89, 0x72, 0x32, 0xeb, 0x79, 0x1f, 0x4e, 0x54, 0x7d, 0xab, 0x86, 0x49,
-	0xb0, 0xcd, 0xdd, 0xf5, 0xec, 0x8c, 0x8a, 0x16, 0x01, 0x1c, 0xbc, 0xcb, 0xb1, 0x5c, 0x47, 0x61,
-	0x04, 0xbd, 0x03, 0xa7, 0x62, 0xf4, 0xa9, 0xfa, 0x2d, 0xc0, 0x64, 0xcf, 0xb3, 0x39, 0x7f, 0xf0,
-	0x13, 0xb9, 0x34, 0xba, 0xea, 0xae, 0x65, 0x75, 0xf0, 0x48, 0x8e, 0xec, 0x2f, 0xc4, 0xc9, 0xd8,
-	0x42, 0x3c, 0x0d, 0x53, 0x3e, 0x31, 0x49, 0xcf, 0xa7, 0xe1, 0x30, 0x6d, 0xf0, 0x27, 0xf4, 0x3e,
-	0x9d, 0x79, 0x51, 0x60, 0x56, 0x8f, 0x0a, 0xd4, 0x93, 0x31, 0x6a, 0x8f, 0xce, 0xd4, 0xea, 0xb6,
-	0xe9, 0x58, 0x98, 0x2d, 0xae, 0xcd, 0x5d, 0x07, 0x7b, 0x63, 0x6f, 0x8c, 0x05, 0x98, 0x76, 0xf0,
-	0x2e, 0xe5, 0xe2, 0x46, 0x46, 0xcf, 0xe8, 0x01, 0x9c, 0x93, 0xc9, 0xcc, 0xb8, 0xe5, 0x89, 0x12,
-	0x72, 0x03, 0x12, 0xee, 0xc3, 0xd9, 0xaa, 0x6f, 0x19, 0xd8, 0xdf, 0x77, 0x9a, 0xfd, 0xbc, 0xfe,
-	0xcc, 0x0e, 0x14, 0xbf, 0x66, 0x67, 0xa8, 0xda, 0xb6, 0xbb, 0x2b, 0x6c, 0x77, 0xe3, 0xba, 0x4c,
-	0x87, 0x23, 0xfe, 0xb6, 0xbb, 0xcb, 0x27, 0x88, 0xfe, 0xd6, 0x2f, 0xc0, 0x5c, 0xb4, 0xf7, 0x6d,
-	0x98, 0x3b, 0x38, 0x88, 0x8c, 0x60, 0x7b, 0x1f, 0x18, 0x45, 0x57, 0xe9, 0xf9, 0x29, 0xae, 0x50,
-	0x64, 0xee, 0x39, 0x98, 0x89, 0x24, 0x85, 0xbb, 0x7d, 0x34, 0x80, 0x5c, 0x38, 0x29, 0xf1, 0xd5,
-	0xe1, 0x9d, 0x08, 0xd1, 0xe7, 0x2c, 0x3b, 0xd7, 0x30, 0x59, 0xc7, 0x78, 0xd5, 0x75, 0xda, 0xb6,
-	0x95, 0x22, 0xad, 0x04, 0xba, 0x83, 0x77, 0xa3, 0x2f, 0x63, 0xc7, 0x61, 0xc9, 0x1b, 0xbd, 0x0a,
-	0xd0, 0xc6, 0xb8, 0xd6, 0xdb, 0xfa, 0x31, 0x6e, 0x12, 0x9e, 0xbb, 0x5f, 0x53, 0xc8, 0xdd, 0xeb,
-	0x11, 0xc8, 0x10, 0x08, 0xd0, 0x19, 0xba, 0xf4, 0x44, 0x5d, 0x43, 0xb7, 0xa2, 0xc7, 0x1a, 0xcc,
-	0xb1, 0x77, 0x55, 0xdb, 0x21, 0x66, 0x8f, 0x6c, 0x8f, 0xed, 0xb4, 0x3b, 0x30, 0x1b, 0xf0, 0xb8,
-	0x9e, 0xfd, 0x13, 0x5c, 0x77, 0xb9, 0xf6, 0x25, 0x95, 0x9d, 0xa7, 0x8f, 0x32, 0x44, 0x0a, 0x74,
-	0x83, 0x1e, 0x7d, 0x05, 0x1d, 0xb3, 0x2d, 0x02, 0x64, 0xb1, 0xdb, 0x02, 0x5d, 0xab, 0x9b, 0x9e,
-	0x75, 0x50, 0x72, 0xc8, 0xc3, 0x31, 0xd7, 0xb3, 0x36, 0xfa, 0xd9, 0x27, 0x7c, 0x0c, 0x72, 0x32,
-	0x71, 0x37, 0xe2, 0x29, 0x41, 0x18, 0x41, 0x3b, 0xec, 0x06, 0x10, 0x13, 0x14, 0xe9, 0x2a, 0xd0,
-	0x6a, 0x71, 0xda, 0x02, 0x4c, 0xbb, 0x9d, 0x56, 0x2c, 0x0b, 0x84, 0xcf, 0xa9, 0x39, 0xc8, 0x83,
-	0x3c, 0xf3, 0x0b, 0x4d, 0xff, 0xc4, 0xb3, 0xf1, 0x43, 0xb3, 0x53, 0xc5, 0x64, 0xdb, 0x6d, 0xa5,
-	0x98, 0x57, 0x04, 0xf0, 0x07, 0xa7, 0x50, 0x18, 0xa1, 0x2b, 0x0d, 0xef, 0x32, 0x1a, 0x2a, 0xf2,
-	0xa8, 0xd1, 0x1f, 0x40, 0x0f, 0xe0, 0xfc, 0x30, 0x99, 0x91, 0xa5, 0x71, 0x09, 0x5a, 0xba, 0x84,
-	0x1c, 0x5f, 0xcb, 0x91, 0x84, 0x1e, 0xcb, 0x4b, 0x98, 0xb0, 0xa3, 0xf1, 0x6a, 0x70, 0x07, 0x1e,
-	0xc3, 0x9c, 0x0b, 0x30, 0x17, 0x38, 0xac, 0xcf, 0xc5, 0xdd, 0x38, 0x30, 0x8a, 0x9a, 0x2c, 0xfb,
-	0xc4, 0xc4, 0x2a, 0x5b, 0x94, 0x14, 0x92, 0x93, 0x0a, 0xf9, 0x58, 0xa3, 0x5b, 0x55, 0x5f, 0x8a,
-	0xeb, 0x10, 0xcf, 0x6c, 0x92, 0x31, 0xec, 0x63, 0xb9, 0x25, 0x24, 0xaa, 0xb4, 0x5a, 0x1e, 0xf6,
-	0x7d, 0x6e, 0xa3, 0xe4, 0x0d, 0x72, 0xe8, 0xc6, 0x95, 0xd0, 0x40, 0xd9, 0x54, 0xb9, 0xbc, 0xdc,
-	0x50, 0x79, 0x1f, 0x6b, 0x61, 0x94, 0x46, 0x89, 0x79, 0xf3, 0x21, 0xf6, 0xec, 0x96, 0xed, 0x58,
-	0x63, 0x98, 0x7d, 0x09, 0x16, 0x02, 0xdf, 0x86, 0x4c, 0xc1, 0x9d, 0x8f, 0x07, 0x6b, 0x62, 0x1c,
-	0xb5, 0xc3, 0x98, 0x4d, 0x6a, 0xa0, 0x6c, 0x36, 0x82, 0xe3, 0x22, 0x2f, 0xd7, 0x28, 0x36, 0x86,
-	0x9c, 0x70, 0x72, 0xc3, 0x0b, 0xf0, 0xba, 0xeb, 0xed, 0x98, 0x64, 0xec, 0xb5, 0xc8, 0x68, 0xf8,
-	0x9c, 0xf6, 0x07, 0xd0, 0x07, 0xe1, 0x54, 0xc6, 0xe5, 0x65, 0x5c, 0x87, 0x9c, 0x3d, 0x37, 0xc8,
-	0xfe, 0x09, 0xbb, 0xe1, 0xb1, 0x7b, 0x3d, 0x3b, 0xb1, 0xad, 0xf1, 0x42, 0xd7, 0xd8, 0x7b, 0xc4,
-	0x45, 0x98, 0x0f, 0x8b, 0x66, 0xf1, 0x88, 0x1d, 0x1c, 0x46, 0x1f, 0xd1, 0xcb, 0x96, 0x4c, 0x89,
-	0x8c, 0x27, 0x21, 0x89, 0xc8, 0x9c, 0x5c, 0x24, 0x37, 0x9c, 0xdd, 0xac, 0xbf, 0x66, 0xc3, 0x65,
-	0x4a, 0x1c, 0xb6, 0xe1, 0x37, 0x71, 0x07, 0x7f, 0xed, 0x86, 0xcb, 0x94, 0x38, 0x34, 0xc3, 0x1f,
-	0xb3, 0x1c, 0xc5, 0x9c, 0xcd, 0x18, 0x54, 0x2e, 0xdd, 0x6a, 0x96, 0xaf, 0x43, 0x91, 0x1d, 0xeb,
-	0xf8, 0x5c, 0x26, 0xef, 0xcd, 0xcc, 0x11, 0x07, 0x7c, 0x85, 0x3e, 0xa0, 0x59, 0x4c, 0xaa, 0x63,
-	0x46, 0xc7, 0xc8, 0x6e, 0xab, 0x3f, 0x63, 0x07, 0x5a, 0x31, 0xde, 0xc6, 0xb6, 0xbc, 0x04, 0xfa,
-	0x96, 0x68, 0x93, 0x78, 0x5d, 0x94, 0xbc, 0x41, 0xb5, 0xc4, 0xba, 0x7b, 0x06, 0x86, 0x7d, 0x26,
-	0x16, 0x4e, 0xef, 0xb1, 0x7a, 0xf7, 0x33, 0xb2, 0xef, 0x16, 0xbd, 0xa2, 0x33, 0x32, 0x9f, 0xd6,
-	0x4e, 0x67, 0xcb, 0xdf, 0x50, 0x2e, 0x2e, 0x19, 0x02, 0x18, 0xfd, 0x41, 0x13, 0x8a, 0xa8, 0x31,
-	0x2d, 0x33, 0xba, 0xe0, 0x1e, 0x9c, 0x78, 0x28, 0xc2, 0x69, 0x29, 0x75, 0xb6, 0x7c, 0x59, 0x41,
-	0xad, 0xb8, 0xd8, 0x38, 0x4d, 0xe8, 0x46, 0x36, 0x39, 0xcf, 0xbb, 0x1b, 0x25, 0x5a, 0x3e, 0x27,
-	0x6e, 0xec, 0x50, 0x2f, 0xb2, 0xe4, 0xf6, 0x6c, 0xbd, 0x18, 0xc6, 0xfe, 0xa4, 0x10, 0xfb, 0x06,
-	0xf5, 0x86, 0x44, 0x9a, 0x78, 0x29, 0x19, 0x22, 0xb5, 0x5f, 0x6c, 0x61, 0xe2, 0xc2, 0x62, 0xcb,
-	0xdf, 0x24, 0x91, 0xca, 0xd4, 0xb8, 0xe3, 0xb9, 0x5d, 0xd7, 0x37, 0x3b, 0x29, 0xa4, 0x65, 0x58,
-	0xe2, 0xfe, 0xd8, 0x90, 0x58, 0x24, 0x7d, 0xa7, 0x9b, 0x30, 0xed, 0x61, 0xcb, 0xf6, 0x89, 0xb7,
-	0xcf, 0x83, 0xe3, 0x5d, 0xf5, 0x59, 0x08, 0x9b, 0x49, 0x0c, 0x6f, 0xe0, 0x8f, 0x7a, 0xd8, 0x27,
-	0x2b, 0x47, 0xbe, 0xf8, 0xe7, 0x4b, 0x13, 0x46, 0x44, 0x8b, 0x5a, 0xc3, 0x4c, 0x8a, 0xfc, 0x34,
-	0x07, 0x39, 0xbb, 0xc5, 0xad, 0xc9, 0xd9, 0xad, 0x51, 0x0c, 0x41, 0xed, 0xe4, 0xdc, 0x1f, 0xd8,
-	0x45, 0x1b, 0x45, 0xce, 0xf9, 0xe4, 0xac, 0xc7, 0xad, 0x41, 0x9f, 0xe7, 0xc4, 0xe2, 0xfd, 0x28,
-	0x71, 0x28, 0xdc, 0x8e, 0xe3, 0x83, 0x7a, 0x35, 0xb8, 0x23, 0xd3, 0x22, 0x49, 0xd5, 0xec, 0xf2,
-	0x09, 0x53, 0xa9, 0x5d, 0xd4, 0x23, 0x90, 0x21, 0x10, 0x0c, 0xad, 0xf7, 0x2f, 0x01, 0xab, 0xf0,
-	0x1f, 0x7e, 0xb9, 0xff, 0x3b, 0x62, 0xb9, 0xff, 0xe0, 0x9c, 0x32, 0xd4, 0x33, 0xe8, 0x36, 0x40,
-	0xdf, 0xc8, 0x24, 0x46, 0x93, 0x79, 0x73, 0x78, 0xfd, 0xce, 0xa1, 0xb3, 0xbc, 0xe6, 0x98, 0x5b,
-	0x9d, 0xaf, 0x62, 0x19, 0xa2, 0x2d, 0xb8, 0x90, 0x2e, 0x4f, 0x21, 0xa7, 0x14, 0x01, 0xba, 0xfc,
-	0xeb, 0xc8, 0x20, 0x61, 0x04, 0xb9, 0xec, 0xe8, 0x67, 0xfb, 0x5f, 0x95, 0x51, 0x4d, 0xf8, 0xff,
-	0x03, 0x04, 0x3e, 0x03, 0xab, 0xfe, 0xa2, 0xd1, 0x06, 0xf7, 0x3d, 0x97, 0x60, 0x49, 0x8a, 0x49,
-	0x21, 0x66, 0x49, 0x27, 0x17, 0x25, 0x9d, 0xc4, 0x46, 0x30, 0x29, 0xdf, 0x4e, 0xa7, 0xdc, 0x6e,
-	0xb4, 0x62, 0xe6, 0xca, 0xaf, 0x2b, 0xc4, 0x7f, 0x98, 0x20, 0x6b, 0x34, 0xc7, 0x1b, 0x9c, 0x00,
-	0xbd, 0x0a, 0x68, 0xb8, 0xe2, 0x51, 0x36, 0xf9, 0xab, 0x46, 0x2b, 0xd5, 0xc1, 0x67, 0x32, 0x4f,
-	0x3e, 0xcf, 0x06, 0xfe, 0x1f, 0xbc, 0x92, 0xa2, 0x79, 0x64, 0xa1, 0x30, 0x83, 0x92, 0x05, 0xf0,
-	0xbf, 0x31, 0x83, 0x12, 0xc5, 0x43, 0xfb, 0x2e, 0x5d, 0x87, 0xc5, 0x44, 0xdb, 0x4f, 0x5f, 0x84,
-	0x13, 0x1b, 0xeb, 0xf5, 0x46, 0xa5, 0x5e, 0x37, 0x6e, 0xad, 0xdc, 0xad, 0xaf, 0x2d, 0x4c, 0xe8,
-	0x27, 0x61, 0xbe, 0xbe, 0xf9, 0xbd, 0xb5, 0x0d, 0x61, 0x50, 0xbb, 0x84, 0x60, 0x56, 0xa8, 0xdc,
-	0xea, 0x00, 0x53, 0xb5, 0xf7, 0x6b, 0xf5, 0xb5, 0xea, 0xc2, 0x84, 0x7e, 0x0c, 0x26, 0x2b, 0xb7,
-	0x6f, 0x2f, 0x68, 0x97, 0x5e, 0x01, 0xe8, 0xd7, 0xa6, 0xf5, 0x53, 0xb0, 0xb8, 0x6a, 0xac, 0x55,
-	0xea, 0x6b, 0x8d, 0x40, 0x40, 0x6d, 0xf5, 0xbd, 0xb5, 0x6a, 0x65, 0x61, 0xa2, 0xfc, 0xef, 0x0b,
-	0x30, 0x59, 0xf5, 0x2d, 0xfd, 0x17, 0x1a, 0xcc, 0x0f, 0xfe, 0x9d, 0xc9, 0x9b, 0x0a, 0x2e, 0x48,
-	0xfe, 0x11, 0x49, 0xe1, 0x9d, 0x91, 0x60, 0xd1, 0x9a, 0xff, 0xb9, 0x06, 0x73, 0x03, 0x7f, 0x64,
-	0x72, 0x25, 0x0b, 0x63, 0x88, 0x2a, 0x7c, 0x6b, 0x14, 0x54, 0xa4, 0xc6, 0x6f, 0x35, 0x58, 0x92,
-	0x36, 0xda, 0xaf, 0xa9, 0xd1, 0xca, 0xb0, 0x85, 0x95, 0xd1, 0xb1, 0x91, 0x62, 0x8f, 0xe0, 0x78,
-	0xac, 0x3f, 0x5d, 0x56, 0xe3, 0x14, 0x31, 0x85, 0x6b, 0xd9, 0x31, 0x91, 0xfc, 0x1e, 0xcc, 0xf4,
-	0xfb, 0xc0, 0xcb, 0xea, 0x44, 0x14, 0x50, 0x78, 0x3b, 0x23, 0x20, 0x12, 0xbb, 0x07, 0x20, 0xb4,
-	0x75, 0x2f, 0xab, 0xd1, 0xf4, 0x11, 0x85, 0x6f, 0x66, 0x45, 0x88, 0x0e, 0x8f, 0xb5, 0x6c, 0x15,
-	0x1d, 0x2e, 0x62, 0x54, 0x1d, 0x2e, 0xed, 0xd4, 0xfe, 0x4a, 0x83, 0xc5, 0x64, 0x9f, 0x55, 0xd1,
-	0x91, 0x09, 0x60, 0xe1, 0xdd, 0x11, 0x81, 0x91, 0x3e, 0xbf, 0xd4, 0x60, 0x21, 0xd1, 0xf5, 0x7b,
-	0x4b, 0x8d, 0x75, 0x10, 0x57, 0xb8, 0x31, 0x1a, 0x2e, 0x96, 0x2d, 0x06, 0xda, 0xa9, 0x8a, 0xd9,
-	0x22, 0x8e, 0x52, 0xcd, 0x16, 0x43, 0x3a, 0xa5, 0x8f, 0xe0, 0x78, 0xac, 0x2d, 0x59, 0x56, 0x8e,
-	0xb6, 0x08, 0xa3, 0x1a, 0x23, 0xb2, 0x96, 0xa2, 0xfe, 0x53, 0x98, 0x15, 0xdb, 0x89, 0xaf, 0x2b,
-	0x53, 0x85, 0x90, 0xc2, 0xd5, 0xcc, 0x90, 0x78, 0xc6, 0x8e, 0x37, 0xfa, 0xae, 0x64, 0x09, 0xb2,
-	0x10, 0xa5, 0x9c, 0xb1, 0xe5, 0xbd, 0xbe, 0x4f, 0x35, 0x38, 0x29, 0xfb, 0x53, 0xbd, 0xab, 0x99,
-	0xf6, 0x01, 0x11, 0x5a, 0xa8, 0x8c, 0x0c, 0x8d, 0xb4, 0xfa, 0xbd, 0x06, 0xa7, 0xe4, 0xdd, 0xc2,
-	0xeb, 0xca, 0x1e, 0x4f, 0x82, 0x0b, 0xab, 0x63, 0x80, 0xe3, 0x8b, 0x27, 0xde, 0xf3, 0xbb, 0xa2,
-	0xcc, 0x2b, 0xa0, 0x94, 0x17, 0x8f, 0xbc, 0xd1, 0x17, 0x24, 0xb8, 0x64, 0x77, 0xee, 0xed, 0xac,
-	0x9c, 0x1c, 0xa8, 0x9a, 0xe0, 0x86, 0x77, 0xe3, 0xf8, 0x94, 0x49, 0x5a, 0x67, 0xea, 0x53, 0x96,
-	0x04, 0x67, 0x98, 0xb2, 0x94, 0x96, 0x19, 0xf7, 0xd5, 0x40, 0xb3, 0x4b, 0xdd, 0x57, 0x71, 0x60,
-	0x06, 0x5f, 0x0d, 0x69, 0x77, 0x05, 0xc7, 0x24, 0x69, 0xb7, 0xea, 0x5a, 0x96, 0xa5, 0x13, 0xc7,
-	0xaa, 0x1e, 0x93, 0x52, 0x1b, 0x54, 0x81, 0x62, 0xd2, 0xa6, 0x8a, 0xa2, 0x62, 0x32, 0xac, 0xaa,
-	0x62, 0xa9, 0x7d, 0x94, 0x20, 0xba, 0xe4, 0x4d, 0x0f, 0xc5, 0xe8, 0x92, 0x82, 0x55, 0xa3, 0x2b,
-	0xbd, 0x95, 0xf1, 0x08, 0x8e, 0xc7, 0x9a, 0x11, 0xe5, 0x2c, 0xa4, 0xd9, 0x8e, 0x3a, 0xd2, 0x8e,
-	0x43, 0x3f, 0x85, 0xc7, 0xeb, 0x63, 0x99, 0x52, 0x78, 0x0c, 0x9a, 0x2d, 0x85, 0xcb, 0x2b, 0x4d,
-	0x81, 0x56, 0xb2, 0x1a, 0xfc, 0xd5, 0x2c, 0x96, 0x8e, 0xa4, 0x55, 0x5a, 0x4d, 0x3d, 0xd0, 0x4a,
-	0x56, 0xd3, 0xbe, 0x9a, 0x25, 0x46, 0x47, 0xd2, 0x2a, 0xad, 0xb6, 0xfd, 0x99, 0x06, 0x67, 0xd3,
-	0xca, 0xd4, 0xa3, 0x4c, 0x47, 0x9c, 0xa2, 0x30, 0x3a, 0xc5, 0x70, 0xdf, 0xf1, 0x1b, 0xef, 0x28,
-	0xbe, 0xe3, 0xb7, 0xde, 0xca, 0xc8, 0x50, 0xd9, 0x95, 0x33, 0x3e, 0xa5, 0xd9, 0xae, 0x9c, 0xf1,
-	0x39, 0x5d, 0x19, 0x1d, 0x1b, 0x29, 0xf6, 0x27, 0x0d, 0xce, 0xa6, 0x15, 0x3d, 0x15, 0x6d, 0x4f,
-	0xa1, 0x28, 0xdc, 0x1a, 0x9b, 0x22, 0xd2, 0xf6, 0xcf, 0x1a, 0x9c, 0x4b, 0x2d, 0x67, 0xaa, 0x66,
-	0xf1, 0x14, 0x8e, 0xc2, 0x77, 0xc7, 0xe7, 0x88, 0x14, 0xfe, 0xa3, 0x06, 0x2f, 0x0c, 0x2b, 0x54,
-	0x2a, 0x16, 0x53, 0x86, 0xc0, 0x0b, 0x6b, 0x63, 0xc1, 0x23, 0x0d, 0x1f, 0x6b, 0x90, 0x1f, 0x5a,
-	0x6a, 0xbc, 0xa1, 0x2e, 0x43, 0x86, 0x2f, 0xac, 0x8f, 0x87, 0x4f, 0xb8, 0x51, 0x56, 0x2d, 0xcc,
-	0xe0, 0x46, 0x09, 0x3c, 0x8b, 0x1b, 0x53, 0x4a, 0x7e, 0x2b, 0x9b, 0x5f, 0x3c, 0x29, 0x6a, 0x5f,
-	0x3e, 0x29, 0x6a, 0xff, 0x7a, 0x52, 0xd4, 0x7e, 0xf3, 0xb4, 0x38, 0xf1, 0xe5, 0xd3, 0xe2, 0xc4,
-	0x3f, 0x9e, 0x16, 0x27, 0x7e, 0xf8, 0xa6, 0x65, 0x93, 0xed, 0xde, 0x56, 0xa9, 0xe9, 0xee, 0x2c,
-	0xc7, 0x44, 0x2d, 0xfb, 0xf6, 0xde, 0x6b, 0xa1, 0xac, 0xe5, 0xbd, 0xe5, 0xe8, 0x3f, 0xf1, 0xf6,
-	0xbb, 0xd8, 0xdf, 0x9a, 0xa2, 0x6f, 0xde, 0xf8, 0x6f, 0x00, 0x00, 0x00, 0xff, 0xff, 0xce, 0x9d,
-	0x6f, 0x4b, 0xa1, 0x37, 0x00, 0x00,
+	// 2453 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xcc, 0x5b, 0xcf, 0x6f, 0x1b, 0xc7,
+	0xf5, 0xd7, 0x92, 0xb6, 0x2c, 0x3d, 0xd9, 0xfa, 0xb1, 0x96, 0xfd, 0xa5, 0x69, 0x87, 0x71, 0xf6,
+	0x1b, 0x18, 0xae, 0x81, 0x90, 0x0e, 0xe3, 0x24, 0xb5, 0xdd, 0x38, 0xa5, 0x64, 0x29, 0x31, 0x6a,
+	0x4a, 0xee, 0x92, 0x76, 0x9b, 0x36, 0x06, 0xbd, 0x22, 0x87, 0xab, 0x6d, 0xa8, 0x1d, 0x66, 0x77,
+	0x68, 0x49, 0x2d, 0x60, 0xa4, 0x48, 0x81, 0x02, 0x05, 0x8a, 0x16, 0x08, 0x50, 0xb4, 0x97, 0x1e,
+	0x92, 0xf6, 0x92, 0x73, 0x81, 0xa2, 0xff, 0x41, 0x8e, 0x01, 0x7a, 0xe9, 0xa9, 0x28, 0xec, 0x7f,
+	0xa2, 0xc7, 0x62, 0xe7, 0xc7, 0x72, 0x96, 0x1c, 0xd2, 0xb3, 0xa4, 0x85, 0xe4, 0xc6, 0x9d, 0xd9,
+	0xf7, 0x79, 0x9f, 0xf7, 0xe6, 0xcd, 0xdb, 0x99, 0xf7, 0x24, 0x58, 0xf6, 0xdb, 0x64, 0xcf, 0x77,
+	0x83, 0x12, 0x39, 0x28, 0x76, 0x03, 0x4c, 0xb0, 0xf9, 0x0a, 0xd9, 0x45, 0xa1, 0x77, 0xe0, 0x23,
+	0xb2, 0x8f, 0x83, 0x8f, 0x8a, 0xa1, 0x77, 0x40, 0xc7, 0x9b, 0xb8, 0x53, 0xe4, 0xef, 0xe6, 0x2f,
+	0xb8, 0x18, 0xbb, 0x1d, 0x54, 0x72, 0xba, 0x5e, 0xc9, 0xf1, 0x7d, 0x4c, 0x1c, 0xe2, 0x61, 0x3f,
+	0x64, 0x00, 0xf9, 0x73, 0x7c, 0x96, 0x3e, 0xed, 0xf4, 0xda, 0x25, 0xc7, 0x3f, 0xe4, 0x53, 0xab,
+	0x2e, 0x76, 0x31, 0xfd, 0x59, 0x8a, 0x7e, 0xf1, 0xd1, 0x97, 0x04, 0x07, 0xa7, 0x19, 0xe1, 0x34,
+	0xd0, 0x01, 0x6a, 0xf6, 0x08, 0x0e, 0xf8, 0x74, 0x41, 0x4c, 0x87, 0xcd, 0x5d, 0xb4, 0xe7, 0x34,
+	0x1c, 0x42, 0x02, 0x6f, 0xa7, 0x47, 0x10, 0x9f, 0xbf, 0x20, 0xe6, 0x1f, 0x7b, 0x01, 0xe9, 0x39,
+	0x9d, 0x06, 0x83, 0xe1, 0xb3, 0xe7, 0xc5, 0x2c, 0xf6, 0x1b, 0xcd, 0x5d, 0xc7, 0xf3, 0x1b, 0x2d,
+	0x87, 0x38, 0x7c, 0xd2, 0x8a, 0x35, 0x0b, 0xcc, 0x46, 0x0b, 0xb5, 0x3d, 0xdf, 0x93, 0x00, 0x5e,
+	0x11, 0xef, 0xf8, 0x6d, 0xd2, 0xd7, 0xdd, 0x78, 0xec, 0x74, 0x7a, 0x23, 0x19, 0x30, 0xa6, 0xc2,
+	0xe8, 0xa4, 0x79, 0x6c, 0xd4, 0xfa, 0x31, 0x98, 0xd5, 0xd0, 0x5d, 0x0f, 0x90, 0x43, 0xd0, 0xd6,
+	0x66, 0xbd, 0x46, 0x25, 0xcc, 0x1c, 0x9c, 0x68, 0x46, 0x43, 0x38, 0xc8, 0x19, 0x17, 0x8d, 0xcb,
+	0xf3, 0xb6, 0x78, 0x34, 0x2f, 0xc3, 0x92, 0xdf, 0x26, 0xec, 0xb5, 0x35, 0x27, 0x44, 0x6f, 0x5d,
+	0xcb, 0x65, 0xe8, 0x1b, 0x83, 0xc3, 0xd6, 0x55, 0xc8, 0x0f, 0x23, 0xdb, 0x28, 0xec, 0x62, 0x3f,
+	0x44, 0xa6, 0x09, 0xc7, 0x9a, 0xb8, 0x85, 0x38, 0x3c, 0xfd, 0x6d, 0x7d, 0x66, 0xc0, 0x4a, 0x2c,
+	0x52, 0x45, 0xc4, 0x89, 0x5c, 0x34, 0x86, 0xcb, 0xab, 0x70, 0x2a, 0x56, 0xba, 0x1e, 0x81, 0x31,
+	0x26, 0xc9, 0xc1, 0x48, 0x9e, 0xe0, 0x8f, 0x90, 0x7f, 0xa7, 0x95, 0xcb, 0x32, 0x79, 0xfe, 0x18,
+	0xc9, 0xef, 0x50, 0xae, 0x5b, 0x9b, 0xf5, 0xdb, 0x0e, 0x71, 0x72, 0xc7, 0x98, 0x7c, 0x62, 0xd0,
+	0xfa, 0x29, 0x9c, 0x1b, 0x22, 0x15, 0x9b, 0x31, 0x44, 0xc1, 0x78, 0x0e, 0x85, 0x4c, 0x82, 0x82,
+	0xf5, 0x47, 0x03, 0xce, 0xf6, 0xd1, 0x7b, 0x1d, 0xe2, 0x1d, 0x8d, 0xdd, 0xd9, 0xf4, 0x76, 0x3f,
+	0x82, 0x82, 0x9a, 0xd9, 0x34, 0xc6, 0xcb, 0x3c, 0xac, 0x87, 0xb0, 0xbc, 0xdd, 0x45, 0x7e, 0x88,
+	0x9c, 0x8a, 0x88, 0x67, 0xf3, 0x25, 0x00, 0x12, 0x38, 0x1e, 0x69, 0x90, 0xc3, 0xae, 0x00, 0x9c,
+	0xa7, 0x23, 0xf5, 0xc3, 0x2e, 0x32, 0xaf, 0xc0, 0x71, 0x1a, 0xf1, 0xd4, 0xe4, 0x85, 0xf2, 0x6a,
+	0x91, 0x6d, 0xf2, 0xa2, 0xd8, 0xe4, 0xc5, 0x8a, 0x7f, 0x68, 0xb3, 0x57, 0x2c, 0x0c, 0xb9, 0xfb,
+	0xdd, 0x96, 0x43, 0x50, 0x6b, 0x50, 0x4b, 0x68, 0xd6, 0x00, 0xe2, 0x3d, 0x14, 0xe6, 0x8c, 0x8b,
+	0xd9, 0xcb, 0x0b, 0xe5, 0x37, 0x8a, 0xcf, 0x4d, 0x39, 0xc5, 0x41, 0x24, 0x5b, 0x82, 0xb1, 0x3e,
+	0x35, 0x60, 0x45, 0x68, 0x0c, 0x3c, 0xd7, 0xf3, 0x23, 0x3f, 0x9a, 0x3f, 0x82, 0x13, 0x98, 0x49,
+	0x51, 0x73, 0x16, 0xca, 0x37, 0x35, 0xf4, 0x8c, 0x22, 0xfe, 0xfe, 0x8c, 0x2d, 0xd0, 0xd6, 0xce,
+	0xc0, 0xe9, 0x1e, 0x7b, 0xad, 0x81, 0xa9, 0x3a, 0x9a, 0x52, 0xac, 0x9b, 0xb0, 0x54, 0xa1, 0x3b,
+	0xfc, 0x9e, 0x13, 0x38, 0x7b, 0x88, 0xa0, 0x20, 0xda, 0x6c, 0xbe, 0xb3, 0x17, 0x6f, 0xb6, 0xe8,
+	0xb7, 0xb9, 0x2a, 0x7b, 0x72, 0x5e, 0xf8, 0xec, 0xbf, 0x06, 0xfc, 0x5f, 0x35, 0x74, 0xef, 0xa1,
+	0xa0, 0x8d, 0x83, 0x3d, 0x86, 0xb3, 0x76, 0x58, 0x69, 0xed, 0x79, 0xfe, 0x98, 0x80, 0xbc, 0x44,
+	0x93, 0x02, 0x4f, 0x37, 0x8d, 0xe6, 0x04, 0x5b, 0xf1, 0x2c, 0xcc, 0xb2, 0xb4, 0xc4, 0x63, 0x91,
+	0x3f, 0x99, 0x67, 0x60, 0x36, 0x40, 0xed, 0x86, 0xd7, 0xca, 0x1d, 0x67, 0x34, 0x03, 0xd4, 0xbe,
+	0xd3, 0x32, 0x6d, 0x80, 0xae, 0xb0, 0x2e, 0xcc, 0xcd, 0xd2, 0xe5, 0x2b, 0x6b, 0xb8, 0x75, 0xc0,
+	0x31, 0xb6, 0x84, 0x62, 0xb5, 0xe0, 0xe5, 0x11, 0x96, 0xc7, 0x01, 0xaf, 0xb0, 0x53, 0x19, 0xf2,
+	0xe7, 0x60, 0x8e, 0x1a, 0x16, 0xf1, 0x1e, 0xd8, 0xf0, 0xff, 0x34, 0x60, 0xa9, 0x1a, 0xba, 0x95,
+	0x56, 0xab, 0x1f, 0xf3, 0xa3, 0x1d, 0x2b, 0xb2, 0x64, 0xa6, 0x9f, 0x25, 0xcd, 0x7b, 0x30, 0xd7,
+	0xc1, 0x4d, 0xfa, 0xa9, 0xa3, 0x5e, 0x5c, 0x2c, 0x5f, 0xd3, 0xb1, 0x5c, 0x68, 0xbb, 0xcb, 0x65,
+	0xed, 0x18, 0xc5, 0xfc, 0x3e, 0x9c, 0xe7, 0x5b, 0x1f, 0xed, 0xd3, 0xf7, 0x7a, 0x04, 0xdd, 0x46,
+	0x6d, 0xc4, 0xbe, 0x3f, 0x7c, 0x45, 0xc6, 0xbd, 0x62, 0x55, 0x68, 0xd4, 0xc8, 0x46, 0x8d, 0x4b,
+	0xf4, 0x71, 0x3c, 0x66, 0xfa, 0xf1, 0x68, 0xb5, 0xe1, 0x24, 0x87, 0x60, 0x2b, 0x9f, 0xce, 0x29,
+	0x97, 0x61, 0xa9, 0xcf, 0xaf, 0x19, 0xfb, 0x66, 0xde, 0x1e, 0x1c, 0xb6, 0x6e, 0xc1, 0xaa, 0xac,
+	0x27, 0x35, 0xcf, 0x87, 0x70, 0xaa, 0x1a, 0xba, 0x35, 0x44, 0xa2, 0xcf, 0xdc, 0xfd, 0xc0, 0x4b,
+	0x49, 0xb4, 0x00, 0xe0, 0xa3, 0x7d, 0x2e, 0xcb, 0x39, 0x4a, 0x23, 0xd6, 0x3b, 0x70, 0x26, 0x01,
+	0x3f, 0x96, 0xdf, 0x32, 0x64, 0x7b, 0x81, 0xc7, 0xf1, 0xa3, 0x9f, 0x16, 0xa6, 0xd1, 0x55, 0xc7,
+	0xae, 0xdb, 0x41, 0x13, 0x39, 0xb2, 0xbf, 0x11, 0xb3, 0x89, 0x8d, 0x78, 0x16, 0x66, 0x43, 0xe2,
+	0x90, 0x5e, 0x48, 0xc3, 0x61, 0xce, 0xe6, 0x4f, 0xd6, 0x07, 0x74, 0xe5, 0x65, 0x85, 0x69, 0x3d,
+	0x2a, 0x41, 0x67, 0x13, 0xd0, 0x01, 0x5d, 0xa9, 0xf5, 0x5d, 0xc7, 0x77, 0x11, 0xdb, 0x5c, 0xdb,
+	0xfb, 0x3e, 0x0a, 0xa6, 0xfe, 0x30, 0xe6, 0x61, 0xce, 0x47, 0xfb, 0x14, 0x8b, 0x1b, 0x19, 0x3f,
+	0x5b, 0x8f, 0xe0, 0x82, 0x4a, 0x67, 0xca, 0x4f, 0x9e, 0xac, 0x21, 0x33, 0xa0, 0xe1, 0x21, 0x9c,
+	0xaf, 0x86, 0xae, 0x8d, 0xc2, 0x43, 0xbf, 0xd9, 0xcf, 0xeb, 0x2f, 0xec, 0x40, 0xf1, 0x3b, 0x76,
+	0x86, 0xaa, 0xed, 0xe2, 0x7d, 0xe9, 0x73, 0x37, 0xad, 0xcb, 0x4c, 0x38, 0x16, 0xee, 0xe2, 0x7d,
+	0xbe, 0x40, 0xf4, 0xb7, 0x79, 0x09, 0x16, 0xe3, 0x6f, 0xdf, 0x96, 0xb3, 0x87, 0xa2, 0xc8, 0x88,
+	0x3e, 0xef, 0x03, 0xa3, 0xd6, 0x75, 0x7a, 0x7e, 0x4a, 0x12, 0x8a, 0xcd, 0xbd, 0x00, 0xf3, 0xb1,
+	0x26, 0xf1, 0xb5, 0x8f, 0x07, 0x2c, 0x0c, 0xa7, 0x15, 0xbe, 0x3a, 0xba, 0x13, 0xa1, 0xf5, 0x25,
+	0xcb, 0xce, 0x35, 0x44, 0x36, 0x11, 0x5a, 0xc7, 0x7e, 0xdb, 0x73, 0xc7, 0x68, 0x2b, 0x82, 0xe9,
+	0xa3, 0xfd, 0xf8, 0xcd, 0xc4, 0x71, 0x58, 0x31, 0x63, 0x56, 0x01, 0xda, 0x08, 0xd5, 0x7a, 0x3b,
+	0x3f, 0x43, 0x4d, 0xc2, 0x73, 0xf7, 0x6b, 0x1a, 0xb9, 0x7b, 0x33, 0x16, 0xb2, 0x25, 0x00, 0xeb,
+	0x1c, 0xdd, 0x7a, 0x32, 0x57, 0xe1, 0x56, 0xeb, 0x73, 0x03, 0x16, 0xd9, 0x5c, 0xd5, 0xf3, 0x89,
+	0xd3, 0x23, 0xbb, 0x53, 0x3b, 0xed, 0x1e, 0x2c, 0x44, 0x38, 0x38, 0xf0, 0x7e, 0x8e, 0xea, 0x98,
+	0xb3, 0x2f, 0xea, 0x7c, 0x79, 0xfa, 0x52, 0xb6, 0x0c, 0x61, 0xdd, 0xa2, 0x47, 0x5f, 0x89, 0x63,
+	0xba, 0x4d, 0x60, 0xb9, 0xec, 0xb6, 0x40, 0xf7, 0xea, 0x76, 0xe0, 0x3e, 0x2f, 0x39, 0xe4, 0xe0,
+	0x04, 0x0e, 0xdc, 0xad, 0x7e, 0xf6, 0x11, 0x8f, 0x51, 0x4e, 0x26, 0x78, 0x2b, 0x99, 0x12, 0xa4,
+	0x11, 0x6b, 0x8f, 0xdd, 0x00, 0x12, 0x8a, 0x62, 0xae, 0x12, 0xac, 0x91, 0x84, 0xcd, 0xc3, 0x1c,
+	0xee, 0xb4, 0x12, 0x59, 0x40, 0x3c, 0x8f, 0xcd, 0x41, 0x01, 0xe4, 0x98, 0x5f, 0x68, 0xfa, 0x27,
+	0x81, 0x87, 0x1e, 0x3b, 0x9d, 0x2a, 0x22, 0xbb, 0xb8, 0x35, 0xc6, 0xbc, 0x02, 0x40, 0x38, 0xb8,
+	0x84, 0xd2, 0x08, 0xdd, 0x69, 0x68, 0x9f, 0xc1, 0x50, 0x95, 0xc7, 0xed, 0xfe, 0x80, 0xf5, 0x08,
+	0x2e, 0x8e, 0xd2, 0x19, 0x5b, 0x9a, 0xd4, 0x60, 0x8c, 0xd7, 0x90, 0xe1, 0x7b, 0x39, 0xd6, 0xd0,
+	0x63, 0x79, 0x09, 0x11, 0x76, 0x34, 0x5e, 0x8f, 0xee, 0xc0, 0x53, 0x98, 0x73, 0x09, 0x16, 0x23,
+	0x87, 0xf5, 0xb1, 0xb8, 0x1b, 0x07, 0x46, 0xad, 0x26, 0xcb, 0x3e, 0x09, 0xb5, 0xda, 0x16, 0x0d,
+	0x2b, 0xc9, 0x28, 0x95, 0x7c, 0x62, 0xd0, 0x4f, 0x55, 0x5f, 0x0b, 0xf6, 0x49, 0xe0, 0x34, 0xc9,
+	0x14, 0xf6, 0xb1, 0xdc, 0x22, 0x80, 0x2a, 0xad, 0x56, 0x80, 0xc2, 0x90, 0xdb, 0xa8, 0x98, 0xb1,
+	0x7c, 0xfa, 0xe1, 0x1a, 0x62, 0xa0, 0x6d, 0xaa, 0x5a, 0x5f, 0x66, 0xa4, 0xbe, 0x4f, 0x0c, 0x11,
+	0xa5, 0x71, 0x62, 0xde, 0x7e, 0x8c, 0x02, 0xaf, 0xe5, 0xf9, 0xee, 0x14, 0x66, 0x5f, 0x81, 0xe5,
+	0xc8, 0xb7, 0x02, 0x29, 0xba, 0xf3, 0xf1, 0x60, 0x1d, 0x1a, 0xb7, 0xda, 0x22, 0x66, 0x87, 0x19,
+	0x68, 0x9b, 0x6d, 0xc1, 0x49, 0x19, 0x97, 0x33, 0x4a, 0x8c, 0x59, 0xbe, 0x58, 0x5c, 0x71, 0x01,
+	0xde, 0xc4, 0xc1, 0x9e, 0x43, 0xa6, 0xde, 0x8b, 0x0c, 0x86, 0xaf, 0x69, 0x7f, 0xc0, 0xfa, 0x50,
+	0x2c, 0x65, 0x52, 0x5f, 0xca, 0x7d, 0xc8, 0xd1, 0x33, 0x83, 0xe8, 0x9f, 0xb2, 0x1b, 0x1e, 0xbb,
+	0xd7, 0xb3, 0x13, 0xdb, 0x06, 0x2f, 0x74, 0x4d, 0xfd, 0x8d, 0xb8, 0x0c, 0x4b, 0xa2, 0x68, 0x96,
+	0x8c, 0xd8, 0xc1, 0x61, 0xeb, 0x63, 0x7a, 0xd9, 0x52, 0x91, 0x48, 0x79, 0x12, 0x52, 0xa8, 0xcc,
+	0xa8, 0x55, 0x72, 0xc3, 0xd9, 0xcd, 0xfa, 0x1b, 0x36, 0x5c, 0x45, 0xe2, 0xa8, 0x0d, 0xbf, 0x8d,
+	0x3a, 0xe8, 0x1b, 0x37, 0x5c, 0x45, 0xe2, 0xc8, 0x0c, 0xff, 0x9c, 0xe5, 0x28, 0xe6, 0x6c, 0x86,
+	0xa0, 0x73, 0xe9, 0xd6, 0xb3, 0x7c, 0x13, 0x0a, 0xec, 0x58, 0xc7, 0xd7, 0x72, 0xf8, 0xde, 0xcc,
+	0x1c, 0xf1, 0x9c, 0xb7, 0xac, 0x0f, 0x69, 0x16, 0x53, 0x72, 0x4c, 0xe9, 0x18, 0xd5, 0x6d, 0xf5,
+	0x97, 0xec, 0x40, 0x2b, 0xc7, 0xdb, 0xd4, 0x96, 0x17, 0xc1, 0xdc, 0x91, 0x6d, 0x92, 0xaf, 0x8b,
+	0x8a, 0x19, 0xab, 0x36, 0xb4, 0xef, 0x5e, 0x80, 0x61, 0x5f, 0xc8, 0x85, 0xd3, 0x07, 0xac, 0xde,
+	0xfd, 0x82, 0xec, 0xbb, 0x43, 0xaf, 0xe8, 0x0c, 0x2c, 0xa4, 0xb5, 0xd3, 0x85, 0xf2, 0x77, 0xb4,
+	0x8b, 0x4b, 0xb6, 0x24, 0x6c, 0xfd, 0xd9, 0x90, 0x8a, 0xa8, 0x09, 0x96, 0x29, 0x5d, 0xf0, 0x00,
+	0x4e, 0x3d, 0x96, 0xc5, 0x69, 0x29, 0x75, 0xa1, 0x7c, 0x55, 0x83, 0x56, 0x52, 0x6d, 0x12, 0x46,
+	0xb8, 0x91, 0x2d, 0xce, 0xb7, 0xdd, 0x8d, 0x0a, 0x96, 0xdf, 0x12, 0x37, 0x76, 0xa8, 0x17, 0x59,
+	0x72, 0x7b, 0xb1, 0x5e, 0x14, 0xb1, 0x9f, 0x95, 0x62, 0xdf, 0xa6, 0xde, 0x50, 0x68, 0x93, 0x2f,
+	0x25, 0x23, 0xb4, 0xf6, 0x8b, 0x2d, 0x4c, 0x9d, 0x28, 0xb6, 0xfc, 0x25, 0x33, 0x1c, 0xa9, 0x8c,
+	0xc6, 0xbd, 0x00, 0x77, 0x71, 0xe8, 0x74, 0xc6, 0x80, 0x96, 0x61, 0x95, 0xfb, 0x63, 0x4b, 0x61,
+	0x91, 0x72, 0xce, 0x74, 0x60, 0x2e, 0x40, 0xae, 0x17, 0x92, 0xe0, 0x90, 0x07, 0xc7, 0xbb, 0xfa,
+	0xab, 0x20, 0x9a, 0x49, 0x4c, 0xde, 0x46, 0x1f, 0xf7, 0x50, 0x48, 0xd6, 0x8e, 0x7d, 0xf5, 0xef,
+	0x97, 0x67, 0xec, 0x18, 0xd6, 0xfc, 0x21, 0x2c, 0x74, 0x03, 0xdc, 0x0d, 0x9d, 0x0e, 0x3d, 0x47,
+	0x1e, 0xa3, 0x57, 0xd6, 0x92, 0x86, 0x16, 0x61, 0x72, 0x24, 0x66, 0xcb, 0x18, 0xd6, 0xdf, 0x8d,
+	0x51, 0x6e, 0x8a, 0x7d, 0xbf, 0x08, 0x19, 0xaf, 0xc5, 0x3d, 0x94, 0xf1, 0x5a, 0x13, 0x39, 0x67,
+	0x80, 0x79, 0xf6, 0x05, 0x30, 0xff, 0x32, 0x23, 0x57, 0xf6, 0x27, 0x09, 0x52, 0xe9, 0xea, 0x9c,
+	0x1c, 0x34, 0xab, 0xd1, 0x05, 0x9a, 0x56, 0x50, 0xaa, 0x4e, 0x97, 0xaf, 0xa6, 0x4e, 0x61, 0xa3,
+	0x1e, 0x0b, 0xd9, 0x12, 0xc0, 0xc8, 0x66, 0xc0, 0x2a, 0xb0, 0xf2, 0xff, 0xd1, 0xf7, 0x02, 0xde,
+	0x93, 0x7b, 0x01, 0xcf, 0x4f, 0x38, 0x23, 0x3d, 0x63, 0xdd, 0x05, 0xe8, 0x1b, 0x39, 0x2c, 0x63,
+	0xa8, 0xbc, 0x39, 0xba, 0xb8, 0xf7, 0x0f, 0x83, 0x5e, 0x0d, 0x1e, 0xe0, 0xf4, 0x5b, 0x94, 0x45,
+	0x65, 0x26, 0x8e, 0xca, 0xa1, 0xec, 0x93, 0x55, 0xe7, 0xf0, 0x59, 0xdc, 0x8d, 0x57, 0x62, 0xb1,
+	0xfc, 0xba, 0x86, 0x5f, 0xc5, 0xae, 0xac, 0xd1, 0xc4, 0x62, 0x73, 0x00, 0xeb, 0x12, 0xbc, 0x3a,
+	0x8e, 0xba, 0xf0, 0xeb, 0x95, 0x9b, 0xb0, 0x32, 0xd4, 0xab, 0x30, 0x57, 0xe0, 0xd4, 0xd6, 0x66,
+	0xbd, 0x51, 0xa9, 0xd7, 0xed, 0x3b, 0x6b, 0xf7, 0xeb, 0x1b, 0xcb, 0x33, 0xe6, 0x69, 0x58, 0xaa,
+	0x6f, 0xff, 0x60, 0x63, 0x4b, 0x1a, 0x34, 0xae, 0x58, 0xb0, 0x20, 0x95, 0x9b, 0x4c, 0x80, 0xd9,
+	0xda, 0x07, 0xb5, 0xfa, 0x46, 0x75, 0x79, 0xc6, 0x3c, 0x01, 0xd9, 0xca, 0xdd, 0xbb, 0xcb, 0xc6,
+	0x95, 0xff, 0x07, 0xe8, 0x17, 0xd4, 0xcc, 0x33, 0xb0, 0xb2, 0x6e, 0x6f, 0x54, 0xea, 0x1b, 0x8d,
+	0x48, 0x41, 0x6d, 0xfd, 0xfd, 0x8d, 0x6a, 0x65, 0x79, 0xa6, 0xfc, 0xb7, 0x8b, 0x90, 0xad, 0x86,
+	0xae, 0xf9, 0x6b, 0x03, 0x96, 0x06, 0x9b, 0xe3, 0x6f, 0x6a, 0x38, 0x61, 0xb8, 0xf3, 0x9d, 0x7f,
+	0x67, 0x22, 0xb1, 0x38, 0xde, 0x7e, 0x65, 0xc0, 0xe2, 0x40, 0x67, 0xfc, 0x5a, 0x1a, 0x44, 0x21,
+	0x95, 0xff, 0xde, 0x24, 0x52, 0x31, 0x8d, 0x3f, 0x18, 0xb0, 0xaa, 0xec, 0x0e, 0xde, 0xd0, 0x83,
+	0x55, 0xc9, 0xe6, 0xd7, 0x26, 0x97, 0x8d, 0x89, 0x3d, 0x81, 0x93, 0x89, 0xa6, 0x5a, 0x59, 0x0f,
+	0x53, 0x96, 0xc9, 0xdf, 0x48, 0x2f, 0x13, 0xeb, 0xef, 0xc1, 0x7c, 0xbf, 0x79, 0x55, 0xd2, 0x07,
+	0xa2, 0x02, 0xf9, 0xb7, 0x53, 0x0a, 0xc4, 0x6a, 0x0f, 0x00, 0xa4, 0x5e, 0xd4, 0x55, 0x3d, 0x98,
+	0xbe, 0x44, 0xfe, 0xbb, 0x69, 0x25, 0x64, 0x87, 0x27, 0xfa, 0x4c, 0x9a, 0x0e, 0x97, 0x65, 0x74,
+	0x1d, 0xae, 0x6c, 0x2f, 0xfd, 0xd6, 0x80, 0x95, 0xe1, 0xe6, 0x90, 0xa6, 0x23, 0x87, 0x04, 0xf3,
+	0xef, 0x4e, 0x28, 0x18, 0xf3, 0xf9, 0x8d, 0x01, 0xcb, 0x43, 0xad, 0x8a, 0xb7, 0xf4, 0x50, 0x07,
+	0xe5, 0xf2, 0xb7, 0x26, 0x93, 0x4b, 0x64, 0x8b, 0x81, 0x1e, 0x90, 0x66, 0xb6, 0x48, 0x4a, 0xe9,
+	0x66, 0x8b, 0x11, 0xed, 0x9d, 0x27, 0x70, 0x32, 0xd1, 0x4b, 0x29, 0x6b, 0x47, 0x5b, 0x2c, 0xa3,
+	0x1b, 0x23, 0xaa, 0x3e, 0x88, 0xf9, 0x0b, 0x58, 0x90, 0x7b, 0x20, 0xaf, 0x6b, 0x43, 0x09, 0x91,
+	0xfc, 0xf5, 0xd4, 0x22, 0xc9, 0x8c, 0x9d, 0xec, 0x4e, 0x5c, 0x4b, 0x13, 0x64, 0x42, 0x4a, 0x3b,
+	0x63, 0xab, 0x1b, 0x14, 0x9f, 0x19, 0x70, 0x5a, 0xf5, 0xf7, 0x45, 0xd7, 0x53, 0x7d, 0x07, 0x64,
+	0xd1, 0x7c, 0x65, 0x62, 0xd1, 0x98, 0xd5, 0x9f, 0x0c, 0x38, 0xa3, 0x6e, 0x71, 0xdc, 0xd4, 0xf6,
+	0xf8, 0xb0, 0x70, 0x7e, 0x7d, 0x0a, 0xe1, 0xe4, 0xe6, 0x49, 0x36, 0x2a, 0xae, 0x69, 0xe3, 0x4a,
+	0x52, 0xda, 0x9b, 0x47, 0xdd, 0x9d, 0x88, 0x12, 0xdc, 0x70, 0x4b, 0xe1, 0xed, 0xb4, 0x98, 0x5c,
+	0x50, 0x37, 0xc1, 0x8d, 0x6e, 0x21, 0xf0, 0x25, 0x53, 0xd4, 0xfb, 0xf5, 0x97, 0x6c, 0x58, 0x38,
+	0xc5, 0x92, 0x8d, 0xa9, 0xf3, 0x73, 0x5f, 0x0d, 0x54, 0xe8, 0xf5, 0x7d, 0x95, 0x14, 0x4c, 0xe1,
+	0xab, 0x11, 0x35, 0xfa, 0xe8, 0x98, 0xa4, 0x2c, 0xb1, 0xdf, 0x48, 0xb3, 0x75, 0x92, 0xb2, 0xba,
+	0xc7, 0xa4, 0xb1, 0x55, 0xf5, 0x88, 0x98, 0xb2, 0x12, 0xac, 0x49, 0x4c, 0x25, 0xab, 0x4b, 0x6c,
+	0x6c, 0xf1, 0x37, 0x8a, 0x2e, 0x75, 0xa5, 0x56, 0x33, 0xba, 0x94, 0xc2, 0xba, 0xd1, 0x35, 0xbe,
+	0xfe, 0xfa, 0x04, 0x4e, 0x26, 0x2a, 0xa8, 0xe5, 0x34, 0xa0, 0xe9, 0x8e, 0x3a, 0xca, 0x32, 0x69,
+	0x3f, 0x85, 0x27, 0xef, 0xed, 0xa9, 0x52, 0x78, 0x42, 0x34, 0x5d, 0x0a, 0x57, 0xdf, 0x80, 0x23,
+	0x56, 0xaa, 0xc2, 0xe1, 0xf5, 0x34, 0x96, 0x4e, 0xc4, 0x6a, 0x5c, 0x21, 0x30, 0x62, 0xa5, 0x2a,
+	0xc4, 0x5d, 0x4f, 0x13, 0xa3, 0x13, 0xb1, 0x1a, 0x57, 0x90, 0xfb, 0xc2, 0x80, 0xf3, 0xe3, 0x6a,
+	0x6b, 0x93, 0x2c, 0x47, 0x12, 0x22, 0x3f, 0x39, 0x84, 0xea, 0x72, 0x97, 0x74, 0x5e, 0xba, 0xcb,
+	0x5d, 0xd2, 0x7b, 0x6b, 0x93, 0xcb, 0xc6, 0xc4, 0xfe, 0x6a, 0xc0, 0xb9, 0xd1, 0x55, 0x0f, 0xcd,
+	0x6c, 0x3d, 0x12, 0x20, 0xff, 0xde, 0x94, 0x00, 0x82, 0xe7, 0xda, 0xf6, 0x57, 0x4f, 0x0b, 0xc6,
+	0xd7, 0x4f, 0x0b, 0xc6, 0x7f, 0x9e, 0x16, 0x8c, 0xdf, 0x3f, 0x2b, 0xcc, 0x7c, 0xfd, 0xac, 0x30,
+	0xf3, 0xaf, 0x67, 0x85, 0x99, 0x9f, 0xbc, 0xe9, 0x7a, 0x64, 0xb7, 0xb7, 0x53, 0x6c, 0xe2, 0xbd,
+	0x52, 0x42, 0x59, 0x29, 0xf4, 0x0e, 0x5e, 0x13, 0xda, 0x4a, 0x07, 0xa5, 0xf8, 0x1f, 0x21, 0x0e,
+	0xbb, 0x28, 0xdc, 0x99, 0xa5, 0x33, 0x6f, 0xfc, 0x2f, 0x00, 0x00, 0xff, 0xff, 0x94, 0x32, 0xaa,
+	0x36, 0x20, 0x31, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -4572,13 +4061,8 @@ type MsgClient interface {
 	UpdateVirtualAction(ctx context.Context, in *MsgUpdateVirtualAction, opts ...grpc.CallOption) (*MsgUpdateVirtualActionResponse, error)
 	DeleteVirtualAction(ctx context.Context, in *MsgDeleteVirtualAction, opts ...grpc.CallOption) (*MsgDeleteVirtualActionResponse, error)
 	CreateVirtualSchemaProposal(ctx context.Context, in *MsgCreateVirtualSchemaProposal, opts ...grpc.CallOption) (*MsgCreateVirtualSchemaResponse, error)
-	DeleteVirtualSchema(ctx context.Context, in *MsgDeleteVirtualSchema, opts ...grpc.CallOption) (*MsgDeleteVirtualSchemaResponse, error)
 	PerformVirtualAction(ctx context.Context, in *MsgPerformVirtualAction, opts ...grpc.CallOption) (*MsgPerformVirtualActionResponse, error)
-	EnableVirtualSchemaProposal(ctx context.Context, in *MsgEnableVirtualSchemaProposal, opts ...grpc.CallOption) (*MsgEnableVirtualSchemaProposalResponse, error)
-	DisableVirtualSchemaProposal(ctx context.Context, in *MsgDisableVirtualSchemaProposal, opts ...grpc.CallOption) (*MsgDisableVirtualSchemaProposalResponse, error)
-	VoteCreateVirtualSchema(ctx context.Context, in *MsgVoteCreateVirtualSchema, opts ...grpc.CallOption) (*MsgVoteCreateVirtualSchemaResponse, error)
-	VoteDisableVirtualSchema(ctx context.Context, in *MsgVoteDisableVirtualSchema, opts ...grpc.CallOption) (*MsgVoteDisableVirtualSchemaResponse, error)
-	VoteEnableVirtualSchema(ctx context.Context, in *MsgVoteEnableVirtualSchema, opts ...grpc.CallOption) (*MsgVoteEnableVirtualSchemaResponse, error)
+	VoteVirtualSchemaProposal(ctx context.Context, in *MsgVoteVirtualSchemaProposal, opts ...grpc.CallOption) (*MsgVoteVirtualSchemaProposalResponse, error)
 }
 
 type msgClient struct {
@@ -4832,15 +4316,6 @@ func (c *msgClient) CreateVirtualSchemaProposal(ctx context.Context, in *MsgCrea
 	return out, nil
 }
 
-func (c *msgClient) DeleteVirtualSchema(ctx context.Context, in *MsgDeleteVirtualSchema, opts ...grpc.CallOption) (*MsgDeleteVirtualSchemaResponse, error) {
-	out := new(MsgDeleteVirtualSchemaResponse)
-	err := c.cc.Invoke(ctx, "/thesixnetwork.sixprotocol.nftmngr.Msg/DeleteVirtualSchema", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *msgClient) PerformVirtualAction(ctx context.Context, in *MsgPerformVirtualAction, opts ...grpc.CallOption) (*MsgPerformVirtualActionResponse, error) {
 	out := new(MsgPerformVirtualActionResponse)
 	err := c.cc.Invoke(ctx, "/thesixnetwork.sixprotocol.nftmngr.Msg/PerformVirtualAction", in, out, opts...)
@@ -4850,45 +4325,9 @@ func (c *msgClient) PerformVirtualAction(ctx context.Context, in *MsgPerformVirt
 	return out, nil
 }
 
-func (c *msgClient) EnableVirtualSchemaProposal(ctx context.Context, in *MsgEnableVirtualSchemaProposal, opts ...grpc.CallOption) (*MsgEnableVirtualSchemaProposalResponse, error) {
-	out := new(MsgEnableVirtualSchemaProposalResponse)
-	err := c.cc.Invoke(ctx, "/thesixnetwork.sixprotocol.nftmngr.Msg/EnableVirtualSchemaProposal", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *msgClient) DisableVirtualSchemaProposal(ctx context.Context, in *MsgDisableVirtualSchemaProposal, opts ...grpc.CallOption) (*MsgDisableVirtualSchemaProposalResponse, error) {
-	out := new(MsgDisableVirtualSchemaProposalResponse)
-	err := c.cc.Invoke(ctx, "/thesixnetwork.sixprotocol.nftmngr.Msg/DisableVirtualSchemaProposal", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *msgClient) VoteCreateVirtualSchema(ctx context.Context, in *MsgVoteCreateVirtualSchema, opts ...grpc.CallOption) (*MsgVoteCreateVirtualSchemaResponse, error) {
-	out := new(MsgVoteCreateVirtualSchemaResponse)
-	err := c.cc.Invoke(ctx, "/thesixnetwork.sixprotocol.nftmngr.Msg/VoteCreateVirtualSchema", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *msgClient) VoteDisableVirtualSchema(ctx context.Context, in *MsgVoteDisableVirtualSchema, opts ...grpc.CallOption) (*MsgVoteDisableVirtualSchemaResponse, error) {
-	out := new(MsgVoteDisableVirtualSchemaResponse)
-	err := c.cc.Invoke(ctx, "/thesixnetwork.sixprotocol.nftmngr.Msg/VoteDisableVirtualSchema", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *msgClient) VoteEnableVirtualSchema(ctx context.Context, in *MsgVoteEnableVirtualSchema, opts ...grpc.CallOption) (*MsgVoteEnableVirtualSchemaResponse, error) {
-	out := new(MsgVoteEnableVirtualSchemaResponse)
-	err := c.cc.Invoke(ctx, "/thesixnetwork.sixprotocol.nftmngr.Msg/VoteEnableVirtualSchema", in, out, opts...)
+func (c *msgClient) VoteVirtualSchemaProposal(ctx context.Context, in *MsgVoteVirtualSchemaProposal, opts ...grpc.CallOption) (*MsgVoteVirtualSchemaProposalResponse, error) {
+	out := new(MsgVoteVirtualSchemaProposalResponse)
+	err := c.cc.Invoke(ctx, "/thesixnetwork.sixprotocol.nftmngr.Msg/VoteVirtualSchemaProposal", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -4924,13 +4363,8 @@ type MsgServer interface {
 	UpdateVirtualAction(context.Context, *MsgUpdateVirtualAction) (*MsgUpdateVirtualActionResponse, error)
 	DeleteVirtualAction(context.Context, *MsgDeleteVirtualAction) (*MsgDeleteVirtualActionResponse, error)
 	CreateVirtualSchemaProposal(context.Context, *MsgCreateVirtualSchemaProposal) (*MsgCreateVirtualSchemaResponse, error)
-	DeleteVirtualSchema(context.Context, *MsgDeleteVirtualSchema) (*MsgDeleteVirtualSchemaResponse, error)
 	PerformVirtualAction(context.Context, *MsgPerformVirtualAction) (*MsgPerformVirtualActionResponse, error)
-	EnableVirtualSchemaProposal(context.Context, *MsgEnableVirtualSchemaProposal) (*MsgEnableVirtualSchemaProposalResponse, error)
-	DisableVirtualSchemaProposal(context.Context, *MsgDisableVirtualSchemaProposal) (*MsgDisableVirtualSchemaProposalResponse, error)
-	VoteCreateVirtualSchema(context.Context, *MsgVoteCreateVirtualSchema) (*MsgVoteCreateVirtualSchemaResponse, error)
-	VoteDisableVirtualSchema(context.Context, *MsgVoteDisableVirtualSchema) (*MsgVoteDisableVirtualSchemaResponse, error)
-	VoteEnableVirtualSchema(context.Context, *MsgVoteEnableVirtualSchema) (*MsgVoteEnableVirtualSchemaResponse, error)
+	VoteVirtualSchemaProposal(context.Context, *MsgVoteVirtualSchemaProposal) (*MsgVoteVirtualSchemaProposalResponse, error)
 }
 
 // UnimplementedMsgServer can be embedded to have forward compatible implementations.
@@ -5018,26 +4452,11 @@ func (*UnimplementedMsgServer) DeleteVirtualAction(ctx context.Context, req *Msg
 func (*UnimplementedMsgServer) CreateVirtualSchemaProposal(ctx context.Context, req *MsgCreateVirtualSchemaProposal) (*MsgCreateVirtualSchemaResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateVirtualSchemaProposal not implemented")
 }
-func (*UnimplementedMsgServer) DeleteVirtualSchema(ctx context.Context, req *MsgDeleteVirtualSchema) (*MsgDeleteVirtualSchemaResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteVirtualSchema not implemented")
-}
 func (*UnimplementedMsgServer) PerformVirtualAction(ctx context.Context, req *MsgPerformVirtualAction) (*MsgPerformVirtualActionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PerformVirtualAction not implemented")
 }
-func (*UnimplementedMsgServer) EnableVirtualSchemaProposal(ctx context.Context, req *MsgEnableVirtualSchemaProposal) (*MsgEnableVirtualSchemaProposalResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method EnableVirtualSchemaProposal not implemented")
-}
-func (*UnimplementedMsgServer) DisableVirtualSchemaProposal(ctx context.Context, req *MsgDisableVirtualSchemaProposal) (*MsgDisableVirtualSchemaProposalResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DisableVirtualSchemaProposal not implemented")
-}
-func (*UnimplementedMsgServer) VoteCreateVirtualSchema(ctx context.Context, req *MsgVoteCreateVirtualSchema) (*MsgVoteCreateVirtualSchemaResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method VoteCreateVirtualSchema not implemented")
-}
-func (*UnimplementedMsgServer) VoteDisableVirtualSchema(ctx context.Context, req *MsgVoteDisableVirtualSchema) (*MsgVoteDisableVirtualSchemaResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method VoteDisableVirtualSchema not implemented")
-}
-func (*UnimplementedMsgServer) VoteEnableVirtualSchema(ctx context.Context, req *MsgVoteEnableVirtualSchema) (*MsgVoteEnableVirtualSchemaResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method VoteEnableVirtualSchema not implemented")
+func (*UnimplementedMsgServer) VoteVirtualSchemaProposal(ctx context.Context, req *MsgVoteVirtualSchemaProposal) (*MsgVoteVirtualSchemaProposalResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VoteVirtualSchemaProposal not implemented")
 }
 
 func RegisterMsgServer(s grpc1.Server, srv MsgServer) {
@@ -5530,24 +4949,6 @@ func _Msg_CreateVirtualSchemaProposal_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Msg_DeleteVirtualSchema_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgDeleteVirtualSchema)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MsgServer).DeleteVirtualSchema(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/thesixnetwork.sixprotocol.nftmngr.Msg/DeleteVirtualSchema",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).DeleteVirtualSchema(ctx, req.(*MsgDeleteVirtualSchema))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Msg_PerformVirtualAction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(MsgPerformVirtualAction)
 	if err := dec(in); err != nil {
@@ -5566,92 +4967,20 @@ func _Msg_PerformVirtualAction_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Msg_EnableVirtualSchemaProposal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgEnableVirtualSchemaProposal)
+func _Msg_VoteVirtualSchemaProposal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgVoteVirtualSchemaProposal)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServer).EnableVirtualSchemaProposal(ctx, in)
+		return srv.(MsgServer).VoteVirtualSchemaProposal(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/thesixnetwork.sixprotocol.nftmngr.Msg/EnableVirtualSchemaProposal",
+		FullMethod: "/thesixnetwork.sixprotocol.nftmngr.Msg/VoteVirtualSchemaProposal",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).EnableVirtualSchemaProposal(ctx, req.(*MsgEnableVirtualSchemaProposal))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Msg_DisableVirtualSchemaProposal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgDisableVirtualSchemaProposal)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MsgServer).DisableVirtualSchemaProposal(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/thesixnetwork.sixprotocol.nftmngr.Msg/DisableVirtualSchemaProposal",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).DisableVirtualSchemaProposal(ctx, req.(*MsgDisableVirtualSchemaProposal))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Msg_VoteCreateVirtualSchema_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgVoteCreateVirtualSchema)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MsgServer).VoteCreateVirtualSchema(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/thesixnetwork.sixprotocol.nftmngr.Msg/VoteCreateVirtualSchema",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).VoteCreateVirtualSchema(ctx, req.(*MsgVoteCreateVirtualSchema))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Msg_VoteDisableVirtualSchema_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgVoteDisableVirtualSchema)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MsgServer).VoteDisableVirtualSchema(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/thesixnetwork.sixprotocol.nftmngr.Msg/VoteDisableVirtualSchema",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).VoteDisableVirtualSchema(ctx, req.(*MsgVoteDisableVirtualSchema))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Msg_VoteEnableVirtualSchema_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgVoteEnableVirtualSchema)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MsgServer).VoteEnableVirtualSchema(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/thesixnetwork.sixprotocol.nftmngr.Msg/VoteEnableVirtualSchema",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).VoteEnableVirtualSchema(ctx, req.(*MsgVoteEnableVirtualSchema))
+		return srv.(MsgServer).VoteVirtualSchemaProposal(ctx, req.(*MsgVoteVirtualSchemaProposal))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -5769,32 +5098,12 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 			Handler:    _Msg_CreateVirtualSchemaProposal_Handler,
 		},
 		{
-			MethodName: "DeleteVirtualSchema",
-			Handler:    _Msg_DeleteVirtualSchema_Handler,
-		},
-		{
 			MethodName: "PerformVirtualAction",
 			Handler:    _Msg_PerformVirtualAction_Handler,
 		},
 		{
-			MethodName: "EnableVirtualSchemaProposal",
-			Handler:    _Msg_EnableVirtualSchemaProposal_Handler,
-		},
-		{
-			MethodName: "DisableVirtualSchemaProposal",
-			Handler:    _Msg_DisableVirtualSchemaProposal_Handler,
-		},
-		{
-			MethodName: "VoteCreateVirtualSchema",
-			Handler:    _Msg_VoteCreateVirtualSchema_Handler,
-		},
-		{
-			MethodName: "VoteDisableVirtualSchema",
-			Handler:    _Msg_VoteDisableVirtualSchema_Handler,
-		},
-		{
-			MethodName: "VoteEnableVirtualSchema",
-			Handler:    _Msg_VoteEnableVirtualSchema_Handler,
+			MethodName: "VoteVirtualSchemaProposal",
+			Handler:    _Msg_VoteVirtualSchemaProposal_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -8245,6 +7554,11 @@ func (m *MsgCreateVirtualSchemaProposal) MarshalToSizedBuffer(dAtA []byte) (int,
 	_ = i
 	var l int
 	_ = l
+	if m.PropsalType != 0 {
+		i = encodeVarintTx(dAtA, i, uint64(m.PropsalType))
+		i--
+		dAtA[i] = 0x20
+	}
 	if len(m.Registry) > 0 {
 		for iNdEx := len(m.Registry) - 1; iNdEx >= 0; iNdEx-- {
 			{
@@ -8296,6 +7610,11 @@ func (m *MsgCreateVirtualSchemaResponse) MarshalToSizedBuffer(dAtA []byte) (int,
 	_ = i
 	var l int
 	_ = l
+	if m.PropsalType != 0 {
+		i = encodeVarintTx(dAtA, i, uint64(m.PropsalType))
+		i--
+		dAtA[i] = 0x18
+	}
 	if len(m.VirtualNftSchemaCode) > 0 {
 		i -= len(m.VirtualNftSchemaCode)
 		copy(dAtA[i:], m.VirtualNftSchemaCode)
@@ -8310,66 +7629,6 @@ func (m *MsgCreateVirtualSchemaResponse) MarshalToSizedBuffer(dAtA []byte) (int,
 		i--
 		dAtA[i] = 0xa
 	}
-	return len(dAtA) - i, nil
-}
-
-func (m *MsgDeleteVirtualSchema) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *MsgDeleteVirtualSchema) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *MsgDeleteVirtualSchema) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.VirtualNftSchemaCode) > 0 {
-		i -= len(m.VirtualNftSchemaCode)
-		copy(dAtA[i:], m.VirtualNftSchemaCode)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.VirtualNftSchemaCode)))
-		i--
-		dAtA[i] = 0x12
-	}
-	if len(m.Creator) > 0 {
-		i -= len(m.Creator)
-		copy(dAtA[i:], m.Creator)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *MsgDeleteVirtualSchemaResponse) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *MsgDeleteVirtualSchemaResponse) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *MsgDeleteVirtualSchemaResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
 	return len(dAtA) - i, nil
 }
 
@@ -8519,7 +7778,7 @@ func (m *TokenIdMap) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgEnableVirtualSchemaProposal) Marshal() (dAtA []byte, err error) {
+func (m *MsgVoteVirtualSchemaProposal) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -8529,160 +7788,12 @@ func (m *MsgEnableVirtualSchemaProposal) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *MsgEnableVirtualSchemaProposal) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgVoteVirtualSchemaProposal) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgEnableVirtualSchemaProposal) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.VirtualNftSchemaCode) > 0 {
-		i -= len(m.VirtualNftSchemaCode)
-		copy(dAtA[i:], m.VirtualNftSchemaCode)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.VirtualNftSchemaCode)))
-		i--
-		dAtA[i] = 0x12
-	}
-	if len(m.Creator) > 0 {
-		i -= len(m.Creator)
-		copy(dAtA[i:], m.Creator)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *MsgEnableVirtualSchemaProposalResponse) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *MsgEnableVirtualSchemaProposalResponse) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *MsgEnableVirtualSchemaProposalResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.ProposalId) > 0 {
-		i -= len(m.ProposalId)
-		copy(dAtA[i:], m.ProposalId)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.ProposalId)))
-		i--
-		dAtA[i] = 0x12
-	}
-	if len(m.Creator) > 0 {
-		i -= len(m.Creator)
-		copy(dAtA[i:], m.Creator)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *MsgDisableVirtualSchemaProposal) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *MsgDisableVirtualSchemaProposal) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *MsgDisableVirtualSchemaProposal) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.VirtualNftSchemaCode) > 0 {
-		i -= len(m.VirtualNftSchemaCode)
-		copy(dAtA[i:], m.VirtualNftSchemaCode)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.VirtualNftSchemaCode)))
-		i--
-		dAtA[i] = 0x12
-	}
-	if len(m.Creator) > 0 {
-		i -= len(m.Creator)
-		copy(dAtA[i:], m.Creator)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *MsgDisableVirtualSchemaProposalResponse) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *MsgDisableVirtualSchemaProposalResponse) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *MsgDisableVirtualSchemaProposalResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.ProposalId) > 0 {
-		i -= len(m.ProposalId)
-		copy(dAtA[i:], m.ProposalId)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.ProposalId)))
-		i--
-		dAtA[i] = 0x12
-	}
-	if len(m.Creator) > 0 {
-		i -= len(m.Creator)
-		copy(dAtA[i:], m.Creator)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *MsgVoteCreateVirtualSchema) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *MsgVoteCreateVirtualSchema) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *MsgVoteCreateVirtualSchema) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgVoteVirtualSchemaProposal) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -8716,7 +7827,7 @@ func (m *MsgVoteCreateVirtualSchema) MarshalToSizedBuffer(dAtA []byte) (int, err
 	return len(dAtA) - i, nil
 }
 
-func (m *MsgVoteCreateVirtualSchemaResponse) Marshal() (dAtA []byte, err error) {
+func (m *MsgVoteVirtualSchemaProposalResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -8726,156 +7837,12 @@ func (m *MsgVoteCreateVirtualSchemaResponse) Marshal() (dAtA []byte, err error) 
 	return dAtA[:n], nil
 }
 
-func (m *MsgVoteCreateVirtualSchemaResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *MsgVoteVirtualSchemaProposalResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *MsgVoteCreateVirtualSchemaResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	return len(dAtA) - i, nil
-}
-
-func (m *MsgVoteDisableVirtualSchema) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *MsgVoteDisableVirtualSchema) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *MsgVoteDisableVirtualSchema) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if m.Option != 0 {
-		i = encodeVarintTx(dAtA, i, uint64(m.Option))
-		i--
-		dAtA[i] = 0x20
-	}
-	if len(m.NftSchemaCode) > 0 {
-		i -= len(m.NftSchemaCode)
-		copy(dAtA[i:], m.NftSchemaCode)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.NftSchemaCode)))
-		i--
-		dAtA[i] = 0x1a
-	}
-	if len(m.Id) > 0 {
-		i -= len(m.Id)
-		copy(dAtA[i:], m.Id)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.Id)))
-		i--
-		dAtA[i] = 0x12
-	}
-	if len(m.Creator) > 0 {
-		i -= len(m.Creator)
-		copy(dAtA[i:], m.Creator)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *MsgVoteDisableVirtualSchemaResponse) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *MsgVoteDisableVirtualSchemaResponse) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *MsgVoteDisableVirtualSchemaResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	return len(dAtA) - i, nil
-}
-
-func (m *MsgVoteEnableVirtualSchema) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *MsgVoteEnableVirtualSchema) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *MsgVoteEnableVirtualSchema) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if m.Option != 0 {
-		i = encodeVarintTx(dAtA, i, uint64(m.Option))
-		i--
-		dAtA[i] = 0x20
-	}
-	if len(m.NftSchemaCode) > 0 {
-		i -= len(m.NftSchemaCode)
-		copy(dAtA[i:], m.NftSchemaCode)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.NftSchemaCode)))
-		i--
-		dAtA[i] = 0x1a
-	}
-	if len(m.Id) > 0 {
-		i -= len(m.Id)
-		copy(dAtA[i:], m.Id)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.Id)))
-		i--
-		dAtA[i] = 0x12
-	}
-	if len(m.Creator) > 0 {
-		i -= len(m.Creator)
-		copy(dAtA[i:], m.Creator)
-		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *MsgVoteEnableVirtualSchemaResponse) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *MsgVoteEnableVirtualSchemaResponse) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *MsgVoteEnableVirtualSchemaResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *MsgVoteVirtualSchemaProposalResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -10037,6 +9004,9 @@ func (m *MsgCreateVirtualSchemaProposal) Size() (n int) {
 			n += 1 + l + sovTx(uint64(l))
 		}
 	}
+	if m.PropsalType != 0 {
+		n += 1 + sovTx(uint64(m.PropsalType))
+	}
 	return n
 }
 
@@ -10054,32 +9024,9 @@ func (m *MsgCreateVirtualSchemaResponse) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovTx(uint64(l))
 	}
-	return n
-}
-
-func (m *MsgDeleteVirtualSchema) Size() (n int) {
-	if m == nil {
-		return 0
+	if m.PropsalType != 0 {
+		n += 1 + sovTx(uint64(m.PropsalType))
 	}
-	var l int
-	_ = l
-	l = len(m.Creator)
-	if l > 0 {
-		n += 1 + l + sovTx(uint64(l))
-	}
-	l = len(m.VirtualNftSchemaCode)
-	if l > 0 {
-		n += 1 + l + sovTx(uint64(l))
-	}
-	return n
-}
-
-func (m *MsgDeleteVirtualSchemaResponse) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
 	return n
 }
 
@@ -10150,75 +9097,7 @@ func (m *TokenIdMap) Size() (n int) {
 	return n
 }
 
-func (m *MsgEnableVirtualSchemaProposal) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.Creator)
-	if l > 0 {
-		n += 1 + l + sovTx(uint64(l))
-	}
-	l = len(m.VirtualNftSchemaCode)
-	if l > 0 {
-		n += 1 + l + sovTx(uint64(l))
-	}
-	return n
-}
-
-func (m *MsgEnableVirtualSchemaProposalResponse) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.Creator)
-	if l > 0 {
-		n += 1 + l + sovTx(uint64(l))
-	}
-	l = len(m.ProposalId)
-	if l > 0 {
-		n += 1 + l + sovTx(uint64(l))
-	}
-	return n
-}
-
-func (m *MsgDisableVirtualSchemaProposal) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.Creator)
-	if l > 0 {
-		n += 1 + l + sovTx(uint64(l))
-	}
-	l = len(m.VirtualNftSchemaCode)
-	if l > 0 {
-		n += 1 + l + sovTx(uint64(l))
-	}
-	return n
-}
-
-func (m *MsgDisableVirtualSchemaProposalResponse) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.Creator)
-	if l > 0 {
-		n += 1 + l + sovTx(uint64(l))
-	}
-	l = len(m.ProposalId)
-	if l > 0 {
-		n += 1 + l + sovTx(uint64(l))
-	}
-	return n
-}
-
-func (m *MsgVoteCreateVirtualSchema) Size() (n int) {
+func (m *MsgVoteVirtualSchemaProposal) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -10242,73 +9121,7 @@ func (m *MsgVoteCreateVirtualSchema) Size() (n int) {
 	return n
 }
 
-func (m *MsgVoteCreateVirtualSchemaResponse) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	return n
-}
-
-func (m *MsgVoteDisableVirtualSchema) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.Creator)
-	if l > 0 {
-		n += 1 + l + sovTx(uint64(l))
-	}
-	l = len(m.Id)
-	if l > 0 {
-		n += 1 + l + sovTx(uint64(l))
-	}
-	l = len(m.NftSchemaCode)
-	if l > 0 {
-		n += 1 + l + sovTx(uint64(l))
-	}
-	if m.Option != 0 {
-		n += 1 + sovTx(uint64(m.Option))
-	}
-	return n
-}
-
-func (m *MsgVoteDisableVirtualSchemaResponse) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	return n
-}
-
-func (m *MsgVoteEnableVirtualSchema) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.Creator)
-	if l > 0 {
-		n += 1 + l + sovTx(uint64(l))
-	}
-	l = len(m.Id)
-	if l > 0 {
-		n += 1 + l + sovTx(uint64(l))
-	}
-	l = len(m.NftSchemaCode)
-	if l > 0 {
-		n += 1 + l + sovTx(uint64(l))
-	}
-	if m.Option != 0 {
-		n += 1 + sovTx(uint64(m.Option))
-	}
-	return n
-}
-
-func (m *MsgVoteEnableVirtualSchemaResponse) Size() (n int) {
+func (m *MsgVoteVirtualSchemaProposalResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -17908,6 +16721,25 @@ func (m *MsgCreateVirtualSchemaProposal) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
+		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PropsalType", wireType)
+			}
+			m.PropsalType = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.PropsalType |= ProposalType(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipTx(dAtA[iNdEx:])
@@ -18022,61 +16854,11 @@ func (m *MsgCreateVirtualSchemaResponse) Unmarshal(dAtA []byte) error {
 			}
 			m.VirtualNftSchemaCode = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipTx(dAtA[iNdEx:])
-			if err != nil {
-				return err
+		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PropsalType", wireType)
 			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthTx
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *MsgDeleteVirtualSchema) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowTx
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: MsgDeleteVirtualSchema: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgDeleteVirtualSchema: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
-			}
-			var stringLen uint64
+			m.PropsalType = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowTx
@@ -18086,106 +16868,11 @@ func (m *MsgDeleteVirtualSchema) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				m.PropsalType |= ProposalType(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Creator = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field VirtualNftSchemaCode", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.VirtualNftSchemaCode = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipTx(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthTx
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *MsgDeleteVirtualSchemaResponse) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowTx
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: MsgDeleteVirtualSchemaResponse: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgDeleteVirtualSchemaResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
 		default:
 			iNdEx = preIndex
 			skippy, err := skipTx(dAtA[iNdEx:])
@@ -18649,7 +17336,7 @@ func (m *TokenIdMap) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgEnableVirtualSchemaProposal) Unmarshal(dAtA []byte) error {
+func (m *MsgVoteVirtualSchemaProposal) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -18672,466 +17359,10 @@ func (m *MsgEnableVirtualSchemaProposal) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgEnableVirtualSchemaProposal: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgVoteVirtualSchemaProposal: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgEnableVirtualSchemaProposal: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Creator = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field VirtualNftSchemaCode", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.VirtualNftSchemaCode = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipTx(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthTx
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *MsgEnableVirtualSchemaProposalResponse) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowTx
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: MsgEnableVirtualSchemaProposalResponse: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgEnableVirtualSchemaProposalResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Creator = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field ProposalId", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.ProposalId = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipTx(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthTx
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *MsgDisableVirtualSchemaProposal) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowTx
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: MsgDisableVirtualSchemaProposal: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgDisableVirtualSchemaProposal: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Creator = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field VirtualNftSchemaCode", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.VirtualNftSchemaCode = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipTx(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthTx
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *MsgDisableVirtualSchemaProposalResponse) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowTx
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: MsgDisableVirtualSchemaProposalResponse: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgDisableVirtualSchemaProposalResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Creator = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field ProposalId", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.ProposalId = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipTx(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthTx
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *MsgVoteCreateVirtualSchema) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowTx
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: MsgVoteCreateVirtualSchema: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgVoteCreateVirtualSchema: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgVoteVirtualSchemaProposal: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -19270,7 +17501,7 @@ func (m *MsgVoteCreateVirtualSchema) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *MsgVoteCreateVirtualSchemaResponse) Unmarshal(dAtA []byte) error {
+func (m *MsgVoteVirtualSchemaProposalResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -19293,440 +17524,10 @@ func (m *MsgVoteCreateVirtualSchemaResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: MsgVoteCreateVirtualSchemaResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: MsgVoteVirtualSchemaProposalResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgVoteCreateVirtualSchemaResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		default:
-			iNdEx = preIndex
-			skippy, err := skipTx(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthTx
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *MsgVoteDisableVirtualSchema) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowTx
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: MsgVoteDisableVirtualSchema: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgVoteDisableVirtualSchema: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Creator = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Id = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 3:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field NftSchemaCode", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.NftSchemaCode = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 4:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Option", wireType)
-			}
-			m.Option = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Option |= RegistryStatus(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		default:
-			iNdEx = preIndex
-			skippy, err := skipTx(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthTx
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *MsgVoteDisableVirtualSchemaResponse) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowTx
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: MsgVoteDisableVirtualSchemaResponse: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgVoteDisableVirtualSchemaResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		default:
-			iNdEx = preIndex
-			skippy, err := skipTx(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthTx
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *MsgVoteEnableVirtualSchema) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowTx
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: MsgVoteEnableVirtualSchema: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgVoteEnableVirtualSchema: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Creator = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Id = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 3:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field NftSchemaCode", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthTx
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthTx
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.NftSchemaCode = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 4:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Option", wireType)
-			}
-			m.Option = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowTx
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Option |= RegistryStatus(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		default:
-			iNdEx = preIndex
-			skippy, err := skipTx(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthTx
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *MsgVoteEnableVirtualSchemaResponse) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowTx
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: MsgVoteEnableVirtualSchemaResponse: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgVoteEnableVirtualSchemaResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: MsgVoteVirtualSchemaProposalResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:

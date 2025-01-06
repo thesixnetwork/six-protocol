@@ -5,25 +5,24 @@ import (
 
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/stretchr/testify/require"
-
 	"github.com/thesixnetwork/six-protocol/testutil/sample"
 )
 
-func TestMsgCreateVirtualSchema_ValidateBasic(t *testing.T) {
+func TestMsgVoteVirtualSchemaProposal_ValidateBasic(t *testing.T) {
 	tests := []struct {
 		name string
-		msg  MsgCreateVirtualSchemaProposal
+		msg  MsgVoteVirtualSchemaProposal
 		err  error
 	}{
 		{
 			name: "invalid address",
-			msg: MsgCreateVirtualSchemaProposal{
+			msg: MsgVoteVirtualSchemaProposal{
 				Creator: "invalid_address",
 			},
 			err: sdkerrors.ErrInvalidAddress,
 		}, {
 			name: "valid address",
-			msg: MsgCreateVirtualSchemaProposal{
+			msg: MsgVoteVirtualSchemaProposal{
 				Creator: sample.AccAddress(),
 			},
 		},

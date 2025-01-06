@@ -74,10 +74,6 @@ func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) 
 	for _, elem := range genState.VirtualSchemaList {
 		k.SetVirtualSchema(ctx, elem)
 	}
-	// Set all the disableVirtualSchema
-	for _, elem := range genState.DisableVirtualSchemaProposalList {
-		k.SetDisableVirtualSchemaProposal(ctx, elem)
-	}
 	// Set all the virtualSchemaProposal
 	for _, elem := range genState.VirtualSchemaProposalList {
 		k.SetVirtualSchemaProposal(ctx, elem)
@@ -89,26 +85,6 @@ func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) 
 	// Set all the inactiveVirtualSchemaProposal
 	for _, elem := range genState.InactiveVirtualSchemaProposalList {
 		k.SetInactiveVirtualSchemaProposal(ctx, elem)
-	}
-	// Set all the activeDisableVirtualSchemaProposal
-	for _, elem := range genState.ActiveDisableVirtualSchemaProposalList {
-		k.SetActiveDisableVirtualSchemaProposal(ctx, elem)
-	}
-	// Set all the inactiveDisableVirtualSchemaProposal
-	for _, elem := range genState.InactiveDisableVirtualSchemaProposalList {
-		k.SetInactiveDisableVirtualSchemaProposal(ctx, elem)
-	}
-	// Set all the enableVirtualSchemaProposal
-	for _, elem := range genState.EnableVirtualSchemaProposalList {
-		k.SetEnableVirtualSchemaProposal(ctx, elem)
-	}
-	// Set all the inactiveEnableVirtualSchemaProposal
-	for _, elem := range genState.InactiveEnableVirtualSchemaProposalList {
-		k.SetInactiveEnableVirtualSchemaProposal(ctx, elem)
-	}
-	// Set all the activeEnableVirtualSchemaProposal
-	for _, elem := range genState.ActiveEnableVirtualSchemaProposalList {
-		k.SetActiveEnableVirtualSchemaProposal(ctx, elem)
 	}
 	// this line is used by starport scaffolding # genesis/module/init
 	k.SetParams(ctx, genState.Params)
@@ -142,15 +118,9 @@ func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
 	genesis.ExecutorOfSchemaList = k.GetAllExecutorOfSchema(ctx)
 	genesis.VirtualActionList = k.GetAllVirtualAction(ctx)
 	genesis.VirtualSchemaList = k.GetAllVirtualSchema(ctx)
-	genesis.DisableVirtualSchemaProposalList = k.GetAllDisableVirtualSchemaProposal(ctx)
 	genesis.VirtualSchemaProposalList = k.GetAllVirtualSchemaProposal(ctx)
 	genesis.ActiveVirtualSchemaProposalList = k.GetAllActiveVirtualSchemaProposal(ctx)
 	genesis.InactiveVirtualSchemaProposalList = k.GetAllInactiveVirtualSchemaProposal(ctx)
-	genesis.ActiveDisableVirtualSchemaProposalList = k.GetAllActiveDisableVirtualSchemaProposal(ctx)
-	genesis.InactiveDisableVirtualSchemaProposalList = k.GetAllInactiveDisableVirtualSchemaProposal(ctx)
-	genesis.EnableVirtualSchemaProposalList = k.GetAllEnableVirtualSchemaProposal(ctx)
-	genesis.InactiveEnableVirtualSchemaProposalList = k.GetAllInactiveEnableVirtualSchemaProposal(ctx)
-	genesis.ActiveEnableVirtualSchemaProposalList = k.GetAllActiveEnableVirtualSchemaProposal(ctx)
 	// this line is used by starport scaffolding # genesis/module/export
 
 	return genesis

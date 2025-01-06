@@ -123,11 +123,11 @@ func TestGenesisState_Validate(t *testing.T) {
 				VirtualActionList: []types.VirtualAction{
 					{
 						VirtualNftSchemaCode: "0",
-						Name:          "0",
+						Name:                 "0",
 					},
 					{
 						VirtualNftSchemaCode: "0",
-						Name:          "0",
+						Name:                 "0",
 					},
 				},
 				VirtualSchemaList: []types.VirtualSchema{
@@ -136,14 +136,6 @@ func TestGenesisState_Validate(t *testing.T) {
 					},
 					{
 						VirtualNftSchemaCode: "1",
-					},
-				},
-				DisableVirtualSchemaProposalList: []types.DisableVirtualSchemaProposal{
-					{
-						Id: "0",
-					},
-					{
-						Id: "1",
 					},
 				},
 				VirtualSchemaProposalList: []types.VirtualSchemaProposal{
@@ -163,46 +155,6 @@ func TestGenesisState_Validate(t *testing.T) {
 					},
 				},
 				InactiveVirtualSchemaProposalList: []types.InactiveVirtualSchemaProposal{
-					{
-						Id: "0",
-					},
-					{
-						Id: "1",
-					},
-				},
-				ActiveDisableVirtualSchemaProposalList: []types.ActiveDisableVirtualSchemaProposal{
-					{
-						Id: "0",
-					},
-					{
-						Id: "1",
-					},
-				},
-				InactiveDisableVirtualSchemaProposalList: []types.InactiveDisableVirtualSchemaProposal{
-					{
-						Id: "0",
-					},
-					{
-						Id: "1",
-					},
-				},
-				EnableVirtualSchemaProposalList: []types.EnableVirtualSchemaProposal{
-					{
-						Id: "0",
-					},
-					{
-						Id: "1",
-					},
-				},
-				InactiveEnableVirtualSchemaProposalList: []types.InactiveEnableVirtualSchemaProposal{
-					{
-						Id: "0",
-					},
-					{
-						Id: "1",
-					},
-				},
-				ActiveEnableVirtualSchemaProposalList: []types.ActiveEnableVirtualSchemaProposal{
 					{
 						Id: "0",
 					},
@@ -382,11 +334,11 @@ func TestGenesisState_Validate(t *testing.T) {
 				VirtualActionList: []types.VirtualAction{
 					{
 						VirtualNftSchemaCode: "0",
-						Name:          "0",
+						Name:                 "0",
 					},
 					{
 						VirtualNftSchemaCode: "0",
-						Name:          "0",
+						Name:                 "0",
 					},
 				},
 			},
@@ -401,20 +353,6 @@ func TestGenesisState_Validate(t *testing.T) {
 					},
 					{
 						VirtualNftSchemaCode: "0",
-					},
-				},
-			},
-			valid: false,
-		},
-		{
-			desc: "duplicated disableVirtualSchema",
-			genState: &types.GenesisState{
-				DisableVirtualSchemaProposalList: []types.DisableVirtualSchemaProposal{
-					{
-						Id: "0",
-					},
-					{
-						Id: "0",
 					},
 				},
 			},
@@ -452,76 +390,6 @@ func TestGenesisState_Validate(t *testing.T) {
 			desc: "duplicated inactiveVirtualSchemaProposal",
 			genState: &types.GenesisState{
 				InactiveVirtualSchemaProposalList: []types.InactiveVirtualSchemaProposal{
-					{
-						Id: "0",
-					},
-					{
-						Id: "0",
-					},
-				},
-			},
-			valid: false,
-		},
-		{
-			desc: "duplicated activeDisableVirtualSchemaProposal",
-			genState: &types.GenesisState{
-				ActiveDisableVirtualSchemaProposalList: []types.ActiveDisableVirtualSchemaProposal{
-					{
-						Id: "0",
-					},
-					{
-						Id: "0",
-					},
-				},
-			},
-			valid: false,
-		},
-		{
-			desc: "duplicated inactiveDisableVirtualSchemaProposal",
-			genState: &types.GenesisState{
-				InactiveDisableVirtualSchemaProposalList: []types.InactiveDisableVirtualSchemaProposal{
-					{
-						Id: "0",
-					},
-					{
-						Id: "0",
-					},
-				},
-			},
-			valid: false,
-		},
-		{
-			desc: "duplicated enableVirtualSchemaProposal",
-			genState: &types.GenesisState{
-				EnableVirtualSchemaProposalList: []types.EnableVirtualSchemaProposal{
-					{
-						Id: "0",
-					},
-					{
-						Id: "0",
-					},
-				},
-			},
-			valid: false,
-		},
-		{
-			desc: "duplicated inactiveEnableVirtualSchemaProposal",
-			genState: &types.GenesisState{
-				InactiveEnableVirtualSchemaProposalList: []types.InactiveEnableVirtualSchemaProposal{
-					{
-						Id: "0",
-					},
-					{
-						Id: "0",
-					},
-				},
-			},
-			valid: false,
-		},
-		{
-			desc: "duplicated activeEnableVirtualSchemaProposal",
-			genState: &types.GenesisState{
-				ActiveEnableVirtualSchemaProposalList: []types.ActiveEnableVirtualSchemaProposal{
 					{
 						Id: "0",
 					},

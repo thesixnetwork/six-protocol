@@ -10,11 +10,12 @@ message VirtualSchemaProposal {
   string id = 1;
   string virtualSchemaCode = 2;
   repeated VirtualSchemaRegistry registry = 3;
-  google.protobuf.Timestamp submitTime = 4
+  ProposalType propsalType = 4;
+  google.protobuf.Timestamp submitTime = 5
       [ (gogoproto.stdtime) = true, (gogoproto.nullable) = false ];
-  google.protobuf.Timestamp votinStartTime = 5
+  google.protobuf.Timestamp votinStartTime = 6
       [ (gogoproto.stdtime) = true, (gogoproto.nullable) = false ];
-  google.protobuf.Timestamp votingEndTime = 6
+  google.protobuf.Timestamp votingEndTime = 7
       [ (gogoproto.stdtime) = true, (gogoproto.nullable) = false ];
 }
 
@@ -31,12 +32,6 @@ message VirtualSchemaRegistry {
   RegistryStatus status = 3;
 }
 
-enum RegistryStatus {
-  PENDING = 0;
-  REJECT = 1;
-  ACCEPT = 2;
-}
-
 message VirtualSchemaRegistryRequest {
   string nftSchemaCode = 1;
   repeated string sharedAttributes = 2;
@@ -46,34 +41,15 @@ message ActiveVirtualSchemaProposal { string id = 1; }
 
 message InactiveVirtualSchemaProposal { string id = 1; }
 
-message DisableVirtualSchemaProposal {
-  string id = 1;
-  string virtualSchemaCode = 2;
-  repeated VirtualSchemaRegistry registry = 3;
-  google.protobuf.Timestamp submitTime = 4
-      [ (gogoproto.stdtime) = true, (gogoproto.nullable) = false ];
-  google.protobuf.Timestamp votinStartTime = 5
-      [ (gogoproto.stdtime) = true, (gogoproto.nullable) = false ];
-  google.protobuf.Timestamp votingEndTime = 6
-      [ (gogoproto.stdtime) = true, (gogoproto.nullable) = false ];
+enum RegistryStatus {
+  PENDING = 0;
+  REJECT = 1;
+  ACCEPT = 2;
 }
 
-message ActiveDisableVirtualSchemaProposal { string id = 1; }
-
-message InactiveDisableVirtualSchemaProposal { string id = 1; }
-
-message EnableVirtualSchemaProposal {
-  string id = 1;
-  string virtualSchemaCode = 2;
-  repeated VirtualSchemaRegistry registry = 3;
-  google.protobuf.Timestamp submitTime = 4
-      [ (gogoproto.stdtime) = true, (gogoproto.nullable) = false ];
-  google.protobuf.Timestamp votinStartTime = 5
-      [ (gogoproto.stdtime) = true, (gogoproto.nullable) = false ];
-  google.protobuf.Timestamp votingEndTime = 6
-      [ (gogoproto.stdtime) = true, (gogoproto.nullable) = false ];
+enum ProposalType {
+  CREATE = 0;
+  ENABLE = 1;
+  DISABLE = 2;
+  DELETE = 3;
 }
-
-message InactiveEnableVirtualSchemaProposal { string id = 1; }
-
-message ActiveEnableVirtualSchemaProposal { string id = 1; }

@@ -55,13 +55,45 @@ func (RegistryStatus) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_1fd45310b3f69052, []int{0}
 }
 
+type ProposalType int32
+
+const (
+	ProposalType_CREATE  ProposalType = 0
+	ProposalType_ENABLE  ProposalType = 1
+	ProposalType_DISABLE ProposalType = 2
+	ProposalType_DELETE  ProposalType = 3
+)
+
+var ProposalType_name = map[int32]string{
+	0: "CREATE",
+	1: "ENABLE",
+	2: "DISABLE",
+	3: "DELETE",
+}
+
+var ProposalType_value = map[string]int32{
+	"CREATE":  0,
+	"ENABLE":  1,
+	"DISABLE": 2,
+	"DELETE":  3,
+}
+
+func (x ProposalType) String() string {
+	return proto.EnumName(ProposalType_name, int32(x))
+}
+
+func (ProposalType) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_1fd45310b3f69052, []int{1}
+}
+
 type VirtualSchemaProposal struct {
 	Id                string                   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	VirtualSchemaCode string                   `protobuf:"bytes,2,opt,name=virtualSchemaCode,proto3" json:"virtualSchemaCode,omitempty"`
 	Registry          []*VirtualSchemaRegistry `protobuf:"bytes,3,rep,name=registry,proto3" json:"registry,omitempty"`
-	SubmitTime        time.Time                `protobuf:"bytes,4,opt,name=submitTime,proto3,stdtime" json:"submitTime"`
-	VotinStartTime    time.Time                `protobuf:"bytes,5,opt,name=votinStartTime,proto3,stdtime" json:"votinStartTime"`
-	VotingEndTime     time.Time                `protobuf:"bytes,6,opt,name=votingEndTime,proto3,stdtime" json:"votingEndTime"`
+	PropsalType       ProposalType             `protobuf:"varint,4,opt,name=propsalType,proto3,enum=thesixnetwork.sixprotocol.nftmngr.ProposalType" json:"propsalType,omitempty"`
+	SubmitTime        time.Time                `protobuf:"bytes,5,opt,name=submitTime,proto3,stdtime" json:"submitTime"`
+	VotinStartTime    time.Time                `protobuf:"bytes,6,opt,name=votinStartTime,proto3,stdtime" json:"votinStartTime"`
+	VotingEndTime     time.Time                `protobuf:"bytes,7,opt,name=votingEndTime,proto3,stdtime" json:"votingEndTime"`
 }
 
 func (m *VirtualSchemaProposal) Reset()         { *m = VirtualSchemaProposal{} }
@@ -116,6 +148,13 @@ func (m *VirtualSchemaProposal) GetRegistry() []*VirtualSchemaRegistry {
 		return m.Registry
 	}
 	return nil
+}
+
+func (m *VirtualSchemaProposal) GetPropsalType() ProposalType {
+	if m != nil {
+		return m.PropsalType
+	}
+	return ProposalType_CREATE
 }
 
 func (m *VirtualSchemaProposal) GetSubmitTime() time.Time {
@@ -399,407 +438,58 @@ func (m *InactiveVirtualSchemaProposal) GetId() string {
 	return ""
 }
 
-type DisableVirtualSchemaProposal struct {
-	Id                string                   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	VirtualSchemaCode string                   `protobuf:"bytes,2,opt,name=virtualSchemaCode,proto3" json:"virtualSchemaCode,omitempty"`
-	Registry          []*VirtualSchemaRegistry `protobuf:"bytes,3,rep,name=registry,proto3" json:"registry,omitempty"`
-	SubmitTime        time.Time                `protobuf:"bytes,4,opt,name=submitTime,proto3,stdtime" json:"submitTime"`
-	VotinStartTime    time.Time                `protobuf:"bytes,5,opt,name=votinStartTime,proto3,stdtime" json:"votinStartTime"`
-	VotingEndTime     time.Time                `protobuf:"bytes,6,opt,name=votingEndTime,proto3,stdtime" json:"votingEndTime"`
-}
-
-func (m *DisableVirtualSchemaProposal) Reset()         { *m = DisableVirtualSchemaProposal{} }
-func (m *DisableVirtualSchemaProposal) String() string { return proto.CompactTextString(m) }
-func (*DisableVirtualSchemaProposal) ProtoMessage()    {}
-func (*DisableVirtualSchemaProposal) Descriptor() ([]byte, []int) {
-	return fileDescriptor_1fd45310b3f69052, []int{6}
-}
-func (m *DisableVirtualSchemaProposal) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *DisableVirtualSchemaProposal) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_DisableVirtualSchemaProposal.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *DisableVirtualSchemaProposal) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DisableVirtualSchemaProposal.Merge(m, src)
-}
-func (m *DisableVirtualSchemaProposal) XXX_Size() int {
-	return m.Size()
-}
-func (m *DisableVirtualSchemaProposal) XXX_DiscardUnknown() {
-	xxx_messageInfo_DisableVirtualSchemaProposal.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_DisableVirtualSchemaProposal proto.InternalMessageInfo
-
-func (m *DisableVirtualSchemaProposal) GetId() string {
-	if m != nil {
-		return m.Id
-	}
-	return ""
-}
-
-func (m *DisableVirtualSchemaProposal) GetVirtualSchemaCode() string {
-	if m != nil {
-		return m.VirtualSchemaCode
-	}
-	return ""
-}
-
-func (m *DisableVirtualSchemaProposal) GetRegistry() []*VirtualSchemaRegistry {
-	if m != nil {
-		return m.Registry
-	}
-	return nil
-}
-
-func (m *DisableVirtualSchemaProposal) GetSubmitTime() time.Time {
-	if m != nil {
-		return m.SubmitTime
-	}
-	return time.Time{}
-}
-
-func (m *DisableVirtualSchemaProposal) GetVotinStartTime() time.Time {
-	if m != nil {
-		return m.VotinStartTime
-	}
-	return time.Time{}
-}
-
-func (m *DisableVirtualSchemaProposal) GetVotingEndTime() time.Time {
-	if m != nil {
-		return m.VotingEndTime
-	}
-	return time.Time{}
-}
-
-type ActiveDisableVirtualSchemaProposal struct {
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-}
-
-func (m *ActiveDisableVirtualSchemaProposal) Reset()         { *m = ActiveDisableVirtualSchemaProposal{} }
-func (m *ActiveDisableVirtualSchemaProposal) String() string { return proto.CompactTextString(m) }
-func (*ActiveDisableVirtualSchemaProposal) ProtoMessage()    {}
-func (*ActiveDisableVirtualSchemaProposal) Descriptor() ([]byte, []int) {
-	return fileDescriptor_1fd45310b3f69052, []int{7}
-}
-func (m *ActiveDisableVirtualSchemaProposal) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *ActiveDisableVirtualSchemaProposal) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_ActiveDisableVirtualSchemaProposal.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *ActiveDisableVirtualSchemaProposal) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ActiveDisableVirtualSchemaProposal.Merge(m, src)
-}
-func (m *ActiveDisableVirtualSchemaProposal) XXX_Size() int {
-	return m.Size()
-}
-func (m *ActiveDisableVirtualSchemaProposal) XXX_DiscardUnknown() {
-	xxx_messageInfo_ActiveDisableVirtualSchemaProposal.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_ActiveDisableVirtualSchemaProposal proto.InternalMessageInfo
-
-func (m *ActiveDisableVirtualSchemaProposal) GetId() string {
-	if m != nil {
-		return m.Id
-	}
-	return ""
-}
-
-type InactiveDisableVirtualSchemaProposal struct {
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-}
-
-func (m *InactiveDisableVirtualSchemaProposal) Reset()         { *m = InactiveDisableVirtualSchemaProposal{} }
-func (m *InactiveDisableVirtualSchemaProposal) String() string { return proto.CompactTextString(m) }
-func (*InactiveDisableVirtualSchemaProposal) ProtoMessage()    {}
-func (*InactiveDisableVirtualSchemaProposal) Descriptor() ([]byte, []int) {
-	return fileDescriptor_1fd45310b3f69052, []int{8}
-}
-func (m *InactiveDisableVirtualSchemaProposal) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *InactiveDisableVirtualSchemaProposal) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_InactiveDisableVirtualSchemaProposal.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *InactiveDisableVirtualSchemaProposal) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_InactiveDisableVirtualSchemaProposal.Merge(m, src)
-}
-func (m *InactiveDisableVirtualSchemaProposal) XXX_Size() int {
-	return m.Size()
-}
-func (m *InactiveDisableVirtualSchemaProposal) XXX_DiscardUnknown() {
-	xxx_messageInfo_InactiveDisableVirtualSchemaProposal.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_InactiveDisableVirtualSchemaProposal proto.InternalMessageInfo
-
-func (m *InactiveDisableVirtualSchemaProposal) GetId() string {
-	if m != nil {
-		return m.Id
-	}
-	return ""
-}
-
-type EnableVirtualSchemaProposal struct {
-	Id                string                   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	VirtualSchemaCode string                   `protobuf:"bytes,2,opt,name=virtualSchemaCode,proto3" json:"virtualSchemaCode,omitempty"`
-	Registry          []*VirtualSchemaRegistry `protobuf:"bytes,3,rep,name=registry,proto3" json:"registry,omitempty"`
-	SubmitTime        time.Time                `protobuf:"bytes,4,opt,name=submitTime,proto3,stdtime" json:"submitTime"`
-	VotinStartTime    time.Time                `protobuf:"bytes,5,opt,name=votinStartTime,proto3,stdtime" json:"votinStartTime"`
-	VotingEndTime     time.Time                `protobuf:"bytes,6,opt,name=votingEndTime,proto3,stdtime" json:"votingEndTime"`
-}
-
-func (m *EnableVirtualSchemaProposal) Reset()         { *m = EnableVirtualSchemaProposal{} }
-func (m *EnableVirtualSchemaProposal) String() string { return proto.CompactTextString(m) }
-func (*EnableVirtualSchemaProposal) ProtoMessage()    {}
-func (*EnableVirtualSchemaProposal) Descriptor() ([]byte, []int) {
-	return fileDescriptor_1fd45310b3f69052, []int{9}
-}
-func (m *EnableVirtualSchemaProposal) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *EnableVirtualSchemaProposal) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_EnableVirtualSchemaProposal.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *EnableVirtualSchemaProposal) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_EnableVirtualSchemaProposal.Merge(m, src)
-}
-func (m *EnableVirtualSchemaProposal) XXX_Size() int {
-	return m.Size()
-}
-func (m *EnableVirtualSchemaProposal) XXX_DiscardUnknown() {
-	xxx_messageInfo_EnableVirtualSchemaProposal.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_EnableVirtualSchemaProposal proto.InternalMessageInfo
-
-func (m *EnableVirtualSchemaProposal) GetId() string {
-	if m != nil {
-		return m.Id
-	}
-	return ""
-}
-
-func (m *EnableVirtualSchemaProposal) GetVirtualSchemaCode() string {
-	if m != nil {
-		return m.VirtualSchemaCode
-	}
-	return ""
-}
-
-func (m *EnableVirtualSchemaProposal) GetRegistry() []*VirtualSchemaRegistry {
-	if m != nil {
-		return m.Registry
-	}
-	return nil
-}
-
-func (m *EnableVirtualSchemaProposal) GetSubmitTime() time.Time {
-	if m != nil {
-		return m.SubmitTime
-	}
-	return time.Time{}
-}
-
-func (m *EnableVirtualSchemaProposal) GetVotinStartTime() time.Time {
-	if m != nil {
-		return m.VotinStartTime
-	}
-	return time.Time{}
-}
-
-func (m *EnableVirtualSchemaProposal) GetVotingEndTime() time.Time {
-	if m != nil {
-		return m.VotingEndTime
-	}
-	return time.Time{}
-}
-
-type InactiveEnableVirtualSchemaProposal struct {
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-}
-
-func (m *InactiveEnableVirtualSchemaProposal) Reset()         { *m = InactiveEnableVirtualSchemaProposal{} }
-func (m *InactiveEnableVirtualSchemaProposal) String() string { return proto.CompactTextString(m) }
-func (*InactiveEnableVirtualSchemaProposal) ProtoMessage()    {}
-func (*InactiveEnableVirtualSchemaProposal) Descriptor() ([]byte, []int) {
-	return fileDescriptor_1fd45310b3f69052, []int{10}
-}
-func (m *InactiveEnableVirtualSchemaProposal) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *InactiveEnableVirtualSchemaProposal) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_InactiveEnableVirtualSchemaProposal.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *InactiveEnableVirtualSchemaProposal) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_InactiveEnableVirtualSchemaProposal.Merge(m, src)
-}
-func (m *InactiveEnableVirtualSchemaProposal) XXX_Size() int {
-	return m.Size()
-}
-func (m *InactiveEnableVirtualSchemaProposal) XXX_DiscardUnknown() {
-	xxx_messageInfo_InactiveEnableVirtualSchemaProposal.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_InactiveEnableVirtualSchemaProposal proto.InternalMessageInfo
-
-func (m *InactiveEnableVirtualSchemaProposal) GetId() string {
-	if m != nil {
-		return m.Id
-	}
-	return ""
-}
-
-type ActiveEnableVirtualSchemaProposal struct {
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-}
-
-func (m *ActiveEnableVirtualSchemaProposal) Reset()         { *m = ActiveEnableVirtualSchemaProposal{} }
-func (m *ActiveEnableVirtualSchemaProposal) String() string { return proto.CompactTextString(m) }
-func (*ActiveEnableVirtualSchemaProposal) ProtoMessage()    {}
-func (*ActiveEnableVirtualSchemaProposal) Descriptor() ([]byte, []int) {
-	return fileDescriptor_1fd45310b3f69052, []int{11}
-}
-func (m *ActiveEnableVirtualSchemaProposal) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *ActiveEnableVirtualSchemaProposal) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_ActiveEnableVirtualSchemaProposal.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *ActiveEnableVirtualSchemaProposal) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ActiveEnableVirtualSchemaProposal.Merge(m, src)
-}
-func (m *ActiveEnableVirtualSchemaProposal) XXX_Size() int {
-	return m.Size()
-}
-func (m *ActiveEnableVirtualSchemaProposal) XXX_DiscardUnknown() {
-	xxx_messageInfo_ActiveEnableVirtualSchemaProposal.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_ActiveEnableVirtualSchemaProposal proto.InternalMessageInfo
-
-func (m *ActiveEnableVirtualSchemaProposal) GetId() string {
-	if m != nil {
-		return m.Id
-	}
-	return ""
-}
-
 func init() {
 	proto.RegisterEnum("thesixnetwork.sixprotocol.nftmngr.RegistryStatus", RegistryStatus_name, RegistryStatus_value)
+	proto.RegisterEnum("thesixnetwork.sixprotocol.nftmngr.ProposalType", ProposalType_name, ProposalType_value)
 	proto.RegisterType((*VirtualSchemaProposal)(nil), "thesixnetwork.sixprotocol.nftmngr.VirtualSchemaProposal")
 	proto.RegisterType((*VirtualSchema)(nil), "thesixnetwork.sixprotocol.nftmngr.VirtualSchema")
 	proto.RegisterType((*VirtualSchemaRegistry)(nil), "thesixnetwork.sixprotocol.nftmngr.VirtualSchemaRegistry")
 	proto.RegisterType((*VirtualSchemaRegistryRequest)(nil), "thesixnetwork.sixprotocol.nftmngr.VirtualSchemaRegistryRequest")
 	proto.RegisterType((*ActiveVirtualSchemaProposal)(nil), "thesixnetwork.sixprotocol.nftmngr.ActiveVirtualSchemaProposal")
 	proto.RegisterType((*InactiveVirtualSchemaProposal)(nil), "thesixnetwork.sixprotocol.nftmngr.InactiveVirtualSchemaProposal")
-	proto.RegisterType((*DisableVirtualSchemaProposal)(nil), "thesixnetwork.sixprotocol.nftmngr.DisableVirtualSchemaProposal")
-	proto.RegisterType((*ActiveDisableVirtualSchemaProposal)(nil), "thesixnetwork.sixprotocol.nftmngr.ActiveDisableVirtualSchemaProposal")
-	proto.RegisterType((*InactiveDisableVirtualSchemaProposal)(nil), "thesixnetwork.sixprotocol.nftmngr.InactiveDisableVirtualSchemaProposal")
-	proto.RegisterType((*EnableVirtualSchemaProposal)(nil), "thesixnetwork.sixprotocol.nftmngr.EnableVirtualSchemaProposal")
-	proto.RegisterType((*InactiveEnableVirtualSchemaProposal)(nil), "thesixnetwork.sixprotocol.nftmngr.InactiveEnableVirtualSchemaProposal")
-	proto.RegisterType((*ActiveEnableVirtualSchemaProposal)(nil), "thesixnetwork.sixprotocol.nftmngr.ActiveEnableVirtualSchemaProposal")
 }
 
 func init() { proto.RegisterFile("nftmngr/virtual_schema.proto", fileDescriptor_1fd45310b3f69052) }
 
 var fileDescriptor_1fd45310b3f69052 = []byte{
-	// 587 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xec, 0x56, 0xc1, 0x6e, 0xda, 0x40,
-	0x10, 0xc5, 0xb8, 0xa5, 0xc9, 0x20, 0x10, 0x5d, 0xa5, 0x15, 0x22, 0xd4, 0x10, 0x37, 0x07, 0x14,
-	0x35, 0xb6, 0x4a, 0x4a, 0xd5, 0x2b, 0x01, 0xab, 0x22, 0xaa, 0x28, 0x32, 0xa8, 0x87, 0x5e, 0x2a,
-	0x1b, 0x16, 0xb3, 0x2a, 0xf6, 0x52, 0xef, 0x9a, 0x92, 0x6f, 0xe8, 0x25, 0xed, 0x9f, 0x54, 0xea,
-	0x47, 0xe4, 0x98, 0x63, 0x4f, 0x6d, 0x05, 0x3f, 0x52, 0x61, 0xe3, 0x0a, 0x27, 0x48, 0x8d, 0xa5,
-	0x1c, 0x72, 0xc8, 0x6d, 0x77, 0x66, 0xdf, 0xec, 0x7b, 0xf3, 0x76, 0x2c, 0x43, 0xd1, 0x19, 0x72,
-	0xdb, 0xb1, 0x5c, 0x75, 0x4a, 0x5c, 0xee, 0x19, 0xe3, 0x0f, 0xac, 0x3f, 0xc2, 0xb6, 0xa1, 0x4c,
-	0x5c, 0xca, 0x29, 0xda, 0xe3, 0x23, 0xcc, 0xc8, 0xcc, 0xc1, 0xfc, 0x33, 0x75, 0x3f, 0x2a, 0x8c,
-	0xcc, 0xfc, 0x78, 0x9f, 0x8e, 0x95, 0x15, 0xae, 0xb0, 0x63, 0x51, 0x8b, 0xfa, 0x51, 0x75, 0xb9,
-	0x0a, 0x80, 0x85, 0x92, 0x45, 0xa9, 0x35, 0xc6, 0xaa, 0xbf, 0x33, 0xbd, 0xa1, 0xca, 0x89, 0x8d,
-	0x19, 0x37, 0xec, 0x49, 0x70, 0x40, 0xfe, 0x22, 0xc2, 0xa3, 0x77, 0xc1, 0x95, 0x5d, 0xff, 0xc6,
-	0x8e, 0x4b, 0x27, 0x94, 0x19, 0x63, 0x94, 0x85, 0x24, 0x19, 0xe4, 0x85, 0xb2, 0x50, 0xd9, 0xd6,
-	0x93, 0x64, 0x80, 0x9e, 0xc1, 0xc3, 0xe9, 0xfa, 0xc1, 0x06, 0x1d, 0xe0, 0x7c, 0xd2, 0x4f, 0x5f,
-	0x4d, 0xa0, 0x1e, 0x6c, 0xb9, 0xd8, 0x22, 0x8c, 0xbb, 0xa7, 0x79, 0xb1, 0x2c, 0x56, 0xd2, 0xd5,
-	0x57, 0xca, 0x7f, 0x45, 0x28, 0x11, 0x26, 0xfa, 0x0a, 0xaf, 0xff, 0xab, 0x84, 0x9a, 0x00, 0xcc,
-	0x33, 0x6d, 0xc2, 0x7b, 0xc4, 0xc6, 0xf9, 0x7b, 0x65, 0xa1, 0x92, 0xae, 0x16, 0x94, 0x40, 0xa3,
-	0x12, 0x6a, 0x54, 0x7a, 0xa1, 0xc6, 0xe3, 0xad, 0xf3, 0x5f, 0xa5, 0xc4, 0xd9, 0xef, 0x92, 0xa0,
-	0xaf, 0xe1, 0xd0, 0x1b, 0xc8, 0x4e, 0x29, 0x27, 0x4e, 0x97, 0x1b, 0x6e, 0x50, 0xe9, 0x7e, 0x8c,
-	0x4a, 0x97, 0xb0, 0xe8, 0x04, 0x32, 0x7e, 0xc4, 0xd2, 0x9c, 0x81, 0x5f, 0x2c, 0x15, 0xa3, 0x58,
-	0x14, 0x2a, 0x7f, 0x17, 0x20, 0x13, 0xe9, 0x01, 0xaa, 0xc2, 0xce, 0xaa, 0xb9, 0xed, 0x21, 0x5f,
-	0x6b, 0x7c, 0xe0, 0xcb, 0xc6, 0x5c, 0xa4, 0xf7, 0xc9, 0x1b, 0xeb, 0xfd, 0x63, 0x48, 0x61, 0xc7,
-	0x30, 0xc7, 0x38, 0x2f, 0x96, 0x85, 0xca, 0x96, 0xbe, 0xda, 0xc9, 0x3f, 0x84, 0x4b, 0x2f, 0x28,
-	0xc4, 0xa2, 0x7d, 0xc8, 0x38, 0x1b, 0x48, 0x47, 0x83, 0xe8, 0x00, 0x72, 0x6c, 0x64, 0xb8, 0x78,
-	0x50, 0xe7, 0xdc, 0x25, 0xa6, 0xc7, 0x31, 0xf3, 0x59, 0x6f, 0xeb, 0x57, 0xe2, 0xa8, 0x05, 0x29,
-	0xc6, 0x0d, 0xee, 0x31, 0x9f, 0x43, 0xb6, 0xfa, 0xfc, 0x1a, 0xba, 0x42, 0x3a, 0x5d, 0x1f, 0xa8,
-	0xaf, 0x0a, 0xc8, 0x13, 0x28, 0x6e, 0x56, 0x8c, 0x3f, 0x79, 0x98, 0xf1, 0x9b, 0x27, 0x2f, 0x1f,
-	0xc2, 0x6e, 0xbd, 0xcf, 0xc9, 0x14, 0x5f, 0x6b, 0xde, 0x64, 0x15, 0x9e, 0xb4, 0x1c, 0x23, 0x06,
-	0xe0, 0x9b, 0x08, 0xc5, 0x26, 0x61, 0x4b, 0x53, 0xee, 0x26, 0xfa, 0xb6, 0x4c, 0xf4, 0x0b, 0x90,
-	0x03, 0xd3, 0xe3, 0x38, 0x23, 0xbf, 0x84, 0xfd, 0xd0, 0xfb, 0x58, 0xb8, 0xaf, 0x22, 0xec, 0x6a,
-	0xce, 0xdd, 0x0b, 0xb8, 0x4d, 0x2f, 0xa0, 0x06, 0x4f, 0x43, 0x2f, 0x63, 0x58, 0x23, 0x1f, 0xc1,
-	0x5e, 0x3d, 0x2e, 0xe8, 0xa0, 0x06, 0xd9, 0xe8, 0xe7, 0x0e, 0xa5, 0xe1, 0x41, 0x47, 0x6b, 0x37,
-	0x5b, 0xed, 0xd7, 0xb9, 0x04, 0x02, 0x48, 0xe9, 0xda, 0x89, 0xd6, 0xe8, 0xe5, 0x84, 0xe5, 0xba,
-	0xde, 0x68, 0x68, 0x9d, 0x5e, 0x2e, 0x79, 0xfc, 0xf6, 0x7c, 0x2e, 0x09, 0x17, 0x73, 0x49, 0xf8,
-	0x33, 0x97, 0x84, 0xb3, 0x85, 0x94, 0xb8, 0x58, 0x48, 0x89, 0x9f, 0x0b, 0x29, 0xf1, 0xbe, 0x66,
-	0x11, 0x3e, 0xf2, 0x4c, 0xa5, 0x4f, 0x6d, 0x35, 0x62, 0xb5, 0xca, 0xc8, 0xec, 0x30, 0xf4, 0x5a,
-	0x9d, 0xa9, 0xe1, 0xef, 0x0b, 0x3f, 0x9d, 0x60, 0x66, 0xa6, 0xfc, 0xcc, 0xd1, 0xdf, 0x00, 0x00,
-	0x00, 0xff, 0xff, 0x20, 0x21, 0xb0, 0xce, 0xd6, 0x08, 0x00, 0x00,
+	// 592 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x54, 0x41, 0x6f, 0xd3, 0x30,
+	0x18, 0xad, 0x5b, 0xe8, 0xb6, 0xaf, 0xac, 0x2a, 0xd6, 0x40, 0xd5, 0x18, 0x5d, 0x89, 0x38, 0x54,
+	0x13, 0x4b, 0x44, 0xd1, 0x24, 0x6e, 0xa8, 0x6b, 0x2d, 0xd4, 0x69, 0x2a, 0x23, 0x8d, 0x38, 0x70,
+	0x41, 0x49, 0xeb, 0xa5, 0x16, 0x49, 0x1c, 0x62, 0xa7, 0x74, 0xff, 0x62, 0x7f, 0x05, 0x89, 0x1f,
+	0xb1, 0xe3, 0x8e, 0x9c, 0x06, 0xda, 0xfe, 0x08, 0x8a, 0xd3, 0xa0, 0x66, 0x9b, 0x44, 0x27, 0xed,
+	0x66, 0x7f, 0xcf, 0xef, 0xf9, 0x7d, 0xdf, 0x8b, 0x03, 0x5b, 0xc1, 0xb1, 0xf4, 0x03, 0x37, 0x32,
+	0xa6, 0x2c, 0x92, 0xb1, 0xed, 0x7d, 0x11, 0xa3, 0x09, 0xf5, 0x6d, 0x3d, 0x8c, 0xb8, 0xe4, 0xf8,
+	0x85, 0x9c, 0x50, 0xc1, 0x66, 0x01, 0x95, 0xdf, 0x79, 0xf4, 0x55, 0x17, 0x6c, 0xa6, 0xea, 0x23,
+	0xee, 0xe9, 0x73, 0xde, 0xe6, 0x86, 0xcb, 0x5d, 0xae, 0xaa, 0x46, 0xb2, 0x4a, 0x89, 0x9b, 0xdb,
+	0x2e, 0xe7, 0xae, 0x47, 0x0d, 0xb5, 0x73, 0xe2, 0x63, 0x43, 0x32, 0x9f, 0x0a, 0x69, 0xfb, 0x61,
+	0x7a, 0x40, 0xbb, 0x28, 0xc1, 0x93, 0x4f, 0xe9, 0x95, 0x43, 0x75, 0xe3, 0x51, 0xc4, 0x43, 0x2e,
+	0x6c, 0x0f, 0x57, 0xa1, 0xc8, 0xc6, 0x75, 0xd4, 0x44, 0xad, 0x35, 0xb3, 0xc8, 0xc6, 0xf8, 0x15,
+	0x3c, 0x9e, 0x2e, 0x1e, 0xec, 0xf2, 0x31, 0xad, 0x17, 0x15, 0x7c, 0x13, 0xc0, 0x16, 0xac, 0x46,
+	0xd4, 0x65, 0x42, 0x46, 0x27, 0xf5, 0x52, 0xb3, 0xd4, 0xaa, 0xb4, 0xdf, 0xea, 0xff, 0x6d, 0x42,
+	0xcf, 0x39, 0x31, 0xe7, 0x7c, 0xf3, 0x9f, 0x12, 0xfe, 0x08, 0x95, 0x30, 0xe2, 0xa1, 0xb0, 0x3d,
+	0xeb, 0x24, 0xa4, 0xf5, 0x07, 0x4d, 0xd4, 0xaa, 0xb6, 0x8d, 0x25, 0x84, 0xb3, 0xae, 0x12, 0x9a,
+	0xb9, 0xa8, 0x81, 0x7b, 0x00, 0x22, 0x76, 0x7c, 0x26, 0x2d, 0xe6, 0xd3, 0xfa, 0xc3, 0x26, 0x6a,
+	0x55, 0xda, 0x9b, 0x7a, 0x3a, 0x36, 0x3d, 0x1b, 0x9b, 0x6e, 0x65, 0x63, 0xdb, 0x5f, 0x3d, 0xbb,
+	0xd8, 0x2e, 0x9c, 0xfe, 0xde, 0x46, 0xe6, 0x02, 0x0f, 0x1f, 0x42, 0x75, 0xca, 0x25, 0x0b, 0x86,
+	0xd2, 0x8e, 0x52, 0xa5, 0xf2, 0x1d, 0x94, 0xae, 0x71, 0xf1, 0x01, 0xac, 0xab, 0x8a, 0x4b, 0x82,
+	0xb1, 0x12, 0x5b, 0xb9, 0x83, 0x58, 0x9e, 0xaa, 0xfd, 0x40, 0xb0, 0x9e, 0x1b, 0x2b, 0x6e, 0xc3,
+	0xc6, 0x3c, 0xaf, 0xc1, 0xb1, 0x5c, 0xc8, 0x32, 0x8d, 0xfa, 0x56, 0x2c, 0x17, 0x67, 0xf1, 0xde,
+	0xe2, 0x7c, 0x0a, 0x65, 0x1a, 0xd8, 0x8e, 0x47, 0xeb, 0xa5, 0x26, 0x6a, 0xad, 0x9a, 0xf3, 0x9d,
+	0xf6, 0x13, 0x5d, 0xfb, 0x28, 0x33, 0x2e, 0x7e, 0x09, 0xeb, 0xc1, 0x2d, 0xa6, 0xf3, 0x45, 0xbc,
+	0x03, 0x35, 0x31, 0xb1, 0x23, 0x3a, 0xee, 0x48, 0x19, 0x31, 0x27, 0x96, 0x54, 0x28, 0xd7, 0x6b,
+	0xe6, 0x8d, 0x3a, 0xee, 0x43, 0x59, 0x48, 0x5b, 0xc6, 0x42, 0x79, 0xa8, 0xb6, 0x5f, 0x2f, 0xd1,
+	0x57, 0x66, 0x67, 0xa8, 0x88, 0xe6, 0x5c, 0x40, 0x0b, 0x61, 0xeb, 0xf6, 0x8e, 0xe9, 0xb7, 0x98,
+	0x0a, 0x79, 0xff, 0xe6, 0xb5, 0x5d, 0x78, 0xd6, 0x19, 0x49, 0x36, 0xa5, 0x4b, 0x3d, 0x61, 0xcd,
+	0x80, 0xe7, 0xfd, 0xc0, 0x5e, 0x9e, 0xb0, 0xb3, 0x07, 0xd5, 0x7c, 0xaf, 0xb8, 0x02, 0x2b, 0x47,
+	0x64, 0xd0, 0xeb, 0x0f, 0xde, 0xd7, 0x0a, 0x18, 0xa0, 0x6c, 0x92, 0x03, 0xd2, 0xb5, 0x6a, 0x28,
+	0x59, 0x77, 0xba, 0x5d, 0x72, 0x64, 0xd5, 0x8a, 0x3b, 0xef, 0xe0, 0xd1, 0xe2, 0x83, 0x4b, 0xb0,
+	0xae, 0x49, 0x3a, 0x16, 0x49, 0x39, 0x64, 0xd0, 0xd9, 0x3f, 0x24, 0x35, 0x94, 0x88, 0xf5, 0xfa,
+	0x43, 0xb5, 0x29, 0x26, 0x40, 0x8f, 0x1c, 0x12, 0x8b, 0xd4, 0x4a, 0xfb, 0x1f, 0xce, 0x2e, 0x1b,
+	0xe8, 0xfc, 0xb2, 0x81, 0xfe, 0x5c, 0x36, 0xd0, 0xe9, 0x55, 0xa3, 0x70, 0x7e, 0xd5, 0x28, 0xfc,
+	0xba, 0x6a, 0x14, 0x3e, 0xef, 0xb9, 0x4c, 0x4e, 0x62, 0x47, 0x1f, 0x71, 0xdf, 0xc8, 0x05, 0x65,
+	0x08, 0x36, 0xdb, 0xcd, 0x92, 0x32, 0x66, 0x46, 0xf6, 0x3f, 0x95, 0x27, 0x21, 0x15, 0x4e, 0x59,
+	0x21, 0x6f, 0xfe, 0x06, 0x00, 0x00, 0xff, 0xff, 0xa3, 0x1c, 0xed, 0x04, 0x67, 0x05, 0x00, 0x00,
 }
 
 func (m *VirtualSchemaProposal) Marshal() (dAtA []byte, err error) {
@@ -829,7 +519,7 @@ func (m *VirtualSchemaProposal) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i -= n1
 	i = encodeVarintVirtualSchema(dAtA, i, uint64(n1))
 	i--
-	dAtA[i] = 0x32
+	dAtA[i] = 0x3a
 	n2, err2 := github_com_gogo_protobuf_types.StdTimeMarshalTo(m.VotinStartTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(m.VotinStartTime):])
 	if err2 != nil {
 		return 0, err2
@@ -837,7 +527,7 @@ func (m *VirtualSchemaProposal) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i -= n2
 	i = encodeVarintVirtualSchema(dAtA, i, uint64(n2))
 	i--
-	dAtA[i] = 0x2a
+	dAtA[i] = 0x32
 	n3, err3 := github_com_gogo_protobuf_types.StdTimeMarshalTo(m.SubmitTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(m.SubmitTime):])
 	if err3 != nil {
 		return 0, err3
@@ -845,7 +535,12 @@ func (m *VirtualSchemaProposal) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i -= n3
 	i = encodeVarintVirtualSchema(dAtA, i, uint64(n3))
 	i--
-	dAtA[i] = 0x22
+	dAtA[i] = 0x2a
+	if m.PropsalType != 0 {
+		i = encodeVarintVirtualSchema(dAtA, i, uint64(m.PropsalType))
+		i--
+		dAtA[i] = 0x20
+	}
 	if len(m.Registry) > 0 {
 		for iNdEx := len(m.Registry) - 1; iNdEx >= 0; iNdEx-- {
 			{
@@ -1074,276 +769,6 @@ func (m *InactiveVirtualSchemaProposal) MarshalToSizedBuffer(dAtA []byte) (int, 
 	return len(dAtA) - i, nil
 }
 
-func (m *DisableVirtualSchemaProposal) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *DisableVirtualSchemaProposal) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *DisableVirtualSchemaProposal) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	n4, err4 := github_com_gogo_protobuf_types.StdTimeMarshalTo(m.VotingEndTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(m.VotingEndTime):])
-	if err4 != nil {
-		return 0, err4
-	}
-	i -= n4
-	i = encodeVarintVirtualSchema(dAtA, i, uint64(n4))
-	i--
-	dAtA[i] = 0x32
-	n5, err5 := github_com_gogo_protobuf_types.StdTimeMarshalTo(m.VotinStartTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(m.VotinStartTime):])
-	if err5 != nil {
-		return 0, err5
-	}
-	i -= n5
-	i = encodeVarintVirtualSchema(dAtA, i, uint64(n5))
-	i--
-	dAtA[i] = 0x2a
-	n6, err6 := github_com_gogo_protobuf_types.StdTimeMarshalTo(m.SubmitTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(m.SubmitTime):])
-	if err6 != nil {
-		return 0, err6
-	}
-	i -= n6
-	i = encodeVarintVirtualSchema(dAtA, i, uint64(n6))
-	i--
-	dAtA[i] = 0x22
-	if len(m.Registry) > 0 {
-		for iNdEx := len(m.Registry) - 1; iNdEx >= 0; iNdEx-- {
-			{
-				size, err := m.Registry[iNdEx].MarshalToSizedBuffer(dAtA[:i])
-				if err != nil {
-					return 0, err
-				}
-				i -= size
-				i = encodeVarintVirtualSchema(dAtA, i, uint64(size))
-			}
-			i--
-			dAtA[i] = 0x1a
-		}
-	}
-	if len(m.VirtualSchemaCode) > 0 {
-		i -= len(m.VirtualSchemaCode)
-		copy(dAtA[i:], m.VirtualSchemaCode)
-		i = encodeVarintVirtualSchema(dAtA, i, uint64(len(m.VirtualSchemaCode)))
-		i--
-		dAtA[i] = 0x12
-	}
-	if len(m.Id) > 0 {
-		i -= len(m.Id)
-		copy(dAtA[i:], m.Id)
-		i = encodeVarintVirtualSchema(dAtA, i, uint64(len(m.Id)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *ActiveDisableVirtualSchemaProposal) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *ActiveDisableVirtualSchemaProposal) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *ActiveDisableVirtualSchemaProposal) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.Id) > 0 {
-		i -= len(m.Id)
-		copy(dAtA[i:], m.Id)
-		i = encodeVarintVirtualSchema(dAtA, i, uint64(len(m.Id)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *InactiveDisableVirtualSchemaProposal) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *InactiveDisableVirtualSchemaProposal) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *InactiveDisableVirtualSchemaProposal) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.Id) > 0 {
-		i -= len(m.Id)
-		copy(dAtA[i:], m.Id)
-		i = encodeVarintVirtualSchema(dAtA, i, uint64(len(m.Id)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *EnableVirtualSchemaProposal) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *EnableVirtualSchemaProposal) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *EnableVirtualSchemaProposal) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	n7, err7 := github_com_gogo_protobuf_types.StdTimeMarshalTo(m.VotingEndTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(m.VotingEndTime):])
-	if err7 != nil {
-		return 0, err7
-	}
-	i -= n7
-	i = encodeVarintVirtualSchema(dAtA, i, uint64(n7))
-	i--
-	dAtA[i] = 0x32
-	n8, err8 := github_com_gogo_protobuf_types.StdTimeMarshalTo(m.VotinStartTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(m.VotinStartTime):])
-	if err8 != nil {
-		return 0, err8
-	}
-	i -= n8
-	i = encodeVarintVirtualSchema(dAtA, i, uint64(n8))
-	i--
-	dAtA[i] = 0x2a
-	n9, err9 := github_com_gogo_protobuf_types.StdTimeMarshalTo(m.SubmitTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(m.SubmitTime):])
-	if err9 != nil {
-		return 0, err9
-	}
-	i -= n9
-	i = encodeVarintVirtualSchema(dAtA, i, uint64(n9))
-	i--
-	dAtA[i] = 0x22
-	if len(m.Registry) > 0 {
-		for iNdEx := len(m.Registry) - 1; iNdEx >= 0; iNdEx-- {
-			{
-				size, err := m.Registry[iNdEx].MarshalToSizedBuffer(dAtA[:i])
-				if err != nil {
-					return 0, err
-				}
-				i -= size
-				i = encodeVarintVirtualSchema(dAtA, i, uint64(size))
-			}
-			i--
-			dAtA[i] = 0x1a
-		}
-	}
-	if len(m.VirtualSchemaCode) > 0 {
-		i -= len(m.VirtualSchemaCode)
-		copy(dAtA[i:], m.VirtualSchemaCode)
-		i = encodeVarintVirtualSchema(dAtA, i, uint64(len(m.VirtualSchemaCode)))
-		i--
-		dAtA[i] = 0x12
-	}
-	if len(m.Id) > 0 {
-		i -= len(m.Id)
-		copy(dAtA[i:], m.Id)
-		i = encodeVarintVirtualSchema(dAtA, i, uint64(len(m.Id)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *InactiveEnableVirtualSchemaProposal) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *InactiveEnableVirtualSchemaProposal) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *InactiveEnableVirtualSchemaProposal) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.Id) > 0 {
-		i -= len(m.Id)
-		copy(dAtA[i:], m.Id)
-		i = encodeVarintVirtualSchema(dAtA, i, uint64(len(m.Id)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *ActiveEnableVirtualSchemaProposal) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *ActiveEnableVirtualSchemaProposal) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *ActiveEnableVirtualSchemaProposal) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.Id) > 0 {
-		i -= len(m.Id)
-		copy(dAtA[i:], m.Id)
-		i = encodeVarintVirtualSchema(dAtA, i, uint64(len(m.Id)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
 func encodeVarintVirtualSchema(dAtA []byte, offset int, v uint64) int {
 	offset -= sovVirtualSchema(v)
 	base := offset
@@ -1374,6 +799,9 @@ func (m *VirtualSchemaProposal) Size() (n int) {
 			l = e.Size()
 			n += 1 + l + sovVirtualSchema(uint64(l))
 		}
+	}
+	if m.PropsalType != 0 {
+		n += 1 + sovVirtualSchema(uint64(m.PropsalType))
 	}
 	l = github_com_gogo_protobuf_types.SizeOfStdTime(m.SubmitTime)
 	n += 1 + l + sovVirtualSchema(uint64(l))
@@ -1461,116 +889,6 @@ func (m *ActiveVirtualSchemaProposal) Size() (n int) {
 }
 
 func (m *InactiveVirtualSchemaProposal) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.Id)
-	if l > 0 {
-		n += 1 + l + sovVirtualSchema(uint64(l))
-	}
-	return n
-}
-
-func (m *DisableVirtualSchemaProposal) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.Id)
-	if l > 0 {
-		n += 1 + l + sovVirtualSchema(uint64(l))
-	}
-	l = len(m.VirtualSchemaCode)
-	if l > 0 {
-		n += 1 + l + sovVirtualSchema(uint64(l))
-	}
-	if len(m.Registry) > 0 {
-		for _, e := range m.Registry {
-			l = e.Size()
-			n += 1 + l + sovVirtualSchema(uint64(l))
-		}
-	}
-	l = github_com_gogo_protobuf_types.SizeOfStdTime(m.SubmitTime)
-	n += 1 + l + sovVirtualSchema(uint64(l))
-	l = github_com_gogo_protobuf_types.SizeOfStdTime(m.VotinStartTime)
-	n += 1 + l + sovVirtualSchema(uint64(l))
-	l = github_com_gogo_protobuf_types.SizeOfStdTime(m.VotingEndTime)
-	n += 1 + l + sovVirtualSchema(uint64(l))
-	return n
-}
-
-func (m *ActiveDisableVirtualSchemaProposal) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.Id)
-	if l > 0 {
-		n += 1 + l + sovVirtualSchema(uint64(l))
-	}
-	return n
-}
-
-func (m *InactiveDisableVirtualSchemaProposal) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.Id)
-	if l > 0 {
-		n += 1 + l + sovVirtualSchema(uint64(l))
-	}
-	return n
-}
-
-func (m *EnableVirtualSchemaProposal) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.Id)
-	if l > 0 {
-		n += 1 + l + sovVirtualSchema(uint64(l))
-	}
-	l = len(m.VirtualSchemaCode)
-	if l > 0 {
-		n += 1 + l + sovVirtualSchema(uint64(l))
-	}
-	if len(m.Registry) > 0 {
-		for _, e := range m.Registry {
-			l = e.Size()
-			n += 1 + l + sovVirtualSchema(uint64(l))
-		}
-	}
-	l = github_com_gogo_protobuf_types.SizeOfStdTime(m.SubmitTime)
-	n += 1 + l + sovVirtualSchema(uint64(l))
-	l = github_com_gogo_protobuf_types.SizeOfStdTime(m.VotinStartTime)
-	n += 1 + l + sovVirtualSchema(uint64(l))
-	l = github_com_gogo_protobuf_types.SizeOfStdTime(m.VotingEndTime)
-	n += 1 + l + sovVirtualSchema(uint64(l))
-	return n
-}
-
-func (m *InactiveEnableVirtualSchemaProposal) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.Id)
-	if l > 0 {
-		n += 1 + l + sovVirtualSchema(uint64(l))
-	}
-	return n
-}
-
-func (m *ActiveEnableVirtualSchemaProposal) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1717,6 +1035,25 @@ func (m *VirtualSchemaProposal) Unmarshal(dAtA []byte) error {
 			}
 			iNdEx = postIndex
 		case 4:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PropsalType", wireType)
+			}
+			m.PropsalType = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowVirtualSchema
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.PropsalType |= ProposalType(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 5:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field SubmitTime", wireType)
 			}
@@ -1749,7 +1086,7 @@ func (m *VirtualSchemaProposal) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
-		case 5:
+		case 6:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field VotinStartTime", wireType)
 			}
@@ -1782,7 +1119,7 @@ func (m *VirtualSchemaProposal) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
-		case 6:
+		case 7:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field VotingEndTime", wireType)
 			}
@@ -2328,828 +1665,6 @@ func (m *InactiveVirtualSchemaProposal) Unmarshal(dAtA []byte) error {
 		}
 		if fieldNum <= 0 {
 			return fmt.Errorf("proto: InactiveVirtualSchemaProposal: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowVirtualSchema
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Id = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipVirtualSchema(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *DisableVirtualSchemaProposal) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowVirtualSchema
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: DisableVirtualSchemaProposal: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: DisableVirtualSchemaProposal: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowVirtualSchema
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Id = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field VirtualSchemaCode", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowVirtualSchema
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.VirtualSchemaCode = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 3:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Registry", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowVirtualSchema
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Registry = append(m.Registry, &VirtualSchemaRegistry{})
-			if err := m.Registry[len(m.Registry)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 4:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field SubmitTime", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowVirtualSchema
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(&m.SubmitTime, dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 5:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field VotinStartTime", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowVirtualSchema
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(&m.VotinStartTime, dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 6:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field VotingEndTime", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowVirtualSchema
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(&m.VotingEndTime, dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipVirtualSchema(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *ActiveDisableVirtualSchemaProposal) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowVirtualSchema
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: ActiveDisableVirtualSchemaProposal: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: ActiveDisableVirtualSchemaProposal: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowVirtualSchema
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Id = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipVirtualSchema(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *InactiveDisableVirtualSchemaProposal) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowVirtualSchema
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: InactiveDisableVirtualSchemaProposal: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: InactiveDisableVirtualSchemaProposal: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowVirtualSchema
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Id = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipVirtualSchema(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *EnableVirtualSchemaProposal) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowVirtualSchema
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: EnableVirtualSchemaProposal: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: EnableVirtualSchemaProposal: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowVirtualSchema
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Id = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field VirtualSchemaCode", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowVirtualSchema
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.VirtualSchemaCode = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 3:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Registry", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowVirtualSchema
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Registry = append(m.Registry, &VirtualSchemaRegistry{})
-			if err := m.Registry[len(m.Registry)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 4:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field SubmitTime", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowVirtualSchema
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(&m.SubmitTime, dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 5:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field VotinStartTime", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowVirtualSchema
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(&m.VotinStartTime, dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 6:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field VotingEndTime", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowVirtualSchema
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if err := github_com_gogo_protobuf_types.StdTimeUnmarshal(&m.VotingEndTime, dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipVirtualSchema(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *InactiveEnableVirtualSchemaProposal) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowVirtualSchema
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: InactiveEnableVirtualSchemaProposal: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: InactiveEnableVirtualSchemaProposal: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowVirtualSchema
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Id = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipVirtualSchema(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *ActiveEnableVirtualSchemaProposal) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowVirtualSchema
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: ActiveEnableVirtualSchemaProposal: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: ActiveEnableVirtualSchemaProposal: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:

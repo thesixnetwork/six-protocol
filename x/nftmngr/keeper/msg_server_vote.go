@@ -14,7 +14,7 @@ import (
 // 2. Check if virtual schema is enable
 // 3. Check if voter(creator) is owner of some src schema
 // 4. Check if src schema already vote
-func (k msgServer) VoteCreateVirtualSchema(goCtx context.Context, msg *types.MsgVoteCreateVirtualSchema) (*types.MsgVoteCreateVirtualSchemaResponse, error) {
+func (k msgServer) VoteCreateVirtualSchema(goCtx context.Context, msg *types.MsgVoteVirtualSchemaProposal) (*types.MsgVoteVirtualSchemaProposal, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	virtualSchemaProposal, found := k.GetVirtualSchemaProposal(ctx, msg.Id)
@@ -57,23 +57,5 @@ func (k msgServer) VoteCreateVirtualSchema(goCtx context.Context, msg *types.Msg
 
 	k.SetVirtualSchemaProposal(ctx, virtualSchemaProposal)
 
-	return &types.MsgVoteCreateVirtualSchemaResponse{}, nil
-}
-
-func (k msgServer) VoteDisableVirtualSchema(goCtx context.Context, msg *types.MsgVoteDisableVirtualSchema) (*types.MsgVoteDisableVirtualSchemaResponse, error) {
-	ctx := sdk.UnwrapSDKContext(goCtx)
-
-	// TODO: Handling the message
-	_ = ctx
-
-	return &types.MsgVoteDisableVirtualSchemaResponse{}, nil
-}
-
-func (k msgServer) VoteEnableVirtualSchema(goCtx context.Context, msg *types.MsgVoteEnableVirtualSchema) (*types.MsgVoteEnableVirtualSchemaResponse, error) {
-	ctx := sdk.UnwrapSDKContext(goCtx)
-
-	// TODO: Handling the message
-	_ = ctx
-
-	return &types.MsgVoteEnableVirtualSchemaResponse{}, nil
+	return &types.MsgVoteVirtualSchemaProposal{}, nil
 }
