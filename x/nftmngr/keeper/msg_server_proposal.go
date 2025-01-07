@@ -30,7 +30,22 @@ func (k msgServer) ProposalVirtualSchema(goCtx context.Context, msg *types.MsgPr
 			return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, msg.VirtualNftSchemaCode)
 		}
 
-		registry = existedSchema.Registry
+		if msg.ProposalType == types.ProposalType_ENABLE && existedSchema.Enable {
+			return nil, sdkerrors.Wrap(types.ErrSchemaIsEnabled, msg.VirtualNftSchemaCode)
+		}
+
+		if msg.ProposalType == types.ProposalType_DISABLE && !existedSchema.Enable {
+			return nil, sdkerrors.Wrap(types.ErrSchemaIsDisable, msg.VirtualNftSchemaCode)
+		}
+
+		// mark pending to registry
+		for _, vsRegistry := range existedSchema.Registry {
+			registry = append(registry, &types.VirtualSchemaRegistry{
+				NftSchemaCode:    vsRegistry.NftSchemaCode,
+				SharedAttributes: vsRegistry.SharedAttributes,
+				Status:           types.RegistryStatus_PENDING,
+			})
+		}
 	}
 
 	err = k.validateOwnerOfRegistry(ctx, msg.Creator, registry)
