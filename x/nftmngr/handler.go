@@ -18,35 +18,18 @@ func NewHandler(k keeper.Keeper) sdk.Handler {
 		ctx = ctx.WithEventManager(sdk.NewEventManager())
 
 		switch msg := msg.(type) {
+		//general
 		case *types.MsgCreateNFTSchema:
 			res, err := msgServer.CreateNFTSchema(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
 		case *types.MsgCreateMetadata:
 			res, err := msgServer.CreateMetadata(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
-		case *types.MsgPerformActionByAdmin:
-			res, err := msgServer.PerformActionByAdmin(sdk.WrapSDKContext(ctx), msg)
-			return sdk.WrapServiceResult(ctx, res, err)
-		case *types.MsgAddAttribute:
-			res, err := msgServer.AddAttribute(sdk.WrapSDKContext(ctx), msg)
-			return sdk.WrapServiceResult(ctx, res, err)
-		case *types.MsgAddAction:
-			res, err := msgServer.AddAction(sdk.WrapSDKContext(ctx), msg)
-			return sdk.WrapServiceResult(ctx, res, err)
 		case *types.MsgSetBaseUri:
 			res, err := msgServer.SetBaseUri(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
-		case *types.MsgToggleAction:
-			res, err := msgServer.ToggleAction(sdk.WrapSDKContext(ctx), msg)
-			return sdk.WrapServiceResult(ctx, res, err)
 		case *types.MsgChangeSchemaOwner:
 			res, err := msgServer.ChangeSchemaOwner(sdk.WrapSDKContext(ctx), msg)
-			return sdk.WrapServiceResult(ctx, res, err)
-		case *types.MsgResyncAttributes:
-			res, err := msgServer.ResyncAttributes(sdk.WrapSDKContext(ctx), msg)
-			return sdk.WrapServiceResult(ctx, res, err)
-		case *types.MsgShowAttributes:
-			res, err := msgServer.ShowAttributes(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
 		case *types.MsgSetFeeConfig:
 			res, err := msgServer.SetFeeConfig(sdk.WrapSDKContext(ctx), msg)
@@ -56,9 +39,6 @@ func NewHandler(k keeper.Keeper) sdk.Handler {
 			return sdk.WrapServiceResult(ctx, res, err)
 		case *types.MsgChangeOrgOwner:
 			res, err := msgServer.ChangeOrgOwner(sdk.WrapSDKContext(ctx), msg)
-			return sdk.WrapServiceResult(ctx, res, err)
-		case *types.MsgCreateMultiMetadata:
-			res, err := msgServer.CreateMultiMetadata(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
 		case *types.MsgSetUriRetrievalMethod:
 			res, err := msgServer.SetUriRetrievalMethod(sdk.WrapSDKContext(ctx), msg)
@@ -75,21 +55,41 @@ func NewHandler(k keeper.Keeper) sdk.Handler {
 		case *types.MsgSetMetadataFormat:
 			res, err := msgServer.SetMetadataFormat(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
+		// attributes
+		case *types.MsgAddAttribute:
+			res, err := msgServer.AddAttribute(sdk.WrapSDKContext(ctx), msg)
+			return sdk.WrapServiceResult(ctx, res, err)
+		case *types.MsgResyncAttributes:
+			res, err := msgServer.ResyncAttributes(sdk.WrapSDKContext(ctx), msg)
+			return sdk.WrapServiceResult(ctx, res, err)
+		case *types.MsgShowAttributes:
+			res, err := msgServer.ShowAttributes(sdk.WrapSDKContext(ctx), msg)
+			return sdk.WrapServiceResult(ctx, res, err)
+		case *types.MsgUpdateSchemaAttribute:
+			res, err := msgServer.UpdateSchemaAttribute(sdk.WrapSDKContext(ctx), msg)
+			return sdk.WrapServiceResult(ctx, res, err)
+		// action
+		case *types.MsgPerformActionByAdmin:
+			res, err := msgServer.PerformActionByAdmin(sdk.WrapSDKContext(ctx), msg)
+			return sdk.WrapServiceResult(ctx, res, err)
+		case *types.MsgAddAction:
+			res, err := msgServer.AddAction(sdk.WrapSDKContext(ctx), msg)
+			return sdk.WrapServiceResult(ctx, res, err)
+		case *types.MsgToggleAction:
+			res, err := msgServer.ToggleAction(sdk.WrapSDKContext(ctx), msg)
+			return sdk.WrapServiceResult(ctx, res, err)
+		// executor
 		case *types.MsgCreateActionExecutor:
 			res, err := msgServer.CreateActionExecutor(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
 		case *types.MsgDeleteActionExecutor:
 			res, err := msgServer.DeleteActionExecutor(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
-		case *types.MsgUpdateSchemaAttribute:
-			res, err := msgServer.UpdateSchemaAttribute(sdk.WrapSDKContext(ctx), msg)
-			return sdk.WrapServiceResult(ctx, res, err)
 		case *types.MsgUpdateAction:
 			res, err := msgServer.UpdateAction(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
-		case *types.MsgProposalVirtualSchema:
-			res, err := msgServer.ProposalVirtualSchema(sdk.WrapSDKContext(ctx), msg)
-			return sdk.WrapServiceResult(ctx, res, err)
+		// virtual schema
+		// virtual action
 		case *types.MsgPerformVirtualAction:
 			res, err := msgServer.PerformVirtualAction(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
@@ -98,6 +98,13 @@ func NewHandler(k keeper.Keeper) sdk.Handler {
 			return sdk.WrapServiceResult(ctx, res, err)
 		case *types.MsgUpdateVirtualAction:
 			res, err := msgServer.UpdateVirtualAction(sdk.WrapSDKContext(ctx), msg)
+			return sdk.WrapServiceResult(ctx, res, err)
+		// proposal
+		case *types.MsgProposalVirtualSchema:
+			res, err := msgServer.ProposalVirtualSchema(sdk.WrapSDKContext(ctx), msg)
+			return sdk.WrapServiceResult(ctx, res, err)
+		case *types.MsgVoteVirtualSchemaProposal:
+			res, err := msgServer.VoteVirtualSchemaProposal(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
 			// this line is used by starport scaffolding # 1
 		default:
