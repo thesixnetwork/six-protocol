@@ -16,13 +16,15 @@ import (
 // TODO:: TEST(VirtualSchema)
 func CmdCreateVirtualSchema() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "create-virtual-schema [schemaCode] [proposalType] [proposalFile]",
-		Short: "Virtual Schema Proposal",
+		Use:   "virtual-schema-proposal [schemaCode] [proposalType] [proposalFile]",
+		Short: "Virtual Schema Proposal proposal type [create(0)/enable(1)/disable(2)/delete(3)]",
 		Args:  cobra.RangeArgs(2, 3),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			// Get value arguments
 			argCode := args[0]
 			argType := args[1]
+
+			fmt.Printf("%v \n", argType)
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
