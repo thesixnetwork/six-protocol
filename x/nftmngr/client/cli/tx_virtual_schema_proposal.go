@@ -33,11 +33,11 @@ func CmdCreateVirtualSchema() *cobra.Command {
 			if err != nil {
 				return err
 			}
-			
+
 			request := make([]types.VirtualSchemaRegistryRequest, 0)
 
-			if (proposalType == types.ProposalType_CREATE){
-				
+			if proposalType == types.ProposalType_CREATE {
+
 				argFilePath := args[2]
 
 				proposal, err := nftmngrutils.ParseVirtualSchemaRegistryRequestJSON(clientCtx.LegacyAmino, argFilePath)

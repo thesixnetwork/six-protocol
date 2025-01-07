@@ -18,7 +18,7 @@ func NewHandler(k keeper.Keeper) sdk.Handler {
 		ctx = ctx.WithEventManager(sdk.NewEventManager())
 
 		switch msg := msg.(type) {
-		//general
+		// general
 		case *types.MsgCreateNFTSchema:
 			res, err := msgServer.CreateNFTSchema(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)

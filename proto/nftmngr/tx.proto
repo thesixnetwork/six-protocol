@@ -407,7 +407,7 @@ message MsgProposalVirtualSchema {
   string virtualNftSchemaCode = 2;
   ProposalType proposalType = 3;
   repeated VirtualSchemaRegistryRequest registry = 4
-    [ (gogoproto.nullable) = false ];
+      [ (gogoproto.nullable) = false ];
 }
 
 message MsgProposalVirtualSchemaResponse {
