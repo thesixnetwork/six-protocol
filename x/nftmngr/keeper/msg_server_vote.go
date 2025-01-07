@@ -14,7 +14,7 @@ import (
 // 2. Check if virtual schema is enable
 // 3. Check if voter(creator) is owner of some src schema
 // 4. Check if src schema already vote
-func (k msgServer) VoteCreateVirtualSchema(goCtx context.Context, msg *types.MsgVoteVirtualSchemaProposal) (*types.MsgVoteVirtualSchemaProposal, error) {
+func (k msgServer) VoteVirtualSchemaProposal(goCtx context.Context, msg *types.MsgVoteVirtualSchemaProposal) (*types.MsgVoteVirtualSchemaProposalResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	virtualSchemaProposal, found := k.GetVirtualSchemaProposal(ctx, msg.Id)
@@ -57,5 +57,5 @@ func (k msgServer) VoteCreateVirtualSchema(goCtx context.Context, msg *types.Msg
 
 	k.SetVirtualSchemaProposal(ctx, virtualSchemaProposal)
 
-	return &types.MsgVoteVirtualSchemaProposal{}, nil
+	return &types.MsgVoteVirtualSchemaProposalResponse{}, nil
 }

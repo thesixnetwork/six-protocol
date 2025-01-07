@@ -58,8 +58,8 @@ service Msg {
       returns (MsgUpdateVirtualActionResponse);
   rpc DeleteVirtualAction(MsgDeleteVirtualAction)
       returns (MsgDeleteVirtualActionResponse);
-  rpc CreateVirtualSchemaProposal(MsgCreateVirtualSchemaProposal)
-      returns (MsgCreateVirtualSchemaResponse);
+  rpc ProposalVirtualSchema(MsgProposalVirtualSchema)
+      returns (MsgProposalVirtualSchemaResponse);
   rpc PerformVirtualAction(MsgPerformVirtualAction)
       returns (MsgPerformVirtualActionResponse);
   rpc VoteVirtualSchemaProposal(MsgVoteVirtualSchemaProposal)
@@ -386,20 +386,6 @@ message MsgDeleteVirtualActionResponse {
   string status = 2;
 }
 
-message MsgCreateVirtualSchemaProposal {
-  string creator = 1;
-  string virtualNftSchemaCode = 2;
-  repeated VirtualSchemaRegistryRequest registry = 3
-      [ (gogoproto.nullable) = false ];
-  ProposalType propsalType = 4;
-}
-
-message MsgCreateVirtualSchemaResponse {
-  string id = 1;
-  string virtualNftSchemaCode = 2;
-  ProposalType propsalType = 3;
-}
-
 message MsgPerformVirtualAction {
   string creator = 1;
   string nftSchemaName = 2;
@@ -414,6 +400,20 @@ message MsgPerformVirtualActionResponse { string nftSchemaName = 2; }
 message TokenIdMap {
   string nftSchemaName = 1;
   string tokenId = 2;
+}
+
+message MsgProposalVirtualSchema {
+  string creator = 1;
+  string virtualNftSchemaCode = 2;
+  ProposalType proposalType = 3;
+  repeated VirtualSchemaRegistryRequest registry = 4
+    [ (gogoproto.nullable) = false ];
+}
+
+message MsgProposalVirtualSchemaResponse {
+  string id = 1;
+  string virtualNftSchemaCode = 2;
+  ProposalType proposalType = 3;
 }
 
 message MsgVoteVirtualSchemaProposal {

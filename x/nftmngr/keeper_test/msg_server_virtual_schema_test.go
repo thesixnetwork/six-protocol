@@ -21,11 +21,11 @@ func TestVirtualSchemaMsgServerCreate(t *testing.T) {
 	wctx := sdk.WrapSDKContext(ctx)
 	creator := "A"
 	for i := 0; i < 5; i++ {
-		expected := &types.MsgCreateVirtualSchemaProposal{
+		expected := &types.MsgProposalVirtualSchema{
 			Creator:              creator,
 			VirtualNftSchemaCode: strconv.Itoa(i),
 		}
-		_, err := srv.CreateVirtualSchemaProposal(wctx, expected)
+		_, err := srv.ProposalVirtualSchema(wctx, expected)
 		require.NoError(t, err)
 		rst, found := k.GetVirtualSchema(ctx,
 			expected.VirtualNftSchemaCode,
