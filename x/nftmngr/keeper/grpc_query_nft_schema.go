@@ -109,7 +109,7 @@ func (k Keeper) NFTSchemaByContract(c context.Context, req *types.QueryGetNFTSch
 }
 
 func (k Keeper) getVirtualSchemasForNFTSchema(ctx sdk.Context, nftSchemaCode string) []types.VirtualSchema {
-	//pre-index all schemas by nftSchemaCode
+	// pre-index all schemas by nftSchemaCode
 	virtualSchemaIndex := make(map[string][]types.VirtualSchema)
 	allVirtualSchemas := k.GetAllVirtualSchema(ctx)
 

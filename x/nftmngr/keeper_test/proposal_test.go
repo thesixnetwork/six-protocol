@@ -159,4 +159,3 @@ func TestVirtualSchemaProposalGetAll(t *testing.T) {
 		nullify.Fill(keeper.GetAllVirtualSchemaProposal(ctx)),
 	)
 }
-

@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	TypeMsgProposalVirtualSchema  = "virtual_schema_proposal"
+	TypeMsgProposalVirtualSchema = "virtual_schema_proposal"
 )
 
 var _ sdk.Msg = &MsgProposalVirtualSchema{}
@@ -20,8 +20,8 @@ func NewMsgProposalVirtualSchema(
 	return &MsgProposalVirtualSchema{
 		Creator:              creator,
 		VirtualNftSchemaCode: code,
-		ProposalType:           proposalType,
-		Registry:              request,
+		ProposalType:         proposalType,
+		Registry:             request,
 	}
 }
 

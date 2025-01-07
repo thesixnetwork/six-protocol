@@ -13,7 +13,7 @@ const (
 
 	// InactiveVirtualSchemaProposalKeyPrefix is the prefix to retrieve all InactiveVirtualSchemaProposal
 	InactiveVirtualSchemaProposalKeyPrefix = "InactiveVirtualSchemaProposal/value/"
-	
+
 	// ActiveVirtualSchemaProposalKeyPrefix is the prefix to retrieve all ActiveVirtualSchemaProposal
 	ActiveVirtualSchemaProposalKeyPrefix = "ActiveVirtualSchemaProposal/value/"
 )

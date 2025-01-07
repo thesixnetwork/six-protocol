@@ -62,4 +62,3 @@ func TestCreateVirtualSchema(t *testing.T) {
 		})
 	}
 }
-
