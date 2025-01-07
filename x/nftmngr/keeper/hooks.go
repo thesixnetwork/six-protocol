@@ -74,30 +74,81 @@ func (k Keeper) ProcessFeeAmount(ctx sdk.Context, bondedVotes []abci.VoteInfo) e
 	return nil
 }
 
-// TODO:: TEST(VirtualSchema)
-// ON POC WE WILL JUST CREATE SCHEMA
-func (k Keeper) CreateVirtualSchemaAfterProposalSuccess(ctx sdk.Context, virtualSchemaProposal types.VirtualSchemaProposal) (pass bool) {
-	if len(virtualSchemaProposal.Registry) == 0 {
+// VirtualSchemaHook processes virtual schema proposals and updates the state accordingly.
+// It checks voting results and performs the requested operation (create/enable/disable/delete).
+// Returns true if the proposal was successfully processed, false otherwise.
+func (k Keeper) VirtualSchemaHook(ctx sdk.Context, virtualSchemaProposal types.VirtualSchemaProposal) bool {
+	// Validate input
+	if virtualSchemaProposal.VirtualSchemaCode == "" {
+		k.Logger(ctx).Error("empty virtual schema code")
 		return false
 	}
 
+	if len(virtualSchemaProposal.Registry) == 0 {
+		k.Logger(ctx).Error("empty registry")
+		return false
+	}
+
+	// Count votes
 	acceptCount, totalVotes := countProposalVotes(virtualSchemaProposal.Registry)
 	voteThreshold := len(virtualSchemaProposal.Registry)
 
+	k.Logger(ctx).Info("Processing virtual schema proposal",
+		"id", virtualSchemaProposal.Id,
+		"type", virtualSchemaProposal.ProposalType,
+		"accept_count", acceptCount,
+		"total_votes", totalVotes,
+		"threshold", voteThreshold)
+
 	if totalVotes != voteThreshold {
+		k.Logger(ctx).Info("Not all votes received yet")
 		return false
 	}
 
-	virtualSchema := types.VirtualSchema{
-		VirtualNftSchemaCode: virtualSchemaProposal.VirtualSchemaCode,
-		Registry:             virtualSchemaProposal.Registry,
-		Enable:               acceptCount == totalVotes,
+	// Process proposal
+	var virtualSchema types.VirtualSchema
+	var deleteProcess bool
+
+	switch virtualSchemaProposal.ProposalType {
+	case types.ProposalType_CREATE:
+		virtualSchema = types.VirtualSchema{
+			VirtualNftSchemaCode: virtualSchemaProposal.VirtualSchemaCode,
+			Registry:             virtualSchemaProposal.Registry,
+			Enable:               acceptCount == totalVotes,
+		}
+	case types.ProposalType_ENABLE:
+		virtualSchema = types.VirtualSchema{
+			VirtualNftSchemaCode: virtualSchemaProposal.VirtualSchemaCode,
+			Registry:             virtualSchemaProposal.Registry,
+			Enable:               acceptCount == totalVotes,
+		}
+	case types.ProposalType_DISABLE:
+		virtualSchema = types.VirtualSchema{
+			VirtualNftSchemaCode: virtualSchemaProposal.VirtualSchemaCode,
+			Registry:             virtualSchemaProposal.Registry,
+			Enable:               !(acceptCount == totalVotes),
+		}
+	case types.ProposalType_DELETE:
+		deleteProcess = true
 	}
 
-	k.SetVirtualSchema(ctx, virtualSchema)
+	// Update state
+	if deleteProcess {
+		k.Logger(ctx).Info("Deleting virtual schema",
+			"code", virtualSchema.VirtualNftSchemaCode)
+		k.RemoveVirtualSchema(ctx, virtualSchema.VirtualNftSchemaCode)
+	} else {
+		k.Logger(ctx).Info("Updating virtual schema",
+			"code", virtualSchema.VirtualNftSchemaCode,
+			"enabled", virtualSchema.Enable)
+		k.SetVirtualSchema(ctx, virtualSchema)
+	}
+
+	// Update proposal status
 	k.RemoveActiveVirtualSchemaProposal(ctx, virtualSchemaProposal.Id)
 	k.SetInactiveVirtualSchemaProposal(ctx, types.InactiveVirtualSchemaProposal{Id: virtualSchemaProposal.Id})
 
+	k.Logger(ctx).Info("Virtual schema proposal processed successfully", "id", virtualSchemaProposal.Id)
 	return true
 }
 
