@@ -118,44 +118,6 @@ func (k Keeper) GetAllActiveVirtualSchemaProposal(ctx sdk.Context) (list []types
 	return
 }
 
-func (k Keeper) IterateInactiveProposal(ctx sdk.Context, endTime time.Time, cb func(proposal types.VirtualSchemaProposal) (stop bool)) {
-	iterator := k.InactiveProposalCreateVirtualSchemaQueryIterator(ctx, endTime)
-	defer iterator.Close()
-
-	for ; iterator.Valid(); iterator.Next() {
-		var val types.InactiveVirtualSchemaProposal
-		k.cdc.MustUnmarshal(iterator.Value(), &val)
-
-		proposal, found := k.GetVirtualSchemaProposal(ctx, val.Id)
-		if !found {
-			panic(fmt.Sprintf("proposal %d does not exist", &val.Id))
-		}
-
-		if cb(proposal) {
-			break
-		}
-	}
-}
-
-func (k Keeper) CreateVirtualSchemaIterateActiveProposal(ctx sdk.Context, endTime time.Time, cb func(proposal types.VirtualSchemaProposal) (stop bool)) {
-	iterator := k.CreateVirtualSchemaActiveProposalQueryIterator(ctx, endTime)
-	defer iterator.Close()
-
-	for ; iterator.Valid(); iterator.Next() {
-		var val types.ActiveVirtualSchemaProposal
-		k.cdc.MustUnmarshal(iterator.Value(), &val)
-
-		proposal, found := k.GetVirtualSchemaProposal(ctx, val.Id)
-		if !found {
-			panic(fmt.Sprintf("proposal %d does not exist", &val.Id))
-		}
-
-		if cb(proposal) {
-			break
-		}
-	}
-}
-
 // SetInactiveVirtualSchemaProposal set a specific inactiveVirtualSchemaProposal in the store from its index
 func (k Keeper) SetInactiveVirtualSchemaProposal(ctx sdk.Context, inactiveVirtualSchemaProposal types.InactiveVirtualSchemaProposal) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.InactiveVirtualSchemaProposalKeyPrefix))
@@ -210,6 +172,14 @@ func (k Keeper) GetAllInactiveVirtualSchemaProposal(ctx sdk.Context) (list []typ
 	return
 }
 
+/*
+	###########################################################################################################
+	###########################################################################################################
+	############################################## SUPPORT METHOD #############################################
+	###########################################################################################################
+	###########################################################################################################
+*/
+
 func (k Keeper) CreateVirtualSchemaActiveProposalQueryIterator(ctx sdk.Context, endTime time.Time) sdk.Iterator {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActiveVirtualSchemaProposalKeyPrefix))
 	iterator := sdk.KVStorePrefixIterator(store, []byte{})
@@ -226,4 +196,42 @@ func (k Keeper) InactiveProposalCreateVirtualSchemaQueryIterator(ctx sdk.Context
 
 func (k Keeper) IsProposalActive(ctx sdk.Context, proposal types.VirtualSchemaProposal) bool {
 	return ctx.BlockTime().Before(proposal.VotingEndTime)
+}
+
+func (k Keeper) IterateInactiveProposal(ctx sdk.Context, endTime time.Time, cb func(proposal types.VirtualSchemaProposal) (stop bool)) {
+	iterator := k.InactiveProposalCreateVirtualSchemaQueryIterator(ctx, endTime)
+	defer iterator.Close()
+
+	for ; iterator.Valid(); iterator.Next() {
+		var val types.InactiveVirtualSchemaProposal
+		k.cdc.MustUnmarshal(iterator.Value(), &val)
+
+		proposal, found := k.GetVirtualSchemaProposal(ctx, val.Id)
+		if !found {
+			panic(fmt.Sprintf("proposal %d does not exist", &val.Id))
+		}
+
+		if cb(proposal) {
+			break
+		}
+	}
+}
+
+func (k Keeper) CreateVirtualSchemaIterateActiveProposal(ctx sdk.Context, endTime time.Time, cb func(proposal types.VirtualSchemaProposal) (stop bool)) {
+	iterator := k.CreateVirtualSchemaActiveProposalQueryIterator(ctx, endTime)
+	defer iterator.Close()
+
+	for ; iterator.Valid(); iterator.Next() {
+		var val types.ActiveVirtualSchemaProposal
+		k.cdc.MustUnmarshal(iterator.Value(), &val)
+
+		proposal, found := k.GetVirtualSchemaProposal(ctx, val.Id)
+		if !found {
+			panic(fmt.Sprintf("proposal %d does not exist", &val.Id))
+		}
+
+		if cb(proposal) {
+			break
+		}
+	}
 }
