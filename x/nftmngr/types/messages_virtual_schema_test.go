@@ -12,18 +12,18 @@ import (
 func TestMsgCreateVirtualSchema_ValidateBasic(t *testing.T) {
 	tests := []struct {
 		name string
-		msg  MsgCreateVirtualSchemaProposal
+		msg  MsgProposalVirtualSchema
 		err  error
 	}{
 		{
 			name: "invalid address",
-			msg: MsgCreateVirtualSchemaProposal{
+			msg: MsgProposalVirtualSchema{
 				Creator: "invalid_address",
 			},
 			err: sdkerrors.ErrInvalidAddress,
 		}, {
 			name: "valid address",
-			msg: MsgCreateVirtualSchemaProposal{
+			msg: MsgProposalVirtualSchema{
 				Creator: sample.AccAddress(),
 			},
 		},

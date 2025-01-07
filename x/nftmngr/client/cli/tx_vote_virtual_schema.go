@@ -15,7 +15,7 @@ var _ = strconv.Itoa(0)
 
 func CmdVoteVirtualSchemaProposal() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:  "vote-virtual-schema [virtual-nft-schema-code] [your-nft-schema-code] [yes(y)  no(n)]",
+		Use:  "vote-virtual-schema [proposalId] [nft-schema-code] [yes(y)  no(n)]",
 		Args: cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			proposalId := args[0]

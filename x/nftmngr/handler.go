@@ -87,8 +87,8 @@ func NewHandler(k keeper.Keeper) sdk.Handler {
 		case *types.MsgUpdateAction:
 			res, err := msgServer.UpdateAction(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
-		case *types.MsgCreateVirtualSchemaProposal:
-			res, err := msgServer.CreateVirtualSchemaProposal(sdk.WrapSDKContext(ctx), msg)
+		case *types.MsgProposalVirtualSchema:
+			res, err := msgServer.ProposalVirtualSchema(sdk.WrapSDKContext(ctx), msg)
 			return sdk.WrapServiceResult(ctx, res, err)
 		case *types.MsgPerformVirtualAction:
 			res, err := msgServer.PerformVirtualAction(sdk.WrapSDKContext(ctx), msg)

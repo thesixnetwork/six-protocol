@@ -35631,6 +35631,13 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/action_by_ref_id/{refId}':
@@ -36125,6 +36132,13 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
           in: query
           required: false
           type: boolean
@@ -36626,6 +36640,13 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/action_of_schema/{nftSchemaCode}/{name}':
@@ -37121,6 +37142,13 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
           in: query
           required: false
           type: boolean
@@ -37862,6 +37890,13 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/metadata_creator/{nftSchemaCode}':
@@ -38438,6 +38473,13 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   /thesixnetwork/sixnft/nftmngr/nft_data:
@@ -38795,6 +38837,13 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
           in: query
           required: false
           type: boolean
@@ -40113,6 +40162,13 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/nft_schema/{code}':
@@ -40921,6 +40977,13 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/nft_schema_by_contract/{originContractAddress}':
@@ -41409,6 +41472,13 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
           in: query
           required: false
           type: boolean
@@ -42133,6 +42203,13 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/schema_attribute/{nftSchemaCode}/{name}':
@@ -42692,6 +42769,13 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/virtual_action/{nftSchemaCode}':
@@ -43243,6 +43327,13 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/virtual_schema/{nftSchemaCode}':
@@ -43512,7 +43603,7 @@ paths:
                               - REJECT
                               - ACCEPT
                             default: PENDING
-                    propsalType:
+                    proposalType:
                       type: string
                       enum:
                         - CREATE
@@ -43523,7 +43614,7 @@ paths:
                     submitTime:
                       type: string
                       format: date-time
-                    votinStartTime:
+                    votingStartTime:
                       type: string
                       format: date-time
                     votingEndTime:
@@ -43788,6 +43879,13 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/virtual_schema_proposal/{index}':
@@ -43825,7 +43923,7 @@ paths:
                             - REJECT
                             - ACCEPT
                           default: PENDING
-                  propsalType:
+                  proposalType:
                     type: string
                     enum:
                       - CREATE
@@ -43836,7 +43934,7 @@ paths:
                   submitTime:
                     type: string
                     format: date-time
-                  votinStartTime:
+                  votingStartTime:
                     type: string
                     format: date-time
                   votingEndTime:
@@ -68609,21 +68707,6 @@ definitions:
             TODO:
             1. Policy of action (who can use action)
             2. Proposal to enable and disable action
-  thesixnetwork.sixprotocol.nftmngr.MsgCreateVirtualSchemaResponse:
-    type: object
-    properties:
-      id:
-        type: string
-      virtualNftSchemaCode:
-        type: string
-      propsalType:
-        type: string
-        enum:
-          - CREATE
-          - ENABLE
-          - DISABLE
-          - DELETE
-        default: CREATE
   thesixnetwork.sixprotocol.nftmngr.MsgDeleteActionExecutorResponse:
     type: object
     properties:
@@ -68650,6 +68733,21 @@ definitions:
     properties:
       nftSchemaName:
         type: string
+  thesixnetwork.sixprotocol.nftmngr.MsgProposalVirtualSchemaResponse:
+    type: object
+    properties:
+      id:
+        type: string
+      virtualNftSchemaCode:
+        type: string
+      proposalType:
+        type: string
+        enum:
+          - CREATE
+          - ENABLE
+          - DISABLE
+          - DELETE
+        default: CREATE
   thesixnetwork.sixprotocol.nftmngr.MsgResyncAttributesResponse:
     type: object
     properties:
@@ -70530,7 +70628,7 @@ definitions:
                       - REJECT
                       - ACCEPT
                     default: PENDING
-            propsalType:
+            proposalType:
               type: string
               enum:
                 - CREATE
@@ -70541,7 +70639,7 @@ definitions:
             submitTime:
               type: string
               format: date-time
-            votinStartTime:
+            votingStartTime:
               type: string
               format: date-time
             votingEndTime:
@@ -71399,7 +71497,7 @@ definitions:
                     - REJECT
                     - ACCEPT
                   default: PENDING
-          propsalType:
+          proposalType:
             type: string
             enum:
               - CREATE
@@ -71410,7 +71508,7 @@ definitions:
           submitTime:
             type: string
             format: date-time
-          votinStartTime:
+          votingStartTime:
             type: string
             format: date-time
           votingEndTime:
@@ -71678,7 +71776,7 @@ definitions:
                 - REJECT
                 - ACCEPT
               default: PENDING
-      propsalType:
+      proposalType:
         type: string
         enum:
           - CREATE
@@ -71689,7 +71787,7 @@ definitions:
       submitTime:
         type: string
         format: date-time
-      votinStartTime:
+      votingStartTime:
         type: string
         format: date-time
       votingEndTime:

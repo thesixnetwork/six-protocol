@@ -42,3 +42,16 @@ func NFTSchemaKey(
 
 	return key
 }
+
+// AttributeOfSchemaKey returns the store key to retrieve a AttributeOfSchema from the index fields
+func AttributeOfSchemaKey(
+	nftSchemaCode string,
+) []byte {
+	var key []byte
+
+	nftSchemaCodeBytes := []byte(nftSchemaCode)
+	key = append(key, nftSchemaCodeBytes...)
+	key = append(key, []byte("/")...)
+
+	return key
+}
