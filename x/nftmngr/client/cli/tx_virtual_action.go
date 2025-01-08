@@ -48,7 +48,7 @@ func CmdCreateVirtualAction() *cobra.Command {
 
 func CmdUpdateVirtualAction() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "update-virtual [code] [new-action-file-path]",
+		Use:   "update-virtual-action [code] [new-action-file-path]",
 		Short: "Update a virtual",
 		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
