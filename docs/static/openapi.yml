@@ -35635,6 +35635,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -36139,6 +36142,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -36644,6 +36650,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -37149,6 +37158,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -37894,6 +37906,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -38477,6 +38492,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -38844,6 +38862,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -40166,6 +40187,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -40981,6 +41005,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -41479,6 +41506,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -42207,6 +42237,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -42773,6 +42806,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -43331,6 +43367,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -43609,7 +43648,6 @@ paths:
                         - CREATE
                         - ENABLE
                         - DISABLE
-                        - DELETE
                       default: CREATE
                     submitTime:
                       type: string
@@ -43883,6 +43921,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -43929,7 +43970,6 @@ paths:
                       - CREATE
                       - ENABLE
                       - DISABLE
-                      - DELETE
                     default: CREATE
                   submitTime:
                     type: string
@@ -68642,15 +68682,6 @@ definitions:
         type: string
       tokenId:
         type: string
-  thesixnetwork.sixprotocol.nftmngr.MsgCreateMultiMetadataResponse:
-    type: object
-    properties:
-      nftSchemaCode:
-        type: string
-      tokenId:
-        type: array
-        items:
-          type: string
   thesixnetwork.sixprotocol.nftmngr.MsgCreateNFTSchemaResponse:
     type: object
     properties:
@@ -68746,7 +68777,6 @@ definitions:
           - CREATE
           - ENABLE
           - DISABLE
-          - DELETE
         default: CREATE
   thesixnetwork.sixprotocol.nftmngr.MsgResyncAttributesResponse:
     type: object
@@ -69708,7 +69738,6 @@ definitions:
       - CREATE
       - ENABLE
       - DISABLE
-      - DELETE
     default: CREATE
   thesixnetwork.sixprotocol.nftmngr.QueryAllActionByRefIdResponse:
     type: object
@@ -70634,7 +70663,6 @@ definitions:
                 - CREATE
                 - ENABLE
                 - DISABLE
-                - DELETE
               default: CREATE
             submitTime:
               type: string
@@ -71503,7 +71531,6 @@ definitions:
               - CREATE
               - ENABLE
               - DISABLE
-              - DELETE
             default: CREATE
           submitTime:
             type: string
@@ -71782,7 +71809,6 @@ definitions:
           - CREATE
           - ENABLE
           - DISABLE
-          - DELETE
         default: CREATE
       submitTime:
         type: string

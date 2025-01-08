@@ -1,7 +1,6 @@
 package cli
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/cosmos/cosmos-sdk/client"
@@ -9,6 +8,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	"github.com/spf13/cobra"
 
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	nftmngrutils "github.com/thesixnetwork/six-protocol/x/nftmngr/client/utils"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
@@ -23,8 +23,6 @@ func CmdCreateVirtualSchema() *cobra.Command {
 			// Get value arguments
 			argCode := args[0]
 			argType := args[1]
-
-			fmt.Printf("%v \n", argType)
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -73,7 +71,6 @@ func CmdCreateVirtualSchema() *cobra.Command {
 }
 
 func parseProposalType(option string) (types.ProposalType, error) {
-	fmt.Println(option)
 	optionLower := strings.ToLower(option)
 	switch optionLower {
 	case "create", "0":
@@ -82,9 +79,7 @@ func parseProposalType(option string) (types.ProposalType, error) {
 		return types.ProposalType_ENABLE, nil
 	case "disable", "2":
 		return types.ProposalType_DISABLE, nil
-	case "delete", "3":
-		return types.ProposalType_DELETE, nil
 	default:
-		return types.ProposalType_DISABLE, fmt.Errorf("invalid proposal type. Use 'create(0)/enable(1)/disable(2)/delete(3)' ")
+		return types.ProposalType_DISABLE, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Invalid proposal type. Use 'create(0)/enable(1)/disable(2)/delete(3)'")
 	}
 }

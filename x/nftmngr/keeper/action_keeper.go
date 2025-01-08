@@ -542,6 +542,10 @@ func (k Keeper) PerformVirtualKeeper(ctx sdk.Context, creator, vitualSchemaName 
 		return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, vitualSchemaName)
 	}
 
+	if !virtualSchema.Enable {
+		return nil, sdkerrors.Wrap(types.ErrSchemaIsDisable, vitualSchemaName)
+	}
+
 	// get virtual action
 	vitualAction, found := k.GetVirtualAction(ctx, vitualSchemaName, actionName)
 	if found {
