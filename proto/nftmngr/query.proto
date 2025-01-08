@@ -234,6 +234,13 @@ service Query {
         "/thesixnetwork/sixnft/nftmngr/virtual_schema_proposal";
   }
 
+  // Queries a list of ListActiveProposal items.
+  rpc ListActiveProposal(QueryListActiveProposalRequest)
+      returns (QueryListActiveProposalResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/six-protocol/nftmngr/list_active_proposal";
+  }
+
   // this line is used by starport scaffolding # 2
 }
 
@@ -486,6 +493,13 @@ message QueryAllVirtualSchemaProposalResponse {
   repeated VirtualSchemaProposal virtualSchemaProposal = 1
       [ (gogoproto.nullable) = false ];
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryListActiveProposalRequest {}
+
+message QueryListActiveProposalResponse {
+  repeated VirtualSchemaProposal virtualSchemaProposal = 1
+      [ (gogoproto.nullable) = false ];
 }
 
 // this line is used by starport scaffolding # 3
