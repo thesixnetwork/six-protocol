@@ -34,8 +34,6 @@ service Msg {
   rpc SetFeeConfig(MsgSetFeeConfig) returns (MsgSetFeeConfigResponse);
   rpc SetMintauth(MsgSetMintauth) returns (MsgSetMintauthResponse);
   rpc ChangeOrgOwner(MsgChangeOrgOwner) returns (MsgChangeOrgOwnerResponse);
-  rpc CreateMultiMetadata(MsgCreateMultiMetadata)
-      returns (MsgCreateMultiMetadataResponse);
   rpc SetUriRetrievalMethod(MsgSetUriRetrievalMethod)
       returns (MsgSetUriRetrievalMethodResponse);
   rpc SetOriginChain(MsgSetOriginChain) returns (MsgSetOriginChainResponse);
@@ -96,17 +94,6 @@ message MsgCreateMetadataResponse {
   string tokenId = 2;
 }
 
-message MsgCreateMultiMetadata {
-  string creator = 1;
-  string nftSchemaCode = 2;
-  repeated string tokenId = 3;
-  string base64NFTData = 4;
-}
-
-message MsgCreateMultiMetadataResponse {
-  string nftSchemaCode = 1;
-  repeated string tokenId = 2;
-}
 
 message OpenseaAttribute {
   string trait_type = 1;

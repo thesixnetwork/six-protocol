@@ -98,7 +98,8 @@ func (k Keeper) VirtualSchemaHook(ctx sdk.Context, virtualSchemaProposal types.V
 		"type", virtualSchemaProposal.ProposalType,
 		"accept_count", acceptCount,
 		"total_votes", totalVotes,
-		"threshold", voteThreshold)
+		"threshold", voteThreshold,
+	)
 
 	if totalVotes != voteThreshold {
 		k.Logger(ctx).Info("Not all votes received yet")
@@ -107,7 +108,6 @@ func (k Keeper) VirtualSchemaHook(ctx sdk.Context, virtualSchemaProposal types.V
 
 	// Process proposal
 	var virtualSchema types.VirtualSchema
-	var deleteProcess bool
 
 	switch virtualSchemaProposal.ProposalType {
 	case types.ProposalType_CREATE:
@@ -126,23 +126,12 @@ func (k Keeper) VirtualSchemaHook(ctx sdk.Context, virtualSchemaProposal types.V
 		virtualSchema = types.VirtualSchema{
 			VirtualNftSchemaCode: virtualSchemaProposal.VirtualSchemaCode,
 			Registry:             virtualSchemaProposal.Registry,
-			Enable:               !(acceptCount == totalVotes),
+			Enable:               acceptCount != totalVotes,
 		}
-	case types.ProposalType_DELETE:
-		deleteProcess = true
 	}
 
-	// Update state
-	if deleteProcess {
-		k.Logger(ctx).Info("Deleting virtual schema",
-			"code", virtualSchema.VirtualNftSchemaCode)
-		k.RemoveVirtualSchema(ctx, virtualSchema.VirtualNftSchemaCode)
-	} else {
-		k.Logger(ctx).Info("Updating virtual schema",
-			"code", virtualSchema.VirtualNftSchemaCode,
-			"enabled", virtualSchema.Enable)
-		k.SetVirtualSchema(ctx, virtualSchema)
-	}
+	k.Logger(ctx).Info("Updating virtual schema", "code", virtualSchema.VirtualNftSchemaCode, "enabled", virtualSchema.Enable)
+	k.SetVirtualSchema(ctx, virtualSchema)
 
 	// Update proposal status
 	k.RemoveActiveVirtualSchemaProposal(ctx, virtualSchemaProposal.Id)

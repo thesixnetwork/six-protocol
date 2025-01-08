@@ -1,7 +1,6 @@
 package cli
 
 import (
-	"fmt"
 	"strconv"
 
 	"github.com/cosmos/cosmos-sdk/client"
@@ -9,6 +8,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	"github.com/spf13/cobra"
 
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
@@ -53,13 +53,12 @@ func CmdVoteVirtualSchemaProposal() *cobra.Command {
 }
 
 func parseVoteOption(option string) (types.RegistryStatus, error) {
-	fmt.Println(option)
 	switch option {
 	case "YES", "Y", "yes", "y":
 		return types.RegistryStatus_ACCEPT, nil
 	case "NO", "N", "no", "n":
 		return types.RegistryStatus_REJECT, nil
 	default:
-		return types.RegistryStatus_REJECT, fmt.Errorf("invalid vote option. Use 'YES' or 'NO'")
+		return types.RegistryStatus_REJECT, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid vote option. Use 'YES' or 'NO'")
 	}
 }

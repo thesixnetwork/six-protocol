@@ -51,5 +51,4 @@ enum ProposalType {
   CREATE = 0;
   ENABLE = 1;
   DISABLE = 2;
-  DELETE = 3;
 }

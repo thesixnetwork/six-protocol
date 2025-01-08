@@ -180,7 +180,7 @@ func (k Keeper) GetAllInactiveVirtualSchemaProposal(ctx sdk.Context) (list []typ
 	###########################################################################################################
 */
 
-func (k Keeper) CreateVirtualSchemaActiveProposalQueryIterator(ctx sdk.Context, endTime time.Time) sdk.Iterator {
+func (k Keeper) VirtualSchemaActiveProposalQueryIterator(ctx sdk.Context, endTime time.Time) sdk.Iterator {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActiveVirtualSchemaProposalKeyPrefix))
 	iterator := sdk.KVStorePrefixIterator(store, []byte{})
 
@@ -217,8 +217,8 @@ func (k Keeper) IterateInactiveProposal(ctx sdk.Context, endTime time.Time, cb f
 	}
 }
 
-func (k Keeper) CreateVirtualSchemaIterateActiveProposal(ctx sdk.Context, endTime time.Time, cb func(proposal types.VirtualSchemaProposal) (stop bool)) {
-	iterator := k.CreateVirtualSchemaActiveProposalQueryIterator(ctx, endTime)
+func (k Keeper) IterateActiveVirtualSchemaProposal(ctx sdk.Context, endTime time.Time, cb func(proposal types.VirtualSchemaProposal) (stop bool)) {
+	iterator := k.VirtualSchemaActiveProposalQueryIterator(ctx, endTime)
 	defer iterator.Close()
 
 	for ; iterator.Valid(); iterator.Next() {
@@ -228,6 +228,11 @@ func (k Keeper) CreateVirtualSchemaIterateActiveProposal(ctx sdk.Context, endTim
 		proposal, found := k.GetVirtualSchemaProposal(ctx, val.Id)
 		if !found {
 			panic(fmt.Sprintf("proposal %d does not exist", &val.Id))
+		}
+
+		if !k.IsProposalActive(ctx, proposal) {
+			k.RemoveActiveVirtualSchemaProposal(ctx, val.Id)
+			k.SetInactiveVirtualSchemaProposal(ctx, types.InactiveVirtualSchemaProposal(val))
 		}
 
 		if cb(proposal) {
