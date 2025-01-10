@@ -12,8 +12,13 @@ type (
 	VirtualSchemaRegistryRequestJSON []VirtualSchemaRegistryJSON
 
 	VirtualSchemaRegistryJSON struct {
-		Code             string   `json:"code"`
-		SharedAttributes []string `json:"sharedAttributes"`
+		VirtualSchemaCode string   `json:"code"`
+		SharedAttributes  []string `json:"sharedAttributes"`
+	}
+
+	VirtualSchemaRequest struct {
+		VirtualSchema types.VirtualSchema `json:"virtualSchema"`
+		Actions       []types.Action      `json:"actions"`
 	}
 
 	ActionParameter struct {
@@ -34,15 +39,31 @@ type (
 	}
 )
 
+func ParseProposalFile(cdc *codec.LegacyAmino, proposalFile string) (VirtualSchemaRequest, error) {
+  request := VirtualSchemaRequest{}
+
+  contents, err := os.ReadFile(proposalFile)
+  if err != nil {
+    return request, err
+  }
+
+  if err := cdc.UnmarshalJSON(contents, &request); err != nil {
+    return request, err
+  }
+
+  return request, nil
+}
+
 func NewVirtualSchemaRegistryRequestJSON(code string, sharedAttributes []string) VirtualSchemaRegistryRequestJSON {
 	return VirtualSchemaRegistryRequestJSON{
 		{
-			Code:             code,
-			SharedAttributes: sharedAttributes,
+			VirtualSchemaCode: code,
+			SharedAttributes:  sharedAttributes,
 		},
 	}
 }
 
+// DEPRECATED
 func ParseVirtualSchemaRegistryRequestJSON(cdc *codec.LegacyAmino, proposalFile string) (VirtualSchemaRegistryRequestJSON, error) {
 	request := VirtualSchemaRegistryRequestJSON{}
 

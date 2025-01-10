@@ -94,7 +94,6 @@ message MsgCreateMetadataResponse {
   string tokenId = 2;
 }
 
-
 message OpenseaAttribute {
   string trait_type = 1;
   google.protobuf.Any value = 2;
@@ -203,7 +202,9 @@ message MsgResyncAttributes {
   string tokenId = 3;
 }
 
-enum FeeSubject { CREATE_NFT_SCHEMA = 0; }
+enum FeeSubject {
+  CREATE_NFT_SCHEMA = 0;
+}
 
 message MsgSetFeeConfig {
   string creator = 1;
@@ -391,10 +392,9 @@ message TokenIdMap {
 
 message MsgProposalVirtualSchema {
   string creator = 1;
-  string virtualNftSchemaCode = 2;
-  ProposalType proposalType = 3;
-  repeated VirtualSchemaRegistryRequest registry = 4
-      [ (gogoproto.nullable) = false ];
+  ProposalType proposalType = 2;
+  VirtualSchema virtualSchema = 3;
+  repeated Action actions = 4;
 }
 
 message MsgProposalVirtualSchemaResponse {

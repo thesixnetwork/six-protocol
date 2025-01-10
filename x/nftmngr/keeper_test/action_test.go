@@ -315,13 +315,13 @@ func TestCrossSchemaAction(t *testing.T) {
 	registrySchemaA := types.VirtualSchemaRegistry{
 		NftSchemaCode:    schemaA.Code,
 		SharedAttributes: []string{"service_3", "service_4", "service_7"},
-		Status:           types.RegistryStatus_ACCEPT,
+		Decision:           types.RegistryStatus_ACCEPT,
 	}
 
 	registrySchemaB := types.VirtualSchemaRegistry{
 		NftSchemaCode:    schemaB.Code,
 		SharedAttributes: []string{"service_1", "service_2", "service_x"},
-		Status:           types.RegistryStatus_ACCEPT,
+		Decision:           types.RegistryStatus_ACCEPT,
 	}
 
 	virtualSchema := types.VirtualSchema{
