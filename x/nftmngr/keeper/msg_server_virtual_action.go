@@ -49,7 +49,6 @@ func (k msgServer) CreateVirtualAction(goCtx context.Context, msg *types.MsgCrea
 	}, nil
 }
 
-// TODO:: TEST(VirtualSchema)
 func (k msgServer) UpdateVirtualAction(goCtx context.Context, msg *types.MsgUpdateVirtualAction) (*types.MsgUpdateVirtualActionResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	listNewVirtualAction := []*types.VirtualAction{}
@@ -89,7 +88,6 @@ func (k msgServer) UpdateVirtualAction(goCtx context.Context, msg *types.MsgUpda
 	}, nil
 }
 
-// TODO:: TEST(VirtualSchema)
 func (k msgServer) DeleteVirtualAction(goCtx context.Context, msg *types.MsgDeleteVirtualAction) (*types.MsgDeleteVirtualActionResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 

@@ -356,6 +356,14 @@ func (k Keeper) AddVirtualActionKeeper(ctx sdk.Context, creator string, nftSchem
 		return sdkerrors.Wrap(types.ErrValidatingMetadata, err.Error())
 	}
 
+	if _, found := k.GetVirtualAction(ctx, nftSchemaName, newAction.Name); found {
+		return sdkerrors.Wrap(types.ErrActionAlreadyExists, newAction.Name)
+	}
+
+	if _, found := k.GetActionOfSchema(ctx, nftSchemaName, newAction.Name); found {
+		return sdkerrors.Wrap(types.ErrActionAlreadyExists, newAction.Name)
+	}
+
 	allSchemaAction := k.GetAllActionOfSchema(ctx)
 
 	count := 0
