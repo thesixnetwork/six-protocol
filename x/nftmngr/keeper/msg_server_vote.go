@@ -37,11 +37,11 @@ func (k msgServer) VoteVirtualSchemaProposal(goCtx context.Context, msg *types.M
 	}
 
 	registryIndex := -1
-	for i, registry := range virtualSchemaProposal.Registry {
+	for i, registry := range virtualSchemaProposal.VirtualSchema.Registry {
 		if registry.NftSchemaCode == msg.NftSchemaCode {
 			registryIndex = i
 			// Check if already voted
-			if registry.Status != types.RegistryStatus_PENDING {
+			if registry.Decision != types.RegistryStatus_PENDING {
 				return nil, sdkerrors.Wrapf(types.ErrAlreadyVote, "schema %s has already voted", msg.NftSchemaCode)
 			}
 			break
@@ -52,8 +52,8 @@ func (k msgServer) VoteVirtualSchemaProposal(goCtx context.Context, msg *types.M
 		return nil, sdkerrors.Wrapf(types.ErrSchemaNotInRegistry, "schema %s not found in registry", msg.NftSchemaCode)
 	}
 
-	// 4. Update vote
-	virtualSchemaProposal.Registry[registryIndex].Status = msg.Option
+	// Update vote
+	virtualSchemaProposal.VirtualSchema.Registry[registryIndex].Decision = msg.Option
 
 	k.SetVirtualSchemaProposal(ctx, virtualSchemaProposal)
 

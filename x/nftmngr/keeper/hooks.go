@@ -79,19 +79,19 @@ func (k Keeper) ProcessFeeAmount(ctx sdk.Context, bondedVotes []abci.VoteInfo) e
 // Returns true if the proposal was successfully processed, false otherwise.
 func (k Keeper) VirtualSchemaHook(ctx sdk.Context, virtualSchemaProposal types.VirtualSchemaProposal) bool {
 	// Validate input
-	if virtualSchemaProposal.VirtualSchemaCode == "" {
+	if virtualSchemaProposal.VirtualSchema.VirtualNftSchemaCode == "" {
 		k.Logger(ctx).Error("empty virtual schema code")
 		return false
 	}
 
-	if len(virtualSchemaProposal.Registry) == 0 {
+	if len(virtualSchemaProposal.VirtualSchema.Registry) == 0 {
 		k.Logger(ctx).Error("empty registry")
 		return false
 	}
 
 	// Count votes
-	acceptCount, totalVotes := countProposalVotes(virtualSchemaProposal.Registry)
-	voteThreshold := len(virtualSchemaProposal.Registry)
+	acceptCount, totalVotes := countProposalVotes(virtualSchemaProposal.VirtualSchema.Registry)
+	voteThreshold := len(virtualSchemaProposal.VirtualSchema.Registry)
 
 	k.Logger(ctx).Info("Processing virtual schema proposal",
 		"id", virtualSchemaProposal.Id,
@@ -112,21 +112,16 @@ func (k Keeper) VirtualSchemaHook(ctx sdk.Context, virtualSchemaProposal types.V
 	switch virtualSchemaProposal.ProposalType {
 	case types.ProposalType_CREATE:
 		virtualSchema = types.VirtualSchema{
-			VirtualNftSchemaCode: virtualSchemaProposal.VirtualSchemaCode,
-			Registry:             virtualSchemaProposal.Registry,
-			Enable:               acceptCount == totalVotes,
+			VirtualNftSchemaCode: virtualSchemaProposal.VirtualSchema.VirtualNftSchemaCode,
+			Registry:             virtualSchemaProposal.VirtualSchema.Registry,
+			Enable:               virtualSchemaProposal.VirtualSchema.Enable,
 		}
-	case types.ProposalType_ENABLE:
+	// TODO: EDIT VIRTUAL SCHEMA ALSO EDIT ACTION
+	case types.ProposalType_EDIT:
 		virtualSchema = types.VirtualSchema{
-			VirtualNftSchemaCode: virtualSchemaProposal.VirtualSchemaCode,
-			Registry:             virtualSchemaProposal.Registry,
-			Enable:               acceptCount == totalVotes,
-		}
-	case types.ProposalType_DISABLE:
-		virtualSchema = types.VirtualSchema{
-			VirtualNftSchemaCode: virtualSchemaProposal.VirtualSchemaCode,
-			Registry:             virtualSchemaProposal.Registry,
-			Enable:               acceptCount != totalVotes,
+			VirtualNftSchemaCode: virtualSchemaProposal.VirtualSchema.VirtualNftSchemaCode,
+			Registry:             virtualSchemaProposal.VirtualSchema.Registry,
+			Enable:               virtualSchemaProposal.VirtualSchema.Enable,
 		}
 	}
 
@@ -143,15 +138,15 @@ func (k Keeper) VirtualSchemaHook(ctx sdk.Context, virtualSchemaProposal types.V
 
 func countProposalVotes(registry []*types.VirtualSchemaRegistry) (acceptCount, totalVotes int) {
 	for _, reg := range registry {
-		if reg.Status != types.RegistryStatus_PENDING {
-			if reg.Status == types.RegistryStatus_ACCEPT {
+		if reg.Decision != types.RegistryStatus_PENDING {
+			if reg.Decision == types.RegistryStatus_ACCEPT {
 				acceptCount++
 			}
 		}
 	}
 
 	for _, reg := range registry {
-		if reg.Status != types.RegistryStatus_PENDING {
+		if reg.Decision != types.RegistryStatus_PENDING {
 			totalVotes++
 		}
 	}

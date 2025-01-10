@@ -19,6 +19,7 @@ message VirtualAction {
   string when = 5;
   repeated string then = 6;
   // NOTE: Policy of virtual action
-  AllowedActioner allowedActioner = 7 [ (gogoproto.nullable) = true ];
+  // TODO: [chore] Combine enable/disable to change virtual schema.
+  AllowedActioner allowed_actioner = 7 [ (gogoproto.nullable) = true ];
   repeated ActionParams params = 8 [ (gogoproto.nullable) = true ];
 }

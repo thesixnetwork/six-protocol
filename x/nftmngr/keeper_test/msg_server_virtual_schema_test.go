@@ -22,13 +22,23 @@ func TestVirtualSchemaMsgServerCreate(t *testing.T) {
 	creator := "A"
 	for i := 0; i < 5; i++ {
 		expected := &types.MsgProposalVirtualSchema{
-			Creator:              creator,
-			VirtualNftSchemaCode: strconv.Itoa(i),
+			Creator:      creator,
+			ProposalType: types.ProposalType_CREATE,
+			VirtualSchema: &types.VirtualSchema{
+				VirtualNftSchemaCode: "virtualNftSchemaCode",
+				Registry: []*types.VirtualSchemaRegistry{
+					{
+						NftSchemaCode:    "nftSchemaCode",
+						SharedAttributes: []string{"SharedAttributes"},
+						Decision:         types.RegistryStatus_PENDING,
+					},
+				},
+			},
 		}
 		_, err := srv.ProposalVirtualSchema(wctx, expected)
 		require.NoError(t, err)
 		rst, found := k.GetVirtualSchema(ctx,
-			expected.VirtualNftSchemaCode,
+			expected.VirtualSchema.VirtualNftSchemaCode,
 		)
 		require.True(t, found)
 		require.Equal(t, expected.Creator, rst.VirtualNftSchemaCode)
