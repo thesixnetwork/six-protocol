@@ -33,7 +33,7 @@ func CmdCreateVirtualSchema() *cobra.Command {
 				return err
 			}
 
-			argFilePath := args[2]
+			argFilePath := args[1]
 
 			proposal, err := nftmngrutils.ParseProposalFile(clientCtx.LegacyAmino, argFilePath)
 			if err != nil {
@@ -42,9 +42,11 @@ func CmdCreateVirtualSchema() *cobra.Command {
 
 			msg := types.NewMsgProposalVirtualSchema(
 				clientCtx.GetFromAddress().String(),
+				proposal.VirtualSchemaCode,
 				proposalType,
-				proposal.VirtualSchema,
+        proposal.VirtualSchemaRegistry,
 				proposal.Actions,
+        proposal.Enable,
 			)
 
 			if err := msg.ValidateBasic(); err != nil {

@@ -13,19 +13,28 @@ var _ sdk.Msg = &MsgProposalVirtualSchema{}
 
 func NewMsgProposalVirtualSchema(
 	creator string,
+	schemacode string,
 	proposalType ProposalType,
-	virtualSchema VirtualSchema,
+	virtualSchemaRegistry []VirtualSchemaRegistryRequest,
 	actions []Action,
+	enable bool,
 ) *MsgProposalVirtualSchema {
 	actionsPointer := make([]*Action, len(actions))
 	for i, action := range actions {
 		actionsPointer[i] = &action
 	}
+
+	registryPointer := make([]*VirtualSchemaRegistryRequest, len(virtualSchemaRegistry))
+	for i, registry := range virtualSchemaRegistry {
+		registryPointer[i] = &registry
+	}
 	return &MsgProposalVirtualSchema{
-		Creator:       creator,
-		ProposalType:  proposalType,
-		VirtualSchema: &virtualSchema,
-		Actions:       actionsPointer,
+		Creator:              creator,
+		VirtualNftSchemaCode: schemacode,
+		ProposalType:         proposalType,
+		Registry:             registryPointer,
+		Actions:              actionsPointer,
+		Enable:               enable,
 	}
 }
 
