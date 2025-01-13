@@ -17,8 +17,10 @@ type (
 	}
 
 	VirtualSchemaRequest struct {
-		VirtualSchema types.VirtualSchema `json:"virtualSchema"`
-		Actions       []types.Action      `json:"actions"`
+		VirtualSchemaCode     string                               `json:"virtualSchemaCode"`
+		Actions               []types.Action                       `json:"actions"`
+		VirtualSchemaRegistry []types.VirtualSchemaRegistryRequest `json:"virtualSchemaRegistry"`
+		Enable                bool                                 `json:"enable"`
 	}
 
 	ActionParameter struct {
@@ -40,18 +42,18 @@ type (
 )
 
 func ParseProposalFile(cdc *codec.LegacyAmino, proposalFile string) (VirtualSchemaRequest, error) {
-  request := VirtualSchemaRequest{}
+	request := VirtualSchemaRequest{}
 
-  contents, err := os.ReadFile(proposalFile)
-  if err != nil {
-    return request, err
-  }
+	contents, err := os.ReadFile(proposalFile)
+	if err != nil {
+		return request, err
+	}
 
-  if err := cdc.UnmarshalJSON(contents, &request); err != nil {
-    return request, err
-  }
+	if err := cdc.UnmarshalJSON(contents, &request); err != nil {
+		return request, err
+	}
 
-  return request, nil
+	return request, nil
 }
 
 func NewVirtualSchemaRegistryRequestJSON(code string, sharedAttributes []string) VirtualSchemaRegistryRequestJSON {

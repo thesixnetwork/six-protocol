@@ -28,12 +28,14 @@ func SimulateMsgCreateVirtualSchema(
 
 		// i := r.Int()
 		msg := &types.MsgProposalVirtualSchema{
-			Creator:       simAccount.Address.String(),
-			ProposalType:  types.ProposalType_CREATE,
-			VirtualSchema: &types.VirtualSchema{},
+			Creator:              simAccount.Address.String(),
+			ProposalType:         types.ProposalType_CREATE,
+			Actions:              []*types.Action{},
+			VirtualNftSchemaCode: "virtualNftSchemaCode",
+			Registry:             []*types.VirtualSchemaRegistryRequest{},
 		}
 
-		_, found := k.GetVirtualSchema(ctx, msg.VirtualSchema.VirtualNftSchemaCode)
+		_, found := k.GetVirtualSchema(ctx, msg.VirtualNftSchemaCode)
 		if found {
 			return simtypes.NoOpMsg(types.ModuleName, msg.Type(), "VirtualSchema already exist"), nil, nil
 		}

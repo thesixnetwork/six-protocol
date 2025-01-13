@@ -392,9 +392,11 @@ message TokenIdMap {
 
 message MsgProposalVirtualSchema {
   string creator = 1;
-  ProposalType proposalType = 2;
-  VirtualSchema virtualSchema = 3;
-  repeated Action actions = 4;
+  string virtualNftSchemaCode = 2;
+  ProposalType proposalType = 3;
+  repeated VirtualSchemaRegistryRequest registry = 4;
+  repeated Action actions = 5;
+  bool enable = 6;
 }
 
 message MsgProposalVirtualSchemaResponse {

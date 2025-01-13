@@ -19,15 +19,15 @@ func (k msgServer) ProposalVirtualSchema(goCtx context.Context, msg *types.MsgPr
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	if msg.ProposalType == types.ProposalType_CREATE {
-		registry, err = k.validateCreateVirtualSchemaProposal(ctx, msg.VirtualSchema.VirtualNftSchemaCode, msg.VirtualSchema.Registry)
+		registry, err = k.validateCreateVirtualSchemaProposal(ctx, msg.VirtualNftSchemaCode, msg.Registry)
 		if err != nil {
 			return nil, err
 		}
 	} else {
 		// get virtual schema entity
-		existedSchema, found := k.GetVirtualSchema(ctx, msg.VirtualSchema.VirtualNftSchemaCode)
+		existedSchema, found := k.GetVirtualSchema(ctx, msg.VirtualNftSchemaCode)
 		if !found {
-			return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, msg.VirtualSchema.VirtualNftSchemaCode)
+			return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, msg.VirtualNftSchemaCode)
 		}
 
 		// mark pending to registry
@@ -56,11 +56,11 @@ func (k msgServer) ProposalVirtualSchema(goCtx context.Context, msg *types.MsgPr
 		Id:           strProposalId,
 		ProposalType: msg.ProposalType,
 		VirtualSchema: &types.VirtualSchema{
-			VirtualNftSchemaCode: msg.VirtualSchema.VirtualNftSchemaCode,
+			VirtualNftSchemaCode: msg.VirtualNftSchemaCode,
 			Registry:             registry,
-			Enable:               false,
+			Enable:               true,
 		},
-		Actions:         []*types.Action{},
+		Actions:         msg.Actions,
 		SubmitTime:      submitTime,
 		VotingStartTime: submitTime,
 		VotingEndTime:   endTime,
@@ -72,7 +72,8 @@ func (k msgServer) ProposalVirtualSchema(goCtx context.Context, msg *types.MsgPr
 
 	return &types.MsgProposalVirtualSchemaResponse{
 		Id:                   strProposalId,
-		VirtualNftSchemaCode: msg.VirtualSchema.VirtualNftSchemaCode,
+		VirtualNftSchemaCode: msg.VirtualNftSchemaCode,
+		ProposalType:         msg.ProposalType,
 	}, nil
 }
 
@@ -90,13 +91,13 @@ func (k Keeper) validateOwnerOfRegistry(ctx sdk.Context, creator string, registr
 	}
 
 	if !isOwner {
-		return sdkerrors.Wrap(types.ErrUnauthorized, "Only owner of registry schema can create proposal")
+		return sdkerrors.Wrap(types.ErrUnauthorized, "Only owner of registry schema can create proposal: "+creator)
 	}
 
 	return nil
 }
 
-func (k Keeper) validateCreateVirtualSchemaProposal(ctx sdk.Context, virtualNftSchemaCode string, registryReq []*types.VirtualSchemaRegistry) ([]*types.VirtualSchemaRegistry, error) {
+func (k Keeper) validateCreateVirtualSchemaProposal(ctx sdk.Context, virtualNftSchemaCode string, registryReq []*types.VirtualSchemaRegistryRequest) ([]*types.VirtualSchemaRegistry, error) {
 	registry := []*types.VirtualSchemaRegistry{}
 	// Check if schema already
 	_, found := k.GetNFTSchema(ctx, virtualNftSchemaCode)
@@ -115,7 +116,7 @@ func (k Keeper) validateCreateVirtualSchemaProposal(ctx sdk.Context, virtualNftS
 	}
 
 	for _, regis := range registryReq {
-		registry = append(registry, regis)
+		registry = append(registry, regis.ConvertRequestToVirtualRegistry())
 	}
 
 	return registry, nil
