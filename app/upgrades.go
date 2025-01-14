@@ -10,11 +10,10 @@ import (
 	// evmkeeper "github.com/evmos/ethermint/x/evm/keeper"
 )
 
-const UpgradeName = "v3.2.1"
+const UpgradeName = "v3.3.0"
 
 func (app *App) RegisterUpgradeHandlers() {
 	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
-
 		return app.mm.RunMigrations(ctx, app.configurator, vm)
 	})
 }

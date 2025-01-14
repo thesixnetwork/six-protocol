@@ -1,0 +1,147 @@
+syntax = "proto3";
+package thesixnetwork.sixprotocol.tokenmngr;
+
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "tokenmngr/params.proto";
+import "tokenmngr/token.proto";
+import "tokenmngr/mintperm.proto";
+import "tokenmngr/options.proto";
+import "tokenmngr/burn.proto";
+import "tokenmngr/token_burn.proto";
+// this line is used by starport scaffolding # 1
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/tokenmngr/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  // Parameters queries the parameters of the module.
+  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/six-protocol/tokenmngr/params";
+  }
+  // Queries a Token by index.
+  rpc Token(QueryGetTokenRequest) returns (QueryGetTokenResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/six-protocol/tokenmngr/token/{name}";
+  }
+
+  // Queries a list of Token items.
+  rpc TokenAll(QueryAllTokenRequest) returns (QueryAllTokenResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/six-protocol/tokenmngr/token";
+  }
+
+  // Queries a Mintperm by index.
+  rpc Mintperm(QueryGetMintpermRequest) returns (QueryGetMintpermResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/six-protocol/tokenmngr/mintperm/{token}/{address}";
+  }
+
+  // Queries a list of Mintperm items.
+  rpc MintpermAll(QueryAllMintpermRequest) returns (QueryAllMintpermResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/six-protocol/tokenmngr/mintperm";
+  }
+
+  // Queries a Options by index.
+  rpc Options(QueryGetOptionsRequest) returns (QueryGetOptionsResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/six-protocol/tokenmngr/options";
+  }
+  // Queries a list of Burns items.
+  rpc Burns(QueryBurnsRequest) returns (QueryBurnsResponse) {
+    option (google.api.http).get = "/thesixnetwork/sixprotocol/tokenmngr/burns";
+  }
+
+  // Queries a TokenBurn by index.
+  rpc TokenBurn(QueryGetTokenBurnRequest) returns (QueryGetTokenBurnResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/sixprotocol/tokenmngr/token_burn/{token}";
+  }
+
+  // Queries a list of TokenBurn items.
+  rpc TokenBurnAll(QueryAllTokenBurnRequest)
+      returns (QueryAllTokenBurnResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/sixprotocol/tokenmngr/token_burn";
+  }
+
+  // this line is used by starport scaffolding # 2
+}
+
+// QueryParamsRequest is request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is response type for the Query/Params RPC method.
+message QueryParamsResponse {
+  // params holds all the parameters of this module.
+  Params params = 1 [ (gogoproto.nullable) = false ];
+}
+
+message QueryGetTokenRequest { string name = 1; }
+
+message QueryGetTokenResponse {
+  Token token = 1 [ (gogoproto.nullable) = false ];
+}
+
+message QueryAllTokenRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllTokenResponse {
+  repeated Token token = 1 [ (gogoproto.nullable) = false ];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetMintpermRequest {
+  string token = 1;
+  string address = 2;
+}
+
+message QueryGetMintpermResponse {
+  Mintperm mintperm = 1 [ (gogoproto.nullable) = false ];
+}
+
+message QueryAllMintpermRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllMintpermResponse {
+  repeated Mintperm mintperm = 1 [ (gogoproto.nullable) = false ];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetOptionsRequest {}
+
+message QueryGetOptionsResponse {
+  Options Options = 1 [ (gogoproto.nullable) = false ];
+}
+message QueryBurnsRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryBurnsResponse {
+  // Returning a list of posts
+  repeated Burn Burn = 1;
+  // Adding pagination to response
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetTokenBurnRequest { string token = 1; }
+
+message QueryGetTokenBurnResponse {
+  TokenBurn tokenBurn = 1 [ (gogoproto.nullable) = false ];
+}
+
+message QueryAllTokenBurnRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllTokenBurnResponse {
+  repeated TokenBurn tokenBurn = 1 [ (gogoproto.nullable) = false ];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// this line is used by starport scaffolding # 3

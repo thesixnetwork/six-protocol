@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
+
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
@@ -21,7 +22,6 @@ func TestGenesisState_Validate(t *testing.T) {
 		{
 			desc: "valid genesis state",
 			genState: &types.GenesisState{
-
 				NFTSchemaList: []types.NFTSchema{
 					{
 						Code: "0",
@@ -118,6 +118,48 @@ func TestGenesisState_Validate(t *testing.T) {
 					},
 					{
 						NftSchemaCode: "1",
+					},
+				},
+				VirtualActionList: []types.VirtualAction{
+					{
+						VirtualNftSchemaCode: "0",
+						Name:                 "0",
+					},
+					{
+						VirtualNftSchemaCode: "0",
+						Name:                 "0",
+					},
+				},
+				VirtualSchemaList: []types.VirtualSchema{
+					{
+						VirtualNftSchemaCode: "0",
+					},
+					{
+						VirtualNftSchemaCode: "1",
+					},
+				},
+				VirtualSchemaProposalList: []types.VirtualSchemaProposal{
+					{
+						Id: "0",
+					},
+					{
+						Id: "1",
+					},
+				},
+				ActiveVirtualSchemaProposalList: []types.ActiveVirtualSchemaProposal{
+					{
+						Id: "0",
+					},
+					{
+						Id: "1",
+					},
+				},
+				InactiveVirtualSchemaProposalList: []types.InactiveVirtualSchemaProposal{
+					{
+						Id: "0",
+					},
+					{
+						Id: "1",
 					},
 				},
 				// this line is used by starport scaffolding # types/genesis/validField
@@ -281,6 +323,78 @@ func TestGenesisState_Validate(t *testing.T) {
 					},
 					{
 						NftSchemaCode: "0",
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated virtual",
+			genState: &types.GenesisState{
+				VirtualActionList: []types.VirtualAction{
+					{
+						VirtualNftSchemaCode: "0",
+						Name:                 "0",
+					},
+					{
+						VirtualNftSchemaCode: "0",
+						Name:                 "0",
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated virSchema",
+			genState: &types.GenesisState{
+				VirtualSchemaList: []types.VirtualSchema{
+					{
+						VirtualNftSchemaCode: "0",
+					},
+					{
+						VirtualNftSchemaCode: "0",
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated virtualSchemaProposal",
+			genState: &types.GenesisState{
+				VirtualSchemaProposalList: []types.VirtualSchemaProposal{
+					{
+						Id: "0",
+					},
+					{
+						Id: "0",
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated activeVirtualSchemaProposal",
+			genState: &types.GenesisState{
+				ActiveVirtualSchemaProposalList: []types.ActiveVirtualSchemaProposal{
+					{
+						Id: "0",
+					},
+					{
+						Id: "0",
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated inactiveVirtualSchemaProposal",
+			genState: &types.GenesisState{
+				InactiveVirtualSchemaProposalList: []types.InactiveVirtualSchemaProposal{
+					{
+						Id: "0",
+					},
+					{
+						Id: "0",
 					},
 				},
 			},

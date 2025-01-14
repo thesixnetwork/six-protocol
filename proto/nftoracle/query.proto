@@ -19,81 +19,109 @@ option go_package = "github.com/thesixnetwork/six-protocol/x/nftoracle/types";
 
 // Query defines the gRPC querier service.
 service Query {
-	// Parameters queries the parameters of the module.
-	rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
-		option (google.api.http).get = "/thesixnetwork/sixnft/nftoracle/params";
-	}
-  	// Queries a MintRequest by id.
-	rpc MintRequest(QueryGetMintRequestRequest) returns (QueryGetMintRequestResponse) {
-		option (google.api.http).get = "/thesixnetwork/sixnft/nftoracle/mint_request/{id}";
-	}
+  // Parameters queries the parameters of the module.
+  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/thesixnetwork/sixnft/nftoracle/params";
+  }
+  // Queries a MintRequest by id.
+  rpc MintRequest(QueryGetMintRequestRequest)
+      returns (QueryGetMintRequestResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/sixnft/nftoracle/mint_request/{id}";
+  }
 
-	// Queries a list of MintRequest items.
-	rpc MintRequestAll(QueryAllMintRequestRequest) returns (QueryAllMintRequestResponse) {
-		option (google.api.http).get = "/thesixnetwork/sixnft/nftoracle/mint_request";
-	}
+  // Queries a list of MintRequest items.
+  rpc MintRequestAll(QueryAllMintRequestRequest)
+      returns (QueryAllMintRequestResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/sixnft/nftoracle/mint_request";
+  }
 
-	// Queries a ActionRequest by id.
-	rpc ActionOracleRequest(QueryGetActionRequestRequest) returns (QueryGetActionRequestResponse) {
-		option (google.api.http).get = "/thesixnetwork/sixnft/nftoracle/action_request/{id}";
-	}
+  // Queries a ActionRequest by id.
+  rpc ActionOracleRequest(QueryGetActionRequestRequest)
+      returns (QueryGetActionRequestResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/sixnft/nftoracle/action_request/{id}";
+  }
 
+  // Queries a list of ActionRequest items.
+  rpc ActionRequestAll(QueryAllActionRequestRequest)
+      returns (QueryAllActionRequestResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/sixnft/nftoracle/action_request";
+  }
 
-	// Queries a list of ActionRequest items.
-	rpc ActionRequestAll(QueryAllActionRequestRequest) returns (QueryAllActionRequestResponse) {
-		option (google.api.http).get = "/thesixnetwork/sixnft/nftoracle/action_request";
-	}
+  // Queries a CollectionOwnerRequest by id.
+  rpc CollectionOwnerRequest(QueryGetCollectionOwnerRequestRequest)
+      returns (QueryGetCollectionOwnerRequestResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/sixnft/nftoracle/collection_owner_request/{id}";
+  }
 
-	// Queries a CollectionOwnerRequest by id.
-	rpc CollectionOwnerRequest(QueryGetCollectionOwnerRequestRequest) returns (QueryGetCollectionOwnerRequestResponse) {
-		option (google.api.http).get = "/thesixnetwork/sixnft/nftoracle/collection_owner_request/{id}";
-	}
+  // Queries a list of CollectionOwnerRequest items.
+  rpc CollectionOwnerRequestAll(QueryAllCollectionOwnerRequestRequest)
+      returns (QueryAllCollectionOwnerRequestResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/sixnft/nftoracle/collection_owner_request";
+  }
 
-	// Queries a list of CollectionOwnerRequest items.
-	rpc CollectionOwnerRequestAll(QueryAllCollectionOwnerRequestRequest) returns (QueryAllCollectionOwnerRequestResponse) {
-		option (google.api.http).get = "/thesixnetwork/sixnft/nftoracle/collection_owner_request";
-	}
+  // Queries a OracleConfig by index.
+  rpc OracleConfig(QueryGetOracleConfigRequest)
+      returns (QueryGetOracleConfigResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/sixnft/nftoracle/oracle_config";
+  }
+  // Queries a ActionSigner by index.
+  rpc ActionSigner(QueryGetActionSignerRequest)
+      returns (QueryGetActionSignerResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/sixnft/nftoracle/action_signer/{actorAddress}/"
+        "{ownerAddress}";
+  }
 
-	// Queries a OracleConfig by index.
-	rpc OracleConfig(QueryGetOracleConfigRequest) returns (QueryGetOracleConfigResponse) {
-		option (google.api.http).get = "/thesixnetwork/sixnft/nftoracle/oracle_config";
-	}
-	// Queries a ActionSigner by index.
-	rpc ActionSigner(QueryGetActionSignerRequest) returns (QueryGetActionSignerResponse) {
-		option (google.api.http).get = "/thesixnetwork/sixnft/nftoracle/action_signer/{actorAddress}/{ownerAddress}";
-	}
+  // Queries a list of ActionSigner items.
+  rpc ActionSignerAll(QueryAllActionSignerRequest)
+      returns (QueryAllActionSignerResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/sixnft/nftoracle/action_signer";
+  }
 
-	// Queries a list of ActionSigner items.
-	rpc ActionSignerAll(QueryAllActionSignerRequest) returns (QueryAllActionSignerResponse) {
-		option (google.api.http).get = "/thesixnetwork/sixnft/nftoracle/action_signer";
-	}
+  // Queries a BindedSigner by index.
+  rpc BindedSigner(QueryGetBindedSignerRequest)
+      returns (QueryGetBindedSignerResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/sixnft/nftoracle/binded_signer/{ownerAddress}";
+  }
 
-	// Queries a BindedSigner by index.
-	rpc BindedSigner(QueryGetBindedSignerRequest) returns (QueryGetBindedSignerResponse) {
-		option (google.api.http).get = "/thesixnetwork/sixnft/nftoracle/binded_signer/{ownerAddress}";
-	}
+  // Queries a ActionSignerConfig by index.
+  rpc ActionSignerConfig(QueryGetActionSignerConfigRequest)
+      returns (QueryGetActionSignerConfigResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/sixnft/nftoracle/action_signer_config/{chain}";
+  }
 
-	// Queries a ActionSignerConfig by index.
-	rpc ActionSignerConfig(QueryGetActionSignerConfigRequest) returns (QueryGetActionSignerConfigResponse) {
-		option (google.api.http).get = "/thesixnetwork/sixnft/nftoracle/action_signer_config/{chain}";
-	}
+  // Queries a list of ActionSignerConfig items.
+  rpc ActionSignerConfigAll(QueryAllActionSignerConfigRequest)
+      returns (QueryAllActionSignerConfigResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/sixnft/nftoracle/action_signer_config";
+  }
 
-	// Queries a list of ActionSignerConfig items.
-	rpc ActionSignerConfigAll(QueryAllActionSignerConfigRequest) returns (QueryAllActionSignerConfigResponse) {
-		option (google.api.http).get = "/thesixnetwork/sixnft/nftoracle/action_signer_config";
-	}
+  // Queries a SyncActionSigner by id.
+  rpc SyncActionSigner(QueryGetSyncActionSignerRequest)
+      returns (QueryGetSyncActionSignerResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/sixnft/nftoracle/sync_action_signer/{id}";
+  }
 
-// Queries a SyncActionSigner by id.
-	rpc SyncActionSigner(QueryGetSyncActionSignerRequest) returns (QueryGetSyncActionSignerResponse) {
-		option (google.api.http).get = "/thesixnetwork/sixnft/nftoracle/sync_action_signer/{id}";
-	}
+  // Queries a list of SyncActionSigner items.
+  rpc SyncActionSignerAll(QueryAllSyncActionSignerRequest)
+      returns (QueryAllSyncActionSignerResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/sixnft/nftoracle/sync_action_signer";
+  }
 
-	// Queries a list of SyncActionSigner items.
-	rpc SyncActionSignerAll(QueryAllSyncActionSignerRequest) returns (QueryAllSyncActionSignerResponse) {
-		option (google.api.http).get = "/thesixnetwork/sixnft/nftoracle/sync_action_signer";
-	}
-
-// this line is used by starport scaffolding # 2
+  // this line is used by starport scaffolding # 2
 }
 
 // QueryParamsRequest is request type for the Query/Params RPC method.
@@ -102,129 +130,116 @@ message QueryParamsRequest {}
 // QueryParamsResponse is response type for the Query/Params RPC method.
 message QueryParamsResponse {
   // params holds all the parameters of this module.
-  Params params = 1 [(gogoproto.nullable) = false];
+  Params params = 1 [ (gogoproto.nullable) = false ];
 }
 
-message QueryGetMintRequestRequest {
-	uint64 id = 1;
-}
+message QueryGetMintRequestRequest { uint64 id = 1; }
 
 message QueryGetMintRequestResponse {
-	MintRequest MintRequest = 1 [(gogoproto.nullable) = false];
+  MintRequest MintRequest = 1 [ (gogoproto.nullable) = false ];
 }
 
 message QueryAllMintRequestRequest {
-	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
 }
 
 message QueryAllMintRequestResponse {
-	repeated MintRequest MintRequest = 1 [(gogoproto.nullable) = false];
-	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+  repeated MintRequest MintRequest = 1 [ (gogoproto.nullable) = false ];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
-message QueryGetActionRequestRequest {
-	uint64 id = 1;
-}
+message QueryGetActionRequestRequest { uint64 id = 1; }
 
 message QueryGetActionRequestResponse {
-	ActionOracleRequest ActionOracleRequest = 1 [(gogoproto.nullable) = false];
+  ActionOracleRequest ActionOracleRequest = 1 [ (gogoproto.nullable) = false ];
 }
 
-
 message QueryAllActionRequestRequest {
-	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
 }
 
 message QueryAllActionRequestResponse {
-	repeated ActionOracleRequest ActionOracleRequest = 1 [(gogoproto.nullable) = false];
-	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+  repeated ActionOracleRequest ActionOracleRequest = 1
+      [ (gogoproto.nullable) = false ];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
-
-message QueryGetCollectionOwnerRequestRequest {
-	uint64 id = 1;
-}
+message QueryGetCollectionOwnerRequestRequest { uint64 id = 1; }
 
 message QueryGetCollectionOwnerRequestResponse {
-	CollectionOwnerRequest CollectionOwnerRequest = 1 [(gogoproto.nullable) = false];
+  CollectionOwnerRequest CollectionOwnerRequest = 1
+      [ (gogoproto.nullable) = false ];
 }
 
 message QueryAllCollectionOwnerRequestRequest {
-	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
 }
 
 message QueryAllCollectionOwnerRequestResponse {
-	repeated CollectionOwnerRequest CollectionOwnerRequest = 1 [(gogoproto.nullable) = false];
-	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+  repeated CollectionOwnerRequest CollectionOwnerRequest = 1
+      [ (gogoproto.nullable) = false ];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
 message QueryGetOracleConfigRequest {}
 
 message QueryGetOracleConfigResponse {
-	OracleConfig OracleConfig = 1 [(gogoproto.nullable) = false];
+  OracleConfig OracleConfig = 1 [ (gogoproto.nullable) = false ];
 }
 message QueryGetActionSignerRequest {
-	  string actorAddress = 1;
-	  string ownerAddress = 2;
-
+  string actorAddress = 1;
+  string ownerAddress = 2;
 }
 
 message QueryGetActionSignerResponse {
-	ActionSigner actionSigner = 1 [(gogoproto.nullable) = false];
+  ActionSigner actionSigner = 1 [ (gogoproto.nullable) = false ];
 }
 
 message QueryAllActionSignerRequest {
-	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
 }
 
 message QueryAllActionSignerResponse {
-	repeated ActionSigner actionSigner = 1 [(gogoproto.nullable) = false];
-	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+  repeated ActionSigner actionSigner = 1 [ (gogoproto.nullable) = false ];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
-message QueryGetBindedSignerRequest {
-	  string ownerAddress = 1;
-
-}
+message QueryGetBindedSignerRequest { string ownerAddress = 1; }
 
 message QueryGetBindedSignerResponse {
-	BindedSigner bindedSigner = 1 [(gogoproto.nullable) = false];
+  BindedSigner bindedSigner = 1 [ (gogoproto.nullable) = false ];
 }
 
-
-message QueryGetActionSignerConfigRequest {
-	  string chain = 1;
-
-}
+message QueryGetActionSignerConfigRequest { string chain = 1; }
 
 message QueryGetActionSignerConfigResponse {
-	ActionSignerConfig actionSignerConfig = 1 [(gogoproto.nullable) = false];
+  ActionSignerConfig actionSignerConfig = 1 [ (gogoproto.nullable) = false ];
 }
 
 message QueryAllActionSignerConfigRequest {
-	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
 }
 
 message QueryAllActionSignerConfigResponse {
-	repeated ActionSignerConfig actionSignerConfig = 1 [(gogoproto.nullable) = false];
-	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+  repeated ActionSignerConfig actionSignerConfig = 1
+      [ (gogoproto.nullable) = false ];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
-message QueryGetSyncActionSignerRequest {
-	uint64 id = 1;
-}
+message QueryGetSyncActionSignerRequest { uint64 id = 1; }
 
 message QueryGetSyncActionSignerResponse {
-	SyncActionSigner SyncActionSigner = 1 [(gogoproto.nullable) = false];
+  SyncActionSigner SyncActionSigner = 1 [ (gogoproto.nullable) = false ];
 }
 
 message QueryAllSyncActionSignerRequest {
-	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
 }
 
 message QueryAllSyncActionSignerResponse {
-	repeated SyncActionSigner SyncActionSigner = 1 [(gogoproto.nullable) = false];
-	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+  repeated SyncActionSigner SyncActionSigner = 1
+      [ (gogoproto.nullable) = false ];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
 // this line is used by starport scaffolding # 3

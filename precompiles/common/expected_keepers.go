@@ -5,6 +5,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+
 	nftmngrtypes "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 	// "github.com/ethereum/go-ethereum/common"
 )
@@ -35,13 +36,13 @@ type NftmngrKeeper interface {
 	GetActionExecutor(ctx sdk.Context, nftSchemaCode string, executorAddress string) (val nftmngrtypes.ActionExecutor, found bool)
 	GetSchemaOwner(ctx sdk.Context, nftSchemaName string) (string, error)
 	IsSchemaOwner(ctx sdk.Context, nftSchemaName, inputAddress string) (bool, error)
-  	GetAttributeValue(ctx sdk.Context, nftSchemaName, tokenId, attributeName string) (string, error)
+	GetAttributeValue(ctx sdk.Context, nftSchemaName, tokenId, attributeName string) (string, error)
 	// ####################
 	// #                  #
 	// #     SETTER       #
 	// #                  #
 	// ####################
-	ActionByAdmin(ctx sdk.Context, creator, nftSchemaName, tokenId, actionName, refId string, parameters []*nftmngrtypes.ActionParameter) (changelist []byte, err error)
+	ActionByAdmin(ctx sdk.Context, creator, nftSchemaName, tokenId, actionName, refId string, parameters []*nftmngrtypes.ActionParameter) (nftmngrtypes.ActionChangeList, error)
 	AddAttributeKeeper(ctx sdk.Context, creator string, nftSchemaName string, new_add_attribute nftmngrtypes.AttributeDefinition, location nftmngrtypes.AttributeLocation) error
 	UpdateAttributeKeeper(ctx sdk.Context, creator, nftSchemaName string, update_attribute nftmngrtypes.AttributeDefinition) error
 	ResyncAttibutesKeeper(ctx sdk.Context, creator, nftSchemaName, tokenId string) error

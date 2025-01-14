@@ -2,13 +2,10 @@ package cli
 
 import (
 	"fmt"
-	// "strings"
 
 	"github.com/spf13/cobra"
 
 	"github.com/cosmos/cosmos-sdk/client"
-	// "github.com/cosmos/cosmos-sdk/client/flags"
-	// sdk "github.com/cosmos/cosmos-sdk/types"
 
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
@@ -18,6 +15,7 @@ func GetQueryCmd(queryRoute string) *cobra.Command {
 	// Group nftmngr queries under a subcommand
 	cmd := &cobra.Command{
 		Use:                        types.ModuleName,
+		Aliases:                    []string{"meta"},
 		Short:                      fmt.Sprintf("Querying commands for the %s module", types.ModuleName),
 		DisableFlagParsing:         true,
 		SuggestionsMinimumDistance: 2,
@@ -42,15 +40,21 @@ func GetQueryCmd(queryRoute string) *cobra.Command {
 	cmd.AddCommand(CmdShowMetadataCreator())
 	cmd.AddCommand(CmdListActionExecutor())
 	cmd.AddCommand(CmdShowActionExecutor())
-
 	cmd.AddCommand(CmdListSchemaAttribute())
 	cmd.AddCommand(CmdShowSchemaAttribute())
-
 	cmd.AddCommand(CmdListActionOfSchema())
 	cmd.AddCommand(CmdShowActionOfSchema())
-
 	cmd.AddCommand(CmdListExecutorOfSchema())
 	cmd.AddCommand(CmdShowExecutorOfSchema())
+
+	cmd.AddCommand(CmdListVirtualAction())
+	cmd.AddCommand(CmdShowVirtualAction())
+	cmd.AddCommand(CmdListVirtualSchema())
+	cmd.AddCommand(CmdShowVirtualSchema())
+	cmd.AddCommand(CmdShowVirtualSchemaProposal())
+	cmd.AddCommand(CmdListVirtualSchemaProposal())
+	cmd.AddCommand(CmdListActiveProposal())
+
 	// this line is used by starport scaffolding # 1
 
 	return cmd

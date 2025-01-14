@@ -49,7 +49,7 @@ init:
     broadcast-mode: "block"
   app:
     minimum-gas-prices: "1.25usix"
-    log_level: trace
+    # log_level: trace
     grpc-web:
       enable: true # as default
     api:

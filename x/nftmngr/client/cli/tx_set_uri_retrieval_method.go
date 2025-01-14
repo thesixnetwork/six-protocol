@@ -8,6 +8,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	"github.com/spf13/cast"
 	"github.com/spf13/cobra"
+
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
@@ -21,6 +22,9 @@ func CmdSetUriRetrievalMethod() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			argSchemaCode := args[0]
 			argNewMethod, err := cast.ToInt32E(args[1])
+			if err != nil {
+				return err
+			}
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {

@@ -5,16 +5,20 @@ package types
 
 import (
 	fmt "fmt"
-	proto "github.com/gogo/protobuf/proto"
 	io "io"
 	math "math"
 	math_bits "math/bits"
+
+	proto "github.com/gogo/protobuf/proto"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-var _ = fmt.Errorf
-var _ = math.Inf
+
+var (
+	_ = fmt.Errorf
+	_ = math.Inf
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -39,9 +43,11 @@ func (*NFTSchema) ProtoMessage()    {}
 func (*NFTSchema) Descriptor() ([]byte, []int) {
 	return fileDescriptor_f35d7a245dabb499, []int{0}
 }
+
 func (m *NFTSchema) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *NFTSchema) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_NFTSchema.Marshal(b, m, deterministic)
@@ -54,12 +60,15 @@ func (m *NFTSchema) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return b[:n], nil
 	}
 }
+
 func (m *NFTSchema) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_NFTSchema.Merge(m, src)
 }
+
 func (m *NFTSchema) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *NFTSchema) XXX_DiscardUnknown() {
 	xxx_messageInfo_NFTSchema.DiscardUnknown(m)
 }
@@ -139,9 +148,11 @@ func (*NFTSchemaV2) ProtoMessage()    {}
 func (*NFTSchemaV2) Descriptor() ([]byte, []int) {
 	return fileDescriptor_f35d7a245dabb499, []int{1}
 }
+
 func (m *NFTSchemaV2) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *NFTSchemaV2) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_NFTSchemaV2.Marshal(b, m, deterministic)
@@ -154,12 +165,15 @@ func (m *NFTSchemaV2) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) 
 		return b[:n], nil
 	}
 }
+
 func (m *NFTSchemaV2) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_NFTSchemaV2.Merge(m, src)
 }
+
 func (m *NFTSchemaV2) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *NFTSchemaV2) XXX_DiscardUnknown() {
 	xxx_messageInfo_NFTSchemaV2.DiscardUnknown(m)
 }
@@ -240,9 +254,11 @@ func (*NFTSchemaINPUT) ProtoMessage()    {}
 func (*NFTSchemaINPUT) Descriptor() ([]byte, []int) {
 	return fileDescriptor_f35d7a245dabb499, []int{2}
 }
+
 func (m *NFTSchemaINPUT) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *NFTSchemaINPUT) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_NFTSchemaINPUT.Marshal(b, m, deterministic)
@@ -255,12 +271,15 @@ func (m *NFTSchemaINPUT) XXX_Marshal(b []byte, deterministic bool) ([]byte, erro
 		return b[:n], nil
 	}
 }
+
 func (m *NFTSchemaINPUT) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_NFTSchemaINPUT.Merge(m, src)
 }
+
 func (m *NFTSchemaINPUT) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *NFTSchemaINPUT) XXX_DiscardUnknown() {
 	xxx_messageInfo_NFTSchemaINPUT.DiscardUnknown(m)
 }
@@ -347,9 +366,11 @@ func (*NFTSchemaV1) ProtoMessage()    {}
 func (*NFTSchemaV1) Descriptor() ([]byte, []int) {
 	return fileDescriptor_f35d7a245dabb499, []int{3}
 }
+
 func (m *NFTSchemaV1) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *NFTSchemaV1) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_NFTSchemaV1.Marshal(b, m, deterministic)
@@ -362,12 +383,15 @@ func (m *NFTSchemaV1) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) 
 		return b[:n], nil
 	}
 }
+
 func (m *NFTSchemaV1) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_NFTSchemaV1.Merge(m, src)
 }
+
 func (m *NFTSchemaV1) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *NFTSchemaV1) XXX_DiscardUnknown() {
 	xxx_messageInfo_NFTSchemaV1.DiscardUnknown(m)
 }
@@ -861,6 +885,7 @@ func encodeVarintNftSchema(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
+
 func (m *NFTSchema) Size() (n int) {
 	if m == nil {
 		return 0
@@ -1032,9 +1057,11 @@ func (m *NFTSchemaV1) Size() (n int) {
 func sovNftSchema(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
+
 func sozNftSchema(x uint64) (n int) {
 	return sovNftSchema(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
+
 func (m *NFTSchema) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1337,6 +1364,7 @@ func (m *NFTSchema) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func (m *NFTSchemaV2) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1639,6 +1667,7 @@ func (m *NFTSchemaV2) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func (m *NFTSchemaINPUT) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1973,6 +2002,7 @@ func (m *NFTSchemaINPUT) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func (m *NFTSchemaV1) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -2275,6 +2305,7 @@ func (m *NFTSchemaV1) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func skipNftSchema(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0

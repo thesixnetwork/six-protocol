@@ -17,7 +17,6 @@ func NewMsgCreateMintperm(
 	creator string,
 	token string,
 	address string,
-
 ) *MsgCreateMintperm {
 	return &MsgCreateMintperm{
 		Creator: creator,
@@ -61,7 +60,6 @@ func NewMsgUpdateMintperm(
 	creator string,
 	token string,
 	address string,
-
 ) *MsgUpdateMintperm {
 	return &MsgUpdateMintperm{
 		Creator: creator,
@@ -105,7 +103,6 @@ func NewMsgDeleteMintperm(
 	creator string,
 	token string,
 	address string,
-
 ) *MsgDeleteMintperm {
 	return &MsgDeleteMintperm{
 		Creator: creator,
@@ -113,6 +110,7 @@ func NewMsgDeleteMintperm(
 		Address: address,
 	}
 }
+
 func (msg *MsgDeleteMintperm) Route() string {
 	return RouterKey
 }

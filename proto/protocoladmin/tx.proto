@@ -8,25 +8,24 @@ option go_package = "github.com/thesixnetwork/six-protocol/x/protocoladmin/types
 
 // Msg defines the Msg service.
 service Msg {
-      rpc CreateGroup(MsgCreateGroup) returns (MsgCreateGroupResponse);
+  rpc CreateGroup(MsgCreateGroup) returns (MsgCreateGroupResponse);
   rpc UpdateGroup(MsgUpdateGroup) returns (MsgUpdateGroupResponse);
   rpc DeleteGroup(MsgDeleteGroup) returns (MsgDeleteGroupResponse);
   rpc AddAdminToGroup(MsgAddAdminToGroup) returns (MsgAddAdminToGroupResponse);
-  rpc RemoveAdminFromGroup(MsgRemoveAdminFromGroup) returns (MsgRemoveAdminFromGroupResponse);
-// this line is used by starport scaffolding # proto/tx/rpc
+  rpc RemoveAdminFromGroup(MsgRemoveAdminFromGroup)
+      returns (MsgRemoveAdminFromGroupResponse);
+  // this line is used by starport scaffolding # proto/tx/rpc
 }
 
 message MsgCreateGroup {
   string creator = 1;
   string name = 2;
-
 }
 message MsgCreateGroupResponse {}
 
 message MsgUpdateGroup {
   string creator = 1;
   string name = 2;
-
 }
 message MsgUpdateGroupResponse {}
 
@@ -42,8 +41,7 @@ message MsgAddAdminToGroup {
   string address = 3;
 }
 
-message MsgAddAdminToGroupResponse {
-}
+message MsgAddAdminToGroupResponse {}
 
 message MsgRemoveAdminFromGroup {
   string creator = 1;
@@ -51,7 +49,6 @@ message MsgRemoveAdminFromGroup {
   string address = 3;
 }
 
-message MsgRemoveAdminFromGroupResponse {
-}
+message MsgRemoveAdminFromGroupResponse {}
 
 // this line is used by starport scaffolding # proto/tx/message

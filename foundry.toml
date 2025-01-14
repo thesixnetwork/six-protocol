@@ -8,7 +8,7 @@ optimizer = true
 optimizer_runs = 200
 solc_version = "0.8.20"
 
-fs_permissions = [{access = "read-write", path = "./contracts/"}]
+fs_permissions = [{access = "read-write", path = "./"}]
 
 # See more config options https://github.com/foundry-rs/foundry/tree/master/config
 # [etherscan]

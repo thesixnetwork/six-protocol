@@ -17,6 +17,7 @@ import (
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
 	"github.com/tendermint/tendermint/libs/log"
 	tmrpctypes "github.com/tendermint/tendermint/rpc/core/types"
+
 	"github.com/thesixnetwork/six-protocol/rpc/types"
 	"github.com/thesixnetwork/six-protocol/server/config"
 )

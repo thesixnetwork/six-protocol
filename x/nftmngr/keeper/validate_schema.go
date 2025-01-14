@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
@@ -149,7 +150,6 @@ func GetOrganizationFromSchemaCode(nftSchemaCode string) (bool, string) {
 }
 
 func MergeAllAttributesAndAlterOrderIndex(originAttributes []*types.AttributeDefinition, nftAttribute []*types.AttributeDefinition, tokenAttribute []*types.AttributeDefinition) {
-
 	var index uint64 = 0
 	for _, attribute := range originAttributes {
 		attribute.Index = index

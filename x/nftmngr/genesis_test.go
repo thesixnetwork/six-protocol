@@ -6,6 +6,7 @@ import (
 	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 
 	"github.com/stretchr/testify/require"
+
 	"github.com/thesixnetwork/six-protocol/testutil/nullify"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
@@ -113,6 +114,60 @@ func TestGenesis(t *testing.T) {
 				NftSchemaCode: "1",
 			},
 		},
+		VirtualActionList: []types.VirtualAction{
+			{
+				VirtualNftSchemaCode: "0",
+				Name:                 "",
+				Desc:                 "",
+				Disable:              false,
+				When:                 "",
+				Then:                 []string{},
+				AllowedActioner:      0,
+				Params:               []*types.ActionParams{},
+			},
+			{
+				VirtualNftSchemaCode: "0",
+				Name:                 "",
+				Desc:                 "",
+				Disable:              false,
+				When:                 "",
+				Then:                 []string{},
+				AllowedActioner:      0,
+				Params:               []*types.ActionParams{},
+			},
+		},
+		VirtualSchemaList: []types.VirtualSchema{
+			{
+				VirtualNftSchemaCode: "0",
+			},
+			{
+				VirtualNftSchemaCode: "1",
+			},
+		},
+		VirtualSchemaProposalList: []types.VirtualSchemaProposal{
+			{
+				Id: "0",
+			},
+			{
+				Id: "1",
+			},
+		},
+		ActiveVirtualSchemaProposalList: []types.ActiveVirtualSchemaProposal{
+			{
+				Id: "0",
+			},
+			{
+				Id: "1",
+			},
+		},
+		InactiveVirtualSchemaProposalList: []types.InactiveVirtualSchemaProposal{
+			{
+				Id: "0",
+			},
+			{
+				Id: "1",
+			},
+		},
 		// this line is used by starport scaffolding # genesis/test/state
 	}
 
@@ -137,5 +192,10 @@ func TestGenesis(t *testing.T) {
 	require.ElementsMatch(t, genesisState.SchemaAttributeList, got.SchemaAttributeList)
 	require.ElementsMatch(t, genesisState.ActionOfSchemaList, got.ActionOfSchemaList)
 	require.ElementsMatch(t, genesisState.ExecutorOfSchemaList, got.ExecutorOfSchemaList)
+	require.ElementsMatch(t, genesisState.VirtualActionList, got.VirtualActionList)
+	require.ElementsMatch(t, genesisState.VirtualSchemaList, got.VirtualSchemaList)
+	require.ElementsMatch(t, genesisState.VirtualSchemaProposalList, got.VirtualSchemaProposalList)
+	require.ElementsMatch(t, genesisState.ActiveVirtualSchemaProposalList, got.ActiveVirtualSchemaProposalList)
+	require.ElementsMatch(t, genesisState.InactiveVirtualSchemaProposalList, got.InactiveVirtualSchemaProposalList)
 	// this line is used by starport scaffolding # genesis/test/assert
 }

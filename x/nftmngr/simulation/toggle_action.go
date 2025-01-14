@@ -6,6 +6,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
+
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/keeper"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )

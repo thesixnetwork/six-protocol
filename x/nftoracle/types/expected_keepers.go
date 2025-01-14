@@ -24,7 +24,6 @@ type NftmngrKeeper interface {
 	GetNFTSchema(
 		ctx sdk.Context,
 		code string,
-
 	) (val nftmngrtypes.NFTSchema, found bool)
 	GetAllSchemaAttribute(ctx sdk.Context) (list []nftmngrtypes.SchemaAttribute)
 
@@ -34,7 +33,6 @@ type NftmngrKeeper interface {
 		ctx sdk.Context,
 		nftSchemaCode string,
 		tokenId string,
-
 	) (val nftmngrtypes.NftData, found bool)
 
 	// ValidateNFTData(data *nftmngrtypes.NftData, schema *nftmngrtypes.NFTSchema) (bool, error)
@@ -42,7 +40,6 @@ type NftmngrKeeper interface {
 	GetActionByRefId(
 		ctx sdk.Context,
 		refId string,
-
 	) (val nftmngrtypes.ActionByRefId, found bool)
 	SetActionByRefId(ctx sdk.Context, actionByRefId nftmngrtypes.ActionByRefId)
 

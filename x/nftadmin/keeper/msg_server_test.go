@@ -7,6 +7,7 @@ import (
 	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
 	"github.com/thesixnetwork/six-protocol/x/nftadmin/keeper"
 	"github.com/thesixnetwork/six-protocol/x/nftadmin/types"
 )

@@ -9,5 +9,4 @@ func (app *App) MigrateParam(ctx sdk.Context) {
 	migrateParam := currentParam
 	migrateParam.AllowUnprotectedTxs = true
 	app.EVMKeeper.SetParams(ctx, migrateParam)
-
 }

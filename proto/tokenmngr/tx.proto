@@ -1,0 +1,167 @@
+syntax = "proto3";
+package thesixnetwork.sixprotocol.tokenmngr;
+
+import "gogoproto/gogo.proto";
+import "cosmos/base/v1beta1/coin.proto";
+import "tokenmngr/token.proto";
+import "tokenmngr/mintperm.proto";
+import "tokenmngr/options.proto";
+// this line is used by starport scaffolding # proto/tx/import
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/tokenmngr/types";
+
+// Msg defines the Msg service.
+service Msg {
+  rpc CreateToken(MsgCreateToken) returns (MsgCreateTokenResponse);
+  rpc UpdateToken(MsgUpdateToken) returns (MsgUpdateTokenResponse);
+  rpc DeleteToken(MsgDeleteToken) returns (MsgDeleteTokenResponse);
+  rpc CreateMintperm(MsgCreateMintperm) returns (MsgCreateMintpermResponse);
+  rpc UpdateMintperm(MsgUpdateMintperm) returns (MsgUpdateMintpermResponse);
+  rpc DeleteMintperm(MsgDeleteMintperm) returns (MsgDeleteMintpermResponse);
+  rpc Mint(MsgMint) returns (MsgMintResponse);
+  rpc CreateOptions(MsgCreateOptions) returns (MsgCreateOptionsResponse);
+  rpc UpdateOptions(MsgUpdateOptions) returns (MsgUpdateOptionsResponse);
+  rpc DeleteOptions(MsgDeleteOptions) returns (MsgDeleteOptionsResponse);
+  rpc Burn(MsgBurn) returns (MsgBurnResponse);
+  rpc WrapToken(MsgWrapToken) returns (MsgWrapTokenResponse);
+  rpc UnwrapToken(MsgUnwrapToken) returns (MsgUnwrapTokenResponse);
+  rpc SendWrapToken(MsgSendWrapToken) returns (MsgSendWrapTokenResponse);
+  // this line is used by starport scaffolding # proto/tx/rpc
+}
+
+message MsgCreateToken {
+  string creator = 1;
+  string name = 2;
+  cosmos.base.v1beta1.Coin maxSupply = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+  ];
+  string denomMetaData = 4;
+  string mintee = 5;
+}
+message MsgCreateTokenResponse {}
+
+message MsgUpdateToken {
+  string creator = 1;
+  string name = 2;
+  cosmos.base.v1beta1.Coin maxSupply = 4 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+  ];
+  string mintee = 5;
+}
+message MsgUpdateTokenResponse {}
+
+message MsgDeleteToken {
+  string creator = 1;
+  string name = 2;
+}
+message MsgDeleteTokenResponse {}
+
+message MsgCreateMintperm {
+  string creator = 1;
+  string token = 2;
+  string address = 3;
+}
+message MsgCreateMintpermResponse {}
+
+message MsgUpdateMintperm {
+  string creator = 1;
+  string token = 2;
+  string address = 3;
+}
+message MsgUpdateMintpermResponse {}
+
+message MsgDeleteMintperm {
+  string creator = 1;
+  string token = 2;
+  string address = 3;
+}
+message MsgDeleteMintpermResponse {}
+
+message MsgMint {
+  option (gogoproto.equal) = false;
+  option (gogoproto.goproto_getters) = false;
+  string creator = 1;
+  cosmos.base.v1beta1.Coin amount = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+  ];
+}
+
+message MsgMintResponse {}
+
+message MsgBurn {
+  option (gogoproto.equal) = false;
+  option (gogoproto.goproto_getters) = false;
+  string creator = 1;
+  cosmos.base.v1beta1.Coin amount = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+  ];
+}
+
+message MsgBurnResponse { uint64 id = 1; }
+
+message MsgCreateOptions {
+  string creator = 1;
+  string defaultMintee = 2;
+}
+message MsgCreateOptionsResponse {}
+
+message MsgUpdateOptions {
+  string creator = 1;
+  string defaultMintee = 2;
+}
+message MsgUpdateOptionsResponse {}
+
+message MsgDeleteOptions { string creator = 1; }
+message MsgDeleteOptionsResponse {}
+
+message MsgWrapToken {
+  string creator = 1;
+  cosmos.base.v1beta1.Coin amount = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+  ];
+  string receiver = 3;
+}
+
+message MsgWrapTokenResponse {
+  cosmos.base.v1beta1.Coin amount = 1 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+  ];
+}
+
+message MsgUnwrapToken {
+  string creator = 1;
+  cosmos.base.v1beta1.Coin amount = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+  ];
+  string receiver = 3;
+}
+
+message MsgUnwrapTokenResponse {
+  cosmos.base.v1beta1.Coin amount = 1 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+  ];
+}
+
+message MsgSendWrapToken {
+  string creator = 1;
+  string ethAddress = 2;
+  cosmos.base.v1beta1.Coin amount = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+  ];
+}
+
+message MsgSendWrapTokenResponse {
+  string receiver = 1;
+  string amount = 2;
+}
+
+// this line is used by starport scaffolding # proto/tx/message

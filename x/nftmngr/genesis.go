@@ -2,6 +2,7 @@ package nftmngr
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/keeper"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
@@ -65,6 +66,26 @@ func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) 
 	for _, elem := range genState.ExecutorOfSchemaList {
 		k.SetExecutorOfSchema(ctx, elem)
 	}
+	// Set all the virtual
+	for _, elem := range genState.VirtualActionList {
+		k.SetVirtualAction(ctx, elem)
+	}
+	// Set all the virSchema
+	for _, elem := range genState.VirtualSchemaList {
+		k.SetVirtualSchema(ctx, elem)
+	}
+	// Set all the virtualSchemaProposal
+	for _, elem := range genState.VirtualSchemaProposalList {
+		k.SetVirtualSchemaProposal(ctx, elem)
+	}
+	// Set all the activeVirtualSchemaProposal
+	for _, elem := range genState.ActiveVirtualSchemaProposalList {
+		k.SetActiveVirtualSchemaProposal(ctx, elem)
+	}
+	// Set all the inactiveVirtualSchemaProposal
+	for _, elem := range genState.InactiveVirtualSchemaProposalList {
+		k.SetInactiveVirtualSchemaProposal(ctx, elem)
+	}
 	// this line is used by starport scaffolding # genesis/module/init
 	k.SetParams(ctx, genState.Params)
 }
@@ -95,6 +116,11 @@ func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
 	genesis.SchemaAttributeList = k.GetAllSchemaAttribute(ctx)
 	genesis.ActionOfSchemaList = k.GetAllActionOfSchema(ctx)
 	genesis.ExecutorOfSchemaList = k.GetAllExecutorOfSchema(ctx)
+	genesis.VirtualActionList = k.GetAllVirtualAction(ctx)
+	genesis.VirtualSchemaList = k.GetAllVirtualSchema(ctx)
+	genesis.VirtualSchemaProposalList = k.GetAllVirtualSchemaProposal(ctx)
+	genesis.ActiveVirtualSchemaProposalList = k.GetAllActiveVirtualSchemaProposal(ctx)
+	genesis.InactiveVirtualSchemaProposalList = k.GetAllInactiveVirtualSchemaProposal(ctx)
 	// this line is used by starport scaffolding # genesis/module/export
 
 	return genesis

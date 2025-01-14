@@ -6,6 +6,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
+
 	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 	"github.com/thesixnetwork/six-protocol/testutil/nullify"
 	"github.com/thesixnetwork/six-protocol/x/protocoladmin/keeper"
@@ -39,6 +40,7 @@ func TestGroupGet(t *testing.T) {
 		)
 	}
 }
+
 func TestGroupRemove(t *testing.T) {
 	keeper, ctx := keepertest.ProtocoladminKeeper(t)
 	items := createNGroup(keeper, ctx, 10)

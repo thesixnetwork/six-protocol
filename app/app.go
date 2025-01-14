@@ -22,6 +22,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 	"github.com/cosmos/cosmos-sdk/version"
 	"github.com/cosmos/cosmos-sdk/x/auth"
+
 	appante "github.com/thesixnetwork/six-protocol/app/ante"
 
 	// authrest "github.com/cosmos/cosmos-sdk/x/auth/client/rest"
@@ -106,6 +107,7 @@ import (
 	"github.com/evmos/ethermint/x/feemarket"
 	feemarketkeeper "github.com/evmos/ethermint/x/feemarket/keeper"
 	feemarkettypes "github.com/evmos/ethermint/x/feemarket/types"
+
 	ethermintconfig "github.com/thesixnetwork/six-protocol/server/config"
 	srvflags "github.com/thesixnetwork/six-protocol/server/flags"
 
@@ -115,6 +117,7 @@ import (
 	// erc20types "github.com/evmos/evmos/v6/x/erc20/types"
 
 	"github.com/ignite/cli/ignite/pkg/openapiconsole"
+
 	"github.com/thesixnetwork/six-protocol/docs"
 	protocoladminmodule "github.com/thesixnetwork/six-protocol/x/protocoladmin"
 	protocoladminmodulekeeper "github.com/thesixnetwork/six-protocol/x/protocoladmin/keeper"
@@ -625,6 +628,7 @@ func New(
 		app.BankKeeper,
 		app.StakingKeeper,
 		app.DistrKeeper,
+		app.GovKeeper,
 	)
 
 	nftmngrModule := nftmngrmodule.NewAppModule(appCodec, app.NftmngrKeeper, app.AccountKeeper, app.BankKeeper)

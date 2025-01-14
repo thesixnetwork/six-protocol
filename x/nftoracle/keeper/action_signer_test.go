@@ -6,6 +6,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
+
 	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 	"github.com/thesixnetwork/six-protocol/testutil/nullify"
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/keeper"
@@ -40,6 +41,7 @@ func TestActionSignerGet(t *testing.T) {
 		)
 	}
 }
+
 func TestActionSignerRemove(t *testing.T) {
 	keeper, ctx := keepertest.NftoracleKeeper(t)
 	items := createNActionSigner(keeper, ctx, 10)

@@ -6,7 +6,6 @@ const (
 )
 
 func (o *OnChainData) GetStatusByKey(key string) bool {
-
 	// loop over o.Status
 	for _, v := range o.Status {
 		if v.StatusName == key {

@@ -6,13 +6,13 @@ import "google/protobuf/timestamp.proto";
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftoracle/types";
 
 message _SetSignerParams {
-    string actor_address = 1; 
-    google.protobuf.Timestamp expired_at = 2
-     [(gogoproto.stdtime) = true, (gogoproto.nullable) = false];
-  }
+  string actor_address = 1;
+  google.protobuf.Timestamp expired_at = 2
+      [ (gogoproto.stdtime) = true, (gogoproto.nullable) = false ];
+}
 
 message BindedSigner {
-  string ownerAddress = 1; 
-  repeated _SetSignerParams signers = 2; 
+  string ownerAddress = 1;
+  repeated _SetSignerParams signers = 2;
   uint64 actorCount = 3;
 }

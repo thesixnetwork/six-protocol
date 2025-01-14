@@ -1,0 +1,20 @@
+{
+  "code": "divineXmembership",
+  "tokenIds": [
+    {
+      "schema": "sixprotocol.divine_elite",
+      "tokenId": "1"
+    },
+    {
+      "schema": "sixprotocol.membership",
+      "tokenId": "5"
+    }
+  ],
+  "action": "bridge_4_to_2",
+  "params": [
+    {
+      "name": "amount",
+      "value": "10"
+    }
+  ]
+}

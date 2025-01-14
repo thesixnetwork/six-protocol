@@ -57,7 +57,6 @@ var _ sdk.Msg = &MsgUpdateActionSigner{}
 func NewMsgUpdateActionSigner(
 	creator string,
 	base64EncodedSetSignerAction string,
-
 ) *MsgUpdateActionSigner {
 	return &MsgUpdateActionSigner{
 		Creator:                      creator,
@@ -99,13 +98,13 @@ var _ sdk.Msg = &MsgDeleteActionSigner{}
 func NewMsgDeleteActionSigner(
 	creator string,
 	base64EncodedSetSignerAction string,
-
 ) *MsgDeleteActionSigner {
 	return &MsgDeleteActionSigner{
 		Creator:                      creator,
 		Base64EncodedSetSignerAction: base64EncodedSetSignerAction,
 	}
 }
+
 func (msg *MsgDeleteActionSigner) Route() string {
 	return RouterKey
 }

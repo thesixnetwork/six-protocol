@@ -6,6 +6,7 @@ import (
 	testkeeper "github.com/thesixnetwork/six-protocol/testutil/keeper"
 
 	"github.com/stretchr/testify/require"
+
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 

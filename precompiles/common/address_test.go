@@ -1,12 +1,13 @@
-package common
+package common_test
 
 import (
-	"fmt"
 	"testing"
 
-	"github.com/evmos/ethermint/utils"
+	"github.com/stretchr/testify/assert"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/common"
+	"github.com/evmos/ethermint/utils"
 )
 
 func init() {
@@ -23,15 +24,15 @@ func TestAccAddressFromBech32(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	fmt.Printf("######## ADDRESS BYTE: %v\n", from)
-	fmt.Printf("######## ADDRESS String: %v\n", from.String())
+	assert.NotNil(t, from, "Address should not be nil")
+	assert.Equal(t, address, from.String(), "Address strings should match")
 }
 
 func TestAccAddressFromEthCommon(t *testing.T) {
 	commonAddress := "0x3fab184622dc19b6109349b94811493bf2a45362"
 	address := common.HexToAddress(commonAddress)
-  bech32Address := utils.EthToCosmosAddr(address)
+	bech32Address := utils.EthToCosmosAddr(address)
 
-	fmt.Printf("######## ADDRESS BYTE: %v\n", bech32Address)
-	fmt.Printf("######## ADDRESS String: %v\n", bech32Address.String())
+	assert.NotNil(t, bech32Address, "Bech32 address should not be nil")
+	assert.Equal(t, "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq", bech32Address.String(), "Bech32 address strings should match")
 }

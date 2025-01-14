@@ -230,3 +230,12 @@ deploy-nft-fast:
 
 bridge:
 	@forge script ./contracts/script/Bridge.s.sol:SendToCosmosScript --broadcast --rpc-url http://localhost:8545  --optimize
+
+
+# Update the wiki
+update-wiki:
+	@echo "Updating the wiki..."
+	cd docs/wiki && \
+	git add . && \
+	git commit -am "update wiki" && \
+	git push origin master

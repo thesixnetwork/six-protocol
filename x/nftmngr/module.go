@@ -178,13 +178,12 @@ func (AppModule) ConsensusVersion() uint64 { return 3 }
 
 // BeginBlock executes all ABCI BeginBlock logic respective to the capability module.
 func (am AppModule) BeginBlock(ctx sdk.Context, req abci.RequestBeginBlock) {
-
 	am.keeper.ProcessFeeAmount(ctx, req.LastCommitInfo.GetVotes())
 }
 
 // EndBlock executes all ABCI EndBlock logic respective to the capability module. It
 // returns no validator updates.
 func (am AppModule) EndBlock(ctx sdk.Context, _ abci.RequestEndBlock) []abci.ValidatorUpdate {
-
+	EndBlocker(ctx, am.keeper)
 	return []abci.ValidatorUpdate{}
 }

@@ -6,6 +6,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/spf13/cobra"
+
 	"github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
 )
 
@@ -27,7 +28,6 @@ func CmdListAdminOfGroup() *cobra.Command {
 			queryClient := types.NewQueryClient(clientCtx)
 
 			params := &types.QueryListAdminOfGroupRequest{
-
 				Group: reqGroup,
 			}
 

@@ -81,7 +81,7 @@ func (k msgServer) CreateActionRequest(goCtx context.Context, msg *types.MsgCrea
 
 	for i := 0; i < len(required_param); i++ {
 		if actionOralceParam.Params[i].Name != required_param[i].Name {
-			return nil, sdkerrors.Wrap(nftmngrtypes.ErrInvalidParameter, "input paramter name is not match to "+required_param[i].Name)
+			return nil, sdkerrors.Wrap(nftmngrtypes.ErrInvalidParameter, "input parameter name is not match to "+required_param[i].Name)
 		}
 		if actionOralceParam.Params[i].Value == "" {
 			actionOralceParam.Params[i].Value = required_param[i].DefaultValue
@@ -115,7 +115,7 @@ func (k msgServer) CreateActionRequest(goCtx context.Context, msg *types.MsgCrea
 		return nil, sdkerrors.Wrap(types.ErrRequiredConfirmTooLess, strconv.Itoa(int(oracleConfig.MinimumConfirmation)))
 	}
 
-	createdAt := ctx.BlockTime() //now time of block
+	createdAt := ctx.BlockTime() // now time of block
 	endTime := createdAt.Add(k.ActionRequestActiveDuration(ctx))
 
 	// validate time given format as RFC3339
@@ -158,12 +158,11 @@ func (k msgServer) CreateActionRequest(goCtx context.Context, msg *types.MsgCrea
 }
 
 func (k msgServer) ValidateActionSignature(actionSig types.ActionSignature) (*types.ActionOracleParam, *string, error) {
-
 	sign_msg := "\x19Ethereum Signed Message:\n" + strconv.FormatInt(int64(len(actionSig.Message)), 10) + actionSig.Message
 
 	data := []byte(sign_msg)
 	hash := crypto.Keccak256Hash(data)
-	var hash_bytes = hash.Bytes()
+	hash_bytes := hash.Bytes()
 
 	actionOralceParam := &types.ActionOracleParam{}
 	actionParamBz, err := base64.StdEncoding.DecodeString(actionSig.Message)
@@ -175,7 +174,7 @@ func (k msgServer) ValidateActionSignature(actionSig types.ActionSignature) (*ty
 		return nil, nil, sdkerrors.Wrap(types.ErrParsingActionParam, "Error to UnmarshalJSON")
 	}
 
-	//validate signature format
+	// validate signature format
 	decode_signature, err := hexutil.Decode(actionSig.Signature)
 	if err != nil {
 		// log.Fatalf("Failed to decode signature: %v", msg.Signature)
@@ -185,7 +184,7 @@ func (k msgServer) ValidateActionSignature(actionSig types.ActionSignature) (*ty
 	// remove last byte coz is is recovery id
 
 	// get pulic key from signature
-	sigPublicKey, err := crypto.Ecrecover(hash_bytes, decode_signature) //recover publickey from signature and hash
+	sigPublicKey, err := crypto.Ecrecover(hash_bytes, decode_signature) // recover publickey from signature and hash
 	if err != nil {
 		return nil, nil, sdkerrors.Wrap(types.ErrEcrecover, "invalid signature or message")
 	}

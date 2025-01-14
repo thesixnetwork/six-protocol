@@ -67,7 +67,6 @@ func TestActionRequestCount(t *testing.T) {
 }
 
 func TestCreateActionRequest(t *testing.T) {
-
 	k, _ := keepertest.NftoracleKeeper(t)
 	actionSig := types.ActionSignature{
 		Message:   "eyAibmZ0X3NjaGVtYV9jb2RlIjogIm1ocnMubWhycnMxIiwgInRva2VuX2lkIjogIjEiLCAiYWN0aW9uIjogInVzZUJlZXJDb3Vwb24iLCAiZXhwaXJlZF9hdCI6ICIyMDIyLTEwLTMxVDAwOjAwOjAwLjAwMFoiIH0=",
@@ -82,7 +81,7 @@ func ValidateActionSignature(k *keeper.Keeper, actionSig types.ActionSignature) 
 
 	data := []byte(sign_msg)
 	hash := crypto.Keccak256Hash(data)
-	var hash_bytes = hash.Bytes()
+	hash_bytes := hash.Bytes()
 
 	actionParam := &types.ActionOracleParam{}
 	actionParamBz, err := base64.StdEncoding.DecodeString(actionSig.Message)
@@ -94,7 +93,7 @@ func ValidateActionSignature(k *keeper.Keeper, actionSig types.ActionSignature) 
 		return nil, nil, sdkerrors.Wrap(types.ErrParsingActionParam, err.Error())
 	}
 
-	//validate signature format
+	// validate signature format
 	decode_signature, err := hexutil.Decode(actionSig.Signature)
 	if err != nil {
 		// log.Fatalf("Failed to decode signature: %v", msg.Signature)
@@ -105,7 +104,7 @@ func ValidateActionSignature(k *keeper.Keeper, actionSig types.ActionSignature) 
 	// decode_signature[64] -= 27 // this on should be checked whether it can be a weak point later // remove recovery id
 
 	// get pulic key from signature
-	sigPublicKey, err := crypto.Ecrecover(hash_bytes, decode_signature) //recover publickey from signature and hash
+	sigPublicKey, err := crypto.Ecrecover(hash_bytes, decode_signature) // recover publickey from signature and hash
 	if err != nil {
 		return nil, nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid signature or message")
 	}

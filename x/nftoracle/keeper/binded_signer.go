@@ -3,6 +3,7 @@ package keeper
 import (
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 )
 
@@ -19,7 +20,6 @@ func (k Keeper) SetBindedSigner(ctx sdk.Context, bindedSigner types.BindedSigner
 func (k Keeper) GetBindedSigner(
 	ctx sdk.Context,
 	ownerAddress string,
-
 ) (val types.BindedSigner, found bool) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.BindedSignerKeyPrefix))
 
@@ -38,7 +38,6 @@ func (k Keeper) GetBindedSigner(
 func (k Keeper) RemoveBindedSigner(
 	ctx sdk.Context,
 	ownerAddress string,
-
 ) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.BindedSignerKeyPrefix))
 	store.Delete(types.BindedSignerKey(

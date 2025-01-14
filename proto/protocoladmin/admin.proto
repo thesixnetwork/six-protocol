@@ -4,8 +4,6 @@ package thesixnetwork.sixprotocol.protocoladmin;
 option go_package = "github.com/thesixnetwork/six-protocol/x/protocoladmin/types";
 
 message Admin {
-  string group = 1; 
-  string admin = 2; 
-  
+  string group = 1;
+  string admin = 2;
 }
-

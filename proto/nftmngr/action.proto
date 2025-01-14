@@ -19,12 +19,11 @@ message ActionParams {
 }
 
 message Action {
-  string name = 1; 
-  string desc = 2; 
+  string name = 1;
+  string desc = 2;
   bool disable = 3;
-  string when = 4; 
-  repeated string then = 5; 
-  AllowedActioner allowed_actioner = 6 [(gogoproto.nullable) = true];
-  repeated ActionParams params = 7 [(gogoproto.nullable) = true];
+  string when = 4;
+  repeated string then = 5;
+  AllowedActioner allowed_actioner = 6 [ (gogoproto.nullable) = true ];
+  repeated ActionParams params = 7 [ (gogoproto.nullable) = true ];
 }
-

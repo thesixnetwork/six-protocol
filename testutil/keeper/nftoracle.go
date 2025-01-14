@@ -64,6 +64,7 @@ func NftoracleKeeper(t testing.TB) (*keeper.Keeper, sdk.Context) {
 		nil,
 		nil,
 		nil,
+		nil,
 	)
 
 	k := keeper.NewKeeper(

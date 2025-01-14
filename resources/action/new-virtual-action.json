@@ -1,0 +1,53 @@
+[
+    {
+        "name": "bridge_4_to_2",
+        "desc": "Bridge service 4 to service 2",
+        "when": "meta.GetNumber('sixprotocol.divine_elite','service_4') >= params['amount'].GetNumber()",
+        "then": [
+            "ser4value = meta.GetNumber('sixprotocol.divine_elite','service_4')",
+            "ser2Value = meta.GetNumber('sixprotocol.membership','service_2')",
+            "toSetValue = ser2Value + params['amount'].GetNumber()",
+            "meta.SetNumber('sixprotocol.membership','service_2', toSetValue)",
+            "meta.SetNumber('sixprotocol.divine_elite','service_4', ser4value - params['amount'].GetNumber())"
+        ],
+        "params": [
+            {
+                "name": "amount",
+                "desc": "Service 4 Amount",
+                "data_type": "number",
+                "required": true,
+                "default_value": "0"
+            }
+        ]
+    },
+    {
+        "name": "bridge_3_to_1",
+        "desc": "Bridge service 1 to service 4",
+        "when": "true",
+        "then": [
+            "ser3value = meta.GetNumber('sixprotocol.divine_elite','service_3')",
+            "ser1Value = meta.GetNumber('sixprotocol.membership','service_1')",
+            "toSetValue = ser3value + ser1Value",
+            "meta.SetNumber('sixprotocol.membership','service_1', toSetValue)",
+            "meta.SetNumber('sixprotocol.divine_elite','service_3', 0)"
+        ],
+        "params": []
+    },
+    {
+        "name": "native_bridge",
+        "desc": "Send Value across schema",
+        "when": "true",
+        "then": [
+            "meta.ConvertNumberAttribute('sixprotocol.divine_elite','service_7','sixprotocol.membership','service_x', params['amount'].GetNumber())"
+        ],
+        "params": [
+            {
+                "name": "amount",
+                "desc": "Service 7 Amount",
+                "data_type": "number",
+                "required": true,
+                "default_value": "0"
+            }
+        ]
+    }
+]
