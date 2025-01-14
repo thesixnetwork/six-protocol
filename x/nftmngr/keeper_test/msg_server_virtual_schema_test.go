@@ -23,7 +23,15 @@ func TestVirtualSchemaMsgServerCreate(t *testing.T) {
 	for i := 0; i < 5; i++ {
 		expected := &types.MsgProposalVirtualSchema{
 			Creator:              creator,
-			VirtualNftSchemaCode: strconv.Itoa(i),
+			ProposalType:         types.ProposalType_CREATE,
+			Actions:              []*types.Action{},
+			VirtualNftSchemaCode: "virtualNftSchemaCode",
+			Registry: []*types.VirtualSchemaRegistryRequest{
+				{
+					NftSchemaCode:    "nftSchemaCode",
+					SharedAttributes: []string{"SharedAttributes"},
+				},
+			},
 		}
 		_, err := srv.ProposalVirtualSchema(wctx, expected)
 		require.NoError(t, err)

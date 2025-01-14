@@ -9,7 +9,7 @@ import (
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
-// TODO:: TEST(VirtualSchema)
+// deprecated
 func (k msgServer) CreateVirtualAction(goCtx context.Context, msg *types.MsgCreateVirtualAction) (*types.MsgCreateVirtualActionResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	listNewVirtualAction := []*types.VirtualAction{}
@@ -18,8 +18,14 @@ func (k msgServer) CreateVirtualAction(goCtx context.Context, msg *types.MsgCrea
 		return nil, err
 	}
 
+	// check permission of the creator
+	err := k.validateVirtualSchemaPermission(ctx, msg.NftSchemaCode, msg.Creator)
+  if err != nil {
+    return nil, err
+  }
+
 	for _, newAction := range msg.NewActions {
-		err := k.AddVirtualActionKeeper(ctx, msg.Creator, msg.NftSchemaCode, *newAction)
+		err := k.AddVirtualActionKeeper(ctx, msg.NftSchemaCode, *newAction)
 		if err != nil {
 			return nil, err
 		}
@@ -49,6 +55,7 @@ func (k msgServer) CreateVirtualAction(goCtx context.Context, msg *types.MsgCrea
 	}, nil
 }
 
+// deprecated
 func (k msgServer) UpdateVirtualAction(goCtx context.Context, msg *types.MsgUpdateVirtualAction) (*types.MsgUpdateVirtualActionResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	listNewVirtualAction := []*types.VirtualAction{}
@@ -58,7 +65,7 @@ func (k msgServer) UpdateVirtualAction(goCtx context.Context, msg *types.MsgUpda
 	}
 
 	for _, newAction := range msg.NewActions {
-		err := k.UpdateVirtualActionKeeper(ctx, msg.Creator, msg.NftSchemaCode, *newAction)
+		err := k.UpdateVirtualActionKeeper(ctx, msg.NftSchemaCode, *newAction)
 		if err != nil {
 			return nil, err
 		}
@@ -88,6 +95,7 @@ func (k msgServer) UpdateVirtualAction(goCtx context.Context, msg *types.MsgUpda
 	}, nil
 }
 
+// deprecated
 func (k msgServer) DeleteVirtualAction(goCtx context.Context, msg *types.MsgDeleteVirtualAction) (*types.MsgDeleteVirtualActionResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 

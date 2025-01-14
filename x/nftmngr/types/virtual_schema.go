@@ -11,6 +11,6 @@ func (req VirtualSchemaRegistryRequest) ConvertRequestToVirtualRegistry() *Virtu
 	return &VirtualSchemaRegistry{
 		NftSchemaCode:    req.NftSchemaCode,
 		SharedAttributes: req.SharedAttributes,
-		Status:           RegistryStatus_PENDING,
+		Decision:         RegistryStatus_PENDING,
 	}
 }

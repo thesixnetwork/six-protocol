@@ -13,16 +13,15 @@ import (
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
-// TODO:: TEST(VirtualSchema)
+// TODO: [chore] Combine enable/disable to change virtual schema.
 func CmdCreateVirtualSchema() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "virtual-schema-proposal [schemaCode] [proposalType] [proposalFile]",
-		Short: "Virtual Schema Proposal proposal type [create(0)/enable(1)/disable(2)/delete(3)]",
-		Args:  cobra.RangeArgs(2, 3),
+		Use:   "virtual-schema-proposal [proposalType] [proposalFile]",
+		Short: "Virtual Schema Proposal proposal type [create(0)/edit(1)]",
+		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			// Get value arguments
-			argCode := args[0]
-			argType := args[1]
+			argType := args[0]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -34,28 +33,20 @@ func CmdCreateVirtualSchema() *cobra.Command {
 				return err
 			}
 
-			request := make([]types.VirtualSchemaRegistryRequest, 0)
+			argFilePath := args[1]
 
-			if proposalType == types.ProposalType_CREATE {
-
-				argFilePath := args[2]
-
-				proposal, err := nftmngrutils.ParseVirtualSchemaRegistryRequestJSON(clientCtx.LegacyAmino, argFilePath)
-				if err != nil {
-					return err
-				}
-
-				for _, req := range proposal {
-					registry := types.NewVirtualSchemaRegistryRequest(req.Code, req.SharedAttributes)
-					request = append(request, *registry)
-				}
+			proposal, err := nftmngrutils.ParseProposalFile(clientCtx.LegacyAmino, argFilePath)
+			if err != nil {
+				return err
 			}
 
 			msg := types.NewMsgProposalVirtualSchema(
 				clientCtx.GetFromAddress().String(),
-				argCode,
+				proposal.VirtualSchemaCode,
 				proposalType,
-				request,
+        proposal.VirtualSchemaRegistry,
+				proposal.Actions,
+        proposal.Enable,
 			)
 
 			if err := msg.ValidateBasic(); err != nil {
@@ -75,11 +66,9 @@ func parseProposalType(option string) (types.ProposalType, error) {
 	switch optionLower {
 	case "create", "0":
 		return types.ProposalType_CREATE, nil
-	case "enable", "1":
-		return types.ProposalType_ENABLE, nil
-	case "disable", "2":
-		return types.ProposalType_DISABLE, nil
+	case "edit", "1":
+		return types.ProposalType_EDIT, nil
 	default:
-		return types.ProposalType_DISABLE, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Invalid proposal type. Use 'create(0)/enable(1)/disable(2)/delete(3)'")
+		return types.ProposalType_CREATE, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Invalid proposal type. Use 'create(0)/edit(1)'")
 	}
 }

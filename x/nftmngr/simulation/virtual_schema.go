@@ -26,10 +26,13 @@ func SimulateMsgCreateVirtualSchema(
 	) (simtypes.OperationMsg, []simtypes.FutureOperation, error) {
 		simAccount, _ := simtypes.RandomAcc(r, accs)
 
-		i := r.Int()
+		// i := r.Int()
 		msg := &types.MsgProposalVirtualSchema{
 			Creator:              simAccount.Address.String(),
-			VirtualNftSchemaCode: strconv.Itoa(i),
+			ProposalType:         types.ProposalType_CREATE,
+			Actions:              []*types.Action{},
+			VirtualNftSchemaCode: "virtualNftSchemaCode",
+			Registry:             []*types.VirtualSchemaRegistryRequest{},
 		}
 
 		_, found := k.GetVirtualSchema(ctx, msg.VirtualNftSchemaCode)
