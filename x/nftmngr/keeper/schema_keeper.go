@@ -35,6 +35,12 @@ func (k Keeper) CreateNftSchemaKeeper(ctx sdk.Context, creator string, schemaInp
 		return sdkerrors.Wrap(types.ErrSchemaAlreadyExists, schemaInput.Code)
 	}
 
+	// check if schemaCode match with some virtual schema proposal
+	err = k.checkDuplicateSchemaCodeWithVirtualSchemaProposal(ctx, schemaInput.Code)
+	if err != nil {
+		return err
+	}
+
 	foundOrganization, organizationName := GetOrganizationFromSchemaCode(schemaInput.Code)
 
 	// NOTE: If there is organization in schemaInput code, check if the organization exists
@@ -344,5 +350,16 @@ func (k Keeper) SetURIRetrievalKeeper(ctx sdk.Context, creator, nftSchemaName st
 
 	k.SetNFTSchema(ctx, schema)
 
+	return nil
+}
+
+func (k Keeper) checkDuplicateSchemaCodeWithVirtualSchemaProposal(ctx sdk.Context, schemaCode string) error {
+	allAciveProposal := k.GetAllActiveVirtualSchemaProposal(ctx)
+	for _, proposal := range allAciveProposal {
+		virtualSchemaProposal, _ := k.GetVirtualSchemaProposal(ctx, proposal.Id)
+		if virtualSchemaProposal.VirtualSchema.VirtualNftSchemaCode == schemaCode {
+			return sdkerrors.Wrap(types.ErrSchemaAlreadyExists, "schema code already exists in proposal: "+proposal.Id)
+		}
+	}
 	return nil
 }

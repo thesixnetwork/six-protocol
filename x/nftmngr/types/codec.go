@@ -39,9 +39,9 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 	// virtual schema
 	// virtual action
 	cdc.RegisterConcrete(&MsgPerformVirtualAction{}, "nftmngr/PerformVirtualAction", nil)
-	cdc.RegisterConcrete(&MsgCreateVirtualAction{}, "nftmngr/CreateVirtualAction", nil)
-	cdc.RegisterConcrete(&MsgUpdateVirtualAction{}, "nftmngr/UpdateVirtualAction", nil)
-	cdc.RegisterConcrete(&MsgDeleteVirtualAction{}, "nftmngr/DeleteVirtualAction", nil)
+	// cdc.RegisterConcrete(&MsgCreateVirtualAction{}, "nftmngr/CreateVirtualAction", nil)
+	// cdc.RegisterConcrete(&MsgUpdateVirtualAction{}, "nftmngr/UpdateVirtualAction", nil)
+	// cdc.RegisterConcrete(&MsgDeleteVirtualAction{}, "nftmngr/DeleteVirtualAction", nil)
 	// proposal
 	cdc.RegisterConcrete(&MsgProposalVirtualSchema{}, "nftmngr/ProposalVirtualSchema", nil)
 	cdc.RegisterConcrete(&MsgVoteVirtualSchemaProposal{}, "nftmngr/VoteVirtualSchemaProposal", nil)

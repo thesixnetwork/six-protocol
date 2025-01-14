@@ -24,13 +24,14 @@ func (k Keeper) ProcessFeeAmount(ctx sdk.Context, bondedVotes []abci.VoteInfo) e
 	if currentCreateSchemaFeeBalance.Amount.GT(sdk.NewInt(0)) {
 		// Loop over feeConfig.SchemaFee.FeeDistributions
 		for _, feeDistribution := range feeConfig.SchemaFee.FeeDistributions {
-			if feeDistribution.Method == types.FeeDistributionMethod_BURN {
+			switch feeDistribution.Method {
+			case types.FeeDistributionMethod_BURN:
 				burnBalance := currentCreateSchemaFeeBalance.Amount.ToDec().Mul(sdk.NewDecWithPrec(int64(feeDistribution.Portion*100), 2)).TruncateInt()
 				err = k.bankKeeper.BurnCoins(ctx, types.ModuleName, sdk.NewCoins(sdk.NewCoin(currentCreateSchemaFeeBalance.Denom, burnBalance)))
 				if err != nil {
 					return err
 				}
-			} else if feeDistribution.Method == types.FeeDistributionMethod_REWARD_POOL {
+			case types.FeeDistributionMethod_REWARD_POOL:
 
 				// totalPreviousPower = sum of all previous validators' power
 				totalPreviousPower := int64(0)
@@ -107,26 +108,32 @@ func (k Keeper) VirtualSchemaHook(ctx sdk.Context, virtualSchemaProposal types.V
 	}
 
 	// Process proposal
-	var virtualSchema types.VirtualSchema
-
-	switch virtualSchemaProposal.ProposalType {
-	case types.ProposalType_CREATE:
-		virtualSchema = types.VirtualSchema{
-			VirtualNftSchemaCode: virtualSchemaProposal.VirtualSchema.VirtualNftSchemaCode,
-			Registry:             virtualSchemaProposal.VirtualSchema.Registry,
-			Enable:               virtualSchemaProposal.VirtualSchema.Enable,
-		}
-	// TODO: EDIT VIRTUAL SCHEMA ALSO EDIT ACTION
-	case types.ProposalType_EDIT:
-		virtualSchema = types.VirtualSchema{
-			VirtualNftSchemaCode: virtualSchemaProposal.VirtualSchema.VirtualNftSchemaCode,
-			Registry:             virtualSchemaProposal.VirtualSchema.Registry,
-			Enable:               virtualSchemaProposal.VirtualSchema.Enable,
-		}
+	virtualSchema := types.VirtualSchema{
+		VirtualNftSchemaCode: virtualSchemaProposal.VirtualSchema.VirtualNftSchemaCode,
+		Registry:             virtualSchemaProposal.VirtualSchema.Registry,
+		Enable:               virtualSchemaProposal.VirtualSchema.Enable,
 	}
 
 	k.Logger(ctx).Info("Updating virtual schema", "code", virtualSchema.VirtualNftSchemaCode, "enabled", virtualSchema.Enable)
 	k.SetVirtualSchema(ctx, virtualSchema)
+
+	// TODO: VIRTUAL ACTTION
+	if virtualSchemaProposal.ProposalType == types.ProposalType_EDIT {
+		// TODO: EDIT VIRTUAL SCHEMA ALSO EDIT ACTION
+		for _, action := range virtualSchemaProposal.Actions {
+			_, found := k.GetVirtualAction(ctx, virtualSchema.VirtualNftSchemaCode, action.Name)
+			if found {
+				k.UpdateVirtualActionKeeper(ctx, virtualSchema.VirtualNftSchemaCode, *action)
+			} else {
+				k.AddVirtualActionKeeper(ctx, virtualSchema.VirtualNftSchemaCode, *action)
+			}
+		}
+	} else {
+		// TODO: ADD VIRTUAL SCHEMA ALSO ADD ACTION
+		for _, action := range virtualSchemaProposal.Actions {
+			k.AddVirtualActionKeeper(ctx, virtualSchema.VirtualNftSchemaCode, *action)
+		}
+	}
 
 	// Update proposal status
 	k.RemoveActiveVirtualSchemaProposal(ctx, virtualSchemaProposal.Id)
