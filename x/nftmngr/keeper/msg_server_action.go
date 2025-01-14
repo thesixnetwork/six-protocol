@@ -100,7 +100,7 @@ func (k msgServer) UpdateAction(goCtx context.Context, msg *types.MsgUpdateActio
 		return nil, sdkerrors.Wrap(types.ErrParsingMetadataMessage, err.Error())
 	}
 
-	err = k.Keeper.UpdateActionKeeper(ctx, msg.Creator, msg.NftSchemaCode, updateAction)
+	err = k.UpdateActionKeeper(ctx, msg.Creator, msg.NftSchemaCode, updateAction)
 	if err != nil {
 		return nil, err
 	}

@@ -252,7 +252,7 @@ type virtualActionTestCase struct {
 }
 
 func setupVirtualAction(t *testing.T, keeper *keeper.Keeper, ctx sdk.Context, virtualSchema *types.VirtualSchema, action types.Action) *types.VirtualAction {
-	keeper.AddVirtualActionKeeper(ctx, "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq", virtualSchema.VirtualNftSchemaCode, action)
+	keeper.AddVirtualActionKeeper(ctx,virtualSchema.VirtualNftSchemaCode, action)
 	storedAction, found := keeper.GetVirtualAction(ctx, virtualSchema.VirtualNftSchemaCode, action.Name)
 	require.True(t, found)
 	require.Equal(t, action, *storedAction.ToAction())
@@ -315,13 +315,13 @@ func TestCrossSchemaAction(t *testing.T) {
 	registrySchemaA := types.VirtualSchemaRegistry{
 		NftSchemaCode:    schemaA.Code,
 		SharedAttributes: []string{"service_3", "service_4", "service_7"},
-		Status:           types.RegistryStatus_ACCEPT,
+		Decision:           types.RegistryStatus_ACCEPT,
 	}
 
 	registrySchemaB := types.VirtualSchemaRegistry{
 		NftSchemaCode:    schemaB.Code,
 		SharedAttributes: []string{"service_1", "service_2", "service_x"},
-		Status:           types.RegistryStatus_ACCEPT,
+		Decision:           types.RegistryStatus_ACCEPT,
 	}
 
 	virtualSchema := types.VirtualSchema{

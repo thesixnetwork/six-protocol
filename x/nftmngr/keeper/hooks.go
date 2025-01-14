@@ -24,13 +24,14 @@ func (k Keeper) ProcessFeeAmount(ctx sdk.Context, bondedVotes []abci.VoteInfo) e
 	if currentCreateSchemaFeeBalance.Amount.GT(sdk.NewInt(0)) {
 		// Loop over feeConfig.SchemaFee.FeeDistributions
 		for _, feeDistribution := range feeConfig.SchemaFee.FeeDistributions {
-			if feeDistribution.Method == types.FeeDistributionMethod_BURN {
+			switch feeDistribution.Method {
+			case types.FeeDistributionMethod_BURN:
 				burnBalance := currentCreateSchemaFeeBalance.Amount.ToDec().Mul(sdk.NewDecWithPrec(int64(feeDistribution.Portion*100), 2)).TruncateInt()
 				err = k.bankKeeper.BurnCoins(ctx, types.ModuleName, sdk.NewCoins(sdk.NewCoin(currentCreateSchemaFeeBalance.Denom, burnBalance)))
 				if err != nil {
 					return err
 				}
-			} else if feeDistribution.Method == types.FeeDistributionMethod_REWARD_POOL {
+			case types.FeeDistributionMethod_REWARD_POOL:
 
 				// totalPreviousPower = sum of all previous validators' power
 				totalPreviousPower := int64(0)
@@ -79,19 +80,19 @@ func (k Keeper) ProcessFeeAmount(ctx sdk.Context, bondedVotes []abci.VoteInfo) e
 // Returns true if the proposal was successfully processed, false otherwise.
 func (k Keeper) VirtualSchemaHook(ctx sdk.Context, virtualSchemaProposal types.VirtualSchemaProposal) bool {
 	// Validate input
-	if virtualSchemaProposal.VirtualSchemaCode == "" {
+	if virtualSchemaProposal.VirtualSchema.VirtualNftSchemaCode == "" {
 		k.Logger(ctx).Error("empty virtual schema code")
 		return false
 	}
 
-	if len(virtualSchemaProposal.Registry) == 0 {
+	if len(virtualSchemaProposal.VirtualSchema.Registry) == 0 {
 		k.Logger(ctx).Error("empty registry")
 		return false
 	}
 
 	// Count votes
-	acceptCount, totalVotes := countProposalVotes(virtualSchemaProposal.Registry)
-	voteThreshold := len(virtualSchemaProposal.Registry)
+	acceptCount, totalVotes := countProposalVotes(virtualSchemaProposal.VirtualSchema.Registry)
+	voteThreshold := len(virtualSchemaProposal.VirtualSchema.Registry)
 
 	k.Logger(ctx).Info("Processing virtual schema proposal",
 		"id", virtualSchemaProposal.Id,
@@ -107,31 +108,32 @@ func (k Keeper) VirtualSchemaHook(ctx sdk.Context, virtualSchemaProposal types.V
 	}
 
 	// Process proposal
-	var virtualSchema types.VirtualSchema
-
-	switch virtualSchemaProposal.ProposalType {
-	case types.ProposalType_CREATE:
-		virtualSchema = types.VirtualSchema{
-			VirtualNftSchemaCode: virtualSchemaProposal.VirtualSchemaCode,
-			Registry:             virtualSchemaProposal.Registry,
-			Enable:               acceptCount == totalVotes,
-		}
-	case types.ProposalType_ENABLE:
-		virtualSchema = types.VirtualSchema{
-			VirtualNftSchemaCode: virtualSchemaProposal.VirtualSchemaCode,
-			Registry:             virtualSchemaProposal.Registry,
-			Enable:               acceptCount == totalVotes,
-		}
-	case types.ProposalType_DISABLE:
-		virtualSchema = types.VirtualSchema{
-			VirtualNftSchemaCode: virtualSchemaProposal.VirtualSchemaCode,
-			Registry:             virtualSchemaProposal.Registry,
-			Enable:               acceptCount != totalVotes,
-		}
+	virtualSchema := types.VirtualSchema{
+		VirtualNftSchemaCode: virtualSchemaProposal.VirtualSchema.VirtualNftSchemaCode,
+		Registry:             virtualSchemaProposal.VirtualSchema.Registry,
+		Enable:               virtualSchemaProposal.VirtualSchema.Enable,
 	}
 
 	k.Logger(ctx).Info("Updating virtual schema", "code", virtualSchema.VirtualNftSchemaCode, "enabled", virtualSchema.Enable)
 	k.SetVirtualSchema(ctx, virtualSchema)
+
+	// TODO: VIRTUAL ACTTION
+	if virtualSchemaProposal.ProposalType == types.ProposalType_EDIT {
+		// TODO: EDIT VIRTUAL SCHEMA ALSO EDIT ACTION
+		for _, action := range virtualSchemaProposal.Actions {
+			_, found := k.GetVirtualAction(ctx, virtualSchema.VirtualNftSchemaCode, action.Name)
+			if found {
+				k.UpdateVirtualActionKeeper(ctx, virtualSchema.VirtualNftSchemaCode, *action)
+			} else {
+				k.AddVirtualActionKeeper(ctx, virtualSchema.VirtualNftSchemaCode, *action)
+			}
+		}
+	} else {
+		// TODO: ADD VIRTUAL SCHEMA ALSO ADD ACTION
+		for _, action := range virtualSchemaProposal.Actions {
+			k.AddVirtualActionKeeper(ctx, virtualSchema.VirtualNftSchemaCode, *action)
+		}
+	}
 
 	// Update proposal status
 	k.RemoveActiveVirtualSchemaProposal(ctx, virtualSchemaProposal.Id)
@@ -143,15 +145,15 @@ func (k Keeper) VirtualSchemaHook(ctx sdk.Context, virtualSchemaProposal types.V
 
 func countProposalVotes(registry []*types.VirtualSchemaRegistry) (acceptCount, totalVotes int) {
 	for _, reg := range registry {
-		if reg.Status != types.RegistryStatus_PENDING {
-			if reg.Status == types.RegistryStatus_ACCEPT {
+		if reg.Decision != types.RegistryStatus_PENDING {
+			if reg.Decision == types.RegistryStatus_ACCEPT {
 				acceptCount++
 			}
 		}
 	}
 
 	for _, reg := range registry {
-		if reg.Status != types.RegistryStatus_PENDING {
+		if reg.Decision != types.RegistryStatus_PENDING {
 			totalVotes++
 		}
 	}

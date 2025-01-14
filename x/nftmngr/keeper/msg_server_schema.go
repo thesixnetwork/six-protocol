@@ -82,7 +82,7 @@ func (k msgServer) SetUriRetrievalMethod(goCtx context.Context, msg *types.MsgSe
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, msg.Creator)
 	}
 
-	k.Keeper.SetURIRetrievalKeeper(ctx, msg.Creator, msg.SchemaCode, msg.NewMethod)
+	k.SetURIRetrievalKeeper(ctx, msg.Creator, msg.SchemaCode, msg.NewMethod)
 	strMethod := strconv.FormatInt(int64(msg.NewMethod), 10)
 	// emit events
 	ctx.EventManager().EmitEvents(sdk.Events{

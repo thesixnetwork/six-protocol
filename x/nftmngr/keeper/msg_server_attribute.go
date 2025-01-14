@@ -126,7 +126,7 @@ func (k msgServer) SetAttributeOveriding(goCtx context.Context, msg *types.MsgSe
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, msg.Creator)
 	}
 
-	err = k.Keeper.SetAttributeOveridingKeeper(ctx, msg.Creator, msg.SchemaCode, msg.NewOveridingType)
+	err = k.SetAttributeOveridingKeeper(ctx, msg.Creator, msg.SchemaCode, msg.NewOveridingType)
 	if err != nil {
 		return nil, err
 	}
