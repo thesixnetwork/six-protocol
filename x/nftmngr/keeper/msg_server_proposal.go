@@ -24,25 +24,27 @@ func (k msgServer) ProposalVirtualSchema(goCtx context.Context, msg *types.MsgPr
 			return nil, err
 		}
 	} else {
-		// get virtual schema entity
-		existedSchema, found := k.GetVirtualSchema(ctx, msg.VirtualNftSchemaCode)
-		if !found {
-			return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, msg.VirtualNftSchemaCode)
-		}
-
-		// mark pending to registry
-		for _, vsRegistry := range existedSchema.Registry {
-			registry = append(registry, &types.VirtualSchemaRegistry{
-				NftSchemaCode:    vsRegistry.NftSchemaCode,
-				SharedAttributes: vsRegistry.SharedAttributes,
-				Decision:         types.RegistryStatus_PENDING,
-			})
+		registry, err = k.validateUpdateVirtualSchemaProposal(ctx, msg.VirtualNftSchemaCode, msg.Registry)
+		if err != nil {
+			return nil, err
 		}
 	}
 
 	err = k.validateOwnerOfRegistry(ctx, msg.Creator, registry)
 	if err != nil {
 		return nil, err
+	}
+
+	actionNameMap := make(map[string]bool)
+	// validateAction
+	for _, action := range msg.Actions {
+		if err := ValidateVirutualAction(action); err != nil {
+			return nil, err
+		}
+		if _, found := actionNameMap[action.Name]; found {
+			return nil, sdkerrors.Wrap(types.ErrDuplicateActionName, action.Name)
+		}
+		actionNameMap[action.Name] = true
 	}
 
 	strProposalId := k.getLastVirtualSchemaProposalId(ctx)
@@ -58,7 +60,7 @@ func (k msgServer) ProposalVirtualSchema(goCtx context.Context, msg *types.MsgPr
 		VirtualSchema: &types.VirtualSchema{
 			VirtualNftSchemaCode: msg.VirtualNftSchemaCode,
 			Registry:             registry,
-			Enable:               true,
+			Enable:               msg.Enable,
 		},
 		Actions:         msg.Actions,
 		SubmitTime:      submitTime,
@@ -75,6 +77,25 @@ func (k msgServer) ProposalVirtualSchema(goCtx context.Context, msg *types.MsgPr
 		VirtualNftSchemaCode: msg.VirtualNftSchemaCode,
 		ProposalType:         msg.ProposalType,
 	}, nil
+}
+
+func (k Keeper) validateVirtualSchemaPermission(ctx sdk.Context, virtualNftSchemaCode, creator string) error {
+	virtualSchema, found := k.GetVirtualSchema(ctx, virtualNftSchemaCode)
+	if !found {
+		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, virtualNftSchemaCode)
+	}
+
+	for _, reg := range virtualSchema.Registry {
+		schema, found := k.GetNFTSchema(ctx, reg.NftSchemaCode)
+		if !found {
+			return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, reg.NftSchemaCode)
+		}
+		if schema.Owner != creator {
+			return sdkerrors.Wrap(types.ErrUnauthorized, "Only owner of registry schema can create proposal: "+creator)
+		}
+	}
+
+	return nil
 }
 
 func (k Keeper) validateOwnerOfRegistry(ctx sdk.Context, creator string, registry []*types.VirtualSchemaRegistry) error {
@@ -113,6 +134,31 @@ func (k Keeper) validateCreateVirtualSchemaProposal(ctx sdk.Context, virtualNftS
 
 	if found {
 		return nil, sdkerrors.Wrap(types.ErrSchemaAlreadyExists, "Schema name already existed")
+	}
+
+	err := k.checkDuplicateSchemaCodeWithVirtualSchemaProposal(ctx, virtualNftSchemaCode)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, regis := range registryReq {
+		registry = append(registry, regis.ConvertRequestToVirtualRegistry())
+	}
+
+	return registry, nil
+}
+
+func (k Keeper) validateUpdateVirtualSchemaProposal(ctx sdk.Context, virtualNftSchemaCode string, registryReq []*types.VirtualSchemaRegistryRequest) ([]*types.VirtualSchemaRegistry, error) {
+	registry := []*types.VirtualSchemaRegistry{}
+
+	// Check if the value already exists
+	_, found := k.GetVirtualSchema(
+		ctx,
+		virtualNftSchemaCode,
+	)
+
+	if !found {
+		return nil, sdkerrors.Wrap(types.ErrSchemaNotFound, "Virtual Schema code not found")
 	}
 
 	for _, regis := range registryReq {

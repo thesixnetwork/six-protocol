@@ -38,13 +38,13 @@ func (k msgServer) SetFeeConfig(goCtx context.Context, msg *types.MsgSetFeeConfi
 			return nil, sdkerrors.Wrap(types.ErrParsingSchemaMessage, err.Error())
 		}
 
-		err = k.Keeper.ValidateFeeConfig(&feeConfig)
+		err = k.ValidateFeeConfig(&feeConfig)
 		if err != nil {
 			return nil, err
 		}
 
 		// Set fee config
-		k.Keeper.SetNFTFeeConfig(ctx, feeConfig)
+		k.SetNFTFeeConfig(ctx, feeConfig)
 
 		// Emit event
 		ctx.EventManager().EmitEvent(
