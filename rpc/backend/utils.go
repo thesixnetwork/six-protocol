@@ -21,6 +21,7 @@ import (
 	tmrpctypes "github.com/tendermint/tendermint/rpc/core/types"
 
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
+
 	"github.com/thesixnetwork/six-protocol/rpc/types"
 )
 

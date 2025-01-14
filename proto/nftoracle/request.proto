@@ -7,12 +7,11 @@ option go_package = "github.com/thesixnetwork/six-protocol/x/nftoracle/types";
 enum RequestStatus {
   PENDING = 0;
   SUCCESS_WITH_CONSENSUS = 1;
-  FAILED_WITHOUT_CONCENSUS = 2;
+  FAILED_WITHOUT_CONSENSUS = 2;
   EXPIRED = 3;
   FAILED_ON_EXECUTION = 4;
   FAILED_REJECT_BY_CONSENSUS = 5;
 }
-
 
 message NftOriginData {
   string image = 1;

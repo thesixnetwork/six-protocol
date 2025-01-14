@@ -78,7 +78,6 @@ func (k msgServer) SubmitMintResponse(goCtx context.Context, msg *types.MsgSubmi
 			if confirmer == msg.Creator {
 				return nil, sdkerrors.Wrap(types.ErrOracleConfirmedAlready, strconv.FormatUint(msg.MintRequestID, 10))
 			}
-
 		}
 		// if _, ok := mintRequest.Confirmers[msg.Creator]; ok {
 		// 	return nil, sdkerrors.Wrap(types.ErrOracleConfirmedAlready, strconv.FormatUint(msg.MintRequestID, 10)+", "+msg.Creator)
@@ -117,7 +116,7 @@ func (k msgServer) SubmitMintResponse(goCtx context.Context, msg *types.MsgSubmi
 		// Check if there is only one data hash
 		if len(mintRequest.DataHashes) > 1 {
 			// Update mintRequest.Status to be FAILED
-			mintRequest.Status = types.RequestStatus_FAILED_WITHOUT_CONCENSUS
+			mintRequest.Status = types.RequestStatus_FAILED_WITHOUT_CONSENSUS
 		} else {
 			// Update mintRequest.Status to be SUCCESS
 			mintRequest.Status = types.RequestStatus_SUCCESS_WITH_CONSENSUS

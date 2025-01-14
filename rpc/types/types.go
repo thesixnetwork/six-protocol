@@ -7,8 +7,8 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	"github.com/evmos/ethermint/x/evm/statedb"
 	"github.com/ethereum/go-ethereum/core/vm"
+	"github.com/evmos/ethermint/x/evm/statedb"
 )
 
 // Copied the Account and StorageResult types since they are registered under an
@@ -127,7 +127,6 @@ func (diff *StateOverride) Apply(state *statedb.StateDB) error {
 	}
 	return nil
 }
-
 
 // BlockOverrides is a set of header fields to override.
 type BlockOverrides struct {

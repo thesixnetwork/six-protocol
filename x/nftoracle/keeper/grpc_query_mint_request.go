@@ -7,9 +7,10 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/cosmos/cosmos-sdk/types/query"
-	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+
+	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 )
 
 func (k Keeper) MintRequestAll(c context.Context, req *types.QueryAllMintRequestRequest) (*types.QueryAllMintRequestResponse, error) {
@@ -32,7 +33,6 @@ func (k Keeper) MintRequestAll(c context.Context, req *types.QueryAllMintRequest
 		mintRequests = append(mintRequests, mintRequest)
 		return nil
 	})
-
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}

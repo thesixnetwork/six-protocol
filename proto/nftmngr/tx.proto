@@ -1,45 +1,62 @@
 syntax = "proto3";
 package thesixnetwork.sixprotocol.nftmngr;
 
+import "google/api/annotations.proto";
+import "google/protobuf/any.proto";
+import "gogoproto/gogo.proto";
 import "nftmngr/action_executor.proto";
 import "nftmngr/schema_attribute.proto";
-// this line is used by starport scaffolding # proto/tx/import
+import "nftmngr/virtual_action.proto";
 import "nftmngr/on_chain_data.proto";
 import "nftmngr/attribute_definition.proto";
 import "nftmngr/nft_attribute_value.proto";
+import "nftmngr/virtual_schema.proto";
+import "nftmngr/action.proto";
+// this line is used by starport scaffolding # proto/tx/import
 
-import "google/protobuf/any.proto";
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
 
 // Msg defines the Msg service.
 service Msg {
   rpc CreateNFTSchema(MsgCreateNFTSchema) returns (MsgCreateNFTSchemaResponse);
   rpc CreateMetadata(MsgCreateMetadata) returns (MsgCreateMetadataResponse);
-  rpc PerformActionByAdmin(MsgPerformActionByAdmin) returns (MsgPerformActionByAdminResponse);
+  rpc PerformActionByAdmin(MsgPerformActionByAdmin)
+      returns (MsgPerformActionByAdminResponse);
   rpc AddAttribute(MsgAddAttribute) returns (MsgAddAttributeResponse);
   rpc AddAction(MsgAddAction) returns (MsgAddActionResponse);
   rpc SetBaseUri(MsgSetBaseUri) returns (MsgSetBaseUriResponse);
   rpc ToggleAction(MsgToggleAction) returns (MsgToggleActionResponse);
-  rpc ChangeSchemaOwner(MsgChangeSchemaOwner) returns (MsgChangeSchemaOwnerResponse);
-  rpc ResyncAttributes(MsgResyncAttributes) returns (MsgResyncAttributesResponse);
+  rpc ChangeSchemaOwner(MsgChangeSchemaOwner)
+      returns (MsgChangeSchemaOwnerResponse);
+  rpc ResyncAttributes(MsgResyncAttributes)
+      returns (MsgResyncAttributesResponse);
   rpc ShowAttributes(MsgShowAttributes) returns (MsgShowAttributesResponse);
   rpc SetFeeConfig(MsgSetFeeConfig) returns (MsgSetFeeConfigResponse);
   rpc SetMintauth(MsgSetMintauth) returns (MsgSetMintauthResponse);
   rpc ChangeOrgOwner(MsgChangeOrgOwner) returns (MsgChangeOrgOwnerResponse);
-  rpc CreateMultiMetadata(MsgCreateMultiMetadata) returns (MsgCreateMultiMetadataResponse);
-  rpc PerformMultiTokenAction(MsgPerformMultiTokenAction) returns (MsgPerformMultiTokenActionResponse);
-  rpc SetUriRetrievalMethod(MsgSetUriRetrievalMethod) returns (MsgSetUriRetrievalMethodResponse);
+  rpc SetUriRetrievalMethod(MsgSetUriRetrievalMethod)
+      returns (MsgSetUriRetrievalMethodResponse);
   rpc SetOriginChain(MsgSetOriginChain) returns (MsgSetOriginChainResponse);
-  rpc SetOriginContract(MsgSetOriginContract) returns (MsgSetOriginContractResponse);
-  rpc SetAttributeOveriding(MsgSetAttributeOveriding) returns (MsgSetAttributeOveridingResponse);
-  rpc SetMetadataFormat(MsgSetMetadataFormat) returns (MsgSetMetadataFormatResponse);
-  rpc CreateActionExecutor(MsgCreateActionExecutor) returns (MsgCreateActionExecutorResponse);
-  //rpc UpdateActionExecutor(MsgUpdateActionExecutor) returns (MsgUpdateActionExecutorResponse);
-  rpc DeleteActionExecutor(MsgDeleteActionExecutor) returns (MsgDeleteActionExecutorResponse);
-  rpc UpdateSchemaAttribute(MsgUpdateSchemaAttribute) returns (MsgUpdateSchemaAttributeResponse);
-  // rpc DeleteSchemaAttribute(MsgDeleteSchemaAttribute) returns (MsgDeleteSchemaAttributeResponse);
+  rpc SetOriginContract(MsgSetOriginContract)
+      returns (MsgSetOriginContractResponse);
+  rpc SetAttributeOveriding(MsgSetAttributeOveriding)
+      returns (MsgSetAttributeOveridingResponse);
+  rpc SetMetadataFormat(MsgSetMetadataFormat)
+      returns (MsgSetMetadataFormatResponse);
+  rpc CreateActionExecutor(MsgCreateActionExecutor)
+      returns (MsgCreateActionExecutorResponse);
+  rpc DeleteActionExecutor(MsgDeleteActionExecutor)
+      returns (MsgDeleteActionExecutorResponse);
+  rpc UpdateSchemaAttribute(MsgUpdateSchemaAttribute)
+      returns (MsgUpdateSchemaAttributeResponse);
   rpc UpdateAction(MsgUpdateAction) returns (MsgUpdateActionResponse);
-// this line is used by starport scaffolding # proto/tx/rpc
+  rpc ProposalVirtualSchema(MsgProposalVirtualSchema)
+      returns (MsgProposalVirtualSchemaResponse);
+  rpc PerformVirtualAction(MsgPerformVirtualAction)
+      returns (MsgPerformVirtualActionResponse);
+  rpc VoteVirtualSchemaProposal(MsgVoteVirtualSchemaProposal)
+      returns (MsgVoteVirtualSchemaProposalResponse);
+  // this line is used by starport scaffolding # proto/tx/rpc
 }
 
 enum AttributeLocation {
@@ -57,9 +74,7 @@ message MsgCreateNFTSchema {
   string nftSchemaBase64 = 2;
 }
 
-message MsgCreateNFTSchemaResponse {
-  string code = 1;
-}
+message MsgCreateNFTSchemaResponse { string code = 1; }
 
 message MsgCreateMetadata {
   string creator = 1;
@@ -73,31 +88,15 @@ message MsgCreateMetadataResponse {
   string tokenId = 2;
 }
 
-message MsgCreateMultiMetadata {
-  string creator = 1;
-  string nftSchemaCode = 2;
-  repeated string tokenId = 3;
-  string base64NFTData = 4;
-}
-
-message MsgCreateMultiMetadataResponse {
-  string nftSchemaCode = 1;
-  repeated string tokenId = 2;
-}
-
-message OpenseaAttribute{
-  string trait_type = 1; 
+message OpenseaAttribute {
+  string trait_type = 1;
   google.protobuf.Any value = 2;
 }
 
-message UpdatedOpenseaAttributes {
-  repeated OpenseaAttribute attributes = 1;
-}
+message UpdatedOpenseaAttributes { repeated OpenseaAttribute attributes = 1; }
 
 message UpdatedOriginData {
-  oneof updated_origin_data {
-    UpdatedOpenseaAttributes opensea = 1;
-  }
+  oneof updated_origin_data { UpdatedOpenseaAttributes opensea = 1; }
 }
 
 // ActionParameter
@@ -118,65 +117,6 @@ message MsgPerformActionByAdmin {
 message MsgPerformActionByAdminResponse {
   string nft_schema_code = 1;
   string token_id = 2;
-}
-
-message MsgPerformMultiTokenAction {
-  string creator = 1;
-  string nft_schema_code = 2;
-  repeated string tokenId = 3;
-  repeated string action = 4;
-  string ref_id = 5;
-  string parameters = 6;
-}
-
-message MsgPerformMultiTokenActionResponse {
-  string nftSchemaCode = 1;
-  repeated string tokenId = 2;
-  repeated string action = 3;
-}
-
-message MsgPerformMultiTokenOneAction {
-  string creator = 1;
-  string nftSchemaCode = 2;
-  repeated string tokenId = 3;
-  string action = 4;
-  string refId = 5;
-  repeated ActionParameter parameters = 6;
-}
-
-message MsgPerformMultiTokenOneActionResponse {
-  string nftSchemaCode = 1;
-  repeated string tokenId = 2;
-}
-
-message MsgPerformMultiTokenMultiAction {
-  string creator = 1;
-  string nftSchemaCode = 2;
-  repeated string tokenId = 3;
-  repeated string action = 4;
-  string refId = 5;
-  repeated string parameters = 6;
-}
-
-message MsgPerformMultiTokenMultiActionResponse {
-  string nftSchemaCode = 1;
-  repeated string tokenId = 2;
-  repeated string action = 3;
-}
-
-message MsgPerformOneTokenMultiAction {
-  string creator = 1;
-  string nftSchemaCode = 2;
-  string tokenId = 3;
-  repeated string action = 4;
-  string refId = 5;
-  repeated string parameters = 6;
-}
-
-message MsgPerformOneTokenMultiActionResponse {
-  string nftSchemaCode = 1;
-  string tokenId = 2;
-  repeated string action = 3;
 }
 
 message MsgAddAttribute {
@@ -249,9 +189,7 @@ message MsgShowAttributes {
   repeated string attributeNames = 4;
 }
 
-message MsgShowAttributesResponse {
-  string nftSchema = 1;
-}
+message MsgShowAttributesResponse { string nftSchema = 1; }
 message MsgResyncAttributes {
   string creator = 1;
   string nftSchemaCode = 2;
@@ -268,8 +206,7 @@ message MsgSetFeeConfig {
   FeeSubject feeSubject = 3;
 }
 
-message MsgSetFeeConfigResponse {
-}
+message MsgSetFeeConfigResponse {}
 
 message MsgSetMintauth {
   string creator = 1;
@@ -277,9 +214,7 @@ message MsgSetMintauth {
   AuthorizeTo authorizeTo = 3;
 }
 
-message MsgSetMintauthResponse {
-  string nftSchemaCode = 1;
-}
+message MsgSetMintauthResponse { string nftSchemaCode = 1; }
 
 message MsgChangeOrgOwner {
   string creator = 1;
@@ -352,7 +287,6 @@ message MsgCreateActionExecutor {
   string creator = 1;
   string nftSchemaCode = 2;
   string executorAddress = 3;
-
 }
 message MsgCreateActionExecutorResponse {
   string nftSchemaCode = 1;
@@ -363,7 +297,6 @@ message MsgUpdateActionExecutor {
   string creator = 1;
   string nftSchemaCode = 2;
   string executorAddress = 3;
-
 }
 message MsgUpdateActionExecutorResponse {
   string nftSchemaCode = 1;
@@ -391,16 +324,6 @@ message MsgUpdateSchemaAttributeResponse {
   string name = 2;
 }
 
-// message MsgDeleteSchemaAttribute {
-//   string creator = 1;
-//   string nftSchemaCode = 2;
-//   string name = 3;
-// }
-// message MsgDeleteSchemaAttributeResponse {
-//   string nftSchemaCode = 1;
-//   string name = 2;
-// }
-
 message MsgUpdateAction {
   string creator = 1;
   string nftSchemaCode = 2;
@@ -411,5 +334,78 @@ message MsgUpdateActionResponse {
   string nftSchemaCode = 1;
   string name = 2;
 }
+
+message MsgCreateVirtualAction {
+  string creator = 1;
+  string nftSchemaCode = 2;
+  repeated Action newActions = 3;
+}
+
+message MsgCreateVirtualActionResponse {
+  string nftSchemaCode = 1;
+  repeated VirtualAction virtualAction = 2;
+}
+
+message MsgUpdateVirtualAction {
+  string creator = 1;
+  string nftSchemaCode = 2;
+  repeated Action newActions = 3;
+}
+
+message MsgUpdateVirtualActionResponse {
+  string nftSchemaCode = 1;
+  repeated VirtualAction virtualAction = 2;
+}
+
+message MsgDeleteVirtualAction {
+  string creator = 1;
+  string nftSchemaCode = 2;
+  string name = 3;
+}
+
+message MsgDeleteVirtualActionResponse {
+  string creator = 1;
+  string status = 2;
+}
+
+message MsgPerformVirtualAction {
+  string creator = 1;
+  string nftSchemaName = 2;
+  repeated TokenIdMap tokenIdMap = 3;
+  string action = 4;
+  string refId = 5;
+  repeated ActionParameter parameters = 6;
+}
+
+message MsgPerformVirtualActionResponse { string nftSchemaName = 2; }
+
+message TokenIdMap {
+  string nftSchemaName = 1;
+  string tokenId = 2;
+}
+
+message MsgProposalVirtualSchema {
+  string creator = 1;
+  string virtualNftSchemaCode = 2;
+  ProposalType proposalType = 3;
+  repeated VirtualSchemaRegistryRequest registry = 4;
+  repeated Action actions = 5;
+  bool enable = 6;
+}
+
+message MsgProposalVirtualSchemaResponse {
+  string id = 1;
+  string virtualNftSchemaCode = 2;
+  ProposalType proposalType = 3;
+}
+
+message MsgVoteVirtualSchemaProposal {
+  string creator = 1;
+  string id = 2;
+  string nftSchemaCode = 3;
+  RegistryStatus option = 4;
+}
+
+message MsgVoteVirtualSchemaProposalResponse {}
 
 // this line is used by starport scaffolding # proto/tx/message

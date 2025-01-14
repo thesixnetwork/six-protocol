@@ -17,7 +17,6 @@ func NewMsgCreateActionSignerConfig(
 	creator string,
 	chain string,
 	contractAddress string,
-
 ) *MsgCreateActionSignerConfig {
 	return &MsgCreateActionSignerConfig{
 		Creator:         creator,
@@ -61,7 +60,6 @@ func NewMsgUpdateActionSignerConfig(
 	creator string,
 	chain string,
 	contractAddress string,
-
 ) *MsgUpdateActionSignerConfig {
 	return &MsgUpdateActionSignerConfig{
 		Creator:         creator,
@@ -104,13 +102,13 @@ var _ sdk.Msg = &MsgDeleteActionSignerConfig{}
 func NewMsgDeleteActionSignerConfig(
 	creator string,
 	chain string,
-
 ) *MsgDeleteActionSignerConfig {
 	return &MsgDeleteActionSignerConfig{
 		Creator: creator,
 		Chain:   chain,
 	}
 }
+
 func (msg *MsgDeleteActionSignerConfig) Route() string {
 	return RouterKey
 }

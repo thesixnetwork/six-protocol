@@ -5,6 +5,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/accounts/abi"
+
 	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
 )
 
@@ -55,7 +56,7 @@ func (p PrecompileExecutor) isSchemaOwner(ctx sdk.Context, method *abi.Method, a
 	if err != nil {
 		return nil, err
 	}
-	
+
 	return method.Outputs.Pack(found)
 }
 

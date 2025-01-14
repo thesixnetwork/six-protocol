@@ -5,6 +5,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	"github.com/spf13/cobra"
+
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 )
 
@@ -14,7 +15,6 @@ func CmdCreateActionSigner() *cobra.Command {
 		Short: "Create a new actionSigner",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-
 			// Get value arguments
 			argBase64SetSigner := args[0]
 

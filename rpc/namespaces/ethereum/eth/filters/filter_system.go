@@ -23,6 +23,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	evmtypes "github.com/evmos/ethermint/x/evm/types"
+
 	"github.com/thesixnetwork/six-protocol/rpc/ethereum/pubsub"
 )
 

@@ -2,6 +2,7 @@ package nftadmin
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
 	"github.com/thesixnetwork/six-protocol/x/nftadmin/keeper"
 	"github.com/thesixnetwork/six-protocol/x/nftadmin/types"
 )

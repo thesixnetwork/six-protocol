@@ -3,6 +3,7 @@ package keeper
 import (
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
@@ -19,7 +20,6 @@ func (k Keeper) SetOrganization(ctx sdk.Context, organization types.Organization
 func (k Keeper) GetOrganization(
 	ctx sdk.Context,
 	name string,
-
 ) (val types.Organization, found bool) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.OrganizationKeyPrefix))
 
@@ -38,7 +38,6 @@ func (k Keeper) GetOrganization(
 func (k Keeper) RemoveOrganization(
 	ctx sdk.Context,
 	name string,
-
 ) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.OrganizationKeyPrefix))
 	store.Delete(types.OrganizationKey(

@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
 	v2types "github.com/thesixnetwork/six-protocol/x/nftmngr/migrations/v2/types"
 	types "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
@@ -28,7 +29,7 @@ func (m Migrator) Migrate2toV3(ctx sdk.Context) error {
 		v2OriginAttribute := make([]*types.AttributeDefinition, 0)
 		// v2OnchainDataAttribute := make([]*types.AttributeDefinition, 0)
 		v2TokenAttribute := make([]*types.AttributeDefinition, 0)
-		v2flagStatus := make([]*types.FlagStatus,0)
+		v2flagStatus := make([]*types.FlagStatus, 0)
 
 		for _, attribute := range eachSchema.OriginData.OriginAttributes {
 
@@ -55,7 +56,7 @@ func (m Migrator) Migrate2toV3(ctx sdk.Context) error {
 			})
 		}
 
-		for _ , ocAttribute := range eachSchema.OnchainData.NftAttributes {
+		for _, ocAttribute := range eachSchema.OnchainData.NftAttributes {
 			convertedDefaultMintValue, err := ConvertDefaultMintValueV2ToSchemaAttributeValue(ocAttribute.DefaultMintValue)
 			if err != nil {
 				// Handle the error appropriately
@@ -96,11 +97,10 @@ func (m Migrator) Migrate2toV3(ctx sdk.Context) error {
 		}
 
 		v2Action := make([]*types.Action, 0)
-		
 
 		for _, action := range eachSchema.OnchainData.Actions {
 			v2Params := make([]*types.ActionParams, 0)
-		
+
 			for _, param := range action.Params {
 				// v2Params = append(v2Params, &types.ActionParams{
 				// 	Name: param.Name,
@@ -112,20 +112,19 @@ func (m Migrator) Migrate2toV3(ctx sdk.Context) error {
 			}
 
 			v2Action = append(v2Action, &types.Action{
-				Name: action.Name,
-				Desc: action.Desc,
-				Disable: action.Disable,
-				When: action.When,
-				Then: action.Then,
+				Name:            action.Name,
+				Desc:            action.Desc,
+				Disable:         action.Disable,
+				When:            action.When,
+				Then:            action.Then,
 				AllowedActioner: types.AllowedActioner(action.AllowedActioner),
-				Params: v2Params,
+				Params:          v2Params,
 			})
 		}
 
-
 		for _, status := range eachSchema.OnchainData.Status {
 			v2flagStatus = append(v2flagStatus, &types.FlagStatus{
-				StatusName: status.StatusName,
+				StatusName:  status.StatusName,
 				StatusValue: status.StatusValue,
 			})
 		}
@@ -147,12 +146,12 @@ func (m Migrator) Migrate2toV3(ctx sdk.Context) error {
 				UriRetrievalMethod:    types.URIRetrievalMethod(eachSchema.OriginData.UriRetrievalMethod),
 			},
 			OnchainData: &types.OnChainData{
-				NftAttributes: v2OriginAttribute,
+				NftAttributes:   v2OriginAttribute,
 				TokenAttributes: v2TokenAttribute,
-				Actions: v2Action,
-				Status: v2flagStatus,
+				Actions:         v2Action,
+				Status:          v2flagStatus,
 			},
-			IsVerified: eachSchema.IsVerified,
+			IsVerified:        eachSchema.IsVerified,
 			MintAuthorization: eachSchema.MintAuthorization,
 		})
 	}
@@ -164,7 +163,6 @@ func (m Migrator) Migrate2toV3(ctx sdk.Context) error {
 func (m Migrator) NoOpStoreMigrate(ctx sdk.Context) error {
 	return nil
 }
-
 
 func ConvertDefaultMintValueFromV2ToV3(defaultMintValue *v2types.DefaultMintValue) (*types.DefaultMintValue, error) {
 	attributeValue := &types.DefaultMintValue{}

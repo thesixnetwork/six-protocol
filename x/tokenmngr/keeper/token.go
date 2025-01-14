@@ -3,6 +3,7 @@ package keeper
 import (
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
@@ -21,7 +22,6 @@ func (k Keeper) SetToken(ctx sdk.Context, token types.Token) {
 func (k Keeper) GetToken(
 	ctx sdk.Context,
 	name string,
-
 ) (val types.Token, found bool) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.TokenKeyPrefix))
 
@@ -40,7 +40,6 @@ func (k Keeper) GetToken(
 func (k Keeper) RemoveToken(
 	ctx sdk.Context,
 	name string,
-
 ) {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.TokenKeyPrefix))
 	store.Delete(types.TokenKey(

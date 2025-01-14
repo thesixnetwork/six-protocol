@@ -1,77 +1,63 @@
 package keeper
 
 import (
+	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	distribtype "github.com/cosmos/cosmos-sdk/x/distribution/types"
-	abci "github.com/tendermint/tendermint/abci/types"
+
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
-func (k Keeper) ProcessFeeAmount(ctx sdk.Context, bondedVotes []abci.VoteInfo) error {
-	feeConfig, found := k.GetNFTFeeConfig(ctx)
-	if !found {
-		return nil
+// SetNFTFeeBalance set nFTFeeBalance in the store
+func (k Keeper) SetNFTFeeBalance(ctx sdk.Context, nFTFeeBalance types.NFTFeeBalance) {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.NFTFeeBalanceKey))
+	b := k.cdc.MustMarshal(&nFTFeeBalance)
+	store.Set([]byte{0}, b)
+}
+
+// GetNFTFeeBalance returns nFTFeeBalance
+func (k Keeper) GetNFTFeeBalance(ctx sdk.Context) (val types.NFTFeeBalance, found bool) {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.NFTFeeBalanceKey))
+
+	b := store.Get([]byte{0})
+	if b == nil {
+		return val, false
 	}
-	feeBalances, found := k.GetNFTFeeBalance(ctx)
-	if !found {
-		return nil
+
+	k.cdc.MustUnmarshal(b, &val)
+	return val, true
+}
+
+// SetNFTFeeConfig set nFTFeeConfig in the store
+func (k Keeper) SetNFTFeeConfig(ctx sdk.Context, nFTFeeConfig types.NFTFeeConfig) {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.NFTFeeConfigKey))
+	b := k.cdc.MustMarshal(&nFTFeeConfig)
+	store.Set([]byte{0}, b)
+}
+
+// GetNFTFeeConfig returns nFTFeeConfig
+func (k Keeper) GetNFTFeeConfig(ctx sdk.Context) (val types.NFTFeeConfig, found bool) {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.NFTFeeConfigKey))
+
+	b := store.Get([]byte{0})
+	if b == nil {
+		return val, false
 	}
-	currentCreateSchemaFeeBalance, err := sdk.ParseCoinNormalized(feeBalances.FeeBalances[int32(types.FeeSubject_CREATE_NFT_SCHEMA)])
-	if err != nil {
-		return err
-	}
-	if currentCreateSchemaFeeBalance.Amount.GT(sdk.NewInt(0)) {
-		// Loop over feeConfig.SchemaFee.FeeDistributions
-		for _, feeDistribution := range feeConfig.SchemaFee.FeeDistributions {
-			if feeDistribution.Method == types.FeeDistributionMethod_BURN {
-				burnBalance := currentCreateSchemaFeeBalance.Amount.ToDec().Mul(sdk.NewDecWithPrec(int64(feeDistribution.Portion*100), 2)).TruncateInt()
-				err = k.bankKeeper.BurnCoins(ctx, types.ModuleName, sdk.NewCoins(sdk.NewCoin(currentCreateSchemaFeeBalance.Denom, burnBalance)))
-				if err != nil {
-					return err
-				}
-			} else if feeDistribution.Method == types.FeeDistributionMethod_REWARD_POOL {
 
-				// totalPreviousPower = sum of all previous validators' power
-				totalPreviousPower := int64(0)
-				// Loop over votes
-				for _, vote := range bondedVotes {
-					totalPreviousPower += vote.Validator.Power
-				}
+	k.cdc.MustUnmarshal(b, &val)
+	return val, true
+}
 
-				rewardBalance := currentCreateSchemaFeeBalance.Amount.ToDec().Mul(sdk.NewDecWithPrec(int64(feeDistribution.Portion*100), 2)).TruncateInt()
-				reward := sdk.NewDecCoins(sdk.NewDecCoin(currentCreateSchemaFeeBalance.Denom, rewardBalance))
+// RemoveNFTFeeConfig removes nFTFeeConfig from the store
+func (k Keeper) RemoveNFTFeeConfig(ctx sdk.Context) {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.NFTFeeConfigKey))
+	store.Delete([]byte{0})
+}
 
-				err := k.bankKeeper.SendCoinsFromModuleToModule(
-					ctx, types.ModuleName, distribtype.ModuleName,
-					sdk.NewCoins(sdk.NewCoin(currentCreateSchemaFeeBalance.Denom, rewardBalance)))
-				if err != nil {
-					panic(err)
-				}
-
-				remaining := reward
-				for i, vote := range bondedVotes {
-					validator := k.stakingKeeper.ValidatorByConsAddr(ctx, vote.Validator.Address)
-
-					powerFraction := sdk.NewDec(vote.Validator.Power).QuoTruncate(sdk.NewDec(totalPreviousPower))
-					toAllocate := reward.MulDecTruncate(powerFraction)
-					if i == len(bondedVotes)-1 {
-						// last validator, allocate the remaining coins
-						toAllocate = remaining
-					} else {
-						remaining = remaining.Sub(toAllocate)
-					}
-					k.distributionKeeper.AllocateTokensToValidator(ctx, validator, reward.MulDecTruncate(powerFraction))
-
-				}
-			}
-		}
-
-		// Set FeeBlance to 0
-		feeBalances.FeeBalances[int32(types.FeeSubject_CREATE_NFT_SCHEMA)] = "0" + currentCreateSchemaFeeBalance.Denom
-		k.SetNFTFeeBalance(ctx, feeBalances)
-	}
-	return nil
+// RemoveNFTFeeBalance removes nFTFeeBalance from the store
+func (k Keeper) RemoveNFTFeeBalance(ctx sdk.Context) {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.NFTFeeBalanceKey))
+	store.Delete([]byte{0})
 }
 
 func (k Keeper) ValidateFeeConfig(feeConfig *types.NFTFeeConfig) error {

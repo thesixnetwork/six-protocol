@@ -13,6 +13,7 @@ import (
 	"github.com/ethereum/go-ethereum/core/vm"
 	"github.com/evmos/ethermint/utils"
 	"github.com/tendermint/tendermint/libs/log"
+
 	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
 )
 
@@ -21,8 +22,8 @@ const (
 )
 
 const (
-	BridgeAddress = "0x0000000000000000000000000000000000001069"
-	bridgeDiffTreshold  = 1
+	BridgeAddress      = "0x0000000000000000000000000000000000001069"
+	bridgeDiffTreshold = 1
 )
 
 // Embed abi json file to the executable binary. Needed when importing as dependency.

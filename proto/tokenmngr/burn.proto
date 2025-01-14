@@ -1,0 +1,16 @@
+syntax = "proto3";
+package thesixnetwork.sixprotocol.tokenmngr;
+
+import "gogoproto/gogo.proto";
+import "cosmos/base/v1beta1/coin.proto";
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/tokenmngr/types";
+
+message Burn {
+  uint64 id = 1;
+  string creator = 2;
+  cosmos.base.v1beta1.Coin amount = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+  ];
+}

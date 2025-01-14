@@ -15,6 +15,7 @@ import (
 	"github.com/tendermint/tendermint/libs/log"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 	tmdb "github.com/tendermint/tm-db"
+
 	"github.com/thesixnetwork/six-protocol/x/protocoladmin/keeper"
 	"github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
 )

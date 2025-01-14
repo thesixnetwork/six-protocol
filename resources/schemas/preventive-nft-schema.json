@@ -1,0 +1,370 @@
+{
+  "code": "sixprotocol.preventive",
+  "name": "Preventive",
+  "owner": "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq",
+  "origin_data": {
+    "origin_base_uri": "",
+    "uri_retrieval_method": "TOKEN",
+    "origin_chain": "SIXNET",
+    "origin_contract_address": "",
+    "attribute_overriding": "CHAIN",
+    "metadata_format": "opensea",
+    "origin_attributes": []
+  },
+  "onchain_data": {
+    "nft_attributes": [],
+    "token_attributes": [
+      {
+        "name": "tier",
+        "default_mint_value": {
+          "string_attribute_value": {
+            "value": ""
+          }
+        },
+        "data_type": "string",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Tier"
+          }
+        },
+        "hidden_overide": false,
+        "hidden_to_marketplace": false
+      },
+      {
+        "name": "start_date",
+        "default_mint_value": {
+          "string_attribute_value": {
+            "value": ""
+          }
+        },
+        "data_type": "string",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Start Date"
+          }
+        }
+      },
+      {
+        "name": "expire_date",
+        "default_mint_value": {
+          "string_attribute_value": {
+            "value": ""
+          }
+        },
+        "data_type": "string",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Expire Date"
+          }
+        }
+      },
+      {
+        "name": "service_12",
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": 0
+          }
+        },
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Gastroscopy"
+          }
+        }
+      },
+      {
+        "name": "service_13",
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": 0
+          }
+        },
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Colonoscopy"
+          }
+        }
+      },
+      {
+        "name": "service_14",
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": 0
+          }
+        },
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Genetic test"
+          }
+        }
+      },
+      {
+        "name": "service_15",
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": 0
+          }
+        },
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Sleep test"
+          }
+        }
+      },
+      {
+        "name": "service_16",
+        "default_mint_value": {
+          "number_attribute_value": {
+            "value": 0
+          }
+        },
+        "data_type": "number",
+        "required": true,
+        "display_value_field": "value",
+        "display_option": {
+          "opensea": {
+            "trait_type": "Dementia"
+          }
+        }
+      }
+    ],
+    "actions": [
+      {
+        "name": "transfer_service",
+        "desc": "Transfer Service",
+        "disable": false,
+        "params": [
+          {
+            "name": "service_name",
+            "desc": "Service",
+            "data_type": "string",
+            "required": true,
+            "default_value": ""
+          },
+          {
+            "name": "amount",
+            "desc": "Amount of service to transfer",
+            "data_type": "number",
+            "required": true,
+            "default_value": "1"
+          },
+          {
+            "name": "token_id",
+            "desc": "Token Id Destination",
+            "data_type": "string",
+            "required": true,
+            "default_value": ""
+          }
+        ],
+        "when": "params['amount'].GetNumber() > 0 && meta.GetNumber(params['service_name'].GetString()) > 0",
+        "then": [
+          "meta.TransferNumber(params['service_name'].GetString(), params['token_id'].GetString(), params['amount'].GetNumber())"
+        ]
+      },
+      {
+        "name": "use_service",
+        "desc": "Use Given Service",
+        "params": [
+          {
+            "name": "service_name",
+            "desc": "Service Name",
+            "data_type": "string",
+            "required": true,
+            "default_value": ""
+          }
+        ],
+        "when": "meta.GetNumber(params['service_name'].GetString()) > 0",
+        "then": [
+          "meta.SetNumber(params['service_name'].GetString(), meta.GetNumber(params['service_name'].GetString()) - 1)",
+          "meta.SetImage('https://storage.googleapis.com/samitivej-nft-metadata-image/preventive.png')"
+        ]
+      },
+      {
+        "name": "burn_service",
+        "desc": "Use for burn some service",
+        "params": [
+          {
+            "name": "service_name",
+            "desc": "Service",
+            "data_type": "string",
+            "required": true,
+            "default_value": ""
+          },
+          {
+            "name": "amount",
+            "desc": "Amount of service to transfer",
+            "data_type": "number",
+            "required": true,
+            "default_value": "1"
+          }
+        ],
+        "when": "meta.GetNumber(params['service_name'].GetString()) >= 0",
+        "then": [
+          "meta.SetNumber(params['service_name'].GetString(), meta.GetNumber(params['service_name'].GetString()) - params['amount'].GetNumber())"
+        ]
+      },
+      {
+        "name": "airdrop",
+        "desc": "Use for airdrop some service",
+        "params": [
+          {
+            "name": "service_name",
+            "desc": "Service",
+            "data_type": "string",
+            "required": true,
+            "default_value": ""
+          },
+          {
+            "name": "amount",
+            "desc": "Amount of service to transfer",
+            "data_type": "number",
+            "required": true,
+            "default_value": "1"
+          }
+        ],
+        "when": "meta.GetNumber(params['service_name'].GetString()) >= 0",
+        "then": [
+          "meta.SetNumber(params['service_name'].GetString(), meta.GetNumber(params['service_name'].GetString()) + params['amount'].GetNumber())"
+        ]
+      },
+      {
+        "name": "revoke_service",
+        "desc": "Revoke used service",
+        "params": [
+          {
+            "name": "service_name",
+            "desc": "Service Name",
+            "data_type": "string",
+            "required": true,
+            "default_value": ""
+          }
+        ],
+        "when": "meta.GetNumber(params['service_name'].GetString()) >= 0",
+        "then": [
+          "meta.SetNumber(params['service_name'].GetString(), meta.GetNumber(params['service_name'].GetString()) + 1)"
+        ]
+      },
+      {
+        "name": "extend_privilege",
+        "desc": "Use for update tier of user",
+        "params": [
+          {
+            "name": "group_one",
+            "desc": "Amount of Group on to be increase",
+            "data_type": "number",
+            "required": true,
+            "default_value": ""
+          },
+          {
+            "name": "group_two",
+            "desc": "Amount of Group on to be increase",
+            "data_type": "number",
+            "required": true,
+            "default_value": ""
+          },
+          {
+            "name": "group_three",
+            "desc": "Amount of Group on to be increase",
+            "data_type": "number",
+            "required": true,
+            "default_value": ""
+          },
+          {
+            "name": "expire_date",
+            "desc": "set expire date of Privileges",
+            "data_type": "string",
+            "required": true,
+            "default_value": ""
+          }
+        ],
+        "when": "true",
+        "then": [
+          "meta.SetString('expire_date', params['expire_date'].GetString())",
+          "meta.SetNumber('service_12', 9999)",
+          "meta.SetNumber('service_13', 9999)",
+          "meta.SetNumber('service_14', 9999)",
+          "meta.SetNumber('service_15', 9999)",
+          "meta.SetNumber('service_16', 9999)"
+        ]
+      },      
+      {
+        "name": "update_tier_name",
+        "desc": "Use for update tier of user",
+        "params": [
+          {
+            "name": "tier",
+            "desc": "tier name to upgrade",
+            "data_type": "string",
+            "required": true,
+            "default_value": ""
+          },
+          {
+            "name": "start_date",
+            "desc": "set start date of privileges",
+            "data_type": "string",
+            "required": true,
+            "default_value": ""
+          },
+          {
+            "name": "expire_date",
+            "desc": "set expire date of privileges",
+            "data_type": "string",
+            "required": true,
+            "default_value": ""
+          }
+        ],
+        "when": "true",
+        "then": [
+          "meta.SetString('tier', params['tier'].GetString())",
+          "meta.SetString('start_date', params['start_date'].GetString())",
+          "meta.SetString('expire_date', params['expire_date'].GetString())"
+        ]
+      },
+      {
+        "name": "set_service",
+        "desc": "To recover state of service",
+        "params": [
+          {
+            "name": "service_name",
+            "desc": "Service",
+            "data_type": "string",
+            "required": true,
+            "default_value": ""
+          },
+          {
+            "name": "amount",
+            "desc": "Amount of service to set",
+            "data_type": "number",
+            "required": true,
+            "default_value": ""
+          }
+        ],
+        "when": "true",
+        "then": [
+          "toset = params['amount'].GetNumber() + 0",
+          "meta.SetNumber(params['service_name'].GetString(), toset)"
+        ]
+      }
+    ]
+  },
+  "system_actioners": [
+  ],
+  "mint_authorization": "system"
+}

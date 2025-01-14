@@ -3,15 +3,11 @@ package thesixnetwork.sixprotocol.nftadmin;
 
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftadmin/types";
 
-message AddressList {
-    repeated string addresses = 1;
-}
+message AddressList { repeated string addresses = 1; }
 
 message Permission {
-    string name = 1;
-    AddressList addresses = 2;
+  string name = 1;
+  AddressList addresses = 2;
 }
 
-message Permissions {
-  repeated Permission permissions = 1;
-}
+message Permissions { repeated Permission permissions = 1; }

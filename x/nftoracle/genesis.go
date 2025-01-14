@@ -10,7 +10,6 @@ import (
 // InitGenesis initializes the capability module's state from a provided genesis
 // state.
 func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) {
-
 	if genState.OracleConfig != nil {
 		k.SetOracleConfig(ctx, *genState.OracleConfig)
 	}

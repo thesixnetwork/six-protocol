@@ -9,6 +9,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 )
 
@@ -68,7 +69,6 @@ func (k msgServer) SubmitSyncActionSigner(goCtx context.Context, msg *types.MsgS
 			if confirmer == msg.Creator {
 				return nil, sdkerrors.Wrap(types.ErrOracleConfirmedAlready, strconv.FormatUint(msg.SyncId, 10))
 			}
-
 		}
 		// Compare data hash with previous data hash
 		contractParamHash := sha256.Sum256(paramDataBytes)
@@ -104,7 +104,7 @@ func (k msgServer) SubmitSyncActionSigner(goCtx context.Context, msg *types.MsgS
 		// Check if there is only one data hash
 		if len(SyncRequest.DataHashes) > 1 {
 			// Update SyncRequest.Status to be FAILED
-			SyncRequest.Status = types.RequestStatus_FAILED_WITHOUT_CONCENSUS
+			SyncRequest.Status = types.RequestStatus_FAILED_WITHOUT_CONSENSUS
 		} else {
 			// Update SyncRequest.Status to be SUCCESS
 			SyncRequest.Status = types.RequestStatus_SUCCESS_WITH_CONSENSUS

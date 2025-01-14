@@ -1,0 +1,84 @@
+{
+  "nft_schema_code": "sixprotocol.divine_elite",
+  "token_id": "TOKENID",
+  "token_owner": "",
+  "owner_address_type": "ORIGIN_ADDRESS",
+  "origin_image": "https://picsum.photos/200/300",
+  "onchain_image": "",
+  "token_uri": "",
+  "origin_attributes": [],
+  "onchain_attributes": [
+    {
+      "name": "tier",
+      "string_attribute_value": {
+        "value": "10"
+      }
+    },
+    {
+      "name": "start_date",
+      "string_attribute_value": {
+        "value": "2024-09-01T07:00:01Z"
+      }
+    },
+    {
+      "name": "expire_date",
+      "string_attribute_value": {
+        "value": "2024-09-01T07:00:01Z"
+      }
+    },
+    {
+      "name": "service_3",
+      "number_attribute_value": {
+        "value": 9999
+      }
+    },
+    {
+      "name": "service_4",
+      "number_attribute_value": {
+        "value": 10
+      }
+    },
+    {
+      "name": "service_5",
+      "number_attribute_value": {
+        "value": 10
+      }
+    },
+    {
+      "name": "service_6",
+      "number_attribute_value": {
+        "value": 10
+      }
+    },
+    {
+      "name": "service_7",
+      "number_attribute_value": {
+        "value": 10
+      }
+    },
+    {
+      "name": "service_8",
+      "number_attribute_value": {
+        "value": 5
+      }
+    },
+    {
+      "name": "service_9",
+      "number_attribute_value": {
+        "value": 3
+      }
+    },
+    {
+      "name": "service_10",
+      "number_attribute_value": {
+        "value": 3
+      }
+    },
+    {
+      "name": "service_11",
+      "number_attribute_value": {
+        "value": 3
+      }
+    }
+  ]
+}

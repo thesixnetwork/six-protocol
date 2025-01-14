@@ -19,7 +19,6 @@ func NewMsgCreateToken(
 	maxSupply sdk.Coin,
 	mintee string,
 	denomMetaData string,
-
 ) *MsgCreateToken {
 	return &MsgCreateToken{
 		Creator:       creator,
@@ -65,7 +64,6 @@ func NewMsgUpdateToken(
 	creator string,
 	name string,
 	maxSupply sdk.Coin,
-
 ) *MsgUpdateToken {
 	return &MsgUpdateToken{
 		Creator:   creator,
@@ -108,13 +106,13 @@ var _ sdk.Msg = &MsgDeleteToken{}
 func NewMsgDeleteToken(
 	creator string,
 	name string,
-
 ) *MsgDeleteToken {
 	return &MsgDeleteToken{
 		Creator: creator,
 		Name:    name,
 	}
 }
+
 func (msg *MsgDeleteToken) Route() string {
 	return RouterKey
 }

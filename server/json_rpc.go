@@ -12,6 +12,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/server/types"
 	ethlog "github.com/ethereum/go-ethereum/log"
 	ethrpc "github.com/ethereum/go-ethereum/rpc"
+
 	"github.com/thesixnetwork/six-protocol/rpc"
 
 	"github.com/thesixnetwork/six-protocol/server/config"

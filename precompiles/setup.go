@@ -7,6 +7,7 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	ecommon "github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/vm"
+
 	"github.com/thesixnetwork/six-protocol/precompiles/bank"
 	"github.com/thesixnetwork/six-protocol/precompiles/bridge"
 	"github.com/thesixnetwork/six-protocol/precompiles/common"
@@ -38,7 +39,7 @@ func InitializePrecompiles(
 	cdc codec.BinaryCodec,
 	bankKeeper common.BankKeeper,
 	accountKeeper common.AccountKeeper,
-  tokenmngrKeeper common.TokenmngrKeeper,
+	tokenmngrKeeper common.TokenmngrKeeper,
 	nftmngrKeeper common.NftmngrKeeper,
 ) error {
 	SetupMtx.Lock()

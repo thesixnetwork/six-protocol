@@ -8,13 +8,14 @@ import (
 	// "github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
 func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBurnResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	var burn = types.Burn{
+	burn := types.Burn{
 		Creator: msg.Creator,
 		Amount:  msg.Amount,
 	}
@@ -33,7 +34,7 @@ func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBu
 	if msg.Amount.Amount.IsZero() {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is prohibit from module")
 	}
-	//TODO:: Make sure MaxSupply and totalSupply is Dupplicate or not
+	// TODO:: Make sure MaxSupply and totalSupply is Dupplicate or not
 	// if uint64(token.MaxSupply) < msg.Amount{
 	// 	return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is higher than maximum supply")
 	// }
@@ -48,7 +49,6 @@ func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBu
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token out of range of uint256")
 	}
 
-
 	tokens := sdk.Coin{
 		Denom:  msg.Amount.Denom,
 		Amount: burnAmount,
@@ -58,7 +58,7 @@ func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBu
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Amount of token is too high than current balance")
 	}
 
-	//send to module
+	// send to module
 	if err := k.bankKeeper.SendCoinsFromAccountToModule(
 		ctx, burner, types.ModuleName, sdk.NewCoins(tokens),
 	); err != nil {
@@ -74,7 +74,7 @@ func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBu
 	// Get burning history
 	prev, found := k.GetTokenBurn(ctx, msg.Amount.Denom)
 	if !found {
-		var tokenBurn = types.TokenBurn{
+		tokenBurn := types.TokenBurn{
 			Amount: msg.Amount,
 		}
 		k.SetTokenBurn(ctx, tokenBurn)
@@ -84,7 +84,7 @@ func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBu
 			Denom:  msg.Amount.Denom,
 			Amount: new_burn_amount,
 		}
-		var tokenBurn = types.TokenBurn{
+		tokenBurn := types.TokenBurn{
 			Amount: new_burn_coin,
 		}
 		k.SetTokenBurn(ctx, tokenBurn)

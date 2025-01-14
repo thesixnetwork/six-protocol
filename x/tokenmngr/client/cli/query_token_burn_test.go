@@ -2,6 +2,9 @@ package cli_test
 
 import (
 	"fmt"
+	"strconv"
+	"testing"
+
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	clitestutil "github.com/cosmos/cosmos-sdk/testutil/cli"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -9,8 +12,6 @@ import (
 	tmcli "github.com/tendermint/tendermint/libs/cli"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"strconv"
-	"testing"
 
 	"github.com/thesixnetwork/six-protocol/testutil/network"
 	"github.com/thesixnetwork/six-protocol/testutil/nullify"

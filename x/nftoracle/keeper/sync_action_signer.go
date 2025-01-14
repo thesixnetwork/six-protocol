@@ -7,12 +7,11 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 )
 
-var (
-	ActiveSyncActionSignerQueuePrefix = []byte{0x05}
-)
+var ActiveSyncActionSignerQueuePrefix = []byte{0x05}
 
 // GetSyncActionSignerCount get the total number of syncActionSigner
 func (k Keeper) GetSyncActionSignerCount(ctx sdk.Context) uint64 {
@@ -147,6 +146,7 @@ func (k Keeper) ActiveSyncActionSignerQueueIterator(ctx sdk.Context, endTime tim
 func ActiveSyncActionSignerQueueKey(sync_id uint64, endTime time.Time) []byte {
 	return append(ActiveSyncActionSignerByTimeKey(endTime), GetSyncActionSignerIDBytes(sync_id)...)
 }
+
 func ActiveSyncActionSignerByTimeKey(endTime time.Time) []byte {
 	return append(ActiveSyncActionSignerQueuePrefix, sdk.FormatTimeBytes(endTime)...)
 }

@@ -7,6 +7,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	"github.com/spf13/cobra"
+
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
@@ -20,10 +21,6 @@ func CmdSetMintauth() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			argNftSchemaCode := args[0]
 			argAuthorizeTo := args[1]
-			if err != nil {
-				return err
-			}
-
 			argAuthorizeToInt, err := strconv.Atoi(argAuthorizeTo)
 			if err != nil {
 				return err

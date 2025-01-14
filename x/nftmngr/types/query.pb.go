@@ -158,7 +158,7 @@ func (m *QueryGetNFTSchemaRequest) GetCode() string {
 }
 
 type QueryGetNFTSchemaResponse struct {
-	NFTSchema NFTSchema `protobuf:"bytes,1,opt,name=nFTSchema,proto3" json:"nFTSchema"`
+	NFTSchema NFTSchemaQueryResult `protobuf:"bytes,1,opt,name=nFTSchema,proto3" json:"nFTSchema"`
 }
 
 func (m *QueryGetNFTSchemaResponse) Reset()         { *m = QueryGetNFTSchemaResponse{} }
@@ -194,11 +194,11 @@ func (m *QueryGetNFTSchemaResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_QueryGetNFTSchemaResponse proto.InternalMessageInfo
 
-func (m *QueryGetNFTSchemaResponse) GetNFTSchema() NFTSchema {
+func (m *QueryGetNFTSchemaResponse) GetNFTSchema() NFTSchemaQueryResult {
 	if m != nil {
 		return m.NFTSchema
 	}
-	return NFTSchema{}
+	return NFTSchemaQueryResult{}
 }
 
 type QueryAllNFTSchemaRequest struct {
@@ -246,8 +246,8 @@ func (m *QueryAllNFTSchemaRequest) GetPagination() *query.PageRequest {
 }
 
 type QueryAllNFTSchemaResponse struct {
-	NFTSchema  []NFTSchema         `protobuf:"bytes,1,rep,name=nFTSchema,proto3" json:"nFTSchema"`
-	Pagination *query.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	NFTSchema  []NFTSchemaQueryResult `protobuf:"bytes,1,rep,name=nFTSchema,proto3" json:"nFTSchema"`
+	Pagination *query.PageResponse    `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
 func (m *QueryAllNFTSchemaResponse) Reset()         { *m = QueryAllNFTSchemaResponse{} }
@@ -283,7 +283,7 @@ func (m *QueryAllNFTSchemaResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_QueryAllNFTSchemaResponse proto.InternalMessageInfo
 
-func (m *QueryAllNFTSchemaResponse) GetNFTSchema() []NFTSchema {
+func (m *QueryAllNFTSchemaResponse) GetNFTSchema() []NFTSchemaQueryResult {
 	if m != nil {
 		return m.NFTSchema
 	}
@@ -2353,6 +2353,646 @@ func (m *QueryAllExecutorOfSchemaResponse) GetPagination() *query.PageResponse {
 	return nil
 }
 
+type QueryGetVirtualActionRequest struct {
+	NftSchemaCode string `protobuf:"bytes,1,opt,name=nftSchemaCode,proto3" json:"nftSchemaCode,omitempty"`
+	Name          string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+}
+
+func (m *QueryGetVirtualActionRequest) Reset()         { *m = QueryGetVirtualActionRequest{} }
+func (m *QueryGetVirtualActionRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryGetVirtualActionRequest) ProtoMessage()    {}
+func (*QueryGetVirtualActionRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_1406c74dd8ff3e6a, []int{50}
+}
+func (m *QueryGetVirtualActionRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryGetVirtualActionRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryGetVirtualActionRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryGetVirtualActionRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryGetVirtualActionRequest.Merge(m, src)
+}
+func (m *QueryGetVirtualActionRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryGetVirtualActionRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryGetVirtualActionRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryGetVirtualActionRequest proto.InternalMessageInfo
+
+func (m *QueryGetVirtualActionRequest) GetNftSchemaCode() string {
+	if m != nil {
+		return m.NftSchemaCode
+	}
+	return ""
+}
+
+func (m *QueryGetVirtualActionRequest) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+type QueryGetVirtualActionResponse struct {
+	VirtualAction VirtualAction `protobuf:"bytes,1,opt,name=virtualAction,proto3" json:"virtualAction"`
+}
+
+func (m *QueryGetVirtualActionResponse) Reset()         { *m = QueryGetVirtualActionResponse{} }
+func (m *QueryGetVirtualActionResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryGetVirtualActionResponse) ProtoMessage()    {}
+func (*QueryGetVirtualActionResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_1406c74dd8ff3e6a, []int{51}
+}
+func (m *QueryGetVirtualActionResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryGetVirtualActionResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryGetVirtualActionResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryGetVirtualActionResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryGetVirtualActionResponse.Merge(m, src)
+}
+func (m *QueryGetVirtualActionResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryGetVirtualActionResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryGetVirtualActionResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryGetVirtualActionResponse proto.InternalMessageInfo
+
+func (m *QueryGetVirtualActionResponse) GetVirtualAction() VirtualAction {
+	if m != nil {
+		return m.VirtualAction
+	}
+	return VirtualAction{}
+}
+
+type QueryAllVirtualActionRequest struct {
+	Pagination *query.PageRequest `protobuf:"bytes,1,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (m *QueryAllVirtualActionRequest) Reset()         { *m = QueryAllVirtualActionRequest{} }
+func (m *QueryAllVirtualActionRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryAllVirtualActionRequest) ProtoMessage()    {}
+func (*QueryAllVirtualActionRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_1406c74dd8ff3e6a, []int{52}
+}
+func (m *QueryAllVirtualActionRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryAllVirtualActionRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryAllVirtualActionRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryAllVirtualActionRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryAllVirtualActionRequest.Merge(m, src)
+}
+func (m *QueryAllVirtualActionRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryAllVirtualActionRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryAllVirtualActionRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryAllVirtualActionRequest proto.InternalMessageInfo
+
+func (m *QueryAllVirtualActionRequest) GetPagination() *query.PageRequest {
+	if m != nil {
+		return m.Pagination
+	}
+	return nil
+}
+
+type QueryAllVirtualActionResponse struct {
+	VirtualAction []VirtualAction     `protobuf:"bytes,1,rep,name=virtualAction,proto3" json:"virtualAction"`
+	Pagination    *query.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (m *QueryAllVirtualActionResponse) Reset()         { *m = QueryAllVirtualActionResponse{} }
+func (m *QueryAllVirtualActionResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryAllVirtualActionResponse) ProtoMessage()    {}
+func (*QueryAllVirtualActionResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_1406c74dd8ff3e6a, []int{53}
+}
+func (m *QueryAllVirtualActionResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryAllVirtualActionResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryAllVirtualActionResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryAllVirtualActionResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryAllVirtualActionResponse.Merge(m, src)
+}
+func (m *QueryAllVirtualActionResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryAllVirtualActionResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryAllVirtualActionResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryAllVirtualActionResponse proto.InternalMessageInfo
+
+func (m *QueryAllVirtualActionResponse) GetVirtualAction() []VirtualAction {
+	if m != nil {
+		return m.VirtualAction
+	}
+	return nil
+}
+
+func (m *QueryAllVirtualActionResponse) GetPagination() *query.PageResponse {
+	if m != nil {
+		return m.Pagination
+	}
+	return nil
+}
+
+type QueryGetVirtualSchemaRequest struct {
+	NftSchemaCode string `protobuf:"bytes,1,opt,name=nftSchemaCode,proto3" json:"nftSchemaCode,omitempty"`
+}
+
+func (m *QueryGetVirtualSchemaRequest) Reset()         { *m = QueryGetVirtualSchemaRequest{} }
+func (m *QueryGetVirtualSchemaRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryGetVirtualSchemaRequest) ProtoMessage()    {}
+func (*QueryGetVirtualSchemaRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_1406c74dd8ff3e6a, []int{54}
+}
+func (m *QueryGetVirtualSchemaRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryGetVirtualSchemaRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryGetVirtualSchemaRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryGetVirtualSchemaRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryGetVirtualSchemaRequest.Merge(m, src)
+}
+func (m *QueryGetVirtualSchemaRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryGetVirtualSchemaRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryGetVirtualSchemaRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryGetVirtualSchemaRequest proto.InternalMessageInfo
+
+func (m *QueryGetVirtualSchemaRequest) GetNftSchemaCode() string {
+	if m != nil {
+		return m.NftSchemaCode
+	}
+	return ""
+}
+
+type QueryGetVirtualSchemaResponse struct {
+	VirtualSchema VirtualSchema `protobuf:"bytes,1,opt,name=virtualSchema,proto3" json:"virtualSchema"`
+}
+
+func (m *QueryGetVirtualSchemaResponse) Reset()         { *m = QueryGetVirtualSchemaResponse{} }
+func (m *QueryGetVirtualSchemaResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryGetVirtualSchemaResponse) ProtoMessage()    {}
+func (*QueryGetVirtualSchemaResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_1406c74dd8ff3e6a, []int{55}
+}
+func (m *QueryGetVirtualSchemaResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryGetVirtualSchemaResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryGetVirtualSchemaResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryGetVirtualSchemaResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryGetVirtualSchemaResponse.Merge(m, src)
+}
+func (m *QueryGetVirtualSchemaResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryGetVirtualSchemaResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryGetVirtualSchemaResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryGetVirtualSchemaResponse proto.InternalMessageInfo
+
+func (m *QueryGetVirtualSchemaResponse) GetVirtualSchema() VirtualSchema {
+	if m != nil {
+		return m.VirtualSchema
+	}
+	return VirtualSchema{}
+}
+
+type QueryAllVirtualSchemaRequest struct {
+	Pagination *query.PageRequest `protobuf:"bytes,1,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (m *QueryAllVirtualSchemaRequest) Reset()         { *m = QueryAllVirtualSchemaRequest{} }
+func (m *QueryAllVirtualSchemaRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryAllVirtualSchemaRequest) ProtoMessage()    {}
+func (*QueryAllVirtualSchemaRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_1406c74dd8ff3e6a, []int{56}
+}
+func (m *QueryAllVirtualSchemaRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryAllVirtualSchemaRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryAllVirtualSchemaRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryAllVirtualSchemaRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryAllVirtualSchemaRequest.Merge(m, src)
+}
+func (m *QueryAllVirtualSchemaRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryAllVirtualSchemaRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryAllVirtualSchemaRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryAllVirtualSchemaRequest proto.InternalMessageInfo
+
+func (m *QueryAllVirtualSchemaRequest) GetPagination() *query.PageRequest {
+	if m != nil {
+		return m.Pagination
+	}
+	return nil
+}
+
+type QueryAllVirtualSchemaResponse struct {
+	VirtualSchema []VirtualSchema     `protobuf:"bytes,1,rep,name=virtualSchema,proto3" json:"virtualSchema"`
+	Pagination    *query.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (m *QueryAllVirtualSchemaResponse) Reset()         { *m = QueryAllVirtualSchemaResponse{} }
+func (m *QueryAllVirtualSchemaResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryAllVirtualSchemaResponse) ProtoMessage()    {}
+func (*QueryAllVirtualSchemaResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_1406c74dd8ff3e6a, []int{57}
+}
+func (m *QueryAllVirtualSchemaResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryAllVirtualSchemaResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryAllVirtualSchemaResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryAllVirtualSchemaResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryAllVirtualSchemaResponse.Merge(m, src)
+}
+func (m *QueryAllVirtualSchemaResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryAllVirtualSchemaResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryAllVirtualSchemaResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryAllVirtualSchemaResponse proto.InternalMessageInfo
+
+func (m *QueryAllVirtualSchemaResponse) GetVirtualSchema() []VirtualSchema {
+	if m != nil {
+		return m.VirtualSchema
+	}
+	return nil
+}
+
+func (m *QueryAllVirtualSchemaResponse) GetPagination() *query.PageResponse {
+	if m != nil {
+		return m.Pagination
+	}
+	return nil
+}
+
+type QueryGetVirtualSchemaProposalRequest struct {
+	Index string `protobuf:"bytes,1,opt,name=index,proto3" json:"index,omitempty"`
+}
+
+func (m *QueryGetVirtualSchemaProposalRequest) Reset()         { *m = QueryGetVirtualSchemaProposalRequest{} }
+func (m *QueryGetVirtualSchemaProposalRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryGetVirtualSchemaProposalRequest) ProtoMessage()    {}
+func (*QueryGetVirtualSchemaProposalRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_1406c74dd8ff3e6a, []int{58}
+}
+func (m *QueryGetVirtualSchemaProposalRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryGetVirtualSchemaProposalRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryGetVirtualSchemaProposalRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryGetVirtualSchemaProposalRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryGetVirtualSchemaProposalRequest.Merge(m, src)
+}
+func (m *QueryGetVirtualSchemaProposalRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryGetVirtualSchemaProposalRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryGetVirtualSchemaProposalRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryGetVirtualSchemaProposalRequest proto.InternalMessageInfo
+
+func (m *QueryGetVirtualSchemaProposalRequest) GetIndex() string {
+	if m != nil {
+		return m.Index
+	}
+	return ""
+}
+
+type QueryGetVirtualSchemaProposalResponse struct {
+	VirtualSchemaProposal VirtualSchemaProposal `protobuf:"bytes,1,opt,name=virtualSchemaProposal,proto3" json:"virtualSchemaProposal"`
+}
+
+func (m *QueryGetVirtualSchemaProposalResponse) Reset()         { *m = QueryGetVirtualSchemaProposalResponse{} }
+func (m *QueryGetVirtualSchemaProposalResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryGetVirtualSchemaProposalResponse) ProtoMessage()    {}
+func (*QueryGetVirtualSchemaProposalResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_1406c74dd8ff3e6a, []int{59}
+}
+func (m *QueryGetVirtualSchemaProposalResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryGetVirtualSchemaProposalResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryGetVirtualSchemaProposalResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryGetVirtualSchemaProposalResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryGetVirtualSchemaProposalResponse.Merge(m, src)
+}
+func (m *QueryGetVirtualSchemaProposalResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryGetVirtualSchemaProposalResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryGetVirtualSchemaProposalResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryGetVirtualSchemaProposalResponse proto.InternalMessageInfo
+
+func (m *QueryGetVirtualSchemaProposalResponse) GetVirtualSchemaProposal() VirtualSchemaProposal {
+	if m != nil {
+		return m.VirtualSchemaProposal
+	}
+	return VirtualSchemaProposal{}
+}
+
+type QueryAllVirtualSchemaProposalRequest struct {
+	Pagination *query.PageRequest `protobuf:"bytes,1,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (m *QueryAllVirtualSchemaProposalRequest) Reset()         { *m = QueryAllVirtualSchemaProposalRequest{} }
+func (m *QueryAllVirtualSchemaProposalRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryAllVirtualSchemaProposalRequest) ProtoMessage()    {}
+func (*QueryAllVirtualSchemaProposalRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_1406c74dd8ff3e6a, []int{60}
+}
+func (m *QueryAllVirtualSchemaProposalRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryAllVirtualSchemaProposalRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryAllVirtualSchemaProposalRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryAllVirtualSchemaProposalRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryAllVirtualSchemaProposalRequest.Merge(m, src)
+}
+func (m *QueryAllVirtualSchemaProposalRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryAllVirtualSchemaProposalRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryAllVirtualSchemaProposalRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryAllVirtualSchemaProposalRequest proto.InternalMessageInfo
+
+func (m *QueryAllVirtualSchemaProposalRequest) GetPagination() *query.PageRequest {
+	if m != nil {
+		return m.Pagination
+	}
+	return nil
+}
+
+type QueryAllVirtualSchemaProposalResponse struct {
+	VirtualSchemaProposal []VirtualSchemaProposal `protobuf:"bytes,1,rep,name=virtualSchemaProposal,proto3" json:"virtualSchemaProposal"`
+	Pagination            *query.PageResponse     `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+}
+
+func (m *QueryAllVirtualSchemaProposalResponse) Reset()         { *m = QueryAllVirtualSchemaProposalResponse{} }
+func (m *QueryAllVirtualSchemaProposalResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryAllVirtualSchemaProposalResponse) ProtoMessage()    {}
+func (*QueryAllVirtualSchemaProposalResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_1406c74dd8ff3e6a, []int{61}
+}
+func (m *QueryAllVirtualSchemaProposalResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryAllVirtualSchemaProposalResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryAllVirtualSchemaProposalResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryAllVirtualSchemaProposalResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryAllVirtualSchemaProposalResponse.Merge(m, src)
+}
+func (m *QueryAllVirtualSchemaProposalResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryAllVirtualSchemaProposalResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryAllVirtualSchemaProposalResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryAllVirtualSchemaProposalResponse proto.InternalMessageInfo
+
+func (m *QueryAllVirtualSchemaProposalResponse) GetVirtualSchemaProposal() []VirtualSchemaProposal {
+	if m != nil {
+		return m.VirtualSchemaProposal
+	}
+	return nil
+}
+
+func (m *QueryAllVirtualSchemaProposalResponse) GetPagination() *query.PageResponse {
+	if m != nil {
+		return m.Pagination
+	}
+	return nil
+}
+
+type QueryListActiveProposalRequest struct {
+}
+
+func (m *QueryListActiveProposalRequest) Reset()         { *m = QueryListActiveProposalRequest{} }
+func (m *QueryListActiveProposalRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryListActiveProposalRequest) ProtoMessage()    {}
+func (*QueryListActiveProposalRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_1406c74dd8ff3e6a, []int{62}
+}
+func (m *QueryListActiveProposalRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryListActiveProposalRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryListActiveProposalRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryListActiveProposalRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryListActiveProposalRequest.Merge(m, src)
+}
+func (m *QueryListActiveProposalRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryListActiveProposalRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryListActiveProposalRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryListActiveProposalRequest proto.InternalMessageInfo
+
+type QueryListActiveProposalResponse struct {
+	VirtualSchemaProposal []VirtualSchemaProposal `protobuf:"bytes,1,rep,name=virtualSchemaProposal,proto3" json:"virtualSchemaProposal"`
+}
+
+func (m *QueryListActiveProposalResponse) Reset()         { *m = QueryListActiveProposalResponse{} }
+func (m *QueryListActiveProposalResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryListActiveProposalResponse) ProtoMessage()    {}
+func (*QueryListActiveProposalResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_1406c74dd8ff3e6a, []int{63}
+}
+func (m *QueryListActiveProposalResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryListActiveProposalResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryListActiveProposalResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryListActiveProposalResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryListActiveProposalResponse.Merge(m, src)
+}
+func (m *QueryListActiveProposalResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryListActiveProposalResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryListActiveProposalResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryListActiveProposalResponse proto.InternalMessageInfo
+
+func (m *QueryListActiveProposalResponse) GetVirtualSchemaProposal() []VirtualSchemaProposal {
+	if m != nil {
+		return m.VirtualSchemaProposal
+	}
+	return nil
+}
+
 func init() {
 	proto.RegisterType((*QueryParamsRequest)(nil), "thesixnetwork.sixprotocol.nftmngr.QueryParamsRequest")
 	proto.RegisterType((*QueryParamsResponse)(nil), "thesixnetwork.sixprotocol.nftmngr.QueryParamsResponse")
@@ -2404,142 +3044,180 @@ func init() {
 	proto.RegisterType((*QueryGetExecutorOfSchemaResponse)(nil), "thesixnetwork.sixprotocol.nftmngr.QueryGetExecutorOfSchemaResponse")
 	proto.RegisterType((*QueryAllExecutorOfSchemaRequest)(nil), "thesixnetwork.sixprotocol.nftmngr.QueryAllExecutorOfSchemaRequest")
 	proto.RegisterType((*QueryAllExecutorOfSchemaResponse)(nil), "thesixnetwork.sixprotocol.nftmngr.QueryAllExecutorOfSchemaResponse")
+	proto.RegisterType((*QueryGetVirtualActionRequest)(nil), "thesixnetwork.sixprotocol.nftmngr.QueryGetVirtualActionRequest")
+	proto.RegisterType((*QueryGetVirtualActionResponse)(nil), "thesixnetwork.sixprotocol.nftmngr.QueryGetVirtualActionResponse")
+	proto.RegisterType((*QueryAllVirtualActionRequest)(nil), "thesixnetwork.sixprotocol.nftmngr.QueryAllVirtualActionRequest")
+	proto.RegisterType((*QueryAllVirtualActionResponse)(nil), "thesixnetwork.sixprotocol.nftmngr.QueryAllVirtualActionResponse")
+	proto.RegisterType((*QueryGetVirtualSchemaRequest)(nil), "thesixnetwork.sixprotocol.nftmngr.QueryGetVirtualSchemaRequest")
+	proto.RegisterType((*QueryGetVirtualSchemaResponse)(nil), "thesixnetwork.sixprotocol.nftmngr.QueryGetVirtualSchemaResponse")
+	proto.RegisterType((*QueryAllVirtualSchemaRequest)(nil), "thesixnetwork.sixprotocol.nftmngr.QueryAllVirtualSchemaRequest")
+	proto.RegisterType((*QueryAllVirtualSchemaResponse)(nil), "thesixnetwork.sixprotocol.nftmngr.QueryAllVirtualSchemaResponse")
+	proto.RegisterType((*QueryGetVirtualSchemaProposalRequest)(nil), "thesixnetwork.sixprotocol.nftmngr.QueryGetVirtualSchemaProposalRequest")
+	proto.RegisterType((*QueryGetVirtualSchemaProposalResponse)(nil), "thesixnetwork.sixprotocol.nftmngr.QueryGetVirtualSchemaProposalResponse")
+	proto.RegisterType((*QueryAllVirtualSchemaProposalRequest)(nil), "thesixnetwork.sixprotocol.nftmngr.QueryAllVirtualSchemaProposalRequest")
+	proto.RegisterType((*QueryAllVirtualSchemaProposalResponse)(nil), "thesixnetwork.sixprotocol.nftmngr.QueryAllVirtualSchemaProposalResponse")
+	proto.RegisterType((*QueryListActiveProposalRequest)(nil), "thesixnetwork.sixprotocol.nftmngr.QueryListActiveProposalRequest")
+	proto.RegisterType((*QueryListActiveProposalResponse)(nil), "thesixnetwork.sixprotocol.nftmngr.QueryListActiveProposalResponse")
 }
 
 func init() { proto.RegisterFile("nftmngr/query.proto", fileDescriptor_1406c74dd8ff3e6a) }
 
 var fileDescriptor_1406c74dd8ff3e6a = []byte{
-	// 2078 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xbc, 0x9a, 0xd1, 0x6f, 0x1c, 0x47,
-	0x19, 0xc0, 0x33, 0xb9, 0x36, 0x21, 0x43, 0x53, 0x87, 0x71, 0x1a, 0xcc, 0x91, 0x5c, 0xd3, 0x21,
-	0x0a, 0x6e, 0x94, 0xde, 0xc6, 0x8e, 0x63, 0x1a, 0x88, 0x9c, 0x9c, 0x1d, 0x9f, 0x1b, 0xd4, 0xda,
-	0xe9, 0x11, 0x81, 0x5a, 0x21, 0xac, 0xbd, 0xbb, 0xb9, 0xf3, 0xaa, 0x7b, 0xbb, 0xee, 0xed, 0x9a,
-	0xda, 0x58, 0x27, 0x01, 0x12, 0x12, 0x48, 0x3c, 0x20, 0x21, 0xfe, 0x04, 0x5e, 0x79, 0x41, 0xe2,
-	0x85, 0x07, 0x10, 0x12, 0x55, 0xa9, 0x04, 0x44, 0xed, 0x4b, 0x9e, 0xaa, 0x2a, 0x29, 0xe2, 0x0d,
-	0x09, 0x89, 0x27, 0x9e, 0xd0, 0xce, 0x7e, 0x73, 0xbb, 0x33, 0xbb, 0x7b, 0xde, 0xd9, 0xdb, 0xf0,
-	0x76, 0x37, 0xdf, 0xce, 0x37, 0xdf, 0xef, 0x9b, 0x6f, 0xbe, 0x99, 0xf9, 0x76, 0xf1, 0xac, 0xd3,
-	0xf3, 0x07, 0x4e, 0x7f, 0x68, 0xbc, 0xbb, 0xc7, 0x86, 0x07, 0xf5, 0xdd, 0xa1, 0xeb, 0xbb, 0xe4,
-	0x25, 0x7f, 0x87, 0x79, 0xd6, 0xbe, 0xc3, 0xfc, 0xf7, 0xdc, 0xe1, 0x3b, 0x75, 0xcf, 0xda, 0xe7,
-	0xed, 0x1d, 0xd7, 0xae, 0xc3, 0xe3, 0xd5, 0xb3, 0x7d, 0xb7, 0xef, 0xf2, 0x56, 0x23, 0xf8, 0x15,
-	0x76, 0xac, 0x9e, 0xef, 0xbb, 0x6e, 0xdf, 0x66, 0x86, 0xb9, 0x6b, 0x19, 0xa6, 0xe3, 0xb8, 0xbe,
-	0xe9, 0x5b, 0xae, 0xe3, 0x81, 0xf4, 0x4a, 0xc7, 0xf5, 0x06, 0xae, 0x67, 0xb4, 0x4d, 0x8f, 0x85,
-	0xe3, 0x19, 0xdf, 0x5f, 0x68, 0x33, 0xdf, 0x5c, 0x30, 0x76, 0xcd, 0xbe, 0xe5, 0xf0, 0x87, 0xe1,
-	0xd9, 0xb3, 0xc2, 0xae, 0x5d, 0x73, 0x68, 0x0e, 0x84, 0x86, 0x39, 0xd1, 0xea, 0xf4, 0xfc, 0x6d,
-	0xaf, 0xb3, 0xc3, 0x06, 0x26, 0x48, 0x6a, 0x42, 0x62, 0x76, 0x02, 0x2d, 0xdb, 0xed, 0x83, 0xed,
-	0x21, 0xeb, 0x6d, 0x5b, 0x5d, 0x90, 0x57, 0x85, 0xdc, 0x1d, 0xf6, 0x4d, 0xc7, 0xfa, 0x41, 0x7c,
-	0xac, 0xf3, 0x71, 0xad, 0x1d, 0xd7, 0xb6, 0x59, 0x27, 0x26, 0xbd, 0x94, 0x1c, 0x33, 0xd0, 0xde,
-	0x71, 0x1d, 0x7f, 0x68, 0x76, 0xfc, 0x34, 0x1d, 0x3d, 0xc6, 0x02, 0x79, 0xcf, 0xea, 0x83, 0xf4,
-	0x82, 0x2a, 0x6d, 0x9b, 0xb6, 0xe9, 0x74, 0x98, 0x6a, 0xfc, 0x80, 0xf9, 0x66, 0xd7, 0xf4, 0xcd,
-	0xed, 0xce, 0x90, 0x99, 0xbe, 0x3b, 0x54, 0xbb, 0x03, 0x1c, 0xdb, 0x67, 0x9d, 0xbd, 0x48, 0x3c,
-	0xee, 0x0e, 0xd6, 0x99, 0xbe, 0x3f, 0xb4, 0xda, 0x7b, 0x3e, 0xcb, 0xf0, 0x8d, 0xdb, 0x93, 0x7d,
-	0x77, 0x51, 0xc8, 0x85, 0xde, 0xc4, 0x13, 0xe7, 0xe2, 0xf6, 0x07, 0x06, 0x86, 0xed, 0xf4, 0x2c,
-	0x26, 0x6f, 0x06, 0xf3, 0x78, 0x9f, 0x4f, 0x52, 0x8b, 0xbd, 0xbb, 0xc7, 0x3c, 0x9f, 0x7e, 0x0f,
-	0xcf, 0x4a, 0xad, 0xde, 0xae, 0xeb, 0x78, 0x8c, 0x6c, 0xe0, 0x13, 0xe1, 0x64, 0xce, 0xa1, 0x8b,
-	0x68, 0xfe, 0xf3, 0x8b, 0x2f, 0xd7, 0x8f, 0x0c, 0xb3, 0x7a, 0xa8, 0x62, 0xf5, 0x99, 0x0f, 0x3e,
-	0x79, 0xf1, 0x58, 0x0b, 0xba, 0xd3, 0x3a, 0x9e, 0xe3, 0xfa, 0x37, 0x98, 0xbf, 0xd9, 0x7c, 0xf0,
-	0x2d, 0x6e, 0x28, 0x8c, 0x4d, 0x08, 0x7e, 0xa6, 0xe3, 0x76, 0x19, 0x1f, 0xe2, 0x54, 0x8b, 0xff,
-	0xa6, 0x03, 0xfc, 0xa5, 0x94, 0xe7, 0xc1, 0xaa, 0xfb, 0xf8, 0x94, 0x23, 0x1a, 0xc1, 0xb0, 0xab,
-	0x39, 0x0c, 0x1b, 0x2b, 0x02, 0xdb, 0x22, 0x25, 0xb4, 0x0d, 0xe6, 0x35, 0x6c, 0x3b, 0x61, 0x5e,
-	0x13, 0xe3, 0x28, 0xd4, 0x61, 0xb8, 0xcb, 0xf5, 0x70, 0x5d, 0xd4, 0x83, 0x75, 0x51, 0x0f, 0xd7,
-	0x21, 0xac, 0x8b, 0xfa, 0x7d, 0xb3, 0xcf, 0xa0, 0x6f, 0x2b, 0xd6, 0x93, 0xfe, 0x0e, 0x01, 0x93,
-	0x3c, 0x48, 0x3a, 0x53, 0x65, 0x6a, 0x26, 0xb2, 0x21, 0xd9, 0x7d, 0x9c, 0xdb, 0xfd, 0xd5, 0x23,
-	0xed, 0x0e, 0xcd, 0x91, 0x0c, 0xdf, 0xc7, 0xe7, 0xc6, 0x73, 0xd1, 0xf3, 0xef, 0x9a, 0xfe, 0xd8,
-	0x35, 0x97, 0xf0, 0x69, 0xa7, 0xe7, 0x87, 0xe3, 0xad, 0x45, 0x53, 0x28, 0x37, 0x92, 0x39, 0x7c,
-	0xd2, 0x77, 0xdf, 0x61, 0xce, 0xbd, 0x2e, 0xb7, 0xe2, 0x54, 0x4b, 0xfc, 0x25, 0x35, 0x8c, 0xdf,
-	0xb3, 0xfc, 0x9d, 0x0d, 0xdb, 0x6d, 0x9b, 0xf6, 0x5c, 0xe5, 0x22, 0x9a, 0xff, 0x5c, 0x2b, 0xd6,
-	0x42, 0x19, 0xfe, 0x62, 0x62, 0x64, 0xf0, 0xd7, 0x37, 0xf1, 0x49, 0x27, 0x6c, 0x82, 0x29, 0xb9,
-	0x92, 0xc7, 0x5b, 0x61, 0x0f, 0xf0, 0x95, 0x50, 0x40, 0x7f, 0x88, 0x80, 0x30, 0x98, 0x19, 0x99,
-	0x50, 0xb6, 0x10, 0xa9, 0x16, 0x2a, 0xc1, 0x71, 0xbc, 0x70, 0x70, 0xfc, 0x06, 0x01, 0x6a, 0xdc,
-	0x84, 0x34, 0xd4, 0xca, 0x54, 0xa8, 0xe5, 0x05, 0xc5, 0x12, 0x3e, 0x2f, 0xa6, 0xa6, 0xc1, 0x53,
-	0xd4, 0xea, 0x41, 0x8b, 0xf5, 0xee, 0x75, 0x85, 0xe3, 0xce, 0xe2, 0x67, 0x87, 0xc1, 0x7f, 0x08,
-	0x89, 0xf0, 0x0f, 0x1d, 0xe1, 0x0b, 0x19, 0xbd, 0x80, 0xf5, 0xbb, 0xf8, 0xb4, 0x19, 0x17, 0xc0,
-	0xe4, 0x5e, 0xcb, 0x41, 0x2c, 0x29, 0x04, 0x6e, 0x59, 0x19, 0xed, 0x81, 0xd1, 0x0d, 0xdb, 0x4e,
-	0x35, 0xba, 0xac, 0xa5, 0xfe, 0x3e, 0x02, 0xce, 0xe4, 0x40, 0xd9, 0x9c, 0x95, 0xd2, 0x38, 0xcb,
-	0x9b, 0xe5, 0x05, 0xfc, 0x65, 0x31, 0x5f, 0x5b, 0xb1, 0x4d, 0x38, 0x96, 0xb9, 0x1d, 0x73, 0x30,
-	0xce, 0xdc, 0xc1, 0x6f, 0x7a, 0x10, 0x05, 0x86, 0xdc, 0x05, 0xc8, 0xdf, 0xc2, 0xcf, 0xc5, 0xf7,
-	0x73, 0xf0, 0xb2, 0x91, 0x03, 0x3c, 0xae, 0x0e, 0xb8, 0x25, 0x55, 0x94, 0x81, 0xb5, 0x0d, 0xdb,
-	0x4e, 0xb3, 0xb6, 0xac, 0xd9, 0xfd, 0x13, 0x8a, 0xc2, 0x28, 0x27, 0x62, 0xa5, 0x24, 0xc4, 0xf2,
-	0x66, 0xf6, 0xe7, 0x28, 0x9a, 0xa7, 0xcd, 0x9e, 0xbf, 0x36, 0x3e, 0x42, 0xe9, 0xe5, 0xf6, 0xb2,
-	0xf2, 0xdf, 0x1f, 0x51, 0x94, 0x19, 0x14, 0x73, 0xc0, 0xa9, 0xdf, 0xe6, 0xf6, 0x44, 0x82, 0x82,
-	0xb9, 0x10, 0xb5, 0x64, 0x35, 0xe5, 0x79, 0xf4, 0x6d, 0x4c, 0x13, 0x47, 0x96, 0xd5, 0x83, 0x35,
-	0x38, 0x73, 0x0a, 0xb7, 0x2e, 0xe1, 0x17, 0xdc, 0xa1, 0xd5, 0xb7, 0x1c, 0x21, 0x68, 0x74, 0xbb,
-	0x43, 0xe6, 0x79, 0xe0, 0xde, 0x74, 0x21, 0xfd, 0x15, 0xc2, 0x5f, 0x99, 0xa8, 0x1c, 0x9c, 0xe4,
-	0xe0, 0x59, 0x27, 0x29, 0x86, 0x58, 0x5f, 0xd6, 0x3a, 0x4f, 0x8c, 0x7b, 0x43, 0x1c, 0xa6, 0x29,
-	0xa6, 0x36, 0x30, 0xc7, 0x8f, 0x34, 0x49, 0xe6, 0xb2, 0x16, 0xde, 0x27, 0xc2, 0x0b, 0x59, 0xc3,
-	0x1d, 0xe5, 0x85, 0xca, 0x53, 0xf1, 0x42, 0x79, 0x21, 0x74, 0x21, 0x4a, 0xb7, 0x9b, 0xcd, 0x07,
-	0x4d, 0xc6, 0xd6, 0xf8, 0x8d, 0x44, 0x1c, 0xd2, 0x63, 0xa9, 0x55, 0x16, 0x47, 0x79, 0x27, 0xde,
-	0xae, 0x91, 0x5a, 0xe3, 0xdd, 0x44, 0xde, 0x89, 0xb7, 0xd1, 0x9a, 0x3a, 0xf4, 0x6a, 0x78, 0x1b,
-	0x12, 0xa6, 0xc5, 0x36, 0x76, 0x45, 0x1e, 0x6d, 0x78, 0x92, 0x40, 0x63, 0x63, 0x97, 0xfa, 0x89,
-	0x0d, 0x4f, 0x6a, 0xa4, 0x4d, 0x5c, 0x13, 0xc3, 0xbf, 0x01, 0xf7, 0xb1, 0xb5, 0xf0, 0x3a, 0xa6,
-	0x95, 0xce, 0xe8, 0x4f, 0x10, 0x7e, 0x31, 0x53, 0x11, 0x90, 0xb4, 0xf1, 0xcc, 0x40, 0x16, 0x01,
-	0xcb, 0x62, 0x0e, 0x16, 0x45, 0x29, 0xd0, 0xa8, 0x0a, 0xe9, 0x0e, 0xf0, 0x34, 0x6c, 0x3b, 0x83,
-	0xa7, 0xac, 0x35, 0xf5, 0x37, 0x41, 0x9c, 0x36, 0xd4, 0x24, 0xe2, 0x4a, 0xa9, 0xc4, 0xe5, 0xad,
-	0x21, 0x57, 0x3d, 0x62, 0xae, 0xc3, 0x0d, 0x59, 0x6f, 0x63, 0x9b, 0xc7, 0x33, 0xe2, 0x6a, 0x2d,
-	0x32, 0x74, 0x78, 0x79, 0x51, 0x9b, 0xe9, 0x8f, 0x50, 0x14, 0x7c, 0xea, 0x88, 0xe0, 0xc0, 0x6d,
-	0xfc, 0xbc, 0x29, 0x49, 0x60, 0xc2, 0x16, 0x72, 0x1f, 0xf7, 0x44, 0x47, 0x70, 0x9f, 0xa2, 0x8e,
-	0xf6, 0xd5, 0xf3, 0xa6, 0x0a, 0x5d, 0x56, 0xb8, 0x7c, 0x88, 0xa2, 0xc8, 0xd4, 0x80, 0xad, 0x94,
-	0x08, 0x5b, 0xe6, 0x8e, 0x3d, 0x9e, 0xb8, 0x70, 0xe6, 0x1b, 0xa2, 0x0a, 0xa3, 0x17, 0x2b, 0xe2,
-	0x18, 0x7c, 0x3c, 0x76, 0x0c, 0x8e, 0x67, 0x92, 0x84, 0xf2, 0x68, 0x5d, 0x79, 0xb2, 0x48, 0x23,
-	0x93, 0x28, 0x4a, 0xc5, 0xba, 0x52, 0x14, 0xc6, 0x33, 0x49, 0x06, 0xe3, 0xd3, 0xc8, 0x24, 0x5a,
-	0xc4, 0x95, 0x52, 0x89, 0xcb, 0x0b, 0x8f, 0x7b, 0xf8, 0x25, 0xce, 0xf3, 0xba, 0xe5, 0xf9, 0xd1,
-	0xa8, 0x07, 0x72, 0x75, 0x28, 0xdf, 0xbe, 0xf2, 0x53, 0x04, 0x07, 0xa5, 0x0c, 0x5d, 0xff, 0x3f,
-	0xf7, 0xd0, 0xb7, 0xd4, 0xfc, 0xb8, 0xd5, 0x2b, 0x40, 0x94, 0x1a, 0xf3, 0xc9, 0x4c, 0x18, 0xe9,
-	0x56, 0x93, 0x83, 0x90, 0x68, 0x67, 0x42, 0xd1, 0x51, 0x4e, 0x0e, 0xa2, 0x35, 0x99, 0x09, 0x55,
-	0xbc, 0xa7, 0x97, 0x09, 0x73, 0xc1, 0x56, 0x4a, 0x84, 0x2d, 0x2f, 0xd4, 0x37, 0xa2, 0x64, 0x25,
-	0xd2, 0x6c, 0xa1, 0xb0, 0xa0, 0x3f, 0x43, 0xf8, 0x62, 0xb6, 0x26, 0xf0, 0x0b, 0xc3, 0x67, 0x98,
-	0x22, 0x83, 0x89, 0xb8, 0x9e, 0xc3, 0x33, 0xaa, 0x5a, 0xf0, 0x4d, 0x42, 0x25, 0xb5, 0xa2, 0x7c,
-	0x94, 0x05, 0x55, 0x56, 0x30, 0x7c, 0x24, 0xb0, 0x53, 0xc7, 0x9a, 0x88, 0x5d, 0x29, 0x19, 0xbb,
-	0xb4, 0xa0, 0x58, 0xfc, 0xf7, 0xcb, 0xf8, 0x59, 0x0e, 0x45, 0x7e, 0x8d, 0xf0, 0x89, 0xb0, 0xac,
-	0x4f, 0x6e, 0xe4, 0x30, 0x35, 0xf9, 0x7e, 0xa1, 0xba, 0xac, 0xdb, 0x2d, 0xb4, 0x87, 0x5e, 0xfd,
-	0xf1, 0xc7, 0x9f, 0xfd, 0xf2, 0xf8, 0x65, 0x72, 0xc9, 0x90, 0xfa, 0x1b, 0xc1, 0xcf, 0x9e, 0x6f,
-	0xc8, 0x6f, 0x9c, 0xc8, 0x1f, 0x10, 0x3e, 0x35, 0xbe, 0xbb, 0x91, 0x6f, 0xe4, 0x1d, 0x33, 0xe5,
-	0xa5, 0x44, 0xf5, 0x56, 0xb1, 0xce, 0x60, 0xf6, 0xd7, 0xb8, 0xd9, 0x0b, 0xc4, 0x98, 0x6c, 0x76,
-	0xf4, 0x7a, 0xca, 0x38, 0xec, 0xb8, 0x5d, 0x36, 0x22, 0xbf, 0x47, 0xfc, 0x0e, 0x07, 0xb9, 0xdc,
-	0xb6, 0xf3, 0x43, 0xa4, 0xbc, 0xba, 0xc8, 0x0f, 0x91, 0xf6, 0x4a, 0x82, 0x5e, 0xe3, 0x10, 0x57,
-	0xc8, 0x7c, 0x5e, 0x08, 0xf2, 0x21, 0xc2, 0x27, 0xa1, 0xd8, 0x42, 0x6e, 0xea, 0x38, 0x50, 0x2a,
-	0xba, 0x57, 0xbf, 0x5e, 0xa4, 0x2b, 0x18, 0xfd, 0x1a, 0x37, 0x7a, 0x95, 0xdc, 0x39, 0xda, 0xe8,
-	0xe0, 0xfa, 0x61, 0x1c, 0x4a, 0xf9, 0x6b, 0x64, 0x1c, 0xc2, 0xbb, 0x89, 0x11, 0xf9, 0x2d, 0xc2,
-	0x18, 0xb4, 0x07, 0x13, 0x71, 0x53, 0xc7, 0x97, 0x05, 0x79, 0x92, 0xc5, 0x7f, 0x5a, 0xe7, 0x3c,
-	0xf3, 0xe4, 0x72, 0x3e, 0x1e, 0xf2, 0x11, 0xc2, 0xa7, 0xa5, 0x0a, 0x31, 0xb9, 0xad, 0xe1, 0xcd,
-	0xb4, 0xaa, 0x78, 0xf5, 0x4e, 0x71, 0x05, 0x00, 0xb1, 0xc2, 0x21, 0x5e, 0x25, 0xcb, 0x93, 0x21,
-	0xd4, 0xf7, 0xc0, 0xc6, 0x21, 0x7f, 0x6b, 0x30, 0x22, 0x7f, 0x45, 0xf8, 0x8c, 0xa4, 0x39, 0x98,
-	0x90, 0xdb, 0x1a, 0x5e, 0x9d, 0x8e, 0x2b, 0xab, 0x8a, 0x4f, 0x97, 0x39, 0xd7, 0x35, 0x52, 0xd7,
-	0xe3, 0x0a, 0xd6, 0xc9, 0x73, 0xf1, 0x52, 0x2f, 0x59, 0xd1, 0x70, 0x71, 0x4a, 0x69, 0xbb, 0x7a,
-	0xbb, 0x70, 0x7f, 0x20, 0xb9, 0xc9, 0x49, 0xae, 0x93, 0x85, 0xc9, 0x24, 0xf1, 0x5a, 0xb4, 0x71,
-	0x18, 0x1c, 0xfa, 0x46, 0xe4, 0x7d, 0x84, 0x67, 0xe2, 0x3a, 0x83, 0xb9, 0x59, 0xd1, 0x70, 0xed,
-	0x54, 0x3c, 0x19, 0x25, 0x78, 0xba, 0xc8, 0x79, 0xae, 0x92, 0x2b, 0xf9, 0x79, 0xc8, 0x23, 0x84,
-	0x4f, 0x4b, 0xb5, 0x67, 0xad, 0xa5, 0x93, 0x56, 0x44, 0xd7, 0x5a, 0x3a, 0xa9, 0x65, 0x6f, 0x7a,
-	0x97, 0x83, 0xac, 0x90, 0x5b, 0x47, 0xaf, 0xff, 0xe8, 0x33, 0x08, 0x35, 0xab, 0x91, 0xff, 0x22,
-	0x3c, 0x9b, 0x52, 0xd4, 0x24, 0xeb, 0x45, 0x76, 0xb9, 0x44, 0x81, 0xb7, 0xda, 0x9c, 0x56, 0x0d,
-	0xc0, 0x3e, 0xe0, 0xb0, 0x9b, 0xe4, 0xf5, 0xbc, 0x3b, 0x4e, 0xfc, 0xab, 0x0e, 0xe3, 0x30, 0xb5,
-	0x76, 0x3e, 0x22, 0xff, 0x40, 0xf8, 0x5c, 0xca, 0xa8, 0x41, 0x9c, 0xae, 0x17, 0xd9, 0x20, 0xa7,
-	0xe0, 0x9f, 0x5c, 0xb8, 0xa6, 0xb7, 0x38, 0xff, 0x32, 0x59, 0x2a, 0xc2, 0x4f, 0xfe, 0x8c, 0xe4,
-	0xfa, 0xaf, 0x56, 0x56, 0x49, 0xa9, 0x37, 0x6b, 0x65, 0x95, 0xb4, 0x82, 0x34, 0x5d, 0xe2, 0x3c,
-	0x75, 0x72, 0xf5, 0x68, 0x9e, 0xe8, 0xfb, 0x1b, 0xf2, 0x17, 0xa4, 0xd4, 0x8a, 0x89, 0xbe, 0x21,
-	0x72, 0x79, 0x5a, 0x6f, 0x1d, 0xa6, 0xd5, 0xaf, 0xe9, 0x0d, 0x8e, 0x62, 0x90, 0x57, 0xf2, 0xa1,
-	0xc0, 0xc7, 0x42, 0xe4, 0x53, 0x84, 0x67, 0x94, 0x0a, 0x28, 0x69, 0x68, 0x18, 0x93, 0x5e, 0xfd,
-	0xad, 0xae, 0x4e, 0xa3, 0x02, 0x88, 0x9a, 0x9c, 0xe8, 0x0e, 0x59, 0x99, 0x4c, 0xa4, 0x7e, 0xdf,
-	0x94, 0xc8, 0x2d, 0x1f, 0x23, 0x4c, 0x94, 0x31, 0x82, 0xa5, 0xd5, 0xd0, 0x58, 0x13, 0xd3, 0x52,
-	0x66, 0xd7, 0xae, 0xf3, 0x6e, 0xd1, 0x2a, 0x25, 0xf9, 0x17, 0xc2, 0xcf, 0xcb, 0xd5, 0x48, 0xa2,
-	0x7f, 0x0e, 0x52, 0xaa, 0xb0, 0xd5, 0xc6, 0x14, 0x1a, 0x80, 0xe7, 0x3b, 0x9c, 0xe7, 0x4d, 0xb2,
-	0x95, 0xeb, 0xc8, 0x21, 0x2e, 0x87, 0xc9, 0x63, 0xae, 0x52, 0xc5, 0x1e, 0x91, 0xbf, 0x23, 0xfc,
-	0x05, 0x79, 0xcc, 0x60, 0x16, 0xf5, 0xcf, 0x48, 0x85, 0x99, 0x33, 0x2b, 0xca, 0x79, 0xd7, 0x9e,
-	0xc2, 0x4c, 0xfe, 0x89, 0xf0, 0x8c, 0x52, 0x14, 0xd3, 0x5a, 0x7b, 0xe9, 0xf5, 0x52, 0xad, 0xb5,
-	0x97, 0x51, 0x07, 0xa5, 0x6f, 0x70, 0xa2, 0x0d, 0xb2, 0x3e, 0x99, 0x48, 0xfd, 0x38, 0x30, 0x39,
-	0x8d, 0xe1, 0x11, 0x2c, 0x58, 0x82, 0xca, 0x50, 0xba, 0x4b, 0x70, 0x5a, 0xd8, 0xec, 0xa2, 0x6f,
-	0xde, 0x25, 0xa8, 0xc2, 0x92, 0xff, 0x20, 0xfc, 0x42, 0x6a, 0xbd, 0x94, 0xdc, 0xcd, 0x6b, 0xd5,
-	0xa4, 0xd2, 0x6d, 0x75, 0x7d, 0x4a, 0x2d, 0x80, 0xb7, 0xc9, 0xf1, 0x5e, 0x23, 0xcd, 0xc9, 0x78,
-	0xb6, 0xe5, 0xf9, 0x11, 0x5c, 0xb0, 0x71, 0x8b, 0x9b, 0xbf, 0x92, 0x4f, 0x3f, 0x1b, 0x67, 0x9e,
-	0x71, 0x49, 0x47, 0x3f, 0xf3, 0x28, 0x85, 0xae, 0x02, 0x99, 0x47, 0x2d, 0x5f, 0xe5, 0x8d, 0x59,
-	0xf5, 0x83, 0xd5, 0xac, 0x98, 0x7d, 0x38, 0xce, 0x37, 0x62, 0xa4, 0x62, 0xf9, 0xa6, 0x30, 0x69,
-	0x66, 0xdd, 0x56, 0xf3, 0x5a, 0x37, 0x26, 0x0d, 0x0e, 0x9a, 0x67, 0xd4, 0x32, 0x1d, 0xd1, 0x49,
-	0x17, 0x19, 0x65, 0xca, 0xea, 0xda, 0x54, 0x3a, 0xf4, 0x2a, 0x23, 0xc9, 0x0f, 0x8a, 0x13, 0x11,
-	0xfa, 0x08, 0xe1, 0x59, 0x75, 0x98, 0x60, 0xf2, 0x74, 0x92, 0xc5, 0xd4, 0xa8, 0x13, 0x2a, 0xad,
-	0xf4, 0x55, 0x8e, 0xba, 0x48, 0xae, 0xe9, 0xa2, 0xae, 0x6e, 0x7d, 0xf0, 0xb8, 0x86, 0x1e, 0x3e,
-	0xae, 0xa1, 0x4f, 0x1f, 0xd7, 0xd0, 0x2f, 0x9e, 0xd4, 0x8e, 0x3d, 0x7c, 0x52, 0x3b, 0xf6, 0xe8,
-	0x49, 0xed, 0xd8, 0xdb, 0x37, 0xfa, 0x96, 0xbf, 0xb3, 0xd7, 0xae, 0x77, 0xdc, 0x41, 0x52, 0xeb,
-	0x2b, 0xc2, 0x46, 0x63, 0x7f, 0xac, 0xdd, 0x3f, 0xd8, 0x65, 0x5e, 0xfb, 0x04, 0x97, 0x5c, 0xff,
-	0x5f, 0x00, 0x00, 0x00, 0xff, 0xff, 0xe7, 0x54, 0xee, 0xfa, 0xb5, 0x2f, 0x00, 0x00,
+	// 2458 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xc4, 0x9b, 0x4d, 0x6c, 0x1c, 0x49,
+	0x15, 0xc7, 0x53, 0x99, 0xdd, 0x84, 0x14, 0x9b, 0x4d, 0x28, 0x27, 0xc1, 0x0c, 0xc9, 0xac, 0xb7,
+	0x08, 0xc1, 0x44, 0xd9, 0xe9, 0xd8, 0x49, 0x9c, 0x64, 0xc9, 0x3a, 0x1e, 0x3b, 0xb6, 0x13, 0xb4,
+	0xeb, 0x64, 0x4d, 0x14, 0xd8, 0x05, 0x61, 0xf5, 0xcc, 0xf4, 0x8c, 0x5b, 0xdb, 0xee, 0xf6, 0xce,
+	0xb4, 0xbd, 0x36, 0xd6, 0x48, 0x80, 0x04, 0x02, 0x89, 0x03, 0x12, 0x42, 0x9c, 0x38, 0x72, 0xe5,
+	0xc2, 0x91, 0x03, 0x1f, 0x12, 0xab, 0x65, 0x11, 0x10, 0xed, 0x5e, 0x72, 0x61, 0xb5, 0x4a, 0x16,
+	0xb8, 0x20, 0x24, 0x24, 0x4e, 0x9c, 0x50, 0x57, 0xbf, 0x9a, 0xee, 0xaa, 0xae, 0x9e, 0xe9, 0xea,
+	0x69, 0xc3, 0xcd, 0xd3, 0xd5, 0xf5, 0xea, 0xfd, 0xde, 0xab, 0x7a, 0x5d, 0xd5, 0xff, 0x36, 0x1e,
+	0x73, 0x5b, 0xfe, 0x86, 0xdb, 0xee, 0x18, 0x6f, 0x6e, 0x59, 0x9d, 0xdd, 0xea, 0x66, 0xc7, 0xf3,
+	0x3d, 0xf2, 0xbc, 0xbf, 0x6e, 0x75, 0xed, 0x1d, 0xd7, 0xf2, 0xdf, 0xf2, 0x3a, 0x6f, 0x54, 0xbb,
+	0xf6, 0x0e, 0xbb, 0xde, 0xf0, 0x9c, 0x2a, 0xdc, 0x5e, 0x3e, 0xd1, 0xf6, 0xda, 0x1e, 0xbb, 0x6a,
+	0x04, 0x7f, 0x85, 0x1d, 0xcb, 0xa7, 0xdb, 0x9e, 0xd7, 0x76, 0x2c, 0xc3, 0xdc, 0xb4, 0x0d, 0xd3,
+	0x75, 0x3d, 0xdf, 0xf4, 0x6d, 0xcf, 0xed, 0x42, 0xeb, 0xf9, 0x86, 0xd7, 0xdd, 0xf0, 0xba, 0x46,
+	0xdd, 0xec, 0x5a, 0xe1, 0x78, 0xc6, 0xf6, 0x54, 0xdd, 0xf2, 0xcd, 0x29, 0x63, 0xd3, 0x6c, 0xdb,
+	0x2e, 0xbb, 0x19, 0xee, 0x3d, 0xc1, 0xfd, 0xda, 0x34, 0x3b, 0xe6, 0x06, 0xb7, 0x30, 0xce, 0xaf,
+	0xba, 0x2d, 0x7f, 0xad, 0xdb, 0x58, 0xb7, 0x36, 0x4c, 0x68, 0xa9, 0xf0, 0x16, 0xb3, 0x11, 0x58,
+	0x59, 0xab, 0xef, 0xae, 0x75, 0xac, 0xd6, 0x9a, 0xdd, 0x84, 0xf6, 0x32, 0x6f, 0xf7, 0x3a, 0x6d,
+	0xd3, 0xb5, 0xbf, 0x11, 0x1f, 0xeb, 0x74, 0xdc, 0x6a, 0xc3, 0x73, 0x1c, 0xab, 0x11, 0x6b, 0x3d,
+	0x9b, 0x1c, 0x33, 0xb0, 0xde, 0xf0, 0x5c, 0xbf, 0x63, 0x36, 0x7c, 0x95, 0x8d, 0x96, 0x65, 0x05,
+	0xed, 0x2d, 0xbb, 0x0d, 0xad, 0x67, 0xe4, 0xd6, 0xba, 0xe9, 0x98, 0x6e, 0xc3, 0x92, 0x9d, 0xdf,
+	0xb0, 0x7c, 0xb3, 0x69, 0xfa, 0xe6, 0x5a, 0xa3, 0x63, 0x99, 0xbe, 0xd7, 0x91, 0xbb, 0x03, 0x9c,
+	0xb5, 0x63, 0x35, 0xb6, 0xa2, 0xe6, 0x7e, 0x77, 0xf0, 0xce, 0xf4, 0xfd, 0x8e, 0x5d, 0xdf, 0xf2,
+	0xad, 0x94, 0xd8, 0x78, 0x2d, 0x31, 0x76, 0x13, 0xbc, 0x9d, 0xdb, 0x4d, 0xdc, 0xd1, 0xa7, 0xdb,
+	0xb6, 0x3b, 0xfe, 0x96, 0xe9, 0xac, 0x99, 0xf1, 0x08, 0x9d, 0x8a, 0xd3, 0x05, 0xee, 0xa7, 0xf5,
+	0x8a, 0xdb, 0xa4, 0x27, 0x30, 0x79, 0x35, 0x98, 0x03, 0xf7, 0x58, 0x82, 0x57, 0xad, 0x37, 0xb7,
+	0xac, 0xae, 0x4f, 0xbf, 0x8e, 0xc7, 0x84, 0xab, 0xdd, 0x4d, 0xcf, 0xed, 0x5a, 0x64, 0x19, 0x1f,
+	0x0a, 0x27, 0xc2, 0x38, 0x9a, 0x40, 0x93, 0x1f, 0x9f, 0xfe, 0x7c, 0x75, 0xe8, 0x14, 0xad, 0x86,
+	0x26, 0xe6, 0x9f, 0x7a, 0xe7, 0x83, 0xe7, 0x0e, 0xac, 0x42, 0x77, 0x5a, 0xc5, 0xe3, 0xcc, 0xfe,
+	0xb2, 0xe5, 0xaf, 0x2c, 0xdd, 0xff, 0x12, 0x73, 0x08, 0xc6, 0x26, 0x04, 0x3f, 0xd5, 0xf0, 0x9a,
+	0x16, 0x1b, 0xe2, 0xc8, 0x2a, 0xfb, 0x9b, 0xee, 0xe0, 0x4f, 0x29, 0xee, 0x07, 0xaf, 0xbe, 0x8a,
+	0x8f, 0xb8, 0xfc, 0x22, 0x38, 0x76, 0x35, 0x83, 0x63, 0x7d, 0x43, 0xcc, 0xf2, 0xaa, 0xd5, 0xdd,
+	0x72, 0x7c, 0x70, 0x33, 0xb2, 0x47, 0xeb, 0xe0, 0x69, 0xcd, 0x71, 0x12, 0x9e, 0x2e, 0x61, 0x1c,
+	0xad, 0x18, 0x18, 0xf9, 0x5c, 0x35, 0x5c, 0x5e, 0xd5, 0x60, 0x79, 0x55, 0xc3, 0xe5, 0x0c, 0xcb,
+	0xab, 0x7a, 0xcf, 0x6c, 0x5b, 0xd0, 0x77, 0x35, 0xd6, 0x93, 0xfe, 0x06, 0x01, 0x9e, 0x38, 0x88,
+	0x1a, 0xaf, 0x54, 0x24, 0x1e, 0x59, 0x16, 0x10, 0x0e, 0x32, 0x84, 0xcf, 0x0d, 0x45, 0x08, 0x3d,
+	0x13, 0x18, 0x76, 0xf0, 0xa9, 0x7e, 0x86, 0x5a, 0xfe, 0x2d, 0xd3, 0xef, 0x47, 0xe9, 0x2c, 0x3e,
+	0xea, 0xb6, 0xfc, 0x70, 0xbc, 0x85, 0x28, 0xb1, 0xe2, 0x45, 0x32, 0x8e, 0x0f, 0xfb, 0xde, 0x1b,
+	0x96, 0x7b, 0xa7, 0xc9, 0xbc, 0x38, 0xb2, 0xca, 0x7f, 0x92, 0x0a, 0xc6, 0x6f, 0xd9, 0xfe, 0xfa,
+	0xb2, 0xe3, 0xd5, 0x4d, 0x67, 0xbc, 0x34, 0x81, 0x26, 0x3f, 0xb6, 0x1a, 0xbb, 0x42, 0x2d, 0xfc,
+	0xc9, 0xc4, 0xc8, 0x10, 0xba, 0x2f, 0xe2, 0xc3, 0x6e, 0x78, 0x09, 0xb2, 0x73, 0x3e, 0x4b, 0xe0,
+	0xc2, 0x1e, 0x10, 0x2b, 0x6e, 0x80, 0x7e, 0x13, 0x01, 0x61, 0x90, 0x24, 0x91, 0x50, 0xf4, 0x10,
+	0xc9, 0x1e, 0x4a, 0xf3, 0xe4, 0x60, 0xee, 0x79, 0xf2, 0x73, 0x04, 0xa8, 0x71, 0x17, 0x54, 0xa8,
+	0xa5, 0x91, 0x50, 0x8b, 0x9b, 0x14, 0x97, 0xf1, 0x69, 0x9e, 0x9a, 0x1a, 0x2b, 0x55, 0xf3, 0xbb,
+	0xab, 0x56, 0xeb, 0x4e, 0x93, 0x07, 0xee, 0x04, 0x7e, 0xba, 0x13, 0xfc, 0x86, 0x29, 0x11, 0xfe,
+	0xa0, 0x3d, 0x7c, 0x26, 0xa5, 0x17, 0xb0, 0x7e, 0x0d, 0x1f, 0x35, 0xe3, 0x0d, 0x90, 0xdc, 0x8b,
+	0x19, 0x88, 0x05, 0x83, 0xc0, 0x2d, 0x1a, 0xa3, 0x2d, 0x70, 0xba, 0xe6, 0x38, 0x4a, 0xa7, 0x8b,
+	0x5a, 0xf5, 0x6f, 0x23, 0xe0, 0x4c, 0x0e, 0x94, 0xce, 0x59, 0x2a, 0x8c, 0xb3, 0xb8, 0x2c, 0x4f,
+	0xe1, 0x4f, 0xf3, 0x7c, 0xdd, 0x8d, 0x3d, 0xd6, 0x63, 0xf5, 0xdc, 0x35, 0x37, 0xfa, 0xf5, 0x3c,
+	0xf8, 0x9b, 0xee, 0x46, 0x13, 0x43, 0xec, 0x02, 0xe4, 0xaf, 0xe1, 0x67, 0xe2, 0x3b, 0x04, 0x88,
+	0xb2, 0x91, 0x01, 0x3c, 0x6e, 0x0e, 0xb8, 0x05, 0x53, 0xd4, 0x02, 0x6f, 0x6b, 0x8e, 0xa3, 0xf2,
+	0xb6, 0xa8, 0xec, 0xfe, 0x16, 0x45, 0xd3, 0x28, 0x23, 0x62, 0xa9, 0x20, 0xc4, 0xe2, 0x32, 0xfb,
+	0x03, 0x14, 0xe5, 0x69, 0xa5, 0xe5, 0x2f, 0xf4, 0x37, 0x65, 0x7a, 0xb5, 0xbd, 0xa8, 0xfa, 0xf7,
+	0x6b, 0x14, 0x55, 0x06, 0xc9, 0x1d, 0x08, 0xea, 0x03, 0xe6, 0x4f, 0xd4, 0x90, 0xb3, 0x16, 0xa2,
+	0x55, 0xd1, 0x4c, 0x71, 0x11, 0x7d, 0x1d, 0xd3, 0xc4, 0x46, 0x66, 0x7e, 0x77, 0x01, 0x76, 0xb1,
+	0x3c, 0xac, 0x97, 0xf1, 0x49, 0xaf, 0x63, 0xb7, 0x6d, 0x97, 0x37, 0xd4, 0x9a, 0xcd, 0x8e, 0xd5,
+	0xed, 0x42, 0x78, 0xd5, 0x8d, 0xf4, 0xc7, 0x08, 0x7f, 0x66, 0xa0, 0x71, 0x08, 0x92, 0x8b, 0xc7,
+	0xdc, 0x64, 0x33, 0xcc, 0xf5, 0x19, 0x9d, 0xad, 0x45, 0xd4, 0x1b, 0xe6, 0xa1, 0xca, 0x30, 0x75,
+	0x80, 0x39, 0xbe, 0xbb, 0x49, 0x32, 0x17, 0xb5, 0xf0, 0x3e, 0xe0, 0x51, 0x48, 0x1b, 0x6e, 0x58,
+	0x14, 0x4a, 0xfb, 0x12, 0x85, 0xe2, 0xa6, 0xd0, 0x99, 0xa8, 0xdc, 0xae, 0x2c, 0xdd, 0x5f, 0xb2,
+	0xac, 0x05, 0x76, 0xc6, 0xe1, 0x5b, 0xf7, 0x58, 0x69, 0x15, 0x9b, 0xa3, 0xba, 0x13, 0xbf, 0xae,
+	0x51, 0x5a, 0xe3, 0xdd, 0x78, 0xdd, 0x89, 0x5f, 0xa3, 0x15, 0x79, 0xe8, 0xf9, 0xf0, 0x7c, 0xc5,
+	0x5d, 0x8b, 0x3d, 0xd8, 0xa5, 0xf6, 0xe8, 0x81, 0x27, 0x34, 0x68, 0x3c, 0xd8, 0x85, 0x7e, 0xfc,
+	0x81, 0x27, 0x5c, 0xa4, 0x4b, 0xb8, 0xc2, 0x87, 0x7f, 0x05, 0x4e, 0x78, 0x0b, 0xe1, 0x01, 0x4f,
+	0xab, 0x9c, 0xd1, 0xef, 0x20, 0xfc, 0x5c, 0xaa, 0x21, 0x20, 0xa9, 0xe3, 0x63, 0x1b, 0x62, 0x13,
+	0xb0, 0x4c, 0x67, 0x60, 0x91, 0x8c, 0x02, 0x8d, 0x6c, 0x90, 0xae, 0x03, 0x4f, 0xcd, 0x71, 0x52,
+	0x78, 0x8a, 0x5a, 0x53, 0x7f, 0xe2, 0xc4, 0xaa, 0xa1, 0x06, 0x11, 0x97, 0x0a, 0x25, 0x2e, 0x6e,
+	0x0d, 0x79, 0xf2, 0x16, 0x73, 0x11, 0xce, 0xdc, 0x7a, 0x0f, 0xb6, 0x49, 0x7c, 0x8c, 0x1f, 0xd6,
+	0x79, 0x85, 0x0e, 0x0f, 0x2f, 0xf2, 0x65, 0xfa, 0x2d, 0x14, 0x4d, 0x3e, 0x79, 0x44, 0x08, 0xe0,
+	0x1a, 0x7e, 0xd6, 0x14, 0x5a, 0x20, 0x61, 0x53, 0x99, 0xb7, 0x7b, 0xbc, 0x23, 0x84, 0x4f, 0x32,
+	0x47, 0xdb, 0xf2, 0x7e, 0x53, 0x86, 0x2e, 0x6a, 0xba, 0xbc, 0x8b, 0xa2, 0x99, 0xa9, 0x01, 0x5b,
+	0x2a, 0x10, 0xb6, 0xc8, 0x27, 0x76, 0x3f, 0x71, 0x61, 0xe6, 0x6b, 0xfc, 0xbd, 0x8e, 0xde, 0x5c,
+	0xe1, 0xdb, 0xe0, 0x83, 0xb1, 0x6d, 0x70, 0xbc, 0x92, 0x24, 0x8c, 0x47, 0xeb, 0xaa, 0x2b, 0x36,
+	0x69, 0x54, 0x12, 0xc9, 0x28, 0x5f, 0x57, 0x92, 0xc1, 0x78, 0x25, 0x49, 0x61, 0xdc, 0x8f, 0x4a,
+	0xa2, 0x45, 0x5c, 0x2a, 0x94, 0xb8, 0xb8, 0xe9, 0x71, 0x07, 0x3f, 0xcf, 0x78, 0x5e, 0xb6, 0xbb,
+	0x7e, 0x34, 0xea, 0xae, 0xf8, 0xa2, 0x28, 0xdb, 0x73, 0xe5, 0x7b, 0x08, 0x36, 0x4a, 0x29, 0xb6,
+	0xfe, 0x77, 0xe1, 0xa1, 0xaf, 0xc9, 0xf5, 0xf1, 0x6e, 0x2b, 0x07, 0x91, 0x72, 0xce, 0x27, 0x2b,
+	0x61, 0x64, 0x5b, 0x2e, 0x0e, 0xbc, 0x45, 0xbb, 0x12, 0xf2, 0x8e, 0x62, 0x71, 0xe0, 0x57, 0x93,
+	0x95, 0x50, 0xc6, 0xdb, 0xbf, 0x4a, 0x98, 0x09, 0xb6, 0x54, 0x20, 0x6c, 0x71, 0x53, 0x7d, 0x39,
+	0x2a, 0x56, 0xbc, 0xcc, 0xe6, 0x9a, 0x16, 0xf4, 0xfb, 0x08, 0x4f, 0xa4, 0x5b, 0x82, 0xb8, 0x58,
+	0xf8, 0xb8, 0x25, 0xb5, 0x41, 0x22, 0x2e, 0x65, 0x88, 0x8c, 0x6c, 0x16, 0x62, 0x93, 0x30, 0x49,
+	0xed, 0xa8, 0x1e, 0xa5, 0x41, 0x15, 0x35, 0x19, 0xde, 0xe3, 0xd8, 0xca, 0xb1, 0x06, 0x62, 0x97,
+	0x0a, 0xc6, 0x2e, 0x6e, 0x52, 0x7c, 0x25, 0xda, 0xf3, 0x3f, 0x08, 0xf5, 0x85, 0x5a, 0x8e, 0x37,
+	0x04, 0xaa, 0x42, 0x11, 0x3b, 0x2d, 0x48, 0x96, 0xa3, 0xd3, 0xc2, 0x76, 0xbc, 0x41, 0xe3, 0xb4,
+	0x20, 0x18, 0xe4, 0xa7, 0x05, 0xc1, 0x58, 0xfc, 0x35, 0xa0, 0x12, 0x6c, 0x3f, 0x5e, 0x03, 0x66,
+	0xe6, 0x2c, 0x15, 0xc6, 0x59, 0xdc, 0x4c, 0xb8, 0x95, 0x98, 0x09, 0x79, 0x6a, 0x43, 0x32, 0xeb,
+	0xd2, 0x02, 0x89, 0xa2, 0x21, 0x14, 0x05, 0x8d, 0x68, 0x08, 0x4b, 0x43, 0x34, 0xa6, 0xc8, 0xfa,
+	0xfe, 0xd4, 0x02, 0x45, 0xd6, 0x87, 0x73, 0x96, 0x0a, 0xe3, 0x2c, 0x2e, 0xeb, 0x37, 0xf0, 0x59,
+	0x65, 0xbe, 0xee, 0x75, 0xbc, 0x4d, 0xaf, 0x6b, 0x3a, 0xb1, 0x57, 0xfd, 0xb6, 0xdb, 0xb4, 0x76,
+	0xf8, 0xab, 0x7e, 0xf6, 0x83, 0xfe, 0x14, 0xe1, 0xcf, 0x0e, 0xe9, 0x0e, 0xe1, 0xf0, 0xf1, 0xc9,
+	0x6d, 0xd5, 0x0d, 0x90, 0x83, 0x6b, 0xba, 0x61, 0xe1, 0xfd, 0x21, 0x3c, 0x6a, 0xe3, 0xd4, 0x05,
+	0x3a, 0x39, 0x4b, 0x32, 0x5d, 0x51, 0xd3, 0xe2, 0x6f, 0x3c, 0x1e, 0xe9, 0x03, 0x0e, 0x8f, 0x47,
+	0x69, 0xdf, 0xe2, 0x51, 0xdc, 0xb4, 0x99, 0x80, 0x7d, 0x11, 0xdb, 0xea, 0x36, 0x7c, 0x7b, 0xdb,
+	0x92, 0x42, 0x4a, 0x7f, 0xc2, 0x4f, 0x0a, 0xaa, 0x5b, 0xfe, 0x9f, 0x41, 0x98, 0xfe, 0xee, 0x0c,
+	0x7e, 0x9a, 0x79, 0x46, 0x7e, 0x86, 0xf0, 0xa1, 0x50, 0xdf, 0x26, 0x57, 0x32, 0x8c, 0x95, 0x14,
+	0xda, 0xcb, 0x33, 0xba, 0xdd, 0x42, 0x72, 0x7a, 0xe1, 0xdb, 0xef, 0x7f, 0xf4, 0xa3, 0x83, 0xe7,
+	0xc8, 0x59, 0x43, 0xe8, 0x6f, 0x04, 0x7f, 0xb6, 0x7c, 0x43, 0xfc, 0x6c, 0x83, 0xfc, 0x0a, 0xe1,
+	0x23, 0xfd, 0xd7, 0x95, 0xe4, 0x0b, 0x59, 0xc7, 0x54, 0xa8, 0xf3, 0xe5, 0x1b, 0xf9, 0x3a, 0x83,
+	0xdb, 0x57, 0x99, 0xdb, 0x53, 0xc4, 0x18, 0xec, 0x76, 0xf4, 0x8d, 0x87, 0xb1, 0xd7, 0xf0, 0x9a,
+	0x56, 0x8f, 0xfc, 0x12, 0xb1, 0xd7, 0x96, 0x70, 0x7c, 0x71, 0x9c, 0xec, 0x10, 0x0a, 0xe1, 0x3e,
+	0x3b, 0x84, 0x4a, 0x90, 0xa7, 0x17, 0x19, 0xc4, 0x79, 0x32, 0x99, 0x15, 0x82, 0xbc, 0x8b, 0xf0,
+	0x61, 0xd0, 0x17, 0xc8, 0x75, 0x9d, 0x00, 0x0a, 0x3a, 0x73, 0xf9, 0xc5, 0x3c, 0x5d, 0xc1, 0xe9,
+	0xdb, 0xcc, 0xe9, 0x79, 0x32, 0x37, 0xdc, 0xe9, 0xa6, 0xe9, 0x9b, 0xc6, 0x9e, 0xf0, 0x58, 0xee,
+	0x19, 0x7b, 0x20, 0xc7, 0xf7, 0xc8, 0x2f, 0x10, 0xc6, 0x60, 0x3d, 0x48, 0xc4, 0x75, 0x9d, 0x58,
+	0xe6, 0xe4, 0x49, 0xea, 0xdd, 0xb4, 0xca, 0x78, 0x26, 0xc9, 0xb9, 0x6c, 0x3c, 0xe4, 0x3d, 0x84,
+	0x8f, 0x0a, 0xa2, 0x28, 0xb9, 0xa9, 0x11, 0x4d, 0x95, 0x10, 0x5c, 0x9e, 0xcb, 0x6f, 0x00, 0x20,
+	0x66, 0x19, 0xc4, 0x35, 0x32, 0x33, 0x18, 0x42, 0xfe, 0x98, 0xca, 0xd8, 0x63, 0x42, 0x79, 0x8f,
+	0xfc, 0x11, 0xe1, 0xe3, 0x82, 0xe5, 0x20, 0x21, 0x37, 0x35, 0xa2, 0x3a, 0x1a, 0x57, 0x9a, 0x70,
+	0x4d, 0x67, 0x18, 0xd7, 0x45, 0x52, 0xd5, 0xe3, 0x0a, 0xd6, 0xc9, 0x33, 0x71, 0x75, 0x93, 0xcc,
+	0x6a, 0x84, 0x58, 0xa1, 0xe6, 0x96, 0x6f, 0xe6, 0xee, 0x0f, 0x24, 0xd7, 0x19, 0xc9, 0x25, 0x32,
+	0x35, 0x98, 0x24, 0x2e, 0xbf, 0x1a, 0x7b, 0xc1, 0xf1, 0xa5, 0x47, 0xde, 0x46, 0xf8, 0x58, 0xdc,
+	0x66, 0x90, 0x9b, 0x59, 0x8d, 0xd0, 0x8e, 0xc4, 0x93, 0xa2, 0x3a, 0xd3, 0x69, 0xc6, 0x73, 0x81,
+	0x9c, 0xcf, 0xce, 0x43, 0x1e, 0x21, 0x7c, 0x54, 0x90, 0x5b, 0xb5, 0x96, 0x8e, 0x4a, 0x37, 0xd6,
+	0x5a, 0x3a, 0x4a, 0xa5, 0x97, 0xde, 0x62, 0x20, 0xb3, 0xe4, 0xc6, 0xf0, 0xf5, 0x1f, 0x7d, 0x4b,
+	0x28, 0x57, 0x35, 0xf2, 0x1f, 0x84, 0xc7, 0x14, 0x3a, 0x1e, 0x59, 0xcc, 0xf3, 0x94, 0x4b, 0x68,
+	0x9a, 0xe5, 0xa5, 0x51, 0xcd, 0x00, 0xec, 0x7d, 0x06, 0xbb, 0x42, 0x5e, 0xce, 0xfa, 0xc4, 0x89,
+	0x7f, 0x1a, 0x69, 0xec, 0x29, 0xe5, 0xe2, 0x1e, 0xf9, 0x2b, 0xc2, 0xa7, 0x14, 0xa3, 0x06, 0xf3,
+	0x74, 0x31, 0xcf, 0x03, 0x72, 0x04, 0xfe, 0xc1, 0x5a, 0x2d, 0xbd, 0xc1, 0xf8, 0x67, 0xc8, 0xe5,
+	0x3c, 0xfc, 0xe4, 0x77, 0x48, 0x94, 0x3c, 0xb5, 0xaa, 0x8a, 0x42, 0x62, 0xd5, 0xaa, 0x2a, 0x2a,
+	0x0d, 0x96, 0x5e, 0x66, 0x3c, 0x55, 0x72, 0x61, 0x38, 0x4f, 0xf4, 0x11, 0x2b, 0xf9, 0x3d, 0x92,
+	0xe4, 0x51, 0xa2, 0xef, 0x88, 0xa8, 0xc8, 0xea, 0xad, 0x43, 0x95, 0x64, 0x4b, 0xaf, 0x30, 0x14,
+	0x83, 0xbc, 0x90, 0x0d, 0x05, 0xbe, 0xb8, 0x25, 0x1f, 0x22, 0x7c, 0x4c, 0x12, 0xfd, 0x48, 0x4d,
+	0xc3, 0x19, 0xb5, 0xe0, 0x59, 0x9e, 0x1f, 0xc5, 0x04, 0x10, 0x2d, 0x31, 0xa2, 0x39, 0x32, 0x3b,
+	0x98, 0x48, 0xfe, 0x48, 0x38, 0x51, 0x5b, 0xde, 0x47, 0x98, 0x48, 0x63, 0x04, 0x4b, 0xab, 0xa6,
+	0xb1, 0x26, 0x46, 0xa5, 0x4c, 0x97, 0x6b, 0xb3, 0x3e, 0xa2, 0x65, 0x4a, 0xf2, 0x4f, 0x84, 0x9f,
+	0x15, 0x05, 0x38, 0xa2, 0xbf, 0x0f, 0x92, 0x84, 0xc7, 0x72, 0x6d, 0x04, 0x0b, 0xc0, 0xf3, 0x65,
+	0xc6, 0xf3, 0x2a, 0xb9, 0x9b, 0x69, 0xcb, 0xc1, 0xdf, 0x87, 0x26, 0xb7, 0xb9, 0x92, 0x70, 0xdb,
+	0x23, 0x7f, 0x46, 0xf8, 0x13, 0xe2, 0x98, 0x41, 0x16, 0xf5, 0xf7, 0x48, 0xb9, 0x99, 0x53, 0x45,
+	0xd4, 0xac, 0x6b, 0x4f, 0x62, 0x26, 0x7f, 0x47, 0xf8, 0x98, 0xa4, 0x03, 0x69, 0xad, 0x3d, 0xb5,
+	0x44, 0xa8, 0xb5, 0xf6, 0x52, 0xa4, 0x3f, 0xfa, 0x0a, 0x23, 0x5a, 0x26, 0x8b, 0x83, 0x89, 0xe4,
+	0x2f, 0xec, 0x93, 0x69, 0x0c, 0xb7, 0x60, 0xc1, 0x12, 0x94, 0x86, 0xd2, 0x5d, 0x82, 0xa3, 0xc2,
+	0xa6, 0xeb, 0x9c, 0x59, 0x97, 0xa0, 0x0c, 0x4b, 0xfe, 0x8d, 0xf0, 0x49, 0xa5, 0x44, 0x48, 0x6e,
+	0x65, 0xf5, 0x6a, 0x90, 0x5a, 0x59, 0x5e, 0x1c, 0xd1, 0x0a, 0xe0, 0xad, 0x30, 0xbc, 0xdb, 0x64,
+	0x69, 0x30, 0x9e, 0x63, 0x77, 0xfd, 0x08, 0x2e, 0x78, 0x70, 0xf3, 0x93, 0xbf, 0x54, 0x4f, 0x3f,
+	0xea, 0x57, 0x9e, 0xbe, 0x8a, 0xa1, 0x5f, 0x79, 0x24, 0x6d, 0x27, 0x47, 0xe5, 0x91, 0x15, 0x9b,
+	0xac, 0x73, 0x56, 0xfe, 0xaf, 0x8f, 0xb4, 0x39, 0xfb, 0xb0, 0x5f, 0x6f, 0xf8, 0x48, 0xf9, 0xea,
+	0x4d, 0x6e, 0xd2, 0x54, 0xa9, 0x52, 0xf3, 0x58, 0xd7, 0x27, 0x0d, 0x36, 0x9a, 0xc7, 0x65, 0x65,
+	0x8a, 0xe8, 0x94, 0x8b, 0x14, 0x65, 0xae, 0xbc, 0x30, 0x92, 0x0d, 0xbd, 0x37, 0x23, 0xc9, 0xff,
+	0xca, 0x49, 0xcc, 0xd0, 0x47, 0x08, 0x8f, 0xc9, 0xc3, 0x04, 0xc9, 0xd3, 0x29, 0x16, 0x23, 0xa3,
+	0x0e, 0x10, 0x17, 0xe9, 0x35, 0x86, 0x3a, 0x4d, 0x2e, 0xea, 0xa2, 0xb2, 0x33, 0xa0, 0x20, 0x26,
+	0x69, 0xed, 0x3d, 0x55, 0x02, 0x9a, 0xd6, 0xde, 0x53, 0x29, 0x8c, 0x65, 0x3d, 0x03, 0x8a, 0xff,
+	0x2d, 0x95, 0xc8, 0xda, 0x1f, 0x10, 0x3e, 0x2e, 0xd8, 0xd7, 0x7d, 0x89, 0x32, 0x1a, 0x5d, 0x9a,
+	0xec, 0x97, 0xf5, 0x90, 0x20, 0xd2, 0xc5, 0x13, 0x05, 0x0b, 0x2d, 0x47, 0xa2, 0xc4, 0xa9, 0x37,
+	0x97, 0xdf, 0x40, 0xbe, 0x44, 0xa5, 0x2c, 0xaf, 0x58, 0xa2, 0xa2, 0xb5, 0x95, 0x23, 0x51, 0x39,
+	0xe9, 0xd2, 0x94, 0x3a, 0xdd, 0x44, 0xc1, 0x8a, 0xfa, 0x17, 0xc2, 0x27, 0x1f, 0xa8, 0x45, 0x96,
+	0xbc, 0xf1, 0x96, 0x24, 0x94, 0xf2, 0xed, 0xd1, 0x0d, 0x01, 0xe2, 0x22, 0x43, 0xbc, 0x49, 0x5e,
+	0xd2, 0x41, 0x5c, 0xdb, 0x04, 0x33, 0xc6, 0x1e, 0x53, 0xfb, 0x7a, 0xe4, 0x1f, 0x08, 0x8f, 0x2b,
+	0x07, 0x0a, 0x32, 0xb9, 0x9c, 0x37, 0x11, 0xb9, 0xb1, 0x87, 0x89, 0x6c, 0xf4, 0x25, 0x86, 0x7d,
+	0x95, 0x5c, 0xc9, 0x85, 0x4d, 0xfe, 0x82, 0x30, 0x49, 0xaa, 0x57, 0xd9, 0xb7, 0x9f, 0xa9, 0xe2,
+	0x58, 0xf6, 0xed, 0x67, 0xba, 0x78, 0x46, 0xe7, 0x18, 0xdc, 0x8b, 0xe4, 0x5a, 0x12, 0xee, 0x05,
+	0x6e, 0x4c, 0xda, 0xa5, 0x31, 0x43, 0x7d, 0xbe, 0xf9, 0xbb, 0xef, 0x3c, 0xae, 0xa0, 0x87, 0x8f,
+	0x2b, 0xe8, 0xc3, 0xc7, 0x15, 0xf4, 0xc3, 0x27, 0x95, 0x03, 0x0f, 0x9f, 0x54, 0x0e, 0x3c, 0x7a,
+	0x52, 0x39, 0xf0, 0xfa, 0x95, 0xb6, 0xed, 0xaf, 0x6f, 0xd5, 0xab, 0x0d, 0x6f, 0x63, 0x90, 0xf5,
+	0x9d, 0xbe, 0x7d, 0x7f, 0x77, 0xd3, 0xea, 0xd6, 0x0f, 0xb1, 0x96, 0x4b, 0xff, 0x0d, 0x00, 0x00,
+	0xff, 0xff, 0x76, 0x66, 0x96, 0x3c, 0x0f, 0x3d, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -2604,6 +3282,20 @@ type QueryClient interface {
 	ExecutorOfSchema(ctx context.Context, in *QueryGetExecutorOfSchemaRequest, opts ...grpc.CallOption) (*QueryGetExecutorOfSchemaResponse, error)
 	// Queries a list of ExecutorOfSchema items.
 	ExecutorOfSchemaAll(ctx context.Context, in *QueryAllExecutorOfSchemaRequest, opts ...grpc.CallOption) (*QueryAllExecutorOfSchemaResponse, error)
+	// Queries a Virtual by index
+	VirtualAction(ctx context.Context, in *QueryGetVirtualActionRequest, opts ...grpc.CallOption) (*QueryGetVirtualActionResponse, error)
+	// Queries a list of Virtual items.
+	VirtualActionAll(ctx context.Context, in *QueryAllVirtualActionRequest, opts ...grpc.CallOption) (*QueryAllVirtualActionResponse, error)
+	// Queries a VirtualSchema by index.
+	VirtualSchema(ctx context.Context, in *QueryGetVirtualSchemaRequest, opts ...grpc.CallOption) (*QueryGetVirtualSchemaResponse, error)
+	// Queries a list of VirtualSchema items.
+	VirtualSchemaAll(ctx context.Context, in *QueryAllVirtualSchemaRequest, opts ...grpc.CallOption) (*QueryAllVirtualSchemaResponse, error)
+	// Queries a VirtualSchemaProposal by index.
+	VirtualSchemaProposal(ctx context.Context, in *QueryGetVirtualSchemaProposalRequest, opts ...grpc.CallOption) (*QueryGetVirtualSchemaProposalResponse, error)
+	// Queries a list of VirtualSchemaProposal items.
+	VirtualSchemaProposalAll(ctx context.Context, in *QueryAllVirtualSchemaProposalRequest, opts ...grpc.CallOption) (*QueryAllVirtualSchemaProposalResponse, error)
+	// Queries a list of ListActiveProposal items.
+	ListActiveProposal(ctx context.Context, in *QueryListActiveProposalRequest, opts ...grpc.CallOption) (*QueryListActiveProposalResponse, error)
 }
 
 type queryClient struct {
@@ -2839,6 +3531,69 @@ func (c *queryClient) ExecutorOfSchemaAll(ctx context.Context, in *QueryAllExecu
 	return out, nil
 }
 
+func (c *queryClient) VirtualAction(ctx context.Context, in *QueryGetVirtualActionRequest, opts ...grpc.CallOption) (*QueryGetVirtualActionResponse, error) {
+	out := new(QueryGetVirtualActionResponse)
+	err := c.cc.Invoke(ctx, "/thesixnetwork.sixprotocol.nftmngr.Query/VirtualAction", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) VirtualActionAll(ctx context.Context, in *QueryAllVirtualActionRequest, opts ...grpc.CallOption) (*QueryAllVirtualActionResponse, error) {
+	out := new(QueryAllVirtualActionResponse)
+	err := c.cc.Invoke(ctx, "/thesixnetwork.sixprotocol.nftmngr.Query/VirtualActionAll", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) VirtualSchema(ctx context.Context, in *QueryGetVirtualSchemaRequest, opts ...grpc.CallOption) (*QueryGetVirtualSchemaResponse, error) {
+	out := new(QueryGetVirtualSchemaResponse)
+	err := c.cc.Invoke(ctx, "/thesixnetwork.sixprotocol.nftmngr.Query/VirtualSchema", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) VirtualSchemaAll(ctx context.Context, in *QueryAllVirtualSchemaRequest, opts ...grpc.CallOption) (*QueryAllVirtualSchemaResponse, error) {
+	out := new(QueryAllVirtualSchemaResponse)
+	err := c.cc.Invoke(ctx, "/thesixnetwork.sixprotocol.nftmngr.Query/VirtualSchemaAll", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) VirtualSchemaProposal(ctx context.Context, in *QueryGetVirtualSchemaProposalRequest, opts ...grpc.CallOption) (*QueryGetVirtualSchemaProposalResponse, error) {
+	out := new(QueryGetVirtualSchemaProposalResponse)
+	err := c.cc.Invoke(ctx, "/thesixnetwork.sixprotocol.nftmngr.Query/VirtualSchemaProposal", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) VirtualSchemaProposalAll(ctx context.Context, in *QueryAllVirtualSchemaProposalRequest, opts ...grpc.CallOption) (*QueryAllVirtualSchemaProposalResponse, error) {
+	out := new(QueryAllVirtualSchemaProposalResponse)
+	err := c.cc.Invoke(ctx, "/thesixnetwork.sixprotocol.nftmngr.Query/VirtualSchemaProposalAll", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) ListActiveProposal(ctx context.Context, in *QueryListActiveProposalRequest, opts ...grpc.CallOption) (*QueryListActiveProposalResponse, error) {
+	out := new(QueryListActiveProposalResponse)
+	err := c.cc.Invoke(ctx, "/thesixnetwork.sixprotocol.nftmngr.Query/ListActiveProposal", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 type QueryServer interface {
 	// Parameters queries the parameters of the module.
@@ -2891,6 +3646,20 @@ type QueryServer interface {
 	ExecutorOfSchema(context.Context, *QueryGetExecutorOfSchemaRequest) (*QueryGetExecutorOfSchemaResponse, error)
 	// Queries a list of ExecutorOfSchema items.
 	ExecutorOfSchemaAll(context.Context, *QueryAllExecutorOfSchemaRequest) (*QueryAllExecutorOfSchemaResponse, error)
+	// Queries a Virtual by index
+	VirtualAction(context.Context, *QueryGetVirtualActionRequest) (*QueryGetVirtualActionResponse, error)
+	// Queries a list of Virtual items.
+	VirtualActionAll(context.Context, *QueryAllVirtualActionRequest) (*QueryAllVirtualActionResponse, error)
+	// Queries a VirtualSchema by index.
+	VirtualSchema(context.Context, *QueryGetVirtualSchemaRequest) (*QueryGetVirtualSchemaResponse, error)
+	// Queries a list of VirtualSchema items.
+	VirtualSchemaAll(context.Context, *QueryAllVirtualSchemaRequest) (*QueryAllVirtualSchemaResponse, error)
+	// Queries a VirtualSchemaProposal by index.
+	VirtualSchemaProposal(context.Context, *QueryGetVirtualSchemaProposalRequest) (*QueryGetVirtualSchemaProposalResponse, error)
+	// Queries a list of VirtualSchemaProposal items.
+	VirtualSchemaProposalAll(context.Context, *QueryAllVirtualSchemaProposalRequest) (*QueryAllVirtualSchemaProposalResponse, error)
+	// Queries a list of ListActiveProposal items.
+	ListActiveProposal(context.Context, *QueryListActiveProposalRequest) (*QueryListActiveProposalResponse, error)
 }
 
 // UnimplementedQueryServer can be embedded to have forward compatible implementations.
@@ -2971,6 +3740,27 @@ func (*UnimplementedQueryServer) ExecutorOfSchema(ctx context.Context, req *Quer
 }
 func (*UnimplementedQueryServer) ExecutorOfSchemaAll(ctx context.Context, req *QueryAllExecutorOfSchemaRequest) (*QueryAllExecutorOfSchemaResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ExecutorOfSchemaAll not implemented")
+}
+func (*UnimplementedQueryServer) VirtualAction(ctx context.Context, req *QueryGetVirtualActionRequest) (*QueryGetVirtualActionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VirtualAction not implemented")
+}
+func (*UnimplementedQueryServer) VirtualActionAll(ctx context.Context, req *QueryAllVirtualActionRequest) (*QueryAllVirtualActionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VirtualActionAll not implemented")
+}
+func (*UnimplementedQueryServer) VirtualSchema(ctx context.Context, req *QueryGetVirtualSchemaRequest) (*QueryGetVirtualSchemaResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VirtualSchema not implemented")
+}
+func (*UnimplementedQueryServer) VirtualSchemaAll(ctx context.Context, req *QueryAllVirtualSchemaRequest) (*QueryAllVirtualSchemaResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VirtualSchemaAll not implemented")
+}
+func (*UnimplementedQueryServer) VirtualSchemaProposal(ctx context.Context, req *QueryGetVirtualSchemaProposalRequest) (*QueryGetVirtualSchemaProposalResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VirtualSchemaProposal not implemented")
+}
+func (*UnimplementedQueryServer) VirtualSchemaProposalAll(ctx context.Context, req *QueryAllVirtualSchemaProposalRequest) (*QueryAllVirtualSchemaProposalResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VirtualSchemaProposalAll not implemented")
+}
+func (*UnimplementedQueryServer) ListActiveProposal(ctx context.Context, req *QueryListActiveProposalRequest) (*QueryListActiveProposalResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListActiveProposal not implemented")
 }
 
 func RegisterQueryServer(s grpc1.Server, srv QueryServer) {
@@ -3427,6 +4217,132 @@ func _Query_ExecutorOfSchemaAll_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_VirtualAction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryGetVirtualActionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).VirtualAction(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/thesixnetwork.sixprotocol.nftmngr.Query/VirtualAction",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).VirtualAction(ctx, req.(*QueryGetVirtualActionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_VirtualActionAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryAllVirtualActionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).VirtualActionAll(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/thesixnetwork.sixprotocol.nftmngr.Query/VirtualActionAll",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).VirtualActionAll(ctx, req.(*QueryAllVirtualActionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_VirtualSchema_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryGetVirtualSchemaRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).VirtualSchema(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/thesixnetwork.sixprotocol.nftmngr.Query/VirtualSchema",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).VirtualSchema(ctx, req.(*QueryGetVirtualSchemaRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_VirtualSchemaAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryAllVirtualSchemaRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).VirtualSchemaAll(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/thesixnetwork.sixprotocol.nftmngr.Query/VirtualSchemaAll",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).VirtualSchemaAll(ctx, req.(*QueryAllVirtualSchemaRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_VirtualSchemaProposal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryGetVirtualSchemaProposalRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).VirtualSchemaProposal(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/thesixnetwork.sixprotocol.nftmngr.Query/VirtualSchemaProposal",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).VirtualSchemaProposal(ctx, req.(*QueryGetVirtualSchemaProposalRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_VirtualSchemaProposalAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryAllVirtualSchemaProposalRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).VirtualSchemaProposalAll(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/thesixnetwork.sixprotocol.nftmngr.Query/VirtualSchemaProposalAll",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).VirtualSchemaProposalAll(ctx, req.(*QueryAllVirtualSchemaProposalRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_ListActiveProposal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryListActiveProposalRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).ListActiveProposal(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/thesixnetwork.sixprotocol.nftmngr.Query/ListActiveProposal",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).ListActiveProposal(ctx, req.(*QueryListActiveProposalRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Query_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "thesixnetwork.sixprotocol.nftmngr.Query",
 	HandlerType: (*QueryServer)(nil),
@@ -3530,6 +4446,34 @@ var _Query_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ExecutorOfSchemaAll",
 			Handler:    _Query_ExecutorOfSchemaAll_Handler,
+		},
+		{
+			MethodName: "VirtualAction",
+			Handler:    _Query_VirtualAction_Handler,
+		},
+		{
+			MethodName: "VirtualActionAll",
+			Handler:    _Query_VirtualActionAll_Handler,
+		},
+		{
+			MethodName: "VirtualSchema",
+			Handler:    _Query_VirtualSchema_Handler,
+		},
+		{
+			MethodName: "VirtualSchemaAll",
+			Handler:    _Query_VirtualSchemaAll_Handler,
+		},
+		{
+			MethodName: "VirtualSchemaProposal",
+			Handler:    _Query_VirtualSchemaProposal_Handler,
+		},
+		{
+			MethodName: "VirtualSchemaProposalAll",
+			Handler:    _Query_VirtualSchemaProposalAll_Handler,
+		},
+		{
+			MethodName: "ListActiveProposal",
+			Handler:    _Query_ListActiveProposal_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -5380,6 +6324,514 @@ func (m *QueryAllExecutorOfSchemaResponse) MarshalToSizedBuffer(dAtA []byte) (in
 	return len(dAtA) - i, nil
 }
 
+func (m *QueryGetVirtualActionRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryGetVirtualActionRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryGetVirtualActionRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Name) > 0 {
+		i -= len(m.Name)
+		copy(dAtA[i:], m.Name)
+		i = encodeVarintQuery(dAtA, i, uint64(len(m.Name)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.NftSchemaCode) > 0 {
+		i -= len(m.NftSchemaCode)
+		copy(dAtA[i:], m.NftSchemaCode)
+		i = encodeVarintQuery(dAtA, i, uint64(len(m.NftSchemaCode)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryGetVirtualActionResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryGetVirtualActionResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryGetVirtualActionResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	{
+		size, err := m.VirtualAction.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintQuery(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0xa
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryAllVirtualActionRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryAllVirtualActionRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryAllVirtualActionRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		{
+			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintQuery(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryAllVirtualActionResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryAllVirtualActionResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryAllVirtualActionResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		{
+			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintQuery(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.VirtualAction) > 0 {
+		for iNdEx := len(m.VirtualAction) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.VirtualAction[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintQuery(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0xa
+		}
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryGetVirtualSchemaRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryGetVirtualSchemaRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryGetVirtualSchemaRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.NftSchemaCode) > 0 {
+		i -= len(m.NftSchemaCode)
+		copy(dAtA[i:], m.NftSchemaCode)
+		i = encodeVarintQuery(dAtA, i, uint64(len(m.NftSchemaCode)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryGetVirtualSchemaResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryGetVirtualSchemaResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryGetVirtualSchemaResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	{
+		size, err := m.VirtualSchema.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintQuery(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0xa
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryAllVirtualSchemaRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryAllVirtualSchemaRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryAllVirtualSchemaRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		{
+			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintQuery(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryAllVirtualSchemaResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryAllVirtualSchemaResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryAllVirtualSchemaResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		{
+			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintQuery(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.VirtualSchema) > 0 {
+		for iNdEx := len(m.VirtualSchema) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.VirtualSchema[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintQuery(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0xa
+		}
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryGetVirtualSchemaProposalRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryGetVirtualSchemaProposalRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryGetVirtualSchemaProposalRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Index) > 0 {
+		i -= len(m.Index)
+		copy(dAtA[i:], m.Index)
+		i = encodeVarintQuery(dAtA, i, uint64(len(m.Index)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryGetVirtualSchemaProposalResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryGetVirtualSchemaProposalResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryGetVirtualSchemaProposalResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	{
+		size, err := m.VirtualSchemaProposal.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintQuery(dAtA, i, uint64(size))
+	}
+	i--
+	dAtA[i] = 0xa
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryAllVirtualSchemaProposalRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryAllVirtualSchemaProposalRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryAllVirtualSchemaProposalRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		{
+			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintQuery(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryAllVirtualSchemaProposalResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryAllVirtualSchemaProposalResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryAllVirtualSchemaProposalResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		{
+			size, err := m.Pagination.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintQuery(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.VirtualSchemaProposal) > 0 {
+		for iNdEx := len(m.VirtualSchemaProposal) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.VirtualSchemaProposal[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintQuery(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0xa
+		}
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryListActiveProposalRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryListActiveProposalRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryListActiveProposalRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryListActiveProposalResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryListActiveProposalResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryListActiveProposalResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.VirtualSchemaProposal) > 0 {
+		for iNdEx := len(m.VirtualSchemaProposal) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.VirtualSchemaProposal[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintQuery(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0xa
+		}
+	}
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintQuery(dAtA []byte, offset int, v uint64) int {
 	offset -= sovQuery(v)
 	base := offset
@@ -6097,6 +7549,202 @@ func (m *QueryAllExecutorOfSchemaResponse) Size() (n int) {
 	return n
 }
 
+func (m *QueryGetVirtualActionRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.NftSchemaCode)
+	if l > 0 {
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	l = len(m.Name)
+	if l > 0 {
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QueryGetVirtualActionResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = m.VirtualAction.Size()
+	n += 1 + l + sovQuery(uint64(l))
+	return n
+}
+
+func (m *QueryAllVirtualActionRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		l = m.Pagination.Size()
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QueryAllVirtualActionResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.VirtualAction) > 0 {
+		for _, e := range m.VirtualAction {
+			l = e.Size()
+			n += 1 + l + sovQuery(uint64(l))
+		}
+	}
+	if m.Pagination != nil {
+		l = m.Pagination.Size()
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QueryGetVirtualSchemaRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.NftSchemaCode)
+	if l > 0 {
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QueryGetVirtualSchemaResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = m.VirtualSchema.Size()
+	n += 1 + l + sovQuery(uint64(l))
+	return n
+}
+
+func (m *QueryAllVirtualSchemaRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		l = m.Pagination.Size()
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QueryAllVirtualSchemaResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.VirtualSchema) > 0 {
+		for _, e := range m.VirtualSchema {
+			l = e.Size()
+			n += 1 + l + sovQuery(uint64(l))
+		}
+	}
+	if m.Pagination != nil {
+		l = m.Pagination.Size()
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QueryGetVirtualSchemaProposalRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Index)
+	if l > 0 {
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QueryGetVirtualSchemaProposalResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = m.VirtualSchemaProposal.Size()
+	n += 1 + l + sovQuery(uint64(l))
+	return n
+}
+
+func (m *QueryAllVirtualSchemaProposalRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Pagination != nil {
+		l = m.Pagination.Size()
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QueryAllVirtualSchemaProposalResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.VirtualSchemaProposal) > 0 {
+		for _, e := range m.VirtualSchemaProposal {
+			l = e.Size()
+			n += 1 + l + sovQuery(uint64(l))
+		}
+	}
+	if m.Pagination != nil {
+		l = m.Pagination.Size()
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QueryListActiveProposalRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *QueryListActiveProposalResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.VirtualSchemaProposal) > 0 {
+		for _, e := range m.VirtualSchemaProposal {
+			l = e.Size()
+			n += 1 + l + sovQuery(uint64(l))
+		}
+	}
+	return n
+}
+
 func sovQuery(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
@@ -6545,7 +8193,7 @@ func (m *QueryAllNFTSchemaResponse) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.NFTSchema = append(m.NFTSchema, NFTSchema{})
+			m.NFTSchema = append(m.NFTSchema, NFTSchemaQueryResult{})
 			if err := m.NFTSchema[len(m.NFTSchema)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -10760,6 +12408,1285 @@ func (m *QueryAllExecutorOfSchemaResponse) Unmarshal(dAtA []byte) error {
 				m.Pagination = &query.PageResponse{}
 			}
 			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryGetVirtualActionRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryGetVirtualActionRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryGetVirtualActionRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field NftSchemaCode", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.NftSchemaCode = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Name", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Name = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryGetVirtualActionResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryGetVirtualActionResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryGetVirtualActionResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field VirtualAction", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.VirtualAction.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryAllVirtualActionRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryAllVirtualActionRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryAllVirtualActionRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Pagination == nil {
+				m.Pagination = &query.PageRequest{}
+			}
+			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryAllVirtualActionResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryAllVirtualActionResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryAllVirtualActionResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field VirtualAction", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.VirtualAction = append(m.VirtualAction, VirtualAction{})
+			if err := m.VirtualAction[len(m.VirtualAction)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Pagination == nil {
+				m.Pagination = &query.PageResponse{}
+			}
+			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryGetVirtualSchemaRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryGetVirtualSchemaRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryGetVirtualSchemaRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field NftSchemaCode", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.NftSchemaCode = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryGetVirtualSchemaResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryGetVirtualSchemaResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryGetVirtualSchemaResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field VirtualSchema", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.VirtualSchema.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryAllVirtualSchemaRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryAllVirtualSchemaRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryAllVirtualSchemaRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Pagination == nil {
+				m.Pagination = &query.PageRequest{}
+			}
+			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryAllVirtualSchemaResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryAllVirtualSchemaResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryAllVirtualSchemaResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field VirtualSchema", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.VirtualSchema = append(m.VirtualSchema, VirtualSchema{})
+			if err := m.VirtualSchema[len(m.VirtualSchema)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Pagination == nil {
+				m.Pagination = &query.PageResponse{}
+			}
+			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryGetVirtualSchemaProposalRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryGetVirtualSchemaProposalRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryGetVirtualSchemaProposalRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Index", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Index = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryGetVirtualSchemaProposalResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryGetVirtualSchemaProposalResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryGetVirtualSchemaProposalResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field VirtualSchemaProposal", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if err := m.VirtualSchemaProposal.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryAllVirtualSchemaProposalRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryAllVirtualSchemaProposalRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryAllVirtualSchemaProposalRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Pagination == nil {
+				m.Pagination = &query.PageRequest{}
+			}
+			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryAllVirtualSchemaProposalResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryAllVirtualSchemaProposalResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryAllVirtualSchemaProposalResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field VirtualSchemaProposal", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.VirtualSchemaProposal = append(m.VirtualSchemaProposal, VirtualSchemaProposal{})
+			if err := m.VirtualSchemaProposal[len(m.VirtualSchemaProposal)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Pagination == nil {
+				m.Pagination = &query.PageResponse{}
+			}
+			if err := m.Pagination.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryListActiveProposalRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryListActiveProposalRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryListActiveProposalRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryListActiveProposalResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryListActiveProposalResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryListActiveProposalResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field VirtualSchemaProposal", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.VirtualSchemaProposal = append(m.VirtualSchemaProposal, VirtualSchemaProposal{})
+			if err := m.VirtualSchemaProposal[len(m.VirtualSchemaProposal)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex

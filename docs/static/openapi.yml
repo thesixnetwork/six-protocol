@@ -35347,6 +35347,301 @@ paths:
                   additionalProperties: {}
       tags:
         - Query
+  /thesixnetwork/six-protocol/nftmngr/list_active_proposal:
+    get:
+      summary: Queries a list of ListActiveProposal items.
+      operationId: ThesixnetworkSixprotocolNftmngrListActiveProposal
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              virtualSchemaProposal:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    proposalType:
+                      type: string
+                      enum:
+                        - CREATE
+                        - EDIT
+                      default: CREATE
+                      description: >-
+                        TODO: [chore] Combine enable/disable to change virtual
+                        schema.
+                    virtualSchema:
+                      type: object
+                      properties:
+                        virtualNftSchemaCode:
+                          type: string
+                        registry:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              nftSchemaCode:
+                                type: string
+                              sharedAttributes:
+                                type: array
+                                items:
+                                  type: string
+                              decision:
+                                type: string
+                                enum:
+                                  - PENDING
+                                  - REJECT
+                                  - ACCEPT
+                                default: PENDING
+                            description: >-
+                              TODO: [chore] Combine enable/disable to change
+                              virtual schema.
+                        enable:
+                          type: boolean
+                          title: >-
+                            link wih virtual action. We will not put in here to
+                            reduce redundance info
+                    actions:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          desc:
+                            type: string
+                          disable:
+                            type: boolean
+                          when:
+                            type: string
+                          then:
+                            type: array
+                            items:
+                              type: string
+                          allowed_actioner:
+                            type: string
+                            enum:
+                              - ALLOWED_ACTIONER_ALL
+                              - ALLOWED_ACTIONER_SYSTEM_ONLY
+                              - ALLOWED_ACTIONER_USER_ONLY
+                            default: ALLOWED_ACTIONER_ALL
+                          params:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                desc:
+                                  type: string
+                                data_type:
+                                  type: string
+                                required:
+                                  type: boolean
+                                default_value:
+                                  type: string
+                    submitTime:
+                      type: string
+                      format: date-time
+                    votingStartTime:
+                      type: string
+                      format: date-time
+                    votingEndTime:
+                      type: string
+                      format: date-time
+                  description: >-
+                    TODO: [chore] Combine enable/disable to change virtual
+                    schema.
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                      description: >-
+                        A URL/resource name that uniquely identifies the type of
+                        the serialized
+
+                        protocol buffer message. This string must contain at
+                        least
+
+                        one "/" character. The last segment of the URL's path
+                        must represent
+
+                        the fully qualified name of the type (as in
+
+                        `path/google.protobuf.Duration`). The name should be in
+                        a canonical form
+
+                        (e.g., leading "." is not accepted).
+
+
+                        In practice, teams usually precompile into the binary
+                        all types that they
+
+                        expect it to use in the context of Any. However, for
+                        URLs which use the
+
+                        scheme `http`, `https`, or no scheme, one can optionally
+                        set up a type
+
+                        server that maps type URLs to message definitions as
+                        follows:
+
+
+                        * If no scheme is provided, `https` is assumed.
+
+                        * An HTTP GET on the URL must yield a
+                        [google.protobuf.Type][]
+                          value in binary format, or produce an error.
+                        * Applications are allowed to cache lookup results based
+                        on the
+                          URL, or have them precompiled into a binary to avoid any
+                          lookup. Therefore, binary compatibility needs to be preserved
+                          on changes to types. (Use versioned type names to manage
+                          breaking changes.)
+
+                        Note: this functionality is not currently available in
+                        the official
+
+                        protobuf release, and it is not used for type URLs
+                        beginning with
+
+                        type.googleapis.com.
+
+
+                        Schemes other than `http`, `https` (or the empty scheme)
+                        might be
+
+                        used with implementation specific semantics.
+                  additionalProperties: {}
+                  description: >-
+                    `Any` contains an arbitrary serialized protocol buffer
+                    message along with a
+
+                    URL that describes the type of the serialized message.
+
+
+                    Protobuf library provides support to pack/unpack Any values
+                    in the form
+
+                    of utility functions or additional generated methods of the
+                    Any type.
+
+
+                    Example 1: Pack and unpack a message in C++.
+
+                        Foo foo = ...;
+                        Any any;
+                        any.PackFrom(foo);
+                        ...
+                        if (any.UnpackTo(&foo)) {
+                          ...
+                        }
+
+                    Example 2: Pack and unpack a message in Java.
+
+                        Foo foo = ...;
+                        Any any = Any.pack(foo);
+                        ...
+                        if (any.is(Foo.class)) {
+                          foo = any.unpack(Foo.class);
+                        }
+
+                     Example 3: Pack and unpack a message in Python.
+
+                        foo = Foo(...)
+                        any = Any()
+                        any.Pack(foo)
+                        ...
+                        if any.Is(Foo.DESCRIPTOR):
+                          any.Unpack(foo)
+                          ...
+
+                     Example 4: Pack and unpack a message in Go
+
+                         foo := &pb.Foo{...}
+                         any, err := anypb.New(foo)
+                         if err != nil {
+                           ...
+                         }
+                         ...
+                         foo := &pb.Foo{}
+                         if err := any.UnmarshalTo(foo); err != nil {
+                           ...
+                         }
+
+                    The pack methods provided by protobuf library will by
+                    default use
+
+                    'type.googleapis.com/full.type.name' as the type URL and the
+                    unpack
+
+                    methods only use the fully qualified type name after the
+                    last '/'
+
+                    in the type URL, for example "foo.bar.com/x/y.z" will yield
+                    type
+
+                    name "y.z".
+
+
+
+                    JSON
+
+                    ====
+
+                    The JSON representation of an `Any` value uses the regular
+
+                    representation of the deserialized, embedded message, with
+                    an
+
+                    additional field `@type` which contains the type URL.
+                    Example:
+
+                        package google.profile;
+                        message Person {
+                          string first_name = 1;
+                          string last_name = 2;
+                        }
+
+                        {
+                          "@type": "type.googleapis.com/google.profile.Person",
+                          "firstName": <string>,
+                          "lastName": <string>
+                        }
+
+                    If the embedded message type is well-known and has a custom
+                    JSON
+
+                    representation, that representation will be embedded adding
+                    a field
+
+                    `value` which holds the custom JSON in addition to the
+                    `@type`
+
+                    field. Example (for message [google.protobuf.Duration][]):
+
+                        {
+                          "@type": "type.googleapis.com/google.protobuf.Duration",
+                          "value": "1.212s"
+                        }
+      tags:
+        - Query
   /thesixnetwork/sixnft/nftmngr/action_by_ref_id:
     get:
       summary: Queries a list of ActionByRefId items.
@@ -35628,6 +35923,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -36125,6 +36430,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -36626,6 +36941,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/action_of_schema/{nftSchemaCode}/{name}':
@@ -37121,6 +37446,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -37862,6 +38197,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/metadata_creator/{nftSchemaCode}':
@@ -38438,6 +38783,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   /thesixnetwork/sixnft/nftmngr/nft_data:
@@ -38795,6 +39150,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -39795,6 +40160,56 @@ paths:
                                       type: boolean
                                     default_value:
                                       type: string
+                        virtual_actions:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              virtualNftSchemaCode:
+                                type: string
+                              name:
+                                type: string
+                              desc:
+                                type: string
+                              disable:
+                                type: boolean
+                              when:
+                                type: string
+                              then:
+                                type: array
+                                items:
+                                  type: string
+                              allowed_actioner:
+                                type: string
+                                enum:
+                                  - ALLOWED_ACTIONER_ALL
+                                  - ALLOWED_ACTIONER_SYSTEM_ONLY
+                                  - ALLOWED_ACTIONER_USER_ONLY
+                                default: ALLOWED_ACTIONER_ALL
+                                description: >-
+                                  NOTE: Policy of virtual action
+
+                                  TODO: [chore] Combine enable/disable to change
+                                  virtual schema.
+                              params:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    name:
+                                      type: string
+                                    desc:
+                                      type: string
+                                    data_type:
+                                      type: string
+                                    required:
+                                      type: boolean
+                                    default_value:
+                                      type: string
+                            title: |-
+                              TODO:
+                              1. Policy of action (who can use action)
+                              2. Proposal to enable and disable action
                         status:
                           type: array
                           items:
@@ -40064,6 +40479,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -40344,6 +40769,56 @@ paths:
                                     type: boolean
                                   default_value:
                                     type: string
+                      virtual_actions:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            virtualNftSchemaCode:
+                              type: string
+                            name:
+                              type: string
+                            desc:
+                              type: string
+                            disable:
+                              type: boolean
+                            when:
+                              type: string
+                            then:
+                              type: array
+                              items:
+                                type: string
+                            allowed_actioner:
+                              type: string
+                              enum:
+                                - ALLOWED_ACTIONER_ALL
+                                - ALLOWED_ACTIONER_SYSTEM_ONLY
+                                - ALLOWED_ACTIONER_USER_ONLY
+                              default: ALLOWED_ACTIONER_ALL
+                              description: >-
+                                NOTE: Policy of virtual action
+
+                                TODO: [chore] Combine enable/disable to change
+                                virtual schema.
+                            params:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  name:
+                                    type: string
+                                  desc:
+                                    type: string
+                                  data_type:
+                                    type: string
+                                  required:
+                                    type: boolean
+                                  default_value:
+                                    type: string
+                          title: |-
+                            TODO:
+                            1. Policy of action (who can use action)
+                            2. Proposal to enable and disable action
                       status:
                         type: array
                         items:
@@ -40826,6 +41301,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -41317,6 +41802,16 @@ paths:
             when key
 
             is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -42041,6 +42536,16 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftmngr/schema_attribute/{nftSchemaCode}/{name}':
@@ -42285,6 +42790,1813 @@ paths:
           type: string
       tags:
         - Query
+  /thesixnetwork/sixnft/nftmngr/virtual_action:
+    get:
+      summary: Queries a list of Virtual items.
+      operationId: ThesixnetworkSixprotocolNftmngrVirtualActionAll
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              virtualAction:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    virtualNftSchemaCode:
+                      type: string
+                    name:
+                      type: string
+                    desc:
+                      type: string
+                    disable:
+                      type: boolean
+                    when:
+                      type: string
+                    then:
+                      type: array
+                      items:
+                        type: string
+                    allowed_actioner:
+                      type: string
+                      enum:
+                        - ALLOWED_ACTIONER_ALL
+                        - ALLOWED_ACTIONER_SYSTEM_ONLY
+                        - ALLOWED_ACTIONER_USER_ONLY
+                      default: ALLOWED_ACTIONER_ALL
+                      description: >-
+                        NOTE: Policy of virtual action
+
+                        TODO: [chore] Combine enable/disable to change virtual
+                        schema.
+                    params:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          desc:
+                            type: string
+                          data_type:
+                            type: string
+                          required:
+                            type: boolean
+                          default_value:
+                            type: string
+                  title: |-
+                    TODO:
+                    1. Policy of action (who can use action)
+                    2. Proposal to enable and disable action
+              pagination:
+                type: object
+                properties:
+                  next_key:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                      description: >-
+                        A URL/resource name that uniquely identifies the type of
+                        the serialized
+
+                        protocol buffer message. This string must contain at
+                        least
+
+                        one "/" character. The last segment of the URL's path
+                        must represent
+
+                        the fully qualified name of the type (as in
+
+                        `path/google.protobuf.Duration`). The name should be in
+                        a canonical form
+
+                        (e.g., leading "." is not accepted).
+
+
+                        In practice, teams usually precompile into the binary
+                        all types that they
+
+                        expect it to use in the context of Any. However, for
+                        URLs which use the
+
+                        scheme `http`, `https`, or no scheme, one can optionally
+                        set up a type
+
+                        server that maps type URLs to message definitions as
+                        follows:
+
+
+                        * If no scheme is provided, `https` is assumed.
+
+                        * An HTTP GET on the URL must yield a
+                        [google.protobuf.Type][]
+                          value in binary format, or produce an error.
+                        * Applications are allowed to cache lookup results based
+                        on the
+                          URL, or have them precompiled into a binary to avoid any
+                          lookup. Therefore, binary compatibility needs to be preserved
+                          on changes to types. (Use versioned type names to manage
+                          breaking changes.)
+
+                        Note: this functionality is not currently available in
+                        the official
+
+                        protobuf release, and it is not used for type URLs
+                        beginning with
+
+                        type.googleapis.com.
+
+
+                        Schemes other than `http`, `https` (or the empty scheme)
+                        might be
+
+                        used with implementation specific semantics.
+                  additionalProperties: {}
+                  description: >-
+                    `Any` contains an arbitrary serialized protocol buffer
+                    message along with a
+
+                    URL that describes the type of the serialized message.
+
+
+                    Protobuf library provides support to pack/unpack Any values
+                    in the form
+
+                    of utility functions or additional generated methods of the
+                    Any type.
+
+
+                    Example 1: Pack and unpack a message in C++.
+
+                        Foo foo = ...;
+                        Any any;
+                        any.PackFrom(foo);
+                        ...
+                        if (any.UnpackTo(&foo)) {
+                          ...
+                        }
+
+                    Example 2: Pack and unpack a message in Java.
+
+                        Foo foo = ...;
+                        Any any = Any.pack(foo);
+                        ...
+                        if (any.is(Foo.class)) {
+                          foo = any.unpack(Foo.class);
+                        }
+
+                     Example 3: Pack and unpack a message in Python.
+
+                        foo = Foo(...)
+                        any = Any()
+                        any.Pack(foo)
+                        ...
+                        if any.Is(Foo.DESCRIPTOR):
+                          any.Unpack(foo)
+                          ...
+
+                     Example 4: Pack and unpack a message in Go
+
+                         foo := &pb.Foo{...}
+                         any, err := anypb.New(foo)
+                         if err != nil {
+                           ...
+                         }
+                         ...
+                         foo := &pb.Foo{}
+                         if err := any.UnmarshalTo(foo); err != nil {
+                           ...
+                         }
+
+                    The pack methods provided by protobuf library will by
+                    default use
+
+                    'type.googleapis.com/full.type.name' as the type URL and the
+                    unpack
+
+                    methods only use the fully qualified type name after the
+                    last '/'
+
+                    in the type URL, for example "foo.bar.com/x/y.z" will yield
+                    type
+
+                    name "y.z".
+
+
+
+                    JSON
+
+                    ====
+
+                    The JSON representation of an `Any` value uses the regular
+
+                    representation of the deserialized, embedded message, with
+                    an
+
+                    additional field `@type` which contains the type URL.
+                    Example:
+
+                        package google.profile;
+                        message Person {
+                          string first_name = 1;
+                          string last_name = 2;
+                        }
+
+                        {
+                          "@type": "type.googleapis.com/google.profile.Person",
+                          "firstName": <string>,
+                          "lastName": <string>
+                        }
+
+                    If the embedded message type is well-known and has a custom
+                    JSON
+
+                    representation, that representation will be embedded adding
+                    a field
+
+                    `value` which holds the custom JSON in addition to the
+                    `@type`
+
+                    field. Example (for message [google.protobuf.Duration][]):
+
+                        {
+                          "@type": "type.googleapis.com/google.protobuf.Duration",
+                          "value": "1.212s"
+                        }
+      parameters:
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.count_total
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  '/thesixnetwork/sixnft/nftmngr/virtual_action/{nftSchemaCode}':
+    get:
+      summary: Queries a Virtual by index
+      operationId: ThesixnetworkSixprotocolNftmngrVirtualAction
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              virtualAction:
+                type: object
+                properties:
+                  virtualNftSchemaCode:
+                    type: string
+                  name:
+                    type: string
+                  desc:
+                    type: string
+                  disable:
+                    type: boolean
+                  when:
+                    type: string
+                  then:
+                    type: array
+                    items:
+                      type: string
+                  allowed_actioner:
+                    type: string
+                    enum:
+                      - ALLOWED_ACTIONER_ALL
+                      - ALLOWED_ACTIONER_SYSTEM_ONLY
+                      - ALLOWED_ACTIONER_USER_ONLY
+                    default: ALLOWED_ACTIONER_ALL
+                    description: >-
+                      NOTE: Policy of virtual action
+
+                      TODO: [chore] Combine enable/disable to change virtual
+                      schema.
+                  params:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        desc:
+                          type: string
+                        data_type:
+                          type: string
+                        required:
+                          type: boolean
+                        default_value:
+                          type: string
+                title: |-
+                  TODO:
+                  1. Policy of action (who can use action)
+                  2. Proposal to enable and disable action
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                      description: >-
+                        A URL/resource name that uniquely identifies the type of
+                        the serialized
+
+                        protocol buffer message. This string must contain at
+                        least
+
+                        one "/" character. The last segment of the URL's path
+                        must represent
+
+                        the fully qualified name of the type (as in
+
+                        `path/google.protobuf.Duration`). The name should be in
+                        a canonical form
+
+                        (e.g., leading "." is not accepted).
+
+
+                        In practice, teams usually precompile into the binary
+                        all types that they
+
+                        expect it to use in the context of Any. However, for
+                        URLs which use the
+
+                        scheme `http`, `https`, or no scheme, one can optionally
+                        set up a type
+
+                        server that maps type URLs to message definitions as
+                        follows:
+
+
+                        * If no scheme is provided, `https` is assumed.
+
+                        * An HTTP GET on the URL must yield a
+                        [google.protobuf.Type][]
+                          value in binary format, or produce an error.
+                        * Applications are allowed to cache lookup results based
+                        on the
+                          URL, or have them precompiled into a binary to avoid any
+                          lookup. Therefore, binary compatibility needs to be preserved
+                          on changes to types. (Use versioned type names to manage
+                          breaking changes.)
+
+                        Note: this functionality is not currently available in
+                        the official
+
+                        protobuf release, and it is not used for type URLs
+                        beginning with
+
+                        type.googleapis.com.
+
+
+                        Schemes other than `http`, `https` (or the empty scheme)
+                        might be
+
+                        used with implementation specific semantics.
+                  additionalProperties: {}
+                  description: >-
+                    `Any` contains an arbitrary serialized protocol buffer
+                    message along with a
+
+                    URL that describes the type of the serialized message.
+
+
+                    Protobuf library provides support to pack/unpack Any values
+                    in the form
+
+                    of utility functions or additional generated methods of the
+                    Any type.
+
+
+                    Example 1: Pack and unpack a message in C++.
+
+                        Foo foo = ...;
+                        Any any;
+                        any.PackFrom(foo);
+                        ...
+                        if (any.UnpackTo(&foo)) {
+                          ...
+                        }
+
+                    Example 2: Pack and unpack a message in Java.
+
+                        Foo foo = ...;
+                        Any any = Any.pack(foo);
+                        ...
+                        if (any.is(Foo.class)) {
+                          foo = any.unpack(Foo.class);
+                        }
+
+                     Example 3: Pack and unpack a message in Python.
+
+                        foo = Foo(...)
+                        any = Any()
+                        any.Pack(foo)
+                        ...
+                        if any.Is(Foo.DESCRIPTOR):
+                          any.Unpack(foo)
+                          ...
+
+                     Example 4: Pack and unpack a message in Go
+
+                         foo := &pb.Foo{...}
+                         any, err := anypb.New(foo)
+                         if err != nil {
+                           ...
+                         }
+                         ...
+                         foo := &pb.Foo{}
+                         if err := any.UnmarshalTo(foo); err != nil {
+                           ...
+                         }
+
+                    The pack methods provided by protobuf library will by
+                    default use
+
+                    'type.googleapis.com/full.type.name' as the type URL and the
+                    unpack
+
+                    methods only use the fully qualified type name after the
+                    last '/'
+
+                    in the type URL, for example "foo.bar.com/x/y.z" will yield
+                    type
+
+                    name "y.z".
+
+
+
+                    JSON
+
+                    ====
+
+                    The JSON representation of an `Any` value uses the regular
+
+                    representation of the deserialized, embedded message, with
+                    an
+
+                    additional field `@type` which contains the type URL.
+                    Example:
+
+                        package google.profile;
+                        message Person {
+                          string first_name = 1;
+                          string last_name = 2;
+                        }
+
+                        {
+                          "@type": "type.googleapis.com/google.profile.Person",
+                          "firstName": <string>,
+                          "lastName": <string>
+                        }
+
+                    If the embedded message type is well-known and has a custom
+                    JSON
+
+                    representation, that representation will be embedded adding
+                    a field
+
+                    `value` which holds the custom JSON in addition to the
+                    `@type`
+
+                    field. Example (for message [google.protobuf.Duration][]):
+
+                        {
+                          "@type": "type.googleapis.com/google.protobuf.Duration",
+                          "value": "1.212s"
+                        }
+      parameters:
+        - name: nftSchemaCode
+          in: path
+          required: true
+          type: string
+        - name: name
+          in: query
+          required: false
+          type: string
+      tags:
+        - Query
+  /thesixnetwork/sixnft/nftmngr/virtual_schema:
+    get:
+      summary: Queries a list of VirtualSchema items.
+      operationId: ThesixnetworkSixprotocolNftmngrVirtualSchemaAll
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              virtualSchema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    virtualNftSchemaCode:
+                      type: string
+                    registry:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          nftSchemaCode:
+                            type: string
+                          sharedAttributes:
+                            type: array
+                            items:
+                              type: string
+                          decision:
+                            type: string
+                            enum:
+                              - PENDING
+                              - REJECT
+                              - ACCEPT
+                            default: PENDING
+                        description: >-
+                          TODO: [chore] Combine enable/disable to change virtual
+                          schema.
+                    enable:
+                      type: boolean
+                      title: >-
+                        link wih virtual action. We will not put in here to
+                        reduce redundance info
+              pagination:
+                type: object
+                properties:
+                  next_key:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                      description: >-
+                        A URL/resource name that uniquely identifies the type of
+                        the serialized
+
+                        protocol buffer message. This string must contain at
+                        least
+
+                        one "/" character. The last segment of the URL's path
+                        must represent
+
+                        the fully qualified name of the type (as in
+
+                        `path/google.protobuf.Duration`). The name should be in
+                        a canonical form
+
+                        (e.g., leading "." is not accepted).
+
+
+                        In practice, teams usually precompile into the binary
+                        all types that they
+
+                        expect it to use in the context of Any. However, for
+                        URLs which use the
+
+                        scheme `http`, `https`, or no scheme, one can optionally
+                        set up a type
+
+                        server that maps type URLs to message definitions as
+                        follows:
+
+
+                        * If no scheme is provided, `https` is assumed.
+
+                        * An HTTP GET on the URL must yield a
+                        [google.protobuf.Type][]
+                          value in binary format, or produce an error.
+                        * Applications are allowed to cache lookup results based
+                        on the
+                          URL, or have them precompiled into a binary to avoid any
+                          lookup. Therefore, binary compatibility needs to be preserved
+                          on changes to types. (Use versioned type names to manage
+                          breaking changes.)
+
+                        Note: this functionality is not currently available in
+                        the official
+
+                        protobuf release, and it is not used for type URLs
+                        beginning with
+
+                        type.googleapis.com.
+
+
+                        Schemes other than `http`, `https` (or the empty scheme)
+                        might be
+
+                        used with implementation specific semantics.
+                  additionalProperties: {}
+                  description: >-
+                    `Any` contains an arbitrary serialized protocol buffer
+                    message along with a
+
+                    URL that describes the type of the serialized message.
+
+
+                    Protobuf library provides support to pack/unpack Any values
+                    in the form
+
+                    of utility functions or additional generated methods of the
+                    Any type.
+
+
+                    Example 1: Pack and unpack a message in C++.
+
+                        Foo foo = ...;
+                        Any any;
+                        any.PackFrom(foo);
+                        ...
+                        if (any.UnpackTo(&foo)) {
+                          ...
+                        }
+
+                    Example 2: Pack and unpack a message in Java.
+
+                        Foo foo = ...;
+                        Any any = Any.pack(foo);
+                        ...
+                        if (any.is(Foo.class)) {
+                          foo = any.unpack(Foo.class);
+                        }
+
+                     Example 3: Pack and unpack a message in Python.
+
+                        foo = Foo(...)
+                        any = Any()
+                        any.Pack(foo)
+                        ...
+                        if any.Is(Foo.DESCRIPTOR):
+                          any.Unpack(foo)
+                          ...
+
+                     Example 4: Pack and unpack a message in Go
+
+                         foo := &pb.Foo{...}
+                         any, err := anypb.New(foo)
+                         if err != nil {
+                           ...
+                         }
+                         ...
+                         foo := &pb.Foo{}
+                         if err := any.UnmarshalTo(foo); err != nil {
+                           ...
+                         }
+
+                    The pack methods provided by protobuf library will by
+                    default use
+
+                    'type.googleapis.com/full.type.name' as the type URL and the
+                    unpack
+
+                    methods only use the fully qualified type name after the
+                    last '/'
+
+                    in the type URL, for example "foo.bar.com/x/y.z" will yield
+                    type
+
+                    name "y.z".
+
+
+
+                    JSON
+
+                    ====
+
+                    The JSON representation of an `Any` value uses the regular
+
+                    representation of the deserialized, embedded message, with
+                    an
+
+                    additional field `@type` which contains the type URL.
+                    Example:
+
+                        package google.profile;
+                        message Person {
+                          string first_name = 1;
+                          string last_name = 2;
+                        }
+
+                        {
+                          "@type": "type.googleapis.com/google.profile.Person",
+                          "firstName": <string>,
+                          "lastName": <string>
+                        }
+
+                    If the embedded message type is well-known and has a custom
+                    JSON
+
+                    representation, that representation will be embedded adding
+                    a field
+
+                    `value` which holds the custom JSON in addition to the
+                    `@type`
+
+                    field. Example (for message [google.protobuf.Duration][]):
+
+                        {
+                          "@type": "type.googleapis.com/google.protobuf.Duration",
+                          "value": "1.212s"
+                        }
+      parameters:
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.count_total
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  '/thesixnetwork/sixnft/nftmngr/virtual_schema/{nftSchemaCode}':
+    get:
+      summary: Queries a VirtualSchema by index.
+      operationId: ThesixnetworkSixprotocolNftmngrVirtualSchema
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              virtualSchema:
+                type: object
+                properties:
+                  virtualNftSchemaCode:
+                    type: string
+                  registry:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        nftSchemaCode:
+                          type: string
+                        sharedAttributes:
+                          type: array
+                          items:
+                            type: string
+                        decision:
+                          type: string
+                          enum:
+                            - PENDING
+                            - REJECT
+                            - ACCEPT
+                          default: PENDING
+                      description: >-
+                        TODO: [chore] Combine enable/disable to change virtual
+                        schema.
+                  enable:
+                    type: boolean
+                    title: >-
+                      link wih virtual action. We will not put in here to reduce
+                      redundance info
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                      description: >-
+                        A URL/resource name that uniquely identifies the type of
+                        the serialized
+
+                        protocol buffer message. This string must contain at
+                        least
+
+                        one "/" character. The last segment of the URL's path
+                        must represent
+
+                        the fully qualified name of the type (as in
+
+                        `path/google.protobuf.Duration`). The name should be in
+                        a canonical form
+
+                        (e.g., leading "." is not accepted).
+
+
+                        In practice, teams usually precompile into the binary
+                        all types that they
+
+                        expect it to use in the context of Any. However, for
+                        URLs which use the
+
+                        scheme `http`, `https`, or no scheme, one can optionally
+                        set up a type
+
+                        server that maps type URLs to message definitions as
+                        follows:
+
+
+                        * If no scheme is provided, `https` is assumed.
+
+                        * An HTTP GET on the URL must yield a
+                        [google.protobuf.Type][]
+                          value in binary format, or produce an error.
+                        * Applications are allowed to cache lookup results based
+                        on the
+                          URL, or have them precompiled into a binary to avoid any
+                          lookup. Therefore, binary compatibility needs to be preserved
+                          on changes to types. (Use versioned type names to manage
+                          breaking changes.)
+
+                        Note: this functionality is not currently available in
+                        the official
+
+                        protobuf release, and it is not used for type URLs
+                        beginning with
+
+                        type.googleapis.com.
+
+
+                        Schemes other than `http`, `https` (or the empty scheme)
+                        might be
+
+                        used with implementation specific semantics.
+                  additionalProperties: {}
+                  description: >-
+                    `Any` contains an arbitrary serialized protocol buffer
+                    message along with a
+
+                    URL that describes the type of the serialized message.
+
+
+                    Protobuf library provides support to pack/unpack Any values
+                    in the form
+
+                    of utility functions or additional generated methods of the
+                    Any type.
+
+
+                    Example 1: Pack and unpack a message in C++.
+
+                        Foo foo = ...;
+                        Any any;
+                        any.PackFrom(foo);
+                        ...
+                        if (any.UnpackTo(&foo)) {
+                          ...
+                        }
+
+                    Example 2: Pack and unpack a message in Java.
+
+                        Foo foo = ...;
+                        Any any = Any.pack(foo);
+                        ...
+                        if (any.is(Foo.class)) {
+                          foo = any.unpack(Foo.class);
+                        }
+
+                     Example 3: Pack and unpack a message in Python.
+
+                        foo = Foo(...)
+                        any = Any()
+                        any.Pack(foo)
+                        ...
+                        if any.Is(Foo.DESCRIPTOR):
+                          any.Unpack(foo)
+                          ...
+
+                     Example 4: Pack and unpack a message in Go
+
+                         foo := &pb.Foo{...}
+                         any, err := anypb.New(foo)
+                         if err != nil {
+                           ...
+                         }
+                         ...
+                         foo := &pb.Foo{}
+                         if err := any.UnmarshalTo(foo); err != nil {
+                           ...
+                         }
+
+                    The pack methods provided by protobuf library will by
+                    default use
+
+                    'type.googleapis.com/full.type.name' as the type URL and the
+                    unpack
+
+                    methods only use the fully qualified type name after the
+                    last '/'
+
+                    in the type URL, for example "foo.bar.com/x/y.z" will yield
+                    type
+
+                    name "y.z".
+
+
+
+                    JSON
+
+                    ====
+
+                    The JSON representation of an `Any` value uses the regular
+
+                    representation of the deserialized, embedded message, with
+                    an
+
+                    additional field `@type` which contains the type URL.
+                    Example:
+
+                        package google.profile;
+                        message Person {
+                          string first_name = 1;
+                          string last_name = 2;
+                        }
+
+                        {
+                          "@type": "type.googleapis.com/google.profile.Person",
+                          "firstName": <string>,
+                          "lastName": <string>
+                        }
+
+                    If the embedded message type is well-known and has a custom
+                    JSON
+
+                    representation, that representation will be embedded adding
+                    a field
+
+                    `value` which holds the custom JSON in addition to the
+                    `@type`
+
+                    field. Example (for message [google.protobuf.Duration][]):
+
+                        {
+                          "@type": "type.googleapis.com/google.protobuf.Duration",
+                          "value": "1.212s"
+                        }
+      parameters:
+        - name: nftSchemaCode
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
+  /thesixnetwork/sixnft/nftmngr/virtual_schema_proposal:
+    get:
+      summary: Queries a list of VirtualSchemaProposal items.
+      operationId: ThesixnetworkSixprotocolNftmngrVirtualSchemaProposalAll
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              virtualSchemaProposal:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    proposalType:
+                      type: string
+                      enum:
+                        - CREATE
+                        - EDIT
+                      default: CREATE
+                      description: >-
+                        TODO: [chore] Combine enable/disable to change virtual
+                        schema.
+                    virtualSchema:
+                      type: object
+                      properties:
+                        virtualNftSchemaCode:
+                          type: string
+                        registry:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              nftSchemaCode:
+                                type: string
+                              sharedAttributes:
+                                type: array
+                                items:
+                                  type: string
+                              decision:
+                                type: string
+                                enum:
+                                  - PENDING
+                                  - REJECT
+                                  - ACCEPT
+                                default: PENDING
+                            description: >-
+                              TODO: [chore] Combine enable/disable to change
+                              virtual schema.
+                        enable:
+                          type: boolean
+                          title: >-
+                            link wih virtual action. We will not put in here to
+                            reduce redundance info
+                    actions:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          desc:
+                            type: string
+                          disable:
+                            type: boolean
+                          when:
+                            type: string
+                          then:
+                            type: array
+                            items:
+                              type: string
+                          allowed_actioner:
+                            type: string
+                            enum:
+                              - ALLOWED_ACTIONER_ALL
+                              - ALLOWED_ACTIONER_SYSTEM_ONLY
+                              - ALLOWED_ACTIONER_USER_ONLY
+                            default: ALLOWED_ACTIONER_ALL
+                          params:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                desc:
+                                  type: string
+                                data_type:
+                                  type: string
+                                required:
+                                  type: boolean
+                                default_value:
+                                  type: string
+                    submitTime:
+                      type: string
+                      format: date-time
+                    votingStartTime:
+                      type: string
+                      format: date-time
+                    votingEndTime:
+                      type: string
+                      format: date-time
+                  description: >-
+                    TODO: [chore] Combine enable/disable to change virtual
+                    schema.
+              pagination:
+                type: object
+                properties:
+                  next_key:
+                    type: string
+                    format: byte
+                    title: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                      description: >-
+                        A URL/resource name that uniquely identifies the type of
+                        the serialized
+
+                        protocol buffer message. This string must contain at
+                        least
+
+                        one "/" character. The last segment of the URL's path
+                        must represent
+
+                        the fully qualified name of the type (as in
+
+                        `path/google.protobuf.Duration`). The name should be in
+                        a canonical form
+
+                        (e.g., leading "." is not accepted).
+
+
+                        In practice, teams usually precompile into the binary
+                        all types that they
+
+                        expect it to use in the context of Any. However, for
+                        URLs which use the
+
+                        scheme `http`, `https`, or no scheme, one can optionally
+                        set up a type
+
+                        server that maps type URLs to message definitions as
+                        follows:
+
+
+                        * If no scheme is provided, `https` is assumed.
+
+                        * An HTTP GET on the URL must yield a
+                        [google.protobuf.Type][]
+                          value in binary format, or produce an error.
+                        * Applications are allowed to cache lookup results based
+                        on the
+                          URL, or have them precompiled into a binary to avoid any
+                          lookup. Therefore, binary compatibility needs to be preserved
+                          on changes to types. (Use versioned type names to manage
+                          breaking changes.)
+
+                        Note: this functionality is not currently available in
+                        the official
+
+                        protobuf release, and it is not used for type URLs
+                        beginning with
+
+                        type.googleapis.com.
+
+
+                        Schemes other than `http`, `https` (or the empty scheme)
+                        might be
+
+                        used with implementation specific semantics.
+                  additionalProperties: {}
+                  description: >-
+                    `Any` contains an arbitrary serialized protocol buffer
+                    message along with a
+
+                    URL that describes the type of the serialized message.
+
+
+                    Protobuf library provides support to pack/unpack Any values
+                    in the form
+
+                    of utility functions or additional generated methods of the
+                    Any type.
+
+
+                    Example 1: Pack and unpack a message in C++.
+
+                        Foo foo = ...;
+                        Any any;
+                        any.PackFrom(foo);
+                        ...
+                        if (any.UnpackTo(&foo)) {
+                          ...
+                        }
+
+                    Example 2: Pack and unpack a message in Java.
+
+                        Foo foo = ...;
+                        Any any = Any.pack(foo);
+                        ...
+                        if (any.is(Foo.class)) {
+                          foo = any.unpack(Foo.class);
+                        }
+
+                     Example 3: Pack and unpack a message in Python.
+
+                        foo = Foo(...)
+                        any = Any()
+                        any.Pack(foo)
+                        ...
+                        if any.Is(Foo.DESCRIPTOR):
+                          any.Unpack(foo)
+                          ...
+
+                     Example 4: Pack and unpack a message in Go
+
+                         foo := &pb.Foo{...}
+                         any, err := anypb.New(foo)
+                         if err != nil {
+                           ...
+                         }
+                         ...
+                         foo := &pb.Foo{}
+                         if err := any.UnmarshalTo(foo); err != nil {
+                           ...
+                         }
+
+                    The pack methods provided by protobuf library will by
+                    default use
+
+                    'type.googleapis.com/full.type.name' as the type URL and the
+                    unpack
+
+                    methods only use the fully qualified type name after the
+                    last '/'
+
+                    in the type URL, for example "foo.bar.com/x/y.z" will yield
+                    type
+
+                    name "y.z".
+
+
+
+                    JSON
+
+                    ====
+
+                    The JSON representation of an `Any` value uses the regular
+
+                    representation of the deserialized, embedded message, with
+                    an
+
+                    additional field `@type` which contains the type URL.
+                    Example:
+
+                        package google.profile;
+                        message Person {
+                          string first_name = 1;
+                          string last_name = 2;
+                        }
+
+                        {
+                          "@type": "type.googleapis.com/google.profile.Person",
+                          "firstName": <string>,
+                          "lastName": <string>
+                        }
+
+                    If the embedded message type is well-known and has a custom
+                    JSON
+
+                    representation, that representation will be embedded adding
+                    a field
+
+                    `value` which holds the custom JSON in addition to the
+                    `@type`
+
+                    field. Example (for message [google.protobuf.Duration][]):
+
+                        {
+                          "@type": "type.googleapis.com/google.protobuf.Duration",
+                          "value": "1.212s"
+                        }
+      parameters:
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.count_total
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  '/thesixnetwork/sixnft/nftmngr/virtual_schema_proposal/{index}':
+    get:
+      summary: Queries a VirtualSchemaProposal by index.
+      operationId: ThesixnetworkSixprotocolNftmngrVirtualSchemaProposal
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              virtualSchemaProposal:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  proposalType:
+                    type: string
+                    enum:
+                      - CREATE
+                      - EDIT
+                    default: CREATE
+                    description: >-
+                      TODO: [chore] Combine enable/disable to change virtual
+                      schema.
+                  virtualSchema:
+                    type: object
+                    properties:
+                      virtualNftSchemaCode:
+                        type: string
+                      registry:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            nftSchemaCode:
+                              type: string
+                            sharedAttributes:
+                              type: array
+                              items:
+                                type: string
+                            decision:
+                              type: string
+                              enum:
+                                - PENDING
+                                - REJECT
+                                - ACCEPT
+                              default: PENDING
+                          description: >-
+                            TODO: [chore] Combine enable/disable to change
+                            virtual schema.
+                      enable:
+                        type: boolean
+                        title: >-
+                          link wih virtual action. We will not put in here to
+                          reduce redundance info
+                  actions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        desc:
+                          type: string
+                        disable:
+                          type: boolean
+                        when:
+                          type: string
+                        then:
+                          type: array
+                          items:
+                            type: string
+                        allowed_actioner:
+                          type: string
+                          enum:
+                            - ALLOWED_ACTIONER_ALL
+                            - ALLOWED_ACTIONER_SYSTEM_ONLY
+                            - ALLOWED_ACTIONER_USER_ONLY
+                          default: ALLOWED_ACTIONER_ALL
+                        params:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                              desc:
+                                type: string
+                              data_type:
+                                type: string
+                              required:
+                                type: boolean
+                              default_value:
+                                type: string
+                  submitTime:
+                    type: string
+                    format: date-time
+                  votingStartTime:
+                    type: string
+                    format: date-time
+                  votingEndTime:
+                    type: string
+                    format: date-time
+                description: 'TODO: [chore] Combine enable/disable to change virtual schema.'
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                      description: >-
+                        A URL/resource name that uniquely identifies the type of
+                        the serialized
+
+                        protocol buffer message. This string must contain at
+                        least
+
+                        one "/" character. The last segment of the URL's path
+                        must represent
+
+                        the fully qualified name of the type (as in
+
+                        `path/google.protobuf.Duration`). The name should be in
+                        a canonical form
+
+                        (e.g., leading "." is not accepted).
+
+
+                        In practice, teams usually precompile into the binary
+                        all types that they
+
+                        expect it to use in the context of Any. However, for
+                        URLs which use the
+
+                        scheme `http`, `https`, or no scheme, one can optionally
+                        set up a type
+
+                        server that maps type URLs to message definitions as
+                        follows:
+
+
+                        * If no scheme is provided, `https` is assumed.
+
+                        * An HTTP GET on the URL must yield a
+                        [google.protobuf.Type][]
+                          value in binary format, or produce an error.
+                        * Applications are allowed to cache lookup results based
+                        on the
+                          URL, or have them precompiled into a binary to avoid any
+                          lookup. Therefore, binary compatibility needs to be preserved
+                          on changes to types. (Use versioned type names to manage
+                          breaking changes.)
+
+                        Note: this functionality is not currently available in
+                        the official
+
+                        protobuf release, and it is not used for type URLs
+                        beginning with
+
+                        type.googleapis.com.
+
+
+                        Schemes other than `http`, `https` (or the empty scheme)
+                        might be
+
+                        used with implementation specific semantics.
+                  additionalProperties: {}
+                  description: >-
+                    `Any` contains an arbitrary serialized protocol buffer
+                    message along with a
+
+                    URL that describes the type of the serialized message.
+
+
+                    Protobuf library provides support to pack/unpack Any values
+                    in the form
+
+                    of utility functions or additional generated methods of the
+                    Any type.
+
+
+                    Example 1: Pack and unpack a message in C++.
+
+                        Foo foo = ...;
+                        Any any;
+                        any.PackFrom(foo);
+                        ...
+                        if (any.UnpackTo(&foo)) {
+                          ...
+                        }
+
+                    Example 2: Pack and unpack a message in Java.
+
+                        Foo foo = ...;
+                        Any any = Any.pack(foo);
+                        ...
+                        if (any.is(Foo.class)) {
+                          foo = any.unpack(Foo.class);
+                        }
+
+                     Example 3: Pack and unpack a message in Python.
+
+                        foo = Foo(...)
+                        any = Any()
+                        any.Pack(foo)
+                        ...
+                        if any.Is(Foo.DESCRIPTOR):
+                          any.Unpack(foo)
+                          ...
+
+                     Example 4: Pack and unpack a message in Go
+
+                         foo := &pb.Foo{...}
+                         any, err := anypb.New(foo)
+                         if err != nil {
+                           ...
+                         }
+                         ...
+                         foo := &pb.Foo{}
+                         if err := any.UnmarshalTo(foo); err != nil {
+                           ...
+                         }
+
+                    The pack methods provided by protobuf library will by
+                    default use
+
+                    'type.googleapis.com/full.type.name' as the type URL and the
+                    unpack
+
+                    methods only use the fully qualified type name after the
+                    last '/'
+
+                    in the type URL, for example "foo.bar.com/x/y.z" will yield
+                    type
+
+                    name "y.z".
+
+
+
+                    JSON
+
+                    ====
+
+                    The JSON representation of an `Any` value uses the regular
+
+                    representation of the deserialized, embedded message, with
+                    an
+
+                    additional field `@type` which contains the type URL.
+                    Example:
+
+                        package google.profile;
+                        message Person {
+                          string first_name = 1;
+                          string last_name = 2;
+                        }
+
+                        {
+                          "@type": "type.googleapis.com/google.profile.Person",
+                          "firstName": <string>,
+                          "lastName": <string>
+                        }
+
+                    If the embedded message type is well-known and has a custom
+                    JSON
+
+                    representation, that representation will be embedded adding
+                    a field
+
+                    `value` which holds the custom JSON in addition to the
+                    `@type`
+
+                    field. Example (for message [google.protobuf.Duration][]):
+
+                        {
+                          "@type": "type.googleapis.com/google.protobuf.Duration",
+                          "value": "1.212s"
+                        }
+      parameters:
+        - name: index
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
   /thesixnetwork/sixnft/nftoracle/action_request:
     get:
       summary: Queries a list of ActionRequest items.
@@ -42330,7 +44642,7 @@ paths:
                       enum:
                         - PENDING
                         - SUCCESS_WITH_CONSENSUS
-                        - FAILED_WITHOUT_CONCENSUS
+                        - FAILED_WITHOUT_CONSENSUS
                         - EXPIRED
                         - FAILED_ON_EXECUTION
                         - FAILED_REJECT_BY_CONSENSUS
@@ -42477,13 +44789,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftoracle/action_request/{id}':
@@ -42529,7 +44834,7 @@ paths:
                     enum:
                       - PENDING
                       - SUCCESS_WITH_CONSENSUS
-                      - FAILED_WITHOUT_CONCENSUS
+                      - FAILED_WITHOUT_CONSENSUS
                       - EXPIRED
                       - FAILED_ON_EXECUTION
                       - FAILED_REJECT_BY_CONSENSUS
@@ -42735,13 +45040,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftoracle/action_signer/{actorAddress}/{ownerAddress}':
@@ -42917,13 +45215,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftoracle/action_signer_config/{chain}':
@@ -43053,7 +45344,7 @@ paths:
                       enum:
                         - PENDING
                         - SUCCESS_WITH_CONSENSUS
-                        - FAILED_WITHOUT_CONCENSUS
+                        - FAILED_WITHOUT_CONSENSUS
                         - EXPIRED
                         - FAILED_ON_EXECUTION
                         - FAILED_REJECT_BY_CONSENSUS
@@ -43190,13 +45481,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftoracle/collection_owner_request/{id}':
@@ -43227,7 +45511,7 @@ paths:
                     enum:
                       - PENDING
                       - SUCCESS_WITH_CONSENSUS
-                      - FAILED_WITHOUT_CONCENSUS
+                      - FAILED_WITHOUT_CONSENSUS
                       - EXPIRED
                       - FAILED_ON_EXECUTION
                       - FAILED_REJECT_BY_CONSENSUS
@@ -43328,7 +45612,7 @@ paths:
                       enum:
                         - PENDING
                         - SUCCESS_WITH_CONSENSUS
-                        - FAILED_WITHOUT_CONCENSUS
+                        - FAILED_WITHOUT_CONSENSUS
                         - EXPIRED
                         - FAILED_ON_EXECUTION
                         - FAILED_REJECT_BY_CONSENSUS
@@ -43474,13 +45758,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftoracle/mint_request/{id}':
@@ -43511,7 +45788,7 @@ paths:
                     enum:
                       - PENDING
                       - SUCCESS_WITH_CONSENSUS
-                      - FAILED_WITHOUT_CONCENSUS
+                      - FAILED_WITHOUT_CONSENSUS
                       - EXPIRED
                       - FAILED_ON_EXECUTION
                       - FAILED_REJECT_BY_CONSENSUS
@@ -43709,7 +45986,7 @@ paths:
                       enum:
                         - PENDING
                         - SUCCESS_WITH_CONSENSUS
-                        - FAILED_WITHOUT_CONCENSUS
+                        - FAILED_WITHOUT_CONSENSUS
                         - EXPIRED
                         - FAILED_ON_EXECUTION
                         - FAILED_REJECT_BY_CONSENSUS
@@ -43745,6 +46022,7 @@ paths:
                                 title: get from smart contract
                               expire_epoch:
                                 type: string
+                                title: get from smart contract
                           hash:
                             type: string
                             format: byte
@@ -43849,13 +46127,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixnft/nftoracle/sync_action_signer/{id}':
@@ -43891,7 +46162,7 @@ paths:
                     enum:
                       - PENDING
                       - SUCCESS_WITH_CONSENSUS
-                      - FAILED_WITHOUT_CONCENSUS
+                      - FAILED_WITHOUT_CONSENSUS
                       - EXPIRED
                       - FAILED_ON_EXECUTION
                       - FAILED_REJECT_BY_CONSENSUS
@@ -43927,6 +46198,7 @@ paths:
                               title: get from smart contract
                             expire_epoch:
                               type: string
+                              title: get from smart contract
                         hash:
                           type: string
                           format: byte
@@ -44073,13 +46345,6 @@ paths:
             when key
 
             is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
           in: query
           required: false
           type: boolean
@@ -44242,13 +46507,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   '/thesixnetwork/six-protocol/protocoladmin/group/{name}':
@@ -44403,13 +46661,6 @@ paths:
           in: query
           required: false
           type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
       tags:
         - Query
   /thesixnetwork/six-protocol/protocoladmin/params:
@@ -44448,135 +46699,7 @@ paths:
                   additionalProperties: {}
       tags:
         - Query
-  /thesixnetwork/six-protocol/tokenmngr/legacy/burns:
-    get:
-      summary: Queries a list of Burns items.
-      operationId: ThesixnetworkSixprotocolTokenmngrBurns
-      responses:
-        '200':
-          description: A successful response.
-          schema:
-            type: object
-            properties:
-              Burn:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: string
-                      format: uint64
-                    creator:
-                      type: string
-                    token:
-                      type: string
-                    amount:
-                      type: string
-                      format: uint64
-                title: Returning a list of posts
-              pagination:
-                title: Adding pagination to response
-                type: object
-                properties:
-                  next_key:
-                    type: string
-                    format: byte
-                    title: |-
-                      next_key is the key to be passed to PageRequest.key to
-                      query the next page most efficiently
-                  total:
-                    type: string
-                    format: uint64
-                    title: >-
-                      total is total number of results available if
-                      PageRequest.count_total
-
-                      was set, its value is undefined otherwise
-                description: >-
-                  PageResponse is to be embedded in gRPC response messages where
-                  the
-
-                  corresponding request message has used PageRequest.
-
-                   message SomeResponse {
-                           repeated Bar results = 1;
-                           PageResponse page = 2;
-                   }
-        default:
-          description: An unexpected error response.
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-              message:
-                type: string
-              details:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    '@type':
-                      type: string
-                  additionalProperties: {}
-      parameters:
-        - name: pagination.key
-          description: |-
-            key is a value returned in PageResponse.next_key to begin
-            querying the next page most efficiently. Only one of offset or key
-            should be set.
-          in: query
-          required: false
-          type: string
-          format: byte
-        - name: pagination.offset
-          description: >-
-            offset is a numeric offset that can be used when key is unavailable.
-
-            It is less efficient than using key. Only one of offset or key
-            should
-
-            be set.
-          in: query
-          required: false
-          type: string
-          format: uint64
-        - name: pagination.limit
-          description: >-
-            limit is the total number of results to be returned in the result
-            page.
-
-            If left empty it will default to a value to be set by each app.
-          in: query
-          required: false
-          type: string
-          format: uint64
-        - name: pagination.count_total
-          description: >-
-            count_total is set to true  to indicate that the result set should
-            include
-
-            a count of the total number of items available for pagination in
-            UIs.
-
-            count_total is only respected when offset is used. It is ignored
-            when key
-
-            is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
-      tags:
-        - Query
-  /thesixnetwork/six-protocol/tokenmngr/legacy/mintperm:
+  /thesixnetwork/six-protocol/tokenmngr/mintperm:
     get:
       summary: Queries a list of Mintperm items.
       operationId: ThesixnetworkSixprotocolTokenmngrMintpermAll
@@ -44698,7 +46821,7 @@ paths:
           type: boolean
       tags:
         - Query
-  '/thesixnetwork/six-protocol/tokenmngr/legacy/mintperm/{token}/{address}':
+  '/thesixnetwork/six-protocol/tokenmngr/mintperm/{token}/{address}':
     get:
       summary: Queries a Mintperm by index.
       operationId: ThesixnetworkSixprotocolTokenmngrMintperm
@@ -44746,7 +46869,7 @@ paths:
           type: string
       tags:
         - Query
-  /thesixnetwork/six-protocol/tokenmngr/legacy/options:
+  /thesixnetwork/six-protocol/tokenmngr/options:
     get:
       summary: Queries a Options by index.
       operationId: ThesixnetworkSixprotocolTokenmngrOptions
@@ -44781,7 +46904,7 @@ paths:
                   additionalProperties: {}
       tags:
         - Query
-  /thesixnetwork/six-protocol/tokenmngr/legacy/params:
+  /thesixnetwork/six-protocol/tokenmngr/params:
     get:
       summary: Parameters queries the parameters of the module.
       operationId: ThesixnetworkSixprotocolTokenmngrParams
@@ -44817,584 +46940,10 @@ paths:
                   additionalProperties: {}
       tags:
         - Query
-  /thesixnetwork/six-protocol/tokenmngr/legacy/token:
-    get:
-      summary: Queries a list of Token items.
-      operationId: ThesixnetworkSixprotocolTokenmngrTokenAll
-      responses:
-        '200':
-          description: A successful response.
-          schema:
-            type: object
-            properties:
-              token:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    name:
-                      type: string
-                    base:
-                      type: string
-                    maxSupply:
-                      type: string
-                      format: uint64
-                    mintee:
-                      type: string
-                    creator:
-                      type: string
-              pagination:
-                type: object
-                properties:
-                  next_key:
-                    type: string
-                    format: byte
-                    title: |-
-                      next_key is the key to be passed to PageRequest.key to
-                      query the next page most efficiently
-                  total:
-                    type: string
-                    format: uint64
-                    title: >-
-                      total is total number of results available if
-                      PageRequest.count_total
-
-                      was set, its value is undefined otherwise
-                description: >-
-                  PageResponse is to be embedded in gRPC response messages where
-                  the
-
-                  corresponding request message has used PageRequest.
-
-                   message SomeResponse {
-                           repeated Bar results = 1;
-                           PageResponse page = 2;
-                   }
-        default:
-          description: An unexpected error response.
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-              message:
-                type: string
-              details:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    '@type':
-                      type: string
-                  additionalProperties: {}
-      parameters:
-        - name: pagination.key
-          description: |-
-            key is a value returned in PageResponse.next_key to begin
-            querying the next page most efficiently. Only one of offset or key
-            should be set.
-          in: query
-          required: false
-          type: string
-          format: byte
-        - name: pagination.offset
-          description: >-
-            offset is a numeric offset that can be used when key is unavailable.
-
-            It is less efficient than using key. Only one of offset or key
-            should
-
-            be set.
-          in: query
-          required: false
-          type: string
-          format: uint64
-        - name: pagination.limit
-          description: >-
-            limit is the total number of results to be returned in the result
-            page.
-
-            If left empty it will default to a value to be set by each app.
-          in: query
-          required: false
-          type: string
-          format: uint64
-        - name: pagination.count_total
-          description: >-
-            count_total is set to true  to indicate that the result set should
-            include
-
-            a count of the total number of items available for pagination in
-            UIs.
-
-            count_total is only respected when offset is used. It is ignored
-            when key
-
-            is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
-      tags:
-        - Query
-  '/thesixnetwork/six-protocol/tokenmngr/legacy/token/{name}':
-    get:
-      summary: Queries a Token by index.
-      operationId: ThesixnetworkSixprotocolTokenmngrToken
-      responses:
-        '200':
-          description: A successful response.
-          schema:
-            type: object
-            properties:
-              token:
-                type: object
-                properties:
-                  name:
-                    type: string
-                  base:
-                    type: string
-                  maxSupply:
-                    type: string
-                    format: uint64
-                  mintee:
-                    type: string
-                  creator:
-                    type: string
-        default:
-          description: An unexpected error response.
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-              message:
-                type: string
-              details:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    '@type':
-                      type: string
-                  additionalProperties: {}
-      parameters:
-        - name: name
-          in: path
-          required: true
-          type: string
-      tags:
-        - Query
-  /thesixnetwork/six-protocol/tokenmngr/legacy/token_burn:
-    get:
-      summary: Queries a list of TokenBurn items.
-      operationId: ThesixnetworkSixprotocolTokenmngrTokenBurnAll
-      responses:
-        '200':
-          description: A successful response.
-          schema:
-            type: object
-            properties:
-              tokenBurn:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    token:
-                      type: string
-                    amount:
-                      type: string
-                      format: uint64
-              pagination:
-                type: object
-                properties:
-                  next_key:
-                    type: string
-                    format: byte
-                    title: |-
-                      next_key is the key to be passed to PageRequest.key to
-                      query the next page most efficiently
-                  total:
-                    type: string
-                    format: uint64
-                    title: >-
-                      total is total number of results available if
-                      PageRequest.count_total
-
-                      was set, its value is undefined otherwise
-                description: >-
-                  PageResponse is to be embedded in gRPC response messages where
-                  the
-
-                  corresponding request message has used PageRequest.
-
-                   message SomeResponse {
-                           repeated Bar results = 1;
-                           PageResponse page = 2;
-                   }
-        default:
-          description: An unexpected error response.
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-              message:
-                type: string
-              details:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    '@type':
-                      type: string
-                  additionalProperties: {}
-      parameters:
-        - name: pagination.key
-          description: |-
-            key is a value returned in PageResponse.next_key to begin
-            querying the next page most efficiently. Only one of offset or key
-            should be set.
-          in: query
-          required: false
-          type: string
-          format: byte
-        - name: pagination.offset
-          description: >-
-            offset is a numeric offset that can be used when key is unavailable.
-
-            It is less efficient than using key. Only one of offset or key
-            should
-
-            be set.
-          in: query
-          required: false
-          type: string
-          format: uint64
-        - name: pagination.limit
-          description: >-
-            limit is the total number of results to be returned in the result
-            page.
-
-            If left empty it will default to a value to be set by each app.
-          in: query
-          required: false
-          type: string
-          format: uint64
-        - name: pagination.count_total
-          description: >-
-            count_total is set to true  to indicate that the result set should
-            include
-
-            a count of the total number of items available for pagination in
-            UIs.
-
-            count_total is only respected when offset is used. It is ignored
-            when key
-
-            is set.
-          in: query
-          required: false
-          type: boolean
-        - name: pagination.reverse
-          description: >-
-            reverse is set to true if results are to be returned in the
-            descending order.
-          in: query
-          required: false
-          type: boolean
-      tags:
-        - Query
-  '/thesixnetwork/six-protocol/tokenmngr/legacy/token_burn/{token}':
-    get:
-      summary: Queries a TokenBurn by index.
-      operationId: ThesixnetworkSixprotocolTokenmngrTokenBurn
-      responses:
-        '200':
-          description: A successful response.
-          schema:
-            type: object
-            properties:
-              tokenBurn:
-                type: object
-                properties:
-                  token:
-                    type: string
-                  amount:
-                    type: string
-                    format: uint64
-        default:
-          description: An unexpected error response.
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-              message:
-                type: string
-              details:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    '@type':
-                      type: string
-                  additionalProperties: {}
-      parameters:
-        - name: token
-          in: path
-          required: true
-          type: string
-      tags:
-        - Query
-  /thesixnetwork/six-protocol/tokenmngr/mintperm:
-    get:
-      summary: Queries a list of Mintperm items.
-      operationId: ThesixnetworkSixprotocolTokenmngrV2MintpermAll
-      responses:
-        '200':
-          description: A successful response.
-          schema:
-            type: object
-            properties:
-              mintperm:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    token:
-                      type: string
-                    address:
-                      type: string
-                    creator:
-                      type: string
-              pagination:
-                type: object
-                properties:
-                  next_key:
-                    type: string
-                    format: byte
-                    title: |-
-                      next_key is the key to be passed to PageRequest.key to
-                      query the next page most efficiently
-                  total:
-                    type: string
-                    format: uint64
-                    title: >-
-                      total is total number of results available if
-                      PageRequest.count_total
-
-                      was set, its value is undefined otherwise
-                description: >-
-                  PageResponse is to be embedded in gRPC response messages where
-                  the
-
-                  corresponding request message has used PageRequest.
-
-                   message SomeResponse {
-                           repeated Bar results = 1;
-                           PageResponse page = 2;
-                   }
-        default:
-          description: An unexpected error response.
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-              message:
-                type: string
-              details:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    '@type':
-                      type: string
-                  additionalProperties: {}
-      parameters:
-        - name: pagination.key
-          description: |-
-            key is a value returned in PageResponse.next_key to begin
-            querying the next page most efficiently. Only one of offset or key
-            should be set.
-          in: query
-          required: false
-          type: string
-          format: byte
-        - name: pagination.offset
-          description: >-
-            offset is a numeric offset that can be used when key is unavailable.
-
-            It is less efficient than using key. Only one of offset or key
-            should
-
-            be set.
-          in: query
-          required: false
-          type: string
-          format: uint64
-        - name: pagination.limit
-          description: >-
-            limit is the total number of results to be returned in the result
-            page.
-
-            If left empty it will default to a value to be set by each app.
-          in: query
-          required: false
-          type: string
-          format: uint64
-        - name: pagination.count_total
-          description: >-
-            count_total is set to true  to indicate that the result set should
-            include
-
-            a count of the total number of items available for pagination in
-            UIs.
-
-            count_total is only respected when offset is used. It is ignored
-            when key
-
-            is set.
-          in: query
-          required: false
-          type: boolean
-      tags:
-        - Query
-  '/thesixnetwork/six-protocol/tokenmngr/mintperm/{token}/{address}':
-    get:
-      summary: Queries a Mintperm by index.
-      operationId: ThesixnetworkSixprotocolTokenmngrV2Mintperm
-      responses:
-        '200':
-          description: A successful response.
-          schema:
-            type: object
-            properties:
-              mintperm:
-                type: object
-                properties:
-                  token:
-                    type: string
-                  address:
-                    type: string
-                  creator:
-                    type: string
-        default:
-          description: An unexpected error response.
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-              message:
-                type: string
-              details:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    '@type':
-                      type: string
-                  additionalProperties: {}
-      parameters:
-        - name: token
-          in: path
-          required: true
-          type: string
-        - name: address
-          in: path
-          required: true
-          type: string
-      tags:
-        - Query
-  /thesixnetwork/six-protocol/tokenmngr/options:
-    get:
-      summary: Queries a Options by index.
-      operationId: ThesixnetworkSixprotocolTokenmngrV2Options
-      responses:
-        '200':
-          description: A successful response.
-          schema:
-            type: object
-            properties:
-              Options:
-                type: object
-                properties:
-                  defaultMintee:
-                    type: string
-        default:
-          description: An unexpected error response.
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-              message:
-                type: string
-              details:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    '@type':
-                      type: string
-                  additionalProperties: {}
-      tags:
-        - Query
-  /thesixnetwork/six-protocol/tokenmngr/params:
-    get:
-      summary: Parameters queries the parameters of the module.
-      operationId: ThesixnetworkSixprotocolTokenmngrV2Params
-      responses:
-        '200':
-          description: A successful response.
-          schema:
-            type: object
-            properties:
-              params:
-                description: params holds all the parameters of this module.
-                type: object
-            description: >-
-              QueryParamsResponse is response type for the Query/Params RPC
-              method.
-        default:
-          description: An unexpected error response.
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-              message:
-                type: string
-              details:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    '@type':
-                      type: string
-                  additionalProperties: {}
-      tags:
-        - Query
   /thesixnetwork/six-protocol/tokenmngr/token:
     get:
       summary: Queries a list of Token items.
-      operationId: ThesixnetworkSixprotocolTokenmngrV2TokenAll
+      operationId: ThesixnetworkSixprotocolTokenmngrTokenAll
       responses:
         '200':
           description: A successful response.
@@ -45521,12 +47070,19 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/six-protocol/tokenmngr/token/{name}':
     get:
       summary: Queries a Token by index.
-      operationId: ThesixnetworkSixprotocolTokenmngrV2Token
+      operationId: ThesixnetworkSixprotocolTokenmngrToken
       responses:
         '200':
           description: A successful response.
@@ -45587,7 +47143,7 @@ paths:
   /thesixnetwork/sixprotocol/tokenmngr/burns:
     get:
       summary: Queries a list of Burns items.
-      operationId: ThesixnetworkSixprotocolTokenmngrV2Burns
+      operationId: ThesixnetworkSixprotocolTokenmngrBurns
       responses:
         '200':
           description: A successful response.
@@ -45713,12 +47269,19 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   /thesixnetwork/sixprotocol/tokenmngr/token_burn:
     get:
       summary: Queries a list of TokenBurn items.
-      operationId: ThesixnetworkSixprotocolTokenmngrV2TokenBurnAll
+      operationId: ThesixnetworkSixprotocolTokenmngrTokenBurnAll
       responses:
         '200':
           description: A successful response.
@@ -45837,12 +47400,19 @@ paths:
           in: query
           required: false
           type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+          in: query
+          required: false
+          type: boolean
       tags:
         - Query
   '/thesixnetwork/sixprotocol/tokenmngr/token_burn/{token}':
     get:
       summary: Queries a TokenBurn by index.
-      operationId: ThesixnetworkSixprotocolTokenmngrV2TokenBurn
+      operationId: ThesixnetworkSixprotocolTokenmngrTokenBurn
       responses:
         '200':
           description: A successful response.
@@ -67537,15 +69107,6 @@ definitions:
         type: string
       tokenId:
         type: string
-  thesixnetwork.sixprotocol.nftmngr.MsgCreateMultiMetadataResponse:
-    type: object
-    properties:
-      nftSchemaCode:
-        type: string
-      tokenId:
-        type: array
-        items:
-          type: string
   thesixnetwork.sixprotocol.nftmngr.MsgCreateNFTSchemaResponse:
     type: object
     properties:
@@ -67565,19 +69126,25 @@ definitions:
         type: string
       token_id:
         type: string
-  thesixnetwork.sixprotocol.nftmngr.MsgPerformMultiTokenActionResponse:
+  thesixnetwork.sixprotocol.nftmngr.MsgPerformVirtualActionResponse:
     type: object
     properties:
-      nftSchemaCode:
+      nftSchemaName:
         type: string
-      tokenId:
-        type: array
-        items:
-          type: string
-      action:
-        type: array
-        items:
-          type: string
+  thesixnetwork.sixprotocol.nftmngr.MsgProposalVirtualSchemaResponse:
+    type: object
+    properties:
+      id:
+        type: string
+      virtualNftSchemaCode:
+        type: string
+      proposalType:
+        type: string
+        enum:
+          - CREATE
+          - EDIT
+        default: CREATE
+        description: 'TODO: [chore] Combine enable/disable to change virtual schema.'
   thesixnetwork.sixprotocol.nftmngr.MsgResyncAttributesResponse:
     type: object
     properties:
@@ -67662,6 +69229,8 @@ definitions:
         type: string
       name:
         type: string
+  thesixnetwork.sixprotocol.nftmngr.MsgVoteVirtualSchemaProposalResponse:
+    type: object
   thesixnetwork.sixprotocol.nftmngr.NFTFeeBalance:
     type: object
     properties:
@@ -67693,7 +69262,16 @@ definitions:
                 portion:
                   type: number
                   format: float
-  thesixnetwork.sixprotocol.nftmngr.NFTSchema:
+  thesixnetwork.sixprotocol.nftmngr.NFTSchemaByContract:
+    type: object
+    properties:
+      originContractAddress:
+        type: string
+      schemaCodes:
+        type: array
+        items:
+          type: string
+  thesixnetwork.sixprotocol.nftmngr.NFTSchemaQueryResult:
     type: object
     properties:
       code:
@@ -67958,6 +69536,56 @@ definitions:
                         type: boolean
                       default_value:
                         type: string
+          virtual_actions:
+            type: array
+            items:
+              type: object
+              properties:
+                virtualNftSchemaCode:
+                  type: string
+                name:
+                  type: string
+                desc:
+                  type: string
+                disable:
+                  type: boolean
+                when:
+                  type: string
+                then:
+                  type: array
+                  items:
+                    type: string
+                allowed_actioner:
+                  type: string
+                  enum:
+                    - ALLOWED_ACTIONER_ALL
+                    - ALLOWED_ACTIONER_SYSTEM_ONLY
+                    - ALLOWED_ACTIONER_USER_ONLY
+                  default: ALLOWED_ACTIONER_ALL
+                  description: >-
+                    NOTE: Policy of virtual action
+
+                    TODO: [chore] Combine enable/disable to change virtual
+                    schema.
+                params:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      desc:
+                        type: string
+                      data_type:
+                        type: string
+                      required:
+                        type: boolean
+                      default_value:
+                        type: string
+              title: |-
+                TODO:
+                1. Policy of action (who can use action)
+                2. Proposal to enable and disable action
           status:
             type: array
             items:
@@ -67971,15 +69599,6 @@ definitions:
         type: boolean
       mint_authorization:
         type: string
-  thesixnetwork.sixprotocol.nftmngr.NFTSchemaByContract:
-    type: object
-    properties:
-      originContractAddress:
-        type: string
-      schemaCodes:
-        type: array
-        items:
-          type: string
   thesixnetwork.sixprotocol.nftmngr.NftAttributeValue:
     type: object
     properties:
@@ -68098,7 +69717,7 @@ definitions:
       value:
         type: string
         format: uint64
-  thesixnetwork.sixprotocol.nftmngr.OnChainData:
+  thesixnetwork.sixprotocol.nftmngr.OnChainDataResult:
     type: object
     properties:
       nft_attributes:
@@ -68266,6 +69885,54 @@ definitions:
                     type: boolean
                   default_value:
                     type: string
+      virtual_actions:
+        type: array
+        items:
+          type: object
+          properties:
+            virtualNftSchemaCode:
+              type: string
+            name:
+              type: string
+            desc:
+              type: string
+            disable:
+              type: boolean
+            when:
+              type: string
+            then:
+              type: array
+              items:
+                type: string
+            allowed_actioner:
+              type: string
+              enum:
+                - ALLOWED_ACTIONER_ALL
+                - ALLOWED_ACTIONER_SYSTEM_ONLY
+                - ALLOWED_ACTIONER_USER_ONLY
+              default: ALLOWED_ACTIONER_ALL
+              description: |-
+                NOTE: Policy of virtual action
+                TODO: [chore] Combine enable/disable to change virtual schema.
+            params:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  desc:
+                    type: string
+                  data_type:
+                    type: string
+                  required:
+                    type: boolean
+                  default_value:
+                    type: string
+          title: |-
+            TODO:
+            1. Policy of action (who can use action)
+            2. Proposal to enable and disable action
       status:
         type: array
         items:
@@ -68387,6 +70054,13 @@ definitions:
   thesixnetwork.sixprotocol.nftmngr.Params:
     type: object
     description: Params defines the parameters for the module.
+  thesixnetwork.sixprotocol.nftmngr.ProposalType:
+    type: string
+    enum:
+      - CREATE
+      - EDIT
+    default: CREATE
+    description: 'TODO: [chore] Combine enable/disable to change virtual schema.'
   thesixnetwork.sixprotocol.nftmngr.QueryAllActionByRefIdResponse:
     type: object
     properties:
@@ -68901,6 +70575,56 @@ definitions:
                               type: boolean
                             default_value:
                               type: string
+                virtual_actions:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      virtualNftSchemaCode:
+                        type: string
+                      name:
+                        type: string
+                      desc:
+                        type: string
+                      disable:
+                        type: boolean
+                      when:
+                        type: string
+                      then:
+                        type: array
+                        items:
+                          type: string
+                      allowed_actioner:
+                        type: string
+                        enum:
+                          - ALLOWED_ACTIONER_ALL
+                          - ALLOWED_ACTIONER_SYSTEM_ONLY
+                          - ALLOWED_ACTIONER_USER_ONLY
+                        default: ALLOWED_ACTIONER_ALL
+                        description: >-
+                          NOTE: Policy of virtual action
+
+                          TODO: [chore] Combine enable/disable to change virtual
+                          schema.
+                      params:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            desc:
+                              type: string
+                            data_type:
+                              type: string
+                            required:
+                              type: boolean
+                            default_value:
+                              type: string
+                    title: |-
+                      TODO:
+                      1. Policy of action (who can use action)
+                      2. Proposal to enable and disable action
                 status:
                   type: array
                   items:
@@ -69130,6 +70854,263 @@ definitions:
                       format: double
             creator:
               type: string
+      pagination:
+        type: object
+        properties:
+          next_key:
+            type: string
+            format: byte
+            title: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
+  thesixnetwork.sixprotocol.nftmngr.QueryAllVirtualActionResponse:
+    type: object
+    properties:
+      virtualAction:
+        type: array
+        items:
+          type: object
+          properties:
+            virtualNftSchemaCode:
+              type: string
+            name:
+              type: string
+            desc:
+              type: string
+            disable:
+              type: boolean
+            when:
+              type: string
+            then:
+              type: array
+              items:
+                type: string
+            allowed_actioner:
+              type: string
+              enum:
+                - ALLOWED_ACTIONER_ALL
+                - ALLOWED_ACTIONER_SYSTEM_ONLY
+                - ALLOWED_ACTIONER_USER_ONLY
+              default: ALLOWED_ACTIONER_ALL
+              description: |-
+                NOTE: Policy of virtual action
+                TODO: [chore] Combine enable/disable to change virtual schema.
+            params:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  desc:
+                    type: string
+                  data_type:
+                    type: string
+                  required:
+                    type: boolean
+                  default_value:
+                    type: string
+          title: |-
+            TODO:
+            1. Policy of action (who can use action)
+            2. Proposal to enable and disable action
+      pagination:
+        type: object
+        properties:
+          next_key:
+            type: string
+            format: byte
+            title: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
+  thesixnetwork.sixprotocol.nftmngr.QueryAllVirtualSchemaProposalResponse:
+    type: object
+    properties:
+      virtualSchemaProposal:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+            proposalType:
+              type: string
+              enum:
+                - CREATE
+                - EDIT
+              default: CREATE
+              description: 'TODO: [chore] Combine enable/disable to change virtual schema.'
+            virtualSchema:
+              type: object
+              properties:
+                virtualNftSchemaCode:
+                  type: string
+                registry:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      nftSchemaCode:
+                        type: string
+                      sharedAttributes:
+                        type: array
+                        items:
+                          type: string
+                      decision:
+                        type: string
+                        enum:
+                          - PENDING
+                          - REJECT
+                          - ACCEPT
+                        default: PENDING
+                    description: >-
+                      TODO: [chore] Combine enable/disable to change virtual
+                      schema.
+                enable:
+                  type: boolean
+                  title: >-
+                    link wih virtual action. We will not put in here to reduce
+                    redundance info
+            actions:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  desc:
+                    type: string
+                  disable:
+                    type: boolean
+                  when:
+                    type: string
+                  then:
+                    type: array
+                    items:
+                      type: string
+                  allowed_actioner:
+                    type: string
+                    enum:
+                      - ALLOWED_ACTIONER_ALL
+                      - ALLOWED_ACTIONER_SYSTEM_ONLY
+                      - ALLOWED_ACTIONER_USER_ONLY
+                    default: ALLOWED_ACTIONER_ALL
+                  params:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        desc:
+                          type: string
+                        data_type:
+                          type: string
+                        required:
+                          type: boolean
+                        default_value:
+                          type: string
+            submitTime:
+              type: string
+              format: date-time
+            votingStartTime:
+              type: string
+              format: date-time
+            votingEndTime:
+              type: string
+              format: date-time
+          description: 'TODO: [chore] Combine enable/disable to change virtual schema.'
+      pagination:
+        type: object
+        properties:
+          next_key:
+            type: string
+            format: byte
+            title: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
+  thesixnetwork.sixprotocol.nftmngr.QueryAllVirtualSchemaResponse:
+    type: object
+    properties:
+      virtualSchema:
+        type: array
+        items:
+          type: object
+          properties:
+            virtualNftSchemaCode:
+              type: string
+            registry:
+              type: array
+              items:
+                type: object
+                properties:
+                  nftSchemaCode:
+                    type: string
+                  sharedAttributes:
+                    type: array
+                    items:
+                      type: string
+                  decision:
+                    type: string
+                    enum:
+                      - PENDING
+                      - REJECT
+                      - ACCEPT
+                    default: PENDING
+                description: 'TODO: [chore] Combine enable/disable to change virtual schema.'
+            enable:
+              type: boolean
+              title: >-
+                link wih virtual action. We will not put in here to reduce
+                redundance info
       pagination:
         type: object
         properties:
@@ -69542,6 +71523,56 @@ definitions:
                             type: boolean
                           default_value:
                             type: string
+              virtual_actions:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    virtualNftSchemaCode:
+                      type: string
+                    name:
+                      type: string
+                    desc:
+                      type: string
+                    disable:
+                      type: boolean
+                    when:
+                      type: string
+                    then:
+                      type: array
+                      items:
+                        type: string
+                    allowed_actioner:
+                      type: string
+                      enum:
+                        - ALLOWED_ACTIONER_ALL
+                        - ALLOWED_ACTIONER_SYSTEM_ONLY
+                        - ALLOWED_ACTIONER_USER_ONLY
+                      default: ALLOWED_ACTIONER_ALL
+                      description: >-
+                        NOTE: Policy of virtual action
+
+                        TODO: [chore] Combine enable/disable to change virtual
+                        schema.
+                    params:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          desc:
+                            type: string
+                          data_type:
+                            type: string
+                          required:
+                            type: boolean
+                          default_value:
+                            type: string
+                  title: |-
+                    TODO:
+                    1. Policy of action (who can use action)
+                    2. Proposal to enable and disable action
               status:
                 type: array
                 items:
@@ -69803,6 +71834,279 @@ definitions:
                     format: double
           creator:
             type: string
+  thesixnetwork.sixprotocol.nftmngr.QueryGetVirtualActionResponse:
+    type: object
+    properties:
+      virtualAction:
+        type: object
+        properties:
+          virtualNftSchemaCode:
+            type: string
+          name:
+            type: string
+          desc:
+            type: string
+          disable:
+            type: boolean
+          when:
+            type: string
+          then:
+            type: array
+            items:
+              type: string
+          allowed_actioner:
+            type: string
+            enum:
+              - ALLOWED_ACTIONER_ALL
+              - ALLOWED_ACTIONER_SYSTEM_ONLY
+              - ALLOWED_ACTIONER_USER_ONLY
+            default: ALLOWED_ACTIONER_ALL
+            description: |-
+              NOTE: Policy of virtual action
+              TODO: [chore] Combine enable/disable to change virtual schema.
+          params:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                desc:
+                  type: string
+                data_type:
+                  type: string
+                required:
+                  type: boolean
+                default_value:
+                  type: string
+        title: |-
+          TODO:
+          1. Policy of action (who can use action)
+          2. Proposal to enable and disable action
+  thesixnetwork.sixprotocol.nftmngr.QueryGetVirtualSchemaProposalResponse:
+    type: object
+    properties:
+      virtualSchemaProposal:
+        type: object
+        properties:
+          id:
+            type: string
+          proposalType:
+            type: string
+            enum:
+              - CREATE
+              - EDIT
+            default: CREATE
+            description: 'TODO: [chore] Combine enable/disable to change virtual schema.'
+          virtualSchema:
+            type: object
+            properties:
+              virtualNftSchemaCode:
+                type: string
+              registry:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    nftSchemaCode:
+                      type: string
+                    sharedAttributes:
+                      type: array
+                      items:
+                        type: string
+                    decision:
+                      type: string
+                      enum:
+                        - PENDING
+                        - REJECT
+                        - ACCEPT
+                      default: PENDING
+                  description: >-
+                    TODO: [chore] Combine enable/disable to change virtual
+                    schema.
+              enable:
+                type: boolean
+                title: >-
+                  link wih virtual action. We will not put in here to reduce
+                  redundance info
+          actions:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                desc:
+                  type: string
+                disable:
+                  type: boolean
+                when:
+                  type: string
+                then:
+                  type: array
+                  items:
+                    type: string
+                allowed_actioner:
+                  type: string
+                  enum:
+                    - ALLOWED_ACTIONER_ALL
+                    - ALLOWED_ACTIONER_SYSTEM_ONLY
+                    - ALLOWED_ACTIONER_USER_ONLY
+                  default: ALLOWED_ACTIONER_ALL
+                params:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      desc:
+                        type: string
+                      data_type:
+                        type: string
+                      required:
+                        type: boolean
+                      default_value:
+                        type: string
+          submitTime:
+            type: string
+            format: date-time
+          votingStartTime:
+            type: string
+            format: date-time
+          votingEndTime:
+            type: string
+            format: date-time
+        description: 'TODO: [chore] Combine enable/disable to change virtual schema.'
+  thesixnetwork.sixprotocol.nftmngr.QueryGetVirtualSchemaResponse:
+    type: object
+    properties:
+      virtualSchema:
+        type: object
+        properties:
+          virtualNftSchemaCode:
+            type: string
+          registry:
+            type: array
+            items:
+              type: object
+              properties:
+                nftSchemaCode:
+                  type: string
+                sharedAttributes:
+                  type: array
+                  items:
+                    type: string
+                decision:
+                  type: string
+                  enum:
+                    - PENDING
+                    - REJECT
+                    - ACCEPT
+                  default: PENDING
+              description: 'TODO: [chore] Combine enable/disable to change virtual schema.'
+          enable:
+            type: boolean
+            title: >-
+              link wih virtual action. We will not put in here to reduce
+              redundance info
+  thesixnetwork.sixprotocol.nftmngr.QueryListActiveProposalResponse:
+    type: object
+    properties:
+      virtualSchemaProposal:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+            proposalType:
+              type: string
+              enum:
+                - CREATE
+                - EDIT
+              default: CREATE
+              description: 'TODO: [chore] Combine enable/disable to change virtual schema.'
+            virtualSchema:
+              type: object
+              properties:
+                virtualNftSchemaCode:
+                  type: string
+                registry:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      nftSchemaCode:
+                        type: string
+                      sharedAttributes:
+                        type: array
+                        items:
+                          type: string
+                      decision:
+                        type: string
+                        enum:
+                          - PENDING
+                          - REJECT
+                          - ACCEPT
+                        default: PENDING
+                    description: >-
+                      TODO: [chore] Combine enable/disable to change virtual
+                      schema.
+                enable:
+                  type: boolean
+                  title: >-
+                    link wih virtual action. We will not put in here to reduce
+                    redundance info
+            actions:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  desc:
+                    type: string
+                  disable:
+                    type: boolean
+                  when:
+                    type: string
+                  then:
+                    type: array
+                    items:
+                      type: string
+                  allowed_actioner:
+                    type: string
+                    enum:
+                      - ALLOWED_ACTIONER_ALL
+                      - ALLOWED_ACTIONER_SYSTEM_ONLY
+                      - ALLOWED_ACTIONER_USER_ONLY
+                    default: ALLOWED_ACTIONER_ALL
+                  params:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        desc:
+                          type: string
+                        data_type:
+                          type: string
+                        required:
+                          type: boolean
+                        default_value:
+                          type: string
+            submitTime:
+              type: string
+              format: date-time
+            votingStartTime:
+              type: string
+              format: date-time
+            votingEndTime:
+              type: string
+              format: date-time
+          description: 'TODO: [chore] Combine enable/disable to change virtual schema.'
   thesixnetwork.sixprotocol.nftmngr.QueryListAttributeBySchemaResponse:
     type: object
     properties:
@@ -69851,6 +72155,13 @@ definitions:
         description: params holds all the parameters of this module.
         type: object
     description: QueryParamsResponse is response type for the Query/Params RPC method.
+  thesixnetwork.sixprotocol.nftmngr.RegistryStatus:
+    type: string
+    enum:
+      - PENDING
+      - REJECT
+      - ACCEPT
+    default: PENDING
   thesixnetwork.sixprotocol.nftmngr.SchemaAttribute:
     type: object
     properties:
@@ -69917,12 +72228,210 @@ definitions:
     properties:
       value:
         type: string
+  thesixnetwork.sixprotocol.nftmngr.TokenIdMap:
+    type: object
+    properties:
+      nftSchemaName:
+        type: string
+      tokenId:
+        type: string
   thesixnetwork.sixprotocol.nftmngr.URIRetrievalMethod:
     type: string
     enum:
       - BASE
       - TOKEN
     default: BASE
+  thesixnetwork.sixprotocol.nftmngr.VirtualAction:
+    type: object
+    properties:
+      virtualNftSchemaCode:
+        type: string
+      name:
+        type: string
+      desc:
+        type: string
+      disable:
+        type: boolean
+      when:
+        type: string
+      then:
+        type: array
+        items:
+          type: string
+      allowed_actioner:
+        type: string
+        enum:
+          - ALLOWED_ACTIONER_ALL
+          - ALLOWED_ACTIONER_SYSTEM_ONLY
+          - ALLOWED_ACTIONER_USER_ONLY
+        default: ALLOWED_ACTIONER_ALL
+        description: |-
+          NOTE: Policy of virtual action
+          TODO: [chore] Combine enable/disable to change virtual schema.
+      params:
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+            desc:
+              type: string
+            data_type:
+              type: string
+            required:
+              type: boolean
+            default_value:
+              type: string
+    title: |-
+      TODO:
+      1. Policy of action (who can use action)
+      2. Proposal to enable and disable action
+  thesixnetwork.sixprotocol.nftmngr.VirtualSchema:
+    type: object
+    properties:
+      virtualNftSchemaCode:
+        type: string
+      registry:
+        type: array
+        items:
+          type: object
+          properties:
+            nftSchemaCode:
+              type: string
+            sharedAttributes:
+              type: array
+              items:
+                type: string
+            decision:
+              type: string
+              enum:
+                - PENDING
+                - REJECT
+                - ACCEPT
+              default: PENDING
+          description: 'TODO: [chore] Combine enable/disable to change virtual schema.'
+      enable:
+        type: boolean
+        title: >-
+          link wih virtual action. We will not put in here to reduce redundance
+          info
+  thesixnetwork.sixprotocol.nftmngr.VirtualSchemaProposal:
+    type: object
+    properties:
+      id:
+        type: string
+      proposalType:
+        type: string
+        enum:
+          - CREATE
+          - EDIT
+        default: CREATE
+        description: 'TODO: [chore] Combine enable/disable to change virtual schema.'
+      virtualSchema:
+        type: object
+        properties:
+          virtualNftSchemaCode:
+            type: string
+          registry:
+            type: array
+            items:
+              type: object
+              properties:
+                nftSchemaCode:
+                  type: string
+                sharedAttributes:
+                  type: array
+                  items:
+                    type: string
+                decision:
+                  type: string
+                  enum:
+                    - PENDING
+                    - REJECT
+                    - ACCEPT
+                  default: PENDING
+              description: 'TODO: [chore] Combine enable/disable to change virtual schema.'
+          enable:
+            type: boolean
+            title: >-
+              link wih virtual action. We will not put in here to reduce
+              redundance info
+      actions:
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+            desc:
+              type: string
+            disable:
+              type: boolean
+            when:
+              type: string
+            then:
+              type: array
+              items:
+                type: string
+            allowed_actioner:
+              type: string
+              enum:
+                - ALLOWED_ACTIONER_ALL
+                - ALLOWED_ACTIONER_SYSTEM_ONLY
+                - ALLOWED_ACTIONER_USER_ONLY
+              default: ALLOWED_ACTIONER_ALL
+            params:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  desc:
+                    type: string
+                  data_type:
+                    type: string
+                  required:
+                    type: boolean
+                  default_value:
+                    type: string
+      submitTime:
+        type: string
+        format: date-time
+      votingStartTime:
+        type: string
+        format: date-time
+      votingEndTime:
+        type: string
+        format: date-time
+    description: 'TODO: [chore] Combine enable/disable to change virtual schema.'
+  thesixnetwork.sixprotocol.nftmngr.VirtualSchemaRegistry:
+    type: object
+    properties:
+      nftSchemaCode:
+        type: string
+      sharedAttributes:
+        type: array
+        items:
+          type: string
+      decision:
+        type: string
+        enum:
+          - PENDING
+          - REJECT
+          - ACCEPT
+        default: PENDING
+    description: 'TODO: [chore] Combine enable/disable to change virtual schema.'
+  thesixnetwork.sixprotocol.nftmngr.VirtualSchemaRegistryRequest:
+    type: object
+    properties:
+      nftSchemaCode:
+        type: string
+      sharedAttributes:
+        type: array
+        items:
+          type: string
   thesixnetwork.sixprotocol.nftoracle.ActionOracleRequest:
     type: object
     properties:
@@ -69956,7 +72465,7 @@ definitions:
         enum:
           - PENDING
           - SUCCESS_WITH_CONSENSUS
-          - FAILED_WITHOUT_CONCENSUS
+          - FAILED_WITHOUT_CONSENSUS
           - EXPIRED
           - FAILED_ON_EXECUTION
           - FAILED_REJECT_BY_CONSENSUS
@@ -70084,7 +72593,7 @@ definitions:
         enum:
           - PENDING
           - SUCCESS_WITH_CONSENSUS
-          - FAILED_WITHOUT_CONCENSUS
+          - FAILED_WITHOUT_CONSENSUS
           - EXPIRED
           - FAILED_ON_EXECUTION
           - FAILED_REJECT_BY_CONSENSUS
@@ -70145,6 +72654,7 @@ definitions:
             title: get from smart contract
           expire_epoch:
             type: string
+            title: get from smart contract
       hash:
         type: string
         format: byte
@@ -70206,7 +72716,7 @@ definitions:
         enum:
           - PENDING
           - SUCCESS_WITH_CONSENSUS
-          - FAILED_WITHOUT_CONCENSUS
+          - FAILED_WITHOUT_CONSENSUS
           - EXPIRED
           - FAILED_ON_EXECUTION
           - FAILED_REJECT_BY_CONSENSUS
@@ -70464,6 +72974,7 @@ definitions:
         title: get from smart contract
       expire_epoch:
         type: string
+        title: get from smart contract
   thesixnetwork.sixprotocol.nftoracle.Params:
     type: object
     properties:
@@ -70516,7 +73027,7 @@ definitions:
               enum:
                 - PENDING
                 - SUCCESS_WITH_CONSENSUS
-                - FAILED_WITHOUT_CONCENSUS
+                - FAILED_WITHOUT_CONSENSUS
                 - EXPIRED
                 - FAILED_ON_EXECUTION
                 - FAILED_REJECT_BY_CONSENSUS
@@ -70709,7 +73220,7 @@ definitions:
               enum:
                 - PENDING
                 - SUCCESS_WITH_CONSENSUS
-                - FAILED_WITHOUT_CONCENSUS
+                - FAILED_WITHOUT_CONSENSUS
                 - EXPIRED
                 - FAILED_ON_EXECUTION
                 - FAILED_REJECT_BY_CONSENSUS
@@ -70802,7 +73313,7 @@ definitions:
               enum:
                 - PENDING
                 - SUCCESS_WITH_CONSENSUS
-                - FAILED_WITHOUT_CONCENSUS
+                - FAILED_WITHOUT_CONSENSUS
                 - EXPIRED
                 - FAILED_ON_EXECUTION
                 - FAILED_REJECT_BY_CONSENSUS
@@ -70909,7 +73420,7 @@ definitions:
               enum:
                 - PENDING
                 - SUCCESS_WITH_CONSENSUS
-                - FAILED_WITHOUT_CONCENSUS
+                - FAILED_WITHOUT_CONSENSUS
                 - EXPIRED
                 - FAILED_ON_EXECUTION
                 - FAILED_REJECT_BY_CONSENSUS
@@ -70945,6 +73456,7 @@ definitions:
                         title: get from smart contract
                       expire_epoch:
                         type: string
+                        title: get from smart contract
                   hash:
                     type: string
                     format: byte
@@ -71018,7 +73530,7 @@ definitions:
             enum:
               - PENDING
               - SUCCESS_WITH_CONSENSUS
-              - FAILED_WITHOUT_CONCENSUS
+              - FAILED_WITHOUT_CONSENSUS
               - EXPIRED
               - FAILED_ON_EXECUTION
               - FAILED_REJECT_BY_CONSENSUS
@@ -71151,7 +73663,7 @@ definitions:
             enum:
               - PENDING
               - SUCCESS_WITH_CONSENSUS
-              - FAILED_WITHOUT_CONCENSUS
+              - FAILED_WITHOUT_CONSENSUS
               - EXPIRED
               - FAILED_ON_EXECUTION
               - FAILED_REJECT_BY_CONSENSUS
@@ -71217,7 +73729,7 @@ definitions:
             enum:
               - PENDING
               - SUCCESS_WITH_CONSENSUS
-              - FAILED_WITHOUT_CONCENSUS
+              - FAILED_WITHOUT_CONSENSUS
               - EXPIRED
               - FAILED_ON_EXECUTION
               - FAILED_REJECT_BY_CONSENSUS
@@ -71306,7 +73818,7 @@ definitions:
             enum:
               - PENDING
               - SUCCESS_WITH_CONSENSUS
-              - FAILED_WITHOUT_CONCENSUS
+              - FAILED_WITHOUT_CONSENSUS
               - EXPIRED
               - FAILED_ON_EXECUTION
               - FAILED_REJECT_BY_CONSENSUS
@@ -71342,6 +73854,7 @@ definitions:
                       title: get from smart contract
                     expire_epoch:
                       type: string
+                      title: get from smart contract
                 hash:
                   type: string
                   format: byte
@@ -71377,7 +73890,7 @@ definitions:
     enum:
       - PENDING
       - SUCCESS_WITH_CONSENSUS
-      - FAILED_WITHOUT_CONCENSUS
+      - FAILED_WITHOUT_CONSENSUS
       - EXPIRED
       - FAILED_ON_EXECUTION
       - FAILED_REJECT_BY_CONSENSUS
@@ -71405,7 +73918,7 @@ definitions:
         enum:
           - PENDING
           - SUCCESS_WITH_CONSENSUS
-          - FAILED_WITHOUT_CONCENSUS
+          - FAILED_WITHOUT_CONSENSUS
           - EXPIRED
           - FAILED_ON_EXECUTION
           - FAILED_REJECT_BY_CONSENSUS
@@ -71441,6 +73954,7 @@ definitions:
                   title: get from smart contract
                 expire_epoch:
                   type: string
+                  title: get from smart contract
             hash:
               type: string
               format: byte
@@ -71640,11 +74154,18 @@ definitions:
         format: uint64
       creator:
         type: string
-      token:
-        type: string
       amount:
-        type: string
-        format: uint64
+        type: object
+        properties:
+          denom:
+            type: string
+          amount:
+            type: string
+        description: |-
+          Coin defines a token with a denomination and an amount.
+
+          NOTE: The amount field is an Int which implements the custom method
+          signatures required by gogoproto.
   thesixnetwork.sixprotocol.tokenmngr.Mintperm:
     type: object
     properties:
@@ -71674,12 +74195,49 @@ definitions:
     type: object
   thesixnetwork.sixprotocol.tokenmngr.MsgMintResponse:
     type: object
+  thesixnetwork.sixprotocol.tokenmngr.MsgSendWrapTokenResponse:
+    type: object
+    properties:
+      receiver:
+        type: string
+      amount:
+        type: string
+  thesixnetwork.sixprotocol.tokenmngr.MsgUnwrapTokenResponse:
+    type: object
+    properties:
+      amount:
+        type: object
+        properties:
+          denom:
+            type: string
+          amount:
+            type: string
+        description: |-
+          Coin defines a token with a denomination and an amount.
+
+          NOTE: The amount field is an Int which implements the custom method
+          signatures required by gogoproto.
   thesixnetwork.sixprotocol.tokenmngr.MsgUpdateMintpermResponse:
     type: object
   thesixnetwork.sixprotocol.tokenmngr.MsgUpdateOptionsResponse:
     type: object
   thesixnetwork.sixprotocol.tokenmngr.MsgUpdateTokenResponse:
     type: object
+  thesixnetwork.sixprotocol.tokenmngr.MsgWrapTokenResponse:
+    type: object
+    properties:
+      amount:
+        type: object
+        properties:
+          denom:
+            type: string
+          amount:
+            type: string
+        description: |-
+          Coin defines a token with a denomination and an amount.
+
+          NOTE: The amount field is an Int which implements the custom method
+          signatures required by gogoproto.
   thesixnetwork.sixprotocol.tokenmngr.Options:
     type: object
     properties:
@@ -71735,11 +74293,21 @@ definitions:
         items:
           type: object
           properties:
-            token:
-              type: string
             amount:
-              type: string
-              format: uint64
+              type: object
+              properties:
+                denom:
+                  type: string
+                amount:
+                  type: string
+              description: >-
+                Coin defines a token with a denomination and an amount.
+
+
+                NOTE: The amount field is an Int which implements the custom
+                method
+
+                signatures required by gogoproto.
       pagination:
         type: object
         properties:
@@ -71778,8 +74346,20 @@ definitions:
             base:
               type: string
             maxSupply:
-              type: string
-              format: uint64
+              type: object
+              properties:
+                denom:
+                  type: string
+                amount:
+                  type: string
+              description: >-
+                Coin defines a token with a denomination and an amount.
+
+
+                NOTE: The amount field is an Int which implements the custom
+                method
+
+                signatures required by gogoproto.
             mintee:
               type: string
             creator:
@@ -71822,14 +74402,23 @@ definitions:
               format: uint64
             creator:
               type: string
-            token:
-              type: string
             amount:
-              type: string
-              format: uint64
+              type: object
+              properties:
+                denom:
+                  type: string
+                amount:
+                  type: string
+              description: >-
+                Coin defines a token with a denomination and an amount.
+
+
+                NOTE: The amount field is an Int which implements the custom
+                method
+
+                signatures required by gogoproto.
         title: Returning a list of posts
       pagination:
-        title: Adding pagination to response
         type: object
         properties:
           next_key:
@@ -71854,6 +74443,7 @@ definitions:
                    repeated Bar results = 1;
                    PageResponse page = 2;
            }
+        title: Adding pagination to response
   thesixnetwork.sixprotocol.tokenmngr.QueryGetMintpermResponse:
     type: object
     properties:
@@ -71880,11 +74470,21 @@ definitions:
       tokenBurn:
         type: object
         properties:
-          token:
-            type: string
           amount:
-            type: string
-            format: uint64
+            type: object
+            properties:
+              denom:
+                type: string
+              amount:
+                type: string
+            description: >-
+              Coin defines a token with a denomination and an amount.
+
+
+              NOTE: The amount field is an Int which implements the custom
+              method
+
+              signatures required by gogoproto.
   thesixnetwork.sixprotocol.tokenmngr.QueryGetTokenResponse:
     type: object
     properties:
@@ -71896,8 +74496,20 @@ definitions:
           base:
             type: string
           maxSupply:
-            type: string
-            format: uint64
+            type: object
+            properties:
+              denom:
+                type: string
+              amount:
+                type: string
+            description: >-
+              Coin defines a token with a denomination and an amount.
+
+
+              NOTE: The amount field is an Int which implements the custom
+              method
+
+              signatures required by gogoproto.
           mintee:
             type: string
           creator:
@@ -71917,419 +74529,22 @@ definitions:
       base:
         type: string
       maxSupply:
-        type: string
-        format: uint64
+        type: object
+        properties:
+          denom:
+            type: string
+          amount:
+            type: string
+        description: |-
+          Coin defines a token with a denomination and an amount.
+
+          NOTE: The amount field is an Int which implements the custom method
+          signatures required by gogoproto.
       mintee:
         type: string
       creator:
         type: string
   thesixnetwork.sixprotocol.tokenmngr.TokenBurn:
-    type: object
-    properties:
-      token:
-        type: string
-      amount:
-        type: string
-        format: uint64
-  thesixnetwork.sixprotocol.tokenmngr.v2.Burn:
-    type: object
-    properties:
-      id:
-        type: string
-        format: uint64
-      creator:
-        type: string
-      amount:
-        type: object
-        properties:
-          denom:
-            type: string
-          amount:
-            type: string
-        description: |-
-          Coin defines a token with a denomination and an amount.
-
-          NOTE: The amount field is an Int which implements the custom method
-          signatures required by gogoproto.
-  thesixnetwork.sixprotocol.tokenmngr.v2.Mintperm:
-    type: object
-    properties:
-      token:
-        type: string
-      address:
-        type: string
-      creator:
-        type: string
-  thesixnetwork.sixprotocol.tokenmngr.v2.MsgBurnResponse:
-    type: object
-    properties:
-      id:
-        type: string
-        format: uint64
-  thesixnetwork.sixprotocol.tokenmngr.v2.MsgCreateMintpermResponse:
-    type: object
-  thesixnetwork.sixprotocol.tokenmngr.v2.MsgCreateOptionsResponse:
-    type: object
-  thesixnetwork.sixprotocol.tokenmngr.v2.MsgCreateTokenResponse:
-    type: object
-  thesixnetwork.sixprotocol.tokenmngr.v2.MsgDeleteMintpermResponse:
-    type: object
-  thesixnetwork.sixprotocol.tokenmngr.v2.MsgDeleteOptionsResponse:
-    type: object
-  thesixnetwork.sixprotocol.tokenmngr.v2.MsgDeleteTokenResponse:
-    type: object
-  thesixnetwork.sixprotocol.tokenmngr.v2.MsgMintResponse:
-    type: object
-  thesixnetwork.sixprotocol.tokenmngr.v2.MsgSendWrapTokenResponse:
-    type: object
-    properties:
-      receiver:
-        type: string
-      amount:
-        type: string
-  thesixnetwork.sixprotocol.tokenmngr.v2.MsgUnwrapTokenResponse:
-    type: object
-    properties:
-      amount:
-        type: object
-        properties:
-          denom:
-            type: string
-          amount:
-            type: string
-        description: |-
-          Coin defines a token with a denomination and an amount.
-
-          NOTE: The amount field is an Int which implements the custom method
-          signatures required by gogoproto.
-  thesixnetwork.sixprotocol.tokenmngr.v2.MsgUpdateMintpermResponse:
-    type: object
-  thesixnetwork.sixprotocol.tokenmngr.v2.MsgUpdateOptionsResponse:
-    type: object
-  thesixnetwork.sixprotocol.tokenmngr.v2.MsgUpdateTokenResponse:
-    type: object
-  thesixnetwork.sixprotocol.tokenmngr.v2.MsgWrapTokenResponse:
-    type: object
-    properties:
-      amount:
-        type: object
-        properties:
-          denom:
-            type: string
-          amount:
-            type: string
-        description: |-
-          Coin defines a token with a denomination and an amount.
-
-          NOTE: The amount field is an Int which implements the custom method
-          signatures required by gogoproto.
-  thesixnetwork.sixprotocol.tokenmngr.v2.Options:
-    type: object
-    properties:
-      defaultMintee:
-        type: string
-  thesixnetwork.sixprotocol.tokenmngr.v2.Params:
-    type: object
-    description: Params defines the parameters for the module.
-  thesixnetwork.sixprotocol.tokenmngr.v2.QueryAllMintpermResponse:
-    type: object
-    properties:
-      mintperm:
-        type: array
-        items:
-          type: object
-          properties:
-            token:
-              type: string
-            address:
-              type: string
-            creator:
-              type: string
-      pagination:
-        type: object
-        properties:
-          next_key:
-            type: string
-            format: byte
-            title: |-
-              next_key is the key to be passed to PageRequest.key to
-              query the next page most efficiently
-          total:
-            type: string
-            format: uint64
-            title: >-
-              total is total number of results available if
-              PageRequest.count_total
-
-              was set, its value is undefined otherwise
-        description: |-
-          PageResponse is to be embedded in gRPC response messages where the
-          corresponding request message has used PageRequest.
-
-           message SomeResponse {
-                   repeated Bar results = 1;
-                   PageResponse page = 2;
-           }
-  thesixnetwork.sixprotocol.tokenmngr.v2.QueryAllTokenBurnResponse:
-    type: object
-    properties:
-      tokenBurn:
-        type: array
-        items:
-          type: object
-          properties:
-            amount:
-              type: object
-              properties:
-                denom:
-                  type: string
-                amount:
-                  type: string
-              description: >-
-                Coin defines a token with a denomination and an amount.
-
-
-                NOTE: The amount field is an Int which implements the custom
-                method
-
-                signatures required by gogoproto.
-      pagination:
-        type: object
-        properties:
-          next_key:
-            type: string
-            format: byte
-            title: |-
-              next_key is the key to be passed to PageRequest.key to
-              query the next page most efficiently
-          total:
-            type: string
-            format: uint64
-            title: >-
-              total is total number of results available if
-              PageRequest.count_total
-
-              was set, its value is undefined otherwise
-        description: |-
-          PageResponse is to be embedded in gRPC response messages where the
-          corresponding request message has used PageRequest.
-
-           message SomeResponse {
-                   repeated Bar results = 1;
-                   PageResponse page = 2;
-           }
-  thesixnetwork.sixprotocol.tokenmngr.v2.QueryAllTokenResponse:
-    type: object
-    properties:
-      token:
-        type: array
-        items:
-          type: object
-          properties:
-            name:
-              type: string
-            base:
-              type: string
-            maxSupply:
-              type: object
-              properties:
-                denom:
-                  type: string
-                amount:
-                  type: string
-              description: >-
-                Coin defines a token with a denomination and an amount.
-
-
-                NOTE: The amount field is an Int which implements the custom
-                method
-
-                signatures required by gogoproto.
-            mintee:
-              type: string
-            creator:
-              type: string
-      pagination:
-        type: object
-        properties:
-          next_key:
-            type: string
-            format: byte
-            title: |-
-              next_key is the key to be passed to PageRequest.key to
-              query the next page most efficiently
-          total:
-            type: string
-            format: uint64
-            title: >-
-              total is total number of results available if
-              PageRequest.count_total
-
-              was set, its value is undefined otherwise
-        description: |-
-          PageResponse is to be embedded in gRPC response messages where the
-          corresponding request message has used PageRequest.
-
-           message SomeResponse {
-                   repeated Bar results = 1;
-                   PageResponse page = 2;
-           }
-  thesixnetwork.sixprotocol.tokenmngr.v2.QueryBurnsResponse:
-    type: object
-    properties:
-      Burn:
-        type: array
-        items:
-          type: object
-          properties:
-            id:
-              type: string
-              format: uint64
-            creator:
-              type: string
-            amount:
-              type: object
-              properties:
-                denom:
-                  type: string
-                amount:
-                  type: string
-              description: >-
-                Coin defines a token with a denomination and an amount.
-
-
-                NOTE: The amount field is an Int which implements the custom
-                method
-
-                signatures required by gogoproto.
-        title: Returning a list of posts
-      pagination:
-        type: object
-        properties:
-          next_key:
-            type: string
-            format: byte
-            title: |-
-              next_key is the key to be passed to PageRequest.key to
-              query the next page most efficiently
-          total:
-            type: string
-            format: uint64
-            title: >-
-              total is total number of results available if
-              PageRequest.count_total
-
-              was set, its value is undefined otherwise
-        description: |-
-          PageResponse is to be embedded in gRPC response messages where the
-          corresponding request message has used PageRequest.
-
-           message SomeResponse {
-                   repeated Bar results = 1;
-                   PageResponse page = 2;
-           }
-        title: Adding pagination to response
-  thesixnetwork.sixprotocol.tokenmngr.v2.QueryGetMintpermResponse:
-    type: object
-    properties:
-      mintperm:
-        type: object
-        properties:
-          token:
-            type: string
-          address:
-            type: string
-          creator:
-            type: string
-  thesixnetwork.sixprotocol.tokenmngr.v2.QueryGetOptionsResponse:
-    type: object
-    properties:
-      Options:
-        type: object
-        properties:
-          defaultMintee:
-            type: string
-  thesixnetwork.sixprotocol.tokenmngr.v2.QueryGetTokenBurnResponse:
-    type: object
-    properties:
-      tokenBurn:
-        type: object
-        properties:
-          amount:
-            type: object
-            properties:
-              denom:
-                type: string
-              amount:
-                type: string
-            description: >-
-              Coin defines a token with a denomination and an amount.
-
-
-              NOTE: The amount field is an Int which implements the custom
-              method
-
-              signatures required by gogoproto.
-  thesixnetwork.sixprotocol.tokenmngr.v2.QueryGetTokenResponse:
-    type: object
-    properties:
-      token:
-        type: object
-        properties:
-          name:
-            type: string
-          base:
-            type: string
-          maxSupply:
-            type: object
-            properties:
-              denom:
-                type: string
-              amount:
-                type: string
-            description: >-
-              Coin defines a token with a denomination and an amount.
-
-
-              NOTE: The amount field is an Int which implements the custom
-              method
-
-              signatures required by gogoproto.
-          mintee:
-            type: string
-          creator:
-            type: string
-  thesixnetwork.sixprotocol.tokenmngr.v2.QueryParamsResponse:
-    type: object
-    properties:
-      params:
-        description: params holds all the parameters of this module.
-        type: object
-    description: QueryParamsResponse is response type for the Query/Params RPC method.
-  thesixnetwork.sixprotocol.tokenmngr.v2.Token:
-    type: object
-    properties:
-      name:
-        type: string
-      base:
-        type: string
-      maxSupply:
-        type: object
-        properties:
-          denom:
-            type: string
-          amount:
-            type: string
-        description: |-
-          Coin defines a token with a denomination and an amount.
-
-          NOTE: The amount field is an Int which implements the custom method
-          signatures required by gogoproto.
-      mintee:
-        type: string
-      creator:
-        type: string
-  thesixnetwork.sixprotocol.tokenmngr.v2.TokenBurn:
     type: object
     properties:
       amount:
