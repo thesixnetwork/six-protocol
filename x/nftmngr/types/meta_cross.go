@@ -13,7 +13,6 @@ type CrossSchemaMetadata struct {
 	nftSchemas          map[string]*NFTSchema
 	changeList          map[string]ChangeList
 	mapSchemaKey        map[string]MapAllKey
-	sharedAttributeName CrossSchemaSharedAttributeName
 }
 
 type (
@@ -30,7 +29,6 @@ func NewCrossSchemaMetadata(schemaList []*NFTSchema, tokenList []*NftData, attri
 		nftSchemas:          nftSchemas,
 		changeList:          make(map[string]ChangeList),
 		mapSchemaKey:        make(map[string]MapAllKey),
-		sharedAttributeName: sharedAttribute,
 	}
 
 	if len(schemaList) != len(tokenList) {
@@ -123,33 +121,10 @@ func (c *CrossSchemaMetadata) validateSchemaName(schemaName string) error {
 	return nil
 }
 
-func (c *CrossSchemaMetadata) validateSharedAttribute(schemaName, attributeName string) error {
-	sharedAttrs, exists := c.sharedAttributeName[schemaName]
-	if !exists {
-		return sdkerrors.Wrapf(ErrAttributeNotAllowedToShare,
-			"schema %s has no shared attributes", schemaName)
-	}
-
-	for _, attr := range sharedAttrs {
-		if attributeName == attr {
-			return nil
-		}
-	}
-
-	return sdkerrors.Wrapf(ErrAttributeNotAllowedToShare,
-		"attribute %s is not allowed to be shared in schema %s",
-		attributeName, schemaName)
-}
-
 func (c *CrossSchemaMetadata) getAttribute(schemaName, key string) (*MetadataAttribute, error) {
 	// Validate schema exists
 	if err := c.validateSchemaName(schemaName); err != nil {
 		return nil, sdkerrors.Wrapf(err, "schema validation failed for %s", schemaName)
-	}
-
-	// Validate attribute is shared
-	if err := c.validateSharedAttribute(schemaName, key); err != nil {
-		return nil, err
 	}
 
 	schemaKey, exists := c.mapSchemaKey[schemaName]
