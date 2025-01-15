@@ -117,9 +117,7 @@ func (k Keeper) VirtualSchemaHook(ctx sdk.Context, virtualSchemaProposal types.V
 	k.Logger(ctx).Info("Updating virtual schema", "code", virtualSchema.VirtualNftSchemaCode, "enabled", virtualSchema.Enable)
 	k.SetVirtualSchema(ctx, virtualSchema)
 
-	// TODO: VIRTUAL ACTTION
 	if virtualSchemaProposal.ProposalType == types.ProposalType_EDIT {
-		// TODO: EDIT VIRTUAL SCHEMA ALSO EDIT ACTION
 		for _, action := range virtualSchemaProposal.Actions {
 			_, found := k.GetVirtualAction(ctx, virtualSchema.VirtualNftSchemaCode, action.Name)
 			if found {
@@ -129,7 +127,6 @@ func (k Keeper) VirtualSchemaHook(ctx sdk.Context, virtualSchemaProposal types.V
 			}
 		}
 	} else {
-		// TODO: ADD VIRTUAL SCHEMA ALSO ADD ACTION
 		for _, action := range virtualSchemaProposal.Actions {
 			k.AddVirtualActionKeeper(ctx, virtualSchema.VirtualNftSchemaCode, *action)
 		}

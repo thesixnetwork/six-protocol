@@ -35370,9 +35370,6 @@ paths:
                         - CREATE
                         - EDIT
                       default: CREATE
-                      description: >-
-                        TODO: [chore] Combine enable/disable to change virtual
-                        schema.
                     virtualSchema:
                       type: object
                       properties:
@@ -35396,9 +35393,6 @@ paths:
                                   - REJECT
                                   - ACCEPT
                                 default: PENDING
-                            description: >-
-                              TODO: [chore] Combine enable/disable to change
-                              virtual schema.
                         enable:
                           type: boolean
                           title: >-
@@ -35452,9 +35446,6 @@ paths:
                     votingEndTime:
                       type: string
                       format: date-time
-                  description: >-
-                    TODO: [chore] Combine enable/disable to change virtual
-                    schema.
         default:
           description: An unexpected error response.
           schema:
@@ -40186,11 +40177,7 @@ paths:
                                   - ALLOWED_ACTIONER_SYSTEM_ONLY
                                   - ALLOWED_ACTIONER_USER_ONLY
                                 default: ALLOWED_ACTIONER_ALL
-                                description: >-
-                                  NOTE: Policy of virtual action
-
-                                  TODO: [chore] Combine enable/disable to change
-                                  virtual schema.
+                                title: 'NOTE: Policy of virtual action'
                               params:
                                 type: array
                                 items:
@@ -40206,10 +40193,6 @@ paths:
                                       type: boolean
                                     default_value:
                                       type: string
-                            title: |-
-                              TODO:
-                              1. Policy of action (who can use action)
-                              2. Proposal to enable and disable action
                         status:
                           type: array
                           items:
@@ -40795,11 +40778,7 @@ paths:
                                 - ALLOWED_ACTIONER_SYSTEM_ONLY
                                 - ALLOWED_ACTIONER_USER_ONLY
                               default: ALLOWED_ACTIONER_ALL
-                              description: >-
-                                NOTE: Policy of virtual action
-
-                                TODO: [chore] Combine enable/disable to change
-                                virtual schema.
+                              title: 'NOTE: Policy of virtual action'
                             params:
                               type: array
                               items:
@@ -40815,10 +40794,6 @@ paths:
                                     type: boolean
                                   default_value:
                                     type: string
-                          title: |-
-                            TODO:
-                            1. Policy of action (who can use action)
-                            2. Proposal to enable and disable action
                       status:
                         type: array
                         items:
@@ -42490,6 +42465,10 @@ paths:
                           "value": "1.212s"
                         }
       parameters:
+        - name: nftSchemaCode
+          in: query
+          required: false
+          type: string
         - name: pagination.key
           description: |-
             key is a value returned in PageResponse.next_key to begin
@@ -42826,11 +42805,7 @@ paths:
                         - ALLOWED_ACTIONER_SYSTEM_ONLY
                         - ALLOWED_ACTIONER_USER_ONLY
                       default: ALLOWED_ACTIONER_ALL
-                      description: >-
-                        NOTE: Policy of virtual action
-
-                        TODO: [chore] Combine enable/disable to change virtual
-                        schema.
+                      title: 'NOTE: Policy of virtual action'
                     params:
                       type: array
                       items:
@@ -42846,10 +42821,6 @@ paths:
                             type: boolean
                           default_value:
                             type: string
-                  title: |-
-                    TODO:
-                    1. Policy of action (who can use action)
-                    2. Proposal to enable and disable action
               pagination:
                 type: object
                 properties:
@@ -43063,6 +43034,10 @@ paths:
                           "value": "1.212s"
                         }
       parameters:
+        - name: nftSchemaCode
+          in: query
+          required: false
+          type: string
         - name: pagination.key
           description: |-
             key is a value returned in PageResponse.next_key to begin
@@ -43155,11 +43130,7 @@ paths:
                       - ALLOWED_ACTIONER_SYSTEM_ONLY
                       - ALLOWED_ACTIONER_USER_ONLY
                     default: ALLOWED_ACTIONER_ALL
-                    description: >-
-                      NOTE: Policy of virtual action
-
-                      TODO: [chore] Combine enable/disable to change virtual
-                      schema.
+                    title: 'NOTE: Policy of virtual action'
                   params:
                     type: array
                     items:
@@ -43175,10 +43146,6 @@ paths:
                           type: boolean
                         default_value:
                           type: string
-                title: |-
-                  TODO:
-                  1. Policy of action (who can use action)
-                  2. Proposal to enable and disable action
         default:
           description: An unexpected error response.
           schema:
@@ -43410,9 +43377,6 @@ paths:
                               - REJECT
                               - ACCEPT
                             default: PENDING
-                        description: >-
-                          TODO: [chore] Combine enable/disable to change virtual
-                          schema.
                     enable:
                       type: boolean
                       title: >-
@@ -43722,9 +43686,6 @@ paths:
                             - REJECT
                             - ACCEPT
                           default: PENDING
-                      description: >-
-                        TODO: [chore] Combine enable/disable to change virtual
-                        schema.
                   enable:
                     type: boolean
                     title: >-
@@ -43945,9 +43906,6 @@ paths:
                         - CREATE
                         - EDIT
                       default: CREATE
-                      description: >-
-                        TODO: [chore] Combine enable/disable to change virtual
-                        schema.
                     virtualSchema:
                       type: object
                       properties:
@@ -43971,9 +43929,6 @@ paths:
                                   - REJECT
                                   - ACCEPT
                                 default: PENDING
-                            description: >-
-                              TODO: [chore] Combine enable/disable to change
-                              virtual schema.
                         enable:
                           type: boolean
                           title: >-
@@ -44027,9 +43982,6 @@ paths:
                     votingEndTime:
                       type: string
                       format: date-time
-                  description: >-
-                    TODO: [chore] Combine enable/disable to change virtual
-                    schema.
               pagination:
                 type: object
                 properties:
@@ -44322,9 +44274,6 @@ paths:
                       - CREATE
                       - EDIT
                     default: CREATE
-                    description: >-
-                      TODO: [chore] Combine enable/disable to change virtual
-                      schema.
                   virtualSchema:
                     type: object
                     properties:
@@ -44348,9 +44297,6 @@ paths:
                                 - REJECT
                                 - ACCEPT
                               default: PENDING
-                          description: >-
-                            TODO: [chore] Combine enable/disable to change
-                            virtual schema.
                       enable:
                         type: boolean
                         title: >-
@@ -44404,7 +44350,6 @@ paths:
                   votingEndTime:
                     type: string
                     format: date-time
-                description: 'TODO: [chore] Combine enable/disable to change virtual schema.'
         default:
           description: An unexpected error response.
           schema:
@@ -69144,7 +69089,6 @@ definitions:
           - CREATE
           - EDIT
         default: CREATE
-        description: 'TODO: [chore] Combine enable/disable to change virtual schema.'
   thesixnetwork.sixprotocol.nftmngr.MsgResyncAttributesResponse:
     type: object
     properties:
@@ -69562,11 +69506,7 @@ definitions:
                     - ALLOWED_ACTIONER_SYSTEM_ONLY
                     - ALLOWED_ACTIONER_USER_ONLY
                   default: ALLOWED_ACTIONER_ALL
-                  description: >-
-                    NOTE: Policy of virtual action
-
-                    TODO: [chore] Combine enable/disable to change virtual
-                    schema.
+                  title: 'NOTE: Policy of virtual action'
                 params:
                   type: array
                   items:
@@ -69582,10 +69522,6 @@ definitions:
                         type: boolean
                       default_value:
                         type: string
-              title: |-
-                TODO:
-                1. Policy of action (who can use action)
-                2. Proposal to enable and disable action
           status:
             type: array
             items:
@@ -69911,9 +69847,7 @@ definitions:
                 - ALLOWED_ACTIONER_SYSTEM_ONLY
                 - ALLOWED_ACTIONER_USER_ONLY
               default: ALLOWED_ACTIONER_ALL
-              description: |-
-                NOTE: Policy of virtual action
-                TODO: [chore] Combine enable/disable to change virtual schema.
+              title: 'NOTE: Policy of virtual action'
             params:
               type: array
               items:
@@ -69929,10 +69863,6 @@ definitions:
                     type: boolean
                   default_value:
                     type: string
-          title: |-
-            TODO:
-            1. Policy of action (who can use action)
-            2. Proposal to enable and disable action
       status:
         type: array
         items:
@@ -70060,7 +69990,6 @@ definitions:
       - CREATE
       - EDIT
     default: CREATE
-    description: 'TODO: [chore] Combine enable/disable to change virtual schema.'
   thesixnetwork.sixprotocol.nftmngr.QueryAllActionByRefIdResponse:
     type: object
     properties:
@@ -70601,11 +70530,7 @@ definitions:
                           - ALLOWED_ACTIONER_SYSTEM_ONLY
                           - ALLOWED_ACTIONER_USER_ONLY
                         default: ALLOWED_ACTIONER_ALL
-                        description: >-
-                          NOTE: Policy of virtual action
-
-                          TODO: [chore] Combine enable/disable to change virtual
-                          schema.
+                        title: 'NOTE: Policy of virtual action'
                       params:
                         type: array
                         items:
@@ -70621,10 +70546,6 @@ definitions:
                               type: boolean
                             default_value:
                               type: string
-                    title: |-
-                      TODO:
-                      1. Policy of action (who can use action)
-                      2. Proposal to enable and disable action
                 status:
                   type: array
                   items:
@@ -70908,9 +70829,7 @@ definitions:
                 - ALLOWED_ACTIONER_SYSTEM_ONLY
                 - ALLOWED_ACTIONER_USER_ONLY
               default: ALLOWED_ACTIONER_ALL
-              description: |-
-                NOTE: Policy of virtual action
-                TODO: [chore] Combine enable/disable to change virtual schema.
+              title: 'NOTE: Policy of virtual action'
             params:
               type: array
               items:
@@ -70926,10 +70845,6 @@ definitions:
                     type: boolean
                   default_value:
                     type: string
-          title: |-
-            TODO:
-            1. Policy of action (who can use action)
-            2. Proposal to enable and disable action
       pagination:
         type: object
         properties:
@@ -70971,7 +70886,6 @@ definitions:
                 - CREATE
                 - EDIT
               default: CREATE
-              description: 'TODO: [chore] Combine enable/disable to change virtual schema.'
             virtualSchema:
               type: object
               properties:
@@ -70995,9 +70909,6 @@ definitions:
                           - REJECT
                           - ACCEPT
                         default: PENDING
-                    description: >-
-                      TODO: [chore] Combine enable/disable to change virtual
-                      schema.
                 enable:
                   type: boolean
                   title: >-
@@ -71051,7 +70962,6 @@ definitions:
             votingEndTime:
               type: string
               format: date-time
-          description: 'TODO: [chore] Combine enable/disable to change virtual schema.'
       pagination:
         type: object
         properties:
@@ -71105,7 +71015,6 @@ definitions:
                       - REJECT
                       - ACCEPT
                     default: PENDING
-                description: 'TODO: [chore] Combine enable/disable to change virtual schema.'
             enable:
               type: boolean
               title: >-
@@ -71549,11 +71458,7 @@ definitions:
                         - ALLOWED_ACTIONER_SYSTEM_ONLY
                         - ALLOWED_ACTIONER_USER_ONLY
                       default: ALLOWED_ACTIONER_ALL
-                      description: >-
-                        NOTE: Policy of virtual action
-
-                        TODO: [chore] Combine enable/disable to change virtual
-                        schema.
+                      title: 'NOTE: Policy of virtual action'
                     params:
                       type: array
                       items:
@@ -71569,10 +71474,6 @@ definitions:
                             type: boolean
                           default_value:
                             type: string
-                  title: |-
-                    TODO:
-                    1. Policy of action (who can use action)
-                    2. Proposal to enable and disable action
               status:
                 type: array
                 items:
@@ -71861,9 +71762,7 @@ definitions:
               - ALLOWED_ACTIONER_SYSTEM_ONLY
               - ALLOWED_ACTIONER_USER_ONLY
             default: ALLOWED_ACTIONER_ALL
-            description: |-
-              NOTE: Policy of virtual action
-              TODO: [chore] Combine enable/disable to change virtual schema.
+            title: 'NOTE: Policy of virtual action'
           params:
             type: array
             items:
@@ -71879,10 +71778,6 @@ definitions:
                   type: boolean
                 default_value:
                   type: string
-        title: |-
-          TODO:
-          1. Policy of action (who can use action)
-          2. Proposal to enable and disable action
   thesixnetwork.sixprotocol.nftmngr.QueryGetVirtualSchemaProposalResponse:
     type: object
     properties:
@@ -71897,7 +71792,6 @@ definitions:
               - CREATE
               - EDIT
             default: CREATE
-            description: 'TODO: [chore] Combine enable/disable to change virtual schema.'
           virtualSchema:
             type: object
             properties:
@@ -71921,9 +71815,6 @@ definitions:
                         - REJECT
                         - ACCEPT
                       default: PENDING
-                  description: >-
-                    TODO: [chore] Combine enable/disable to change virtual
-                    schema.
               enable:
                 type: boolean
                 title: >-
@@ -71977,7 +71868,6 @@ definitions:
           votingEndTime:
             type: string
             format: date-time
-        description: 'TODO: [chore] Combine enable/disable to change virtual schema.'
   thesixnetwork.sixprotocol.nftmngr.QueryGetVirtualSchemaResponse:
     type: object
     properties:
@@ -72004,7 +71894,6 @@ definitions:
                     - REJECT
                     - ACCEPT
                   default: PENDING
-              description: 'TODO: [chore] Combine enable/disable to change virtual schema.'
           enable:
             type: boolean
             title: >-
@@ -72026,7 +71915,6 @@ definitions:
                 - CREATE
                 - EDIT
               default: CREATE
-              description: 'TODO: [chore] Combine enable/disable to change virtual schema.'
             virtualSchema:
               type: object
               properties:
@@ -72050,9 +71938,6 @@ definitions:
                           - REJECT
                           - ACCEPT
                         default: PENDING
-                    description: >-
-                      TODO: [chore] Combine enable/disable to change virtual
-                      schema.
                 enable:
                   type: boolean
                   title: >-
@@ -72106,7 +71991,6 @@ definitions:
             votingEndTime:
               type: string
               format: date-time
-          description: 'TODO: [chore] Combine enable/disable to change virtual schema.'
   thesixnetwork.sixprotocol.nftmngr.QueryListAttributeBySchemaResponse:
     type: object
     properties:
@@ -72265,9 +72149,7 @@ definitions:
           - ALLOWED_ACTIONER_SYSTEM_ONLY
           - ALLOWED_ACTIONER_USER_ONLY
         default: ALLOWED_ACTIONER_ALL
-        description: |-
-          NOTE: Policy of virtual action
-          TODO: [chore] Combine enable/disable to change virtual schema.
+        title: 'NOTE: Policy of virtual action'
       params:
         type: array
         items:
@@ -72283,10 +72165,6 @@ definitions:
               type: boolean
             default_value:
               type: string
-    title: |-
-      TODO:
-      1. Policy of action (who can use action)
-      2. Proposal to enable and disable action
   thesixnetwork.sixprotocol.nftmngr.VirtualSchema:
     type: object
     properties:
@@ -72310,7 +72188,6 @@ definitions:
                 - REJECT
                 - ACCEPT
               default: PENDING
-          description: 'TODO: [chore] Combine enable/disable to change virtual schema.'
       enable:
         type: boolean
         title: >-
@@ -72327,7 +72204,6 @@ definitions:
           - CREATE
           - EDIT
         default: CREATE
-        description: 'TODO: [chore] Combine enable/disable to change virtual schema.'
       virtualSchema:
         type: object
         properties:
@@ -72351,7 +72227,6 @@ definitions:
                     - REJECT
                     - ACCEPT
                   default: PENDING
-              description: 'TODO: [chore] Combine enable/disable to change virtual schema.'
           enable:
             type: boolean
             title: >-
@@ -72405,7 +72280,6 @@ definitions:
       votingEndTime:
         type: string
         format: date-time
-    description: 'TODO: [chore] Combine enable/disable to change virtual schema.'
   thesixnetwork.sixprotocol.nftmngr.VirtualSchemaRegistry:
     type: object
     properties:
@@ -72422,7 +72296,6 @@ definitions:
           - REJECT
           - ACCEPT
         default: PENDING
-    description: 'TODO: [chore] Combine enable/disable to change virtual schema.'
   thesixnetwork.sixprotocol.nftmngr.VirtualSchemaRegistryRequest:
     type: object
     properties:

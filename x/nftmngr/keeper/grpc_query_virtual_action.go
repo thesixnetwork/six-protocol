@@ -12,7 +12,6 @@ import (
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
-// TODO:: TEST(VirtualSchema)
 func (k Keeper) VirtualActionAll(c context.Context, req *types.QueryAllVirtualActionRequest) (*types.QueryAllVirtualActionResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
@@ -55,11 +54,12 @@ func (k Keeper) VirtualActionAll(c context.Context, req *types.QueryAllVirtualAc
 		if err != nil {
 			return nil, status.Error(codes.Internal, err.Error())
 		}
+		pageRes.Total = uint64(len(virtuals))
+    pageRes.NextKey = nil
 		return &types.QueryAllVirtualActionResponse{VirtualAction: virtuals, Pagination: pageRes}, nil
 	}
 }
 
-// TODO:: TEST(VirtualSchema)
 func (k Keeper) VirtualAction(c context.Context, req *types.QueryGetVirtualActionRequest) (*types.QueryGetVirtualActionResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
