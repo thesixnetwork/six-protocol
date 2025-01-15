@@ -9,10 +9,10 @@ import (
 )
 
 type CrossSchemaMetadata struct {
-	nftDatas            map[string]*NftData
-	nftSchemas          map[string]*NFTSchema
-	changeList          map[string]ChangeList
-	mapSchemaKey        map[string]MapAllKey
+	nftDatas     map[string]*NftData
+	nftSchemas   map[string]*NFTSchema
+	changeList   map[string]ChangeList
+	mapSchemaKey map[string]MapAllKey
 }
 
 type (
@@ -25,10 +25,10 @@ func NewCrossSchemaMetadata(schemaList []*NFTSchema, tokenList []*NftData, attri
 	nftSchemas := make(map[string]*NFTSchema)
 	nftDatas := make(map[string]*NftData)
 	crossSchemaMetadata := &CrossSchemaMetadata{
-		nftDatas:            nftDatas,
-		nftSchemas:          nftSchemas,
-		changeList:          make(map[string]ChangeList),
-		mapSchemaKey:        make(map[string]MapAllKey),
+		nftDatas:     nftDatas,
+		nftSchemas:   nftSchemas,
+		changeList:   make(map[string]ChangeList),
+		mapSchemaKey: make(map[string]MapAllKey),
 	}
 
 	if len(schemaList) != len(tokenList) {
@@ -84,15 +84,48 @@ func NewCrossSchemaMetadata(schemaList []*NFTSchema, tokenList []*NftData, attri
 	return crossSchemaMetadata
 }
 
-// func (c *CrossSchemaMetadata) SetGetNFTFunction(f func(schemaName, tokenid string) (*NftData, error)) {
-// 	c.NftDataFunction = f
-// }
-
 func (c *CrossSchemaMetadata) GetNftData(schemaName string) *NftData {
 	if err := c.validateSchemaName(schemaName); err != nil {
 		panic(err)
 	}
 	return c.nftDatas[schemaName]
+}
+
+func (c *CrossSchemaMetadata) GetTokenURI(schemaName string) string {
+	return c.nftDatas[schemaName].TokenUri
+}
+
+func (c *CrossSchemaMetadata) SetTokenURI(schemaName, uri string) {
+	if err := c.validateSchemaName(schemaName); err != nil {
+		panic(err)
+	}
+	c.changeList[schemaName] = append(c.changeList[schemaName], &MetadataChange{
+		Key:           "tokenURI",
+		PreviousValue: c.nftDatas[schemaName].TokenUri,
+		NewValue:      uri,
+	})
+	c.nftDatas[schemaName].TokenUri = uri
+}
+
+func (c *CrossSchemaMetadata) GetImage(schemaName string) string {
+	if c.nftDatas[schemaName].OnchainImage != "" {
+		return c.nftDatas[schemaName].OnchainImage
+	}
+
+	return c.nftDatas[schemaName].OriginImage
+}
+
+func (c *CrossSchemaMetadata) SetImage(schemaName, imagePath string) {
+	currentImage := c.nftDatas[schemaName].OnchainImage
+	if currentImage == "" {
+		currentImage = c.nftDatas[schemaName].OriginImage
+	}
+	c.changeList[schemaName] = append(c.changeList[schemaName], &MetadataChange{
+		Key:           "image",
+		PreviousValue: currentImage,
+		NewValue:      imagePath,
+	})
+	c.nftDatas[schemaName].OnchainImage = imagePath
 }
 
 func (c *CrossSchemaMetadata) GetTokenId(schemaName string) string {
