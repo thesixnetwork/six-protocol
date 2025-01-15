@@ -55,7 +55,6 @@ func (RegistryStatus) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_1fd45310b3f69052, []int{0}
 }
 
-// TODO: [chore] Combine enable/disable to change virtual schema.
 type ProposalType int32
 
 const (
@@ -81,7 +80,6 @@ func (ProposalType) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_1fd45310b3f69052, []int{1}
 }
 
-// TODO: [chore] Combine enable/disable to change virtual schema.
 type VirtualSchemaProposal struct {
 	Id              string         `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	ProposalType    ProposalType   `protobuf:"varint,2,opt,name=proposalType,proto3,enum=thesixnetwork.sixprotocol.nftmngr.ProposalType" json:"proposalType,omitempty"`
@@ -234,7 +232,6 @@ func (m *VirtualSchema) GetEnable() bool {
 	return false
 }
 
-// TODO: [chore] Combine enable/disable to change virtual schema.
 type VirtualSchemaRegistry struct {
 	NftSchemaCode    string         `protobuf:"bytes,1,opt,name=nftSchemaCode,proto3" json:"nftSchemaCode,omitempty"`
 	SharedAttributes []string       `protobuf:"bytes,2,rep,name=sharedAttributes,proto3" json:"sharedAttributes,omitempty"`

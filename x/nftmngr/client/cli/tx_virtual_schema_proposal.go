@@ -13,7 +13,6 @@ import (
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
-// TODO: [chore] Combine enable/disable to change virtual schema.
 func CmdCreateVirtualSchema() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "virtual-schema-proposal [proposalType] [proposalFile]",

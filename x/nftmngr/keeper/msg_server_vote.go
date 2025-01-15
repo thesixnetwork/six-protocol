@@ -9,11 +9,6 @@ import (
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
-// TODO:: TEST(VirtualSchema)
-// 1. Check if virtual schema is exist
-// 2. Check if virtual schema is enable
-// 3. Check if voter(creator) is owner of some src schema
-// 4. Check if src schema already vote
 func (k msgServer) VoteVirtualSchemaProposal(goCtx context.Context, msg *types.MsgVoteVirtualSchemaProposal) (*types.MsgVoteVirtualSchemaProposalResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
