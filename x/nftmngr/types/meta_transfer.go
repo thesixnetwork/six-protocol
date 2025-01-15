@@ -143,43 +143,6 @@ func (c *CrossSchemaMetadata) ConvertNumberAttribute(srcSchemaName, srcAttribute
 		return err
 	}
 
-	// Validate shared attributes first
-	srcSharedAttrs, exists := c.sharedAttributeName[srcSchemaName]
-	if !exists {
-		return sdkerrors.Wrapf(ErrAttributeNotAllowedToShare,
-			"schema %s has no shared attributes", srcSchemaName)
-	}
-	dstSharedAttrs, exists := c.sharedAttributeName[dstSchemaName]
-	if !exists {
-		return sdkerrors.Wrapf(ErrAttributeNotAllowedToShare,
-			"schema %s has no shared attributes", dstSchemaName)
-	}
-
-	// Check if attributes are in shared lists
-	srcFound := false
-	for _, attr := range srcSharedAttrs {
-		if attr == srcAttributeName {
-			srcFound = true
-			break
-		}
-	}
-	if !srcFound {
-		return sdkerrors.Wrap(ErrAttributeNotAllowedToShare,
-			"source attribute not shared by owner")
-	}
-
-	dstFound := false
-	for _, attr := range dstSharedAttrs {
-		if attr == dstAttributeName {
-			dstFound = true
-			break
-		}
-	}
-	if !dstFound {
-		return sdkerrors.Wrap(ErrAttributeNotAllowedToShare,
-			"destination attribute not shared by owner")
-	}
-
 	// Get and validate attributes
 	srcAttribute, err := c.getAttribute(srcSchemaName, srcAttributeName)
 	if err != nil {
