@@ -24,20 +24,39 @@ func (k Keeper) VirtualActionAll(c context.Context, req *types.QueryAllVirtualAc
 	store := ctx.KVStore(k.storeKey)
 	virtualStore := prefix.NewStore(store, types.KeyPrefix(types.VirtualActionKeyPrefix))
 
-	pageRes, err := query.Paginate(virtualStore, req.Pagination, func(key []byte, value []byte) error {
-		var virtual types.VirtualAction
-		if err := k.cdc.Unmarshal(value, &virtual); err != nil {
-			return err
+	// chekc if input specify schemaCode
+	if req.NftSchemaCode == "" {
+		pageRes, err := query.Paginate(virtualStore, req.Pagination, func(key []byte, value []byte) error {
+			var virtual types.VirtualAction
+			if err := k.cdc.Unmarshal(value, &virtual); err != nil {
+				return err
+			}
+
+			virtuals = append(virtuals, virtual)
+			return nil
+		})
+		if err != nil {
+			return nil, status.Error(codes.Internal, err.Error())
 		}
+		return &types.QueryAllVirtualActionResponse{VirtualAction: virtuals, Pagination: pageRes}, nil
+	} else {
+		pageRes, err := query.Paginate(virtualStore, req.Pagination, func(key []byte, value []byte) error {
+			var virtual types.VirtualAction
+			if err := k.cdc.Unmarshal(value, &virtual); err != nil {
+				return err
+			}
 
-		virtuals = append(virtuals, virtual)
-		return nil
-	})
-	if err != nil {
-		return nil, status.Error(codes.Internal, err.Error())
+			if virtual.VirtualNftSchemaCode == req.NftSchemaCode {
+				virtuals = append(virtuals, virtual)
+			}
+
+			return nil
+		})
+		if err != nil {
+			return nil, status.Error(codes.Internal, err.Error())
+		}
+		return &types.QueryAllVirtualActionResponse{VirtualAction: virtuals, Pagination: pageRes}, nil
 	}
-
-	return &types.QueryAllVirtualActionResponse{VirtualAction: virtuals, Pagination: pageRes}, nil
 }
 
 // TODO:: TEST(VirtualSchema)
