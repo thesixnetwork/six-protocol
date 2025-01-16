@@ -68809,11 +68809,6 @@ definitions:
       - REWARD_POOL
       - TRANSFER
     default: BURN
-  thesixnetwork.sixprotocol.nftmngr.FeeSubject:
-    type: string
-    enum:
-      - CREATE_NFT_SCHEMA
-    default: CREATE_NFT_SCHEMA
   thesixnetwork.sixprotocol.nftmngr.FlagStatus:
     type: object
     properties:
