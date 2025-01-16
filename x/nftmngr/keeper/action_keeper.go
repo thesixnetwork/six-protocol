@@ -497,7 +497,6 @@ func (k Keeper) PerformVirtualKeeper(ctx sdk.Context, creator, vitualSchemaName 
 		tokenDataList          = []*types.NftData{}
 		crossSchemaOveride     = types.CrossSchemaAttributeOverriding{}
 		schemaGlobalAttributes = types.CrossSchemaGlobalAttributes{}
-		shareAttributeName     = types.CrossSchemaSharedAttributeName{}
 	)
 
 	// get virtual schema
@@ -565,10 +564,9 @@ func (k Keeper) PerformVirtualKeeper(ctx sdk.Context, creator, vitualSchemaName 
 		tokenDataList = append(tokenDataList, tokenData)
 		crossSchemaOveride[schema.Code] = schema.OriginData.AttributeOverriding
 		schemaGlobalAttributes[schema.Code] = convertedSchemaAttributes
-		shareAttributeName[schema.Code] = schemaRegistry.SharedAttributes
 	}
 
-	crossMetadata := types.NewCrossSchemaMetadata(schemaList, tokenDataList, crossSchemaOveride, schemaGlobalAttributes, shareAttributeName)
+	crossMetadata := types.NewCrossSchemaMetadata(schemaList, tokenDataList, crossSchemaOveride, schemaGlobalAttributes)
 
 	err = ProcessCrossSchemaAction(crossMetadata, vitualAction.ToAction(), parameters)
 	if err != nil {

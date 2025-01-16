@@ -29,13 +29,11 @@ message VirtualSchema {
 
 message VirtualSchemaRegistry {
   string nftSchemaCode = 1;
-  repeated string sharedAttributes = 2;
   RegistryStatus decision = 3;
 }
 
 message VirtualSchemaRegistryRequest {
   string nftSchemaCode = 1;
-  repeated string sharedAttributes = 2;
 }
 
 message ActiveVirtualSchemaProposal { string id = 1; }

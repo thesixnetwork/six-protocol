@@ -18,10 +18,9 @@ type CrossSchemaMetadata struct {
 type (
 	CrossSchemaAttributeOverriding map[string]AttributeOverriding
 	CrossSchemaGlobalAttributes    map[string][]*NftAttributeValue
-	CrossSchemaSharedAttributeName map[string][]string
 )
 
-func NewCrossSchemaMetadata(schemaList []*NFTSchema, tokenList []*NftData, attributesOverriding CrossSchemaAttributeOverriding, schemaGlobalAttriubutes CrossSchemaGlobalAttributes, sharedAttribute CrossSchemaSharedAttributeName) *CrossSchemaMetadata {
+func NewCrossSchemaMetadata(schemaList []*NFTSchema, tokenList []*NftData, attributesOverriding CrossSchemaAttributeOverriding, schemaGlobalAttriubutes CrossSchemaGlobalAttributes) *CrossSchemaMetadata {
 	nftSchemas := make(map[string]*NFTSchema)
 	nftDatas := make(map[string]*NftData)
 	crossSchemaMetadata := &CrossSchemaMetadata{

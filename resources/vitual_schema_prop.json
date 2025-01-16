@@ -1,14 +1,8 @@
 {
   "virtualSchemaCode": "divineXmembership",
   "virtualSchemaRegistry": [
-    {
-      "nftSchemaCode": "sixprotocol.divine_elite",
-      "sharedAttributes": ["service_3", "service_4", "service_7"]
-    },
-    {
-      "nftSchemaCode": "sixprotocol.membership",
-      "sharedAttributes": ["service_1", "service_2", "service_x"]
-    }
+    "sixprotocol.divine_elite",
+    "sixprotocol.membership"
   ],
   "enable": true,
   "actions": [
@@ -62,6 +56,16 @@
           "default_value": "0"
         }
       ]
+    },
+    {
+      "name": "transform",
+      "desc": "Transform Metadata Image",
+      "when": "true",
+      "then": [
+        "meta.SetImage('sixprotocol.divine_elite','https://image-trasformed-divine')",
+        "meta.SetImage('sixprotocol.membership','https://image-trasformed-membership')"
+      ],
+      "params": []
     }
   ]
 }
