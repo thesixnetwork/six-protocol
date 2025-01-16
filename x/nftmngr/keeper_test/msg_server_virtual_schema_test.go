@@ -29,7 +29,6 @@ func TestVirtualSchemaMsgServerCreate(t *testing.T) {
 			Registry: []*types.VirtualSchemaRegistryRequest{
 				{
 					NftSchemaCode:    "nftSchemaCode",
-					SharedAttributes: []string{"SharedAttributes"},
 				},
 			},
 		}

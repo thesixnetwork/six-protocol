@@ -12,15 +12,14 @@ type (
 	VirtualSchemaRegistryRequestJSON []VirtualSchemaRegistryJSON
 
 	VirtualSchemaRegistryJSON struct {
-		VirtualSchemaCode string   `json:"code"`
-		SharedAttributes  []string `json:"sharedAttributes"`
+		VirtualSchemaCode string `json:"code"`
 	}
 
 	VirtualSchemaRequest struct {
-		VirtualSchemaCode     string                               `json:"virtualSchemaCode"`
-		Actions               []types.Action                       `json:"actions"`
-		VirtualSchemaRegistry []types.VirtualSchemaRegistryRequest `json:"virtualSchemaRegistry"`
-		Enable                bool                                 `json:"enable"`
+		VirtualSchemaCode     string         `json:"virtualSchemaCode"`
+		Actions               []types.Action `json:"actions"`
+		VirtualSchemaRegistry []string       `json:"virtualSchemaRegistry"`
+		Enable                bool           `json:"enable"`
 	}
 
 	ActionParameter struct {
@@ -60,7 +59,6 @@ func NewVirtualSchemaRegistryRequestJSON(code string, sharedAttributes []string)
 	return VirtualSchemaRegistryRequestJSON{
 		{
 			VirtualSchemaCode: code,
-			SharedAttributes:  sharedAttributes,
 		},
 	}
 }
