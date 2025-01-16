@@ -83,109 +83,109 @@ func NewCrossSchemaMetadata(schemaList []*NFTSchema, tokenList []*NftData, attri
 	return crossSchemaMetadata
 }
 
-func (c *CrossSchemaMetadata) GetNftData(schemaName string) *NftData {
-	if err := c.validateSchemaName(schemaName); err != nil {
+func (c *CrossSchemaMetadata) GetNftData(schemaCode string) *NftData {
+	if err := c.validateSchemaName(schemaCode); err != nil {
 		panic(err)
 	}
-	return c.nftDatas[schemaName]
+	return c.nftDatas[schemaCode]
 }
 
-func (c *CrossSchemaMetadata) GetTokenURI(schemaName string) string {
-	return c.nftDatas[schemaName].TokenUri
+func (c *CrossSchemaMetadata) GetTokenURI(schemaCode string) string {
+	return c.nftDatas[schemaCode].TokenUri
 }
 
-func (c *CrossSchemaMetadata) SetTokenURI(schemaName, uri string) {
-	if err := c.validateSchemaName(schemaName); err != nil {
+func (c *CrossSchemaMetadata) SetTokenURI(schemaCode, uri string) {
+	if err := c.validateSchemaName(schemaCode); err != nil {
 		panic(err)
 	}
-	c.changeList[schemaName] = append(c.changeList[schemaName], &MetadataChange{
+	c.changeList[schemaCode] = append(c.changeList[schemaCode], &MetadataChange{
 		Key:           "tokenURI",
-		PreviousValue: c.nftDatas[schemaName].TokenUri,
+		PreviousValue: c.nftDatas[schemaCode].TokenUri,
 		NewValue:      uri,
 	})
-	c.nftDatas[schemaName].TokenUri = uri
+	c.nftDatas[schemaCode].TokenUri = uri
 }
 
-func (c *CrossSchemaMetadata) GetImage(schemaName string) string {
-	if c.nftDatas[schemaName].OnchainImage != "" {
-		return c.nftDatas[schemaName].OnchainImage
+func (c *CrossSchemaMetadata) GetImage(schemaCode string) string {
+	if c.nftDatas[schemaCode].OnchainImage != "" {
+		return c.nftDatas[schemaCode].OnchainImage
 	}
 
-	return c.nftDatas[schemaName].OriginImage
+	return c.nftDatas[schemaCode].OriginImage
 }
 
-func (c *CrossSchemaMetadata) SetImage(schemaName, imagePath string) {
-	currentImage := c.nftDatas[schemaName].OnchainImage
+func (c *CrossSchemaMetadata) SetImage(schemaCode, imagePath string) {
+	currentImage := c.nftDatas[schemaCode].OnchainImage
 	if currentImage == "" {
-		currentImage = c.nftDatas[schemaName].OriginImage
+		currentImage = c.nftDatas[schemaCode].OriginImage
 	}
-	c.changeList[schemaName] = append(c.changeList[schemaName], &MetadataChange{
+	c.changeList[schemaCode] = append(c.changeList[schemaCode], &MetadataChange{
 		Key:           "image",
 		PreviousValue: currentImage,
 		NewValue:      imagePath,
 	})
-	c.nftDatas[schemaName].OnchainImage = imagePath
+	c.nftDatas[schemaCode].OnchainImage = imagePath
 }
 
-func (c *CrossSchemaMetadata) GetTokenId(schemaName string) string {
-	if err := c.validateSchemaName(schemaName); err != nil {
+func (c *CrossSchemaMetadata) GetTokenId(schemaCode string) string {
+	if err := c.validateSchemaName(schemaCode); err != nil {
 		panic(err)
 	}
-	return c.nftDatas[schemaName].TokenId
+	return c.nftDatas[schemaCode].TokenId
 }
 
-func (c *CrossSchemaMetadata) GetNftSchema(schemaName string) *NFTSchema {
-	if err := c.validateSchemaName(schemaName); err != nil {
+func (c *CrossSchemaMetadata) GetNftSchema(schemaCode string) *NFTSchema {
+	if err := c.validateSchemaName(schemaCode); err != nil {
 		panic(err)
 	}
-	return c.nftSchemas[schemaName]
+	return c.nftSchemas[schemaCode]
 }
 
-func (c *CrossSchemaMetadata) GetChangeList(schemaName string) ChangeList {
-	return c.changeList[schemaName]
+func (c *CrossSchemaMetadata) GetChangeList(schemaCode string) ChangeList {
+	return c.changeList[schemaCode]
 }
 
-func (c *CrossSchemaMetadata) validateSchemaName(schemaName string) error {
-	if _, exists := c.nftSchemas[schemaName]; !exists {
-		return sdkerrors.Wrap(ErrSchemaNotFound, schemaName)
+func (c *CrossSchemaMetadata) validateSchemaName(schemaCode string) error {
+	if _, exists := c.nftSchemas[schemaCode]; !exists {
+		return sdkerrors.Wrap(ErrSchemaNotFound, schemaCode)
 	}
 
 	return nil
 }
 
-func (c *CrossSchemaMetadata) getAttribute(schemaName, key string) (*MetadataAttribute, error) {
+func (c *CrossSchemaMetadata) getAttribute(schemaCode, key string) (*MetadataAttribute, error) {
 	// Validate schema exists
-	if err := c.validateSchemaName(schemaName); err != nil {
-		return nil, sdkerrors.Wrapf(err, "schema validation failed for %s", schemaName)
+	if err := c.validateSchemaName(schemaCode); err != nil {
+		return nil, sdkerrors.Wrapf(err, "schema validation failed for %s", schemaCode)
 	}
 
-	schemaKey, exists := c.mapSchemaKey[schemaName]
+	schemaKey, exists := c.mapSchemaKey[schemaCode]
 	if !exists {
-		return nil, sdkerrors.Wrapf(ErrSchemaNotFound, "schema %s not found in mapSchemaKey", schemaName)
+		return nil, sdkerrors.Wrapf(ErrSchemaNotFound, "schema %s not found in mapSchemaKey", schemaCode)
 	}
 
 	attri, exists := schemaKey[key]
 	if !exists {
-		return nil, sdkerrors.Wrapf(ErrAttributeNotFoundForAction, "attribute %s not found in schema %s", key, schemaName)
+		return nil, sdkerrors.Wrapf(ErrAttributeNotFoundForAction, "attribute %s not found in schema %s", key, schemaCode)
 	}
 
 	if attri == nil {
-		return nil, sdkerrors.Wrapf(ErrInvalidOperation, "attribute %s is nil in schema %s", key, schemaName)
+		return nil, sdkerrors.Wrapf(ErrInvalidOperation, "attribute %s is nil in schema %s", key, schemaCode)
 	}
 
 	return attri, nil
 }
 
-func (c *CrossSchemaMetadata) GetNumber(schemaName string, key string) int64 {
-	v, err := c.MustGetNumber(schemaName, key)
+func (c *CrossSchemaMetadata) GetNumber(schemaCode string, key string) int64 {
+	v, err := c.MustGetNumber(schemaCode, key)
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
 
-func (c *CrossSchemaMetadata) MustGetNumber(schemaName, key string) (int64, error) {
-	attri, err := c.getAttribute(schemaName, key)
+func (c *CrossSchemaMetadata) MustGetNumber(schemaCode, key string) (int64, error) {
+	attri, err := c.getAttribute(schemaCode, key)
 	if err != nil {
 		return 0, err
 	}
@@ -198,16 +198,16 @@ func (c *CrossSchemaMetadata) MustGetNumber(schemaName, key string) (int64, erro
 	return 0, sdkerrors.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
 }
 
-func (c *CrossSchemaMetadata) GetString(schemaName, key string) string {
-	v, err := c.MustGetString(schemaName, key)
+func (c *CrossSchemaMetadata) GetString(schemaCode, key string) string {
+	v, err := c.MustGetString(schemaCode, key)
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
 
-func (c *CrossSchemaMetadata) GetSubString(schemaName, key string, start int64, end int64) string {
-	v, err := c.MustGetString(schemaName, key)
+func (c *CrossSchemaMetadata) GetSubString(schemaCode, key string, start int64, end int64) string {
+	v, err := c.MustGetString(schemaCode, key)
 	if end > int64(len(v)) {
 		panic(sdkerrors.Wrap(ErrInvalidActionInput, "end can not be greater than string length"))
 	}
@@ -229,8 +229,8 @@ func (c *CrossSchemaMetadata) GetSubString(schemaName, key string, start int64, 
 	return v[start:end]
 }
 
-func (c *CrossSchemaMetadata) SetString(schemaName, key, value string) error {
-	attri, err := c.getAttribute(schemaName, key)
+func (c *CrossSchemaMetadata) SetString(schemaCode, key, value string) error {
+	attri, err := c.getAttribute(schemaCode, key)
 	if err != nil {
 		return err
 	}
@@ -249,20 +249,20 @@ func (c *CrossSchemaMetadata) SetString(schemaName, key, value string) error {
 		}
 		switch attri.From {
 		case "chain":
-			c.changeList[schemaName] = append(c.changeList[schemaName], &MetadataChange{
+			c.changeList[schemaCode] = append(c.changeList[schemaCode], &MetadataChange{
 				Key:           key,
 				PreviousValue: attri.AttributeValue.GetStringAttributeValue().Value,
 				NewValue:      value,
 			})
-			c.mapSchemaKey[schemaName][key].AttributeValue = newAttributeValue
-			c.nftDatas[schemaName].OnchainAttributes[attri.Index] = newAttributeValue
+			c.mapSchemaKey[schemaCode][key].AttributeValue = newAttributeValue
+			c.nftDatas[schemaCode].OnchainAttributes[attri.Index] = newAttributeValue
 		case "schema":
-			c.changeList[schemaName] = append(c.changeList[schemaName], &MetadataChange{
+			c.changeList[schemaCode] = append(c.changeList[schemaCode], &MetadataChange{
 				Key:           key,
 				PreviousValue: attri.AttributeValue.GetStringAttributeValue().Value,
 				NewValue:      value,
 			})
-			c.mapSchemaKey[schemaName][key].AttributeValue = newAttributeValue
+			c.mapSchemaKey[schemaCode][key].AttributeValue = newAttributeValue
 		default:
 			return sdkerrors.Wrap(ErrAttributeOverriding, "can not override the origin attribute")
 		}
@@ -272,8 +272,8 @@ func (c *CrossSchemaMetadata) SetString(schemaName, key, value string) error {
 	return nil
 }
 
-func (c *CrossSchemaMetadata) SetNumber(schemaName, key string, value int64) error {
-	attri, err := c.getAttribute(schemaName, key)
+func (c *CrossSchemaMetadata) SetNumber(schemaCode, key string, value int64) error {
+	attri, err := c.getAttribute(schemaCode, key)
 	if err != nil {
 		return err
 	}
@@ -292,20 +292,20 @@ func (c *CrossSchemaMetadata) SetNumber(schemaName, key string, value int64) err
 		}
 		switch attri.From {
 		case "chain":
-			c.changeList[schemaName] = append(c.changeList[schemaName], &MetadataChange{
+			c.changeList[schemaCode] = append(c.changeList[schemaCode], &MetadataChange{
 				Key:           key,
 				PreviousValue: strconv.FormatUint(attri.AttributeValue.GetNumberAttributeValue().Value, 10),
 				NewValue:      strconv.FormatUint(uint64(value), 10),
 			})
-			c.mapSchemaKey[schemaName][key].AttributeValue = newAttributeValue
-			c.nftDatas[schemaName].OnchainAttributes[attri.Index] = newAttributeValue
+			c.mapSchemaKey[schemaCode][key].AttributeValue = newAttributeValue
+			c.nftDatas[schemaCode].OnchainAttributes[attri.Index] = newAttributeValue
 		case "schema":
-			c.changeList[schemaName] = append(c.changeList[schemaName], &MetadataChange{
+			c.changeList[schemaCode] = append(c.changeList[schemaCode], &MetadataChange{
 				Key:           key,
 				PreviousValue: strconv.FormatUint(attri.AttributeValue.GetNumberAttributeValue().Value, 10),
 				NewValue:      strconv.FormatUint(uint64(value), 10),
 			})
-			c.mapSchemaKey[schemaName][key].AttributeValue = newAttributeValue
+			c.mapSchemaKey[schemaCode][key].AttributeValue = newAttributeValue
 		default:
 			return sdkerrors.Wrap(ErrAttributeOverriding, "can not override the origin attribute")
 		}
@@ -315,8 +315,8 @@ func (c *CrossSchemaMetadata) SetNumber(schemaName, key string, value int64) err
 	return nil
 }
 
-func (c *CrossSchemaMetadata) SetFloat(schemaName, key string, value float64) error {
-	attri, err := c.getAttribute(schemaName, key)
+func (c *CrossSchemaMetadata) SetFloat(schemaCode, key string, value float64) error {
+	attri, err := c.getAttribute(schemaCode, key)
 	if err != nil {
 		return err
 	}
@@ -335,20 +335,20 @@ func (c *CrossSchemaMetadata) SetFloat(schemaName, key string, value float64) er
 		}
 		switch attri.From {
 		case "chain":
-			c.changeList[schemaName] = append(c.changeList[schemaName], &MetadataChange{
+			c.changeList[schemaCode] = append(c.changeList[schemaCode], &MetadataChange{
 				Key:           key,
 				PreviousValue: strconv.FormatFloat(attri.AttributeValue.GetFloatAttributeValue().Value, 'f', -1, 64),
 				NewValue:      strconv.FormatFloat(value, 'f', -1, 64),
 			})
-			c.mapSchemaKey[schemaName][key].AttributeValue = newAttributeValue
-			c.nftDatas[schemaName].OnchainAttributes[attri.Index] = newAttributeValue
+			c.mapSchemaKey[schemaCode][key].AttributeValue = newAttributeValue
+			c.nftDatas[schemaCode].OnchainAttributes[attri.Index] = newAttributeValue
 		case "schema":
-			c.changeList[schemaName] = append(c.changeList[schemaName], &MetadataChange{
+			c.changeList[schemaCode] = append(c.changeList[schemaCode], &MetadataChange{
 				Key:           key,
 				PreviousValue: strconv.FormatFloat(attri.AttributeValue.GetFloatAttributeValue().Value, 'f', -1, 64),
 				NewValue:      strconv.FormatFloat(value, 'f', -1, 64),
 			})
-			c.mapSchemaKey[schemaName][key].AttributeValue = newAttributeValue
+			c.mapSchemaKey[schemaCode][key].AttributeValue = newAttributeValue
 		default:
 			return sdkerrors.Wrap(ErrAttributeOverriding, "can not override the origin attribute")
 		}
@@ -358,24 +358,24 @@ func (c *CrossSchemaMetadata) SetFloat(schemaName, key string, value float64) er
 	return nil
 }
 
-func (c *CrossSchemaMetadata) ToLowercase(schemaName, key string) string {
-	v, err := c.MustGetString(schemaName, key)
+func (c *CrossSchemaMetadata) ToLowercase(schemaCode, key string) string {
+	v, err := c.MustGetString(schemaCode, key)
 	if err != nil {
 		panic(err)
 	}
 	return strings.ToLower(v)
 }
 
-func (c *CrossSchemaMetadata) ToUppercase(schemaName, key string) string {
-	v, err := c.MustGetString(schemaName, key)
+func (c *CrossSchemaMetadata) ToUppercase(schemaCode, key string) string {
+	v, err := c.MustGetString(schemaCode, key)
 	if err != nil {
 		panic(err)
 	}
 	return strings.ToUpper(v)
 }
 
-func (c *CrossSchemaMetadata) MustGetString(schemaName, key string) (string, error) {
-	attri, err := c.getAttribute(schemaName, key)
+func (c *CrossSchemaMetadata) MustGetString(schemaCode, key string) (string, error) {
+	attri, err := c.getAttribute(schemaCode, key)
 	if err != nil {
 		return "", err
 	}
@@ -388,16 +388,16 @@ func (c *CrossSchemaMetadata) MustGetString(schemaName, key string) (string, err
 	return "", sdkerrors.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
 }
 
-func (c *CrossSchemaMetadata) GetFloat(schemaName, key string) float64 {
-	v, err := c.MustGetFloat(schemaName, key)
+func (c *CrossSchemaMetadata) GetFloat(schemaCode, key string) float64 {
+	v, err := c.MustGetFloat(schemaCode, key)
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
 
-func (c *CrossSchemaMetadata) MustGetFloat(schemaName, key string) (float64, error) {
-	attri, err := c.getAttribute(schemaName, key)
+func (c *CrossSchemaMetadata) MustGetFloat(schemaCode, key string) (float64, error) {
+	attri, err := c.getAttribute(schemaCode, key)
 	if err != nil {
 		return 0, err
 	}
@@ -410,16 +410,16 @@ func (c *CrossSchemaMetadata) MustGetFloat(schemaName, key string) (float64, err
 	return 0, sdkerrors.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
 }
 
-func (c *CrossSchemaMetadata) GetBoolean(schemaName, key string) bool {
-	v, err := c.MustGetBool(schemaName, key)
+func (c *CrossSchemaMetadata) GetBoolean(schemaCode, key string) bool {
+	v, err := c.MustGetBool(schemaCode, key)
 	if err != nil {
 		panic(err)
 	}
 	return v
 }
 
-func (c *CrossSchemaMetadata) MustGetBool(schemaName, key string) (bool, error) {
-	attri, err := c.getAttribute(schemaName, key)
+func (c *CrossSchemaMetadata) MustGetBool(schemaCode, key string) (bool, error) {
+	attri, err := c.getAttribute(schemaCode, key)
 	if err != nil {
 		return false, err
 	}
