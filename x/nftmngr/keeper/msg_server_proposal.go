@@ -10,6 +10,10 @@ import (
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
+// TODO:: 
+// 1. For proposaltype CREATE when start proposal lock amout of value to module account
+// 2. when proposal is rejected, unlock the amount and burn some as penalty. The amount left will be refunded to the creator
+// 3. when proposal is accepted, and process fee so on. 
 func (k msgServer) ProposalVirtualSchema(goCtx context.Context, msg *types.MsgProposalVirtualSchema) (*types.MsgProposalVirtualSchemaResponse, error) {
 	var (
 		registry []*types.VirtualSchemaRegistry
@@ -22,6 +26,33 @@ func (k msgServer) ProposalVirtualSchema(goCtx context.Context, msg *types.MsgPr
 		registry, err = k.validateCreateVirtualSchemaProposal(ctx, msg.VirtualNftSchemaCode, msg.Registry)
 		if err != nil {
 			return nil, err
+		}
+		// **** SCHEMA FEE ****
+		feeConfig, found := k.GetNFTFeeConfig(ctx)
+		if found {
+			// Get Denom
+			amount, err := sdk.ParseCoinNormalized(feeConfig.SchemaFee.FeeAmount)
+			if err != nil {
+				return nil, sdkerrors.Wrap(types.ErrInvalidFeeAmount, err.Error())
+			}
+			feeBalances, found := k.GetNFTFeeBalance(ctx)
+			if !found {
+				feeBalances = types.NFTFeeBalance{
+					FeeBalances: []string{
+						"0" + amount.Denom,
+					},
+				}
+			}
+
+			if len(feeBalances.FeeBalances) > 0 {
+				feeBalances.FeeBalances[types.FeeSubject_CREATE_NFT_SCHEMA] = "0" + amount.Denom
+			}
+			err = k.ProcessFee(ctx, &feeConfig, &feeBalances, types.FeeSubject_CREATE_NFT_SCHEMA, sdk.AccAddress(msg.Creator))
+			if err != nil {
+				return nil, sdkerrors.Wrap(types.ErrProcessingFee, err.Error())
+			}
+			// Set Fee Balance
+			k.SetNFTFeeBalance(ctx, feeBalances)
 		}
 	} else {
 		registry, err = k.validateUpdateVirtualSchemaProposal(ctx, msg.VirtualNftSchemaCode, msg.Registry)

@@ -18,7 +18,7 @@ var _ = strconv.Itoa(0)
 func CmdSetFeeConfig() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "set-fee-config [file-path]",
-		Short: "To set fee config [fee-subject 0: nftSchema, fee-subject 1: virtualSchema]",
+		Short: "To set fee config",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			argFeeConfigFilePath := args[0]
