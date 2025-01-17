@@ -9,10 +9,10 @@ const TypeMsgSetFeeConfig = "set_fee_config"
 
 var _ sdk.Msg = &MsgSetFeeConfig{}
 
-func NewMsgSetFeeConfig(creator string, newFeeConfigBase64 string) *MsgSetFeeConfig {
+func NewMsgSetFeeConfig(creator string, feeConfig *FeeConfig) *MsgSetFeeConfig {
 	return &MsgSetFeeConfig{
-		Creator:            creator,
-		NewFeeConfigBase64: newFeeConfigBase64,
+		Creator:   creator,
+		FeeConfig: feeConfig,
 	}
 }
 

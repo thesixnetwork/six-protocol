@@ -2,8 +2,12 @@ package utils
 
 import (
 	"os"
+	"strconv"
+	"strings"
 
 	"github.com/cosmos/cosmos-sdk/codec"
+
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
@@ -12,15 +16,14 @@ type (
 	VirtualSchemaRegistryRequestJSON []VirtualSchemaRegistryJSON
 
 	VirtualSchemaRegistryJSON struct {
-		VirtualSchemaCode string   `json:"code"`
-		SharedAttributes  []string `json:"sharedAttributes"`
+		VirtualSchemaCode string `json:"code"`
 	}
 
 	VirtualSchemaRequest struct {
-		VirtualSchemaCode     string                               `json:"virtualSchemaCode"`
-		Actions               []types.Action                       `json:"actions"`
-		VirtualSchemaRegistry []types.VirtualSchemaRegistryRequest `json:"virtualSchemaRegistry"`
-		Enable                bool                                 `json:"enable"`
+		VirtualSchemaCode     string         `json:"virtualSchemaCode"`
+		Actions               []types.Action `json:"actions"`
+		VirtualSchemaRegistry []string       `json:"virtualSchemaRegistry"`
+		Enable                bool           `json:"enable"`
 	}
 
 	ActionParameter struct {
@@ -38,6 +41,16 @@ type (
 		TokenIds []TokenIds        `json:"tokenIds"`
 		Action   string            `json:"action"`
 		Params   []ActionParameter `json:"params"`
+	}
+
+	FeeDistribution struct {
+		Method  string `json:"method"`
+		Portion string `json:"portion"`
+	}
+
+	FeeConfig struct {
+		FeeAmount        string            `json:"fee_amount"`
+		FeeDistributions []FeeDistribution `json:"fee_distributions"`
 	}
 )
 
@@ -60,7 +73,6 @@ func NewVirtualSchemaRegistryRequestJSON(code string, sharedAttributes []string)
 	return VirtualSchemaRegistryRequestJSON{
 		{
 			VirtualSchemaCode: code,
-			SharedAttributes:  sharedAttributes,
 		},
 	}
 }
@@ -115,4 +127,50 @@ func ParseNewVirtualActionJSON(cdc *codec.LegacyAmino, newActionFile string) ([]
 	}
 
 	return newAction, err
+}
+
+func ParseFeeConfigJSON(cdc *codec.LegacyAmino, newFeeConfigFile string) (*types.FeeConfig, error) {
+	newFeeConfig := types.FeeConfig{}
+
+	feeconfigInput := FeeConfig{}
+
+	feeconfigContent, err := os.ReadFile(newFeeConfigFile)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := cdc.UnmarshalJSON(feeconfigContent, &feeconfigInput); err != nil {
+		return nil, err
+	}
+
+	// convert input to nftmngrtypes.FeeConfig
+	newFeeConfig.FeeAmount = feeconfigInput.FeeAmount
+	for _, feeDis := range feeconfigInput.FeeDistributions {
+		methodLower := strings.ToLower(feeDis.Method)
+		portionFloat, err := strconv.ParseFloat(feeDis.Portion, 32)
+		if err != nil {
+			return nil, err
+		}
+
+		switch methodLower {
+		case "burn":
+			newFeeConfig.FeeDistributions = append(newFeeConfig.FeeDistributions, &types.FeeDistribution{
+				Method:  types.FeeDistributionMethod_BURN,
+				Portion: float32(portionFloat),
+			})
+		case "reward_pool":
+			newFeeConfig.FeeDistributions = append(newFeeConfig.FeeDistributions, &types.FeeDistribution{
+				Method:  types.FeeDistributionMethod_REWARD_POOL,
+				Portion: float32(portionFloat),
+			})
+		case "transfer":
+			newFeeConfig.FeeDistributions = append(newFeeConfig.FeeDistributions, &types.FeeDistribution{
+				Method:  types.FeeDistributionMethod_TRANSFER,
+				Portion: float32(portionFloat),
+			})
+		default:
+			return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid subject. Use burn, reward_pool, or transfer")
+		}
+	}
+	return &newFeeConfig, nil
 }

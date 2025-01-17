@@ -10,17 +10,11 @@ import (
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
-func CmdListSchemaAttribute() *cobra.Command {
+func CmdListLockSchemaFee() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "list-schema-attribute",
-		Short: "list all schema_attribute",
-		Args:  cobra.RangeArgs(0, 1),
+		Use:   "list-lock-schema-fee",
+		Short: "list all lockSchemaFee",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			argSchemaCode := ""
-			if len(args) > 0 {
-				argSchemaCode = args[0]
-			}
-
 			clientCtx := client.GetClientContextFromCmd(cmd)
 
 			pageReq, err := client.ReadPageRequest(cmd.Flags())
@@ -30,12 +24,11 @@ func CmdListSchemaAttribute() *cobra.Command {
 
 			queryClient := types.NewQueryClient(clientCtx)
 
-			params := &types.QueryAllSchemaAttributeRequest{
-				NftSchemaCode: argSchemaCode,
-				Pagination:    pageReq,
+			params := &types.QueryAllLockSchemaFeeRequest{
+				Pagination: pageReq,
 			}
 
-			res, err := queryClient.SchemaAttributeAll(context.Background(), params)
+			res, err := queryClient.LockSchemaFeeAll(context.Background(), params)
 			if err != nil {
 				return err
 			}
@@ -50,25 +43,23 @@ func CmdListSchemaAttribute() *cobra.Command {
 	return cmd
 }
 
-func CmdShowSchemaAttribute() *cobra.Command {
+func CmdShowLockSchemaFee() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "show-schema-attribute [nft-schema-code] [name]",
-		Short: "shows a schema_attribute",
-		Args:  cobra.ExactArgs(2),
+		Use:   "show-lock-schema-fee [index]",
+		Short: "shows a lockSchemaFee",
+		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			clientCtx := client.GetClientContextFromCmd(cmd)
 
 			queryClient := types.NewQueryClient(clientCtx)
 
-			argNftSchemaCode := args[0]
-			argName := args[1]
+			argIndex := args[0]
 
-			params := &types.QueryGetSchemaAttributeRequest{
-				NftSchemaCode: argNftSchemaCode,
-				Name:          argName,
+			params := &types.QueryGetLockSchemaFeeRequest{
+				Index: argIndex,
 			}
 
-			res, err := queryClient.SchemaAttribute(context.Background(), params)
+			res, err := queryClient.LockSchemaFee(context.Background(), params)
 			if err != nil {
 				return err
 			}

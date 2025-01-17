@@ -9,6 +9,7 @@ import (
 	"github.com/spf13/cobra"
 
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 

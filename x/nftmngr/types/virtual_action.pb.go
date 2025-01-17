@@ -23,9 +23,6 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// TODO:
-// 1. Policy of action (who can use action)
-// 2. Proposal to enable and disable action
 type VirtualAction struct {
 	VirtualNftSchemaCode string   `protobuf:"bytes,1,opt,name=virtualNftSchemaCode,proto3" json:"virtualNftSchemaCode,omitempty"`
 	Name                 string   `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
@@ -34,7 +31,6 @@ type VirtualAction struct {
 	When                 string   `protobuf:"bytes,5,opt,name=when,proto3" json:"when,omitempty"`
 	Then                 []string `protobuf:"bytes,6,rep,name=then,proto3" json:"then,omitempty"`
 	// NOTE: Policy of virtual action
-	// TODO: [chore] Combine enable/disable to change virtual schema.
 	AllowedActioner AllowedActioner `protobuf:"varint,7,opt,name=allowed_actioner,json=allowedActioner,proto3,enum=thesixnetwork.sixprotocol.nftmngr.AllowedActioner" json:"allowed_actioner,omitempty"`
 	Params          []*ActionParams `protobuf:"bytes,8,rep,name=params,proto3" json:"params,omitempty"`
 }

@@ -10,6 +10,10 @@ import (
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
+// TODO::
+// 1. For proposaltype CREATE when start proposal lock amout of value to module account
+// 2. when proposal is rejected, unlock the amount and burn some as penalty. The amount left will be refunded to the creator
+// 3. when proposal is accepted, and process fee so on.
 func (k msgServer) ProposalVirtualSchema(goCtx context.Context, msg *types.MsgProposalVirtualSchema) (*types.MsgProposalVirtualSchemaResponse, error) {
 	var (
 		registry []*types.VirtualSchemaRegistry
@@ -71,6 +75,37 @@ func (k msgServer) ProposalVirtualSchema(goCtx context.Context, msg *types.MsgPr
 	k.SetActiveVirtualSchemaProposal(ctx, types.ActiveVirtualSchemaProposal{
 		Id: strProposalId,
 	})
+
+	if msg.ProposalType == types.ProposalType_CREATE {
+		// lock the amount of value to module account
+		feeConfig, found := k.GetNFTFeeConfig(ctx)
+		// **** SCHEMA FEE ****
+		if found {
+			// Get Denom
+			amount, err := sdk.ParseCoinNormalized(feeConfig.SchemaFee.FeeAmount)
+			if err != nil {
+				return nil, sdkerrors.Wrap(types.ErrInvalidFeeAmount, err.Error())
+			}
+
+			creatorAddress, err := sdk.AccAddressFromBech32(msg.Creator)
+			if err != nil {
+				return nil, err
+			}
+
+			// Lock the amount
+			err = k.bankKeeper.SendCoinsFromAccountToModule(ctx, creatorAddress, types.ModuleName, sdk.NewCoins(amount))
+			if err != nil {
+				return nil, err
+			}
+
+			k.SetLockSchemaFee(ctx, types.LockSchemaFee{
+				Id:                strProposalId,
+				VirtualSchemaCode: msg.VirtualNftSchemaCode,
+				Amount:            amount,
+				Proposer:          msg.Creator,
+			})
+		}
+	}
 
 	return &types.MsgProposalVirtualSchemaResponse{
 		Id:                   strProposalId,

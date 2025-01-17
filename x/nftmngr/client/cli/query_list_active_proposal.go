@@ -6,6 +6,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/spf13/cobra"
+
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
@@ -17,7 +18,6 @@ func CmdListActiveProposal() *cobra.Command {
 		Short: "Query listActiveProposal",
 		Args:  cobra.ExactArgs(0),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-
 			clientCtx, err := client.GetClientQueryContext(cmd)
 			if err != nil {
 				return err
