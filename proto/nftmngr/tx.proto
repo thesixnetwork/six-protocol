@@ -12,6 +12,7 @@ import "nftmngr/attribute_definition.proto";
 import "nftmngr/nft_attribute_value.proto";
 import "nftmngr/virtual_schema.proto";
 import "nftmngr/action.proto";
+import "nftmngr/nft_fee_config.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
@@ -196,14 +197,9 @@ message MsgResyncAttributes {
   string tokenId = 3;
 }
 
-enum FeeSubject {
-  CREATE_NFT_SCHEMA = 0;
-}
-
 message MsgSetFeeConfig {
   string creator = 1;
-  string newFeeConfigBase64 = 2;
-  FeeSubject feeSubject = 3;
+  FeeConfig feeConfig = 2;
 }
 
 message MsgSetFeeConfigResponse {}

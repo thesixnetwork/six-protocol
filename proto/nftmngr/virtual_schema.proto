@@ -7,7 +7,6 @@ import "nftmngr/action.proto";
 
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
 
-// TODO: [chore] Combine enable/disable to change virtual schema.
 message VirtualSchemaProposal {
   string id = 1;
   ProposalType proposalType = 2;
@@ -28,17 +27,12 @@ message VirtualSchema {
   // link wih virtual action. We will not put in here to reduce redundance info
 }
 
-// TODO: [chore] Combine enable/disable to change virtual schema.
 message VirtualSchemaRegistry {
   string nftSchemaCode = 1;
-  repeated string sharedAttributes = 2;
   RegistryStatus decision = 3;
 }
 
-message VirtualSchemaRegistryRequest {
-  string nftSchemaCode = 1;
-  repeated string sharedAttributes = 2;
-}
+message VirtualSchemaRegistryRequest { string nftSchemaCode = 1; }
 
 message ActiveVirtualSchemaProposal { string id = 1; }
 
@@ -50,7 +44,6 @@ enum RegistryStatus {
   ACCEPT = 2;
 }
 
-// TODO: [chore] Combine enable/disable to change virtual schema.
 enum ProposalType {
   CREATE = 0;
   EDIT = 1;

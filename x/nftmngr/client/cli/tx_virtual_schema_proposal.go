@@ -9,11 +9,11 @@ import (
 	"github.com/spf13/cobra"
 
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+
 	nftmngrutils "github.com/thesixnetwork/six-protocol/x/nftmngr/client/utils"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
-// TODO: [chore] Combine enable/disable to change virtual schema.
 func CmdCreateVirtualSchema() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "virtual-schema-proposal [proposalType] [proposalFile]",
@@ -40,13 +40,20 @@ func CmdCreateVirtualSchema() *cobra.Command {
 				return err
 			}
 
+			virtualSchemaRegistryRequest := make([]types.VirtualSchemaRegistryRequest, len(proposal.VirtualSchemaRegistry))
+			for i, registry := range proposal.VirtualSchemaRegistry {
+				virtualSchemaRegistryRequest[i] = types.VirtualSchemaRegistryRequest{
+					NftSchemaCode: registry,
+				}
+			}
+
 			msg := types.NewMsgProposalVirtualSchema(
 				clientCtx.GetFromAddress().String(),
 				proposal.VirtualSchemaCode,
 				proposalType,
-        proposal.VirtualSchemaRegistry,
+				virtualSchemaRegistryRequest,
 				proposal.Actions,
-        proposal.Enable,
+				proposal.Enable,
 			)
 
 			if err := msg.ValidateBasic(); err != nil {

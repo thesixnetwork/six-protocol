@@ -16,23 +16,22 @@ import (
 // Prevent strconv unused error
 var _ = strconv.IntSize
 
-func createNVirtualAction(keeper *keeper.Keeper, ctx sdk.Context, n int) []types.VirtualAction {
-	items := make([]types.VirtualAction, n)
+func createNLockSchemaFee(keeper *keeper.Keeper, ctx sdk.Context, n int) []types.LockSchemaFee {
+	items := make([]types.LockSchemaFee, n)
 	for i := range items {
-		items[i].VirtualNftSchemaCode = strconv.Itoa(i)
+		items[i].Id = strconv.Itoa(i)
 
-		keeper.SetVirtualAction(ctx, items[i])
+		keeper.SetLockSchemaFee(ctx, items[i])
 	}
 	return items
 }
 
-func TestVirtualActionGet(t *testing.T) {
+func TestLockSchemaFeeGet(t *testing.T) {
 	keeper, ctx := keepertest.NftmngrKeeper(t)
-	items := createNVirtualAction(keeper, ctx, 10)
+	items := createNLockSchemaFee(keeper, ctx, 10)
 	for _, item := range items {
-		rst, found := keeper.GetVirtualAction(ctx,
-			item.VirtualNftSchemaCode,
-			item.Name,
+		rst, found := keeper.GetLockSchemaFee(ctx,
+			item.Id,
 		)
 		require.True(t, found)
 		require.Equal(t,
@@ -42,27 +41,25 @@ func TestVirtualActionGet(t *testing.T) {
 	}
 }
 
-func TestVirtualActionRemove(t *testing.T) {
+func TestLockSchemaFeeRemove(t *testing.T) {
 	keeper, ctx := keepertest.NftmngrKeeper(t)
-	items := createNVirtualAction(keeper, ctx, 10)
+	items := createNLockSchemaFee(keeper, ctx, 10)
 	for _, item := range items {
-		keeper.RemoveVirtualAction(ctx,
-			item.VirtualNftSchemaCode,
-			item.Name,
+		keeper.RemoveLockSchemaFee(ctx,
+			item.Id,
 		)
-		_, found := keeper.GetVirtualAction(ctx,
-			item.VirtualNftSchemaCode,
-			item.Name,
+		_, found := keeper.GetLockSchemaFee(ctx,
+			item.Id,
 		)
 		require.False(t, found)
 	}
 }
 
-func TestVirtualActionGetAll(t *testing.T) {
+func TestLockSchemaFeeGetAll(t *testing.T) {
 	keeper, ctx := keepertest.NftmngrKeeper(t)
-	items := createNVirtualAction(keeper, ctx, 10)
+	items := createNLockSchemaFee(keeper, ctx, 10)
 	require.ElementsMatch(t,
 		nullify.Fill(items),
-		nullify.Fill(keeper.GetAllVirtualAction(ctx)),
+		nullify.Fill(keeper.GetAllLockSchemaFee(ctx)),
 	)
 }
