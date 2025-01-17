@@ -55,7 +55,7 @@ func (k Keeper) VirtualActionAll(c context.Context, req *types.QueryAllVirtualAc
 			return nil, status.Error(codes.Internal, err.Error())
 		}
 		pageRes.Total = uint64(len(virtuals))
-    pageRes.NextKey = nil
+		pageRes.NextKey = nil
 		return &types.QueryAllVirtualActionResponse{VirtualAction: virtuals, Pagination: pageRes}, nil
 	}
 }

@@ -403,14 +403,14 @@ func (k Keeper) UpdateActionKeeper(ctx sdk.Context, creator, nftSchemaName strin
 	return nil
 }
 
-func (k Keeper) UpdateVirtualActionKeeper(ctx sdk.Context,nftSchemaName string, updateAction types.Action) error {
+func (k Keeper) UpdateVirtualActionKeeper(ctx sdk.Context, nftSchemaName string, updateAction types.Action) error {
 	_, found := k.GetVirtualSchema(ctx, nftSchemaName)
 	if !found {
 		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
 	}
 
 	// validate Action data
-  err := ValidateVirutualAction(&updateAction)
+	err := ValidateVirutualAction(&updateAction)
 	if err != nil {
 		return sdkerrors.Wrap(types.ErrValidatingMetadata, err.Error())
 	}

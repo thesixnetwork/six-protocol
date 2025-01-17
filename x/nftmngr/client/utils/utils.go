@@ -8,6 +8,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 

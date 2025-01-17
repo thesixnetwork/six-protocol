@@ -28,7 +28,7 @@ func TestVirtualSchemaMsgServerCreate(t *testing.T) {
 			VirtualNftSchemaCode: "virtualNftSchemaCode",
 			Registry: []*types.VirtualSchemaRegistryRequest{
 				{
-					NftSchemaCode:    "nftSchemaCode",
+					NftSchemaCode: "nftSchemaCode",
 				},
 			},
 		}

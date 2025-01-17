@@ -20,6 +20,7 @@ import "nftmngr/executor_of_schema.proto";
 import "nftmngr/virtual_action.proto";
 import "nftmngr/nft_data.proto";
 import "nftmngr/virtual_schema.proto";
+import "nftmngr/lock_schema_fee.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
@@ -239,6 +240,20 @@ service Query {
       returns (QueryListActiveProposalResponse) {
     option (google.api.http).get =
         "/thesixnetwork/six-protocol/nftmngr/list_active_proposal";
+  }
+
+  // Queries a LockSchemaFee by index.
+  rpc LockSchemaFee(QueryGetLockSchemaFeeRequest)
+      returns (QueryGetLockSchemaFeeResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/six-protocol/nftmngr/lock_schema_fee/{index}";
+  }
+
+  // Queries a list of LockSchemaFee items.
+  rpc LockSchemaFeeAll(QueryAllLockSchemaFeeRequest)
+      returns (QueryAllLockSchemaFeeResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/six-protocol/nftmngr/lock_schema_fee";
   }
 
   // this line is used by starport scaffolding # 2
@@ -502,6 +517,21 @@ message QueryListActiveProposalRequest {}
 message QueryListActiveProposalResponse {
   repeated VirtualSchemaProposal virtualSchemaProposal = 1
       [ (gogoproto.nullable) = false ];
+}
+
+message QueryGetLockSchemaFeeRequest { string index = 1; }
+
+message QueryGetLockSchemaFeeResponse {
+  LockSchemaFee lockSchemaFee = 1 [ (gogoproto.nullable) = false ];
+}
+
+message QueryAllLockSchemaFeeRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllLockSchemaFeeResponse {
+  repeated LockSchemaFee lockSchemaFee = 1 [ (gogoproto.nullable) = false ];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
 // this line is used by starport scaffolding # 3
