@@ -1,6 +1,8 @@
 package keeper
 
 import (
+	"fmt"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	distribtype "github.com/cosmos/cosmos-sdk/x/distribution/types"
 	abci "github.com/tendermint/tendermint/abci/types"
@@ -107,37 +109,54 @@ func (k Keeper) VirtualSchemaHook(ctx sdk.Context, virtualSchemaProposal types.V
 		return false
 	}
 
-	// Process proposal
-	virtualSchema := types.VirtualSchema{
-		VirtualNftSchemaCode: virtualSchemaProposal.VirtualSchema.VirtualNftSchemaCode,
-		Registry:             virtualSchemaProposal.VirtualSchema.Registry,
-		Enable:               virtualSchemaProposal.VirtualSchema.Enable,
-	}
+	if acceptCount < voteThreshold {
+		k.Logger(ctx).Info("Proposal rejected")
+		k.RemoveActiveVirtualSchemaProposal(ctx, virtualSchemaProposal.Id)
+		k.SetInactiveVirtualSchemaProposal(ctx, types.InactiveVirtualSchemaProposal{Id: virtualSchemaProposal.Id})
+		// **** SCHEMA FEE ****
+		if err := k.processSchemaFee(ctx, virtualSchemaProposal, false); err != nil {
+			k.Logger(ctx).Error("failed to process schema fee", "error", err)
+			return false
+		}
+		return false
+	} else {
+		// Process proposal
+		virtualSchema := types.VirtualSchema{
+			VirtualNftSchemaCode: virtualSchemaProposal.VirtualSchema.VirtualNftSchemaCode,
+			Registry:             virtualSchemaProposal.VirtualSchema.Registry,
+			Enable:               virtualSchemaProposal.VirtualSchema.Enable,
+		}
 
-	k.Logger(ctx).Info("Updating virtual schema", "code", virtualSchema.VirtualNftSchemaCode, "enabled", virtualSchema.Enable)
-	k.SetVirtualSchema(ctx, virtualSchema)
+		k.Logger(ctx).Info("Updating virtual schema", "code", virtualSchema.VirtualNftSchemaCode, "enabled", virtualSchema.Enable)
+		k.SetVirtualSchema(ctx, virtualSchema)
 
-	if virtualSchemaProposal.ProposalType == types.ProposalType_EDIT {
-		for _, action := range virtualSchemaProposal.Actions {
-			_, found := k.GetVirtualAction(ctx, virtualSchema.VirtualNftSchemaCode, action.Name)
-			if found {
-				k.UpdateVirtualActionKeeper(ctx, virtualSchema.VirtualNftSchemaCode, *action)
-			} else {
+		if virtualSchemaProposal.ProposalType == types.ProposalType_EDIT {
+			for _, action := range virtualSchemaProposal.Actions {
+				_, found := k.GetVirtualAction(ctx, virtualSchema.VirtualNftSchemaCode, action.Name)
+				if found {
+					k.UpdateVirtualActionKeeper(ctx, virtualSchema.VirtualNftSchemaCode, *action)
+				} else {
+					k.AddVirtualActionKeeper(ctx, virtualSchema.VirtualNftSchemaCode, *action)
+				}
+			}
+		} else {
+			for _, action := range virtualSchemaProposal.Actions {
 				k.AddVirtualActionKeeper(ctx, virtualSchema.VirtualNftSchemaCode, *action)
 			}
 		}
-	} else {
-		for _, action := range virtualSchemaProposal.Actions {
-			k.AddVirtualActionKeeper(ctx, virtualSchema.VirtualNftSchemaCode, *action)
+
+		if err := k.processSchemaFee(ctx, virtualSchemaProposal, true); err != nil {
+			k.Logger(ctx).Error("failed to process schema fee", "error", err)
+			return false
 		}
+
+		// Update proposal status
+		k.RemoveActiveVirtualSchemaProposal(ctx, virtualSchemaProposal.Id)
+		k.SetInactiveVirtualSchemaProposal(ctx, types.InactiveVirtualSchemaProposal{Id: virtualSchemaProposal.Id})
+
+		k.Logger(ctx).Info("Virtual schema proposal processed successfully", "id", virtualSchemaProposal.Id)
+		return true
 	}
-
-	// Update proposal status
-	k.RemoveActiveVirtualSchemaProposal(ctx, virtualSchemaProposal.Id)
-	k.SetInactiveVirtualSchemaProposal(ctx, types.InactiveVirtualSchemaProposal{Id: virtualSchemaProposal.Id})
-
-	k.Logger(ctx).Info("Virtual schema proposal processed successfully", "id", virtualSchemaProposal.Id)
-	return true
 }
 
 func countProposalVotes(registry []*types.VirtualSchemaRegistry) (acceptCount, totalVotes int) {
@@ -155,4 +174,40 @@ func countProposalVotes(registry []*types.VirtualSchemaRegistry) (acceptCount, t
 		}
 	}
 	return
+}
+
+func (k Keeper) processSchemaFee(ctx sdk.Context, virtualSchemaProposal types.VirtualSchemaProposal, isAccepted bool) error {
+	feeConfig, found := k.GetNFTFeeConfig(ctx)
+	if !found {
+		return nil
+	}
+
+	amount, err := sdk.ParseCoinNormalized(feeConfig.SchemaFee.FeeAmount)
+	if err != nil {
+		k.Logger(ctx).Error("failed to parse fee amount", "error", err)
+		return fmt.Errorf("failed to parse fee amount: %w", err)
+	}
+
+	feeBalances, found := k.GetNFTFeeBalance(ctx)
+	if !found {
+		feeBalances = types.NFTFeeBalance{
+			FeeBalances: []string{
+				"0" + amount.Denom,
+			},
+		}
+	}
+
+	if len(feeBalances.FeeBalances) > 0 {
+		feeBalances.FeeBalances[types.FeeSubject_CREATE_NFT_SCHEMA] = "0" + amount.Denom
+	}
+
+	err = k.VirtualSchemaProcessFee(ctx, &feeConfig, &feeBalances, types.FeeSubject_CREATE_NFT_SCHEMA, isAccepted, virtualSchemaProposal.Id)
+	if err != nil {
+		k.Logger(ctx).Error("failed to process fee", "error", err)
+		return fmt.Errorf("failed to process fee: %w", err)
+	}
+
+	k.SetNFTFeeBalance(ctx, feeBalances)
+
+	return nil
 }

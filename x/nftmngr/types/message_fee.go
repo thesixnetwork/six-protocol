@@ -11,8 +11,8 @@ var _ sdk.Msg = &MsgSetFeeConfig{}
 
 func NewMsgSetFeeConfig(creator string, feeConfig *FeeConfig) *MsgSetFeeConfig {
 	return &MsgSetFeeConfig{
-		Creator:    creator,
-		FeeConfig:  feeConfig,
+		Creator:   creator,
+		FeeConfig: feeConfig,
 	}
 }
 

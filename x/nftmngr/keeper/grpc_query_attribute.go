@@ -78,7 +78,7 @@ func (k Keeper) SchemaAttributeAll(c context.Context, req *types.QueryAllSchemaA
 			return nil, status.Error(codes.Internal, err.Error())
 		}
 		pageRes.Total = uint64(len(schemaAttributes))
-    pageRes.NextKey = nil
+		pageRes.NextKey = nil
 		return &types.QueryAllSchemaAttributeResponse{SchemaAttribute: schemaAttributes, Pagination: pageRes}, nil
 	}
 }

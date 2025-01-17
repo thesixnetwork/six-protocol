@@ -32,9 +32,7 @@ message VirtualSchemaRegistry {
   RegistryStatus decision = 3;
 }
 
-message VirtualSchemaRegistryRequest {
-  string nftSchemaCode = 1;
-}
+message VirtualSchemaRegistryRequest { string nftSchemaCode = 1; }
 
 message ActiveVirtualSchemaProposal { string id = 1; }
 

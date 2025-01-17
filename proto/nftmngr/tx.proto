@@ -197,7 +197,6 @@ message MsgResyncAttributes {
   string tokenId = 3;
 }
 
-
 message MsgSetFeeConfig {
   string creator = 1;
   FeeConfig feeConfig = 2;
