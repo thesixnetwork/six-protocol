@@ -46,7 +46,7 @@ func (p PrecompileExecutor) ArrayOfstringFromArg(arg interface{}) ([]string, err
 	return arrayStringArg, nil
 }
 
-func (p PrecompileExecutor) boolFromArg(arg interface{}) (bool, error) {
+func (p PrecompileExecutor) BoolFromArg(arg interface{}) (bool, error) {
 	boolArg, ok := arg.(bool)
 	if !ok {
 		return false, errors.New("invalid argument type string")
