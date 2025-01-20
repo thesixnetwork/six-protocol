@@ -20,6 +20,11 @@ message VirtualSchemaProposal {
       [ (gogoproto.stdtime) = true, (gogoproto.nullable) = false ];
 }
 
+message VirtualSchemaProposalRequest {
+  repeated string nftSchemaCodes = 1;
+  repeated Action actions = 2;
+}
+
 message VirtualSchema {
   string virtualNftSchemaCode = 1;
   repeated VirtualSchemaRegistry registry = 2;

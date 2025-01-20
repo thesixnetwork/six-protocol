@@ -123,3 +123,14 @@ func (p PrecompileExecutor) TokenIdMapFromJSONString(arg interface{}) ([]*nftmng
 
 	return tokenIdMapPointer, nil
 }
+
+func (p PrecompileExecutor) parseProposalType(option int32) (nftmngrtype.ProposalType, error) {
+	switch option {
+	case 0:
+		return nftmngrtype.ProposalType_CREATE, nil
+	case 1:
+		return nftmngrtype.ProposalType_EDIT, nil
+	default:
+		return nftmngrtype.ProposalType_CREATE, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Invalid proposal type. Use 'create(0)/edit(1)'")
+	}
+}
