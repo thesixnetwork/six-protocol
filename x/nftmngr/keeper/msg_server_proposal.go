@@ -15,38 +15,51 @@ import (
 // 2. when proposal is rejected, unlock the amount and burn some as penalty. The amount left will be refunded to the creator
 // 3. when proposal is accepted, and process fee so on.
 func (k msgServer) ProposalVirtualSchema(goCtx context.Context, msg *types.MsgProposalVirtualSchema) (*types.MsgProposalVirtualSchemaResponse, error) {
+	ctx := sdk.UnwrapSDKContext(goCtx)
+
+	strProposalId, err := k.ProposalVirtualSchemaKeeper(ctx, msg.Creator, msg.VirtualNftSchemaCode, msg.ProposalType, msg.Registry, msg.Actions, msg.Enable)
+	if err != nil {
+		return nil, err
+	}
+
+	return &types.MsgProposalVirtualSchemaResponse{
+		Id:                   strProposalId,
+		VirtualNftSchemaCode: msg.VirtualNftSchemaCode,
+		ProposalType:         msg.ProposalType,
+	}, nil
+}
+
+func (k Keeper) ProposalVirtualSchemaKeeper(ctx sdk.Context, creator, virtualNftSchemaCode string, proposalType types.ProposalType, registryReq []*types.VirtualSchemaRegistryRequest, actions []*types.Action, enable bool) (string, error) {
 	var (
 		registry []*types.VirtualSchemaRegistry
 		err      error
 	)
 
-	ctx := sdk.UnwrapSDKContext(goCtx)
-
-	if msg.ProposalType == types.ProposalType_CREATE {
-		registry, err = k.validateCreateVirtualSchemaProposal(ctx, msg.VirtualNftSchemaCode, msg.Registry)
+	if proposalType == types.ProposalType_CREATE {
+		registry, err = k.validateCreateVirtualSchemaProposal(ctx, virtualNftSchemaCode, registryReq)
 		if err != nil {
-			return nil, err
+			return "", err
 		}
 	} else {
-		registry, err = k.validateUpdateVirtualSchemaProposal(ctx, msg.VirtualNftSchemaCode, msg.Registry)
+		registry, err = k.validateUpdateVirtualSchemaProposal(ctx, virtualNftSchemaCode, registryReq)
 		if err != nil {
-			return nil, err
+			return "", err
 		}
 	}
 
-	err = k.validateOwnerOfRegistry(ctx, msg.Creator, registry)
+	err = k.validateOwnerOfRegistry(ctx, creator, registry)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
 	actionNameMap := make(map[string]bool)
 	// validateAction
-	for _, action := range msg.Actions {
+	for _, action := range actions {
 		if err := ValidateVirutualAction(action); err != nil {
-			return nil, err
+			return "", err
 		}
 		if _, found := actionNameMap[action.Name]; found {
-			return nil, sdkerrors.Wrap(types.ErrDuplicateActionName, action.Name)
+			return "", sdkerrors.Wrap(types.ErrDuplicateActionName, action.Name)
 		}
 		actionNameMap[action.Name] = true
 	}
@@ -60,13 +73,13 @@ func (k msgServer) ProposalVirtualSchema(goCtx context.Context, msg *types.MsgPr
 
 	k.SetVirtualSchemaProposal(ctx, types.VirtualSchemaProposal{
 		Id:           strProposalId,
-		ProposalType: msg.ProposalType,
+		ProposalType: proposalType,
 		VirtualSchema: &types.VirtualSchema{
-			VirtualNftSchemaCode: msg.VirtualNftSchemaCode,
+			VirtualNftSchemaCode: virtualNftSchemaCode,
 			Registry:             registry,
-			Enable:               msg.Enable,
+			Enable:               enable,
 		},
-		Actions:         msg.Actions,
+		Actions:         actions,
 		SubmitTime:      submitTime,
 		VotingStartTime: submitTime,
 		VotingEndTime:   endTime,
@@ -76,7 +89,7 @@ func (k msgServer) ProposalVirtualSchema(goCtx context.Context, msg *types.MsgPr
 		Id: strProposalId,
 	})
 
-	if msg.ProposalType == types.ProposalType_CREATE {
+	if proposalType == types.ProposalType_CREATE {
 		// lock the amount of value to module account
 		feeConfig, found := k.GetNFTFeeConfig(ctx)
 		// **** SCHEMA FEE ****
@@ -84,34 +97,30 @@ func (k msgServer) ProposalVirtualSchema(goCtx context.Context, msg *types.MsgPr
 			// Get Denom
 			amount, err := sdk.ParseCoinNormalized(feeConfig.SchemaFee.FeeAmount)
 			if err != nil {
-				return nil, sdkerrors.Wrap(types.ErrInvalidFeeAmount, err.Error())
+				return "", sdkerrors.Wrap(types.ErrInvalidFeeAmount, err.Error())
 			}
 
-			creatorAddress, err := sdk.AccAddressFromBech32(msg.Creator)
+			creatorAddress, err := sdk.AccAddressFromBech32(creator)
 			if err != nil {
-				return nil, err
+				return "", err
 			}
 
 			// Lock the amount
 			err = k.bankKeeper.SendCoinsFromAccountToModule(ctx, creatorAddress, types.ModuleName, sdk.NewCoins(amount))
 			if err != nil {
-				return nil, err
+				return "", err
 			}
 
 			k.SetLockSchemaFee(ctx, types.LockSchemaFee{
 				Id:                strProposalId,
-				VirtualSchemaCode: msg.VirtualNftSchemaCode,
+				VirtualSchemaCode: virtualNftSchemaCode,
 				Amount:            amount,
-				Proposer:          msg.Creator,
+				Proposer:          creator,
 			})
 		}
 	}
 
-	return &types.MsgProposalVirtualSchemaResponse{
-		Id:                   strProposalId,
-		VirtualNftSchemaCode: msg.VirtualNftSchemaCode,
-		ProposalType:         msg.ProposalType,
-	}, nil
+	return strProposalId, nil
 }
 
 func (k Keeper) validateVirtualSchemaPermission(ctx sdk.Context, virtualNftSchemaCode, creator string) error {

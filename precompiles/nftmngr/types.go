@@ -23,6 +23,9 @@ const (
 	UpdateAction         = "updateAction"
 	AddActionExecutor    = "addActionExecutor"
 	RemoveActionExecutor = "removeActionExecutor"
+
+	// virtual schema and virtual action
+	PerformVirtualAction = "virtualAction"
 )
 
 // readonly

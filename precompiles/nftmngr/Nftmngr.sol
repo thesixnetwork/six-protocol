@@ -129,12 +129,19 @@ interface INFTMNGR {
         string memory base64UpdateAction
     ) external returns (bool success);
 
+    function virtualSchemaProposal(
+        uint32 proposalType,
+        string memory base64VirtualSchemaRegistry
+    ) external returns (bool success);
+
     function virtualAction(
         string memory vitualSchemaName,
-        TokenIdMap memory tokenMap,
+        //TokenIdMap memory tokenMap,
+        string memory tookenIdMapJson,
         string memory actionName,
         string memory refId,
-        ActionParameter memory parameters
+        string memory jsonParam
+        //ActionParameter memory parameters
     ) external returns (bool success);
 
     function voteVirtualSchema(

@@ -1,15 +1,66 @@
 package nftmngr
 
 import (
+	"encoding/base64"
 	"errors"
 	"math/big"
 
+	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 
 	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
+	nftmngrtypes "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
+
+func (p PrecompileExecutor) VirtualSchemaProposal(ctx sdk.Context, caller common.Address, method *abi.Method, args []interface{}, value *big.Int, readOnly bool) ([]byte, error) {
+	if readOnly {
+		return nil, errors.New("cannot call send from staticcall")
+	}
+
+	if err := pcommon.ValidateNonPayable(value); err != nil {
+		return nil, err
+	}
+
+	if err := pcommon.ValidateArgsLength(args, 2); err != nil {
+		return nil, err
+	}
+
+	senderCosmoAddr, err := p.AccAddressFromArg(caller)
+	if err != nil {
+		return nil, err
+	}
+
+	proposalTypeUint, err := p.Uint32FromArg(args[0])
+	if err != nil {
+		return nil, err
+	}
+
+	proposalType, err := p.parseProposalType(int32(proposalTypeUint))
+	if err != nil {
+		return nil, err
+	}
+
+	base64VirtualSchemaProposal, err := p.StringFromArg(args[1])
+	if err != nil {
+		return nil, err
+	}
+
+	inputProposal, err := base64.StdEncoding.DecodeString(base64VirtualSchemaProposal)
+	if err != nil {
+		return nil, sdkerrors.Wrap(nftmngrtypes.ErrParsingBase64, err.Error())
+	}
+
+  virtualSchemaRequest := nftmngrtypes.VirtualSchemaProposalRequest{}
+	err = p.nftmngrKeeper.GetCodec().(*codec.ProtoCodec).UnmarshalJSON(inputProposal, &virtualSchemaRequest)
+	if err != nil {
+		return nil, sdkerrors.Wrap(nftmngrtypes.ErrParsingMetadataMessage, err.Error())
+	}
+
+	return method.Outputs.Pack(true)
+}
 
 func (p PrecompileExecutor) voteVirtualSchema(ctx sdk.Context, caller common.Address, method *abi.Method, args []interface{}, value *big.Int, readOnly bool) ([]byte, error) {
 	if readOnly {
