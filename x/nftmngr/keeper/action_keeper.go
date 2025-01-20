@@ -491,7 +491,7 @@ func (k Keeper) ToggleVirtualActionKeeper(ctx sdk.Context, creator, nftSchemaNam
 	return nil
 }
 
-func (k Keeper) PerformVirtualKeeper(ctx sdk.Context, creator, vitualSchemaName string, tokenIdMap []*types.TokenIdMap, actionName, refId string, parameters []*types.ActionParameter) (changeList types.ActionChangeList, err error) {
+func (k Keeper) PerformVirtualActionKeeper(ctx sdk.Context, creator, vitualSchemaName string, tokenIdMap []*types.TokenIdMap, actionName, refId string, parameters []*types.ActionParameter) (changeList types.ActionChangeList, err error) {
 	var (
 		schemaList             = []*types.NFTSchema{}
 		tokenDataList          = []*types.NftData{}
