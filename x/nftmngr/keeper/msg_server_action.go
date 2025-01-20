@@ -64,7 +64,7 @@ func (k msgServer) PerformVirtualAction(goCtx context.Context, msg *types.MsgPer
 	}
 
 	// Emit events on metadata change
-	changeList, err := k.PerformVirtualKeeper(ctx, msg.Creator, msg.NftSchemaName, msg.TokenIdMap, msg.Action, msg.RefId, msg.Parameters)
+	changeList, err := k.PerformVirtualActionKeeper(ctx, msg.Creator, msg.NftSchemaName, msg.TokenIdMap, msg.Action, msg.RefId, msg.Parameters)
 	if err != nil {
 		return nil, err
 	}

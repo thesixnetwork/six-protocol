@@ -5,25 +5,35 @@ address constant NFTMNGR_PRECOMPILE_ADDRESS = 0x00000000000000000000000000000000
 
 INFTMNGR constant NFTMNGR_CONTRACT = INFTMNGR(NFTMNGR_PRECOMPILE_ADDRESS);
 
+struct TokenIdMap {
+    string NftSchemaName;
+    string tokenId;
+}
+
+struct ActionParameter {
+    string Name;
+    string Value;
+}
+
 interface INFTMNGR {
     // Transactions
     function addAction(
-        string memory nftSchemaName,
+        string memory nftSchemaCode,
         string memory base64NewAction
     ) external returns (bool success);
 
     function addActionExecutor(
-        string memory nftSchemaName,
+        string memory nftSchemaCode,
         address newExecutor
     ) external returns (bool success);
 
     function removeActionExecutor(
-        string memory nftSchemaName,
+        string memory nftSchemaCode,
         address rmExecutor
     ) external returns (bool success);
 
     function addAttribute(
-        string memory nftSchemaName,
+        string memory nftSchemaCode,
         uint32 location,
         string memory base64NewAttribute
     ) external returns (bool success);
@@ -34,12 +44,12 @@ interface INFTMNGR {
     ) external returns (bool success);
 
     function changeSchemaOwner(
-        string memory nftSchemaName,
+        string memory nftSchemaCode,
         address newOrgAddress
     ) external returns (bool success);
 
     function createMetadata(
-        string memory nftSchemaName,
+        string memory nftSchemaCode,
         string memory tokenId,
         string memory base64NewMetadata
     ) external returns (bool success);
@@ -49,7 +59,7 @@ interface INFTMNGR {
     ) external returns (bool success);
 
     function actionByAdmin(
-        string memory nftSchemaName,
+        string memory nftSchemaCode,
         string memory tokenId,
         string memory actionName,
         string memory refId,
@@ -57,81 +67,95 @@ interface INFTMNGR {
     ) external returns (bool success);
 
     function resyncAttribute(
-        string memory nftSchemaName,
+        string memory nftSchemaCode,
         string memory tokenId
     ) external returns (bool success);
 
     function updateSchemaAttribute(
-        string memory nftSchemaName,
+        string memory nftSchemaCode,
         string memory base64NewAttribute
     ) external returns (bool success);
 
     function attributeOveride(
-        string memory nftSchemaName,
+        string memory nftSchemaCode,
         uint32 overidingType
     ) external returns (bool success);
 
     function setBaseURI(
-        string memory nftSchemaName,
+        string memory nftSchemaCode,
         string memory newBaseUri
     ) external returns (bool success);
 
     function setMetadataFormat(
-        string memory nftSchemaName,
+        string memory nftSchemaCode,
         string memory newFormat
     ) external returns (bool success);
 
     function setMintAuth(
-        string memory nftSchemaName,
+        string memory nftSchemaCode,
         uint32 authorizeTo
     ) external returns (bool success);
 
     function setOriginChain(
-        string memory nftSchemaName,
+        string memory nftSchemaCode,
         string memory newOriginChain
     ) external returns (bool success);
 
     // new contract string incase that origin on non-evm
     function setOriginContract(
-        string memory nftSchemaName,
+        string memory nftSchemaCode,
         string memory newOriginContract
     ) external returns (bool success);
 
     function setUriRetreival(
-        string memory nftSchemaName,
+        string memory nftSchemaCode,
         string memory newUri
     ) external returns (bool success);
 
     function showAttribute(
-        string memory nftSchemaName,
+        string memory nftSchemaCode,
         bool toShow,
         string[] memory attirbuteNames
     ) external returns (bool success);
 
     function toggleAction(
-        string memory nftSchemaName,
+        string memory nftSchemaCode,
         string memory actionName,
         bool disable
     ) external returns (bool success);
 
     function updateAction(
-        string memory nftSchemaName,
+        string memory nftSchemaCode,
         string memory base64UpdateAction
+    ) external returns (bool success);
+
+    function virtualAction(
+        string memory vitualSchemaName,
+        TokenIdMap memory tokenMap,
+        string memory actionName,
+        string memory refId,
+        ActionParameter memory parameters
+    ) external returns (bool success);
+
+    function voteVirtualSchema(
+      string memory proposalId,
+      string memory nftSchemaCode,
+      uint32 option
     ) external returns (bool success);
 
     // QUERY
     function isActionExecutor(
-        string memory nftSchemaName,
+        string memory nftSchemaCode,
         address executor
     ) external view returns (bool isExecutor);
 
     function isSchemaOwner(
-        string memory nftSchemaName,
+        string memory nftSchemaCode,
         address ownerAddress
     ) external view returns (bool isSchemaOwner);
 
     function getAttributeValue(
-        string memory nftSchemaName,
+        string memory nftSchemaCode,
         string memory tokenId,
         string memory attributeName
     ) external view returns (string memory value);
