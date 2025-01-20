@@ -7,7 +7,6 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 
 	nftmngrtypes "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
-	// "github.com/ethereum/go-ethereum/common"
 )
 
 type BankKeeper interface {
@@ -43,8 +42,6 @@ type NftmngrKeeper interface {
 	// #                  #
 	// ####################
 	ActionByAdmin(ctx sdk.Context, creator, nftSchemaName, tokenId, actionName, refId string, parameters []*nftmngrtypes.ActionParameter) (nftmngrtypes.ActionChangeList, error)
-	PerformVirtualActionKeeper(ctx sdk.Context, creator, vitualSchemaName string, tokenIdMap []*nftmngrtypes.TokenIdMap, actionName, refId string, parameters []*nftmngrtypes.ActionParameter) (changeList nftmngrtypes.ActionChangeList, err error)
-	VoteVirtualSchemaProposalKeeper(ctx sdk.Context, creator, proposalId, srcNftSchemaCode string, option nftmngrtypes.RegistryStatus) error
 	AddAttributeKeeper(ctx sdk.Context, creator string, nftSchemaName string, new_add_attribute nftmngrtypes.AttributeDefinition, location nftmngrtypes.AttributeLocation) error
 	UpdateAttributeKeeper(ctx sdk.Context, creator, nftSchemaName string, update_attribute nftmngrtypes.AttributeDefinition) error
 	ResyncAttibutesKeeper(ctx sdk.Context, creator, nftSchemaName, tokenId string) error
@@ -65,4 +62,7 @@ type NftmngrKeeper interface {
 	ChangeSchemaOwner(ctx sdk.Context, creator, newOwner, nftSchemaName string) error
 	AddActionExecutor(ctx sdk.Context, creator string, nftSchemaName string, executorAddress string) error
 	DelActionExecutor(ctx sdk.Context, creator, nftSchemaName, executorAddress string) error
+	PerformVirtualActionKeeper(ctx sdk.Context, creator, vitualSchemaName string, tokenIdMap []*nftmngrtypes.TokenIdMap, actionName, refId string, parameters []*nftmngrtypes.ActionParameter) (changeList nftmngrtypes.ActionChangeList, err error)
+	VoteVirtualSchemaProposalKeeper(ctx sdk.Context, creator, proposalId, srcNftSchemaCode string, option nftmngrtypes.RegistryStatus) error
+	ProposalVirtualSchemaKeeper(ctx sdk.Context, creator, virtualNftSchemaCode string, proposalType nftmngrtypes.ProposalType, registryReq []*nftmngrtypes.VirtualSchemaRegistryRequest, actions []*nftmngrtypes.Action, enable bool) (string, error)
 }

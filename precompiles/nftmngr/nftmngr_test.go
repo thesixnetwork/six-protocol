@@ -61,7 +61,7 @@ func (suite *NftmngrPrecompileTestSuite) TestActionParameterParsing() {
 		},
 	}
 
-	result, err := suite.nftprecompile.ParametersFromJSONArg(`[{"name":"service_name","value":"binchotan"},{"name":"amount","value":"1"}]`)
+	result, err := suite.nftprecompile.ParametersFromJSONString(`[{"name":"service_name","value":"binchotan"},{"name":"amount","value":"1"}]`)
 	suite.Require().NoError(err)
 	suite.Require().Len(result, 2)
 

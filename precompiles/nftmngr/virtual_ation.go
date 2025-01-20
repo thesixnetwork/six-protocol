@@ -4,6 +4,7 @@ import (
 	"encoding/base64"
 	"errors"
 	"math/big"
+	"strconv"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -43,7 +44,17 @@ func (p PrecompileExecutor) VirtualSchemaProposal(ctx sdk.Context, caller common
 		return nil, err
 	}
 
-	base64VirtualSchemaProposal, err := p.StringFromArg(args[1])
+	virtualNftSchemaCode, err := p.StringFromArg(args[1])
+	if err != nil {
+		return nil, err
+	}
+
+	base64VirtualSchemaProposal, err := p.StringFromArg(args[2])
+	if err != nil {
+		return nil, err
+	}
+
+	enable, err := p.BoolFromArg(args[1])
 	if err != nil {
 		return nil, err
 	}
@@ -53,13 +64,31 @@ func (p PrecompileExecutor) VirtualSchemaProposal(ctx sdk.Context, caller common
 		return nil, sdkerrors.Wrap(nftmngrtypes.ErrParsingBase64, err.Error())
 	}
 
-  virtualSchemaRequest := nftmngrtypes.VirtualSchemaProposalRequest{}
+	virtualSchemaRequest := nftmngrtypes.VirtualSchemaProposalRequest{}
 	err = p.nftmngrKeeper.GetCodec().(*codec.ProtoCodec).UnmarshalJSON(inputProposal, &virtualSchemaRequest)
 	if err != nil {
 		return nil, sdkerrors.Wrap(nftmngrtypes.ErrParsingMetadataMessage, err.Error())
 	}
 
-	return method.Outputs.Pack(true)
+	virtualSchemaRegistryRequest := make([]*nftmngrtypes.VirtualSchemaRegistryRequest, len(virtualSchemaRequest.NftSchemaCodes))
+
+	for i, schemaCode := range virtualSchemaRequest.NftSchemaCodes {
+		virtualSchemaRegistryRequest[i] = &nftmngrtypes.VirtualSchemaRegistryRequest{
+			NftSchemaCode: schemaCode,
+		}
+	}
+
+	strPrposalId, err := p.nftmngrKeeper.ProposalVirtualSchemaKeeper(ctx, senderCosmoAddr.String(), virtualNftSchemaCode, proposalType, virtualSchemaRegistryRequest, virtualSchemaRequest.Actions, enable)
+	if err != nil {
+		return nil, err
+	}
+
+	uintId, err := strconv.ParseUint(strPrposalId, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+
+	return method.Outputs.Pack(uintId)
 }
 
 func (p PrecompileExecutor) voteVirtualSchema(ctx sdk.Context, caller common.Address, method *abi.Method, args []interface{}, value *big.Int, readOnly bool) ([]byte, error) {
