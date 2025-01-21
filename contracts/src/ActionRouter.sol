@@ -4,6 +4,11 @@ pragma solidity ^0.8.0;
 import {IERC721} from "openzeppelin-contracts/token/ERC721/IERC721.sol";
 import {INFTMNGR, NFTMNGR_PRECOMPILE_ADDRESS} from "./INFTManager.sol";
 
+struct TokenIdMap {
+    string nftSchemaName;
+    string tokenId;
+}
+
 contract Router {
     error NotNFTOwner();
     error ModuleRejected();
@@ -35,6 +40,46 @@ contract Router {
 
         // Emit an event or perform other logic here
         emit ActionPerformed(nftSchemaName, tokenId, actionName, refId, jsonParam);
+
+        return true;
+    }
+
+    function virtualAction(
+        address nftContractAddress,
+        string memory nftSchemaName,
+        TokenIdMap[] memory tokenIdMap,
+        string memory actionName,
+        string memory refId,
+        string memory jsonParam
+    ) public returns (bool success) {
+        uint256 tokenIdNumeric = stringToUint(tokenIdMap[0].tokenId);
+        address owner = IERC721(nftContractAddress).ownerOf(tokenIdNumeric);
+        if (msg.sender != owner) {
+            revert NotNFTOwner();
+        }
+
+        string memory tokenIdMapJsonString = "[";
+        for (uint256 i = 0; i < tokenIdMap.length; i++) {
+            tokenIdMapJsonString = string(abi.encodePacked(
+                tokenIdMapJsonString, '{"nftSchemaName":"', tokenIdMap[i].nftSchemaName, '","tokenId":"', tokenIdMap[i].tokenId, '"}'
+            ));
+            if (i < tokenIdMap.length - 1) {
+                tokenIdMapJsonString = string(abi.encodePacked(tokenIdMapJsonString, ","));
+            }
+        }
+
+        bytes memory data = abi.encodeWithSignature(
+            "virtualAction(string,string,string,string,string)", nftSchemaName, tokenIdMapJsonString, actionName, refId, jsonParam
+        );
+
+        bool done = actionSend(data);
+
+        if (!done) {
+            revert ModuleRejected();
+        }
+
+        // Emit an event or perform other logic here
+        emit ActionPerformed(nftSchemaName, tokenIdMapJsonString, actionName, refId, jsonParam);
 
         return true;
     }

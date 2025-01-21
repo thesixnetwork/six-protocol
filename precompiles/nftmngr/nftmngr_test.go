@@ -8,6 +8,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	bankkeeper "github.com/cosmos/cosmos-sdk/x/bank/keeper"
+  accountKeeper "github.com/cosmos/cosmos-sdk/x/auth/keeper"
 
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	"github.com/stretchr/testify/suite"
@@ -22,6 +23,7 @@ type NftmngrPrecompileTestSuite struct {
 	suite.Suite
 	ctx           sdk.Context
 	nftmngrKeeper *nftmngrkeeper.Keeper
+  accountKeeper accountKeeper.AccountKeeper
 	bankKeeper    bankkeeper.Keeper
 	cdc           codec.Codec
 	nftprecompile *prenftmgr.PrecompileExecutor
@@ -43,7 +45,7 @@ func (suite *NftmngrPrecompileTestSuite) SetupTest() {
 
 	// Create precompile
 	// precompile, err := prenftmgr.NewPrecompile(suite.nftmngrKeeper, suite.bankKeeper)
-	precompile, err := prenftmgr.NewExecutor(suite.nftmngrKeeper, suite.bankKeeper)
+	precompile, err := prenftmgr.NewExecutor(suite.nftmngrKeeper, suite.accountKeeper, suite.bankKeeper)
 	suite.Require().NoError(err)
 	suite.nftprecompile = precompile
 }

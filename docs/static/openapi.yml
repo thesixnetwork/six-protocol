@@ -35433,6 +35433,10 @@ paths:
                                   type: boolean
                                 default_value:
                                   type: string
+                    executors:
+                      type: array
+                      items:
+                        type: string
                     submitTime:
                       type: string
                       format: date-time
@@ -35928,6 +35932,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -36447,6 +36454,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -36951,6 +36961,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -37456,6 +37469,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -37961,6 +37977,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -38706,6 +38725,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -39289,6 +39311,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -39656,6 +39681,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -40974,6 +41002,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -41785,6 +41816,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -42283,6 +42317,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -43015,6 +43052,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -43581,6 +43621,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -44131,6 +44174,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -44448,6 +44494,10 @@ paths:
                                   type: boolean
                                 default_value:
                                   type: string
+                    executors:
+                      type: array
+                      items:
+                        type: string
                     submitTime:
                       type: string
                       format: date-time
@@ -44720,6 +44770,9 @@ paths:
           description: >-
             reverse is set to true if results are to be returned in the
             descending order.
+
+
+            Since: cosmos-sdk 0.43
           in: query
           required: false
           type: boolean
@@ -44809,6 +44862,10 @@ paths:
                                 type: boolean
                               default_value:
                                 type: string
+                  executors:
+                    type: array
+                    items:
+                      type: string
                   submitTime:
                     type: string
                     format: date-time
@@ -71487,6 +71544,10 @@ definitions:
                           type: boolean
                         default_value:
                           type: string
+            executors:
+              type: array
+              items:
+                type: string
             submitTime:
               type: string
               format: date-time
@@ -72412,6 +72473,10 @@ definitions:
                         type: boolean
                       default_value:
                         type: string
+          executors:
+            type: array
+            items:
+              type: string
           submitTime:
             type: string
             format: date-time
@@ -72527,6 +72592,10 @@ definitions:
                           type: boolean
                         default_value:
                           type: string
+            executors:
+              type: array
+              items:
+                type: string
             submitTime:
               type: string
               format: date-time
@@ -72808,6 +72877,10 @@ definitions:
                     type: boolean
                   default_value:
                     type: string
+      executors:
+        type: array
+        items:
+          type: string
       submitTime:
         type: string
         format: date-time

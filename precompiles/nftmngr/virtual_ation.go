@@ -25,7 +25,7 @@ func (p PrecompileExecutor) VirtualSchemaProposal(ctx sdk.Context, caller common
 		return nil, err
 	}
 
-	if err := pcommon.ValidateArgsLength(args, 2); err != nil {
+	if err := pcommon.ValidateArgsLength(args, 3); err != nil {
 		return nil, err
 	}
 
@@ -54,7 +54,7 @@ func (p PrecompileExecutor) VirtualSchemaProposal(ctx sdk.Context, caller common
 		return nil, err
 	}
 
-	enable, err := p.BoolFromArg(args[1])
+	enable, err := p.BoolFromArg(args[3])
 	if err != nil {
 		return nil, err
 	}
@@ -78,7 +78,12 @@ func (p PrecompileExecutor) VirtualSchemaProposal(ctx sdk.Context, caller common
 		}
 	}
 
-	strPrposalId, err := p.nftmngrKeeper.ProposalVirtualSchemaKeeper(ctx, senderCosmoAddr.String(), virtualNftSchemaCode, proposalType, virtualSchemaRegistryRequest, virtualSchemaRequest.Actions, enable)
+  executors, err := p.ArrayOfstringFromArg(args[4])
+	if err != nil {
+		return nil, err
+	}
+
+	strPrposalId, err := p.nftmngrKeeper.ProposalVirtualSchemaKeeper(ctx, senderCosmoAddr.String(), virtualNftSchemaCode, proposalType, virtualSchemaRegistryRequest, virtualSchemaRequest.Actions, executors, enable)
 	if err != nil {
 		return nil, err
 	}

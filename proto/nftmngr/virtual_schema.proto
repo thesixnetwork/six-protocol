@@ -12,17 +12,19 @@ message VirtualSchemaProposal {
   ProposalType proposalType = 2;
   VirtualSchema virtualSchema = 3;
   repeated Action actions = 4;
-  google.protobuf.Timestamp submitTime = 5
+  repeated string executors = 5;
+  google.protobuf.Timestamp submitTime = 6
       [ (gogoproto.stdtime) = true, (gogoproto.nullable) = false ];
-  google.protobuf.Timestamp votingStartTime = 6
+  google.protobuf.Timestamp votingStartTime = 7
       [ (gogoproto.stdtime) = true, (gogoproto.nullable) = false ];
-  google.protobuf.Timestamp votingEndTime = 7
+  google.protobuf.Timestamp votingEndTime = 8
       [ (gogoproto.stdtime) = true, (gogoproto.nullable) = false ];
 }
 
 message VirtualSchemaProposalRequest {
   repeated string nftSchemaCodes = 1;
   repeated Action actions = 2;
+  repeated string executors = 3;
 }
 
 message VirtualSchema {
@@ -34,7 +36,7 @@ message VirtualSchema {
 
 message VirtualSchemaRegistry {
   string nftSchemaCode = 1;
-  RegistryStatus decision = 3;
+  RegistryStatus decision = 2;
 }
 
 message VirtualSchemaRegistryRequest { string nftSchemaCode = 1; }

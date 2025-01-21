@@ -386,7 +386,8 @@ message MsgProposalVirtualSchema {
   ProposalType proposalType = 3;
   repeated VirtualSchemaRegistryRequest registry = 4;
   repeated Action actions = 5;
-  bool enable = 6;
+  repeated string executors = 6;
+  bool enable = 7;
 }
 
 message MsgProposalVirtualSchemaResponse {
