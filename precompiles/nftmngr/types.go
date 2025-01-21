@@ -25,9 +25,9 @@ const (
 	RemoveActionExecutor = "removeActionExecutor"
 
 	// virtual schema and virtual action
-	PerformVirtualAction      = "virtualAction"
-	VoteVirtualSchemaProposal = "voteVirtualSchema"
-	VirtualSchemaProposal     = "virtualSchemaProposal"
+	PerformVirtualAction  = "virtualAction"
+	VoteVirtualSchema     = "voteVirtualSchema"
+	VirtualSchemaProposal = "virtualSchemaProposal"
 )
 
 // readonly
@@ -108,13 +108,13 @@ var transactionMethods = map[string]TransactionMetadata{
 	RemoveActionExecutor: {
 		Description: "Remove action executor",
 	},
-  VirtualSchemaProposal: {
-    Description: "Proposal to create or edit virtual schema",
-  },
-  VoteVirtualSchemaProposal: {
-    Description: "Vote to Accept or reject virtual schema proposal",
-  },
-  PerformVirtualAction: {
-    Description: "Perform action that allow to make cross some value of schemas",
-  },
+	VirtualSchemaProposal: {
+		Description: "Proposal to create or edit virtual schema",
+	},
+	VoteVirtualSchema: {
+		Description: "Vote to Accept or reject virtual schema proposal",
+	},
+	PerformVirtualAction: {
+		Description: "Perform action that allow to make cross some value of schemas",
+	},
 }
