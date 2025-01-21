@@ -150,6 +150,39 @@ func (k Keeper) VirtualSchemaHook(ctx sdk.Context, virtualSchemaProposal types.V
 			return false
 		}
 
+		// compare current executor and updated executor to add new one or remove some
+		currentExecutors, found := k.GetExecutorOfSchema(ctx, virtualSchema.VirtualNftSchemaCode)
+		toAddExecutor := []string{}
+		toRmExecutor := []string{}
+
+		if found {
+			currentExecutorMap := make(map[string]bool)
+			for _, executor := range currentExecutors.ExecutorAddress {
+				currentExecutorMap[executor] = true
+			}
+
+			for _, executor := range virtualSchemaProposal.Executors {
+				if !currentExecutorMap[executor] {
+					toAddExecutor = append(toAddExecutor, executor)
+				}
+				delete(currentExecutorMap, executor)
+			}
+
+			for executor := range currentExecutorMap {
+				toRmExecutor = append(toRmExecutor, executor)
+			}
+		} else {
+			toAddExecutor = virtualSchemaProposal.Executors
+		}
+
+		for _, executor := range toAddExecutor {
+			k.AddActionExecutor(ctx, k.GetModuleAddress().String(), virtualSchema.VirtualNftSchemaCode, executor)
+		}
+
+		for _, executor := range toRmExecutor {
+			k.DelActionExecutor(ctx, k.GetModuleAddress().String(), virtualSchema.VirtualNftSchemaCode, executor)
+		}
+
 		// Update proposal status
 		k.RemoveActiveVirtualSchemaProposal(ctx, virtualSchemaProposal.Id)
 		k.SetInactiveVirtualSchemaProposal(ctx, types.InactiveVirtualSchemaProposal{Id: virtualSchemaProposal.Id})
@@ -177,6 +210,10 @@ func countProposalVotes(registry []*types.VirtualSchemaRegistry) (acceptCount, t
 }
 
 func (k Keeper) processSchemaFee(ctx sdk.Context, virtualSchemaProposal types.VirtualSchemaProposal, isAccepted bool) error {
+	if virtualSchemaProposal.ProposalType == types.ProposalType_EDIT {
+		return nil
+	}
+
 	feeConfig, found := k.GetNFTFeeConfig(ctx)
 	if !found {
 		return nil

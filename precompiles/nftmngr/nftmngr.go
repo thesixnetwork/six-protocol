@@ -41,6 +41,7 @@ type ActionParameter struct {
 
 type PrecompileExecutor struct {
 	nftmngrKeeper pcommon.NftmngrKeeper
+  accountKeeper pcommon.AccountKeeper
 	bankKeeper    pcommon.BankKeeper
 	address       common.Address
 
@@ -85,9 +86,10 @@ type PrecompileExecutor struct {
 	PerformVirtualActionId  []byte
 }
 
-func NewExecutor(nftmngrKeeper pcommon.NftmngrKeeper, bankKeeper pcommon.BankKeeper) (*PrecompileExecutor, error) {
+func NewExecutor(nftmngrKeeper pcommon.NftmngrKeeper, accountKeeper pcommon.AccountKeeper, bankKeeper pcommon.BankKeeper) (*PrecompileExecutor, error) {
 	p := &PrecompileExecutor{
 		nftmngrKeeper: nftmngrKeeper,
+    accountKeeper: accountKeeper,
 		bankKeeper:    bankKeeper,
 		address:       common.HexToAddress(NftmngrAddress),
 	}
@@ -95,7 +97,7 @@ func NewExecutor(nftmngrKeeper pcommon.NftmngrKeeper, bankKeeper pcommon.BankKee
 	return p, nil
 }
 
-func NewPrecompile(nftmngrKeeper pcommon.NftmngrKeeper, bankKeeper pcommon.BankKeeper) (*pcommon.Precompile, error) {
+func NewPrecompile(nftmngrKeeper pcommon.NftmngrKeeper, accountKeeper pcommon.AccountKeeper, bankKeeper pcommon.BankKeeper) (*pcommon.Precompile, error) {
 	newAbi := GetABI()
 	p := &PrecompileExecutor{
 		nftmngrKeeper: nftmngrKeeper,

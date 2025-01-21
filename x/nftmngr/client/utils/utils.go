@@ -24,6 +24,7 @@ type (
 		Actions               []types.Action `json:"actions"`
 		VirtualSchemaRegistry []string       `json:"virtualSchemaRegistry"`
 		Enable                bool           `json:"enable"`
+    Executors             []string       `json:"executors"`
 	}
 
 	ActionParameter struct {

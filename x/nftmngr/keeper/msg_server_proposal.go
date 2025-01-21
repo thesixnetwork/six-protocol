@@ -17,7 +17,7 @@ import (
 func (k msgServer) ProposalVirtualSchema(goCtx context.Context, msg *types.MsgProposalVirtualSchema) (*types.MsgProposalVirtualSchemaResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	strProposalId, err := k.ProposalVirtualSchemaKeeper(ctx, msg.Creator, msg.VirtualNftSchemaCode, msg.ProposalType, msg.Registry, msg.Actions, msg.Enable)
+	strProposalId, err := k.ProposalVirtualSchemaKeeper(ctx, msg.Creator, msg.VirtualNftSchemaCode, msg.ProposalType, msg.Registry, msg.Actions, msg.Executors, msg.Enable)
 	if err != nil {
 		return nil, err
 	}
@@ -29,7 +29,7 @@ func (k msgServer) ProposalVirtualSchema(goCtx context.Context, msg *types.MsgPr
 	}, nil
 }
 
-func (k Keeper) ProposalVirtualSchemaKeeper(ctx sdk.Context, creator, virtualNftSchemaCode string, proposalType types.ProposalType, registryReq []*types.VirtualSchemaRegistryRequest, actions []*types.Action, enable bool) (string, error) {
+func (k Keeper) ProposalVirtualSchemaKeeper(ctx sdk.Context, creator, virtualNftSchemaCode string, proposalType types.ProposalType, registryReq []*types.VirtualSchemaRegistryRequest, actions []*types.Action, executors []string, enable bool) (string, error) {
 	var (
 		registry []*types.VirtualSchemaRegistry
 		err      error
@@ -80,6 +80,7 @@ func (k Keeper) ProposalVirtualSchemaKeeper(ctx sdk.Context, creator, virtualNft
 			Enable:               enable,
 		},
 		Actions:         actions,
+		Executors:       executors,
 		SubmitTime:      submitTime,
 		VotingStartTime: submitTime,
 		VotingEndTime:   endTime,
@@ -157,6 +158,27 @@ func (k Keeper) validateOwnerOfRegistry(ctx sdk.Context, creator string, registr
 
 	if !isOwner {
 		return sdkerrors.Wrap(types.ErrUnauthorized, "Only owner of registry schema can create proposal: "+creator)
+	}
+
+	return nil
+}
+
+func (k Keeper) validateIsExecutorOfSchema(ctx sdk.Context, creator, virtualSchemaCode string) error {
+	executors, found := k.GetExecutorOfSchema(ctx, virtualSchemaCode)
+	if !found {
+		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, virtualSchemaCode)
+	}
+
+	// check if creator in the list
+	isExecutor := false
+	for _, executor := range executors.ExecutorAddress {
+		if executor == creator {
+			isExecutor = true
+		}
+	}
+
+	if !isExecutor {
+		return sdkerrors.Wrap(types.ErrUnauthorized, "Creator ErrUnauthorized: "+creator)
 	}
 
 	return nil

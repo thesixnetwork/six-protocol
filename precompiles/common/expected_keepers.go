@@ -64,5 +64,5 @@ type NftmngrKeeper interface {
 	DelActionExecutor(ctx sdk.Context, creator, nftSchemaName, executorAddress string) error
 	PerformVirtualActionKeeper(ctx sdk.Context, creator, vitualSchemaName string, tokenIdMap []*nftmngrtypes.TokenIdMap, actionName, refId string, parameters []*nftmngrtypes.ActionParameter) (changeList nftmngrtypes.ActionChangeList, err error)
 	VoteVirtualSchemaProposalKeeper(ctx sdk.Context, creator, proposalId, srcNftSchemaCode string, option nftmngrtypes.RegistryStatus) error
-	ProposalVirtualSchemaKeeper(ctx sdk.Context, creator, virtualNftSchemaCode string, proposalType nftmngrtypes.ProposalType, registryReq []*nftmngrtypes.VirtualSchemaRegistryRequest, actions []*nftmngrtypes.Action, enable bool) (string, error)
+	ProposalVirtualSchemaKeeper(ctx sdk.Context, creator, virtualNftSchemaCode string, proposalType nftmngrtypes.ProposalType, registryReq []*nftmngrtypes.VirtualSchemaRegistryRequest, actions []*nftmngrtypes.Action, executors []string, enable bool) (string, error)
 }

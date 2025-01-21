@@ -19,6 +19,7 @@ func TestKeeper_VirtualSchemaHook(t *testing.T) {
 		memKey             sdk.StoreKey
 		ps                 params.Subspace
 		nftadminKeeper     types.NftadminKeeper
+    accountKeeper      types.AccountKeeper
 		bankKeeper         types.BankKeeper
 		stakingKeeper      types.StakingKeeper
 		distributionKeeper types.DistributionKeeper
@@ -32,7 +33,7 @@ func TestKeeper_VirtualSchemaHook(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			k := keeper.NewKeeper(tt.cdc, tt.storeKey, tt.memKey, tt.ps, tt.nftadminKeeper, tt.bankKeeper, tt.stakingKeeper, tt.distributionKeeper, tt.govKeeper)
+			k := keeper.NewKeeper(tt.cdc, tt.storeKey, tt.memKey, tt.ps, tt.nftadminKeeper, tt.accountKeeper, tt.bankKeeper, tt.stakingKeeper, tt.distributionKeeper, tt.govKeeper)
 			got := k.VirtualSchemaHook(tt.ctx, tt.virtualSchemaProposal)
 			// TODO: update the condition below to compare got with tt.want.
 			if true {

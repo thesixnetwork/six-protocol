@@ -17,6 +17,7 @@ func NewMsgProposalVirtualSchema(
 	proposalType ProposalType,
 	virtualSchemaRegistry []VirtualSchemaRegistryRequest,
 	actions []Action,
+	executors []string,
 	enable bool,
 ) *MsgProposalVirtualSchema {
 	actionsPointer := make([]*Action, len(actions))
@@ -35,6 +36,7 @@ func NewMsgProposalVirtualSchema(
 		Registry:             registryPointer,
 		Actions:              actionsPointer,
 		Enable:               enable,
+		Executors:            executors,
 	}
 }
 

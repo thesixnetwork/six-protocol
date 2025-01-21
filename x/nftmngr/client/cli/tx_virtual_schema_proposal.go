@@ -53,6 +53,7 @@ func CmdCreateVirtualSchema() *cobra.Command {
 				proposalType,
 				virtualSchemaRegistryRequest,
 				proposal.Actions,
+        proposal.Executors,
 				proposal.Enable,
 			)
 

@@ -29,6 +29,8 @@ out/
 /broadcast/**/9000/
 /broadcast/**/713715/
 
+/contracts/lib/*
+
 *.log
 
 .env

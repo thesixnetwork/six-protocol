@@ -491,7 +491,7 @@ func (k Keeper) ToggleVirtualActionKeeper(ctx sdk.Context, creator, nftSchemaNam
 	return nil
 }
 
-func (k Keeper) PerformVirtualActionKeeper(ctx sdk.Context, creator, vitualSchemaName string, tokenIdMap []*types.TokenIdMap, actionName, refId string, parameters []*types.ActionParameter) (changeList types.ActionChangeList, err error) {
+func (k Keeper) PerformVirtualActionKeeper(ctx sdk.Context, creator, virtualSchemaCode string, tokenIdMap []*types.TokenIdMap, actionName, refId string, parameters []*types.ActionParameter) (changeList types.ActionChangeList, err error) {
 	var (
 		schemaList             = []*types.NFTSchema{}
 		tokenDataList          = []*types.NftData{}
@@ -500,17 +500,17 @@ func (k Keeper) PerformVirtualActionKeeper(ctx sdk.Context, creator, vitualSchem
 	)
 
 	// get virtual schema
-	virtualSchema, found := k.GetVirtualSchema(ctx, vitualSchemaName)
+	virtualSchema, found := k.GetVirtualSchema(ctx, virtualSchemaCode)
 	if !found {
-		return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, vitualSchemaName)
+		return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, virtualSchemaCode)
 	}
 
 	if !virtualSchema.Enable {
-		return nil, sdkerrors.Wrap(types.ErrSchemaIsDisable, vitualSchemaName)
+		return nil, sdkerrors.Wrap(types.ErrSchemaIsDisable, virtualSchemaCode)
 	}
 
 	// get virtual action
-	vitualAction, found := k.GetVirtualAction(ctx, vitualSchemaName, actionName)
+	vitualAction, found := k.GetVirtualAction(ctx, virtualSchemaCode, actionName)
 	if found {
 		if vitualAction.Disable {
 			return nil, sdkerrors.Wrap(types.ErrActionIsDisabled, actionName)
@@ -541,7 +541,7 @@ func (k Keeper) PerformVirtualActionKeeper(ctx sdk.Context, creator, vitualSchem
 		}
 	}
 
-	err = k.validateOwnerOfRegistry(ctx, creator, virtualSchema.Registry)
+	err = k.validateIsExecutorOfSchema(ctx, creator, virtualSchemaCode)
 	if err != nil {
 		return nil, err
 	}
@@ -589,7 +589,7 @@ func (k Keeper) PerformVirtualActionKeeper(ctx sdk.Context, creator, vitualSchem
 		k.SetNftData(ctx, *crossMetadata.GetNftData(schemaRegistry.NftSchemaCode))
 
 		for _, change := range crossMetadata.GetChangeList(schemaRegistry.NftSchemaCode) {
-			val, found := k.GetSchemaAttribute(ctx, vitualSchemaName, change.Key)
+			val, found := k.GetSchemaAttribute(ctx, virtualSchemaCode, change.Key)
 			if found {
 				switch val.DataType {
 				case "string":
@@ -651,7 +651,7 @@ func (k Keeper) PerformVirtualActionKeeper(ctx sdk.Context, creator, vitualSchem
 		k.SetActionByRefId(ctx, types.ActionByRefId{
 			RefId:         refId,
 			Creator:       creator,
-			NftSchemaCode: vitualSchemaName,
+			NftSchemaCode: virtualSchemaCode,
 			// TokenId:       tokenId,
 			Action: vitualAction.Name,
 		})

@@ -67,5 +67,10 @@
       ],
       "params": []
     }
+  ],
+  "executors": [
+    "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv",
+    "6x13g50hqdqsjk85fmgqz2h5xdxq49lsmjdwlemsp",
+    "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq"
   ]
 }

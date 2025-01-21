@@ -1,14 +1,8 @@
 {
   "virtualSchemaCode": "divineXmembership",
   "virtualSchemaRegistry": [
-    {
-      "nftSchemaCode": "sixprotocol.divine_elite",
-      "sharedAttributes": ["service_3", "service_4", "service_7"]
-    },
-    {
-      "nftSchemaCode": "sixprotocol.membership",
-      "sharedAttributes": ["service_1", "service_2", "service_x"]
-    }
+    "sixprotocol.divine_elite",
+    "sixprotocol.membership"
   ],
   "enable": true,
   "actions": [
@@ -63,5 +57,9 @@
         }
       ]
     }
+  ],
+  "executors": [
+    "6x13g50hqdqsjk85fmgqz2h5xdxq49lsmjdwlemsp",
+    "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq"
   ]
 }
