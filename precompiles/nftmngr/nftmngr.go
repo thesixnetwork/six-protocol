@@ -59,27 +59,30 @@ type PrecompileExecutor struct {
 	   #### SETTER #####
 	   #################
 	*/
-	AddActionID            []byte
-	AddAttributeID         []byte
-	ChangeOrgOwnerID       []byte
-	ChangeSchemaOwnerID    []byte
-	CreateMetadataID       []byte
-	CreateSchemaID         []byte
-	ResyncAttributeID      []byte
-	UpdateAttributeID      []byte
-	AttributeOverideID     []byte
-	SetBaseURIID           []byte
-	SetMetadataFormatID    []byte
-	SetMintAuthID          []byte
-	SetOriginChainID       []byte
-	SetOriginContractID    []byte
-	SetUriRetreivalID      []byte
-	ShowAttributeID        []byte
-	ToggleActionID         []byte
-	UpateActionID          []byte
-	AddActionExecutorID    []byte
-	RemoveActionExecutorID []byte
-	ActionByAdminID        []byte
+	AddActionID             []byte
+	AddAttributeID          []byte
+	ChangeOrgOwnerID        []byte
+	ChangeSchemaOwnerID     []byte
+	CreateMetadataID        []byte
+	CreateSchemaID          []byte
+	ResyncAttributeID       []byte
+	UpdateAttributeID       []byte
+	AttributeOverideID      []byte
+	SetBaseURIID            []byte
+	SetMetadataFormatID     []byte
+	SetMintAuthID           []byte
+	SetOriginChainID        []byte
+	SetOriginContractID     []byte
+	SetUriRetreivalID       []byte
+	ShowAttributeID         []byte
+	ToggleActionID          []byte
+	UpateActionID           []byte
+	AddActionExecutorID     []byte
+	RemoveActionExecutorID  []byte
+	ActionByAdminID         []byte
+	VirtualSchemaProposalId []byte
+	VoteVirtualSchemaId     []byte
+	PerformVirtualActionId  []byte
 }
 
 func NewExecutor(nftmngrKeeper pcommon.NftmngrKeeper, bankKeeper pcommon.BankKeeper) (*PrecompileExecutor, error) {
@@ -150,6 +153,12 @@ func NewPrecompile(nftmngrKeeper pcommon.NftmngrKeeper, bankKeeper pcommon.BankK
 			p.IsSchemaOwnerID = m.ID
 		case GetAttributeValue:
 			p.GetAttributeValueID = m.ID
+		case VirtualSchemaProposal:
+			p.VirtualSchemaProposalId = m.ID
+		case VoteVirtualSchema:
+			p.VoteVirtualSchemaId = m.ID
+		case PerformVirtualAction:
+			p.PerformVirtualActionId = m.ID
 		}
 	}
 
