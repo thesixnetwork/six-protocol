@@ -47,8 +47,7 @@ contract ActionScript is Script {
         refId = vm.envString("REF_ID");
         jsonParams = vm.envString("JSON_PARAMS");
 
-        string
-            memory routerContractInfoPath = "./broadcast/ActionRouter.s.sol/98/run-latest.json";
+        string memory routerContractInfoPath = "./broadcast/ActionRouter.s.sol/666/run-latest.json";
         string memory routerContractInfo = vm.readFile(routerContractInfoPath);
         bytes memory routerJsonParsed = vm.parseJson(
             routerContractInfo,
@@ -56,8 +55,7 @@ contract ActionScript is Script {
         );
         routerContractAddress = abi.decode(routerJsonParsed, (address));
 
-        string
-            memory nftContractInfoPath = "./broadcast/ERC721.s.sol/666/run-latest.json";
+        string memory nftContractInfoPath = "./broadcast/ERC721.s.sol/666/run-latest.json";
         string memory nftContractInfo = vm.readFile(nftContractInfoPath);
         bytes memory nftJsonParsed = vm.parseJson(
             nftContractInfo,

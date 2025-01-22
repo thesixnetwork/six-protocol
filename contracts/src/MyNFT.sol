@@ -13,7 +13,10 @@ contract MyNFT is ERC721A, Ownable, ERC721AQueryable, ReentrancyGuard {
     uint256 public limitedEditionSize;
     string private _baseTokenURI;
 
-    constructor() ERC721A("MyNFT", "NFT") {}
+    constructor(
+      string memory _name,
+      string memory _symbol
+    ) ERC721A(_name, _symbol) {}
 
     function _startTokenId() internal view virtual override returns (uint256) {
         return 1;
