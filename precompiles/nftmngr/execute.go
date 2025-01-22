@@ -59,6 +59,12 @@ func (p PrecompileExecutor) Execute(ctx sdk.Context, method *abi.Method, caller 
 		return p.isSchemaOwner(ctx, method, args, value)
 	case GetAttributeValue:
 		return p.getAttributeValue(ctx, method, args, value)
+  case VirtualSchemaProposal:
+    return p.virtualSchemaProposal(ctx, caller, method, args, value, readOnly)
+  case VoteVirtualSchema:
+    return p.voteVirtualSchema(ctx, caller, method, args, value, readOnly)
+  case PerformVirtualAction:
+    return p.perfromVirtualAction(ctx, caller, method, args, value, readOnly)
 	}
 	return
 }

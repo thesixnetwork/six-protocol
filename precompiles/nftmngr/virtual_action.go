@@ -16,7 +16,7 @@ import (
 	nftmngrtypes "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
-func (p PrecompileExecutor) VirtualSchemaProposal(ctx sdk.Context, caller common.Address, method *abi.Method, args []interface{}, value *big.Int, readOnly bool) ([]byte, error) {
+func (p PrecompileExecutor) virtualSchemaProposal(ctx sdk.Context, caller common.Address, method *abi.Method, args []interface{}, value *big.Int, readOnly bool) ([]byte, error) {
 	if readOnly {
 		return nil, errors.New("cannot call send from staticcall")
 	}

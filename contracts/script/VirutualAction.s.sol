@@ -2,48 +2,69 @@
 pragma solidity ^0.8.20;
 
 import "forge-std/Script.sol";
-import {Router} from "../src/ActionRouter.sol";
+import "../src/ActionRouter.sol";
 
 contract VirtualActionScript is Script {
     address ownerAddress;
     uint64 currentNonce;
     string virtualNftSchemaCode;
     address routerContractAddress;
-    address nftContractAddress;
+    address membershipNftContractAddress;
+    address divineEliteNftContractAddress;
 
     // action env
     string actionName;
-    string tokenIdMap;
+    TokenIdMap[] tokenIdMapArray;
     string refId;
     string jsonParams;
 
     function setUp() public {
+        string
+            memory nftContractInfoPath = "./broadcast/ERC721.s.sol/666/run-latest.json";
+        string memory nftContractInfo = vm.readFile(nftContractInfoPath);
+        bytes memory membershipNftJsonParsed = vm.parseJson(
+            nftContractInfo,
+            ".transactions[0].contractAddress"
+        );
+        bytes memory divineNftJsonParsed = vm.parseJson(
+            nftContractInfo,
+            ".transactions[7].contractAddress"
+        );
+        membershipNftContractAddress = abi.decode(membershipNftJsonParsed, (address));
+        divineEliteNftContractAddress = abi.decode(divineNftJsonParsed, (address));
+
         ownerAddress = vm.envAddress("OWNER");
         currentNonce = vm.getNonce(ownerAddress);
-        virtualNftSchemaCode = vm.envString("VIRTUAL_NFT_SCHEMA");
+        virtualNftSchemaCode = "divineXmembership";
 
-        actionName = vm.envString("ACTION_NAME");
-        tokenIdMap = vm.envString("TOKEN_ID_MAP");
-        refId = vm.envString("REF_ID");
-        jsonParams = vm.envString("JSON_PARAMS");
+        tokenIdMapArray.push(
+            TokenIdMap({
+                nftSchemaName: "sixprotocol.membership",
+                nftContractAddress: membershipNftContractAddress,
+                tokenId: "5"
+            })
+        );
+
+        tokenIdMapArray.push(
+            TokenIdMap({
+                nftSchemaName: "sixprotocol.divine_elite",
+                nftContractAddress: divineEliteNftContractAddress,
+                tokenId: "1"
+            })
+        );
+
+        actionName = "bridge_4_to_2";
+        refId = "test_virtual_action";
+        jsonParams = '[{"name":"amount","value": "10"}]';
 
         string
-            memory routerContractInfoPath = "./broadcast/ActionRouter.s.sol/98/run-latest.json";
+            memory routerContractInfoPath = "./broadcast/ActionRouter.s.sol/666/run-latest.json";
         string memory routerContractInfo = vm.readFile(routerContractInfoPath);
         bytes memory routerJsonParsed = vm.parseJson(
             routerContractInfo,
             ".transactions[0].contractAddress"
         );
         routerContractAddress = abi.decode(routerJsonParsed, (address));
-
-        string
-            memory nftContractInfoPath = "./broadcast/ERC721.s.sol/666/run-latest.json";
-        string memory nftContractInfo = vm.readFile(nftContractInfoPath);
-        bytes memory nftJsonParsed = vm.parseJson(
-            nftContractInfo,
-            ".transactions[0].contractAddress"
-        );
-        nftContractAddress = abi.decode(nftJsonParsed, (address));
     }
 
     function run() external {
@@ -52,10 +73,16 @@ contract VirtualActionScript is Script {
 
         Router actionRouter = Router(routerContractAddress);
 
-        bool success = actionRouter.actionByNftOwner(
-            nftContractAddress,
+        TokenIdMap[] memory _tokenIdMap = new TokenIdMap[](
+            tokenIdMapArray.length
+        );
+        for (uint i = 0; i < tokenIdMapArray.length; i++) {
+            _tokenIdMap[i] = tokenIdMapArray[i];
+        }
+
+        bool success = actionRouter.virtualAction(
             virtualNftSchemaCode,
-            tokenIdMap,
+            _tokenIdMap,
             actionName,
             refId,
             jsonParams

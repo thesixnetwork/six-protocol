@@ -8,7 +8,7 @@ contract ERC721Factory {
 
     function deployERC721(uint256 salt) public returns (address) {
         bytes32 saltBytes = bytes32(salt);
-        MyNFT token = new MyNFT{salt: saltBytes}();
+        MyNFT token = new MyNFT{salt: saltBytes}("MyNFT", "NFT");
         emit Deployed(address(token), salt);
         return address(token);
     }
