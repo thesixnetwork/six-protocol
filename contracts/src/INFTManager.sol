@@ -1,18 +1,13 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.20;
 
 address constant NFTMNGR_PRECOMPILE_ADDRESS = 0x0000000000000000000000000000000000001055;
 
 INFTMNGR constant NFTMNGR_CONTRACT = INFTMNGR(NFTMNGR_PRECOMPILE_ADDRESS);
 
-struct TokenIdMap {
-    string nftSchemaName;
-    string tokenId;
-}
-
 struct ActionParameter {
-    string name;
-    string value;
+    string Name;
+    string Value;
 }
 
 interface INFTMNGR {

@@ -41,7 +41,7 @@ type ActionParameter struct {
 
 type PrecompileExecutor struct {
 	nftmngrKeeper pcommon.NftmngrKeeper
-  accountKeeper pcommon.AccountKeeper
+	accountKeeper pcommon.AccountKeeper
 	bankKeeper    pcommon.BankKeeper
 	address       common.Address
 
@@ -82,14 +82,14 @@ type PrecompileExecutor struct {
 	RemoveActionExecutorID  []byte
 	ActionByAdminID         []byte
 	VirtualSchemaProposalId []byte
-	VoteVirtualSchemaId     []byte
+	VoteVirtualId           []byte
 	PerformVirtualActionId  []byte
 }
 
 func NewExecutor(nftmngrKeeper pcommon.NftmngrKeeper, accountKeeper pcommon.AccountKeeper, bankKeeper pcommon.BankKeeper) (*PrecompileExecutor, error) {
 	p := &PrecompileExecutor{
 		nftmngrKeeper: nftmngrKeeper,
-    accountKeeper: accountKeeper,
+		accountKeeper: accountKeeper,
 		bankKeeper:    bankKeeper,
 		address:       common.HexToAddress(NftmngrAddress),
 	}
@@ -101,6 +101,7 @@ func NewPrecompile(nftmngrKeeper pcommon.NftmngrKeeper, accountKeeper pcommon.Ac
 	newAbi := GetABI()
 	p := &PrecompileExecutor{
 		nftmngrKeeper: nftmngrKeeper,
+		accountKeeper: accountKeeper,
 		bankKeeper:    bankKeeper,
 		address:       common.HexToAddress(NftmngrAddress),
 	}
@@ -158,7 +159,7 @@ func NewPrecompile(nftmngrKeeper pcommon.NftmngrKeeper, accountKeeper pcommon.Ac
 		case VirtualSchemaProposal:
 			p.VirtualSchemaProposalId = m.ID
 		case VoteVirtualSchema:
-			p.VoteVirtualSchemaId = m.ID
+			p.VoteVirtualId = m.ID
 		case PerformVirtualAction:
 			p.PerformVirtualActionId = m.ID
 		}

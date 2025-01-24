@@ -126,14 +126,14 @@ contract DeployScript is Script {
         uint256 divremain = nftNumber % roundFloor;
 
         if (nftNumber >= roundFloor) {
-            for (uint256 i = 0; i < round; i++) {
+            for (uint256 i = 0; i < divround; i++) {
                 divineNFT.preMint(roundFloor);
                 minted += roundFloor;
                 nonceUp(ownerAddress);
             }
         }
 
-        if (remain > 0 && minted < nftNumber && remain < roundFloor) {
+        if (divremain > 0 && minted < nftNumber && remain < roundFloor) {
             divineNFT.preMint(remain);
             minted += remain;
             nonceUp(ownerAddress);

@@ -83,7 +83,6 @@ contract AttributeOverride is Script {
     }
 }
 
-
 contract ShowAttribute is Script {
     address ownerAddress;
     string nftSchema;
