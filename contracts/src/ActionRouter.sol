@@ -136,6 +136,25 @@ contract Router {
         return true;
     }
 
+    function voteVirtualAction(
+      string memory proposalId,
+      string memory nftSchemaCode,
+      uint32 option
+    )public returns (bool success){
+        bytes memory dataMembership = abi.encodeWithSignature(
+            "voteVirtualSchema(string,string,uint32)",
+            proposalId,
+            nftSchemaCode,
+            option
+        );
+        bool done = actionSend(dataMembership);
+
+        if (!done) {
+            revert ModuleRejected();
+        }
+        return true;
+    }
+
     function stringToUint(
         string memory s
     ) internal pure returns (uint256 result) {
