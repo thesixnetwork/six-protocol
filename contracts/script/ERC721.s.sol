@@ -148,6 +148,42 @@ contract DeployScript is Script {
     }
 }
 
+contract TransferToken is Script {
+    address contractAdrress;
+    address ownerAddress;
+    address membershipNftContractAddress;
+
+    function setUp() public {
+        ownerAddress = vm.envAddress("OWNER");
+        string
+            memory nftContractInfoPath = "./broadcast/ERC721.s.sol/666/run-latest.json";
+        string memory nftContractInfo = vm.readFile(nftContractInfoPath);
+        bytes memory membershipNftJsonParsed = vm.parseJson(
+            nftContractInfo,
+            ".transactions[0].contractAddress"
+        );
+
+        membershipNftContractAddress = abi.decode(
+            membershipNftJsonParsed,
+            (address)
+        );
+    }
+
+    function run() external {
+        uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
+        MyNFT nft = MyNFT(payable(membershipNftContractAddress));
+        vm.startBroadcast(deployerPrivateKey);
+
+        nft.transferFrom(
+            ownerAddress,
+            0x3753C81072A56072840990D3D02f354Efb7425A3,
+            5
+        );
+
+        vm.stopBroadcast();
+    }
+}
+
 contract QueryTokenOwner is Script {
     address contractAddress;
     address ownerAddress;
