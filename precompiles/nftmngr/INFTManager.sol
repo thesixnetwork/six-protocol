@@ -126,9 +126,8 @@ interface INFTMNGR {
 
     function virtualSchemaProposal(
         uint32 proposalType,
-        string memory virtualNftSchemaCode,
         string memory base64VirtualSchemaRegistry
-    ) external returns (bool success);
+    ) external returns (uint64 proposalId);
 
     function virtualAction(
         string memory vitualSchemaName,
