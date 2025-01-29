@@ -3,17 +3,28 @@ pragma solidity ^0.8.20;
 
 import "forge-std/Script.sol";
 import {INFTMNGR, NFTMNGR_PRECOMPILE_ADDRESS} from "../src/INFTManager.sol";
+import {TransactionBatcher} from "../src/TransactionBatcher.sol";
 
 contract ResyncAttribute is Script {
     address ownerAddress;
     address destAddress;
     uint64 currentNonce;
     string nftSchema;
+    address batchContractAddress;
 
     function setUp() public {
         ownerAddress = vm.envAddress("OWNER");
         destAddress = vm.envAddress("DEST_ADDRESS");
         nftSchema = vm.envString("NFT_SCHEMA");
+
+        string
+            memory txBatcherPath = "./broadcast/ActionRouter.s.sol/666/run-latest.json";
+        string memory txBatcherContractInfo = vm.readFile(txBatcherPath);
+        bytes memory txBatcherJsonParsed = vm.parseJson(
+            txBatcherContractInfo,
+            ".transactions[0].contractAddress"
+        );
+        batchContractAddress = abi.decode(txBatcherJsonParsed, (address));
     }
 
     function run() external {
@@ -28,19 +39,19 @@ contract ResyncAttribute is Script {
             tokenId
         );
 
-        bool success = callKeeeper(data);
-
-        require(success, "Transaction failed. Check error message below:");
+        callKeeeper(data);
 
         // Log the success message
         console.log("Action executed successfully!");
         vm.stopBroadcast();
     }
 
-    function callKeeeper(bytes memory datas) public payable returns (bool) {
-        (bool success, ) = NFTMNGR_PRECOMPILE_ADDRESS.call{value: 0}(datas);
-        if (!success) revert("transaction failed");
-        return success;
+    function callKeeeper(bytes memory datas) public payable {
+        TransactionBatcher batchEntry = TransactionBatcher(
+            payable(batchContractAddress)
+        );
+
+        batchEntry.singleSend(NFTMNGR_PRECOMPILE_ADDRESS, 0, datas);
     }
 }
 
@@ -86,10 +97,20 @@ contract AttributeOverride is Script {
 contract ShowAttribute is Script {
     address ownerAddress;
     string nftSchema;
+    address batchContractAddress;
 
     function setUp() public {
         ownerAddress = vm.envAddress("OWNER");
         nftSchema = vm.envString("NFT_SCHEMA");
+
+        string
+            memory txBatcherPath = "./broadcast/BatchTx.s.sol/666/run-latest.json";
+        string memory txBatcherContractInfo = vm.readFile(txBatcherPath);
+        bytes memory txBatcherJsonParsed = vm.parseJson(
+            txBatcherContractInfo,
+            ".transactions[0].contractAddress"
+        );
+        batchContractAddress = abi.decode(txBatcherJsonParsed, (address));
     }
 
     function run() external {
@@ -105,23 +126,23 @@ contract ShowAttribute is Script {
 
         bytes memory data = abi.encodeWithSignature(
             "showAttribute(string,bool,string[])",
-            nftSchema,
+            "sixprotocol.membership",
             toShow,
             attributes
         );
 
-        bool success = callKeeeper(data);
-
-        require(success, "Transaction failed. Check error message below:");
+        callKeeeper(data);
 
         // Log the success message
         console.log("Action executed successfully!");
         vm.stopBroadcast();
     }
 
-    function callKeeeper(bytes memory datas) public payable returns (bool) {
-        (bool success, ) = NFTMNGR_PRECOMPILE_ADDRESS.call{value: 0}(datas);
-        if (!success) revert("transaction failed");
-        return success;
+    function callKeeeper(bytes memory datas) public payable {
+        TransactionBatcher batchEntry = TransactionBatcher(
+            payable(batchContractAddress)
+        );
+
+        batchEntry.singleSend(NFTMNGR_PRECOMPILE_ADDRESS, 0, datas);
     }
 }

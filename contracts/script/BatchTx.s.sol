@@ -4,6 +4,37 @@ pragma solidity ^0.8.20;
 import "forge-std/Script.sol";
 import {TransactionBatcher} from "../src/TransactionBatcher.sol";
 
+contract DeployBatch is Script {
+    address ownerAddress;
+    address nftContractAddress;
+    address batchContractAddress;
+
+    function setUp() public {
+        ownerAddress = vm.envAddress("OWNER");
+
+        string
+            memory txBatcherPath = "./broadcast/ActionRouter.s.sol/666/run-latest.json";
+        string memory txBatcherContractInfo = vm.readFile(txBatcherPath);
+        bytes memory txBatcherJsonParsed = vm.parseJson(
+            txBatcherContractInfo,
+            ".transactions[0].contractAddress"
+        );
+        batchContractAddress = abi.decode(txBatcherJsonParsed, (address));
+    }
+
+    function run() external {
+        uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
+        vm.startBroadcast(deployerPrivateKey);
+
+        TransactionBatcher batchEntry = new TransactionBatcher();
+
+        batchContractAddress = address(batchEntry);
+
+        console.log(address(batchContractAddress));
+        vm.stopBroadcast();
+    }
+}
+
 contract BatchScript is Script {
     address ownerAddress;
     address nftContractAddress;
@@ -11,9 +42,15 @@ contract BatchScript is Script {
 
     function setUp() public {
         ownerAddress = vm.envAddress("OWNER");
-        batchContractAddress = vm.envAddress("TX_BATCHER_CONTRACT");
-        //batchContractAddress = 0xFB2dfC82205dBB138Cb64b9F8d2414369a3bdd2c;
-        nftContractAddress = vm.envAddress("PATIENT_CONTRACT");
+
+        string
+            memory txBatcherPath = "./broadcast/ActionRouter.s.sol/666/run-latest.json";
+        string memory txBatcherContractInfo = vm.readFile(txBatcherPath);
+        bytes memory txBatcherJsonParsed = vm.parseJson(
+            txBatcherContractInfo,
+            ".transactions[0].contractAddress"
+        );
+        batchContractAddress = abi.decode(txBatcherJsonParsed, (address));
     }
 
     function run() external {
@@ -31,7 +68,7 @@ contract BatchScript is Script {
 
         address[] memory recipients = new address[](5);
         for (uint160 i = 0; i < 5; i++) {
-            recipients[i] = address(i + 2); 
+            recipients[i] = address(i + 2);
         }
 
         //recipients[0] = address(1);
@@ -46,7 +83,7 @@ contract BatchScript is Script {
             datas[i] = abi.encodeWithSignature(
                 "safeMint(address,uint256)",
                 recipients[i],
-                i + 2 
+                i + 2
             );
         }
 

@@ -22,9 +22,11 @@ message VirtualSchemaProposal {
 }
 
 message VirtualSchemaProposalRequest {
-  repeated string nftSchemaCodes = 1;
-  repeated Action actions = 2;
-  repeated string executors = 3;
+  string virtualSchemaCode = 1;
+  repeated string virtualSchemaRegistry = 2;
+  repeated Action actions = 3;
+  repeated string executors = 4;
+  bool enable = 5;
 }
 
 message VirtualSchema {

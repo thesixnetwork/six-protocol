@@ -26,7 +26,7 @@ func (p PrecompileExecutor) virtualSchemaProposal(ctx sdk.Context, caller common
 		return nil, err
 	}
 
-	if err := pcommon.ValidateArgsLength(args, 3); err != nil {
+	if err := pcommon.ValidateArgsLength(args, 2); err != nil {
 		return nil, err
 	}
 
@@ -45,17 +45,7 @@ func (p PrecompileExecutor) virtualSchemaProposal(ctx sdk.Context, caller common
 		return nil, err
 	}
 
-	virtualNftSchemaCode, err := p.StringFromArg(args[1])
-	if err != nil {
-		return nil, err
-	}
-
-	base64VirtualSchemaProposal, err := p.StringFromArg(args[2])
-	if err != nil {
-		return nil, err
-	}
-
-	enable, err := p.BoolFromArg(args[3])
+	base64VirtualSchemaProposal, err := p.StringFromArg(args[1])
 	if err != nil {
 		return nil, err
 	}
@@ -71,20 +61,15 @@ func (p PrecompileExecutor) virtualSchemaProposal(ctx sdk.Context, caller common
 		return nil, sdkerrors.Wrap(nftmngrtypes.ErrParsingMetadataMessage, err.Error())
 	}
 
-	virtualSchemaRegistryRequest := make([]*nftmngrtypes.VirtualSchemaRegistryRequest, len(virtualSchemaRequest.NftSchemaCodes))
+	virtualSchemaRegistryRequest := make([]*nftmngrtypes.VirtualSchemaRegistryRequest, len(virtualSchemaRequest.VirtualSchemaRegistry))
 
-	for i, schemaCode := range virtualSchemaRequest.NftSchemaCodes {
+	for i, schemaCode := range virtualSchemaRequest.VirtualSchemaRegistry {
 		virtualSchemaRegistryRequest[i] = &nftmngrtypes.VirtualSchemaRegistryRequest{
 			NftSchemaCode: schemaCode,
 		}
 	}
 
-  executors, err := p.ArrayOfstringFromArg(args[4])
-	if err != nil {
-		return nil, err
-	}
-
-	strPrposalId, err := p.nftmngrKeeper.ProposalVirtualSchemaKeeper(ctx, senderCosmoAddr.String(), virtualNftSchemaCode, proposalType, virtualSchemaRegistryRequest, virtualSchemaRequest.Actions, executors, enable)
+	strPrposalId, err := p.nftmngrKeeper.ProposalVirtualSchemaKeeper(ctx, senderCosmoAddr.String(), virtualSchemaRequest.VirtualSchemaCode, proposalType, virtualSchemaRegistryRequest, virtualSchemaRequest.Actions, virtualSchemaRequest.Executors, virtualSchemaRequest.Enable)
 	if err != nil {
 		return nil, err
 	}
@@ -98,7 +83,7 @@ func (p PrecompileExecutor) virtualSchemaProposal(ctx sdk.Context, caller common
 }
 
 func (p PrecompileExecutor) voteVirtualSchema(ctx sdk.Context, caller common.Address, method *abi.Method, args []interface{}, value *big.Int, readOnly bool) ([]byte, error) {
-  	fmt.Println("################# voteVirtualSchema #################")
+	fmt.Println("################# voteVirtualSchema #################")
 	if readOnly {
 		return nil, errors.New("cannot call send from staticcall")
 	}
