@@ -1,8 +1,10 @@
 {
-  "virtualSchemaCode": "divineXmembership",
+  "virtualSchemaCode": "sixprotocol.medical",
   "virtualSchemaRegistry": [
     "sixprotocol.divine_elite",
-    "sixprotocol.membership"
+    "sixprotocol.membership",
+    "sixprotocol.preventive",
+    "sixprotocol.lifestyle"
   ],
   "enable": true,
   "actions": [
@@ -16,6 +18,27 @@
         "toSetValue = ser2Value + params['amount'].GetNumber()",
         "meta.SetNumber('sixprotocol.membership','service_2', toSetValue)",
         "meta.SetNumber('sixprotocol.divine_elite','service_4', ser4value - params['amount'].GetNumber())"
+      ],
+      "params": [
+        {
+          "name": "amount",
+          "desc": "Service 4 Amount",
+          "data_type": "number",
+          "required": true,
+          "default_value": "0"
+        }
+      ]
+    },
+    {
+      "name": "bridge_12_to_17",
+      "desc": "Bridge service 4 to service 2",
+      "when": "meta.GetNumber('sixprotocol.preventive','service_12') >= params['amount'].GetNumber()",
+      "then": [
+        "ser12value = meta.GetNumber('sixprotocol.preventive','service_12')",
+        "ser17Value = meta.GetNumber('sixprotocol.lifestyle','service_17')",
+        "toSetValue = ser12value + params['amount'].GetNumber()",
+        "meta.SetNumber('sixprotocol.preventive','service_12', toSetValue)",
+        "meta.SetNumber('sixprotocol.lifestyle','service_17', ser17value - params['amount'].GetNumber())"
       ],
       "params": [
         {
@@ -56,6 +79,16 @@
           "default_value": "0"
         }
       ]
+    },
+    {
+      "name": "transform",
+      "desc": "Transform Metadata Image",
+      "when": "true",
+      "then": [
+        "meta.SetImage('sixprotocol.divine_elite','https://image-trasformed-divine')",
+        "meta.SetImage('sixprotocol.membership','https://image-trasformed-membership')"
+      ],
+      "params": []
     }
   ],
   "executors": [

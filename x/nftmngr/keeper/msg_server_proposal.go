@@ -10,10 +10,6 @@ import (
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
-// TODO::
-// 1. For proposaltype CREATE when start proposal lock amout of value to module account
-// 2. when proposal is rejected, unlock the amount and burn some as penalty. The amount left will be refunded to the creator
-// 3. when proposal is accepted, and process fee so on.
 func (k msgServer) ProposalVirtualSchema(goCtx context.Context, msg *types.MsgProposalVirtualSchema) (*types.MsgProposalVirtualSchemaResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
@@ -36,7 +32,7 @@ func (k Keeper) ProposalVirtualSchemaKeeper(ctx sdk.Context, creator, virtualNft
 	)
 
 	if proposalType == types.ProposalType_CREATE {
-		registry, err = k.validateCreateVirtualSchemaProposal(ctx, virtualNftSchemaCode, registryReq)
+		registry, err = k.validateCreateVirtualSchemaProposal(ctx, virtualNftSchemaCode, registryReq, creator)
 		if err != nil {
 			return "", err
 		}
@@ -184,7 +180,7 @@ func (k Keeper) validateIsExecutorOfSchema(ctx sdk.Context, creator, virtualSche
 	return nil
 }
 
-func (k Keeper) validateCreateVirtualSchemaProposal(ctx sdk.Context, virtualNftSchemaCode string, registryReq []*types.VirtualSchemaRegistryRequest) ([]*types.VirtualSchemaRegistry, error) {
+func (k Keeper) validateCreateVirtualSchemaProposal(ctx sdk.Context, virtualNftSchemaCode string, registryReq []*types.VirtualSchemaRegistryRequest, creator string) ([]*types.VirtualSchemaRegistry, error) {
 	registry := []*types.VirtualSchemaRegistry{}
 	// Check if schema already
 	_, found := k.GetNFTSchema(ctx, virtualNftSchemaCode)
@@ -205,6 +201,24 @@ func (k Keeper) validateCreateVirtualSchemaProposal(ctx sdk.Context, virtualNftS
 	err := k.checkDuplicateSchemaCodeWithVirtualSchemaProposal(ctx, virtualNftSchemaCode)
 	if err != nil {
 		return nil, err
+	}
+
+	foundOrganization, organizationName := GetOrganizationFromSchemaCode(virtualNftSchemaCode)
+
+	if foundOrganization {
+		storedOrganization, found := k.GetOrganization(ctx, organizationName)
+		if found {
+			// Check owner of organization
+			if storedOrganization.Owner != creator {
+				return nil, sdkerrors.Wrap(types.ErrOrganizationOwner, creator)
+			}
+		} else {
+			// Store organization
+			k.SetOrganization(ctx, types.Organization{
+				Owner: creator,
+				Name:  organizationName,
+			})
+		}
 	}
 
 	for _, regis := range registryReq {
