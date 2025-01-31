@@ -5,25 +5,21 @@ package types
 
 import (
 	fmt "fmt"
-	io "io"
-	math "math"
-	math_bits "math/bits"
-	time "time"
-
 	_ "github.com/gogo/protobuf/gogoproto"
 	proto "github.com/gogo/protobuf/proto"
 	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
 	_ "google.golang.org/protobuf/types/known/timestamppb"
+	io "io"
+	math "math"
+	math_bits "math/bits"
+	time "time"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-
-var (
-	_ = fmt.Errorf
-	_ = math.Inf
-	_ = time.Kitchen
-)
+var _ = fmt.Errorf
+var _ = math.Inf
+var _ = time.Kitchen
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -52,11 +48,9 @@ func (*MintRequest) ProtoMessage()    {}
 func (*MintRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_3b5fc42e48c76b2e, []int{0}
 }
-
 func (m *MintRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *MintRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_MintRequest.Marshal(b, m, deterministic)
@@ -69,15 +63,12 @@ func (m *MintRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) 
 		return b[:n], nil
 	}
 }
-
 func (m *MintRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_MintRequest.Merge(m, src)
 }
-
 func (m *MintRequest) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *MintRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_MintRequest.DiscardUnknown(m)
 }
@@ -314,7 +305,6 @@ func encodeVarintMintRequest(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-
 func (m *MintRequest) Size() (n int) {
 	if m == nil {
 		return 0
@@ -366,11 +356,9 @@ func (m *MintRequest) Size() (n int) {
 func sovMintRequest(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
-
 func sozMintRequest(x uint64) (n int) {
 	return sovMintRequest(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-
 func (m *MintRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -712,7 +700,6 @@ func (m *MintRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func skipMintRequest(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0
