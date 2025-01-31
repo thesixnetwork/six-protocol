@@ -19,14 +19,6 @@ type (
 		VirtualSchemaCode string `json:"code"`
 	}
 
-	VirtualSchemaRequest struct {
-		VirtualSchemaCode     string         `json:"virtualSchemaCode"`
-		Actions               []types.Action `json:"actions"`
-		VirtualSchemaRegistry []string       `json:"virtualSchemaRegistry"`
-		Enable                bool           `json:"enable"`
-		Executors             []string       `json:"executors"`
-	}
-
 	ActionParameter struct {
 		Name  string `json:"name"`
 		Value string `json:"value"`
@@ -55,8 +47,8 @@ type (
 	}
 )
 
-func ParseProposalFile(cdc *codec.LegacyAmino, proposalFile string) (VirtualSchemaRequest, error) {
-	request := VirtualSchemaRequest{}
+func ParseProposalFile(cdc *codec.LegacyAmino, proposalFile string) (types.VirtualSchemaProposalRequest, error) {
+	request := types.VirtualSchemaProposalRequest{}
 
 	contents, err := os.ReadFile(proposalFile)
 	if err != nil {
