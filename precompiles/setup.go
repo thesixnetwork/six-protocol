@@ -56,7 +56,7 @@ func InitializePrecompiles(
 		return err
 	}
 
-	nftmngrp, err := nftmngr.NewPrecompile(nftmngrKeeper, bankKeeper)
+	nftmngrp, err := nftmngr.NewPrecompile(nftmngrKeeper, accountKeeper, bankKeeper)
 	if err != nil {
 		return err
 	}

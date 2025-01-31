@@ -14,7 +14,13 @@ func CmdListSchemaAttribute() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list-schema-attribute",
 		Short: "list all schema_attribute",
+		Args:  cobra.RangeArgs(0, 1),
 		RunE: func(cmd *cobra.Command, args []string) error {
+			argSchemaCode := ""
+			if len(args) > 0 {
+				argSchemaCode = args[0]
+			}
+
 			clientCtx := client.GetClientContextFromCmd(cmd)
 
 			pageReq, err := client.ReadPageRequest(cmd.Flags())
@@ -25,7 +31,8 @@ func CmdListSchemaAttribute() *cobra.Command {
 			queryClient := types.NewQueryClient(clientCtx)
 
 			params := &types.QueryAllSchemaAttributeRequest{
-				Pagination: pageReq,
+				NftSchemaCode: argSchemaCode,
+				Pagination:    pageReq,
 			}
 
 			res, err := queryClient.SchemaAttributeAll(context.Background(), params)

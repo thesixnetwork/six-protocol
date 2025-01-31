@@ -21,7 +21,6 @@ import (
 // Prevent strconv unused error
 var _ = strconv.IntSize
 
-// TODO:: Feat(VirtualSchema)
 func networkWithVirtualSchemaObjects(t *testing.T, n int) (*network.Network, []types.VirtualSchema) {
 	t.Helper()
 	cfg := network.DefaultConfig()
@@ -43,7 +42,6 @@ func networkWithVirtualSchemaObjects(t *testing.T, n int) (*network.Network, []t
 	return network.New(t, cfg), state.VirtualSchemaList
 }
 
-// TODO:: Feat(VirtualSchema)
 func TestShowVirtualSchema(t *testing.T) {
 	net, objs := networkWithVirtualSchemaObjects(t, 2)
 
@@ -98,7 +96,6 @@ func TestShowVirtualSchema(t *testing.T) {
 	}
 }
 
-// TODO:: Feat(VirtualSchema)
 func TestListVirtualSchema(t *testing.T) {
 	net, objs := networkWithVirtualSchemaObjects(t, 5)
 

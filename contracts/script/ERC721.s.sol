@@ -56,11 +56,10 @@ contract DeployERC721WithFactory is Script {
             nonceUp(ownerAddress);
         }
 
-
         vm.stopBroadcast();
     }
 
-        function nonceUp(address signer) public {
+    function nonceUp(address signer) public {
         vm.setNonce(signer, currentNonce + uint64(1));
         currentNonce++;
     }
@@ -83,15 +82,15 @@ contract DeployScript is Script {
         uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
         vm.startBroadcast(deployerPrivateKey);
 
-        // MAIN
-        MyNFT nft = new MyNFT();
+        // MEMBERSHIP
+        MyNFT membershipNFT = new MyNFT("MEM", "MEMBERSHIP");
         nonceUp(ownerAddress);
-        address nftContractAddress = address(nft);
+        address membershipNFTAddress = address(membershipNFT);
 
-        nft.setPreMinteeAddress(ownerAddress);
+        membershipNFT.setPreMinteeAddress(ownerAddress);
         nonceUp(ownerAddress);
 
-        nft.setLimitedEditionSize(nftNumber);
+        membershipNFT.setLimitedEditionSize(nftNumber);
         nonceUp(ownerAddress);
 
         uint256 round = nftNumber / roundFloor;
@@ -99,24 +98,89 @@ contract DeployScript is Script {
 
         if (nftNumber >= roundFloor) {
             for (uint256 i = 0; i < round; i++) {
-                nft.preMint(roundFloor);
+                membershipNFT.preMint(roundFloor);
                 minted += roundFloor;
                 nonceUp(ownerAddress);
             }
         }
 
         if (remain > 0 && minted < nftNumber && remain < roundFloor) {
-            nft.preMint(remain);
+            membershipNFT.preMint(remain);
             minted += remain;
             nonceUp(ownerAddress);
         }
-        console.log(address(nftContractAddress));
+        console.log(address(membershipNFTAddress));
+
+        // DIVINE
+        MyNFT divineNFT = new MyNFT("DIV", "DIVINEELITE");
+        nonceUp(ownerAddress);
+        address divineNFTAddress = address(divineNFT);
+
+        divineNFT.setPreMinteeAddress(ownerAddress);
+        nonceUp(ownerAddress);
+
+        divineNFT.setLimitedEditionSize(nftNumber);
+        nonceUp(ownerAddress);
+
+        uint256 divround = nftNumber / roundFloor;
+        uint256 divremain = nftNumber % roundFloor;
+
+        if (nftNumber >= roundFloor) {
+            for (uint256 i = 0; i < divround; i++) {
+                divineNFT.preMint(roundFloor);
+                minted += roundFloor;
+                nonceUp(ownerAddress);
+            }
+        }
+
+        if (divremain > 0 && minted < nftNumber && remain < roundFloor) {
+            divineNFT.preMint(remain);
+            minted += remain;
+            nonceUp(ownerAddress);
+        }
+        console.log(address(divineNFTAddress));
         vm.stopBroadcast();
     }
 
     function nonceUp(address signer) public {
         vm.setNonce(signer, currentNonce + uint64(1));
         currentNonce++;
+    }
+}
+
+contract TransferToken is Script {
+    address contractAdrress;
+    address ownerAddress;
+    address membershipNftContractAddress;
+
+    function setUp() public {
+        ownerAddress = vm.envAddress("OWNER");
+        string
+            memory nftContractInfoPath = "./broadcast/ERC721.s.sol/666/run-latest.json";
+        string memory nftContractInfo = vm.readFile(nftContractInfoPath);
+        bytes memory membershipNftJsonParsed = vm.parseJson(
+            nftContractInfo,
+            ".transactions[0].contractAddress"
+        );
+
+        membershipNftContractAddress = abi.decode(
+            membershipNftJsonParsed,
+            (address)
+        );
+    }
+
+    function run() external {
+        uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
+        MyNFT nft = MyNFT(payable(membershipNftContractAddress));
+        vm.startBroadcast(deployerPrivateKey);
+
+        nft.transferFrom(
+            ownerAddress,
+            0x3753C81072A56072840990D3D02f354Efb7425A3,
+            5
+        );
+
+        vm.stopBroadcast();
     }
 }
 
