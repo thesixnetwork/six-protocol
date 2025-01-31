@@ -1,14 +1,12 @@
 package nftmngr_test
 
 import (
-	// "encoding/json"
-
 	"testing"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	accountKeeper "github.com/cosmos/cosmos-sdk/x/auth/keeper"
 	bankkeeper "github.com/cosmos/cosmos-sdk/x/bank/keeper"
-  accountKeeper "github.com/cosmos/cosmos-sdk/x/auth/keeper"
 
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	"github.com/stretchr/testify/suite"
@@ -23,7 +21,7 @@ type NftmngrPrecompileTestSuite struct {
 	suite.Suite
 	ctx           sdk.Context
 	nftmngrKeeper *nftmngrkeeper.Keeper
-  accountKeeper accountKeeper.AccountKeeper
+	accountKeeper accountKeeper.AccountKeeper
 	bankKeeper    bankkeeper.Keeper
 	cdc           codec.Codec
 	nftprecompile *prenftmgr.PrecompileExecutor

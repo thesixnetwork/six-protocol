@@ -126,7 +126,6 @@ func (k Keeper) AddActionExecutor(ctx sdk.Context, creator, nftSchemaName, execu
 	schema, foundNftSchema := k.GetNFTSchema(ctx, nftSchemaName)
 	_, foundVirtualSchema := k.GetVirtualSchema(ctx, nftSchemaName)
 
-	
 	if !foundNftSchema && !foundVirtualSchema {
 		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
 	}
@@ -183,7 +182,6 @@ func (k Keeper) DelActionExecutor(ctx sdk.Context, creator, nftSchemaName, execu
 	schema, foundNftSchema := k.GetNFTSchema(ctx, nftSchemaName)
 	_, foundVirtualSchema := k.GetVirtualSchema(ctx, nftSchemaName)
 
-	
 	if !foundNftSchema && !foundVirtualSchema {
 		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
 	}

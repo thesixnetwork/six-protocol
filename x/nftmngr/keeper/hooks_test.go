@@ -6,6 +6,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	params "github.com/cosmos/cosmos-sdk/x/params/types"
+
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/keeper"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
@@ -19,7 +20,7 @@ func TestKeeper_VirtualSchemaHook(t *testing.T) {
 		memKey             sdk.StoreKey
 		ps                 params.Subspace
 		nftadminKeeper     types.NftadminKeeper
-    accountKeeper      types.AccountKeeper
+		accountKeeper      types.AccountKeeper
 		bankKeeper         types.BankKeeper
 		stakingKeeper      types.StakingKeeper
 		distributionKeeper types.DistributionKeeper

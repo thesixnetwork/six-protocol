@@ -170,9 +170,9 @@ func NewPrecompile(nftmngrKeeper pcommon.NftmngrKeeper, accountKeeper pcommon.Ac
 
 // RequiredGas returns the required bare minimum gas to execute the precompile.
 func (p PrecompileExecutor) RequiredGas(input []byte, method *abi.Method) uint64 {
-  //if method.Name == "voteVirtualSchema" {
-  //  return 5000
-  //}
+	//if method.Name == "voteVirtualSchema" {
+	//  return 5000
+	//}
 	return pcommon.DefaultGasCost(input, p.IsTransaction(method.Name))
 }
 
