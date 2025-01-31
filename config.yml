@@ -49,7 +49,7 @@ init:
     broadcast-mode: "block"
   app:
     minimum-gas-prices: "1.25usix"
-    # log_level: trace
+    log_level: debug
     grpc-web:
       enable: true # as default
     api:
@@ -186,6 +186,12 @@ genesis:
     nftadmin:
       authorization:
         root_admin: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
+        permissions:
+            permissions:
+              - name: "nft_fee_admin"
+                addresses:
+                  addresses:
+                    - "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"
     ### THIS IS DEFAULT CONFIG ON ETHERMINT NO NEED TO SET IT JUST PUT IT HERE FOR REMINDER
     evm:
       params:

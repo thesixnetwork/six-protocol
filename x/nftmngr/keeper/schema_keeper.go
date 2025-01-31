@@ -237,6 +237,39 @@ func (k Keeper) ProcessFee(ctx sdk.Context, feeConfig *types.NFTFeeConfig, feeBa
 	return nil
 }
 
+func (k Keeper) VirtualSchemaProcessFee(ctx sdk.Context, feeConfig *types.NFTFeeConfig, feeBalances *types.NFTFeeBalance, feeSubject types.FeeSubject, pass bool, proposalId string) error {
+	lockedAsset, found := k.GetLockSchemaFee(ctx, proposalId)
+	if !found {
+		return sdkerrors.Wrap(types.ErrLockedAssetNotFound, proposalId)
+	}
+	creatorAddress, err := sdk.AccAddressFromBech32(lockedAsset.Proposer)
+	if err != nil {
+		return err
+	}
+
+	if !pass {
+		err := k.bankKeeper.SendCoinsFromModuleToAccount(
+			ctx, types.ModuleName, creatorAddress, sdk.NewCoins(lockedAsset.Amount),
+		)
+		if err != nil {
+			return err
+		}
+	} else {
+		currentFeeBalance, _ := sdk.ParseCoinNormalized(feeBalances.FeeBalances[int32(feeSubject)])
+		feeAmount, _ := sdk.ParseCoinNormalized(feeConfig.SchemaFee.FeeAmount)
+		// make sure fee lockamount enough for feeAmount
+		if feeAmount.Amount.LT(lockedAsset.Amount.Amount) {
+			return sdkerrors.Wrap(sdkerrors.ErrInsufficientFunds, "insufficient fee balance")
+		}
+		// Plus fee amount to fee balance
+		currentFeeBalance = currentFeeBalance.Add(feeAmount)
+		feeBalances.FeeBalances[int32(feeSubject)] = strconv.FormatInt(currentFeeBalance.Amount.Int64(), 10) + feeAmount.Denom
+	}
+
+	k.RemoveLockSchemaFee(ctx, proposalId)
+	return nil
+}
+
 func (k Keeper) SetBaseURIKeeper(ctx sdk.Context, creator, nftSchemaName, baseURI string) error {
 	schema, found := k.GetNFTSchema(ctx, nftSchemaName)
 	if !found {

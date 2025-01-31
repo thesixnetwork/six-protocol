@@ -146,7 +146,7 @@ func (am AppModule) RegisterServices(cfg module.Configurator) {
 	// if err != nil {
 	// 	panic(err)
 	// }
-	err := cfg.RegisterMigration(types.ModuleName, 2, m.NoOpStoreMigrate)
+	err := cfg.RegisterMigration(types.ModuleName, 3, m.NoOpStoreMigrate)
 	if err != nil {
 		panic(err)
 	}
@@ -174,7 +174,7 @@ func (am AppModule) ExportGenesis(ctx sdk.Context, cdc codec.JSONCodec) json.Raw
 }
 
 // ConsensusVersion implements ConsensusVersion.
-func (AppModule) ConsensusVersion() uint64 { return 3 }
+func (AppModule) ConsensusVersion() uint64 { return 4 }
 
 // BeginBlock executes all ABCI BeginBlock logic respective to the capability module.
 func (am AppModule) BeginBlock(ctx sdk.Context, req abci.RequestBeginBlock) {

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.20;
 
 import "forge-std/Test.sol";
 
@@ -9,7 +9,7 @@ contract MyNFTTest is Test {
     MyNFT public myNFT;
 
     function setUp() public {
-        myNFT = new MyNFT();
+        myNFT = new MyNFT("TEST","TEST");
         myNFT.setPreMinteeAddress(address(0xDEE));
         myNFT.setLimitedEditionSize(260);
         myNFT.preMint(260);

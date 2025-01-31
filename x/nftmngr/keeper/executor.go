@@ -123,15 +123,19 @@ func (k Keeper) GetAllActionExecutor(ctx sdk.Context) (list []types.ActionExecut
 }
 
 func (k Keeper) AddActionExecutor(ctx sdk.Context, creator, nftSchemaName, executorAddress string) error {
-	// Retrieve the schema
-	schema, found := k.GetNFTSchema(ctx, nftSchemaName)
-	if !found {
+	schema, foundNftSchema := k.GetNFTSchema(ctx, nftSchemaName)
+	_, foundVirtualSchema := k.GetVirtualSchema(ctx, nftSchemaName)
+
+	if !foundNftSchema && !foundVirtualSchema {
 		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
 	}
 
-	// Check if the creator is the owner of the schema
-	if creator != schema.Owner {
+	if foundNftSchema && creator != schema.Owner {
 		return sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
+	}
+
+	if foundVirtualSchema && creator != k.GetModuleAddress().String() {
+		return sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "Only module account can do this process")
 	}
 
 	// Check if the value already exists
@@ -175,14 +179,19 @@ func (k Keeper) AddActionExecutor(ctx sdk.Context, creator, nftSchemaName, execu
 // RemoveActionExecutor removes a actionExecutor from the store
 func (k Keeper) DelActionExecutor(ctx sdk.Context, creator, nftSchemaName, executorAddress string) error {
 	// Retrieve the schema
-	schema, found := k.GetNFTSchema(ctx, nftSchemaName)
-	if !found {
+	schema, foundNftSchema := k.GetNFTSchema(ctx, nftSchemaName)
+	_, foundVirtualSchema := k.GetVirtualSchema(ctx, nftSchemaName)
+
+	if !foundNftSchema && !foundVirtualSchema {
 		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
 	}
 
-	// Check if the creator is the owner of the schema
-	if creator != schema.Owner {
+	if foundNftSchema && creator != schema.Owner {
 		return sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
+	}
+
+	if foundVirtualSchema && creator != k.GetModuleAddress().String() {
+		return sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "Only module account can do this process")
 	}
 
 	// Check if the value exists

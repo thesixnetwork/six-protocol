@@ -5,21 +5,25 @@ package types
 
 import (
 	fmt "fmt"
-	_ "github.com/gogo/protobuf/gogoproto"
-	proto "github.com/gogo/protobuf/proto"
-	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
-	_ "google.golang.org/protobuf/types/known/timestamppb"
 	io "io"
 	math "math"
 	math_bits "math/bits"
 	time "time"
+
+	_ "github.com/gogo/protobuf/gogoproto"
+	proto "github.com/gogo/protobuf/proto"
+	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
+	_ "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-var _ = fmt.Errorf
-var _ = math.Inf
-var _ = time.Kitchen
+
+var (
+	_ = fmt.Errorf
+	_ = math.Inf
+	_ = time.Kitchen
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -55,7 +59,6 @@ func (RegistryStatus) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_1fd45310b3f69052, []int{0}
 }
 
-// TODO: [chore] Combine enable/disable to change virtual schema.
 type ProposalType int32
 
 const (
@@ -81,15 +84,15 @@ func (ProposalType) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_1fd45310b3f69052, []int{1}
 }
 
-// TODO: [chore] Combine enable/disable to change virtual schema.
 type VirtualSchemaProposal struct {
 	Id              string         `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	ProposalType    ProposalType   `protobuf:"varint,2,opt,name=proposalType,proto3,enum=thesixnetwork.sixprotocol.nftmngr.ProposalType" json:"proposalType,omitempty"`
 	VirtualSchema   *VirtualSchema `protobuf:"bytes,3,opt,name=virtualSchema,proto3" json:"virtualSchema,omitempty"`
 	Actions         []*Action      `protobuf:"bytes,4,rep,name=actions,proto3" json:"actions,omitempty"`
-	SubmitTime      time.Time      `protobuf:"bytes,5,opt,name=submitTime,proto3,stdtime" json:"submitTime"`
-	VotingStartTime time.Time      `protobuf:"bytes,6,opt,name=votingStartTime,proto3,stdtime" json:"votingStartTime"`
-	VotingEndTime   time.Time      `protobuf:"bytes,7,opt,name=votingEndTime,proto3,stdtime" json:"votingEndTime"`
+	Executors       []string       `protobuf:"bytes,5,rep,name=executors,proto3" json:"executors,omitempty"`
+	SubmitTime      time.Time      `protobuf:"bytes,6,opt,name=submitTime,proto3,stdtime" json:"submitTime"`
+	VotingStartTime time.Time      `protobuf:"bytes,7,opt,name=votingStartTime,proto3,stdtime" json:"votingStartTime"`
+	VotingEndTime   time.Time      `protobuf:"bytes,8,opt,name=votingEndTime,proto3,stdtime" json:"votingEndTime"`
 }
 
 func (m *VirtualSchemaProposal) Reset()         { *m = VirtualSchemaProposal{} }
@@ -98,9 +101,11 @@ func (*VirtualSchemaProposal) ProtoMessage()    {}
 func (*VirtualSchemaProposal) Descriptor() ([]byte, []int) {
 	return fileDescriptor_1fd45310b3f69052, []int{0}
 }
+
 func (m *VirtualSchemaProposal) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *VirtualSchemaProposal) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_VirtualSchemaProposal.Marshal(b, m, deterministic)
@@ -113,12 +118,15 @@ func (m *VirtualSchemaProposal) XXX_Marshal(b []byte, deterministic bool) ([]byt
 		return b[:n], nil
 	}
 }
+
 func (m *VirtualSchemaProposal) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_VirtualSchemaProposal.Merge(m, src)
 }
+
 func (m *VirtualSchemaProposal) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *VirtualSchemaProposal) XXX_DiscardUnknown() {
 	xxx_messageInfo_VirtualSchemaProposal.DiscardUnknown(m)
 }
@@ -153,6 +161,13 @@ func (m *VirtualSchemaProposal) GetActions() []*Action {
 	return nil
 }
 
+func (m *VirtualSchemaProposal) GetExecutors() []string {
+	if m != nil {
+		return m.Executors
+	}
+	return nil
+}
+
 func (m *VirtualSchemaProposal) GetSubmitTime() time.Time {
 	if m != nil {
 		return m.SubmitTime
@@ -174,6 +189,87 @@ func (m *VirtualSchemaProposal) GetVotingEndTime() time.Time {
 	return time.Time{}
 }
 
+type VirtualSchemaProposalRequest struct {
+	VirtualSchemaCode     string    `protobuf:"bytes,1,opt,name=virtualSchemaCode,proto3" json:"virtualSchemaCode,omitempty"`
+	VirtualSchemaRegistry []string  `protobuf:"bytes,2,rep,name=virtualSchemaRegistry,proto3" json:"virtualSchemaRegistry,omitempty"`
+	Actions               []*Action `protobuf:"bytes,3,rep,name=actions,proto3" json:"actions,omitempty"`
+	Executors             []string  `protobuf:"bytes,4,rep,name=executors,proto3" json:"executors,omitempty"`
+	Enable                bool      `protobuf:"varint,5,opt,name=enable,proto3" json:"enable,omitempty"`
+}
+
+func (m *VirtualSchemaProposalRequest) Reset()         { *m = VirtualSchemaProposalRequest{} }
+func (m *VirtualSchemaProposalRequest) String() string { return proto.CompactTextString(m) }
+func (*VirtualSchemaProposalRequest) ProtoMessage()    {}
+func (*VirtualSchemaProposalRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_1fd45310b3f69052, []int{1}
+}
+
+func (m *VirtualSchemaProposalRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+
+func (m *VirtualSchemaProposalRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_VirtualSchemaProposalRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+
+func (m *VirtualSchemaProposalRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_VirtualSchemaProposalRequest.Merge(m, src)
+}
+
+func (m *VirtualSchemaProposalRequest) XXX_Size() int {
+	return m.Size()
+}
+
+func (m *VirtualSchemaProposalRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_VirtualSchemaProposalRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_VirtualSchemaProposalRequest proto.InternalMessageInfo
+
+func (m *VirtualSchemaProposalRequest) GetVirtualSchemaCode() string {
+	if m != nil {
+		return m.VirtualSchemaCode
+	}
+	return ""
+}
+
+func (m *VirtualSchemaProposalRequest) GetVirtualSchemaRegistry() []string {
+	if m != nil {
+		return m.VirtualSchemaRegistry
+	}
+	return nil
+}
+
+func (m *VirtualSchemaProposalRequest) GetActions() []*Action {
+	if m != nil {
+		return m.Actions
+	}
+	return nil
+}
+
+func (m *VirtualSchemaProposalRequest) GetExecutors() []string {
+	if m != nil {
+		return m.Executors
+	}
+	return nil
+}
+
+func (m *VirtualSchemaProposalRequest) GetEnable() bool {
+	if m != nil {
+		return m.Enable
+	}
+	return false
+}
+
 type VirtualSchema struct {
 	VirtualNftSchemaCode string                   `protobuf:"bytes,1,opt,name=virtualNftSchemaCode,proto3" json:"virtualNftSchemaCode,omitempty"`
 	Registry             []*VirtualSchemaRegistry `protobuf:"bytes,2,rep,name=registry,proto3" json:"registry,omitempty"`
@@ -184,11 +280,13 @@ func (m *VirtualSchema) Reset()         { *m = VirtualSchema{} }
 func (m *VirtualSchema) String() string { return proto.CompactTextString(m) }
 func (*VirtualSchema) ProtoMessage()    {}
 func (*VirtualSchema) Descriptor() ([]byte, []int) {
-	return fileDescriptor_1fd45310b3f69052, []int{1}
+	return fileDescriptor_1fd45310b3f69052, []int{2}
 }
+
 func (m *VirtualSchema) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *VirtualSchema) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_VirtualSchema.Marshal(b, m, deterministic)
@@ -201,12 +299,15 @@ func (m *VirtualSchema) XXX_Marshal(b []byte, deterministic bool) ([]byte, error
 		return b[:n], nil
 	}
 }
+
 func (m *VirtualSchema) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_VirtualSchema.Merge(m, src)
 }
+
 func (m *VirtualSchema) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *VirtualSchema) XXX_DiscardUnknown() {
 	xxx_messageInfo_VirtualSchema.DiscardUnknown(m)
 }
@@ -234,22 +335,22 @@ func (m *VirtualSchema) GetEnable() bool {
 	return false
 }
 
-// TODO: [chore] Combine enable/disable to change virtual schema.
 type VirtualSchemaRegistry struct {
-	NftSchemaCode    string         `protobuf:"bytes,1,opt,name=nftSchemaCode,proto3" json:"nftSchemaCode,omitempty"`
-	SharedAttributes []string       `protobuf:"bytes,2,rep,name=sharedAttributes,proto3" json:"sharedAttributes,omitempty"`
-	Decision         RegistryStatus `protobuf:"varint,3,opt,name=decision,proto3,enum=thesixnetwork.sixprotocol.nftmngr.RegistryStatus" json:"decision,omitempty"`
+	NftSchemaCode string         `protobuf:"bytes,1,opt,name=nftSchemaCode,proto3" json:"nftSchemaCode,omitempty"`
+	Decision      RegistryStatus `protobuf:"varint,2,opt,name=decision,proto3,enum=thesixnetwork.sixprotocol.nftmngr.RegistryStatus" json:"decision,omitempty"`
 }
 
 func (m *VirtualSchemaRegistry) Reset()         { *m = VirtualSchemaRegistry{} }
 func (m *VirtualSchemaRegistry) String() string { return proto.CompactTextString(m) }
 func (*VirtualSchemaRegistry) ProtoMessage()    {}
 func (*VirtualSchemaRegistry) Descriptor() ([]byte, []int) {
-	return fileDescriptor_1fd45310b3f69052, []int{2}
+	return fileDescriptor_1fd45310b3f69052, []int{3}
 }
+
 func (m *VirtualSchemaRegistry) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *VirtualSchemaRegistry) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_VirtualSchemaRegistry.Marshal(b, m, deterministic)
@@ -262,12 +363,15 @@ func (m *VirtualSchemaRegistry) XXX_Marshal(b []byte, deterministic bool) ([]byt
 		return b[:n], nil
 	}
 }
+
 func (m *VirtualSchemaRegistry) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_VirtualSchemaRegistry.Merge(m, src)
 }
+
 func (m *VirtualSchemaRegistry) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *VirtualSchemaRegistry) XXX_DiscardUnknown() {
 	xxx_messageInfo_VirtualSchemaRegistry.DiscardUnknown(m)
 }
@@ -281,13 +385,6 @@ func (m *VirtualSchemaRegistry) GetNftSchemaCode() string {
 	return ""
 }
 
-func (m *VirtualSchemaRegistry) GetSharedAttributes() []string {
-	if m != nil {
-		return m.SharedAttributes
-	}
-	return nil
-}
-
 func (m *VirtualSchemaRegistry) GetDecision() RegistryStatus {
 	if m != nil {
 		return m.Decision
@@ -296,19 +393,20 @@ func (m *VirtualSchemaRegistry) GetDecision() RegistryStatus {
 }
 
 type VirtualSchemaRegistryRequest struct {
-	NftSchemaCode    string   `protobuf:"bytes,1,opt,name=nftSchemaCode,proto3" json:"nftSchemaCode,omitempty"`
-	SharedAttributes []string `protobuf:"bytes,2,rep,name=sharedAttributes,proto3" json:"sharedAttributes,omitempty"`
+	NftSchemaCode string `protobuf:"bytes,1,opt,name=nftSchemaCode,proto3" json:"nftSchemaCode,omitempty"`
 }
 
 func (m *VirtualSchemaRegistryRequest) Reset()         { *m = VirtualSchemaRegistryRequest{} }
 func (m *VirtualSchemaRegistryRequest) String() string { return proto.CompactTextString(m) }
 func (*VirtualSchemaRegistryRequest) ProtoMessage()    {}
 func (*VirtualSchemaRegistryRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_1fd45310b3f69052, []int{3}
+	return fileDescriptor_1fd45310b3f69052, []int{4}
 }
+
 func (m *VirtualSchemaRegistryRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *VirtualSchemaRegistryRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_VirtualSchemaRegistryRequest.Marshal(b, m, deterministic)
@@ -321,12 +419,15 @@ func (m *VirtualSchemaRegistryRequest) XXX_Marshal(b []byte, deterministic bool)
 		return b[:n], nil
 	}
 }
+
 func (m *VirtualSchemaRegistryRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_VirtualSchemaRegistryRequest.Merge(m, src)
 }
+
 func (m *VirtualSchemaRegistryRequest) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *VirtualSchemaRegistryRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_VirtualSchemaRegistryRequest.DiscardUnknown(m)
 }
@@ -340,13 +441,6 @@ func (m *VirtualSchemaRegistryRequest) GetNftSchemaCode() string {
 	return ""
 }
 
-func (m *VirtualSchemaRegistryRequest) GetSharedAttributes() []string {
-	if m != nil {
-		return m.SharedAttributes
-	}
-	return nil
-}
-
 type ActiveVirtualSchemaProposal struct {
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 }
@@ -355,11 +449,13 @@ func (m *ActiveVirtualSchemaProposal) Reset()         { *m = ActiveVirtualSchema
 func (m *ActiveVirtualSchemaProposal) String() string { return proto.CompactTextString(m) }
 func (*ActiveVirtualSchemaProposal) ProtoMessage()    {}
 func (*ActiveVirtualSchemaProposal) Descriptor() ([]byte, []int) {
-	return fileDescriptor_1fd45310b3f69052, []int{4}
+	return fileDescriptor_1fd45310b3f69052, []int{5}
 }
+
 func (m *ActiveVirtualSchemaProposal) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *ActiveVirtualSchemaProposal) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_ActiveVirtualSchemaProposal.Marshal(b, m, deterministic)
@@ -372,12 +468,15 @@ func (m *ActiveVirtualSchemaProposal) XXX_Marshal(b []byte, deterministic bool) 
 		return b[:n], nil
 	}
 }
+
 func (m *ActiveVirtualSchemaProposal) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_ActiveVirtualSchemaProposal.Merge(m, src)
 }
+
 func (m *ActiveVirtualSchemaProposal) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *ActiveVirtualSchemaProposal) XXX_DiscardUnknown() {
 	xxx_messageInfo_ActiveVirtualSchemaProposal.DiscardUnknown(m)
 }
@@ -399,11 +498,13 @@ func (m *InactiveVirtualSchemaProposal) Reset()         { *m = InactiveVirtualSc
 func (m *InactiveVirtualSchemaProposal) String() string { return proto.CompactTextString(m) }
 func (*InactiveVirtualSchemaProposal) ProtoMessage()    {}
 func (*InactiveVirtualSchemaProposal) Descriptor() ([]byte, []int) {
-	return fileDescriptor_1fd45310b3f69052, []int{5}
+	return fileDescriptor_1fd45310b3f69052, []int{6}
 }
+
 func (m *InactiveVirtualSchemaProposal) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *InactiveVirtualSchemaProposal) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_InactiveVirtualSchemaProposal.Marshal(b, m, deterministic)
@@ -416,12 +517,15 @@ func (m *InactiveVirtualSchemaProposal) XXX_Marshal(b []byte, deterministic bool
 		return b[:n], nil
 	}
 }
+
 func (m *InactiveVirtualSchemaProposal) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_InactiveVirtualSchemaProposal.Merge(m, src)
 }
+
 func (m *InactiveVirtualSchemaProposal) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *InactiveVirtualSchemaProposal) XXX_DiscardUnknown() {
 	xxx_messageInfo_InactiveVirtualSchemaProposal.DiscardUnknown(m)
 }
@@ -439,6 +543,7 @@ func init() {
 	proto.RegisterEnum("thesixnetwork.sixprotocol.nftmngr.RegistryStatus", RegistryStatus_name, RegistryStatus_value)
 	proto.RegisterEnum("thesixnetwork.sixprotocol.nftmngr.ProposalType", ProposalType_name, ProposalType_value)
 	proto.RegisterType((*VirtualSchemaProposal)(nil), "thesixnetwork.sixprotocol.nftmngr.VirtualSchemaProposal")
+	proto.RegisterType((*VirtualSchemaProposalRequest)(nil), "thesixnetwork.sixprotocol.nftmngr.VirtualSchemaProposalRequest")
 	proto.RegisterType((*VirtualSchema)(nil), "thesixnetwork.sixprotocol.nftmngr.VirtualSchema")
 	proto.RegisterType((*VirtualSchemaRegistry)(nil), "thesixnetwork.sixprotocol.nftmngr.VirtualSchemaRegistry")
 	proto.RegisterType((*VirtualSchemaRegistryRequest)(nil), "thesixnetwork.sixprotocol.nftmngr.VirtualSchemaRegistryRequest")
@@ -449,45 +554,48 @@ func init() {
 func init() { proto.RegisterFile("nftmngr/virtual_schema.proto", fileDescriptor_1fd45310b3f69052) }
 
 var fileDescriptor_1fd45310b3f69052 = []byte{
-	// 602 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x54, 0xc1, 0x6e, 0xd3, 0x4a,
-	0x14, 0xcd, 0xa4, 0x7d, 0x69, 0x7a, 0xdb, 0xe4, 0x45, 0xa3, 0x82, 0xa2, 0x52, 0xdc, 0x60, 0x75,
-	0x11, 0x2a, 0xd5, 0x86, 0xa0, 0x4a, 0x6c, 0x53, 0xd7, 0x42, 0xad, 0x44, 0x88, 0x1c, 0xab, 0x0b,
-	0x36, 0xc8, 0x8e, 0xa7, 0xce, 0x88, 0xd8, 0x63, 0x3c, 0xe3, 0x90, 0xfe, 0x45, 0x7f, 0x85, 0x1d,
-	0x9f, 0xd0, 0x65, 0x97, 0xac, 0x00, 0xb5, 0x9f, 0xc1, 0x06, 0x65, 0x6c, 0x57, 0x71, 0xa9, 0x44,
-	0x22, 0xb1, 0x9b, 0x39, 0xd7, 0xe7, 0xcc, 0xb9, 0x67, 0xae, 0x07, 0x76, 0xc2, 0x73, 0x11, 0x84,
-	0x7e, 0xac, 0x4f, 0x68, 0x2c, 0x12, 0x67, 0xfc, 0x81, 0x0f, 0x47, 0x24, 0x70, 0xb4, 0x28, 0x66,
-	0x82, 0xe1, 0x67, 0x62, 0x44, 0x38, 0x9d, 0x86, 0x44, 0x7c, 0x66, 0xf1, 0x47, 0x8d, 0xd3, 0xa9,
-	0xc4, 0x87, 0x6c, 0xac, 0x65, 0xbc, 0xed, 0x2d, 0x9f, 0xf9, 0x4c, 0xa2, 0xfa, 0x6c, 0x95, 0x12,
-	0xb7, 0x77, 0x7d, 0xc6, 0xfc, 0x31, 0xd1, 0xe5, 0xce, 0x4d, 0xce, 0x75, 0x41, 0x03, 0xc2, 0x85,
-	0x13, 0x44, 0xd9, 0x07, 0x5b, 0xf9, 0xb9, 0xce, 0x50, 0x50, 0x16, 0xa6, 0xa8, 0xfa, 0x6b, 0x05,
-	0x1e, 0x9d, 0xa5, 0x46, 0x06, 0xd2, 0x47, 0x3f, 0x66, 0x11, 0xe3, 0xce, 0x18, 0xd7, 0xa1, 0x4c,
-	0xbd, 0x26, 0x6a, 0xa1, 0xf6, 0xba, 0x55, 0xa6, 0x1e, 0x1e, 0xc0, 0x66, 0x94, 0xd5, 0xec, 0x8b,
-	0x88, 0x34, 0xcb, 0x2d, 0xd4, 0xae, 0x77, 0x74, 0xed, 0xaf, 0x86, 0xb5, 0xfe, 0x1c, 0xcd, 0x2a,
-	0x88, 0xe0, 0x33, 0xa8, 0x4d, 0xe6, 0x4f, 0x6f, 0xae, 0xb4, 0x50, 0x7b, 0xa3, 0xf3, 0x62, 0x01,
-	0xd5, 0x82, 0x6b, 0xab, 0x28, 0x83, 0x0d, 0x58, 0x4b, 0xdb, 0xe4, 0xcd, 0xd5, 0xd6, 0x4a, 0x7b,
-	0xa3, 0xf3, 0x7c, 0x01, 0xc5, 0xae, 0x64, 0x58, 0x39, 0x13, 0x1f, 0x03, 0xf0, 0xc4, 0x0d, 0xa8,
-	0xb0, 0x69, 0x40, 0x9a, 0xff, 0x49, 0x67, 0xdb, 0x5a, 0x9a, 0xb3, 0x96, 0xe7, 0xac, 0xd9, 0x79,
-	0xce, 0x47, 0xd5, 0xab, 0xef, 0xbb, 0xa5, 0xcb, 0x1f, 0xbb, 0xc8, 0x9a, 0xe3, 0xe1, 0x1e, 0xfc,
-	0x3f, 0x61, 0x82, 0x86, 0xfe, 0x40, 0x38, 0x71, 0x2a, 0x55, 0x59, 0x42, 0xea, 0x3e, 0x19, 0x9f,
-	0x42, 0x2d, 0x85, 0xcc, 0xd0, 0x93, 0x6a, 0x6b, 0x4b, 0xa8, 0x15, 0xa9, 0xea, 0x17, 0x04, 0xb5,
-	0x42, 0x8e, 0xb8, 0x03, 0x5b, 0x59, 0x92, 0xbd, 0x73, 0x91, 0x62, 0x06, 0xf3, 0x48, 0x36, 0x07,
-	0x0f, 0xd6, 0xb0, 0x0d, 0xd5, 0x98, 0xf8, 0x94, 0x8b, 0xf8, 0xa2, 0x59, 0x96, 0x69, 0xbf, 0x5e,
-	0xfa, 0xfe, 0x32, 0xbe, 0x75, 0xa7, 0x84, 0x1f, 0x43, 0x85, 0x84, 0x8e, 0x3b, 0x26, 0x72, 0x26,
-	0xaa, 0x56, 0xb6, 0x53, 0xbf, 0xa2, 0x7b, 0x13, 0x9b, 0x73, 0xf1, 0x1e, 0xd4, 0xc2, 0x07, 0x4c,
-	0x17, 0x41, 0xbc, 0x0f, 0x0d, 0x3e, 0x72, 0x62, 0xe2, 0x75, 0x85, 0x88, 0xa9, 0x9b, 0x08, 0xc2,
-	0xa5, 0xeb, 0x75, 0xeb, 0x0f, 0x1c, 0xbf, 0x85, 0xaa, 0x47, 0x86, 0x94, 0x53, 0x16, 0x4a, 0x17,
-	0xf5, 0xce, 0xcb, 0x05, 0x3a, 0xcb, 0x0d, 0x0d, 0x84, 0x23, 0x12, 0x6e, 0xdd, 0x49, 0xa8, 0x11,
-	0xec, 0x3c, 0xdc, 0x35, 0xf9, 0x94, 0x10, 0x2e, 0xfe, 0x7d, 0x03, 0xea, 0x01, 0x3c, 0x99, 0x4d,
-	0xf5, 0x84, 0x2c, 0xf4, 0x8f, 0xab, 0x3a, 0x3c, 0x3d, 0x09, 0x9d, 0xc5, 0x09, 0xfb, 0x87, 0x50,
-	0x2f, 0x76, 0x8b, 0x37, 0x60, 0xad, 0x6f, 0xf6, 0x8e, 0x4f, 0x7a, 0x6f, 0x1a, 0x25, 0x0c, 0x50,
-	0xb1, 0xcc, 0x53, 0xd3, 0xb0, 0x1b, 0x68, 0xb6, 0xee, 0x1a, 0x86, 0xd9, 0xb7, 0x1b, 0xe5, 0xfd,
-	0x3d, 0xd8, 0x9c, 0x7f, 0x14, 0x66, 0x35, 0xc3, 0x32, 0xbb, 0xb6, 0xd9, 0x28, 0xe1, 0x2a, 0xac,
-	0x9a, 0xc7, 0x27, 0x76, 0x03, 0x1d, 0xbd, 0xbb, 0xba, 0x51, 0xd0, 0xf5, 0x8d, 0x82, 0x7e, 0xde,
-	0x28, 0xe8, 0xf2, 0x56, 0x29, 0x5d, 0xdf, 0x2a, 0xa5, 0x6f, 0xb7, 0x4a, 0xe9, 0xfd, 0xa1, 0x4f,
-	0xc5, 0x28, 0x71, 0xb5, 0x21, 0x0b, 0xf4, 0xc2, 0x7d, 0xe8, 0x9c, 0x4e, 0x0f, 0xf2, 0x0b, 0xd1,
-	0xa7, 0x7a, 0xfe, 0xe6, 0x89, 0x8b, 0x88, 0x70, 0xb7, 0x22, 0x2b, 0xaf, 0x7e, 0x07, 0x00, 0x00,
-	0xff, 0xff, 0x2a, 0x44, 0x65, 0xae, 0x83, 0x05, 0x00, 0x00,
+	// 645 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x54, 0xcd, 0x6e, 0xda, 0x4c,
+	0x14, 0x65, 0x80, 0x10, 0x72, 0x09, 0xf9, 0xf8, 0x46, 0x49, 0x65, 0xa5, 0x29, 0xa1, 0x28, 0x0b,
+	0x1a, 0x35, 0x76, 0x4b, 0x1b, 0xa9, 0xdb, 0x04, 0xac, 0x2a, 0x91, 0x4a, 0xd1, 0x60, 0x65, 0xd1,
+	0x4d, 0x65, 0x60, 0xe2, 0x8c, 0x8a, 0x3d, 0xd4, 0x33, 0xa6, 0xe4, 0x1d, 0xba, 0xc8, 0xb6, 0x8f,
+	0xd1, 0xb7, 0xc8, 0x32, 0xcb, 0xae, 0xda, 0x2a, 0x79, 0x8e, 0x4a, 0x15, 0xfe, 0xa1, 0x36, 0x41,
+	0x2a, 0x48, 0xdd, 0xd9, 0xe7, 0xfa, 0x9c, 0x39, 0xf7, 0x9e, 0xeb, 0x81, 0x1d, 0xe7, 0x5c, 0xda,
+	0x8e, 0xe5, 0x6a, 0x23, 0xe6, 0x4a, 0xcf, 0x1c, 0xbc, 0x17, 0xbd, 0x0b, 0x6a, 0x9b, 0xea, 0xd0,
+	0xe5, 0x92, 0xe3, 0xc7, 0xf2, 0x82, 0x0a, 0x36, 0x76, 0xa8, 0xfc, 0xc4, 0xdd, 0x0f, 0xaa, 0x60,
+	0x63, 0x1f, 0xef, 0xf1, 0x81, 0x1a, 0xf2, 0xb6, 0x37, 0x2d, 0x6e, 0x71, 0x1f, 0xd5, 0x26, 0x4f,
+	0x01, 0x71, 0x7b, 0xd7, 0xe2, 0xdc, 0x1a, 0x50, 0xcd, 0x7f, 0xeb, 0x7a, 0xe7, 0x9a, 0x64, 0x36,
+	0x15, 0xd2, 0xb4, 0x87, 0xe1, 0x07, 0x9b, 0xd1, 0xb9, 0x66, 0x4f, 0x32, 0xee, 0x04, 0x68, 0xf5,
+	0x4b, 0x16, 0xb6, 0xce, 0x02, 0x23, 0x1d, 0xdf, 0x47, 0xdb, 0xe5, 0x43, 0x2e, 0xcc, 0x01, 0xde,
+	0x80, 0x34, 0xeb, 0x2b, 0xa8, 0x82, 0x6a, 0x6b, 0x24, 0xcd, 0xfa, 0xb8, 0x03, 0xeb, 0xc3, 0xb0,
+	0x66, 0x5c, 0x0e, 0xa9, 0x92, 0xae, 0xa0, 0xda, 0x46, 0x5d, 0x53, 0xff, 0x6a, 0x58, 0x6d, 0xc7,
+	0x68, 0x24, 0x21, 0x82, 0xcf, 0xa0, 0x38, 0x8a, 0x9f, 0xae, 0x64, 0x2a, 0xa8, 0x56, 0xa8, 0x3f,
+	0x5b, 0x40, 0x35, 0xe1, 0x9a, 0x24, 0x65, 0x70, 0x03, 0x56, 0x83, 0x36, 0x85, 0x92, 0xad, 0x64,
+	0x6a, 0x85, 0xfa, 0x93, 0x05, 0x14, 0x8f, 0x7c, 0x06, 0x89, 0x98, 0x78, 0x07, 0xd6, 0xe8, 0x98,
+	0xf6, 0x3c, 0xc9, 0x5d, 0xa1, 0xac, 0x54, 0x32, 0xb5, 0x35, 0xf2, 0x07, 0xc0, 0x4d, 0x00, 0xe1,
+	0x75, 0x6d, 0x26, 0x0d, 0x66, 0x53, 0x25, 0xe7, 0xfb, 0xde, 0x56, 0x83, 0x14, 0xd4, 0x28, 0x05,
+	0xd5, 0x88, 0x52, 0x38, 0xce, 0x5f, 0x7f, 0xdf, 0x4d, 0x5d, 0xfd, 0xd8, 0x45, 0x24, 0xc6, 0xc3,
+	0x2d, 0xf8, 0x6f, 0xc4, 0x25, 0x73, 0xac, 0x8e, 0x34, 0xdd, 0x40, 0x6a, 0x75, 0x09, 0xa9, 0x59,
+	0x32, 0x3e, 0x85, 0x62, 0x00, 0xe9, 0x4e, 0xdf, 0x57, 0xcb, 0x2f, 0xa1, 0x96, 0xa4, 0x56, 0x7f,
+	0x21, 0xd8, 0x99, 0xbb, 0x1b, 0x84, 0x7e, 0xf4, 0xa8, 0x90, 0xf8, 0x29, 0xfc, 0x9f, 0x18, 0x7b,
+	0x83, 0xf7, 0x69, 0xb8, 0x31, 0xf7, 0x0b, 0xf8, 0x25, 0x6c, 0x25, 0x40, 0x42, 0x2d, 0x26, 0xa4,
+	0x7b, 0xa9, 0xa4, 0xfd, 0xd1, 0xce, 0x2f, 0xc6, 0x93, 0xcc, 0xfc, 0x9b, 0x24, 0xb3, 0xb3, 0x49,
+	0x3e, 0x80, 0x1c, 0x75, 0xcc, 0xee, 0x80, 0x2a, 0x2b, 0x15, 0x54, 0xcb, 0x93, 0xf0, 0xad, 0xfa,
+	0x15, 0x41, 0x31, 0xd1, 0x3f, 0xae, 0xc3, 0x66, 0xe8, 0xb2, 0x75, 0x2e, 0xef, 0xf5, 0x3c, 0xb7,
+	0x86, 0x0d, 0xc8, 0xbb, 0xf1, 0x4e, 0x0b, 0xf5, 0x57, 0x4b, 0x6f, 0x77, 0xc8, 0x27, 0x53, 0xa5,
+	0x98, 0xe7, 0x4c, 0xc2, 0xf3, 0x67, 0x34, 0xf3, 0x3f, 0x4f, 0x07, 0xb9, 0x07, 0x45, 0x67, 0x8e,
+	0xe9, 0x24, 0x88, 0xdf, 0x40, 0xbe, 0x4f, 0x7b, 0x4c, 0x30, 0xee, 0x84, 0x7f, 0xf8, 0xf3, 0x05,
+	0xdc, 0x46, 0x87, 0x74, 0xa4, 0x29, 0x3d, 0x41, 0xa6, 0x12, 0xd5, 0xe6, 0xcc, 0x06, 0x4d, 0x3b,
+	0x09, 0x37, 0x68, 0x21, 0x53, 0xd5, 0x03, 0x78, 0x38, 0x49, 0x74, 0x44, 0x17, 0xba, 0xa9, 0xaa,
+	0x1a, 0x3c, 0x3a, 0x71, 0xcc, 0xc5, 0x09, 0xfb, 0x87, 0xb0, 0x91, 0xec, 0x00, 0x17, 0x60, 0xb5,
+	0xad, 0xb7, 0x9a, 0x27, 0xad, 0xd7, 0xa5, 0x14, 0x06, 0xc8, 0x11, 0xfd, 0x54, 0x6f, 0x18, 0x25,
+	0x34, 0x79, 0x3e, 0x6a, 0x34, 0xf4, 0xb6, 0x51, 0x4a, 0xef, 0xef, 0xc1, 0x7a, 0xfc, 0x6a, 0x9b,
+	0xd4, 0x1a, 0x44, 0x3f, 0x32, 0xf4, 0x52, 0x0a, 0xe7, 0x21, 0xab, 0x37, 0x4f, 0x8c, 0x12, 0x3a,
+	0x7e, 0x7b, 0x7d, 0x5b, 0x46, 0x37, 0xb7, 0x65, 0xf4, 0xf3, 0xb6, 0x8c, 0xae, 0xee, 0xca, 0xa9,
+	0x9b, 0xbb, 0x72, 0xea, 0xdb, 0x5d, 0x39, 0xf5, 0xee, 0xd0, 0x62, 0xf2, 0xc2, 0xeb, 0xaa, 0x3d,
+	0x6e, 0x6b, 0x89, 0x19, 0x6b, 0x82, 0x8d, 0x0f, 0xa2, 0x21, 0x6b, 0x63, 0x2d, 0xba, 0xb9, 0xe5,
+	0xe5, 0x90, 0x8a, 0x6e, 0xce, 0xaf, 0xbc, 0xf8, 0x1d, 0x00, 0x00, 0xff, 0xff, 0x15, 0xc5, 0x48,
+	0x9a, 0x49, 0x06, 0x00, 0x00,
 }
 
 func (m *VirtualSchemaProposal) Marshal() (dAtA []byte, err error) {
@@ -517,7 +625,7 @@ func (m *VirtualSchemaProposal) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i -= n1
 	i = encodeVarintVirtualSchema(dAtA, i, uint64(n1))
 	i--
-	dAtA[i] = 0x3a
+	dAtA[i] = 0x42
 	n2, err2 := github_com_gogo_protobuf_types.StdTimeMarshalTo(m.VotingStartTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(m.VotingStartTime):])
 	if err2 != nil {
 		return 0, err2
@@ -525,7 +633,7 @@ func (m *VirtualSchemaProposal) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i -= n2
 	i = encodeVarintVirtualSchema(dAtA, i, uint64(n2))
 	i--
-	dAtA[i] = 0x32
+	dAtA[i] = 0x3a
 	n3, err3 := github_com_gogo_protobuf_types.StdTimeMarshalTo(m.SubmitTime, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(m.SubmitTime):])
 	if err3 != nil {
 		return 0, err3
@@ -533,7 +641,16 @@ func (m *VirtualSchemaProposal) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i -= n3
 	i = encodeVarintVirtualSchema(dAtA, i, uint64(n3))
 	i--
-	dAtA[i] = 0x2a
+	dAtA[i] = 0x32
+	if len(m.Executors) > 0 {
+		for iNdEx := len(m.Executors) - 1; iNdEx >= 0; iNdEx-- {
+			i -= len(m.Executors[iNdEx])
+			copy(dAtA[i:], m.Executors[iNdEx])
+			i = encodeVarintVirtualSchema(dAtA, i, uint64(len(m.Executors[iNdEx])))
+			i--
+			dAtA[i] = 0x2a
+		}
+	}
 	if len(m.Actions) > 0 {
 		for iNdEx := len(m.Actions) - 1; iNdEx >= 0; iNdEx-- {
 			{
@@ -569,6 +686,78 @@ func (m *VirtualSchemaProposal) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.Id)
 		copy(dAtA[i:], m.Id)
 		i = encodeVarintVirtualSchema(dAtA, i, uint64(len(m.Id)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *VirtualSchemaProposalRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *VirtualSchemaProposalRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *VirtualSchemaProposalRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Enable {
+		i--
+		if m.Enable {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x28
+	}
+	if len(m.Executors) > 0 {
+		for iNdEx := len(m.Executors) - 1; iNdEx >= 0; iNdEx-- {
+			i -= len(m.Executors[iNdEx])
+			copy(dAtA[i:], m.Executors[iNdEx])
+			i = encodeVarintVirtualSchema(dAtA, i, uint64(len(m.Executors[iNdEx])))
+			i--
+			dAtA[i] = 0x22
+		}
+	}
+	if len(m.Actions) > 0 {
+		for iNdEx := len(m.Actions) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Actions[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintVirtualSchema(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x1a
+		}
+	}
+	if len(m.VirtualSchemaRegistry) > 0 {
+		for iNdEx := len(m.VirtualSchemaRegistry) - 1; iNdEx >= 0; iNdEx-- {
+			i -= len(m.VirtualSchemaRegistry[iNdEx])
+			copy(dAtA[i:], m.VirtualSchemaRegistry[iNdEx])
+			i = encodeVarintVirtualSchema(dAtA, i, uint64(len(m.VirtualSchemaRegistry[iNdEx])))
+			i--
+			dAtA[i] = 0x12
+		}
+	}
+	if len(m.VirtualSchemaCode) > 0 {
+		i -= len(m.VirtualSchemaCode)
+		copy(dAtA[i:], m.VirtualSchemaCode)
+		i = encodeVarintVirtualSchema(dAtA, i, uint64(len(m.VirtualSchemaCode)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -652,16 +841,7 @@ func (m *VirtualSchemaRegistry) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	if m.Decision != 0 {
 		i = encodeVarintVirtualSchema(dAtA, i, uint64(m.Decision))
 		i--
-		dAtA[i] = 0x18
-	}
-	if len(m.SharedAttributes) > 0 {
-		for iNdEx := len(m.SharedAttributes) - 1; iNdEx >= 0; iNdEx-- {
-			i -= len(m.SharedAttributes[iNdEx])
-			copy(dAtA[i:], m.SharedAttributes[iNdEx])
-			i = encodeVarintVirtualSchema(dAtA, i, uint64(len(m.SharedAttributes[iNdEx])))
-			i--
-			dAtA[i] = 0x12
-		}
+		dAtA[i] = 0x10
 	}
 	if len(m.NftSchemaCode) > 0 {
 		i -= len(m.NftSchemaCode)
@@ -693,15 +873,6 @@ func (m *VirtualSchemaRegistryRequest) MarshalToSizedBuffer(dAtA []byte) (int, e
 	_ = i
 	var l int
 	_ = l
-	if len(m.SharedAttributes) > 0 {
-		for iNdEx := len(m.SharedAttributes) - 1; iNdEx >= 0; iNdEx-- {
-			i -= len(m.SharedAttributes[iNdEx])
-			copy(dAtA[i:], m.SharedAttributes[iNdEx])
-			i = encodeVarintVirtualSchema(dAtA, i, uint64(len(m.SharedAttributes[iNdEx])))
-			i--
-			dAtA[i] = 0x12
-		}
-	}
 	if len(m.NftSchemaCode) > 0 {
 		i -= len(m.NftSchemaCode)
 		copy(dAtA[i:], m.NftSchemaCode)
@@ -783,6 +954,7 @@ func encodeVarintVirtualSchema(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
+
 func (m *VirtualSchemaProposal) Size() (n int) {
 	if m == nil {
 		return 0
@@ -806,12 +978,52 @@ func (m *VirtualSchemaProposal) Size() (n int) {
 			n += 1 + l + sovVirtualSchema(uint64(l))
 		}
 	}
+	if len(m.Executors) > 0 {
+		for _, s := range m.Executors {
+			l = len(s)
+			n += 1 + l + sovVirtualSchema(uint64(l))
+		}
+	}
 	l = github_com_gogo_protobuf_types.SizeOfStdTime(m.SubmitTime)
 	n += 1 + l + sovVirtualSchema(uint64(l))
 	l = github_com_gogo_protobuf_types.SizeOfStdTime(m.VotingStartTime)
 	n += 1 + l + sovVirtualSchema(uint64(l))
 	l = github_com_gogo_protobuf_types.SizeOfStdTime(m.VotingEndTime)
 	n += 1 + l + sovVirtualSchema(uint64(l))
+	return n
+}
+
+func (m *VirtualSchemaProposalRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.VirtualSchemaCode)
+	if l > 0 {
+		n += 1 + l + sovVirtualSchema(uint64(l))
+	}
+	if len(m.VirtualSchemaRegistry) > 0 {
+		for _, s := range m.VirtualSchemaRegistry {
+			l = len(s)
+			n += 1 + l + sovVirtualSchema(uint64(l))
+		}
+	}
+	if len(m.Actions) > 0 {
+		for _, e := range m.Actions {
+			l = e.Size()
+			n += 1 + l + sovVirtualSchema(uint64(l))
+		}
+	}
+	if len(m.Executors) > 0 {
+		for _, s := range m.Executors {
+			l = len(s)
+			n += 1 + l + sovVirtualSchema(uint64(l))
+		}
+	}
+	if m.Enable {
+		n += 2
+	}
 	return n
 }
 
@@ -847,12 +1059,6 @@ func (m *VirtualSchemaRegistry) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovVirtualSchema(uint64(l))
 	}
-	if len(m.SharedAttributes) > 0 {
-		for _, s := range m.SharedAttributes {
-			l = len(s)
-			n += 1 + l + sovVirtualSchema(uint64(l))
-		}
-	}
 	if m.Decision != 0 {
 		n += 1 + sovVirtualSchema(uint64(m.Decision))
 	}
@@ -868,12 +1074,6 @@ func (m *VirtualSchemaRegistryRequest) Size() (n int) {
 	l = len(m.NftSchemaCode)
 	if l > 0 {
 		n += 1 + l + sovVirtualSchema(uint64(l))
-	}
-	if len(m.SharedAttributes) > 0 {
-		for _, s := range m.SharedAttributes {
-			l = len(s)
-			n += 1 + l + sovVirtualSchema(uint64(l))
-		}
 	}
 	return n
 }
@@ -907,9 +1107,11 @@ func (m *InactiveVirtualSchemaProposal) Size() (n int) {
 func sovVirtualSchema(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
+
 func sozVirtualSchema(x uint64) (n int) {
 	return sovVirtualSchema(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
+
 func (m *VirtualSchemaProposal) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1062,6 +1264,38 @@ func (m *VirtualSchemaProposal) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 5:
 			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Executors", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowVirtualSchema
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthVirtualSchema
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthVirtualSchema
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Executors = append(m.Executors, string(dAtA[iNdEx:postIndex]))
+			iNdEx = postIndex
+		case 6:
+			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field SubmitTime", wireType)
 			}
 			var msglen int
@@ -1093,7 +1327,7 @@ func (m *VirtualSchemaProposal) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
-		case 6:
+		case 7:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field VotingStartTime", wireType)
 			}
@@ -1126,7 +1360,7 @@ func (m *VirtualSchemaProposal) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
-		case 7:
+		case 8:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field VotingEndTime", wireType)
 			}
@@ -1180,6 +1414,208 @@ func (m *VirtualSchemaProposal) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
+func (m *VirtualSchemaProposalRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowVirtualSchema
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: VirtualSchemaProposalRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: VirtualSchemaProposalRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field VirtualSchemaCode", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowVirtualSchema
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthVirtualSchema
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthVirtualSchema
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.VirtualSchemaCode = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field VirtualSchemaRegistry", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowVirtualSchema
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthVirtualSchema
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthVirtualSchema
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.VirtualSchemaRegistry = append(m.VirtualSchemaRegistry, string(dAtA[iNdEx:postIndex]))
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Actions", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowVirtualSchema
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthVirtualSchema
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthVirtualSchema
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Actions = append(m.Actions, &Action{})
+			if err := m.Actions[len(m.Actions)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Executors", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowVirtualSchema
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthVirtualSchema
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthVirtualSchema
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Executors = append(m.Executors, string(dAtA[iNdEx:postIndex]))
+			iNdEx = postIndex
+		case 5:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Enable", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowVirtualSchema
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.Enable = bool(v != 0)
+		default:
+			iNdEx = preIndex
+			skippy, err := skipVirtualSchema(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthVirtualSchema
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+
 func (m *VirtualSchema) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1316,6 +1752,7 @@ func (m *VirtualSchema) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func (m *VirtualSchemaRegistry) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1378,38 +1815,6 @@ func (m *VirtualSchemaRegistry) Unmarshal(dAtA []byte) error {
 			m.NftSchemaCode = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field SharedAttributes", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowVirtualSchema
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.SharedAttributes = append(m.SharedAttributes, string(dAtA[iNdEx:postIndex]))
-			iNdEx = postIndex
-		case 3:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Decision", wireType)
 			}
@@ -1449,6 +1854,7 @@ func (m *VirtualSchemaRegistry) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func (m *VirtualSchemaRegistryRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1510,38 +1916,6 @@ func (m *VirtualSchemaRegistryRequest) Unmarshal(dAtA []byte) error {
 			}
 			m.NftSchemaCode = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field SharedAttributes", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowVirtualSchema
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthVirtualSchema
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.SharedAttributes = append(m.SharedAttributes, string(dAtA[iNdEx:postIndex]))
-			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipVirtualSchema(dAtA[iNdEx:])
@@ -1563,6 +1937,7 @@ func (m *VirtualSchemaRegistryRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func (m *ActiveVirtualSchemaProposal) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1645,6 +2020,7 @@ func (m *ActiveVirtualSchemaProposal) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func (m *InactiveVirtualSchemaProposal) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1727,6 +2103,7 @@ func (m *InactiveVirtualSchemaProposal) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func skipVirtualSchema(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0

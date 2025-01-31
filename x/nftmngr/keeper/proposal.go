@@ -230,9 +230,13 @@ func (k Keeper) IterateActiveVirtualSchemaProposal(ctx sdk.Context, endTime time
 			panic(fmt.Sprintf("proposal %d does not exist", &val.Id))
 		}
 
+		// check time to end proposal
 		if !k.IsProposalActive(ctx, proposal) {
 			k.RemoveActiveVirtualSchemaProposal(ctx, val.Id)
 			k.SetInactiveVirtualSchemaProposal(ctx, types.InactiveVirtualSchemaProposal(val))
+			if err := k.processSchemaFee(ctx, proposal, false); err != nil {
+				k.Logger(ctx).Error("failed to process schema fee", "error", err)
+			}
 		}
 
 		if cb(proposal) {

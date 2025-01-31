@@ -41,6 +41,7 @@ type ActionParameter struct {
 
 type PrecompileExecutor struct {
 	nftmngrKeeper pcommon.NftmngrKeeper
+	accountKeeper pcommon.AccountKeeper
 	bankKeeper    pcommon.BankKeeper
 	address       common.Address
 
@@ -59,32 +60,36 @@ type PrecompileExecutor struct {
 	   #### SETTER #####
 	   #################
 	*/
-	AddActionID            []byte
-	AddAttributeID         []byte
-	ChangeOrgOwnerID       []byte
-	ChangeSchemaOwnerID    []byte
-	CreateMetadataID       []byte
-	CreateSchemaID         []byte
-	ResyncAttributeID      []byte
-	UpdateAttributeID      []byte
-	AttributeOverideID     []byte
-	SetBaseURIID           []byte
-	SetMetadataFormatID    []byte
-	SetMintAuthID          []byte
-	SetOriginChainID       []byte
-	SetOriginContractID    []byte
-	SetUriRetreivalID      []byte
-	ShowAttributeID        []byte
-	ToggleActionID         []byte
-	UpateActionID          []byte
-	AddActionExecutorID    []byte
-	RemoveActionExecutorID []byte
-	ActionByAdminID        []byte
+	AddActionID             []byte
+	AddAttributeID          []byte
+	ChangeOrgOwnerID        []byte
+	ChangeSchemaOwnerID     []byte
+	CreateMetadataID        []byte
+	CreateSchemaID          []byte
+	ResyncAttributeID       []byte
+	UpdateAttributeID       []byte
+	AttributeOverideID      []byte
+	SetBaseURIID            []byte
+	SetMetadataFormatID     []byte
+	SetMintAuthID           []byte
+	SetOriginChainID        []byte
+	SetOriginContractID     []byte
+	SetUriRetreivalID       []byte
+	ShowAttributeID         []byte
+	ToggleActionID          []byte
+	UpateActionID           []byte
+	AddActionExecutorID     []byte
+	RemoveActionExecutorID  []byte
+	ActionByAdminID         []byte
+	VirtualSchemaProposalId []byte
+	VoteVirtualId           []byte
+	PerformVirtualActionId  []byte
 }
 
-func NewExecutor(nftmngrKeeper pcommon.NftmngrKeeper, bankKeeper pcommon.BankKeeper) (*PrecompileExecutor, error) {
+func NewExecutor(nftmngrKeeper pcommon.NftmngrKeeper, accountKeeper pcommon.AccountKeeper, bankKeeper pcommon.BankKeeper) (*PrecompileExecutor, error) {
 	p := &PrecompileExecutor{
 		nftmngrKeeper: nftmngrKeeper,
+		accountKeeper: accountKeeper,
 		bankKeeper:    bankKeeper,
 		address:       common.HexToAddress(NftmngrAddress),
 	}
@@ -92,10 +97,11 @@ func NewExecutor(nftmngrKeeper pcommon.NftmngrKeeper, bankKeeper pcommon.BankKee
 	return p, nil
 }
 
-func NewPrecompile(nftmngrKeeper pcommon.NftmngrKeeper, bankKeeper pcommon.BankKeeper) (*pcommon.Precompile, error) {
+func NewPrecompile(nftmngrKeeper pcommon.NftmngrKeeper, accountKeeper pcommon.AccountKeeper, bankKeeper pcommon.BankKeeper) (*pcommon.Precompile, error) {
 	newAbi := GetABI()
 	p := &PrecompileExecutor{
 		nftmngrKeeper: nftmngrKeeper,
+		accountKeeper: accountKeeper,
 		bankKeeper:    bankKeeper,
 		address:       common.HexToAddress(NftmngrAddress),
 	}
@@ -150,6 +156,12 @@ func NewPrecompile(nftmngrKeeper pcommon.NftmngrKeeper, bankKeeper pcommon.BankK
 			p.IsSchemaOwnerID = m.ID
 		case GetAttributeValue:
 			p.GetAttributeValueID = m.ID
+		case VirtualSchemaProposal:
+			p.VirtualSchemaProposalId = m.ID
+		case VoteVirtualSchema:
+			p.VoteVirtualId = m.ID
+		case PerformVirtualAction:
+			p.PerformVirtualActionId = m.ID
 		}
 	}
 
@@ -158,6 +170,9 @@ func NewPrecompile(nftmngrKeeper pcommon.NftmngrKeeper, bankKeeper pcommon.BankK
 
 // RequiredGas returns the required bare minimum gas to execute the precompile.
 func (p PrecompileExecutor) RequiredGas(input []byte, method *abi.Method) uint64 {
+	//if method.Name == "voteVirtualSchema" {
+	//  return 5000
+	//}
 	return pcommon.DefaultGasCost(input, p.IsTransaction(method.Name))
 }
 

@@ -17,7 +17,6 @@ import (
 // Prevent strconv unused error
 var _ = strconv.IntSize
 
-// TODO:: Feat(VirtualSchema)
 func TestCreateVirtualSchema(t *testing.T) {
 	net := network.New(t)
 	val := net.Validators[0]
