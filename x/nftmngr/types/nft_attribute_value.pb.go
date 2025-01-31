@@ -6,16 +6,20 @@ package types
 import (
 	encoding_binary "encoding/binary"
 	fmt "fmt"
-	proto "github.com/gogo/protobuf/proto"
 	io "io"
 	math "math"
 	math_bits "math/bits"
+
+	proto "github.com/gogo/protobuf/proto"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-var _ = fmt.Errorf
-var _ = math.Inf
+
+var (
+	_ = fmt.Errorf
+	_ = math.Inf
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -40,9 +44,11 @@ func (*NftAttributeValue) ProtoMessage()    {}
 func (*NftAttributeValue) Descriptor() ([]byte, []int) {
 	return fileDescriptor_8e19febe892d5c1e, []int{0}
 }
+
 func (m *NftAttributeValue) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *NftAttributeValue) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_NftAttributeValue.Marshal(b, m, deterministic)
@@ -55,12 +61,15 @@ func (m *NftAttributeValue) XXX_Marshal(b []byte, deterministic bool) ([]byte, e
 		return b[:n], nil
 	}
 }
+
 func (m *NftAttributeValue) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_NftAttributeValue.Merge(m, src)
 }
+
 func (m *NftAttributeValue) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *NftAttributeValue) XXX_DiscardUnknown() {
 	xxx_messageInfo_NftAttributeValue.DiscardUnknown(m)
 }
@@ -160,9 +169,11 @@ func (*NumberAttributeValue) ProtoMessage()    {}
 func (*NumberAttributeValue) Descriptor() ([]byte, []int) {
 	return fileDescriptor_8e19febe892d5c1e, []int{1}
 }
+
 func (m *NumberAttributeValue) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *NumberAttributeValue) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_NumberAttributeValue.Marshal(b, m, deterministic)
@@ -175,12 +186,15 @@ func (m *NumberAttributeValue) XXX_Marshal(b []byte, deterministic bool) ([]byte
 		return b[:n], nil
 	}
 }
+
 func (m *NumberAttributeValue) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_NumberAttributeValue.Merge(m, src)
 }
+
 func (m *NumberAttributeValue) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *NumberAttributeValue) XXX_DiscardUnknown() {
 	xxx_messageInfo_NumberAttributeValue.DiscardUnknown(m)
 }
@@ -204,9 +218,11 @@ func (*StringAttributeValue) ProtoMessage()    {}
 func (*StringAttributeValue) Descriptor() ([]byte, []int) {
 	return fileDescriptor_8e19febe892d5c1e, []int{2}
 }
+
 func (m *StringAttributeValue) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *StringAttributeValue) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_StringAttributeValue.Marshal(b, m, deterministic)
@@ -219,12 +235,15 @@ func (m *StringAttributeValue) XXX_Marshal(b []byte, deterministic bool) ([]byte
 		return b[:n], nil
 	}
 }
+
 func (m *StringAttributeValue) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_StringAttributeValue.Merge(m, src)
 }
+
 func (m *StringAttributeValue) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *StringAttributeValue) XXX_DiscardUnknown() {
 	xxx_messageInfo_StringAttributeValue.DiscardUnknown(m)
 }
@@ -248,9 +267,11 @@ func (*BooleanAttributeValue) ProtoMessage()    {}
 func (*BooleanAttributeValue) Descriptor() ([]byte, []int) {
 	return fileDescriptor_8e19febe892d5c1e, []int{3}
 }
+
 func (m *BooleanAttributeValue) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *BooleanAttributeValue) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_BooleanAttributeValue.Marshal(b, m, deterministic)
@@ -263,12 +284,15 @@ func (m *BooleanAttributeValue) XXX_Marshal(b []byte, deterministic bool) ([]byt
 		return b[:n], nil
 	}
 }
+
 func (m *BooleanAttributeValue) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_BooleanAttributeValue.Merge(m, src)
 }
+
 func (m *BooleanAttributeValue) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *BooleanAttributeValue) XXX_DiscardUnknown() {
 	xxx_messageInfo_BooleanAttributeValue.DiscardUnknown(m)
 }
@@ -292,9 +316,11 @@ func (*FloatAttributeValue) ProtoMessage()    {}
 func (*FloatAttributeValue) Descriptor() ([]byte, []int) {
 	return fileDescriptor_8e19febe892d5c1e, []int{4}
 }
+
 func (m *FloatAttributeValue) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *FloatAttributeValue) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_FloatAttributeValue.Marshal(b, m, deterministic)
@@ -307,12 +333,15 @@ func (m *FloatAttributeValue) XXX_Marshal(b []byte, deterministic bool) ([]byte,
 		return b[:n], nil
 	}
 }
+
 func (m *FloatAttributeValue) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_FloatAttributeValue.Merge(m, src)
 }
+
 func (m *FloatAttributeValue) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *FloatAttributeValue) XXX_DiscardUnknown() {
 	xxx_messageInfo_FloatAttributeValue.DiscardUnknown(m)
 }
@@ -434,6 +463,7 @@ func (m *NftAttributeValue_NumberAttributeValue) MarshalToSizedBuffer(dAtA []byt
 	}
 	return len(dAtA) - i, nil
 }
+
 func (m *NftAttributeValue_StringAttributeValue) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
@@ -455,6 +485,7 @@ func (m *NftAttributeValue_StringAttributeValue) MarshalToSizedBuffer(dAtA []byt
 	}
 	return len(dAtA) - i, nil
 }
+
 func (m *NftAttributeValue_BooleanAttributeValue) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
@@ -476,6 +507,7 @@ func (m *NftAttributeValue_BooleanAttributeValue) MarshalToSizedBuffer(dAtA []by
 	}
 	return len(dAtA) - i, nil
 }
+
 func (m *NftAttributeValue_FloatAttributeValue) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
@@ -497,6 +529,7 @@ func (m *NftAttributeValue_FloatAttributeValue) MarshalToSizedBuffer(dAtA []byte
 	}
 	return len(dAtA) - i, nil
 }
+
 func (m *NumberAttributeValue) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
@@ -628,6 +661,7 @@ func encodeVarintNftAttributeValue(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
+
 func (m *NftAttributeValue) Size() (n int) {
 	if m == nil {
 		return 0
@@ -659,6 +693,7 @@ func (m *NftAttributeValue_NumberAttributeValue) Size() (n int) {
 	}
 	return n
 }
+
 func (m *NftAttributeValue_StringAttributeValue) Size() (n int) {
 	if m == nil {
 		return 0
@@ -671,6 +706,7 @@ func (m *NftAttributeValue_StringAttributeValue) Size() (n int) {
 	}
 	return n
 }
+
 func (m *NftAttributeValue_BooleanAttributeValue) Size() (n int) {
 	if m == nil {
 		return 0
@@ -683,6 +719,7 @@ func (m *NftAttributeValue_BooleanAttributeValue) Size() (n int) {
 	}
 	return n
 }
+
 func (m *NftAttributeValue_FloatAttributeValue) Size() (n int) {
 	if m == nil {
 		return 0
@@ -695,6 +732,7 @@ func (m *NftAttributeValue_FloatAttributeValue) Size() (n int) {
 	}
 	return n
 }
+
 func (m *NumberAttributeValue) Size() (n int) {
 	if m == nil {
 		return 0
@@ -747,9 +785,11 @@ func (m *FloatAttributeValue) Size() (n int) {
 func sovNftAttributeValue(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
+
 func sozNftAttributeValue(x uint64) (n int) {
 	return sovNftAttributeValue(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
+
 func (m *NftAttributeValue) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -992,6 +1032,7 @@ func (m *NftAttributeValue) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func (m *NumberAttributeValue) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1061,6 +1102,7 @@ func (m *NumberAttributeValue) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func (m *StringAttributeValue) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1143,6 +1185,7 @@ func (m *StringAttributeValue) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func (m *BooleanAttributeValue) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1213,6 +1256,7 @@ func (m *BooleanAttributeValue) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func (m *FloatAttributeValue) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1274,6 +1318,7 @@ func (m *FloatAttributeValue) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func skipNftAttributeValue(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0

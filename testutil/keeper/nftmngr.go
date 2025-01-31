@@ -54,7 +54,7 @@ func NftmngrKeeper(t testing.TB) (*keeper.Keeper, sdk.Context) {
 		storeKey,
 		memStoreKey,
 		paramsSubspace,
-    nil,
+		nil,
 		nil,
 		nil,
 		nil,

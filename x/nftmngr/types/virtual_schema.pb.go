@@ -5,21 +5,25 @@ package types
 
 import (
 	fmt "fmt"
-	_ "github.com/gogo/protobuf/gogoproto"
-	proto "github.com/gogo/protobuf/proto"
-	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
-	_ "google.golang.org/protobuf/types/known/timestamppb"
 	io "io"
 	math "math"
 	math_bits "math/bits"
 	time "time"
+
+	_ "github.com/gogo/protobuf/gogoproto"
+	proto "github.com/gogo/protobuf/proto"
+	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
+	_ "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-var _ = fmt.Errorf
-var _ = math.Inf
-var _ = time.Kitchen
+
+var (
+	_ = fmt.Errorf
+	_ = math.Inf
+	_ = time.Kitchen
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -97,9 +101,11 @@ func (*VirtualSchemaProposal) ProtoMessage()    {}
 func (*VirtualSchemaProposal) Descriptor() ([]byte, []int) {
 	return fileDescriptor_1fd45310b3f69052, []int{0}
 }
+
 func (m *VirtualSchemaProposal) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *VirtualSchemaProposal) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_VirtualSchemaProposal.Marshal(b, m, deterministic)
@@ -112,12 +118,15 @@ func (m *VirtualSchemaProposal) XXX_Marshal(b []byte, deterministic bool) ([]byt
 		return b[:n], nil
 	}
 }
+
 func (m *VirtualSchemaProposal) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_VirtualSchemaProposal.Merge(m, src)
 }
+
 func (m *VirtualSchemaProposal) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *VirtualSchemaProposal) XXX_DiscardUnknown() {
 	xxx_messageInfo_VirtualSchemaProposal.DiscardUnknown(m)
 }
@@ -194,9 +203,11 @@ func (*VirtualSchemaProposalRequest) ProtoMessage()    {}
 func (*VirtualSchemaProposalRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_1fd45310b3f69052, []int{1}
 }
+
 func (m *VirtualSchemaProposalRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *VirtualSchemaProposalRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_VirtualSchemaProposalRequest.Marshal(b, m, deterministic)
@@ -209,12 +220,15 @@ func (m *VirtualSchemaProposalRequest) XXX_Marshal(b []byte, deterministic bool)
 		return b[:n], nil
 	}
 }
+
 func (m *VirtualSchemaProposalRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_VirtualSchemaProposalRequest.Merge(m, src)
 }
+
 func (m *VirtualSchemaProposalRequest) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *VirtualSchemaProposalRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_VirtualSchemaProposalRequest.DiscardUnknown(m)
 }
@@ -268,9 +282,11 @@ func (*VirtualSchema) ProtoMessage()    {}
 func (*VirtualSchema) Descriptor() ([]byte, []int) {
 	return fileDescriptor_1fd45310b3f69052, []int{2}
 }
+
 func (m *VirtualSchema) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *VirtualSchema) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_VirtualSchema.Marshal(b, m, deterministic)
@@ -283,12 +299,15 @@ func (m *VirtualSchema) XXX_Marshal(b []byte, deterministic bool) ([]byte, error
 		return b[:n], nil
 	}
 }
+
 func (m *VirtualSchema) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_VirtualSchema.Merge(m, src)
 }
+
 func (m *VirtualSchema) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *VirtualSchema) XXX_DiscardUnknown() {
 	xxx_messageInfo_VirtualSchema.DiscardUnknown(m)
 }
@@ -327,9 +346,11 @@ func (*VirtualSchemaRegistry) ProtoMessage()    {}
 func (*VirtualSchemaRegistry) Descriptor() ([]byte, []int) {
 	return fileDescriptor_1fd45310b3f69052, []int{3}
 }
+
 func (m *VirtualSchemaRegistry) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *VirtualSchemaRegistry) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_VirtualSchemaRegistry.Marshal(b, m, deterministic)
@@ -342,12 +363,15 @@ func (m *VirtualSchemaRegistry) XXX_Marshal(b []byte, deterministic bool) ([]byt
 		return b[:n], nil
 	}
 }
+
 func (m *VirtualSchemaRegistry) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_VirtualSchemaRegistry.Merge(m, src)
 }
+
 func (m *VirtualSchemaRegistry) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *VirtualSchemaRegistry) XXX_DiscardUnknown() {
 	xxx_messageInfo_VirtualSchemaRegistry.DiscardUnknown(m)
 }
@@ -378,9 +402,11 @@ func (*VirtualSchemaRegistryRequest) ProtoMessage()    {}
 func (*VirtualSchemaRegistryRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_1fd45310b3f69052, []int{4}
 }
+
 func (m *VirtualSchemaRegistryRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *VirtualSchemaRegistryRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_VirtualSchemaRegistryRequest.Marshal(b, m, deterministic)
@@ -393,12 +419,15 @@ func (m *VirtualSchemaRegistryRequest) XXX_Marshal(b []byte, deterministic bool)
 		return b[:n], nil
 	}
 }
+
 func (m *VirtualSchemaRegistryRequest) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_VirtualSchemaRegistryRequest.Merge(m, src)
 }
+
 func (m *VirtualSchemaRegistryRequest) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *VirtualSchemaRegistryRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_VirtualSchemaRegistryRequest.DiscardUnknown(m)
 }
@@ -422,9 +451,11 @@ func (*ActiveVirtualSchemaProposal) ProtoMessage()    {}
 func (*ActiveVirtualSchemaProposal) Descriptor() ([]byte, []int) {
 	return fileDescriptor_1fd45310b3f69052, []int{5}
 }
+
 func (m *ActiveVirtualSchemaProposal) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *ActiveVirtualSchemaProposal) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_ActiveVirtualSchemaProposal.Marshal(b, m, deterministic)
@@ -437,12 +468,15 @@ func (m *ActiveVirtualSchemaProposal) XXX_Marshal(b []byte, deterministic bool) 
 		return b[:n], nil
 	}
 }
+
 func (m *ActiveVirtualSchemaProposal) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_ActiveVirtualSchemaProposal.Merge(m, src)
 }
+
 func (m *ActiveVirtualSchemaProposal) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *ActiveVirtualSchemaProposal) XXX_DiscardUnknown() {
 	xxx_messageInfo_ActiveVirtualSchemaProposal.DiscardUnknown(m)
 }
@@ -466,9 +500,11 @@ func (*InactiveVirtualSchemaProposal) ProtoMessage()    {}
 func (*InactiveVirtualSchemaProposal) Descriptor() ([]byte, []int) {
 	return fileDescriptor_1fd45310b3f69052, []int{6}
 }
+
 func (m *InactiveVirtualSchemaProposal) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *InactiveVirtualSchemaProposal) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_InactiveVirtualSchemaProposal.Marshal(b, m, deterministic)
@@ -481,12 +517,15 @@ func (m *InactiveVirtualSchemaProposal) XXX_Marshal(b []byte, deterministic bool
 		return b[:n], nil
 	}
 }
+
 func (m *InactiveVirtualSchemaProposal) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_InactiveVirtualSchemaProposal.Merge(m, src)
 }
+
 func (m *InactiveVirtualSchemaProposal) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *InactiveVirtualSchemaProposal) XXX_DiscardUnknown() {
 	xxx_messageInfo_InactiveVirtualSchemaProposal.DiscardUnknown(m)
 }
@@ -915,6 +954,7 @@ func encodeVarintVirtualSchema(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
+
 func (m *VirtualSchemaProposal) Size() (n int) {
 	if m == nil {
 		return 0
@@ -1067,9 +1107,11 @@ func (m *InactiveVirtualSchemaProposal) Size() (n int) {
 func sovVirtualSchema(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
+
 func sozVirtualSchema(x uint64) (n int) {
 	return sovVirtualSchema(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
+
 func (m *VirtualSchemaProposal) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1372,6 +1414,7 @@ func (m *VirtualSchemaProposal) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func (m *VirtualSchemaProposalRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1572,6 +1615,7 @@ func (m *VirtualSchemaProposalRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func (m *VirtualSchema) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1708,6 +1752,7 @@ func (m *VirtualSchema) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func (m *VirtualSchemaRegistry) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1809,6 +1854,7 @@ func (m *VirtualSchemaRegistry) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func (m *VirtualSchemaRegistryRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1891,6 +1937,7 @@ func (m *VirtualSchemaRegistryRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func (m *ActiveVirtualSchemaProposal) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1973,6 +2020,7 @@ func (m *ActiveVirtualSchemaProposal) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func (m *InactiveVirtualSchemaProposal) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -2055,6 +2103,7 @@ func (m *InactiveVirtualSchemaProposal) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func skipVirtualSchema(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0

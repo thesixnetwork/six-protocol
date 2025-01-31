@@ -3,7 +3,6 @@ package nftmngr
 import (
 	"encoding/base64"
 	"errors"
-	"fmt"
 	"math/big"
 	"strconv"
 
@@ -83,7 +82,6 @@ func (p PrecompileExecutor) virtualSchemaProposal(ctx sdk.Context, caller common
 }
 
 func (p PrecompileExecutor) voteVirtualSchema(ctx sdk.Context, caller common.Address, method *abi.Method, args []interface{}, value *big.Int, readOnly bool) ([]byte, error) {
-	fmt.Println("################# voteVirtualSchema #################")
 	if readOnly {
 		return nil, errors.New("cannot call send from staticcall")
 	}
