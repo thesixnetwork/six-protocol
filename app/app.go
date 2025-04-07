@@ -660,6 +660,8 @@ func New(
 		app.AccountKeeper,
 		app.TokenmngrKeeper,
 		app.NftmngrKeeper,
+		stakingkeeper.NewMsgServerImpl(app.StakingKeeper),
+		stakingkeeper.Querier{Keeper: app.StakingKeeper},
 	); err != nil {
 		panic(err)
 	}
