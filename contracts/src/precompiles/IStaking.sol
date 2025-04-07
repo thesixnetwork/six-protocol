@@ -24,7 +24,7 @@ interface IStaking {
 
     // Queries
     function delegation(
-        address delegator,
+        string memory delegator,
         string memory valAddress
     ) external view returns (Delegation calldata delegation);
 

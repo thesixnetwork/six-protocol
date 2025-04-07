@@ -12,7 +12,7 @@
     "type": "function",
     "name": "delegation",
     "inputs": [
-      { "name": "delegator", "type": "address", "internalType": "address" },
+      { "name": "delegator", "type": "string", "internalType": "string" },
       { "name": "valAddress", "type": "string", "internalType": "string" }
     ],
     "outputs": [
