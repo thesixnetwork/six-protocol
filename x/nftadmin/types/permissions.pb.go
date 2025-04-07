@@ -5,20 +5,16 @@ package types
 
 import (
 	fmt "fmt"
+	proto "github.com/gogo/protobuf/proto"
 	io "io"
 	math "math"
 	math_bits "math/bits"
-
-	proto "github.com/gogo/protobuf/proto"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-
-var (
-	_ = fmt.Errorf
-	_ = math.Inf
-)
+var _ = fmt.Errorf
+var _ = math.Inf
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -36,11 +32,9 @@ func (*AddressList) ProtoMessage()    {}
 func (*AddressList) Descriptor() ([]byte, []int) {
 	return fileDescriptor_9fe2704a94f2d0ea, []int{0}
 }
-
 func (m *AddressList) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *AddressList) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_AddressList.Marshal(b, m, deterministic)
@@ -53,15 +47,12 @@ func (m *AddressList) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) 
 		return b[:n], nil
 	}
 }
-
 func (m *AddressList) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_AddressList.Merge(m, src)
 }
-
 func (m *AddressList) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *AddressList) XXX_DiscardUnknown() {
 	xxx_messageInfo_AddressList.DiscardUnknown(m)
 }
@@ -86,11 +77,9 @@ func (*Permission) ProtoMessage()    {}
 func (*Permission) Descriptor() ([]byte, []int) {
 	return fileDescriptor_9fe2704a94f2d0ea, []int{1}
 }
-
 func (m *Permission) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *Permission) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_Permission.Marshal(b, m, deterministic)
@@ -103,15 +92,12 @@ func (m *Permission) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return b[:n], nil
 	}
 }
-
 func (m *Permission) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_Permission.Merge(m, src)
 }
-
 func (m *Permission) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *Permission) XXX_DiscardUnknown() {
 	xxx_messageInfo_Permission.DiscardUnknown(m)
 }
@@ -142,11 +128,9 @@ func (*Permissions) ProtoMessage()    {}
 func (*Permissions) Descriptor() ([]byte, []int) {
 	return fileDescriptor_9fe2704a94f2d0ea, []int{2}
 }
-
 func (m *Permissions) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *Permissions) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_Permissions.Marshal(b, m, deterministic)
@@ -159,15 +143,12 @@ func (m *Permissions) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) 
 		return b[:n], nil
 	}
 }
-
 func (m *Permissions) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_Permissions.Merge(m, src)
 }
-
 func (m *Permissions) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *Permissions) XXX_DiscardUnknown() {
 	xxx_messageInfo_Permissions.DiscardUnknown(m)
 }
@@ -331,7 +312,6 @@ func encodeVarintPermissions(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-
 func (m *AddressList) Size() (n int) {
 	if m == nil {
 		return 0
@@ -382,11 +362,9 @@ func (m *Permissions) Size() (n int) {
 func sovPermissions(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
-
 func sozPermissions(x uint64) (n int) {
 	return sovPermissions(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-
 func (m *AddressList) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -469,7 +447,6 @@ func (m *AddressList) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *Permission) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -588,7 +565,6 @@ func (m *Permission) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *Permissions) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -673,7 +649,6 @@ func (m *Permissions) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func skipPermissions(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0

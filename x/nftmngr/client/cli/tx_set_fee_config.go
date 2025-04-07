@@ -50,7 +50,7 @@ func CmdSetFeeConfig() *cobra.Command {
 	return cmd
 }
 
-func parseFeeSubject(option string) (types.FeeSubject, error) {
+func ParseFeeSubject(option string) (types.FeeSubject, error) {
 	switch option {
 	case "0":
 		return types.FeeSubject_CREATE_NFT_SCHEMA, nil

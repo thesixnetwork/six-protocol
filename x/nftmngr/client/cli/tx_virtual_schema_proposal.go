@@ -40,9 +40,9 @@ func CmdCreateVirtualSchema() *cobra.Command {
 				return err
 			}
 
-			virtualSchemaRegistryRequest := make([]types.VirtualSchemaRegistryRequest, len(proposal.VirtualSchemaRegistry))
+			virtualSchemaRegistryRequest := make([]*types.VirtualSchemaRegistryRequest, len(proposal.VirtualSchemaRegistry))
 			for i, registry := range proposal.VirtualSchemaRegistry {
-				virtualSchemaRegistryRequest[i] = types.VirtualSchemaRegistryRequest{
+				virtualSchemaRegistryRequest[i] = &types.VirtualSchemaRegistryRequest{
 					NftSchemaCode: registry,
 				}
 			}
