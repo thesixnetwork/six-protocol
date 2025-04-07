@@ -5,20 +5,16 @@ package types
 
 import (
 	fmt "fmt"
+	proto "github.com/gogo/protobuf/proto"
 	io "io"
 	math "math"
 	math_bits "math/bits"
-
-	proto "github.com/gogo/protobuf/proto"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-
-var (
-	_ = fmt.Errorf
-	_ = math.Inf
-)
+var _ = fmt.Errorf
+var _ = math.Inf
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -38,11 +34,9 @@ func (*ActionExecutor) ProtoMessage()    {}
 func (*ActionExecutor) Descriptor() ([]byte, []int) {
 	return fileDescriptor_8f424de86493371c, []int{0}
 }
-
 func (m *ActionExecutor) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *ActionExecutor) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_ActionExecutor.Marshal(b, m, deterministic)
@@ -55,15 +49,12 @@ func (m *ActionExecutor) XXX_Marshal(b []byte, deterministic bool) ([]byte, erro
 		return b[:n], nil
 	}
 }
-
 func (m *ActionExecutor) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_ActionExecutor.Merge(m, src)
 }
-
 func (m *ActionExecutor) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *ActionExecutor) XXX_DiscardUnknown() {
 	xxx_messageInfo_ActionExecutor.DiscardUnknown(m)
 }
@@ -102,11 +93,9 @@ func (*ActionExecutorBySchema) ProtoMessage()    {}
 func (*ActionExecutorBySchema) Descriptor() ([]byte, []int) {
 	return fileDescriptor_8f424de86493371c, []int{1}
 }
-
 func (m *ActionExecutorBySchema) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-
 func (m *ActionExecutorBySchema) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_ActionExecutorBySchema.Marshal(b, m, deterministic)
@@ -119,15 +108,12 @@ func (m *ActionExecutorBySchema) XXX_Marshal(b []byte, deterministic bool) ([]by
 		return b[:n], nil
 	}
 }
-
 func (m *ActionExecutorBySchema) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_ActionExecutorBySchema.Merge(m, src)
 }
-
 func (m *ActionExecutorBySchema) XXX_Size() int {
 	return m.Size()
 }
-
 func (m *ActionExecutorBySchema) XXX_DiscardUnknown() {
 	xxx_messageInfo_ActionExecutorBySchema.DiscardUnknown(m)
 }
@@ -268,7 +254,6 @@ func encodeVarintActionExecutor(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-
 func (m *ActionExecutor) Size() (n int) {
 	if m == nil {
 		return 0
@@ -312,11 +297,9 @@ func (m *ActionExecutorBySchema) Size() (n int) {
 func sovActionExecutor(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
-
 func sozActionExecutor(x uint64) (n int) {
 	return sovActionExecutor(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-
 func (m *ActionExecutor) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -463,7 +446,6 @@ func (m *ActionExecutor) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func (m *ActionExecutorBySchema) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -578,7 +560,6 @@ func (m *ActionExecutorBySchema) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-
 func skipActionExecutor(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0
