@@ -173,7 +173,6 @@ func (p *PrecompileExecutor) undelegate(ctx sdk.Context, caller common.Address, 
 		return nil, errors.New("set `value` field to non-zero to send delegate fund")
 	}
 
-	// TODO: need to convert from asix to usix
 	amount := args[1].(*big.Int)
 	delegateAmount, err := p.convertCoinFromArg(amount)
 	if err != nil {
@@ -188,6 +187,8 @@ func (p *PrecompileExecutor) undelegate(ctx sdk.Context, caller common.Address, 
 	if err != nil {
 		return nil, err
 	}
+
+	// TODO: need to convert usix to asix after redelegation is done
 
 	return method.Outputs.Pack(true)
 }

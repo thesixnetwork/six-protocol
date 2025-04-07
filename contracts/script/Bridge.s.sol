@@ -2,7 +2,7 @@
 pragma solidity ^0.8.20;
 
 import "forge-std/Script.sol";
-import {BridgePrecompile, IBridge, BRIDGE_PRECOMPILE_ADDRESS} from "../src/IBridge.sol";
+import {BridgePrecompile, IBridge, BRIDGE_PRECOMPILE_ADDRESS} from "../src/precompiles/IBridge.sol";
 
 contract SendToCosmosScript is Script {
     address ownerAddress;
