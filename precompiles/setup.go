@@ -64,7 +64,7 @@ func InitializePrecompiles(
 		return err
 	}
 
-	stakingp, err := staking.NewPrecompile(stakingKeeper, stakingQuerier, bankKeeper)
+	stakingp, err := staking.NewPrecompile(stakingKeeper, stakingQuerier, bankKeeper, tokenmngrKeeper)
 	if err != nil {
 		return err
 	}

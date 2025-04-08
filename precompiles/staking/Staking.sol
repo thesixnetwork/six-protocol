@@ -8,7 +8,8 @@ IStaking constant STAKING_CONTRACT = IStaking(STAKING_PRECOMPILE_ADDRESS);
 interface IStaking {
     // Transactions
     function delegate(
-        string memory valAddress
+        string memory valAddress,
+        uint256 amount
     ) external payable returns (bool success);
 
     function redelegate(
