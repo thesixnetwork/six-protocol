@@ -7,6 +7,7 @@ import (
 	"math/big"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
@@ -25,7 +26,9 @@ const (
 )
 
 const (
-	StakingAddress = "0x0000000000000000000000000000000000001005"
+	StakingAddress         = "0x0000000000000000000000000000000000001005"
+	bridgeDiffTreshold     = 1
+	defaultAttoToMicroDiff = 1_000_000_000_000
 )
 
 // Embed abi json file to the executable binary. Needed when importing as dependency.
@@ -47,10 +50,11 @@ func GetABI() abi.ABI {
 }
 
 type PrecompileExecutor struct {
-	stakingKeeper  pcommon.StakingKeeper
-	stakingQuerier pcommon.StakingQuerier
-	bankKeeper     pcommon.BankKeeper
-	address        common.Address
+	stakingKeeper   pcommon.StakingKeeper
+	stakingQuerier  pcommon.StakingQuerier
+	bankKeeper      pcommon.BankKeeper
+	tokenmngrKeeper pcommon.TokenmngrKeeper
+	address         common.Address
 
 	/*
 	   #################
@@ -69,14 +73,15 @@ type PrecompileExecutor struct {
 	DelegationID []byte
 }
 
-func NewPrecompile(stakingKeeper pcommon.StakingKeeper, stakingQuerier pcommon.StakingQuerier, bankKeeper pcommon.BankKeeper) (*pcommon.Precompile, error) {
+func NewPrecompile(stakingKeeper pcommon.StakingKeeper, stakingQuerier pcommon.StakingQuerier, bankKeeper pcommon.BankKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper) (*pcommon.Precompile, error) {
 	newAbi := GetABI()
 
 	p := &PrecompileExecutor{
-		stakingKeeper:  stakingKeeper,
-		stakingQuerier: stakingQuerier,
-		bankKeeper:     bankKeeper,
-		address:        common.HexToAddress(StakingAddress),
+		stakingKeeper:   stakingKeeper,
+		stakingQuerier:  stakingQuerier,
+		bankKeeper:      bankKeeper,
+		tokenmngrKeeper: tokenmngrKeeper,
+		address:         common.HexToAddress(StakingAddress),
 	}
 
 	for name, m := range newAbi.Methods {
@@ -110,14 +115,24 @@ func (p *PrecompileExecutor) Execute(ctx sdk.Context, method *abi.Method, caller
 }
 
 func (p *PrecompileExecutor) delegate(ctx sdk.Context, caller common.Address, method *abi.Method, args []interface{}, value *big.Int, readOnly bool) ([]byte, error) {
+	var err error
+
+	defer func() {
+		if err != nil {
+			ctx.Logger().Error("delegation precompile execution failed",
+				"error", err.Error(),
+			)
+		}
+	}()
+
 	if readOnly {
 		return nil, errors.New("cannot call send from staticcall")
 	}
-	if err := pcommon.ValidateNonPayable(value); err != nil {
+	if err = pcommon.ValidateNonPayable(value); err != nil {
 		return nil, err
 	}
 
-	if err := pcommon.ValidateArgsLength(args, 2); err != nil {
+	if err = pcommon.ValidateArgsLength(args, 2); err != nil {
 		return nil, err
 	}
 
@@ -127,13 +142,15 @@ func (p *PrecompileExecutor) delegate(ctx sdk.Context, caller common.Address, me
 	}
 
 	validatorBech32 := args[0].(string)
-	if value == nil || value.Sign() == 0 {
-		return nil, errors.New("set `value` field to non-zero to send delegate fund")
-	}
 
-	// TODO: need to convert from asix to usix
 	amount := args[1].(*big.Int)
 	delegateAmount, err := p.convertCoinFromArg(amount)
+	if err != nil {
+		return nil, err
+	}
+
+	// conver wei to staking coin
+	err = p.convertWeiToStakingCoin(ctx, amount, senderCosmoAddr)
 	if err != nil {
 		return nil, err
 	}
@@ -151,6 +168,16 @@ func (p *PrecompileExecutor) delegate(ctx sdk.Context, caller common.Address, me
 }
 
 func (p *PrecompileExecutor) undelegate(ctx sdk.Context, caller common.Address, method *abi.Method, args []interface{}, value *big.Int, readOnly bool) ([]byte, error) {
+	var err error
+
+	defer func() {
+		if err != nil {
+			ctx.Logger().Error("delegation precompile execution failed",
+				"error", err.Error(),
+			)
+		}
+	}()
+
 	if readOnly {
 		return nil, errors.New("cannot call send from staticcall")
 	}
@@ -169,9 +196,6 @@ func (p *PrecompileExecutor) undelegate(ctx sdk.Context, caller common.Address, 
 	}
 
 	validatorBech32 := args[0].(string)
-	if value == nil || value.Sign() == 0 {
-		return nil, errors.New("set `value` field to non-zero to send delegate fund")
-	}
 
 	amount := args[1].(*big.Int)
 	delegateAmount, err := p.convertCoinFromArg(amount)
@@ -194,20 +218,26 @@ func (p *PrecompileExecutor) undelegate(ctx sdk.Context, caller common.Address, 
 }
 
 func (p *PrecompileExecutor) redelegate(ctx sdk.Context, caller common.Address, method *abi.Method, args []interface{}, value *big.Int, readOnly bool) ([]byte, error) {
+	var err error
+
+	defer func() {
+		if err != nil {
+			ctx.Logger().Error("delegation precompile execution failed",
+				"error", err.Error(),
+			)
+		}
+	}()
+
 	if readOnly {
 		return nil, errors.New("cannot call send from staticcall")
 	}
 
-	if err := pcommon.ValidateNonPayable(value); err != nil {
+	if err = pcommon.ValidateNonPayable(value); err != nil {
 		return nil, err
 	}
 
-	if err := pcommon.ValidateArgsLength(args, 3); err != nil {
+	if err = pcommon.ValidateArgsLength(args, 3); err != nil {
 		return nil, err
-	}
-
-	if value == nil || value.Sign() == 0 {
-		return nil, errors.New("set `value` field to non-zero to send delegate fund")
 	}
 
 	senderCosmoAddr, err := p.accAddressFromArg(caller)
@@ -256,15 +286,18 @@ type DelegationDetails struct {
 }
 
 func (p PrecompileExecutor) delegation(ctx sdk.Context, method *abi.Method, args []interface{}, value *big.Int) ([]byte, error) {
-	if err := pcommon.ValidateNonPayable(value); err != nil {
+	var err error
+
+	if err = pcommon.ValidateNonPayable(value); err != nil {
 		return nil, err
 	}
 
-	if err := pcommon.ValidateArgsLength(args, 2); err != nil {
+	if err = pcommon.ValidateArgsLength(args, 2); err != nil {
 		return nil, err
 	}
 
-	senderCosmoAddr, err := p.accAddressFromBech32(args[0])
+	var senderCosmoAddr sdk.AccAddress
+	senderCosmoAddr, err = p.accAddressFromBech32(args[0])
 	if err != nil {
 		return nil, err
 	}
@@ -276,7 +309,8 @@ func (p PrecompileExecutor) delegation(ctx sdk.Context, method *abi.Method, args
 		ValidatorAddr: validatorBech32,
 	}
 
-	delegationResponse, err := p.stakingQuerier.Delegation(sdk.WrapSDKContext(ctx), delegationRequest)
+	var delegationResponse *stakingtypes.QueryDelegationResponse
+	delegationResponse, err = p.stakingQuerier.Delegation(sdk.WrapSDKContext(ctx), delegationRequest)
 	if err != nil {
 		return nil, err
 	}
@@ -325,9 +359,47 @@ func (p *PrecompileExecutor) convertCoinFromArg(amount *big.Int) (sdk.Coin, erro
 		return sdk.Coin{}, errors.New("invalid amount value")
 	}
 
-	convAmount := sdk.NewCoin("usix", sdk.NewIntFromBigInt(amount))
+	intAmount := sdk.NewIntFromBigInt(amount)
+	if intAmount.IsZero() {
+		return sdk.Coin{}, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is prohibit from module")
+	}
 
-	return convAmount, nil
+	microSix := sdk.NewCoin("usix", intAmount.QuoRaw(int64(defaultAttoToMicroDiff)))
+
+	return microSix, nil
+}
+
+func (p *PrecompileExecutor) convertWeiToStakingCoin(ctx sdk.Context, weiAmount *big.Int, bech32Address sdk.AccAddress) error {
+	// check if amount is valid
+	intAmount := sdk.NewIntFromBigInt(weiAmount)
+	if intAmount.IsZero() {
+		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is prohibit from module")
+	}
+
+	// check if balance and input are valid
+	if balance := p.bankKeeper.GetBalance(ctx, bech32Address, "asix"); balance.Amount.LT(intAmount) {
+		// if current_balance + 1 >= inputAmount then convert all token of the account
+
+		tresshold_balance := balance.Amount.Add(sdk.NewInt(bridgeDiffTreshold))
+		if tresshold_balance.LT(intAmount) {
+			return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Amount of token is too high than current balance")
+		}
+		intAmount = balance.Amount
+	}
+
+	// check total supply of evm denom
+	supply := p.bankKeeper.GetSupply(ctx, "asix")
+	if supply.Amount.LT(intAmount) {
+		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is higher than current total supply")
+	}
+
+	// send convert coin to itself
+	err := p.tokenmngrKeeper.AttoCoinConverter(ctx, bech32Address, bech32Address, intAmount)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (PrecompileExecutor) IsTransaction(method string) bool {

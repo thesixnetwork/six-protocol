@@ -126,7 +126,6 @@ func (p PrecompileExecutor) sendToCosmos(ctx sdk.Context, caller common.Address,
 	// check if balance and input are valid
 	if balance := p.bankKeeper.GetBalance(ctx, senderCosmoAddr, "asix"); balance.Amount.LT(intAmount) {
 		// if current_balance + 1 >= inputAmount then convert all token of the account
-
 		tresshold_balance := balance.Amount.Add(sdk.NewInt(bridgeDiffTreshold))
 		if tresshold_balance.LT(intAmount) {
 			return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Amount of token is too high than current balance")

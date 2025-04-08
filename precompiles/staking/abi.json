@@ -3,7 +3,8 @@
     "type": "function",
     "name": "delegate",
     "inputs": [
-      { "name": "valAddress", "type": "string", "internalType": "string" }
+      { "name": "valAddress", "type": "string", "internalType": "string" },
+      { "name": "amount", "type": "uint256", "internalType": "uint256" }
     ],
     "outputs": [{ "name": "success", "type": "bool", "internalType": "bool" }],
     "stateMutability": "payable"

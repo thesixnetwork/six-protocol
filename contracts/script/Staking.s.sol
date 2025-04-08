@@ -42,7 +42,7 @@ contract StakeScript is Script {
     }
 }
 
-contract SendScript is Script {
+contract delegateScript is Script {
     address ownerAddress;
     uint64 currentNonce;
 
@@ -57,11 +57,9 @@ contract SendScript is Script {
         // Execute the transaction
         (bool success, bytes memory result) = contractAddress.call(
             abi.encodeWithSignature(
-                "send(address,address,string,uint256)",
-                ownerAddress,
-                0xd907f36f7D83344057a619b6D83A45B3288c3c21,
-                "asix",
-                2 * 1e18
+                "delegate(string,uint256)",
+                "6xvaloper1t3p2vzd7w036ahxf4kefsc9sn24pvlqpmk79jh",
+                20000 * 1e18
             )
         );
         require(success, "Transaction failed");
