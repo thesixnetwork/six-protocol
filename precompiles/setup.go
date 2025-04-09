@@ -11,6 +11,7 @@ import (
 	"github.com/thesixnetwork/six-protocol/precompiles/bank"
 	"github.com/thesixnetwork/six-protocol/precompiles/bridge"
 	"github.com/thesixnetwork/six-protocol/precompiles/common"
+	"github.com/thesixnetwork/six-protocol/precompiles/distribution"
 	"github.com/thesixnetwork/six-protocol/precompiles/nftmngr"
 	"github.com/thesixnetwork/six-protocol/precompiles/staking"
 )
@@ -44,6 +45,7 @@ func InitializePrecompiles(
 	nftmngrKeeper common.NftmngrKeeper,
 	stakingKeeper common.StakingKeeper,
 	stakingQuerier common.StakingQuerier,
+	distrKeeper common.DistributionKeeper,
 ) error {
 	SetupMtx.Lock()
 	defer SetupMtx.Unlock()
@@ -69,16 +71,23 @@ func InitializePrecompiles(
 		return err
 	}
 
+	distributionp, err := distribution.NewPrecompile(distrKeeper, tokenmngrKeeper)
+	if err != nil {
+		return err
+	}
+
 	PrecompileNamesToInfo[bankp.GetName()] = PrecompileInfo{ABI: bankp.GetABI(), Address: bankp.Address()}
 	PrecompileNamesToInfo[bridgep.GetName()] = PrecompileInfo{ABI: bridgep.GetABI(), Address: bridgep.Address()}
 	PrecompileNamesToInfo[nftmngrp.GetName()] = PrecompileInfo{ABI: nftmngrp.GetABI(), Address: nftmngrp.Address()}
-	PrecompileNamesToInfo[stakingp.GetName()] = PrecompileInfo{ABI: staking.GetABI(), Address: stakingp.Address()}
+	PrecompileNamesToInfo[stakingp.GetName()] = PrecompileInfo{ABI: stakingp.GetABI(), Address: stakingp.Address()}
+	PrecompileNamesToInfo[distributionp.GetName()] = PrecompileInfo{ABI: distributionp.GetABI(), Address: distributionp.Address()}
 
 	if !dryRun {
 		addPrecompileToVM(bankp)
 		addPrecompileToVM(bridgep)
 		addPrecompileToVM(nftmngrp)
 		addPrecompileToVM(stakingp)
+		addPrecompileToVM(distributionp)
 		Initialized = true
 	}
 
@@ -88,7 +97,7 @@ func InitializePrecompiles(
 func GetPrecompileInfo(name string) PrecompileInfo {
 	if !Initialized {
 		// Precompile Info does not require any keeper state
-		_ = InitializePrecompiles(true, nil, nil, nil, nil, nil, nil, nil)
+		_ = InitializePrecompiles(true, nil, nil, nil, nil, nil, nil, nil, nil)
 	}
 	i, ok := PrecompileNamesToInfo[name]
 	if !ok {
