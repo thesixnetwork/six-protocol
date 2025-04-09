@@ -20,7 +20,7 @@ contract delegateScript is Script {
         (bool success, bytes memory result) = contractAddress.call(
             abi.encodeWithSignature(
                 "delegate(string,uint256)",
-                "6xvaloper15chnkpdt5g7ul9l0qdfsy4zwxh49ms9akp84gl",
+                "6xvaloper1t3p2vzd7w036ahxf4kefsc9sn24pvlqpmk79jh",
                 10000 * 1e18
             )
         );

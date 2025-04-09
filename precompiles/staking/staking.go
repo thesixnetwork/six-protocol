@@ -61,6 +61,7 @@ type PrecompileExecutor struct {
 	   #### GETTER #####
 	   #################
 	*/
+	DelegationID []byte
 
 	/*
 	   #################
@@ -70,7 +71,6 @@ type PrecompileExecutor struct {
 	DelegateID   []byte
 	RedelegateID []byte
 	UndelegateID []byte
-	DelegationID []byte
 }
 
 func NewPrecompile(stakingKeeper pcommon.StakingKeeper, stakingQuerier pcommon.StakingQuerier, bankKeeper pcommon.BankKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper) (*pcommon.Precompile, error) {
@@ -128,6 +128,7 @@ func (p *PrecompileExecutor) delegate(ctx sdk.Context, caller common.Address, me
 	if readOnly {
 		return nil, errors.New("cannot call send from staticcall")
 	}
+
 	if err = pcommon.ValidateNonPayable(value); err != nil {
 		return nil, err
 	}
