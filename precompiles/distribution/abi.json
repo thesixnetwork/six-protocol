@@ -54,7 +54,11 @@
                 "type": "uint256",
                 "internalType": "uint256"
               },
-              { "name": "denom", "type": "string", "internalType": "string" }
+              {
+                "name": "denom",
+                "type": "string",
+                "internalType": "string"
+              }
             ]
           }
         ]
@@ -93,7 +97,11 @@
                 "type": "uint256",
                 "internalType": "uint256"
               },
-              { "name": "denom", "type": "string", "internalType": "string" }
+              {
+                "name": "denom",
+                "type": "string",
+                "internalType": "string"
+              }
             ]
           },
           {
@@ -116,7 +124,13 @@
         "internalType": "string"
       }
     ],
-    "outputs": [{ "name": "success", "type": "bool", "internalType": "bool" }],
+    "outputs": [
+      {
+        "name": "success",
+        "type": "bool",
+        "internalType": "bool"
+      }
+    ],
     "stateMutability": "view"
   },
   {
@@ -129,8 +143,13 @@
         "internalType": "string"
       }
     ],
-    "outputs": [{ "name": "success", "type": "bool", "internalType": "bool" }],
+    "outputs": [
+      {
+        "name": "success",
+        "type": "bool",
+        "internalType": "bool"
+      }
+    ],
     "stateMutability": "view"
   }
 ]
-

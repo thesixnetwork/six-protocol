@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"embed"
 	"errors"
+	"fmt"
 	"math/big"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -13,7 +14,7 @@ import (
 	"github.com/evmos/ethermint/utils"
 	"github.com/tendermint/tendermint/libs/log"
 
-	disttypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
+	distrtypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
 )
 
@@ -47,7 +48,7 @@ func GetABI() abi.ABI {
 }
 
 type PrecompileExecutor struct {
-	distKeeper      pcommon.DistributionKeeper
+	distrKeeper     pcommon.DistributionKeeper
 	tokenmngrKeeper pcommon.TokenmngrKeeper
 	address         common.Address
 
@@ -71,7 +72,7 @@ func NewPrecompile(distKeeper pcommon.DistributionKeeper, tokenmngrKeeper pcommo
 	newAbi := GetABI()
 
 	p := &PrecompileExecutor{
-		distKeeper:      distKeeper,
+		distrKeeper:     distKeeper,
 		tokenmngrKeeper: tokenmngrKeeper,
 		address:         common.HexToAddress(DistrAddress),
 	}
@@ -84,6 +85,8 @@ func NewPrecompile(distKeeper pcommon.DistributionKeeper, tokenmngrKeeper pcommo
 			p.WithdrawRewardsMethodID = m.ID
 		case RewardsMethod:
 			p.RewardsMethodId = m.ID
+		case AllRewardMethod:
+			p.AllRewardsMethodId = m.ID
 		}
 	}
 
@@ -93,13 +96,13 @@ func NewPrecompile(distKeeper pcommon.DistributionKeeper, tokenmngrKeeper pcommo
 func (p *PrecompileExecutor) Execute(ctx sdk.Context, method *abi.Method, caller common.Address, callingContract common.Address, args []interface{}, value *big.Int, readOnly bool, evm *vm.EVM) ([]byte, error) {
 	switch method.Name {
 	case SetWithdrawAddressMethod:
-		p.setWithdrawAddressctx(ctx, caller, method, args, value, readOnly)
+		return p.setWithdrawAddressctx(ctx, caller, method, args, value, readOnly)
 	case WithdrawRewardsMethod:
-		p.withdrawRewards(ctx, caller, method, args, value, readOnly)
+		return p.withdrawRewards(ctx, caller, method, args, value, readOnly)
 	case RewardsMethod:
-		p.rewards(ctx, method, args, value)
+		return p.rewards(ctx, method, args)
 	case AllRewardMethod:
-		return nil, nil
+		return p.allRewards(ctx, method, args)
 	}
 	return nil, nil
 }
@@ -138,7 +141,7 @@ func (p *PrecompileExecutor) setWithdrawAddressctx(ctx sdk.Context, caller commo
 		return nil, err
 	}
 
-	err = p.distKeeper.SetWithdrawAddr(ctx, senderCosmoAddr, withdrawerAccAddress)
+	err = p.distrKeeper.SetWithdrawAddr(ctx, senderCosmoAddr, withdrawerAccAddress)
 	if err != nil {
 		return nil, err
 	}
@@ -180,7 +183,7 @@ func (p *PrecompileExecutor) withdrawRewards(ctx sdk.Context, caller common.Addr
 		return nil, err
 	}
 
-	_, err = p.distKeeper.WithdrawDelegationRewards(ctx, senderCosmoAddr, valAddress)
+	_, err = p.distrKeeper.WithdrawDelegationRewards(ctx, senderCosmoAddr, valAddress)
 	if err != nil {
 		return nil, err
 	}
@@ -189,8 +192,8 @@ func (p *PrecompileExecutor) withdrawRewards(ctx sdk.Context, caller common.Addr
 }
 
 type Coin struct {
-	Amount   *big.Int
-	Denom    string
+	Amount *big.Int
+	Denom  string
 }
 
 type Reward struct {
@@ -203,7 +206,7 @@ type Rewards struct {
 	Total  []Coin
 }
 
-func (p *PrecompileExecutor) rewards(ctx sdk.Context, method *abi.Method, args []interface{}, value *big.Int) ([]byte, error) {
+func (p *PrecompileExecutor) rewards(ctx sdk.Context, method *abi.Method, args []interface{}) ([]byte, error) {
 	var err error
 
 	defer func() {
@@ -213,10 +216,6 @@ func (p *PrecompileExecutor) rewards(ctx sdk.Context, method *abi.Method, args [
 			)
 		}
 	}()
-
-	if err = pcommon.ValidateNonPayable(value); err != nil {
-		return nil, err
-	}
 
 	if err = pcommon.ValidateArgsLength(args, 2); err != nil {
 		return nil, err
@@ -234,12 +233,12 @@ func (p *PrecompileExecutor) rewards(ctx sdk.Context, method *abi.Method, args [
 		return nil, err
 	}
 
-	req := &disttypes.QueryDelegationRewardsRequest{
+	req := &distrtypes.QueryDelegationRewardsRequest{
 		DelegatorAddress: delegatorAddressBech32,
 		ValidatorAddress: validatorAddressBech32,
 	}
 
-	res, err := p.distKeeper.DelegationRewards(sdk.WrapSDKContext(ctx), req)
+	res, err := p.distrKeeper.DelegationRewards(sdk.WrapSDKContext(ctx), req)
 	if err != nil {
 		return nil, err
 	}
@@ -247,8 +246,8 @@ func (p *PrecompileExecutor) rewards(ctx sdk.Context, method *abi.Method, args [
 	coins := make([]Coin, 0, res.Rewards.Len())
 	for _, rewardCoin := range res.Rewards {
 		coins = append(coins, Coin{
-			Amount:   rewardCoin.Amount.BigInt(),
-			Denom:    rewardCoin.Denom,
+			Amount: rewardCoin.Amount.BigInt(),
+			Denom:  rewardCoin.Denom,
 		})
 	}
 
@@ -257,7 +256,75 @@ func (p *PrecompileExecutor) rewards(ctx sdk.Context, method *abi.Method, args [
 		ValidatorAddress: validatorAddressBech32,
 	}
 
+	fmt.Printf("\n RETURN :%v \n", reward)
+
 	return method.Outputs.Pack(reward)
+}
+
+func (p PrecompileExecutor) allRewards(ctx sdk.Context, method *abi.Method, args []interface{}) (ret []byte, rerr error) {
+	var err error
+
+	defer func() {
+		if err != nil {
+			ctx.Logger().Error("distribution precompile execution failed",
+				"error", err.Error(),
+			)
+		}
+	}()
+
+	err = pcommon.ValidateArgsLength(args, 1)
+	if err != nil {
+		return nil, err
+	}
+
+	delegatorAddress, err := p.accAddressFromBech32(args[0])
+	if err != nil {
+		return nil, err
+	}
+
+	req := &distrtypes.QueryDelegationTotalRewardsRequest{
+		DelegatorAddress: delegatorAddress.String(),
+	}
+
+	response, err := p.distrKeeper.DelegationTotalRewards(sdk.WrapSDKContext(ctx), req)
+	if err != nil {
+		return nil, err
+	}
+
+	fmt.Printf("\n RETURN :%v \n", response)
+
+	rewardsOutput := getResponseOutput(response)
+	return method.Outputs.Pack(rewardsOutput)
+}
+
+func getResponseOutput(response *distrtypes.QueryDelegationTotalRewardsResponse) Rewards {
+	rewards := make([]Reward, 0, len(response.Rewards))
+	for _, rewardInfo := range response.Rewards {
+		coins := make([]Coin, 0, len(rewardInfo.Reward))
+		for _, coin := range rewardInfo.Reward {
+			coins = append(coins, Coin{
+				Amount: coin.Amount.BigInt(),
+				Denom:  coin.Denom,
+			})
+		}
+		rewards = append(rewards, Reward{
+			ValidatorAddress: rewardInfo.ValidatorAddress,
+			Coins:            coins,
+		})
+	}
+
+	totalCoins := make([]Coin, 0, len(response.Total))
+	for _, coin := range response.Total {
+		totalCoins = append(totalCoins, Coin{
+			Amount: coin.Amount.BigInt(),
+			Denom:  coin.Denom,
+		})
+	}
+
+	return Rewards{
+		Reward: rewards,
+		Total:  totalCoins,
+	}
 }
 
 func (p *PrecompileExecutor) accAddressFromArg(arg interface{}) (sdk.AccAddress, error) {
