@@ -209,8 +209,8 @@ update-module:
 	@rm -f go.sum && touch go.sum
 	@go mod tidy
 
-start: remove-doc update-module
-	@ignite chain serve --config ./config.yml -r -f $(VERBOSE)
+start: update-module
+	@ignite chain serve --config ./config.yml -r -f $(VERBOSE) --skip-proto
 
 
 ###############################################################################

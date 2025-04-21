@@ -2,9 +2,9 @@
 pragma solidity ^0.8.20;
 
 import "forge-std/Script.sol";
-import {IBank, BANK_PRECOMPILE_ADDRESS} from "../src/precompiles/IBank.sol";
+import {IDistr, DISTR_PRECOMPILE_ADDRESS} from "../src/precompiles/IDistribution.sol";
 
-contract BankScript is Script {
+contract SetAddressScript is Script {
     address ownerAddress;
     uint64 currentNonce;
 
@@ -15,51 +15,45 @@ contract BankScript is Script {
     function run() external {
         uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
         vm.startBroadcast(deployerPrivateKey);
-        address contractAddress = BANK_PRECOMPILE_ADDRESS;
-        (bool success, bytes memory result) = contractAddress.call(
-            abi.encodeWithSignature(
-                "balance(address,string)",
-                ownerAddress,
-                "asix"
-            )
-        );
-
-        require(success, "Transaction failed");
-
-        // Log the success message
-        // console.log("Transfer success!");
-        console.log(string(result));
-        vm.stopBroadcast();
-    }
-}
-
-contract SendScript is Script {
-    address ownerAddress;
-    uint64 currentNonce;
-
-    function setUp() public {
-        ownerAddress = vm.envAddress("OWNER");
-    }
-
-    function run() external {
-        uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
-        vm.startBroadcast(deployerPrivateKey);
-        address contractAddress = BANK_PRECOMPILE_ADDRESS;
+        address contractAddress = DISTR_PRECOMPILE_ADDRESS;
         // Execute the transaction
-        (bool success, bytes memory result) = contractAddress.call(
+        (bool success, ) = contractAddress.call(
             abi.encodeWithSignature(
-                "send(address,address,string,uint256)",
-                ownerAddress,
-                0xd907f36f7D83344057a619b6D83A45B3288c3c21,
-                "asix",
-                2 * 1e18
+                "setWithdrawAddress(string)",
+                "6x1kch0sdjr5tuvjh0h3a55c6l5sr6m0phjeag9f2"
             )
         );
         require(success, "Transaction failed");
 
         // Log the success message
         console.log("Transfer success!");
-        console.log(string(result));
+        vm.stopBroadcast();
+    }
+}
+
+contract WithDrawScript is Script {
+    address ownerAddress;
+    uint64 currentNonce;
+
+    function setUp() public {
+        ownerAddress = vm.envAddress("OWNER");
+    }
+
+    function run() external {
+        uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
+        vm.startBroadcast(deployerPrivateKey);
+        address contractAddress = DISTR_PRECOMPILE_ADDRESS;
+        // Execute the transaction
+        (bool success, ) = contractAddress.call(
+            abi.encodeWithSignature(
+                "withdrawRewards(string)",
+                "6xvaloper1t3p2vzd7w036ahxf4kefsc9sn24pvlqpmk79jh"
+            )
+        );
+        require(success, "Transaction failed");
+
+        // Log the success message
+        console.log("Transfer success!");
         vm.stopBroadcast();
     }
 }

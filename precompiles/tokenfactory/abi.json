@@ -1,0 +1,20 @@
+[
+  {
+    "type": "function",
+    "name": "transferToCosmos",
+    "inputs": [
+      { "name": "dst", "type": "string", "internalType": "string" },
+      { "name": "amount", "type": "uint256", "internalType": "uint256" }
+    ],
+    "outputs": [{ "name": "success", "type": "bool", "internalType": "bool" }],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "unwrapStakeToken",
+    "inputs": [{ "name": "amount", "type": "uint256", "internalType": "uint256" }],
+    "outputs": [{ "name": "success", "type": "bool", "internalType": "bool" }],
+    "stateMutability": "nonpayable"
+  }
+]
+

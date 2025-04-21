@@ -1,12 +1,16 @@
 package common
 
 import (
+	"context"
+
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-
+	disttypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
+	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	nftmngrtypes "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+	tokenmngrtypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
 type BankKeeper interface {
@@ -27,6 +31,11 @@ type AccountKeeper interface {
 
 type TokenmngrKeeper interface {
 	AttoCoinConverter(sdk.Context, sdk.AccAddress, sdk.AccAddress, sdk.Int) error
+}
+
+type TokenmngrMsgServer interface {
+	UnwrapToken(goCtx context.Context, msg *tokenmngrtypes.MsgUnwrapToken) (*tokenmngrtypes.MsgUnwrapTokenResponse, error)
+	WrapToken(goCtx context.Context, msg *tokenmngrtypes.MsgWrapToken) (*tokenmngrtypes.MsgWrapTokenResponse, error)
 }
 
 type NftmngrKeeper interface {
@@ -65,4 +74,21 @@ type NftmngrKeeper interface {
 	PerformVirtualActionKeeper(ctx sdk.Context, creator, vitualSchemaName string, tokenIdMap []*nftmngrtypes.TokenIdMap, actionName, refId string, parameters []*nftmngrtypes.ActionParameter) (changeList nftmngrtypes.ActionChangeList, err error)
 	VoteVirtualSchemaProposalKeeper(ctx sdk.Context, creator, proposalId, srcNftSchemaCode string, option nftmngrtypes.RegistryStatus) error
 	ProposalVirtualSchemaKeeper(ctx sdk.Context, creator, virtualNftSchemaCode string, proposalType nftmngrtypes.ProposalType, registryReq []*nftmngrtypes.VirtualSchemaRegistryRequest, actions []*nftmngrtypes.Action, executors []string, enable bool) (string, error)
+}
+
+type StakingKeeper interface {
+	Delegate(goCtx context.Context, msg *stakingtypes.MsgDelegate) (*stakingtypes.MsgDelegateResponse, error)
+	BeginRedelegate(goCtx context.Context, msg *stakingtypes.MsgBeginRedelegate) (*stakingtypes.MsgBeginRedelegateResponse, error)
+	Undelegate(goCtx context.Context, msg *stakingtypes.MsgUndelegate) (*stakingtypes.MsgUndelegateResponse, error)
+}
+
+type StakingQuerier interface {
+	Delegation(c context.Context, req *stakingtypes.QueryDelegationRequest) (*stakingtypes.QueryDelegationResponse, error)
+}
+
+type DistributionKeeper interface {
+	DelegationRewards(c context.Context, req *disttypes.QueryDelegationRewardsRequest) (*disttypes.QueryDelegationRewardsResponse, error)
+	DelegationTotalRewards(c context.Context, req *disttypes.QueryDelegationTotalRewardsRequest) (*disttypes.QueryDelegationTotalRewardsResponse, error)
+	SetWithdrawAddr(ctx sdk.Context, delegatorAddr sdk.AccAddress, withdrawAddr sdk.AccAddress) error
+	WithdrawDelegationRewards(ctx sdk.Context, delAddr sdk.AccAddress, valAddr sdk.ValAddress) (sdk.Coins, error)
 }
