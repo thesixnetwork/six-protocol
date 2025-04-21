@@ -2,7 +2,7 @@
 pragma solidity ^0.8.20;
 
 import "forge-std/Script.sol";
-import {INFTMNGR, NFTMNGR_PRECOMPILE_ADDRESS} from "../src/INFTManager.sol";
+import {INFTMNGR, NFTMNGR_PRECOMPILE_ADDRESS} from "../src/precompiles/INFTManager.sol";
 import {TransactionBatcher} from "../src/TransactionBatcher.sol";
 
 contract VoteScript is Script {
@@ -48,7 +48,10 @@ contract VoteScript is Script {
     }
 
     function callKeeeper(bytes memory datas) public payable returns (bool) {
-        (bool success, ) = NFTMNGR_PRECOMPILE_ADDRESS.call{value: 0, gas: 3_000_000}(datas);
+        (bool success, ) = NFTMNGR_PRECOMPILE_ADDRESS.call{
+            value: 0,
+            gas: 3_000_000
+        }(datas);
         if (!success) revert("transaction failed");
         return success;
     }
