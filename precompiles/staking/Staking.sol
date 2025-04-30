@@ -15,7 +15,7 @@ interface IStaking {
     function redelegate(
         string memory srcAddress,
         string memory dstAddress,
-        uint256 amount
+        uint256 amount  
     ) external returns (bool success);
 
     function undelegate(

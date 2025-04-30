@@ -16,6 +16,8 @@ import (
 
 	"github.com/evmos/ethermint/utils"
 	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
+
+	
 )
 
 const (
@@ -50,6 +52,8 @@ func GetABI() abi.ABI {
 }
 
 type PrecompileExecutor struct {
+	pcommon.Precompile
+
 	stakingKeeper   pcommon.StakingKeeper
 	stakingQuerier  pcommon.StakingQuerier
 	bankKeeper      pcommon.BankKeeper
