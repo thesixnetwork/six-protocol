@@ -18,12 +18,37 @@ import (
 	tmdb "github.com/tendermint/tm-db"
 
 	"github.com/thesixnetwork/six-protocol/app"
+
+	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
+	// sdktypes "github.com/cosmos/cosmos-sdk/types"
+	// cmttypes "github.com/cometbft/cometbft/types"
 )
 
 type (
 	Network = network.Network
 	Config  = network.Config
 )
+
+type UnitTestNetwork struct {
+	IntegrationNetwork
+
+}
+
+
+type IntegrationNetwork struct {
+	cfg        Config
+	ctx        sdk.Context
+	validators []stakingtypes.Validator
+	
+	// This is only needed for IBC chain testing setup
+	// valSet     *cmttypes.ValidatorSet
+	// valSigners map[string]cmttypes.PrivValidator
+}
+
+func (n *IntegrationNetwork) GetValidators() []stakingtypes.Validator {
+	return n.validators
+}
+
 
 // New creates instance with fully configured cosmos network.
 // Accepts optional config, that will be used in place of the DefaultConfig() if provided.
