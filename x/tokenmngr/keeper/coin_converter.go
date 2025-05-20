@@ -35,6 +35,8 @@ func (k Keeper) AttoCoinConverter(ctx sdk.Context, sender sdk.AccAddress, receiv
 		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount must be more than zero")
 	}
 
+	
+
 	if balance := k.bankKeeper.GetBalance(ctx, sender, DefaultAttoDenom); balance.Amount.LT(amount) {
 		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Amount of token is too high than current balance")
 	}

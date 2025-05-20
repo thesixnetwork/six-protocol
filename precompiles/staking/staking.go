@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"embed"
 	"errors"
+	"fmt"
 	"math/big"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -16,8 +17,6 @@ import (
 
 	"github.com/evmos/ethermint/utils"
 	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
-
-	
 )
 
 const (
@@ -75,6 +74,20 @@ type PrecompileExecutor struct {
 	DelegateID   []byte
 	RedelegateID []byte
 	UndelegateID []byte
+}
+
+func NewExecutor(stakingKeeper pcommon.StakingKeeper, stakingQuerier pcommon.StakingQuerier, bankKeeper pcommon.BankKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper) (*PrecompileExecutor, error) {
+
+	p := &PrecompileExecutor{
+		stakingKeeper:   stakingKeeper,
+		stakingQuerier:  stakingQuerier,
+		bankKeeper:      bankKeeper,
+		tokenmngrKeeper: tokenmngrKeeper,
+		address:         common.HexToAddress(StakingAddress),
+	}
+
+	return p, nil
+
 }
 
 func NewPrecompile(stakingKeeper pcommon.StakingKeeper, stakingQuerier pcommon.StakingQuerier, bankKeeper pcommon.BankKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper) (*pcommon.Precompile, error) {
@@ -149,10 +162,15 @@ func (p *PrecompileExecutor) delegate(ctx sdk.Context, caller common.Address, me
 	validatorBech32 := args[0].(string)
 
 	amount := args[1].(*big.Int)
+
+	fmt.Println("amount:", amount)
 	delegateAmount, err := p.convertCoinFromArg(amount)
 	if err != nil {
 		return nil, err
 	}
+
+	fmt.Println("delegateAmount:", delegateAmount)
+	ctx.Logger().Info("delegation request", "amount", delegateAmount.String())
 
 	// conver wei to staking coin
 	err = p.convertWeiToStakingCoin(ctx, amount, senderCosmoAddr)
@@ -401,6 +419,7 @@ func (p *PrecompileExecutor) convertWeiToStakingCoin(ctx sdk.Context, weiAmount 
 	// send convert coin to itself
 	err := p.tokenmngrKeeper.AttoCoinConverter(ctx, bech32Address, bech32Address, intAmount)
 	if err != nil {
+		fmt.Println("err AttoCoinConverter : ", err)
 		return err
 	}
 

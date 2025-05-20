@@ -1,6 +1,7 @@
 package nftmngr_test
 
 import (
+
 	"testing"
 
 	"github.com/cosmos/cosmos-sdk/codec"
@@ -43,6 +44,7 @@ func (suite *NftmngrPrecompileTestSuite) SetupTest() {
 
 	// Create precompile
 	// precompile, err := prenftmgr.NewPrecompile(suite.nftmngrKeeper, suite.bankKeeper)
+
 	precompile, err := prenftmgr.NewExecutor(suite.nftmngrKeeper, suite.accountKeeper, suite.bankKeeper)
 	suite.Require().NoError(err)
 	suite.nftprecompile = precompile
