@@ -1,15 +1,20 @@
 package keeper
 
 import (
-	"github.com/cosmos/cosmos-sdk/store/prefix"
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	"context"
 
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+
+	"cosmossdk.io/store/prefix"
+	storetypes "cosmossdk.io/store/types"
+
+	"github.com/cosmos/cosmos-sdk/runtime"
 )
 
 // SetActionSigner set a specific actionSigner in the store from its index
-func (k Keeper) SetActionSigner(ctx sdk.Context, actionSigner types.ActionSigner) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActionSignerKeyPrefix))
+func (k Keeper) SetActionSigner(ctx context.Context, actionSigner types.ActionSigner) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ActionSignerKeyPrefix))
 	b := k.cdc.MustMarshal(&actionSigner)
 	store.Set(types.ActionSignerKey(
 		actionSigner.ActorAddress,
@@ -19,11 +24,12 @@ func (k Keeper) SetActionSigner(ctx sdk.Context, actionSigner types.ActionSigner
 
 // GetActionSigner returns a actionSigner from its index
 func (k Keeper) GetActionSigner(
-	ctx sdk.Context,
+	ctx context.Context,
 	actorAddress string,
 	ownerAddress string,
 ) (val types.ActionSigner, found bool) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActionSignerKeyPrefix))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ActionSignerKeyPrefix))
 
 	b := store.Get(types.ActionSignerKey(
 		actorAddress,
@@ -39,11 +45,12 @@ func (k Keeper) GetActionSigner(
 
 // RemoveActionSigner removes a actionSigner from the store
 func (k Keeper) RemoveActionSigner(
-	ctx sdk.Context,
+	ctx context.Context,
 	actorAddress string,
 	ownerAddress string,
 ) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActionSignerKeyPrefix))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ActionSignerKeyPrefix))
 	store.Delete(types.ActionSignerKey(
 		actorAddress,
 		ownerAddress,
@@ -51,9 +58,10 @@ func (k Keeper) RemoveActionSigner(
 }
 
 // GetAllActionSigner returns all actionSigner
-func (k Keeper) GetAllActionSigner(ctx sdk.Context) (list []types.ActionSigner) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActionSignerKeyPrefix))
-	iterator := sdk.KVStorePrefixIterator(store, []byte{})
+func (k Keeper) GetAllActionSigner(ctx context.Context) (list []types.ActionSigner) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ActionSignerKeyPrefix))
+	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
 
 	defer iterator.Close()
 

@@ -4,13 +4,12 @@ import (
 	"strconv"
 	"testing"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/stretchr/testify/require"
-
 	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/keeper"
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
 // Prevent strconv unused error
@@ -18,15 +17,14 @@ var _ = strconv.IntSize
 
 func TestTokenMsgServerCreate(t *testing.T) {
 	k, ctx := keepertest.TokenmngrKeeper(t)
-	srv := keeper.NewMsgServerImpl(*k)
-	wctx := sdk.WrapSDKContext(ctx)
+	srv := keeper.NewMsgServerImpl(k)
 	creator := "A"
 	for i := 0; i < 5; i++ {
 		expected := &types.MsgCreateToken{
 			Creator: creator,
 			Name:    strconv.Itoa(i),
 		}
-		_, err := srv.CreateToken(wctx, expected)
+		_, err := srv.CreateToken(ctx, expected)
 		require.NoError(t, err)
 		rst, found := k.GetToken(ctx,
 			expected.Name,
@@ -39,7 +37,7 @@ func TestTokenMsgServerCreate(t *testing.T) {
 func TestTokenMsgServerUpdate(t *testing.T) {
 	creator := "A"
 
-	for _, tc := range []struct {
+	tests := []struct {
 		desc    string
 		request *types.MsgUpdateToken
 		err     error
@@ -67,19 +65,19 @@ func TestTokenMsgServerUpdate(t *testing.T) {
 			},
 			err: sdkerrors.ErrKeyNotFound,
 		},
-	} {
+	}
+	for _, tc := range tests {
 		t.Run(tc.desc, func(t *testing.T) {
 			k, ctx := keepertest.TokenmngrKeeper(t)
-			srv := keeper.NewMsgServerImpl(*k)
-			wctx := sdk.WrapSDKContext(ctx)
+			srv := keeper.NewMsgServerImpl(k)
 			expected := &types.MsgCreateToken{
 				Creator: creator,
 				Name:    strconv.Itoa(0),
 			}
-			_, err := srv.CreateToken(wctx, expected)
+			_, err := srv.CreateToken(ctx, expected)
 			require.NoError(t, err)
 
-			_, err = srv.UpdateToken(wctx, tc.request)
+			_, err = srv.UpdateToken(ctx, tc.request)
 			if tc.err != nil {
 				require.ErrorIs(t, err, tc.err)
 			} else {
@@ -97,7 +95,7 @@ func TestTokenMsgServerUpdate(t *testing.T) {
 func TestTokenMsgServerDelete(t *testing.T) {
 	creator := "A"
 
-	for _, tc := range []struct {
+	tests := []struct {
 		desc    string
 		request *types.MsgDeleteToken
 		err     error
@@ -125,18 +123,18 @@ func TestTokenMsgServerDelete(t *testing.T) {
 			},
 			err: sdkerrors.ErrKeyNotFound,
 		},
-	} {
+	}
+	for _, tc := range tests {
 		t.Run(tc.desc, func(t *testing.T) {
 			k, ctx := keepertest.TokenmngrKeeper(t)
-			srv := keeper.NewMsgServerImpl(*k)
-			wctx := sdk.WrapSDKContext(ctx)
+			srv := keeper.NewMsgServerImpl(k)
 
-			_, err := srv.CreateToken(wctx, &types.MsgCreateToken{
+			_, err := srv.CreateToken(ctx, &types.MsgCreateToken{
 				Creator: creator,
 				Name:    strconv.Itoa(0),
 			})
 			require.NoError(t, err)
-			_, err = srv.DeleteToken(wctx, tc.request)
+			_, err = srv.DeleteToken(ctx, tc.request)
 			if tc.err != nil {
 				require.ErrorIs(t, err, tc.err)
 			} else {

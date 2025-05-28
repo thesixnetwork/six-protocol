@@ -6,9 +6,9 @@ import (
 	"math/big"
 	"strconv"
 
+	erromod "cosmossdk.io/errors"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 
@@ -51,13 +51,13 @@ func (p PrecompileExecutor) virtualSchemaProposal(ctx sdk.Context, caller common
 
 	inputProposal, err := base64.StdEncoding.DecodeString(base64VirtualSchemaProposal)
 	if err != nil {
-		return nil, sdkerrors.Wrap(nftmngrtypes.ErrParsingBase64, err.Error())
+		return nil, erromod.Wrap(nftmngrtypes.ErrParsingBase64, err.Error())
 	}
 
 	virtualSchemaRequest := nftmngrtypes.VirtualSchemaProposalRequest{}
 	err = p.nftmngrKeeper.GetCodec().(*codec.ProtoCodec).UnmarshalJSON(inputProposal, &virtualSchemaRequest)
 	if err != nil {
-		return nil, sdkerrors.Wrap(nftmngrtypes.ErrParsingMetadataMessage, err.Error())
+		return nil, erromod.Wrap(nftmngrtypes.ErrParsingMetadataMessage, err.Error())
 	}
 
 	virtualSchemaRegistryRequest := make([]*nftmngrtypes.VirtualSchemaRegistryRequest, len(virtualSchemaRequest.VirtualSchemaRegistry))

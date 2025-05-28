@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	errorsmod "cosmossdk.io/errors"
 )
 
 type MetadataChange struct {
@@ -153,20 +153,20 @@ func (m *Metadata) GetNumber(key string) int64 {
 func (m *Metadata) MustGetNumber(key string) (int64, error) {
 	attri := m.MapAllKey[key]
 	if attri == nil {
-		return 0, sdkerrors.Wrap(ErrAttributeNotFoundForAction, key)
+		return 0, errorsmod.Wrap(ErrAttributeNotFoundForAction, key)
 	}
 	if _, ok := attri.AttributeValue.GetValue().(*NftAttributeValue_NumberAttributeValue); ok {
 		// Number
 		return int64(attri.AttributeValue.GetNumberAttributeValue().Value), nil
 	}
-	return 0, sdkerrors.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
+	return 0, errorsmod.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
 }
 
 func (m *Metadata) SetNumber(key string, value int64) error {
 	// m.mapNumber[key] = value
 	attri := m.MapAllKey[key]
 	if attri == nil {
-		panic(sdkerrors.Wrap(ErrAttributeNotFoundForAction, key))
+		panic(errorsmod.Wrap(ErrAttributeNotFoundForAction, key))
 	}
 	if _, ok := attri.AttributeValue.GetValue().(*NftAttributeValue_NumberAttributeValue); ok {
 		// Number
@@ -196,10 +196,10 @@ func (m *Metadata) SetNumber(key string, value int64) error {
 			m.MapAllKey[key].AttributeValue = newAttributeValue
 
 		default:
-			return sdkerrors.Wrap(ErrAttributeOverriding, "can not override the origin attribute or nft attribute")
+			return errorsmod.Wrap(ErrAttributeOverriding, "can not override the origin attribute or nft attribute")
 		}
 	} else {
-		return sdkerrors.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
+		return errorsmod.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
 	}
 	return nil
 }
@@ -216,7 +216,7 @@ func (m *Metadata) GetString(key string) string {
 func (m *Metadata) GetSubString(key string, start int64, end int64) string {
 	v, err := m.MustGetString(key)
 	if end > int64(len(v)) {
-		panic(sdkerrors.Wrap(ErrInvalidActionInput, "end can not be greater than string length"))
+		panic(errorsmod.Wrap(ErrInvalidActionInput, "end can not be greater than string length"))
 	}
 	if start == end {
 		return ""
@@ -228,7 +228,7 @@ func (m *Metadata) GetSubString(key string, start int64, end int64) string {
 		end = int64(len(v)) + (end + 1)
 	}
 	if start > end {
-		panic(sdkerrors.Wrap(ErrInvalidActionInput, "start can not be greater than end"))
+		panic(errorsmod.Wrap(ErrInvalidActionInput, "start can not be greater than end"))
 	}
 	if err != nil {
 		panic(err)
@@ -257,20 +257,20 @@ func (m *Metadata) ToUppercase(key string) string {
 func (m *Metadata) MustGetString(key string) (string, error) {
 	attri := m.MapAllKey[key]
 	if attri == nil {
-		return "", sdkerrors.Wrap(ErrAttributeNotFoundForAction, key)
+		return "", errorsmod.Wrap(ErrAttributeNotFoundForAction, key)
 	}
 	if _, ok := attri.AttributeValue.GetValue().(*NftAttributeValue_StringAttributeValue); ok {
 		// Number
 		return attri.AttributeValue.GetStringAttributeValue().Value, nil
 	}
-	return "", sdkerrors.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
+	return "", errorsmod.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
 }
 
 func (m *Metadata) SetString(key string, value string) error {
 	// m.mapString[key] = value
 	attri := m.MapAllKey[key]
 	if attri == nil {
-		panic(sdkerrors.Wrap(ErrAttributeNotFoundForAction, key))
+		panic(errorsmod.Wrap(ErrAttributeNotFoundForAction, key))
 	}
 	if _, ok := attri.AttributeValue.GetValue().(*NftAttributeValue_StringAttributeValue); ok {
 		// Number
@@ -300,10 +300,10 @@ func (m *Metadata) SetString(key string, value string) error {
 			m.MapAllKey[key].AttributeValue = newAttributeValue
 
 		default:
-			return sdkerrors.Wrap(ErrAttributeOverriding, "can not override the origin attribute")
+			return errorsmod.Wrap(ErrAttributeOverriding, "can not override the origin attribute")
 		}
 	} else {
-		return sdkerrors.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
+		return errorsmod.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
 	}
 	return nil
 }
@@ -320,20 +320,20 @@ func (m *Metadata) MustGetFloat(key string) (float64, error) {
 	// return m.mapFloat[key]
 	attri := m.MapAllKey[key]
 	if attri == nil {
-		return 0, sdkerrors.Wrap(ErrAttributeNotFoundForAction, key)
+		return 0, errorsmod.Wrap(ErrAttributeNotFoundForAction, key)
 	}
 	if _, ok := attri.AttributeValue.GetValue().(*NftAttributeValue_FloatAttributeValue); ok {
 		// Number
 		return attri.AttributeValue.GetFloatAttributeValue().Value, nil
 	}
-	return 0, sdkerrors.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
+	return 0, errorsmod.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
 }
 
 func (m *Metadata) SetFloat(key string, value float64) error {
 	// m.mapFloat[key] = value
 	attri := m.MapAllKey[key]
 	if attri == nil {
-		panic(sdkerrors.Wrap(ErrAttributeNotFoundForAction, key))
+		panic(errorsmod.Wrap(ErrAttributeNotFoundForAction, key))
 	}
 	if _, ok := attri.AttributeValue.GetValue().(*NftAttributeValue_FloatAttributeValue); ok {
 		// Number
@@ -363,10 +363,10 @@ func (m *Metadata) SetFloat(key string, value float64) error {
 			m.MapAllKey[key].AttributeValue = newAttributeValue
 
 		default:
-			return sdkerrors.Wrap(ErrAttributeOverriding, "can not override the origin attribute")
+			return errorsmod.Wrap(ErrAttributeOverriding, "can not override the origin attribute")
 		}
 	} else {
-		return sdkerrors.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
+		return errorsmod.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
 	}
 	return nil
 }
@@ -383,20 +383,20 @@ func (m *Metadata) MustGetBool(key string) (bool, error) {
 	// return m.mapBool[key]
 	attri := m.MapAllKey[key]
 	if attri == nil {
-		return false, sdkerrors.Wrap(ErrAttributeNotFoundForAction, key)
+		return false, errorsmod.Wrap(ErrAttributeNotFoundForAction, key)
 	}
 	if _, ok := attri.AttributeValue.GetValue().(*NftAttributeValue_BooleanAttributeValue); ok {
 		// Number
 		return attri.AttributeValue.GetBooleanAttributeValue().Value, nil
 	}
-	return false, sdkerrors.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
+	return false, errorsmod.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
 }
 
 func (m *Metadata) SetBoolean(key string, value bool) error {
 	// m.mapBool[key] = value
 	attri := m.MapAllKey[key]
 	if attri == nil {
-		panic(sdkerrors.Wrap(ErrAttributeNotFoundForAction, key))
+		panic(errorsmod.Wrap(ErrAttributeNotFoundForAction, key))
 	}
 	if _, ok := attri.AttributeValue.GetValue().(*NftAttributeValue_BooleanAttributeValue); ok {
 		// Number
@@ -426,10 +426,10 @@ func (m *Metadata) SetBoolean(key string, value bool) error {
 			m.MapAllKey[key].AttributeValue = newAttributeValue
 
 		default:
-			return sdkerrors.Wrap(ErrAttributeOverriding, "can not override the origin attribute")
+			return errorsmod.Wrap(ErrAttributeOverriding, "can not override the origin attribute")
 		}
 	} else {
-		return sdkerrors.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
+		return errorsmod.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
 	}
 	return nil
 }
@@ -438,7 +438,7 @@ func (m *Metadata) SetDisplayAttribute(key string, value string) error {
 	bool_val, _ := strconv.ParseBool(value)
 	attri := m.MapAllKey[key]
 	if attri == nil {
-		return sdkerrors.Wrap(ErrAttributeNotFoundForAction, key)
+		return errorsmod.Wrap(ErrAttributeNotFoundForAction, key)
 	}
 	if _bool := attri.AttributeValue.GetHiddenToMarketplace() == bool_val; _bool {
 		return nil
@@ -458,9 +458,9 @@ func (m *Metadata) SetDisplayAttribute(key string, value string) error {
 		m.MapAllKey[key].AttributeValue = newAttributeValue
 		m.nftData.OnchainAttributes[attri.Index] = newAttributeValue
 	case "schema":
-		return sdkerrors.Wrap(ErrAttributeOverriding, "can not override the schema attribute, use message set schema attribute instead")
+		return errorsmod.Wrap(ErrAttributeOverriding, "can not override the schema attribute, use message set schema attribute instead")
 	default:
-		return sdkerrors.Wrap(ErrAttributeOverriding, "can not override the origin attribute")
+		return errorsmod.Wrap(ErrAttributeOverriding, "can not override the origin attribute")
 	}
 	return nil
 }

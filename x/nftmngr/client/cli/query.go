@@ -4,10 +4,9 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
+	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 
 	"github.com/cosmos/cosmos-sdk/client"
-
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
 // GetQueryCmd returns the cli query commands for this module

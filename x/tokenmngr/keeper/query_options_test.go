@@ -3,21 +3,18 @@ package keeper_test
 import (
 	"testing"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
-
 	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 	"github.com/thesixnetwork/six-protocol/testutil/nullify"
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 func TestOptionsQuery(t *testing.T) {
 	keeper, ctx := keepertest.TokenmngrKeeper(t)
-	wctx := sdk.WrapSDKContext(ctx)
 	item := createTestOptions(keeper, ctx)
-	for _, tc := range []struct {
+	tests := []struct {
 		desc     string
 		request  *types.QueryGetOptionsRequest
 		response *types.QueryGetOptionsResponse
@@ -32,9 +29,10 @@ func TestOptionsQuery(t *testing.T) {
 			desc: "InvalidRequest",
 			err:  status.Error(codes.InvalidArgument, "invalid request"),
 		},
-	} {
+	}
+	for _, tc := range tests {
 		t.Run(tc.desc, func(t *testing.T) {
-			response, err := keeper.Options(wctx, tc.request)
+			response, err := keeper.Options(ctx, tc.request)
 			if tc.err != nil {
 				require.ErrorIs(t, err, tc.err)
 			} else {

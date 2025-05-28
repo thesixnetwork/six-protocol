@@ -1,18 +1,23 @@
 package keeper
 
 import (
+	"context"
 	"fmt"
 	"time"
 
-	"github.com/cosmos/cosmos-sdk/store/prefix"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+
+	"cosmossdk.io/store/prefix"
+	storetypes "cosmossdk.io/store/types"
+
+	"github.com/cosmos/cosmos-sdk/runtime"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 // SetVirtualSchemaProposal set a specific virtualSchemaProposal in the store from its index
-func (k Keeper) SetVirtualSchemaProposal(ctx sdk.Context, virtualSchemaProposal types.VirtualSchemaProposal) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.VirtualSchemaProposalKeyPrefix))
+func (k Keeper) SetVirtualSchemaProposal(ctx context.Context, virtualSchemaProposal types.VirtualSchemaProposal) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.VirtualSchemaProposalKeyPrefix))
 	b := k.cdc.MustMarshal(&virtualSchemaProposal)
 	store.Set(types.VirtualSchemaProposalKey(
 		virtualSchemaProposal.Id,
@@ -21,10 +26,11 @@ func (k Keeper) SetVirtualSchemaProposal(ctx sdk.Context, virtualSchemaProposal 
 
 // GetVirtualSchemaProposal returns a virtualSchemaProposal from its index
 func (k Keeper) GetVirtualSchemaProposal(
-	ctx sdk.Context,
+	ctx context.Context,
 	id string,
 ) (val types.VirtualSchemaProposal, found bool) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.VirtualSchemaProposalKeyPrefix))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.VirtualSchemaProposalKeyPrefix))
 
 	b := store.Get(types.VirtualSchemaProposalKey(
 		id,
@@ -39,19 +45,21 @@ func (k Keeper) GetVirtualSchemaProposal(
 
 // RemoveVirtualSchemaProposal removes a virtualSchemaProposal from the store
 func (k Keeper) RemoveVirtualSchemaProposal(
-	ctx sdk.Context,
+	ctx context.Context,
 	id string,
 ) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.VirtualSchemaProposalKeyPrefix))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.VirtualSchemaProposalKeyPrefix))
 	store.Delete(types.VirtualSchemaProposalKey(
 		id,
 	))
 }
 
 // GetAllVirtualSchemaProposal returns all virtualSchemaProposal
-func (k Keeper) GetAllVirtualSchemaProposal(ctx sdk.Context) (list []types.VirtualSchemaProposal) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.VirtualSchemaProposalKeyPrefix))
-	iterator := sdk.KVStorePrefixIterator(store, []byte{})
+func (k Keeper) GetAllVirtualSchemaProposal(ctx context.Context) (list []types.VirtualSchemaProposal) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.VirtualSchemaProposalKeyPrefix))
+	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
 
 	defer iterator.Close()
 
@@ -65,8 +73,10 @@ func (k Keeper) GetAllVirtualSchemaProposal(ctx sdk.Context) (list []types.Virtu
 }
 
 // SetActiveVirtualSchemaProposal set a specific activeVirtualSchemaProposal in the store from its index
-func (k Keeper) SetActiveVirtualSchemaProposal(ctx sdk.Context, activeVirtualSchemaProposal types.ActiveVirtualSchemaProposal) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActiveVirtualSchemaProposalKeyPrefix))
+func (k Keeper) SetActiveVirtualSchemaProposal(ctx context.Context, activeVirtualSchemaProposal types.ActiveVirtualSchemaProposal) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ActiveVirtualSchemaProposalKeyPrefix))
+
 	b := k.cdc.MustMarshal(&activeVirtualSchemaProposal)
 	store.Set(types.ActiveVirtualSchemaProposalKey(
 		activeVirtualSchemaProposal.Id,
@@ -75,10 +85,11 @@ func (k Keeper) SetActiveVirtualSchemaProposal(ctx sdk.Context, activeVirtualSch
 
 // GetActiveVirtualSchemaProposal returns a activeVirtualSchemaProposal from its index
 func (k Keeper) GetActiveVirtualSchemaProposal(
-	ctx sdk.Context,
+	ctx context.Context,
 	index string,
 ) (val types.ActiveVirtualSchemaProposal, found bool) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActiveVirtualSchemaProposalKeyPrefix))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ActiveVirtualSchemaProposalKeyPrefix))
 
 	b := store.Get(types.ActiveVirtualSchemaProposalKey(
 		index,
@@ -93,19 +104,21 @@ func (k Keeper) GetActiveVirtualSchemaProposal(
 
 // RemoveActiveVirtualSchemaProposal removes a activeVirtualSchemaProposal from the store
 func (k Keeper) RemoveActiveVirtualSchemaProposal(
-	ctx sdk.Context,
+	ctx context.Context,
 	index string,
 ) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActiveVirtualSchemaProposalKeyPrefix))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ActiveVirtualSchemaProposalKeyPrefix))
 	store.Delete(types.ActiveVirtualSchemaProposalKey(
 		index,
 	))
 }
 
 // GetAllActiveVirtualSchemaProposal returns all activeVirtualSchemaProposal
-func (k Keeper) GetAllActiveVirtualSchemaProposal(ctx sdk.Context) (list []types.ActiveVirtualSchemaProposal) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActiveVirtualSchemaProposalKeyPrefix))
-	iterator := sdk.KVStorePrefixIterator(store, []byte{})
+func (k Keeper) GetAllActiveVirtualSchemaProposal(ctx context.Context) (list []types.ActiveVirtualSchemaProposal) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ActiveVirtualSchemaProposalKeyPrefix))
+	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
 
 	defer iterator.Close()
 
@@ -119,8 +132,9 @@ func (k Keeper) GetAllActiveVirtualSchemaProposal(ctx sdk.Context) (list []types
 }
 
 // SetInactiveVirtualSchemaProposal set a specific inactiveVirtualSchemaProposal in the store from its index
-func (k Keeper) SetInactiveVirtualSchemaProposal(ctx sdk.Context, inactiveVirtualSchemaProposal types.InactiveVirtualSchemaProposal) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.InactiveVirtualSchemaProposalKeyPrefix))
+func (k Keeper) SetInactiveVirtualSchemaProposal(ctx context.Context, inactiveVirtualSchemaProposal types.InactiveVirtualSchemaProposal) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.InactiveVirtualSchemaProposalKeyPrefix))
 	b := k.cdc.MustMarshal(&inactiveVirtualSchemaProposal)
 	store.Set(types.InactiveVirtualSchemaProposalKey(
 		inactiveVirtualSchemaProposal.Id,
@@ -129,11 +143,11 @@ func (k Keeper) SetInactiveVirtualSchemaProposal(ctx sdk.Context, inactiveVirtua
 
 // GetInactiveVirtualSchemaProposal returns a inactiveVirtualSchemaProposal from its index
 func (k Keeper) GetInactiveVirtualSchemaProposal(
-	ctx sdk.Context,
+	ctx context.Context,
 	index string,
 ) (val types.InactiveVirtualSchemaProposal, found bool) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.InactiveVirtualSchemaProposalKeyPrefix))
-
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.InactiveVirtualSchemaProposalKeyPrefix))
 	b := store.Get(types.InactiveVirtualSchemaProposalKey(
 		index,
 	))
@@ -147,19 +161,21 @@ func (k Keeper) GetInactiveVirtualSchemaProposal(
 
 // RemoveInactiveVirtualSchemaProposal removes a inactiveVirtualSchemaProposal from the store
 func (k Keeper) RemoveInactiveVirtualSchemaProposal(
-	ctx sdk.Context,
+	ctx context.Context,
 	index string,
 ) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.InactiveVirtualSchemaProposalKeyPrefix))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.InactiveVirtualSchemaProposalKeyPrefix))
 	store.Delete(types.InactiveVirtualSchemaProposalKey(
 		index,
 	))
 }
 
 // GetAllInactiveVirtualSchemaProposal returns all inactiveVirtualSchemaProposal
-func (k Keeper) GetAllInactiveVirtualSchemaProposal(ctx sdk.Context) (list []types.InactiveVirtualSchemaProposal) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.InactiveVirtualSchemaProposalKeyPrefix))
-	iterator := sdk.KVStorePrefixIterator(store, []byte{})
+func (k Keeper) GetAllInactiveVirtualSchemaProposal(ctx context.Context) (list []types.InactiveVirtualSchemaProposal) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.InactiveVirtualSchemaProposalKeyPrefix))
+	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
 
 	defer iterator.Close()
 
@@ -180,25 +196,28 @@ func (k Keeper) GetAllInactiveVirtualSchemaProposal(ctx sdk.Context) (list []typ
 	###########################################################################################################
 */
 
-func (k Keeper) VirtualSchemaActiveProposalQueryIterator(ctx sdk.Context, endTime time.Time) sdk.Iterator {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActiveVirtualSchemaProposalKeyPrefix))
-	iterator := sdk.KVStorePrefixIterator(store, []byte{})
+func (k Keeper) VirtualSchemaActiveProposalQueryIterator(ctx context.Context, endTime time.Time) storetypes.Iterator {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ActiveVirtualSchemaProposalKeyPrefix))
+	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
 
 	return iterator
 }
 
-func (k Keeper) InactiveProposalCreateVirtualSchemaQueryIterator(ctx sdk.Context, endTime time.Time) sdk.Iterator {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.InactiveVirtualSchemaProposalKeyPrefix))
-	iterator := sdk.KVStorePrefixIterator(store, []byte{})
+func (k Keeper) InactiveProposalCreateVirtualSchemaQueryIterator(ctx context.Context, endTime time.Time) storetypes.Iterator {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.InactiveVirtualSchemaProposalKeyPrefix))
+	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
 
 	return iterator
 }
 
-func (k Keeper) IsProposalActive(ctx sdk.Context, proposal types.VirtualSchemaProposal) bool {
+func (k Keeper) IsProposalActive(goCtx context.Context, proposal types.VirtualSchemaProposal) bool {
+	ctx := sdk.UnwrapSDKContext(goCtx)
 	return ctx.BlockTime().Before(proposal.VotingEndTime)
 }
 
-func (k Keeper) IterateInactiveProposal(ctx sdk.Context, endTime time.Time, cb func(proposal types.VirtualSchemaProposal) (stop bool)) {
+func (k Keeper) IterateInactiveProposal(ctx context.Context, endTime time.Time, cb func(proposal types.VirtualSchemaProposal) (stop bool)) {
 	iterator := k.InactiveProposalCreateVirtualSchemaQueryIterator(ctx, endTime)
 	defer iterator.Close()
 
@@ -217,7 +236,7 @@ func (k Keeper) IterateInactiveProposal(ctx sdk.Context, endTime time.Time, cb f
 	}
 }
 
-func (k Keeper) IterateActiveVirtualSchemaProposal(ctx sdk.Context, endTime time.Time, cb func(proposal types.VirtualSchemaProposal) (stop bool)) {
+func (k Keeper) IterateActiveVirtualSchemaProposal(ctx context.Context, endTime time.Time, cb func(proposal types.VirtualSchemaProposal) (stop bool)) {
 	iterator := k.VirtualSchemaActiveProposalQueryIterator(ctx, endTime)
 	defer iterator.Close()
 
@@ -235,7 +254,7 @@ func (k Keeper) IterateActiveVirtualSchemaProposal(ctx sdk.Context, endTime time
 			k.RemoveActiveVirtualSchemaProposal(ctx, val.Id)
 			k.SetInactiveVirtualSchemaProposal(ctx, types.InactiveVirtualSchemaProposal(val))
 			if err := k.processSchemaFee(ctx, proposal, false); err != nil {
-				k.Logger(ctx).Error("failed to process schema fee", "error", err)
+				k.Logger().Error("failed to process schema fee", "error", err)
 			}
 		}
 

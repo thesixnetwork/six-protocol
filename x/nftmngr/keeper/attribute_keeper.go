@@ -5,6 +5,8 @@ import (
 
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 
+	errormod "cosmossdk.io/errors"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
@@ -13,22 +15,22 @@ func (k Keeper) AddAttributeKeeper(ctx sdk.Context, creator string, nftSchemaNam
 	// get existing nft schema
 	schema, schemaFound := k.GetNFTSchema(ctx, nftSchemaName)
 	if !schemaFound {
-		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
+		return errormod.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
 	}
 
 	if creator != schema.Owner {
-		return sdkerrors.Wrap(types.ErrCreatorDoesNotMatch, creator)
+		return errormod.Wrap(types.ErrCreatorDoesNotMatch, creator)
 	}
 
 	// validate AttributeDefinition data
 	err := k.ValidateAttributeDefinition(ctx, &new_add_attribute, &schema)
 	if err != nil {
-		return sdkerrors.Wrap(types.ErrValidatingMetadata, err.Error())
+		return errormod.Wrap(types.ErrValidatingMetadata, err.Error())
 	}
 
 	err = ValidateAttributeNames([]*types.AttributeDefinition{&new_add_attribute})
 	if err != nil {
-		return sdkerrors.Wrap(types.ErrValidatingMetadata, err.Error())
+		return errormod.Wrap(types.ErrValidatingMetadata, err.Error())
 	}
 
 	// Swith location of attribute
@@ -37,7 +39,7 @@ func (k Keeper) AddAttributeKeeper(ctx sdk.Context, creator string, nftSchemaNam
 
 		_defaultMintValue, err := ConvertDefaultMintValueToSchemaAttributeValue(new_add_attribute.DefaultMintValue)
 		if err != nil {
-			return sdkerrors.Wrap(types.ErrParsingMetadataMessage, err.Error())
+			return errormod.Wrap(types.ErrParsingMetadataMessage, err.Error())
 		}
 
 		// this case will use Msg.CreateSchemaAtribute
@@ -70,28 +72,28 @@ func (k Keeper) UpdateAttributeKeeper(ctx sdk.Context, creator, nftSchemaName st
 	// Check if the value exists
 	valFound, isFound := k.GetSchemaAttribute(ctx, nftSchemaName, update_attribute.Name)
 	if !isFound {
-		return sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "Attribute not exists in schema")
+		return errormod.Wrap(sdkerrors.ErrKeyNotFound, "Attribute not exists in schema")
 	}
 
 	// get existing nft schema
 	schema, schemaFound := k.GetNFTSchema(ctx, nftSchemaName)
 	if !schemaFound {
-		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
+		return errormod.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
 	}
 
 	if creator != schema.Owner {
-		return sdkerrors.Wrap(types.ErrCreatorDoesNotMatch, creator)
+		return errormod.Wrap(types.ErrCreatorDoesNotMatch, creator)
 	}
 
 	err := ValidateAttributeNames([]*types.AttributeDefinition{&update_attribute})
 	if err != nil {
-		return sdkerrors.Wrap(types.ErrValidatingMetadata, err.Error())
+		return errormod.Wrap(types.ErrValidatingMetadata, err.Error())
 	}
 
 	// parse DefaultMintValue to SchemaAttributeValue
 	schmaAttributeValue, err := ConvertDefaultMintValueToSchemaAttributeValue(update_attribute.DefaultMintValue)
 	if err != nil {
-		return sdkerrors.Wrap(types.ErrParsingMetadataMessage, err.Error())
+		return errormod.Wrap(types.ErrParsingMetadataMessage, err.Error())
 	}
 
 	schemaAttribute := types.SchemaAttribute{
@@ -111,18 +113,18 @@ func (k Keeper) ResyncAttibutesKeeper(ctx sdk.Context, creator, nftSchemaName, t
 	// Retrieve schema
 	schema, found := k.GetNFTSchema(ctx, nftSchemaName)
 	if !found {
-		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
+		return errormod.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
 	}
 
 	// Check if creator is owner of schema
 	if creator != schema.Owner {
-		return sdkerrors.Wrap(types.ErrCreatorDoesNotMatch, creator)
+		return errormod.Wrap(types.ErrCreatorDoesNotMatch, creator)
 	}
 
 	// Retrieve NFT Data
 	nftData, found := k.GetNftData(ctx, nftSchemaName, tokenId)
 	if !found {
-		return sdkerrors.Wrap(types.ErrNftDataDoesNotExists, tokenId)
+		return errormod.Wrap(types.ErrNftDataDoesNotExists, tokenId)
 	}
 
 	// Create map of existing attribute in nftdata
@@ -135,7 +137,7 @@ func (k Keeper) ResyncAttibutesKeeper(ctx sdk.Context, creator, nftSchemaName, t
 	for _, attribute := range schema.OnchainData.TokenAttributes {
 		if _, ok := mapExistingAttributes[attribute.Name]; !ok {
 			if attribute.DefaultMintValue == nil {
-				return sdkerrors.Wrap(types.ErrNoDefaultValue, attribute.Name)
+				return errormod.Wrap(types.ErrNoDefaultValue, attribute.Name)
 			}
 
 			// Add attribute to nftdata with default value
@@ -152,11 +154,11 @@ func (k Keeper) ResyncAttibutesKeeper(ctx sdk.Context, creator, nftSchemaName, t
 func (k Keeper) SetAttributeOveridingKeeper(ctx sdk.Context, creator, nftSchemaName string, newOveridingType int32) error {
 	schema, found := k.GetNFTSchema(ctx, nftSchemaName)
 	if !found {
-		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
+		return errormod.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
 	}
 
 	if creator != schema.Owner {
-		return sdkerrors.Wrap(types.ErrCreatorDoesNotMatch, creator)
+		return errormod.Wrap(types.ErrCreatorDoesNotMatch, creator)
 	}
 
 	switch newOveridingType {
@@ -165,7 +167,7 @@ func (k Keeper) SetAttributeOveridingKeeper(ctx sdk.Context, creator, nftSchemaN
 	case 1:
 		schema.OriginData.AttributeOverriding = types.AttributeOverriding_ORIGIN
 	default:
-		return sdkerrors.Wrap(types.ErrAttributeOptionDoesNotExists, strconv.Itoa(int(newOveridingType)))
+		return errormod.Wrap(types.ErrAttributeOptionDoesNotExists, strconv.Itoa(int(newOveridingType)))
 	}
 
 	k.SetNFTSchema(ctx, schema)
@@ -177,12 +179,12 @@ func (k Keeper) ShowAttributeKeeper(ctx sdk.Context, creator, nftSchemaName stri
 	// Retrieve schema
 	schema, found := k.GetNFTSchema(ctx, nftSchemaName)
 	if !found {
-		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
+		return errormod.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
 	}
 
 	// Check if creator is the owner of the schema
 	if creator != schema.Owner {
-		return sdkerrors.Wrap(types.ErrCreatorDoesNotMatch, creator)
+		return errormod.Wrap(types.ErrCreatorDoesNotMatch, creator)
 	}
 
 	type ReadAttribute struct {
@@ -215,7 +217,7 @@ func (k Keeper) ShowAttributeKeeper(ctx sdk.Context, creator, nftSchemaName stri
 	for _, attributeName := range attributesName {
 		// check if attribute is exist in mapReadAttribute
 		if _, ok := mapReadAttribute[attributeName]; !ok {
-			return sdkerrors.Wrap(types.ErrAttributeDoesNotExists, attributeName)
+			return errormod.Wrap(types.ErrAttributeDoesNotExists, attributeName)
 		}
 		readAttributeDef := mapReadAttribute[attributeName]
 		if readAttributeDef.AttributeLocation == types.AttributeLocation_NFT_ATTRIBUTE {
@@ -239,13 +241,13 @@ func (k Keeper) GetAttributeValue(ctx sdk.Context, nftSchemaName, tokenId, attri
 
 	_, found := k.GetNFTSchema(ctx, nftSchemaName)
 	if !found {
-		return "", sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
+		return "", errormod.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
 	}
 
 	// Check if the data already exists
 	metadata, found := k.GetNftData(ctx, nftSchemaName, tokenId)
 	if !found {
-		return "", sdkerrors.Wrap(types.ErrMetadataDoesNotExists, nftSchemaName)
+		return "", errormod.Wrap(types.ErrMetadataDoesNotExists, nftSchemaName)
 	}
 
 	for _, ocAttribute := range metadata.OnchainAttributes {
@@ -267,7 +269,7 @@ func (k Keeper) GetAttributeValue(ctx sdk.Context, nftSchemaName, tokenId, attri
 	}
 
 	if !attributeFound {
-		return "", sdkerrors.Wrap(types.ErrAttributeDoesNotExists, attributeName)
+		return "", errormod.Wrap(types.ErrAttributeDoesNotExists, attributeName)
 	}
 
 	return attributeValue, nil

@@ -5,9 +5,11 @@ import (
 	"regexp"
 	"strings"
 
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+
+	errormod "cosmossdk.io/errors"
+
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
 // **** VALIDATION OF NFT SCHEMA ****
@@ -32,7 +34,7 @@ func ValidateNFTSchema(schema *types.NFTSchemaINPUT) (bool, error) {
 	// Check for duplicate origin attributes
 	duplicated, errString := HasDuplicateAttributes(schema.OriginData.OriginAttributes)
 	if duplicated {
-		return false, sdkerrors.Wrap(types.ErrDuplicateOriginAttributes, fmt.Sprintf("Duplicate attribute name: %s", errString))
+		return false, errormod.Wrap(types.ErrDuplicateOriginAttributes, fmt.Sprintf("Duplicate attribute name: %s", errString))
 	}
 	// Validate Origin Data Origin Attributes
 	err := ValidateAttributeNames(schema.OriginData.OriginAttributes)
@@ -65,43 +67,43 @@ func ValidateNFTSchema(schema *types.NFTSchemaINPUT) (bool, error) {
 	for _, action := range schema.OnchainData.Actions {
 		// Validate duplicate action name
 		if _, ok := mapActionName[action.Name]; ok {
-			return false, sdkerrors.Wrap(types.ErrDuplicateActionName, action.Name)
+			return false, errormod.Wrap(types.ErrDuplicateActionName, action.Name)
 		}
 		mapActionName[action.Name] = true
 	}
 	// Validate for duplicate origin attributes
 	duplicated, errString = HasDuplicateAttributes(schema.OriginData.OriginAttributes)
 	if duplicated {
-		return false, sdkerrors.Wrap(types.ErrDuplicateOriginAttributes, fmt.Sprintf("Duplicate attribute name: %s", errString))
+		return false, errormod.Wrap(types.ErrDuplicateOriginAttributes, fmt.Sprintf("Duplicate attribute name: %s", errString))
 	}
 
 	// Validate for duplicate of onchain attributes (schema attributes and token attributes)
 	duplicated, errString = HasDuplicateOnchainAttributes(schema.OnchainData.NftAttributes, schema.OnchainData.TokenAttributes)
 	if duplicated {
-		return false, sdkerrors.Wrap(types.ErrDuplicateOnchainNFTAttributes, fmt.Sprintf("Duplicate attribute name: %s", errString))
+		return false, errormod.Wrap(types.ErrDuplicateOnchainNFTAttributes, fmt.Sprintf("Duplicate attribute name: %s", errString))
 	}
 
 	// Validate if attributes have the same type
 	hasSameType, errString := HasSameType(mapAttributeSchemaDefinition, schema.OnchainData.NftAttributes)
 	if !hasSameType {
-		return false, sdkerrors.Wrap(types.ErrSameTypeNFTAttributes, fmt.Sprintf("Attribute type not the same: %s", errString))
+		return false, errormod.Wrap(types.ErrSameTypeNFTAttributes, fmt.Sprintf("Attribute type not the same: %s", errString))
 	}
 
 	hasSameType, errString = HasSameType(mapAttributeOriginDefinition, schema.OnchainData.TokenAttributes)
 	if !hasSameType {
-		return false, sdkerrors.Wrap(types.ErrSameTypeTokenAttributes, fmt.Sprintf("Attribute type not the same: %s", errString))
+		return false, errormod.Wrap(types.ErrSameTypeTokenAttributes, fmt.Sprintf("Attribute type not the same: %s", errString))
 	}
 
 	// Validate if default mint value has the same type
 	hasSameType, errString = DefaultMintValueHasSameType(schema.OnchainData.NftAttributes)
 	if !hasSameType {
-		return false, sdkerrors.Wrap(types.ErrNotSameTypeDefaultMintValue, fmt.Sprintf("Attribute type not the same: %s", errString))
+		return false, errormod.Wrap(types.ErrNotSameTypeDefaultMintValue, fmt.Sprintf("Attribute type not the same: %s", errString))
 	}
 
 	// Validate if default mint value has the same type
 	hasSameType, errString = DefaultMintValueHasSameType(schema.OnchainData.TokenAttributes)
 	if !hasSameType {
-		return false, sdkerrors.Wrap(types.ErrNotSameTypeDefaultMintValue, fmt.Sprintf("Attribute type not the same: %s", errString))
+		return false, errormod.Wrap(types.ErrNotSameTypeDefaultMintValue, fmt.Sprintf("Attribute type not the same: %s", errString))
 	}
 	// validate if attribute id is set
 
@@ -112,14 +114,14 @@ func ValidateAttributeNames(attributeDefinitions []*types.AttributeDefinition) e
 	// Compile the regex once
 	regex, err := regexp.Compile(RegxAttributeName)
 	if err != nil {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid regex pattern")
+		return errormod.Wrap(sdkerrors.ErrInvalidRequest, "invalid regex pattern")
 	}
 
 	// Loop over definitions and validate
 	for _, attrDef := range attributeDefinitions {
 		// Check if attribute name matches the compiled regex
 		if !regex.MatchString(attrDef.Name) {
-			return sdkerrors.Wrap(types.ErrInvalidAttributeName, attrDef.Name)
+			return errormod.Wrap(types.ErrInvalidAttributeName, attrDef.Name)
 		}
 	}
 	return nil
@@ -130,7 +132,7 @@ func ValidateActionName(actionName string) error {
 	// Check if action name matches RegxActionName
 	matched, _ := regexp.MatchString(RegxActionName, actionName)
 	if !matched {
-		return sdkerrors.Wrap(types.ErrInvalidActionName, actionName)
+		return errormod.Wrap(types.ErrInvalidActionName, actionName)
 	}
 	return nil
 }

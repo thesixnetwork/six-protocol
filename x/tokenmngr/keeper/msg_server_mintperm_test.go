@@ -4,13 +4,12 @@ import (
 	"strconv"
 	"testing"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/stretchr/testify/require"
-
 	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/keeper"
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
 // Prevent strconv unused error
@@ -18,8 +17,7 @@ var _ = strconv.IntSize
 
 func TestMintpermMsgServerCreate(t *testing.T) {
 	k, ctx := keepertest.TokenmngrKeeper(t)
-	srv := keeper.NewMsgServerImpl(*k)
-	wctx := sdk.WrapSDKContext(ctx)
+	srv := keeper.NewMsgServerImpl(k)
 	creator := "A"
 	for i := 0; i < 5; i++ {
 		expected := &types.MsgCreateMintperm{
@@ -27,7 +25,7 @@ func TestMintpermMsgServerCreate(t *testing.T) {
 			Token:   strconv.Itoa(i),
 			Address: strconv.Itoa(i),
 		}
-		_, err := srv.CreateMintperm(wctx, expected)
+		_, err := srv.CreateMintperm(ctx, expected)
 		require.NoError(t, err)
 		rst, found := k.GetMintperm(ctx,
 			expected.Token,
@@ -41,7 +39,7 @@ func TestMintpermMsgServerCreate(t *testing.T) {
 func TestMintpermMsgServerUpdate(t *testing.T) {
 	creator := "A"
 
-	for _, tc := range []struct {
+	tests := []struct {
 		desc    string
 		request *types.MsgUpdateMintperm
 		err     error
@@ -72,20 +70,20 @@ func TestMintpermMsgServerUpdate(t *testing.T) {
 			},
 			err: sdkerrors.ErrKeyNotFound,
 		},
-	} {
+	}
+	for _, tc := range tests {
 		t.Run(tc.desc, func(t *testing.T) {
 			k, ctx := keepertest.TokenmngrKeeper(t)
-			srv := keeper.NewMsgServerImpl(*k)
-			wctx := sdk.WrapSDKContext(ctx)
+			srv := keeper.NewMsgServerImpl(k)
 			expected := &types.MsgCreateMintperm{
 				Creator: creator,
 				Token:   strconv.Itoa(0),
 				Address: strconv.Itoa(0),
 			}
-			_, err := srv.CreateMintperm(wctx, expected)
+			_, err := srv.CreateMintperm(ctx, expected)
 			require.NoError(t, err)
 
-			_, err = srv.UpdateMintperm(wctx, tc.request)
+			_, err = srv.UpdateMintperm(ctx, tc.request)
 			if tc.err != nil {
 				require.ErrorIs(t, err, tc.err)
 			} else {
@@ -104,7 +102,7 @@ func TestMintpermMsgServerUpdate(t *testing.T) {
 func TestMintpermMsgServerDelete(t *testing.T) {
 	creator := "A"
 
-	for _, tc := range []struct {
+	tests := []struct {
 		desc    string
 		request *types.MsgDeleteMintperm
 		err     error
@@ -135,19 +133,19 @@ func TestMintpermMsgServerDelete(t *testing.T) {
 			},
 			err: sdkerrors.ErrKeyNotFound,
 		},
-	} {
+	}
+	for _, tc := range tests {
 		t.Run(tc.desc, func(t *testing.T) {
 			k, ctx := keepertest.TokenmngrKeeper(t)
-			srv := keeper.NewMsgServerImpl(*k)
-			wctx := sdk.WrapSDKContext(ctx)
+			srv := keeper.NewMsgServerImpl(k)
 
-			_, err := srv.CreateMintperm(wctx, &types.MsgCreateMintperm{
+			_, err := srv.CreateMintperm(ctx, &types.MsgCreateMintperm{
 				Creator: creator,
 				Token:   strconv.Itoa(0),
 				Address: strconv.Itoa(0),
 			})
 			require.NoError(t, err)
-			_, err = srv.DeleteMintperm(wctx, tc.request)
+			_, err = srv.DeleteMintperm(ctx, tc.request)
 			if tc.err != nil {
 				require.ErrorIs(t, err, tc.err)
 			} else {

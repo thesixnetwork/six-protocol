@@ -6,6 +6,8 @@ import (
 
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 
+	errormod "cosmossdk.io/errors"
+
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -16,19 +18,19 @@ func (k msgServer) AddAttribute(goCtx context.Context, msg *types.MsgAddAttribut
 
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, msg.Creator)
+		return nil, errormod.Wrap(sdkerrors.ErrInvalidAddress, msg.Creator)
 	}
 
 	var new_add_attribute types.AttributeDefinition
 
 	input_addribute, err := base64.StdEncoding.DecodeString(msg.Base64NewAttriuteDefenition)
 	if err != nil {
-		return nil, sdkerrors.Wrap(types.ErrParsingBase64, err.Error())
+		return nil, errormod.Wrap(types.ErrParsingBase64, err.Error())
 	}
 
 	err = k.cdc.(*codec.ProtoCodec).UnmarshalJSON(input_addribute, &new_add_attribute)
 	if err != nil {
-		return nil, sdkerrors.Wrap(types.ErrParsingMetadataMessage, err.Error())
+		return nil, errormod.Wrap(types.ErrParsingMetadataMessage, err.Error())
 	}
 
 	err = k.AddAttributeKeeper(ctx, msg.Creator, msg.Code, new_add_attribute, msg.Location)
@@ -57,7 +59,7 @@ func (k msgServer) ResyncAttributes(goCtx context.Context, msg *types.MsgResyncA
 
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, msg.Creator)
+		return nil, errormod.Wrap(sdkerrors.ErrInvalidAddress, msg.Creator)
 	}
 
 	err = k.ResyncAttibutesKeeper(ctx, msg.Creator, msg.NftSchemaCode, msg.TokenId)
@@ -84,18 +86,18 @@ func (k msgServer) UpdateSchemaAttribute(goCtx context.Context, msg *types.MsgUp
 
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, msg.Creator)
+		return nil, errormod.Wrap(sdkerrors.ErrInvalidAddress, msg.Creator)
 	}
 
 	var update_attribute types.AttributeDefinition
 	input_addribute, err := base64.StdEncoding.DecodeString(msg.Base64UpdateAttriuteDefenition)
 	if err != nil {
-		return nil, sdkerrors.Wrap(types.ErrParsingBase64, err.Error())
+		return nil, errormod.Wrap(types.ErrParsingBase64, err.Error())
 	}
 
 	err = k.cdc.(*codec.ProtoCodec).UnmarshalJSON(input_addribute, &update_attribute)
 	if err != nil {
-		return nil, sdkerrors.Wrap(types.ErrParsingMetadataMessage, err.Error())
+		return nil, errormod.Wrap(types.ErrParsingMetadataMessage, err.Error())
 	}
 
 	err = k.UpdateAttributeKeeper(ctx, msg.Creator, msg.NftSchemaCode, update_attribute)
@@ -123,7 +125,7 @@ func (k msgServer) SetAttributeOveriding(goCtx context.Context, msg *types.MsgSe
 
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, msg.Creator)
+		return nil, errormod.Wrap(sdkerrors.ErrInvalidAddress, msg.Creator)
 	}
 
 	err = k.SetAttributeOveridingKeeper(ctx, msg.Creator, msg.SchemaCode, msg.NewOveridingType)
@@ -148,7 +150,7 @@ func (k msgServer) ShowAttributes(goCtx context.Context, msg *types.MsgShowAttri
 
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, msg.Creator)
+		return nil, errormod.Wrap(sdkerrors.ErrInvalidAddress, msg.Creator)
 	}
 
 	err = k.ShowAttributeKeeper(ctx, msg.Creator, msg.NftSchemaCode, msg.Show, msg.AttributeNames)

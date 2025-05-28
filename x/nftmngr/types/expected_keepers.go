@@ -1,46 +1,49 @@
 package types
 
 import (
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/x/auth/types"
-	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-
-	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
+	"context"
 
 	nftadmintypes "github.com/thesixnetwork/six-protocol/x/nftadmin/types"
+
+	"cosmossdk.io/core/address"
+
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 )
 
-// AccountKeeper defines the expected account keeper used for simulations (noalias)
+// AccountKeeper defines the expected interface for the Account module.
 type AccountKeeper interface {
-	GetAccount(ctx sdk.Context, addr sdk.AccAddress) types.AccountI
+	GetAccount(context.Context, sdk.AccAddress) sdk.AccountI // only used for simulation
 	GetModuleAddress(moduleName string) sdk.AccAddress
 	// Methods imported from account should be defined here
 }
 
-// BankKeeper defines the expected interface needed to retrieve account balances.
+// BankKeeper defines the expected interface for the Bank module.
 type BankKeeper interface {
-	SpendableCoins(ctx sdk.Context, addr sdk.AccAddress) sdk.Coins
-	SendCoinsFromAccountToModule(ctx sdk.Context, senderAddr sdk.AccAddress, recipientModule string, amt sdk.Coins) error
-	SendCoinsFromModuleToModule(ctx sdk.Context, senderModule string, recipientModule string, amt sdk.Coins) error
-	SendCoinsFromModuleToAccount(ctx sdk.Context, senderModule string, recipientAddr sdk.AccAddress, amt sdk.Coins) error
-	BurnCoins(ctx sdk.Context, moduleName string, amt sdk.Coins) error
+	SpendableCoins(context.Context, sdk.AccAddress) sdk.Coins
+
+	SendCoinsFromAccountToModule(ctx context.Context, senderAddr sdk.AccAddress, recipientModule string, amt sdk.Coins) error
+	SendCoinsFromModuleToModule(ctx context.Context, senderModule string, recipientModule string, amt sdk.Coins) error
+	SendCoinsFromModuleToAccount(ctx context.Context, senderModule string, recipientAddr sdk.AccAddress, amt sdk.Coins) error
+	BurnCoins(ctx context.Context, moduleName string, amt sdk.Coins) error
 	// Methods imported from bank should be defined here
 }
-
 type NftadminKeeper interface {
-	GetAuthorization(ctx sdk.Context) (val nftadmintypes.Authorization, found bool)
-	HasPermission(ctx sdk.Context, name string, addr sdk.AccAddress) bool
+	GetAuthorization(ctx context.Context) (val nftadmintypes.Authorization, found bool)
+	HasPermission(ctx context.Context, name string, addr sdk.AccAddress) bool
 }
 
 type StakingKeeper interface {
-	ValidatorByConsAddr(sdk.Context, sdk.ConsAddress) stakingtypes.ValidatorI // get a particular validator by consensus address
+	ConsensusAddressCodec() address.Codec
+	ValidatorByConsAddr(context.Context, sdk.ConsAddress) (stakingtypes.ValidatorI, error) // get a particular validator by consensus address
 }
 
-type DistributionKeeper interface {
-	AllocateTokensToValidator(ctx sdk.Context, val stakingtypes.ValidatorI, tokens sdk.DecCoins)
+type DistrKeeper interface {
+	AllocateTokensToValidator(ctx context.Context, val stakingtypes.ValidatorI, tokens sdk.DecCoins) error
 }
 
-type GovKeeper interface {
-	GetDepositParams(ctx sdk.Context) govtypes.DepositParams
-	GetVotingParams(ctx sdk.Context) govtypes.VotingParams
+// ParamSubspace defines the expected Subspace interface for parameters.
+type ParamSubspace interface {
+	Get(context.Context, []byte, interface{})
+	Set(context.Context, []byte, interface{})
 }

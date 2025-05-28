@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package sixprotocol.protocoladmin;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "sixprotocol/protocoladmin/params.proto";
+import "sixprotocol/protocoladmin/admin.proto";
+import "sixprotocol/protocoladmin/group.proto";
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/protocoladmin/types";
+
+// GenesisState defines the protocoladmin module's genesis state.
+message GenesisState {
+
+  // params defines all the parameters of the module.
+  Params params = 1
+      [ (gogoproto.nullable) = false, (amino.dont_omitempty) = true ];
+  repeated Admin adminList = 2 [ (gogoproto.nullable) = false ];
+  repeated Group groupList = 3 [ (gogoproto.nullable) = false ];
+}

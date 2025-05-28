@@ -7,11 +7,12 @@ import (
 	"encoding/base64"
 	"strconv"
 
+	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+
+	errormod "cosmossdk.io/errors"
+
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-
-	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 )
 
 func (k msgServer) SubmitVerifyCollectionOwner(goCtx context.Context, msg *types.MsgSubmitVerifyCollectionOwner) (*types.MsgSubmitVerifyCollectionOwnerResponse, error) {
@@ -26,35 +27,35 @@ func (k msgServer) SubmitVerifyCollectionOwner(goCtx context.Context, msg *types
 	// check if creator or oracle has permission
 	granted := k.nftadminKeeper.HasPermission(ctx, types.KeyPermissionOracle, oracle)
 	if !granted {
-		return nil, sdkerrors.Wrap(types.ErrNoOraclePermission, msg.Creator)
+		return nil, errormod.Wrap(types.ErrNoOraclePermission, msg.Creator)
 	}
 
 	// get request for verification
 	verifyRequest, found := k.GetCollectionOwnerRequest(ctx, msg.VerifyRequestID)
 	if !found {
-		return nil, sdkerrors.Wrap(types.ErrVerifyRequestNotFound, strconv.FormatUint(msg.VerifyRequestID, 10))
+		return nil, errormod.Wrap(types.ErrVerifyRequestNotFound, strconv.FormatUint(msg.VerifyRequestID, 10))
 	}
 
 	// check if request is still pending
 	if verifyRequest.Status != types.RequestStatus_PENDING {
-		return nil, sdkerrors.Wrap(types.ErrVerifyRequestNotPending, strconv.FormatUint(msg.VerifyRequestID, 10))
+		return nil, errormod.Wrap(types.ErrVerifyRequestNotPending, strconv.FormatUint(msg.VerifyRequestID, 10))
 	}
 
 	// check if current confirmation count is less than required confirmation count
 	if verifyRequest.CurrentConfirm >= verifyRequest.RequiredConfirm {
-		return nil, sdkerrors.Wrap(types.ErrVerifyRequestConfirmedAlreadyComplete, strconv.FormatUint(msg.VerifyRequestID, 10))
+		return nil, errormod.Wrap(types.ErrVerifyRequestConfirmedAlreadyComplete, strconv.FormatUint(msg.VerifyRequestID, 10))
 	}
 
 	// Convert msg.base64OriginContractInfo to bytes
 	_msgBase64OriginContractInfo, err := base64.StdEncoding.DecodeString(msg.Base64OriginContractInfo)
 	if err != nil {
-		return nil, sdkerrors.Wrap(types.ErrParsingBase64, err.Error())
+		return nil, errormod.Wrap(types.ErrParsingBase64, err.Error())
 	}
 
 	contractOrigingParam := types.OriginContractParam{}
 	err = k.cdc.(*codec.ProtoCodec).UnmarshalJSON(_msgBase64OriginContractInfo, &contractOrigingParam)
 	if err != nil {
-		return nil, sdkerrors.Wrap(types.ErrParsingBase64, err.Error())
+		return nil, errormod.Wrap(types.ErrParsingBase64, err.Error())
 	}
 
 	if verifyRequest.CurrentConfirm == 0 {
@@ -68,11 +69,11 @@ func (k msgServer) SubmitVerifyCollectionOwner(goCtx context.Context, msg *types
 	} else {
 		// // check if creator has alraedy confirmed
 		// if _, ok := verifyRequest.Confirmers[msg.Creator]; ok {
-		// 	return nil, sdkerrors.Wrap(types.ErrOracleConfirmedAlready, strconv.FormatUint(msg.VerifyRequestID, 10)+", "+msg.Creator)
+		// 	return nil, errormod.Wrap(types.ErrOracleConfirmedAlready, strconv.FormatUint(msg.VerifyRequestID, 10)+", "+msg.Creator)
 		// }
 		for _, confirmer := range verifyRequest.Confirmers {
 			if confirmer == msg.Creator {
-				return nil, sdkerrors.Wrap(types.ErrOracleConfirmedAlready, strconv.FormatUint(msg.VerifyRequestID, 10))
+				return nil, errormod.Wrap(types.ErrOracleConfirmedAlready, strconv.FormatUint(msg.VerifyRequestID, 10))
 			}
 		}
 
@@ -142,7 +143,7 @@ func (k msgServer) SubmitVerifyCollectionOwner(goCtx context.Context, msg *types
 			// Udpate NFT Data
 			schema, found := k.nftmngrKeeper.GetNFTSchema(ctx, verifyRequest.NftSchemaCode)
 			if !found {
-				return nil, sdkerrors.Wrap(types.ErrMetaDataNotFound, verifyRequest.NftSchemaCode)
+				return nil, errormod.Wrap(types.ErrMetaDataNotFound, verifyRequest.NftSchemaCode)
 			}
 
 			// Set Collection Owner is verified

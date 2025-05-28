@@ -1,22 +1,27 @@
 package keeper
 
 import (
+	"context"
 	"encoding/binary"
 	"fmt"
 	"time"
 
-	"github.com/cosmos/cosmos-sdk/store/prefix"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+
+	"cosmossdk.io/store/prefix"
+	storetypes "cosmossdk.io/store/types"
+
+	"github.com/cosmos/cosmos-sdk/runtime"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 var ActiveSyncActionSignerQueuePrefix = []byte{0x05}
 
 // GetSyncActionSignerCount get the total number of syncActionSigner
-func (k Keeper) GetSyncActionSignerCount(ctx sdk.Context) uint64 {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), []byte{})
+func (k Keeper) GetSyncActionSignerCount(ctx context.Context) uint64 {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	byteKey := types.KeyPrefix(types.SyncActionSignerCountKey)
+	store := prefix.NewStore(storeAdapter, byteKey)
 	bz := store.Get(byteKey)
 
 	// Count doesn't exist: no element
@@ -29,9 +34,10 @@ func (k Keeper) GetSyncActionSignerCount(ctx sdk.Context) uint64 {
 }
 
 // SetSyncActionSignerCount set the total number of syncActionSigner
-func (k Keeper) SetSyncActionSignerCount(ctx sdk.Context, count uint64) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), []byte{})
+func (k Keeper) SetSyncActionSignerCount(ctx context.Context, count uint64) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	byteKey := types.KeyPrefix(types.SyncActionSignerCountKey)
+	store := prefix.NewStore(storeAdapter, byteKey)
 	bz := make([]byte, 8)
 	binary.BigEndian.PutUint64(bz, count)
 	store.Set(byteKey, bz)
@@ -39,7 +45,7 @@ func (k Keeper) SetSyncActionSignerCount(ctx sdk.Context, count uint64) {
 
 // AppendSyncActionSigner appends a syncActionSigner in the store with a new id and update the count
 func (k Keeper) AppendSyncActionSigner(
-	ctx sdk.Context,
+	ctx context.Context,
 	syncActionSigner types.SyncActionSigner,
 ) uint64 {
 	// Create the syncActionSigner
@@ -48,7 +54,8 @@ func (k Keeper) AppendSyncActionSigner(
 	// Set the ID of the appended value
 	syncActionSigner.Id = count
 
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.SyncActionSignerKey))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SyncActionSignerKey))
 	appendedValue := k.cdc.MustMarshal(&syncActionSigner)
 	store.Set(GetSyncActionSignerIDBytes(syncActionSigner.Id), appendedValue)
 
@@ -59,15 +66,17 @@ func (k Keeper) AppendSyncActionSigner(
 }
 
 // SetSyncActionSigner set a specific syncActionSigner in the store
-func (k Keeper) SetSyncActionSigner(ctx sdk.Context, syncActionSigner types.SyncActionSigner) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.SyncActionSignerKey))
+func (k Keeper) SetSyncActionSigner(ctx context.Context, syncActionSigner types.SyncActionSigner) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SyncActionSignerKey))
 	b := k.cdc.MustMarshal(&syncActionSigner)
 	store.Set(GetSyncActionSignerIDBytes(syncActionSigner.Id), b)
 }
 
 // GetSyncActionSigner returns a syncActionSigner from its id
-func (k Keeper) GetSyncActionSigner(ctx sdk.Context, id uint64) (val types.SyncActionSigner, found bool) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.SyncActionSignerKey))
+func (k Keeper) GetSyncActionSigner(ctx context.Context, id uint64) (val types.SyncActionSigner, found bool) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SyncActionSignerKey))
 	b := store.Get(GetSyncActionSignerIDBytes(id))
 	if b == nil {
 		return val, false
@@ -77,15 +86,17 @@ func (k Keeper) GetSyncActionSigner(ctx sdk.Context, id uint64) (val types.SyncA
 }
 
 // RemoveSyncActionSigner removes a syncActionSigner from the store
-func (k Keeper) RemoveSyncActionSigner(ctx sdk.Context, id uint64) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.SyncActionSignerKey))
+func (k Keeper) RemoveSyncActionSigner(ctx context.Context, id uint64) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SyncActionSignerKey))
 	store.Delete(GetSyncActionSignerIDBytes(id))
 }
 
 // GetAllSyncActionSigner returns all syncActionSigner
-func (k Keeper) GetAllSyncActionSigner(ctx sdk.Context) (list []types.SyncActionSigner) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.SyncActionSignerKey))
-	iterator := sdk.KVStorePrefixIterator(store, []byte{})
+func (k Keeper) GetAllSyncActionSigner(ctx context.Context) (list []types.SyncActionSigner) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.SyncActionSignerKey))
+	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
 
 	defer iterator.Close()
 
@@ -110,18 +121,18 @@ func GetSyncActionSignerIDFromBytes(bz []byte) uint64 {
 	return binary.BigEndian.Uint64(bz)
 }
 
-func (k Keeper) InsertActiveSyncActionSignerQueue(ctx sdk.Context, sync_id uint64, endTime time.Time) {
-	store := ctx.KVStore(k.storeKey)
+func (k Keeper) InsertActiveSyncActionSignerQueue(ctx context.Context, sync_id uint64, endTime time.Time) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	bz := GetSyncActionSignerIDBytes(sync_id)
-	store.Set(ActiveSyncActionSignerQueueKey(sync_id, endTime), bz)
+	storeAdapter.Set(ActiveSyncActionSignerQueueKey(sync_id, endTime), bz)
 }
 
-func (k Keeper) RemoveFromActiveSyncActionSignerQueue(ctx sdk.Context, sync_id uint64, endTime time.Time) {
-	store := ctx.KVStore(k.storeKey)
-	store.Delete(ActiveSyncActionSignerQueueKey(sync_id, endTime))
+func (k Keeper) RemoveFromActiveSyncActionSignerQueue(ctx context.Context, sync_id uint64, endTime time.Time) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	storeAdapter.Delete(ActiveSyncActionSignerQueueKey(sync_id, endTime))
 }
 
-func (k Keeper) IterateActiveSyncActionSignerQueue(ctx sdk.Context, endTime time.Time, cb func(syncRequest types.SyncActionSigner) (stop bool)) {
+func (k Keeper) IterateActiveSyncActionSignerQueue(ctx context.Context, endTime time.Time, cb func(syncRequest types.SyncActionSigner) (stop bool)) {
 	iterator := k.ActiveSyncActionSignerQueueIterator(ctx, endTime)
 
 	defer iterator.Close()
@@ -138,9 +149,9 @@ func (k Keeper) IterateActiveSyncActionSignerQueue(ctx sdk.Context, endTime time
 	}
 }
 
-func (k Keeper) ActiveSyncActionSignerQueueIterator(ctx sdk.Context, endTime time.Time) sdk.Iterator {
-	store := ctx.KVStore(k.storeKey)
-	return store.Iterator(ActiveSyncActionSignerQueuePrefix, sdk.PrefixEndBytes(ActiveSyncActionSignerByTimeKey(endTime)))
+func (k Keeper) ActiveSyncActionSignerQueueIterator(ctx context.Context, endTime time.Time) storetypes.Iterator {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	return storeAdapter.Iterator(ActiveSyncActionSignerQueuePrefix, storetypes.PrefixEndBytes(ActiveSyncActionSignerByTimeKey(endTime)))
 }
 
 func ActiveSyncActionSignerQueueKey(sync_id uint64, endTime time.Time) []byte {

@@ -1,50 +1,54 @@
 package keeper
 
 import (
+	"context"
 	"time"
 
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/runtime"
 )
 
 // GetParams get all parameters as types.Params
-func (k Keeper) GetParams(ctx sdk.Context) types.Params {
-	return types.NewParams(
-		k.MintRequestActiveDuration(ctx),
-		k.ActionRequestActiveDuration(ctx),
-		k.VerifyRequestActiveDuration(ctx),
-		k.ActionSignerActiveDuration(ctx),
-		k.SyncActionSignerActiveDuration(ctx),
-	)
+func (k Keeper) GetParams(ctx context.Context) (params types.Params) {
+	store := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	bz := store.Get(types.ParamsKey)
+	if bz == nil {
+		return params
+	}
+
+	k.cdc.MustUnmarshal(bz, &params)
+	return params
 }
 
 // SetParams set the params
-func (k Keeper) SetParams(ctx sdk.Context, params types.Params) {
-	k.paramstore.SetParamSet(ctx, &params)
+func (k Keeper) SetParams(ctx context.Context, params types.Params) error {
+	store := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	bz, err := k.cdc.Marshal(&params)
+	if err != nil {
+		return err
+	}
+	store.Set(types.ParamsKey, bz)
+
+	return nil
 }
 
-func (k Keeper) MintRequestActiveDuration(ctx sdk.Context) (res time.Duration) {
-	k.paramstore.Get(ctx, types.KeyMintRequestActiveDuration, &res)
-	return
+func (k Keeper) MintRequestActiveDuration(ctx context.Context) (res time.Duration) {
+	return k.GetParams(ctx).MintRequestActiveDuration
 }
 
-func (k Keeper) ActionRequestActiveDuration(ctx sdk.Context) (res time.Duration) {
-	k.paramstore.Get(ctx, types.KeyActionRequestActiveDuration, &res)
-	return
+func (k Keeper) ActionRequestActiveDuration(ctx context.Context) (res time.Duration) {
+	return k.GetParams(ctx).ActionRequestActiveDuration
 }
 
-func (k Keeper) VerifyRequestActiveDuration(ctx sdk.Context) (res time.Duration) {
-	k.paramstore.Get(ctx, types.KeyVerifyRequestActiveDuration, &res)
-	return
+func (k Keeper) VerifyRequestActiveDuration(ctx context.Context) (res time.Duration) {
+	return k.GetParams(ctx).VerifyRequestActiveDuration
 }
 
-func (k Keeper) ActionSignerActiveDuration(ctx sdk.Context) (res time.Duration) {
-	k.paramstore.Get(ctx, types.KeyActionSignerActiveDuration, &res)
-	return
+func (k Keeper) ActionSignerActiveDuration(ctx context.Context) (res time.Duration) {
+	return k.GetParams(ctx).ActionSignerActiveDuration
 }
 
-func (k Keeper) SyncActionSignerActiveDuration(ctx sdk.Context) (res time.Duration) {
-	k.paramstore.Get(ctx, types.KeyActionSignerActiveDuration, &res)
-	return
+func (k Keeper) SyncActionSignerActiveDuration(ctx context.Context) (res time.Duration) {
+	return k.GetParams(ctx).SyncActionSignerActiveDuration
 }

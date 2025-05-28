@@ -1,15 +1,17 @@
+// Copyright Tharsis Labs Ltd.(Evmos)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
 package keys
 
 import (
 	"bufio"
 	"bytes"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"sort"
 
-	etherminthd "github.com/evmos/ethermint/crypto/hd"
-
 	bip39 "github.com/cosmos/go-bip39"
+	cryptohd "github.com/evmos/evmos/v20/crypto/hd"
 	"github.com/spf13/cobra"
 
 	"github.com/cosmos/cosmos-sdk/client"
@@ -38,63 +40,8 @@ const (
 	mnemonicEntropySize = 256
 )
 
-// AddKeyCommand defines a keys command to add a generated or recovered private key to keybase.
-func AddKeyCommand() *cobra.Command {
-	cmd := &cobra.Command{
-		Use:   "add <name>",
-		Short: "Add an encrypted private key (either newly generated or recovered), encrypt it, and save to <name> file",
-		Long: `Derive a new private key and encrypt to disk.
-Optionally specify a BIP39 mnemonic, a BIP39 passphrase to further secure the mnemonic,
-and a bip32 HD path to derive a specific account. The key will be stored under the given name
-and encrypted with the given password. The only input that is required is the encryption password.
-
-If run with -i, it will prompt the user for BIP44 path, BIP39 mnemonic, and passphrase.
-The flag --recover allows one to recover a key from a seed passphrase.
-If run with --dry-run, a key would be generated (or recovered) but not stored to the
-local keystore.
-Use the --pubkey flag to add arbitrary public keys to the keystore for constructing
-multisig transactions.
-
-You can create and store a multisig key by passing the list of key names stored in a keyring
-and the minimum number of signatures required through --multisig-threshold. The keys are
-sorted by address, unless the flag --nosort is set.
-Example:
-
-    keys add mymultisig --multisig "keyname1,keyname2,keyname3" --multisig-threshold 2
-`,
-		Args: cobra.ExactArgs(1),
-		RunE: runAddCmdPrepare,
-	}
-	f := cmd.Flags()
-	f.StringSlice(flagMultisig, nil, "List of key names stored in keyring to construct a public legacy multisig key")
-	f.Int(flagMultiSigThreshold, 1, "K out of N required signatures. For use in conjunction with --multisig")
-	f.Bool(flagNoSort, false, "Keys passed to --multisig are taken in the order they're supplied")
-	f.String(keys.FlagPublicKey, "", "Parse a public key in JSON format and saves key info to <name> file.")
-	f.BoolP(flagInteractive, "i", false, "Interactively prompt user for BIP39 passphrase and mnemonic")
-	f.Bool(flags.FlagUseLedger, false, "Store a local reference to a private key on a Ledger device")
-	f.Bool(flagRecover, false, "Provide seed phrase to recover existing key instead of creating")
-	f.Bool(flagNoBackup, false, "Don't print out seed phrase (if others are watching the terminal)")
-	f.Bool(flags.FlagDryRun, false, "Perform action, but don't add key to local keystore")
-	f.String(flagHDPath, "", "Manual HD Path derivation (overrides BIP44 config)")
-	f.Uint32(flagCoinType, sdk.GetConfig().GetCoinType(), "coin type number for HD derivation for eth_secp256k use 60")
-	f.Uint32(flagAccount, 0, "Account number for HD derivation")
-	f.Uint32(flagIndex, 0, "Address index number for HD derivation")
-	f.String(flags.FlagKeyAlgorithm, string(etherminthd.EthSecp256k1Type), "Key signing algorithm to generate keys for")
-
-	return cmd
-}
-
-func runAddCmdPrepare(cmd *cobra.Command, args []string) error {
-	buf := bufio.NewReader(cmd.InOrStdin())
-	clientCtx, err := client.GetClientQueryContext(cmd)
-	if err != nil {
-		return err
-	}
-
-	return RunAddCmd(clientCtx, cmd, args, buf)
-}
-
 /*
+RunAddCmd
 input
   - bip39 mnemonic
   - bip39 passphrase
@@ -105,25 +52,39 @@ output
   - armor encrypted private key (saved to file)
 */
 func RunAddCmd(ctx client.Context, cmd *cobra.Command, args []string, inBuf *bufio.Reader) error {
-	var err error
+	var (
+		algo keyring.SignatureAlgo
+		err  error
+	)
 
 	name := args[0]
+
 	interactive, _ := cmd.Flags().GetBool(flagInteractive)
 	noBackup, _ := cmd.Flags().GetBool(flagNoBackup)
+	useLedger, _ := cmd.Flags().GetBool(flags.FlagUseLedger)
+	algoStr, _ := cmd.Flags().GetString(flags.FlagKeyType)
+
 	showMnemonic := !noBackup
 	kb := ctx.Keyring
 	outputFormat := ctx.OutputFormat
 
-	keyringAlgos, _ := kb.SupportedAlgorithms()
-	algoStr, _ := cmd.Flags().GetString(flags.FlagKeyAlgorithm)
-	algo, err := keyring.NewSigningAlgoFromString(algoStr, keyringAlgos)
+	keyringAlgos, ledgerAlgos := kb.SupportedAlgorithms()
+
+	// check if the provided signing algorithm is supported by the keyring or
+	// ledger
+	if useLedger {
+		algo, err = keyring.NewSigningAlgoFromString(algoStr, ledgerAlgos)
+	} else {
+		algo, err = keyring.NewSigningAlgoFromString(algoStr, keyringAlgos)
+	}
+
 	if err != nil {
 		return err
 	}
 
 	if dryRun, _ := cmd.Flags().GetBool(flags.FlagDryRun); dryRun {
 		// use in memory keybase
-		kb = keyring.NewInMemory(etherminthd.EthSecp256k1Option())
+		kb = keyring.NewInMemory(ctx.Codec, cryptohd.EthSecp256k1Option())
 	} else {
 		_, err = kb.Key(name)
 		if err == nil {
@@ -157,7 +118,11 @@ func RunAddCmd(ctx client.Context, cmd *cobra.Command, args []string, inBuf *buf
 					return err
 				}
 
-				pks[i] = k.GetPubKey()
+				key, err := k.GetPubKey()
+				if err != nil {
+					return err
+				}
+				pks[i] = key
 			}
 
 			if noSort, _ := cmd.Flags().GetBool(flagNoSort); !noSort {
@@ -167,36 +132,34 @@ func RunAddCmd(ctx client.Context, cmd *cobra.Command, args []string, inBuf *buf
 			}
 
 			pk := multisig.NewLegacyAminoPubKey(multisigThreshold, pks)
-			info, err := kb.SaveMultisig(name, pk)
+			k, err := kb.SaveMultisig(name, pk)
 			if err != nil {
 				return err
 			}
 
-			return printCreate(cmd, info, false, "", outputFormat)
+			return printCreate(cmd, k, false, "", outputFormat)
 		}
 	}
 
 	pubKey, _ := cmd.Flags().GetString(keys.FlagPublicKey)
 	if pubKey != "" {
 		var pk cryptotypes.PubKey
-		err = ctx.Codec.UnmarshalInterfaceJSON([]byte(pubKey), &pk)
+		if err = ctx.Codec.UnmarshalInterfaceJSON([]byte(pubKey), &pk); err != nil {
+			return err
+		}
+
+		k, err := kb.SaveOfflineKey(name, pk)
 		if err != nil {
 			return err
 		}
 
-		info, err := kb.SavePubKey(name, pk, algo.Name())
-		if err != nil {
-			return err
-		}
-
-		return printCreate(cmd, info, false, "", outputFormat)
+		return printCreate(cmd, k, false, "", outputFormat)
 	}
 
 	coinType, _ := cmd.Flags().GetUint32(flagCoinType)
 	account, _ := cmd.Flags().GetUint32(flagAccount)
 	index, _ := cmd.Flags().GetUint32(flagIndex)
 	hdPath, _ := cmd.Flags().GetString(flagHDPath)
-	useLedger, _ := cmd.Flags().GetBool(flags.FlagUseLedger)
 
 	if len(hdPath) == 0 {
 		hdPath = hd.CreateHDPath(coinType, account, index).String()
@@ -208,19 +171,20 @@ func RunAddCmd(ctx client.Context, cmd *cobra.Command, args []string, inBuf *buf
 	if useLedger {
 		bech32PrefixAccAddr := sdk.GetConfig().GetBech32AccountAddrPrefix()
 
-		info, err := kb.SaveLedgerKey(name, algo, bech32PrefixAccAddr, coinType, account, index)
+		// use the provided algo to save the ledger key
+		k, err := kb.SaveLedgerKey(name, algo, bech32PrefixAccAddr, coinType, account, index)
 		if err != nil {
 			return err
 		}
 
-		return printCreate(cmd, info, false, "", outputFormat)
+		return printCreate(cmd, k, false, "", outputFormat)
 	}
 
 	// Get bip39 mnemonic
 	var mnemonic, bip39Passphrase string
 
-	recover, _ := cmd.Flags().GetBool(flagRecover)
-	if recover {
+	recoverKey, _ := cmd.Flags().GetBool(flagRecover)
+	if recoverKey {
 		mnemonic, err = input.GetString("Enter your bip39 mnemonic", inBuf)
 		if err != nil {
 			return err
@@ -275,36 +239,39 @@ func RunAddCmd(ctx client.Context, cmd *cobra.Command, args []string, inBuf *buf
 		}
 	}
 
-	info, err := kb.NewAccount(name, mnemonic, bip39Passphrase, hdPath, algo)
+	k, err := kb.NewAccount(name, mnemonic, bip39Passphrase, hdPath, algo)
 	if err != nil {
 		return err
 	}
 
 	// Recover key from seed passphrase
-	if recover {
+	if recoverKey {
 		// Hide mnemonic from output
 		showMnemonic = false
 		mnemonic = ""
 	}
 
-	return printCreate(cmd, info, showMnemonic, mnemonic, outputFormat)
+	return printCreate(cmd, k, showMnemonic, mnemonic, outputFormat)
 }
 
-func printCreate(cmd *cobra.Command, info keyring.Info, showMnemonic bool, mnemonic, outputFormat string) error {
+func printCreate(cmd *cobra.Command, k *keyring.Record, showMnemonic bool, mnemonic, outputFormat string) error {
 	switch outputFormat {
 	case OutputFormatText:
 		cmd.PrintErrln()
-		printKeyInfo(cmd.OutOrStdout(), info, keyring.MkAccKeyOutput, outputFormat)
+		if err := printKeyringRecord(cmd.OutOrStdout(), k, keys.MkAccKeyOutput, outputFormat); err != nil {
+			return err
+		}
 
 		// print mnemonic unless requested not to.
 		if showMnemonic {
-			fmt.Fprintln(cmd.ErrOrStderr(), "\n**Important** write this mnemonic phrase in a safe place.")
-			fmt.Fprintln(cmd.ErrOrStderr(), "It is the only way to recover your account if you ever forget your password.")
-			fmt.Fprintln(cmd.ErrOrStderr(), "")
-			fmt.Fprintln(cmd.ErrOrStderr(), mnemonic)
+			if _, err := fmt.Fprintf(cmd.ErrOrStderr(),
+				"\n**Important** write this mnemonic phrase in a safe place.\nIt is the only way to recover your account if you ever forget your password.\n\n%s\n\n", //nolint:lll
+				mnemonic); err != nil {
+				return fmt.Errorf("failed to print mnemonic: %v", err)
+			}
 		}
 	case OutputFormatJSON:
-		out, err := keyring.MkAccKeyOutput(info)
+		out, err := keys.MkAccKeyOutput(k)
 		if err != nil {
 			return err
 		}
@@ -313,7 +280,7 @@ func printCreate(cmd *cobra.Command, info keyring.Info, showMnemonic bool, mnemo
 			out.Mnemonic = mnemonic
 		}
 
-		jsonString, err := keys.KeysCdc.MarshalJSON(out)
+		jsonString, err := json.Marshal(out)
 		if err != nil {
 			return err
 		}
@@ -324,5 +291,16 @@ func printCreate(cmd *cobra.Command, info keyring.Info, showMnemonic bool, mnemo
 		return fmt.Errorf("invalid output format %s", outputFormat)
 	}
 
+	return nil
+}
+
+func validateMultisigThreshold(k, nKeys int) error {
+	if k <= 0 {
+		return fmt.Errorf("threshold must be a positive integer")
+	}
+	if nKeys < k {
+		return fmt.Errorf(
+			"threshold k of n multisignature: %d < %d", nKeys, k)
+	}
 	return nil
 }

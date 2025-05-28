@@ -4,15 +4,14 @@ import (
 	"strconv"
 	"testing"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/types/query"
 	"github.com/stretchr/testify/require"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
-
 	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 	"github.com/thesixnetwork/six-protocol/testutil/nullify"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+
+	"github.com/cosmos/cosmos-sdk/types/query"
 )
 
 // Prevent strconv unused error
@@ -20,8 +19,7 @@ var _ = strconv.IntSize
 
 func TestLockSchemaFeeQuerySingle(t *testing.T) {
 	keeper, ctx := keepertest.NftmngrKeeper(t)
-	wctx := sdk.WrapSDKContext(ctx)
-	msgs := createNLockSchemaFee(keeper, ctx, 2)
+	msgs := createNLockSchemaFee(&keeper, ctx, 2)
 	for _, tc := range []struct {
 		desc     string
 		request  *types.QueryGetLockSchemaFeeRequest
@@ -55,7 +53,7 @@ func TestLockSchemaFeeQuerySingle(t *testing.T) {
 		},
 	} {
 		t.Run(tc.desc, func(t *testing.T) {
-			response, err := keeper.LockSchemaFee(wctx, tc.request)
+			response, err := keeper.LockSchemaFee(ctx, tc.request)
 			if tc.err != nil {
 				require.ErrorIs(t, err, tc.err)
 			} else {
@@ -71,8 +69,7 @@ func TestLockSchemaFeeQuerySingle(t *testing.T) {
 
 func TestLockSchemaFeeQueryPaginated(t *testing.T) {
 	keeper, ctx := keepertest.NftmngrKeeper(t)
-	wctx := sdk.WrapSDKContext(ctx)
-	msgs := createNLockSchemaFee(keeper, ctx, 5)
+	msgs := createNLockSchemaFee(&keeper, ctx, 5)
 
 	request := func(next []byte, offset, limit uint64, total bool) *types.QueryAllLockSchemaFeeRequest {
 		return &types.QueryAllLockSchemaFeeRequest{
@@ -87,7 +84,7 @@ func TestLockSchemaFeeQueryPaginated(t *testing.T) {
 	t.Run("ByOffset", func(t *testing.T) {
 		step := 2
 		for i := 0; i < len(msgs); i += step {
-			resp, err := keeper.LockSchemaFeeAll(wctx, request(nil, uint64(i), uint64(step), false))
+			resp, err := keeper.LockSchemaFeeAll(ctx, request(nil, uint64(i), uint64(step), false))
 			require.NoError(t, err)
 			require.LessOrEqual(t, len(resp.LockSchemaFee), step)
 			require.Subset(t,
@@ -100,7 +97,7 @@ func TestLockSchemaFeeQueryPaginated(t *testing.T) {
 		step := 2
 		var next []byte
 		for i := 0; i < len(msgs); i += step {
-			resp, err := keeper.LockSchemaFeeAll(wctx, request(next, 0, uint64(step), false))
+			resp, err := keeper.LockSchemaFeeAll(ctx, request(next, 0, uint64(step), false))
 			require.NoError(t, err)
 			require.LessOrEqual(t, len(resp.LockSchemaFee), step)
 			require.Subset(t,
@@ -111,7 +108,7 @@ func TestLockSchemaFeeQueryPaginated(t *testing.T) {
 		}
 	})
 	t.Run("Total", func(t *testing.T) {
-		resp, err := keeper.LockSchemaFeeAll(wctx, request(nil, 0, 0, true))
+		resp, err := keeper.LockSchemaFeeAll(ctx, request(nil, 0, 0, true))
 		require.NoError(t, err)
 		require.Equal(t, len(msgs), int(resp.Pagination.Total))
 		require.ElementsMatch(t,
@@ -120,7 +117,7 @@ func TestLockSchemaFeeQueryPaginated(t *testing.T) {
 		)
 	})
 	t.Run("InvalidRequest", func(t *testing.T) {
-		_, err := keeper.LockSchemaFeeAll(wctx, nil)
+		_, err := keeper.LockSchemaFeeAll(ctx, nil)
 		require.ErrorIs(t, err, status.Error(codes.InvalidArgument, "invalid request"))
 	})
 }

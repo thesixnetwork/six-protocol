@@ -5,11 +5,12 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/cosmos/cosmos-sdk/codec"
-
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+
+	errormod "cosmossdk.io/errors"
+
+	"github.com/cosmos/cosmos-sdk/codec"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
 type (
@@ -162,7 +163,7 @@ func ParseFeeConfigJSON(cdc *codec.LegacyAmino, newFeeConfigFile string) (*types
 				Portion: float32(portionFloat),
 			})
 		default:
-			return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid subject. Use burn, reward_pool, or transfer")
+			return nil, errormod.Wrap(sdkerrors.ErrInvalidRequest, "invalid subject. Use burn, reward_pool, or transfer")
 		}
 	}
 	return &newFeeConfig, nil

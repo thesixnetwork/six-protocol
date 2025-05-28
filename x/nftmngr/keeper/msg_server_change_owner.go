@@ -3,10 +3,12 @@ package keeper
 import (
 	"context"
 
+	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+
+	errormod "cosmossdk.io/errors"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
 func (k msgServer) ChangeOrgOwner(goCtx context.Context, msg *types.MsgChangeOrgOwner) (*types.MsgChangeOrgOwnerResponse, error) {
@@ -14,12 +16,12 @@ func (k msgServer) ChangeOrgOwner(goCtx context.Context, msg *types.MsgChangeOrg
 
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, msg.Creator)
+		return nil, errormod.Wrap(sdkerrors.ErrInvalidAddress, msg.Creator)
 	}
 
 	_, err = sdk.AccAddressFromBech32(msg.ToNewOwner)
 	if err != nil {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, msg.ToNewOwner)
+		return nil, errormod.Wrap(sdkerrors.ErrInvalidAddress, msg.ToNewOwner)
 	}
 
 	err = k.Keeper.ChangeOrgOwner(ctx, msg.Creator, msg.ToNewOwner, msg.OrgName)
@@ -49,12 +51,12 @@ func (k msgServer) ChangeSchemaOwner(goCtx context.Context, msg *types.MsgChange
 
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, msg.Creator)
+		return nil, errormod.Wrap(sdkerrors.ErrInvalidAddress, msg.Creator)
 	}
 
 	_, err = sdk.AccAddressFromBech32(msg.NewOwner)
 	if err != nil {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, msg.NewOwner)
+		return nil, errormod.Wrap(sdkerrors.ErrInvalidAddress, msg.NewOwner)
 	}
 
 	err = k.Keeper.ChangeSchemaOwner(ctx, msg.Creator, msg.NewOwner, msg.NftSchemaCode)

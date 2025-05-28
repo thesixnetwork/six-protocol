@@ -38,7 +38,7 @@ func (suite *NftmngrPrecompileTestSuite) SetupTest() {
 
 	// Setup keeper and context
 	keeper, ctx := testkeeper.NftmngrKeeper(suite.T())
-	suite.nftmngrKeeper = keeper
+	suite.nftmngrKeeper = &keeper
 	suite.ctx = ctx
 
 	// Create precompile

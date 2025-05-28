@@ -3,14 +3,16 @@ package keeper
 import (
 	"context"
 
-	"github.com/cosmos/cosmos-sdk/store/prefix"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/cosmos/cosmos-sdk/types/query"
+	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+	"cosmossdk.io/store/prefix"
+
+	"github.com/cosmos/cosmos-sdk/runtime"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	"github.com/cosmos/cosmos-sdk/types/query"
 )
 
 func (k Keeper) ActionRequestAll(c context.Context, req *types.QueryAllActionRequestRequest) (*types.QueryAllActionRequestResponse, error) {
@@ -21,8 +23,8 @@ func (k Keeper) ActionRequestAll(c context.Context, req *types.QueryAllActionReq
 	var actionRequests []types.ActionOracleRequest
 	ctx := sdk.UnwrapSDKContext(c)
 
-	store := ctx.KVStore(k.storeKey)
-	actionRequestStore := prefix.NewStore(store, types.KeyPrefix(types.ActionRequestKey))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	actionRequestStore := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ActionRequestKey))
 
 	pageRes, err := query.Paginate(actionRequestStore, req.Pagination, func(key []byte, value []byte) error {
 		var actionRequest types.ActionOracleRequest

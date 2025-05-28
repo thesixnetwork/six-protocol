@@ -1,0 +1,10 @@
+syntax = "proto3";
+package sixprotocol.nftmngr;
+import "sixprotocol/nftmngr/opensea_display_option.proto";
+option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
+
+message DisplayOption {
+  string bool_true_value = 1;
+  string bool_false_value = 2;
+  OpenseaDisplayOption opensea = 3;
+}

@@ -4,15 +4,15 @@ import (
 	"strconv"
 	"testing"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/types/query"
 	"github.com/stretchr/testify/require"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
-
 	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 	"github.com/thesixnetwork/six-protocol/testutil/nullify"
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/types/query"
 )
 
 // Prevent strconv unused error
@@ -20,8 +20,7 @@ var _ = strconv.IntSize
 
 func TestActionSignerConfigQuerySingle(t *testing.T) {
 	keeper, ctx := keepertest.NftoracleKeeper(t)
-	wctx := sdk.WrapSDKContext(ctx)
-	msgs := createNActionSignerConfig(keeper, ctx, 2)
+	msgs := createNActionSignerConfig(&keeper, ctx, 2)
 	for _, tc := range []struct {
 		desc     string
 		request  *types.QueryGetActionSignerConfigRequest
@@ -55,7 +54,7 @@ func TestActionSignerConfigQuerySingle(t *testing.T) {
 		},
 	} {
 		t.Run(tc.desc, func(t *testing.T) {
-			response, err := keeper.ActionSignerConfig(wctx, tc.request)
+			response, err := keeper.ActionSignerConfig(ctx, tc.request)
 			if tc.err != nil {
 				require.ErrorIs(t, err, tc.err)
 			} else {
@@ -72,7 +71,7 @@ func TestActionSignerConfigQuerySingle(t *testing.T) {
 func TestActionSignerConfigQueryPaginated(t *testing.T) {
 	keeper, ctx := keepertest.NftoracleKeeper(t)
 	wctx := sdk.WrapSDKContext(ctx)
-	msgs := createNActionSignerConfig(keeper, ctx, 5)
+	msgs := createNActionSignerConfig(&keeper, ctx, 5)
 
 	request := func(next []byte, offset, limit uint64, total bool) *types.QueryAllActionSignerConfigRequest {
 		return &types.QueryAllActionSignerConfigRequest{

@@ -1,22 +1,27 @@
 package keeper
 
 import (
+	"context"
 	"encoding/binary"
 	"fmt"
 	"time"
 
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 
-	"github.com/cosmos/cosmos-sdk/store/prefix"
+	"cosmossdk.io/store/prefix"
+	storetypes "cosmossdk.io/store/types"
+
+	"github.com/cosmos/cosmos-sdk/runtime"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 var ActiveActionRequestQueuePrefix = []byte{0x02}
 
 // GetActionRequestCount get the total number of actionRequest
-func (k Keeper) GetActionRequestCount(ctx sdk.Context) uint64 {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), []byte{})
+func (k Keeper) GetActionRequestCount(ctx context.Context) uint64 {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	byteKey := types.KeyPrefix(types.ActionRequestCountKey)
+	store := prefix.NewStore(storeAdapter, byteKey)
 	bz := store.Get(byteKey)
 
 	// Count doesn't exist: no element
@@ -29,17 +34,18 @@ func (k Keeper) GetActionRequestCount(ctx sdk.Context) uint64 {
 }
 
 // SetActionRequestCount set the total number of actionRequest
-func (k Keeper) SetActionRequestCount(ctx sdk.Context, count uint64) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), []byte{})
+func (k Keeper) SetActionRequestCount(ctx context.Context, count uint64) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	byteKey := types.KeyPrefix(types.ActionRequestCountKey)
-	bz := make([]byte, 8)
+	store := prefix.NewStore(storeAdapter, byteKey)
+	bz := store.Get(byteKey)
 	binary.BigEndian.PutUint64(bz, count)
 	store.Set(byteKey, bz)
 }
 
 // AppendActionRequest appends a actionRequest in the store with a new id and update the count
 func (k Keeper) AppendActionRequest(
-	ctx sdk.Context,
+	ctx context.Context,
 	actionRequest types.ActionOracleRequest,
 ) uint64 {
 	// Create the actionRequest
@@ -48,7 +54,10 @@ func (k Keeper) AppendActionRequest(
 	// Set the ID of the appended value
 	actionRequest.Id = count
 
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActionRequestKey))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	byteKey := types.KeyPrefix(types.ActionRequestKey)
+	store := prefix.NewStore(storeAdapter, byteKey)
+
 	appendedValue := k.cdc.MustMarshal(&actionRequest)
 	store.Set(GetActionRequestIDBytes(actionRequest.Id), appendedValue)
 
@@ -59,15 +68,17 @@ func (k Keeper) AppendActionRequest(
 }
 
 // SetActionRequest set a specific actionRequest in the store
-func (k Keeper) SetActionRequest(ctx sdk.Context, actionRequest types.ActionOracleRequest) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActionRequestKey))
+func (k Keeper) SetActionRequest(ctx context.Context, actionRequest types.ActionOracleRequest) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ActionRequestKey))
 	b := k.cdc.MustMarshal(&actionRequest)
 	store.Set(GetActionRequestIDBytes(actionRequest.Id), b)
 }
 
 // GetActionRequest returns a actionRequest from its id
-func (k Keeper) GetActionRequest(ctx sdk.Context, id uint64) (val types.ActionOracleRequest, found bool) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActionRequestKey))
+func (k Keeper) GetActionRequest(ctx context.Context, id uint64) (val types.ActionOracleRequest, found bool) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ActionRequestKey))
 	b := store.Get(GetActionRequestIDBytes(id))
 	if b == nil {
 		return val, false
@@ -77,15 +88,17 @@ func (k Keeper) GetActionRequest(ctx sdk.Context, id uint64) (val types.ActionOr
 }
 
 // RemoveActionRequest removes a actionRequest from the store
-func (k Keeper) RemoveActionRequest(ctx sdk.Context, id uint64) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActionRequestKey))
+func (k Keeper) RemoveActionRequest(ctx context.Context, id uint64) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ActionRequestKey))
 	store.Delete(GetActionRequestIDBytes(id))
 }
 
 // GetAllActionRequest returns all actionRequest
-func (k Keeper) GetAllActionRequest(ctx sdk.Context) (list []types.ActionOracleRequest) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActionRequestKey))
-	iterator := sdk.KVStorePrefixIterator(store, []byte{})
+func (k Keeper) GetAllActionRequest(ctx context.Context) (list []types.ActionOracleRequest) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ActionRequestKey))
+	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
 
 	defer iterator.Close()
 
@@ -110,18 +123,18 @@ func GetActionRequestIDFromBytes(bz []byte) uint64 {
 	return binary.BigEndian.Uint64(bz)
 }
 
-func (k Keeper) InsertActiveActionRequestQueue(ctx sdk.Context, requestID uint64, endTime time.Time) {
-	store := ctx.KVStore(k.storeKey)
+func (k Keeper) InsertActiveActionRequestQueue(ctx context.Context, requestID uint64, endTime time.Time) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	bz := GetActionRequestIDBytes(requestID)
-	store.Set(ActiveActionRequestQueueKey(requestID, endTime), bz)
+	storeAdapter.Set(ActiveActionRequestQueueKey(requestID, endTime), bz)
 }
 
-func (k Keeper) RemoveFromActiveActionRequestQueue(ctx sdk.Context, requestID uint64, endTime time.Time) {
-	store := ctx.KVStore(k.storeKey)
-	store.Delete(ActiveActionRequestQueueKey(requestID, endTime))
+func (k Keeper) RemoveFromActiveActionRequestQueue(ctx context.Context, requestID uint64, endTime time.Time) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	storeAdapter.Delete(ActiveActionRequestQueueKey(requestID, endTime))
 }
 
-func (k Keeper) IterateActiveActionRequestsQueue(ctx sdk.Context, endTime time.Time, cb func(ActionOracleRequest types.ActionOracleRequest) (stop bool)) {
+func (k Keeper) IterateActiveActionRequestsQueue(ctx context.Context, endTime time.Time, cb func(ActionOracleRequest types.ActionOracleRequest) (stop bool)) {
 	iterator := k.ActiveActionRequestQueueIterator(ctx, endTime)
 
 	defer iterator.Close()
@@ -138,9 +151,9 @@ func (k Keeper) IterateActiveActionRequestsQueue(ctx sdk.Context, endTime time.T
 	}
 }
 
-func (k Keeper) ActiveActionRequestQueueIterator(ctx sdk.Context, endTime time.Time) sdk.Iterator {
-	store := ctx.KVStore(k.storeKey)
-	return store.Iterator(ActiveActionRequestQueuePrefix, sdk.PrefixEndBytes(ActiveActionRequestByTimeKey(endTime)))
+func (k Keeper) ActiveActionRequestQueueIterator(ctx context.Context, endTime time.Time) storetypes.Iterator {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	return storeAdapter.Iterator(ActiveActionRequestQueuePrefix, storetypes.PrefixEndBytes(ActiveActionRequestByTimeKey(endTime)))
 }
 
 func ActiveActionRequestQueueKey(requestID uint64, endTime time.Time) []byte {

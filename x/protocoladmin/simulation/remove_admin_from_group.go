@@ -3,12 +3,12 @@ package simulation
 import (
 	"math/rand"
 
+	"github.com/thesixnetwork/six-protocol/x/protocoladmin/keeper"
+	"github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
+
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
-
-	"github.com/thesixnetwork/six-protocol/x/protocoladmin/keeper"
-	"github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
 )
 
 func SimulateMsgRemoveAdminFromGroup(
@@ -25,6 +25,6 @@ func SimulateMsgRemoveAdminFromGroup(
 
 		// TODO: Handling the RemoveAdminFromGroup simulation
 
-		return simtypes.NoOpMsg(types.ModuleName, msg.Type(), "RemoveAdminFromGroup simulation not implemented"), nil, nil
+		return simtypes.NoOpMsg(types.ModuleName, sdk.MsgTypeURL(msg), "RemoveAdminFromGroup simulation not implemented"), nil, nil
 	}
 }

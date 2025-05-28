@@ -3,13 +3,15 @@ package keeper
 import (
 	"context"
 
-	"github.com/cosmos/cosmos-sdk/store/prefix"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/types/query"
+	"github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
+	"cosmossdk.io/store/prefix"
+
+	"github.com/cosmos/cosmos-sdk/runtime"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/types/query"
 )
 
 func (k Keeper) ListAdminOfGroup(goCtx context.Context, req *types.QueryListAdminOfGroupRequest) (*types.QueryListAdminOfGroupResponse, error) {
@@ -17,13 +19,12 @@ func (k Keeper) ListAdminOfGroup(goCtx context.Context, req *types.QueryListAdmi
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
-	var admins []string
 	ctx := sdk.UnwrapSDKContext(goCtx)
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.AdminKeyPrefix))
 
-	store := ctx.KVStore(k.storeKey)
-	adminStore := prefix.NewStore(store, types.KeyPrefix(types.AdminKeyPrefix))
-
-	pageRes, err := query.Paginate(adminStore, req.Pagination, func(key []byte, value []byte) error {
+	var admins []string
+	pageRes, err := query.Paginate(store, req.Pagination, func(key []byte, value []byte) error {
 		var admin types.Admin
 		if err := k.cdc.Unmarshal(value, &admin); err != nil {
 			return err

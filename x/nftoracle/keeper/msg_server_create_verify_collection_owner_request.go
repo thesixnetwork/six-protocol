@@ -6,13 +6,15 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/ethereum/go-ethereum/common/hexutil"
+	"github.com/ethereum/go-ethereum/crypto"
+	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+
+	errormod "cosmossdk.io/errors"
+
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/crypto"
-
-	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 )
 
 func (k msgServer) CreateVerifyCollectionOwnerRequest(goCtx context.Context, msg *types.MsgCreateVerifyCollectionOwnerRequest) (*types.MsgCreateVerifyCollectionOwnerRequestResponse, error) {
@@ -21,43 +23,43 @@ func (k msgServer) CreateVerifyCollectionOwnerRequest(goCtx context.Context, msg
 	// Check if nft_schema_code exists
 	schema_, found := k.nftmngrKeeper.GetNFTSchema(ctx, msg.NftSchemaCode)
 	if !found {
-		return nil, sdkerrors.Wrap(types.ErrNFTSchemaNotFound, msg.NftSchemaCode)
+		return nil, errormod.Wrap(types.ErrNFTSchemaNotFound, msg.NftSchemaCode)
 	}
 
 	// check if creator is owner of the collectio
 	if schema_.Owner != msg.Creator {
-		return nil, sdkerrors.Wrap(types.ErrNotCollectionOwner, msg.Creator)
+		return nil, errormod.Wrap(types.ErrNotCollectionOwner, msg.Creator)
 	}
 
 	// Check if nft_schema_code already verified
 	if schema_.IsVerified {
-		return nil, sdkerrors.Wrap(types.ErrNFTSchemaAlreadyVerified, msg.NftSchemaCode)
+		return nil, errormod.Wrap(types.ErrNFTSchemaAlreadyVerified, msg.NftSchemaCode)
 	}
 
 	// TODO: Check chain origin and modify how to verify signature according to chain origin in the future
 
 	collectionOwnerBz, err := base64.StdEncoding.DecodeString(msg.Base64VerifyRequestorSignature)
 	if err != nil {
-		return nil, sdkerrors.Wrap(types.ErrInvalidBase64, msg.Base64VerifyRequestorSignature)
+		return nil, errormod.Wrap(types.ErrInvalidBase64, msg.Base64VerifyRequestorSignature)
 	}
 	data := types.CollectionOwnerSignature{}
 	err = k.cdc.(*codec.ProtoCodec).UnmarshalJSON(collectionOwnerBz, &data)
 	if err != nil {
-		return nil, sdkerrors.Wrap(types.ErrParsingCollectionOwnerSignature, err.Error())
+		return nil, errormod.Wrap(types.ErrParsingCollectionOwnerSignature, err.Error())
 	}
 	_originContractParam, signer, err := k.ValidateCollectionOwnerSignature(data)
 	if err != nil {
-		return nil, sdkerrors.Wrap(types.ErrVerifyingSignature, err.Error())
+		return nil, errormod.Wrap(types.ErrVerifyingSignature, err.Error())
 	}
 
 	oracleConfig, found := k.GetOracleConfig(ctx)
 	if !found {
-		return nil, sdkerrors.Wrap(types.ErrOracleConfigNotFound, "")
+		return nil, errormod.Wrap(types.ErrOracleConfigNotFound, "")
 	}
 
 	// Verify msg.RequiredConfirmations is less than or equal to oracleConfig.MinimumConfirmation
 	if int32(msg.RequiredConfirm) < oracleConfig.MinimumConfirmation {
-		return nil, sdkerrors.Wrap(types.ErrRequiredConfirmTooLess, strconv.Itoa(int(oracleConfig.MinimumConfirmation)))
+		return nil, errormod.Wrap(types.ErrRequiredConfirmTooLess, strconv.Itoa(int(oracleConfig.MinimumConfirmation)))
 	}
 
 	createdAt := ctx.BlockTime()
@@ -114,32 +116,32 @@ func (k msgServer) ValidateCollectionOwnerSignature(collectionOwnerSig types.Col
 	}
 	err = k.cdc.(*codec.ProtoCodec).UnmarshalJSON(collectionOwnerTypeBz, collectionOwnerParam)
 	if err != nil {
-		return nil, nil, sdkerrors.Wrap(types.ErrParsingActionParam, err.Error())
+		return nil, nil, errormod.Wrap(types.ErrParsingActionParam, err.Error())
 	}
 
 	// validate signature format
 	decode_signature, err := hexutil.Decode(collectionOwnerSig.Signature)
 	if err != nil {
 		// log.Fatalf("Failed to decode signature: %v", msg.Signature)
-		return nil, nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid signature")
+		return nil, nil, errormod.Wrap(sdkerrors.ErrInvalidRequest, "invalid signature")
 	}
 	signature_with_revocery_id := decode_signature
 
 	// get pulic key from signature
 	sigPublicKey, err := crypto.Ecrecover(hash_bytes, decode_signature) // recover publickey from signature and hash
 	if err != nil {
-		return nil, nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid signature or message")
+		return nil, nil, errormod.Wrap(sdkerrors.ErrInvalidRequest, "invalid signature or message")
 	}
 	// get address from public key
 	pubEDCA, err := crypto.UnmarshalPubkey(sigPublicKey)
 	if err != nil {
-		return nil, nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "faild to unmarshal public key")
+		return nil, nil, errormod.Wrap(sdkerrors.ErrInvalidRequest, "faild to unmarshal public key")
 	}
 	eth_address_from_pubkey := crypto.PubkeyToAddress(*pubEDCA)
 
 	signatureNoRecoverID := signature_with_revocery_id[:len(signature_with_revocery_id)-1] // remove recovery id
 	if verified := crypto.VerifySignature(sigPublicKey, hash.Bytes(), signatureNoRecoverID); !verified {
-		return nil, nil, sdkerrors.Wrap(types.ErrVerifyingSignature, "invalid signature")
+		return nil, nil, errormod.Wrap(types.ErrVerifyingSignature, "invalid signature")
 	}
 	signer := eth_address_from_pubkey.Hex()
 	return collectionOwnerParam, &signer, nil

@@ -3,13 +3,13 @@ package keeper_test
 import (
 	"testing"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
-
 	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 	"github.com/thesixnetwork/six-protocol/testutil/nullify"
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/keeper"
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+
+	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 func createNCollectionOwnerRequest(keeper *keeper.Keeper, ctx sdk.Context, n int) []types.CollectionOwnerRequest {
@@ -22,7 +22,7 @@ func createNCollectionOwnerRequest(keeper *keeper.Keeper, ctx sdk.Context, n int
 
 func TestCollectionOwnerRequestGet(t *testing.T) {
 	keeper, ctx := keepertest.NftoracleKeeper(t)
-	items := createNCollectionOwnerRequest(keeper, ctx, 10)
+	items := createNCollectionOwnerRequest(&keeper, ctx, 10)
 	for _, item := range items {
 		got, found := keeper.GetCollectionOwnerRequest(ctx, item.Id)
 		require.True(t, found)
@@ -35,7 +35,7 @@ func TestCollectionOwnerRequestGet(t *testing.T) {
 
 func TestCollectionOwnerRequestRemove(t *testing.T) {
 	keeper, ctx := keepertest.NftoracleKeeper(t)
-	items := createNCollectionOwnerRequest(keeper, ctx, 10)
+	items := createNCollectionOwnerRequest(&keeper, ctx, 10)
 	for _, item := range items {
 		keeper.RemoveCollectionOwnerRequest(ctx, item.Id)
 		_, found := keeper.GetCollectionOwnerRequest(ctx, item.Id)
@@ -45,7 +45,7 @@ func TestCollectionOwnerRequestRemove(t *testing.T) {
 
 func TestCollectionOwnerRequestGetAll(t *testing.T) {
 	keeper, ctx := keepertest.NftoracleKeeper(t)
-	items := createNCollectionOwnerRequest(keeper, ctx, 10)
+	items := createNCollectionOwnerRequest(&keeper, ctx, 10)
 	require.ElementsMatch(t,
 		nullify.Fill(items),
 		nullify.Fill(keeper.GetAllCollectionOwnerRequest(ctx)),
@@ -54,7 +54,7 @@ func TestCollectionOwnerRequestGetAll(t *testing.T) {
 
 func TestCollectionOwnerRequestCount(t *testing.T) {
 	keeper, ctx := keepertest.NftoracleKeeper(t)
-	items := createNCollectionOwnerRequest(keeper, ctx, 10)
+	items := createNCollectionOwnerRequest(&keeper, ctx, 10)
 	count := uint64(len(items))
 	require.Equal(t, count, keeper.GetCollectionOwnerRequestCount(ctx))
 }

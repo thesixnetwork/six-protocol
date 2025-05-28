@@ -3,23 +3,20 @@ package keeper_test
 import (
 	"testing"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/cosmos/cosmos-sdk/types/query"
 	"github.com/stretchr/testify/require"
+	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
+	"github.com/thesixnetwork/six-protocol/testutil/nullify"
+	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
-
-	"github.com/thesixnetwork/six-protocol/testutil/nullify"
-	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	"github.com/cosmos/cosmos-sdk/types/query"
 )
 
 func TestActionRequestQuerySingle(t *testing.T) {
 	keeper, ctx := keepertest.NftoracleKeeper(t)
-	wctx := sdk.WrapSDKContext(ctx)
-	msgs := createNActionRequest(keeper, ctx, 2)
+	msgs := createNActionRequest(&keeper, ctx, 2)
 	for _, tc := range []struct {
 		desc     string
 		request  *types.QueryGetActionRequestRequest
@@ -47,7 +44,7 @@ func TestActionRequestQuerySingle(t *testing.T) {
 		},
 	} {
 		t.Run(tc.desc, func(t *testing.T) {
-			response, err := keeper.ActionOracleRequest(wctx, tc.request)
+			response, err := keeper.ActionOracleRequest(ctx, tc.request)
 			if tc.err != nil {
 				require.ErrorIs(t, err, tc.err)
 			} else {
@@ -63,8 +60,7 @@ func TestActionRequestQuerySingle(t *testing.T) {
 
 func TestActionRequestQueryPaginated(t *testing.T) {
 	keeper, ctx := keepertest.NftoracleKeeper(t)
-	wctx := sdk.WrapSDKContext(ctx)
-	msgs := createNActionRequest(keeper, ctx, 5)
+	msgs := createNActionRequest(&keeper, ctx, 5)
 
 	request := func(next []byte, offset, limit uint64, total bool) *types.QueryAllActionRequestRequest {
 		return &types.QueryAllActionRequestRequest{
@@ -79,7 +75,7 @@ func TestActionRequestQueryPaginated(t *testing.T) {
 	t.Run("ByOffset", func(t *testing.T) {
 		step := 2
 		for i := 0; i < len(msgs); i += step {
-			resp, err := keeper.ActionRequestAll(wctx, request(nil, uint64(i), uint64(step), false))
+			resp, err := keeper.ActionRequestAll(ctx, request(nil, uint64(i), uint64(step), false))
 			require.NoError(t, err)
 			require.LessOrEqual(t, len(resp.ActionOracleRequest), step)
 			require.Subset(t,
@@ -92,7 +88,7 @@ func TestActionRequestQueryPaginated(t *testing.T) {
 		step := 2
 		var next []byte
 		for i := 0; i < len(msgs); i += step {
-			resp, err := keeper.ActionRequestAll(wctx, request(next, 0, uint64(step), false))
+			resp, err := keeper.ActionRequestAll(ctx, request(next, 0, uint64(step), false))
 			require.NoError(t, err)
 			require.LessOrEqual(t, len(resp.ActionOracleRequest), step)
 			require.Subset(t,
@@ -103,7 +99,7 @@ func TestActionRequestQueryPaginated(t *testing.T) {
 		}
 	})
 	t.Run("Total", func(t *testing.T) {
-		resp, err := keeper.ActionRequestAll(wctx, request(nil, 0, 0, true))
+		resp, err := keeper.ActionRequestAll(ctx, request(nil, 0, 0, true))
 		require.NoError(t, err)
 		require.Equal(t, len(msgs), int(resp.Pagination.Total))
 		require.ElementsMatch(t,
@@ -112,7 +108,7 @@ func TestActionRequestQueryPaginated(t *testing.T) {
 		)
 	})
 	t.Run("InvalidRequest", func(t *testing.T) {
-		_, err := keeper.ActionRequestAll(wctx, nil)
+		_, err := keeper.ActionRequestAll(ctx, nil)
 		require.ErrorIs(t, err, status.Error(codes.InvalidArgument, "invalid request"))
 	})
 }

@@ -3,10 +3,11 @@ package keeper
 import (
 	"context"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+
+	errormod "cosmossdk.io/errors"
+
+	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 func (k msgServer) SetFeeConfig(goCtx context.Context, msg *types.MsgSetFeeConfig) (*types.MsgSetFeeConfigResponse, error) {
@@ -20,7 +21,7 @@ func (k msgServer) SetFeeConfig(goCtx context.Context, msg *types.MsgSetFeeConfi
 
 	granted := k.nftadminKeeper.HasPermission(ctx, types.KeyPermissionNftFeeAdmin, creator)
 	if !granted {
-		return nil, sdkerrors.Wrap(types.ErrNoNftFeeAdminPermission, msg.Creator)
+		return nil, errormod.Wrap(types.ErrNoNftFeeAdminPermission, msg.Creator)
 	}
 
 	feeConfig := types.NFTFeeConfig{}

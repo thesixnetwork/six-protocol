@@ -3,32 +3,59 @@ package app
 import (
 	"fmt"
 
-	store "github.com/cosmos/cosmos-sdk/store/types"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/types/module"
-	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
-	// evmkeeper "github.com/evmos/ethermint/x/evm/keeper"
+	upgradetypes "cosmossdk.io/x/upgrade/types"
+
+	"github.com/thesixnetwork/six-protocol/app/upgrades"
+	"github.com/thesixnetwork/six-protocol/app/upgrades/noop"
 )
 
-const UpgradeName = "v3.3.0"
+// Upgrades list of chain upgrades
+var Upgrades = []upgrades.Upgrade{}
 
+// RegisterUpgradeHandlers registers the chain upgrade handlers
 func (app *App) RegisterUpgradeHandlers() {
-	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx sdk.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
-		return app.mm.RunMigrations(ctx, app.configurator, vm)
-	})
-}
+	// setupLegacyKeyTables(&app.ParamsKeeper)
+	if len(Upgrades) == 0 {
+		// always have a unique upgrade registered for the current version to test in system tests
+		Upgrades = append(Upgrades, noop.NewUpgrade(app.Version()))
+	}
 
-func (app *App) VersionTrigger() {
+	keepers := upgrades.AppKeepers{
+		AccountKeeper:         &app.AccountKeeper,
+		ParamsKeeper:          &app.ParamsKeeper,
+		ConsensusParamsKeeper: &app.ConsensusParamsKeeper,
+		CapabilityKeeper:      app.CapabilityKeeper,
+		IBCKeeper:             app.IBCKeeper,
+		Codec:                 app.appCodec,
+		GetStoreKey:           app.GetKey,
+	}
+
+	// register all upgrade handlers
+	for _, upgrade := range Upgrades {
+		app.UpgradeKeeper.SetUpgradeHandler(
+			upgrade.UpgradeName,
+			upgrade.CreateUpgradeHandler(
+				app.ModuleManager,
+				app.configurator,
+				&keepers,
+			),
+		)
+	}
+
 	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
 	if err != nil {
 		panic(fmt.Sprintf("failed to read upgrade info from disk %s", err))
 	}
-	if upgradeInfo.Name == UpgradeName && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
-		storeUpgrades := store.StoreUpgrades{
-			Added:   []string{},
-			Deleted: []string{},
+
+	if app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
+		return
+	}
+
+	// register store loader for current upgrade
+	for _, upgrade := range Upgrades {
+		if upgradeInfo.Name == upgrade.UpgradeName {
+			app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &upgrade.StoreUpgrades)) // nolint:gosec
+			break
 		}
-		// configure store loader that checks if version == upgradeHeight and applies store upgrades
-		app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
 	}
 }

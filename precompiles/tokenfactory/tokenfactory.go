@@ -6,13 +6,15 @@ import (
 	"errors"
 	"math/big"
 
+	"cosmossdk.io/log"
+	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	erromod "cosmossdk.io/errors"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/evmos/ethermint/utils"
-	"github.com/tendermint/tendermint/libs/log"
+	"github.com/thesixnetwork/six-protocol/utils"
 
 	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
 	tokenmngr "github.com/thesixnetwork/six-protocol/x/tokenmngr/keeper"
@@ -119,9 +121,9 @@ func (p PrecompileExecutor) sendToCosmos(ctx sdk.Context, caller common.Address,
 	}
 
 	// check if amount is valid
-	intAmount := sdk.NewIntFromBigInt(amount)
+	intAmount := sdkmath.NewIntFromBigInt(amount)
 	if intAmount.IsZero() {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is prohibit from module")
+		return nil, erromod.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is prohibit from module")
 	}
 
 	// ------------------------------------
@@ -133,9 +135,9 @@ func (p PrecompileExecutor) sendToCosmos(ctx sdk.Context, caller common.Address,
 	// check if balance and input are valid
 	if balance := p.bankKeeper.GetBalance(ctx, senderCosmoAddr, tokenmngr.DefaultAttoDenom); balance.Amount.LT(intAmount) {
 		// if current_balance + 1 >= inputAmount then convert all token of the account
-		tresshold_balance := balance.Amount.Add(sdk.NewInt(bridgeDiffTreshold))
+		tresshold_balance := balance.Amount.Add(sdkmath.NewInt(bridgeDiffTreshold))
 		if tresshold_balance.LT(intAmount) {
-			return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Amount of token is too high than current balance")
+			return nil, erromod.Wrap(sdkerrors.ErrInvalidRequest, "Amount of token is too high than current balance")
 		}
 		intAmount = balance.Amount
 	}
@@ -143,7 +145,7 @@ func (p PrecompileExecutor) sendToCosmos(ctx sdk.Context, caller common.Address,
 	// check total supply of evm denom
 	supply := p.bankKeeper.GetSupply(ctx, tokenmngr.DefaultAttoDenom)
 	if supply.Amount.LT(intAmount) {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is higher than current total supply")
+		return nil, erromod.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is higher than current total supply")
 	}
 
 	err = p.tokenmngrKeeper.AttoCoinConverter(ctx, senderCosmoAddr, receiverCosmoAddr, intAmount)
@@ -192,7 +194,7 @@ func (p PrecompileExecutor) unwrapStakeToken(ctx sdk.Context, caller common.Addr
 	msg := &tokenmngrtypes.MsgWrapToken{
 		Creator:  senderCosmoAddr.String(),
 		Receiver: senderCosmoAddr.String(),
-		Amount:   sdk.NewCoin(tokenmngr.DefaultMicroDenom, sdk.NewIntFromBigInt(amount)),
+		Amount:   sdk.NewCoin(tokenmngr.DefaultMicroDenom, sdkmath.NewIntFromBigInt(amount)),
 	}
 
 	_, err = p.tokenmngrMsgServer.WrapToken(sdk.WrapSDKContext(ctx), msg)

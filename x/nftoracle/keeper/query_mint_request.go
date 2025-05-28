@@ -3,14 +3,16 @@ package keeper
 import (
 	"context"
 
-	"github.com/cosmos/cosmos-sdk/store/prefix"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/cosmos/cosmos-sdk/types/query"
+	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+	"cosmossdk.io/store/prefix"
+
+	"github.com/cosmos/cosmos-sdk/runtime"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	"github.com/cosmos/cosmos-sdk/types/query"
 )
 
 func (k Keeper) MintRequestAll(c context.Context, req *types.QueryAllMintRequestRequest) (*types.QueryAllMintRequestResponse, error) {
@@ -21,8 +23,8 @@ func (k Keeper) MintRequestAll(c context.Context, req *types.QueryAllMintRequest
 	var mintRequests []types.MintRequest
 	ctx := sdk.UnwrapSDKContext(c)
 
-	store := ctx.KVStore(k.storeKey)
-	mintRequestStore := prefix.NewStore(store, types.KeyPrefix(types.MintRequestKey))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	mintRequestStore := prefix.NewStore(storeAdapter, types.KeyPrefix(types.MintRequestKey))
 
 	pageRes, err := query.Paginate(mintRequestStore, req.Pagination, func(key []byte, value []byte) error {
 		var mintRequest types.MintRequest

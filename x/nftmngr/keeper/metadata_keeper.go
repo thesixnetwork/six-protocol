@@ -3,16 +3,17 @@ package keeper
 import (
 	"fmt"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+
+	errormod "cosmossdk.io/errors"
+
+	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 func (k Keeper) CreateNewMetadataKeeper(ctx sdk.Context, creator, nftSchemaName, tokenId string, metadata types.NftData) error {
 	schema, schemaFound := k.GetNFTSchema(ctx, nftSchemaName)
 	if !schemaFound {
-		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
+		return errormod.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
 	}
 
 	mapOfMinters, userMintfound := k.GetMetadataCreator(ctx, nftSchemaName)
@@ -22,7 +23,7 @@ func (k Keeper) CreateNewMetadataKeeper(ctx sdk.Context, creator, nftSchemaName,
 	case types.KeyMintPermissionOnlySystem:
 		// Check if creator is the schema owner
 		if creator != schema.Owner {
-			return sdkerrors.Wrap(types.ErrCreatorDoesNotMatch, creator)
+			return errormod.Wrap(types.ErrCreatorDoesNotMatch, creator)
 		}
 	case types.KeyMintPermissionAll:
 		// Add creator to minters list
@@ -47,7 +48,7 @@ func (k Keeper) CreateNewMetadataKeeper(ctx sdk.Context, creator, nftSchemaName,
 	valid, err := ValidateNFTData(&metadata, &schema)
 	_ = valid
 	if err != nil {
-		return sdkerrors.Wrap(types.ErrValidatingMetadata, err.Error())
+		return errormod.Wrap(types.ErrValidatingMetadata, err.Error())
 	}
 
 	// Append Attribute with default value to NFT Data if not exist in NFT Data yet
@@ -68,7 +69,7 @@ func (k Keeper) CreateNewMetadataKeeper(ctx sdk.Context, creator, nftSchemaName,
 	// Check if the data already exists
 	_, dataFound := k.GetNftData(ctx, metadata.NftSchemaCode, metadata.TokenId)
 	if dataFound {
-		return sdkerrors.Wrap(types.ErrMetadataAlreadyExists, metadata.NftSchemaCode)
+		return errormod.Wrap(types.ErrMetadataAlreadyExists, metadata.NftSchemaCode)
 	}
 
 	if !schema.OnchainData.GetStatusByKey(types.KeyNFTStatusFirstMintComplete) {
@@ -100,43 +101,43 @@ func ValidateNFTData(data *types.NftData, schema *types.NFTSchema) (bool, error)
 	// Check if attributes exist in schema
 	attributesExistsInSchema, err := NFTDataAttributesExistInSchema(mergedMap, data.OnchainAttributes)
 	if !attributesExistsInSchema {
-		return false, sdkerrors.Wrap(types.ErrOnchainAttributesNotExistsInSchema, fmt.Sprintf("Attribute does not exist in schema: %s", err))
+		return false, errormod.Wrap(types.ErrOnchainAttributesNotExistsInSchema, fmt.Sprintf("Attribute does not exist in schema: %s", err))
 	}
 
 	// Check if origin attributes exist in schema
 	attributesOriginExistsInSchema, err := NFTDataAttributesExistInSchema(mapAttributeDefinition, data.OriginAttributes)
 	if !attributesOriginExistsInSchema {
-		return false, sdkerrors.Wrap(types.ErrOnchainAttributesNotExistsInSchema, fmt.Sprintf("Attribute does not exist in schema: %s", err))
+		return false, errormod.Wrap(types.ErrOnchainAttributesNotExistsInSchema, fmt.Sprintf("Attribute does not exist in schema: %s", err))
 	}
 
 	// Validate required attributes
 	validated, requiredAttributeName := ValidateRequiredAttributes(schema.OnchainData.TokenAttributes, CreateNftAttrValueMap(data.OnchainAttributes))
 	if !validated {
-		return false, sdkerrors.Wrap(types.ErrRequiredAttributeMissing, requiredAttributeName)
+		return false, errormod.Wrap(types.ErrRequiredAttributeMissing, requiredAttributeName)
 	}
 
 	// Validate Onchain Attributes Value
 	duplicated, err := HasDuplicateNftAttributesValue(data.OnchainAttributes)
 	if duplicated {
-		return false, sdkerrors.Wrap(types.ErrDuplicateOnchainAttributesValue, fmt.Sprintf("Duplicate attribute name: %s", err))
+		return false, errormod.Wrap(types.ErrDuplicateOnchainAttributesValue, fmt.Sprintf("Duplicate attribute name: %s", err))
 	}
 
 	// Validate Origin Attributes Value
 	duplicated, err = HasDuplicateNftAttributesValue(data.OriginAttributes)
 	if duplicated {
-		return false, sdkerrors.Wrap(types.ErrDuplicateOriginAttributesValue, fmt.Sprintf("Duplicate attribute name: %s", err))
+		return false, errormod.Wrap(types.ErrDuplicateOriginAttributesValue, fmt.Sprintf("Duplicate attribute name: %s", err))
 	}
 
 	// Validate Origin Attributes Exist in Schema
 	hasSameType, err := HasSameTypeAsSchema(mapAttributeDefinition, data.OriginAttributes)
 	if !hasSameType {
-		return false, sdkerrors.Wrap(types.ErrOriginAttributesNotSameTypeAsSchema, fmt.Sprintf("Does not have same type as schema: %s", err))
+		return false, errormod.Wrap(types.ErrOriginAttributesNotSameTypeAsSchema, fmt.Sprintf("Does not have same type as schema: %s", err))
 	}
 
 	// Validate Onchain Attributes Exist in Schema
 	hasSameType, err = HasSameTypeAsSchema(mergedMap, data.OnchainAttributes)
 	if !hasSameType {
-		return false, sdkerrors.Wrap(types.ErrOnchainTokenAttributesNotSameTypeAsSchema, fmt.Sprintf("Does not have same type as schema: %s", err))
+		return false, errormod.Wrap(types.ErrOnchainTokenAttributesNotSameTypeAsSchema, fmt.Sprintf("Does not have same type as schema: %s", err))
 	}
 	return true, nil
 }

@@ -1,15 +1,22 @@
 package keeper
 
 import (
-	"github.com/cosmos/cosmos-sdk/store/prefix"
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	"context"
 
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+
+	errormod "cosmossdk.io/errors"
+	"cosmossdk.io/store/prefix"
+	storetypes "cosmossdk.io/store/types"
+
+	"github.com/cosmos/cosmos-sdk/runtime"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 // SetVirtualAction set a specific virtual in the store from its index
-func (k Keeper) SetVirtualAction(ctx sdk.Context, virtual types.VirtualAction) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.VirtualActionKeyPrefix))
+func (k Keeper) SetVirtualAction(ctx context.Context, virtual types.VirtualAction) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.VirtualActionKeyPrefix))
 	b := k.cdc.MustMarshal(&virtual)
 	store.Set(types.VirtualActionKey(
 		virtual.VirtualNftSchemaCode,
@@ -19,11 +26,12 @@ func (k Keeper) SetVirtualAction(ctx sdk.Context, virtual types.VirtualAction) {
 
 // GetVirtualAction returns a virtual from its index
 func (k Keeper) GetVirtualAction(
-	ctx sdk.Context,
+	ctx context.Context,
 	code string,
 	actionName string,
 ) (val types.VirtualAction, found bool) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.VirtualActionKeyPrefix))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.VirtualActionKeyPrefix))
 
 	b := store.Get(types.VirtualActionKey(
 		code,
@@ -39,11 +47,12 @@ func (k Keeper) GetVirtualAction(
 
 // RemoveVirtualAction removes a virtual from the store
 func (k Keeper) RemoveVirtualAction(
-	ctx sdk.Context,
+	ctx context.Context,
 	code string,
 	actionName string,
 ) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.VirtualActionKeyPrefix))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.VirtualActionKeyPrefix))
 	store.Delete(types.VirtualActionKey(
 		code,
 		actionName,
@@ -51,9 +60,10 @@ func (k Keeper) RemoveVirtualAction(
 }
 
 // GetAllVirtualAction returns all virtual
-func (k Keeper) GetAllVirtualAction(ctx sdk.Context) (list []types.VirtualAction) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.VirtualActionKeyPrefix))
-	iterator := sdk.KVStorePrefixIterator(store, []byte{})
+func (k Keeper) GetAllVirtualAction(ctx context.Context) (list []types.VirtualAction) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.VirtualActionKeyPrefix))
+	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
 
 	defer iterator.Close()
 
@@ -64,4 +74,30 @@ func (k Keeper) GetAllVirtualAction(ctx sdk.Context) (list []types.VirtualAction
 	}
 
 	return
+}
+
+func (k Keeper) UpdateVirtualActionKeeper(ctx sdk.Context, nftSchemaName string, updateAction types.Action) error {
+	_, found := k.GetVirtualSchema(ctx, nftSchemaName)
+	if !found {
+		return errormod.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
+	}
+
+	// validate Action data
+	err := ValidateVirutualAction(&updateAction)
+	if err != nil {
+		return errormod.Wrap(types.ErrValidatingMetadata, err.Error())
+	}
+
+	k.SetVirtualAction(ctx, types.VirtualAction{
+		VirtualNftSchemaCode: nftSchemaName,
+		Name:                 updateAction.Name,
+		Desc:                 updateAction.Desc,
+		When:                 updateAction.When,
+		Then:                 updateAction.Then,
+		Params:               updateAction.Params,
+		Disable:              updateAction.Disable,
+		AllowedActioner:      updateAction.AllowedActioner,
+	})
+
+	return nil
 }

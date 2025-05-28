@@ -7,12 +7,13 @@ import (
 	"fmt"
 	"math/big"
 
+	"cosmossdk.io/log"
+	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/evmos/ethermint/utils"
-	"github.com/tendermint/tendermint/libs/log"
+	"github.com/thesixnetwork/six-protocol/utils"
 
 	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
 )
@@ -149,7 +150,7 @@ func (p PrecompileExecutor) send(ctx sdk.Context, caller common.Address, method 
 		return nil, err
 	}
 
-	if err := p.bankKeeper.SendCoins(ctx, senderCosmoAddr, receiverCosmoAddr, sdk.NewCoins(sdk.NewCoin(denom, sdk.NewIntFromBigInt(amount)))); err != nil {
+	if err := p.bankKeeper.SendCoins(ctx, senderCosmoAddr, receiverCosmoAddr, sdk.NewCoins(sdk.NewCoin(denom, sdkmath.NewIntFromBigInt(amount)))); err != nil {
 		return nil, err
 	}
 

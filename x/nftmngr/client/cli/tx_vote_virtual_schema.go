@@ -3,14 +3,15 @@ package cli
 import (
 	"strconv"
 
+	"github.com/spf13/cobra"
+	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+
+	errormod "cosmossdk.io/errors"
+
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
-	"github.com/spf13/cobra"
-
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
 var _ = strconv.Itoa(0)
@@ -60,6 +61,6 @@ func parseVoteOption(option string) (types.RegistryStatus, error) {
 	case "NO", "N", "no", "n":
 		return types.RegistryStatus_REJECT, nil
 	default:
-		return types.RegistryStatus_REJECT, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid vote option. Use 'YES' or 'NO'")
+		return types.RegistryStatus_REJECT, errormod.Wrap(sdkerrors.ErrInvalidRequest, "invalid vote option. Use 'YES' or 'NO'")
 	}
 }

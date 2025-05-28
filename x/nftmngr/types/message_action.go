@@ -1,7 +1,7 @@
 package types
 
 import (
-	"encoding/json"
+	errormod "cosmossdk.io/errors"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -43,7 +43,7 @@ func (msg *MsgAddAction) GetSignBytes() []byte {
 func (msg *MsgAddAction) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+		return errormod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
 	return nil
 }
@@ -84,7 +84,7 @@ func (msg *MsgUpdateAction) GetSignBytes() []byte {
 func (msg *MsgUpdateAction) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+		return errormod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
 	return nil
 }
@@ -126,58 +126,7 @@ func (msg *MsgToggleAction) GetSignBytes() []byte {
 func (msg *MsgToggleAction) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
-	}
-	return nil
-}
-
-const TypeMsgPerformActionByAdmin = "perform_action_by_admin"
-
-var _ sdk.Msg = &MsgPerformActionByAdmin{}
-
-func NewMsgPerformActionByAdmin(creator, nftSchemaCode, tokenId, action, actionPrams, refId string) *MsgPerformActionByAdmin {
-	// string to json object of  []*ActionParameter
-	var actionPrams_ []*ActionParameter
-	err := json.Unmarshal([]byte(actionPrams), &actionPrams_)
-	if err != nil {
-		panic(err)
-	}
-
-	return &MsgPerformActionByAdmin{
-		Creator:       creator,
-		NftSchemaCode: nftSchemaCode,
-		TokenId:       tokenId,
-		Action:        action,
-		Parameters:    actionPrams_,
-		RefId:         refId,
-	}
-}
-
-func (msg *MsgPerformActionByAdmin) Route() string {
-	return RouterKey
-}
-
-func (msg *MsgPerformActionByAdmin) Type() string {
-	return TypeMsgPerformActionByAdmin
-}
-
-func (msg *MsgPerformActionByAdmin) GetSigners() []sdk.AccAddress {
-	creator, err := sdk.AccAddressFromBech32(msg.Creator)
-	if err != nil {
-		panic(err)
-	}
-	return []sdk.AccAddress{creator}
-}
-
-func (msg *MsgPerformActionByAdmin) GetSignBytes() []byte {
-	bz := ModuleCdc.MustMarshalJSON(msg)
-	return sdk.MustSortJSON(bz)
-}
-
-func (msg *MsgPerformActionByAdmin) ValidateBasic() error {
-	_, err := sdk.AccAddressFromBech32(msg.Creator)
-	if err != nil {
-		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+		return errormod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
 	return nil
 }
@@ -221,7 +170,7 @@ func (msg *MsgPerformVirtualAction) GetSignBytes() []byte {
 func (msg *MsgPerformVirtualAction) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+		return errormod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
 	return nil
 }

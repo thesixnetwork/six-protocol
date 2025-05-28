@@ -3,24 +3,24 @@ package keeper
 import (
 	"context"
 
-	"github.com/cosmos/cosmos-sdk/store/prefix"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/types/query"
+	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+	"cosmossdk.io/store/prefix"
+
+	"github.com/cosmos/cosmos-sdk/runtime"
+	"github.com/cosmos/cosmos-sdk/types/query"
 )
 
-func (k Keeper) TokenAll(c context.Context, req *types.QueryAllTokenRequest) (*types.QueryAllTokenResponse, error) {
+func (k Keeper) TokenAll(ctx context.Context, req *types.QueryAllTokenRequest) (*types.QueryAllTokenResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
 	var tokens []types.Token
-	ctx := sdk.UnwrapSDKContext(c)
 
-	store := ctx.KVStore(k.storeKey)
+	store := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	tokenStore := prefix.NewStore(store, types.KeyPrefix(types.TokenKeyPrefix))
 
 	pageRes, err := query.Paginate(tokenStore, req.Pagination, func(key []byte, value []byte) error {
@@ -39,18 +39,17 @@ func (k Keeper) TokenAll(c context.Context, req *types.QueryAllTokenRequest) (*t
 	return &types.QueryAllTokenResponse{Token: tokens, Pagination: pageRes}, nil
 }
 
-func (k Keeper) Token(c context.Context, req *types.QueryGetTokenRequest) (*types.QueryGetTokenResponse, error) {
+func (k Keeper) Token(ctx context.Context, req *types.QueryGetTokenRequest) (*types.QueryGetTokenResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
-	ctx := sdk.UnwrapSDKContext(c)
 
 	val, found := k.GetToken(
 		ctx,
 		req.Name,
 	)
 	if !found {
-		return nil, status.Error(codes.InvalidArgument, "not found")
+		return nil, status.Error(codes.NotFound, "not found")
 	}
 
 	return &types.QueryGetTokenResponse{Token: val}, nil

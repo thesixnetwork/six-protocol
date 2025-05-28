@@ -3,13 +3,15 @@ package keeper
 import (
 	"context"
 
-	"github.com/cosmos/cosmos-sdk/store/prefix"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/types/query"
+	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+	"cosmossdk.io/store/prefix"
+
+	"github.com/cosmos/cosmos-sdk/runtime"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/types/query"
 )
 
 func (k Keeper) ActionSignerAll(c context.Context, req *types.QueryAllActionSignerRequest) (*types.QueryAllActionSignerResponse, error) {
@@ -20,8 +22,8 @@ func (k Keeper) ActionSignerAll(c context.Context, req *types.QueryAllActionSign
 	var actionSigners []types.ActionSigner
 	ctx := sdk.UnwrapSDKContext(c)
 
-	store := ctx.KVStore(k.storeKey)
-	actionSignerStore := prefix.NewStore(store, types.KeyPrefix(types.ActionSignerKeyPrefix))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	actionSignerStore := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ActionSignerKeyPrefix))
 
 	pageRes, err := query.Paginate(actionSignerStore, req.Pagination, func(key []byte, value []byte) error {
 		var actionSigner types.ActionSigner

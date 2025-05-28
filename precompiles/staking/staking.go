@@ -6,16 +6,18 @@ import (
 	"errors"
 	"math/big"
 
+	"cosmossdk.io/log"
+	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	erromod "cosmossdk.io/errors"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/tendermint/tendermint/libs/log"
 
-	"github.com/evmos/ethermint/utils"
 	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
+	"github.com/thesixnetwork/six-protocol/utils"
 )
 
 const (
@@ -324,7 +326,7 @@ func (p PrecompileExecutor) delegation(ctx sdk.Context, method *abi.Method, args
 		Delegation: DelegationDetails{
 			DelegatorAddress: delegationResponse.GetDelegationResponse().GetDelegation().DelegatorAddress,
 			Shares:           delegationResponse.GetDelegationResponse().GetDelegation().Shares.BigInt(),
-			Decimals:         big.NewInt(sdk.Precision),
+			Decimals:         big.NewInt(sdkmath.LegacyPrecision),
 			ValidatorAddress: delegationResponse.GetDelegationResponse().GetDelegation().ValidatorAddress,
 		},
 	}
@@ -360,9 +362,9 @@ func (p *PrecompileExecutor) convertCoinFromArg(amount *big.Int) (sdk.Coin, erro
 		return sdk.Coin{}, errors.New("invalid amount value")
 	}
 
-	intAmount := sdk.NewIntFromBigInt(amount)
+	intAmount := sdkmath.NewIntFromBigInt(amount)
 	if intAmount.IsZero() {
-		return sdk.Coin{}, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is prohibit from module")
+		return sdk.Coin{}, erromod.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is prohibit from module")
 	}
 
 	microSix := sdk.NewCoin("usix", intAmount.QuoRaw(int64(defaultAttoToMicroDiff)))
@@ -372,18 +374,18 @@ func (p *PrecompileExecutor) convertCoinFromArg(amount *big.Int) (sdk.Coin, erro
 
 func (p *PrecompileExecutor) convertWeiToStakingCoin(ctx sdk.Context, weiAmount *big.Int, bech32Address sdk.AccAddress) error {
 	// check if amount is valid
-	intAmount := sdk.NewIntFromBigInt(weiAmount)
+	intAmount := sdkmath.NewIntFromBigInt(weiAmount)
 	if intAmount.IsZero() {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is prohibit from module")
+		return erromod.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is prohibit from module")
 	}
 
 	// check if balance and input are valid
 	if balance := p.bankKeeper.GetBalance(ctx, bech32Address, "asix"); balance.Amount.LT(intAmount) {
 		// if current_balance + 1 >= inputAmount then convert all token of the account
 
-		tresshold_balance := balance.Amount.Add(sdk.NewInt(bridgeDiffTreshold))
+		tresshold_balance := balance.Amount.Add(sdkmath.NewInt(bridgeDiffTreshold))
 		if tresshold_balance.LT(intAmount) {
-			return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Amount of token is too high than current balance")
+			return erromod.Wrap(sdkerrors.ErrInvalidRequest, "Amount of token is too high than current balance")
 		}
 		intAmount = balance.Amount
 	}
@@ -391,7 +393,7 @@ func (p *PrecompileExecutor) convertWeiToStakingCoin(ctx sdk.Context, weiAmount 
 	// check total supply of evm denom
 	supply := p.bankKeeper.GetSupply(ctx, "asix")
 	if supply.Amount.LT(intAmount) {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is higher than current total supply")
+		return erromod.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is higher than current total supply")
 	}
 
 	// send convert coin to itself

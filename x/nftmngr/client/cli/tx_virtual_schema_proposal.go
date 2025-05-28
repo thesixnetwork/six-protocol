@@ -3,15 +3,16 @@ package cli
 import (
 	"strings"
 
+	"github.com/spf13/cobra"
+	nftmngrutils "github.com/thesixnetwork/six-protocol/x/nftmngr/client/utils"
+	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+
+	errormod "cosmossdk.io/errors"
+
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
-	"github.com/spf13/cobra"
-
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-
-	nftmngrutils "github.com/thesixnetwork/six-protocol/x/nftmngr/client/utils"
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
 func CmdCreateVirtualSchema() *cobra.Command {
@@ -77,6 +78,6 @@ func parseProposalType(option string) (types.ProposalType, error) {
 	case "edit", "1":
 		return types.ProposalType_EDIT, nil
 	default:
-		return types.ProposalType_CREATE, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Invalid proposal type. Use 'create(0)/edit(1)'")
+		return types.ProposalType_CREATE, errormod.Wrap(sdkerrors.ErrInvalidRequest, "Invalid proposal type. Use 'create(0)/edit(1)'")
 	}
 }

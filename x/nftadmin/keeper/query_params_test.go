@@ -3,21 +3,17 @@ package keeper_test
 import (
 	"testing"
 
-	testkeeper "github.com/thesixnetwork/six-protocol/testutil/keeper"
-
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
-
+	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 	"github.com/thesixnetwork/six-protocol/x/nftadmin/types"
 )
 
 func TestParamsQuery(t *testing.T) {
-	keeper, ctx := testkeeper.NftAdminKeeper(t)
-	wctx := sdk.WrapSDKContext(ctx)
+	keeper, ctx := keepertest.NftadminKeeper(t)
 	params := types.DefaultParams()
-	keeper.SetParams(ctx, params)
+	require.NoError(t, keeper.SetParams(ctx, params))
 
-	response, err := keeper.Params(wctx, &types.QueryParamsRequest{})
+	response, err := keeper.Params(ctx, &types.QueryParamsRequest{})
 	require.NoError(t, err)
 	require.Equal(t, &types.QueryParamsResponse{Params: params}, response)
 }

@@ -7,6 +7,8 @@ import (
 
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 
+	errormod "cosmossdk.io/errors"
+
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -17,18 +19,18 @@ func (k msgServer) CreateNFTSchema(goCtx context.Context, msg *types.MsgCreateNF
 
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, msg.Creator)
+		return nil, errormod.Wrap(sdkerrors.ErrInvalidAddress, msg.Creator)
 	}
 
 	jsonSchema, err := base64.StdEncoding.DecodeString(msg.NftSchemaBase64)
 	if err != nil {
-		return nil, sdkerrors.Wrap(types.ErrParsingBase64, err.Error())
+		return nil, errormod.Wrap(types.ErrParsingBase64, err.Error())
 	}
 
 	schema_input := types.NFTSchemaINPUT{}
 	err = k.cdc.(*codec.ProtoCodec).UnmarshalJSON(jsonSchema, &schema_input)
 	if err != nil {
-		return nil, sdkerrors.Wrap(types.ErrParsingSchemaMessage, err.Error())
+		return nil, errormod.Wrap(types.ErrParsingSchemaMessage, err.Error())
 	}
 
 	err = k.CreateNftSchemaKeeper(ctx, msg.Creator, schema_input)
@@ -55,7 +57,7 @@ func (k msgServer) SetBaseUri(goCtx context.Context, msg *types.MsgSetBaseUri) (
 
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, msg.Creator)
+		return nil, errormod.Wrap(sdkerrors.ErrInvalidAddress, msg.Creator)
 	}
 
 	k.SetBaseURIKeeper(ctx, msg.Creator, msg.Code, msg.NewBaseUri)
@@ -79,7 +81,7 @@ func (k msgServer) SetUriRetrievalMethod(goCtx context.Context, msg *types.MsgSe
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, msg.Creator)
+		return nil, errormod.Wrap(sdkerrors.ErrInvalidAddress, msg.Creator)
 	}
 
 	k.SetURIRetrievalKeeper(ctx, msg.Creator, msg.SchemaCode, msg.NewMethod)
@@ -105,7 +107,7 @@ func (k msgServer) SetOriginContract(goCtx context.Context, msg *types.MsgSetOri
 
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, msg.Creator)
+		return nil, errormod.Wrap(sdkerrors.ErrInvalidAddress, msg.Creator)
 	}
 
 	err = k.SetOriginContractKeeper(ctx, msg.Creator, msg.SchemaCode, msg.NewContractAddress)
@@ -134,7 +136,7 @@ func (k msgServer) SetOriginChain(goCtx context.Context, msg *types.MsgSetOrigin
 
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, msg.Creator)
+		return nil, errormod.Wrap(sdkerrors.ErrInvalidAddress, msg.Creator)
 	}
 
 	err = k.SetOriginChainKeeper(ctx, msg.Creator, msg.SchemaCode, msg.NewOriginChain)

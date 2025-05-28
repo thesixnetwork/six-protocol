@@ -21,6 +21,8 @@ const (
 	KeyPermissionOracleAdmin = "oracle_admin"
 )
 
+var ParamsKey = []byte("p_nftoracle")
+
 func KeyPrefix(p string) []byte {
 	return []byte(p)
 }

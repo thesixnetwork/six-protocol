@@ -3,11 +3,11 @@ package keeper
 import (
 	"context"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 func (k Keeper) NFTFeeConfig(c context.Context, req *types.QueryGetNFTFeeConfigRequest) (*types.QueryGetNFTFeeConfigResponse, error) {

@@ -3,13 +3,15 @@ package keeper
 import (
 	"context"
 
-	"github.com/cosmos/cosmos-sdk/store/prefix"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/types/query"
+	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+	"cosmossdk.io/store/prefix"
+
+	"github.com/cosmos/cosmos-sdk/runtime"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/types/query"
 )
 
 func (k Keeper) LockSchemaFeeAll(c context.Context, req *types.QueryAllLockSchemaFeeRequest) (*types.QueryAllLockSchemaFeeResponse, error) {
@@ -20,10 +22,10 @@ func (k Keeper) LockSchemaFeeAll(c context.Context, req *types.QueryAllLockSchem
 	var lockSchemaFees []types.LockSchemaFee
 	ctx := sdk.UnwrapSDKContext(c)
 
-	store := ctx.KVStore(k.storeKey)
-	lockSchemaFeeStore := prefix.NewStore(store, types.KeyPrefix(types.LockSchemaFeeKeyPrefix))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.LockSchemaFeeKeyPrefix))
 
-	pageRes, err := query.Paginate(lockSchemaFeeStore, req.Pagination, func(key []byte, value []byte) error {
+	pageRes, err := query.Paginate(store, req.Pagination, func(key []byte, value []byte) error {
 		var lockSchemaFee types.LockSchemaFee
 		if err := k.cdc.Unmarshal(value, &lockSchemaFee); err != nil {
 			return err

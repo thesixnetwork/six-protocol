@@ -5,12 +5,11 @@ import (
 
 	// sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/stretchr/testify/require"
-
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 )
 
 func TestCollectionOwnerRequestMsgServerCreate(t *testing.T) {
-	srv, ctx := setupMsgServer(t)
+	_, srv, ctx := setupMsgServer(t)
 	creator := "A"
 	for i := 0; i < 5; i++ {
 		resp, err := srv.CreateVerifyCollectionOwnerRequest(ctx, &types.MsgCreateVerifyCollectionOwnerRequest{Creator: creator})
@@ -20,7 +19,7 @@ func TestCollectionOwnerRequestMsgServerCreate(t *testing.T) {
 }
 
 func TestCollectionOwnerRequestMsgServerSubmit(t *testing.T) {
-	srv, ctx := setupMsgServer(t)
+	_, srv, ctx := setupMsgServer(t)
 	creator := "A"
 	for i := 0; i < 5; i++ {
 		resp, err := srv.SubmitVerifyCollectionOwner(ctx, &types.MsgSubmitVerifyCollectionOwner{Creator: creator})

@@ -1,12 +1,11 @@
 package keeper_test
 
 import (
+	"context"
 	"strconv"
 	"testing"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
-
 	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 	"github.com/thesixnetwork/six-protocol/testutil/nullify"
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/keeper"
@@ -16,7 +15,7 @@ import (
 // Prevent strconv unused error
 var _ = strconv.IntSize
 
-func createNMintperm(keeper *keeper.Keeper, ctx sdk.Context, n int) []types.Mintperm {
+func createNMintperm(keeper keeper.Keeper, ctx context.Context, n int) []types.Mintperm {
 	items := make([]types.Mintperm, n)
 	for i := range items {
 		items[i].Token = strconv.Itoa(i)

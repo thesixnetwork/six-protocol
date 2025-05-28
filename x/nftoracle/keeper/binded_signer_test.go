@@ -4,13 +4,13 @@ import (
 	"strconv"
 	"testing"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
-
 	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 	"github.com/thesixnetwork/six-protocol/testutil/nullify"
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/keeper"
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+
+	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 // Prevent strconv unused error
@@ -28,7 +28,7 @@ func createNBindedSigner(keeper *keeper.Keeper, ctx sdk.Context, n int) []types.
 
 func TestBindedSignerGet(t *testing.T) {
 	keeper, ctx := keepertest.NftoracleKeeper(t)
-	items := createNBindedSigner(keeper, ctx, 10)
+	items := createNBindedSigner(&keeper, ctx, 10)
 	for _, item := range items {
 		rst, found := keeper.GetBindedSigner(ctx,
 			item.OwnerAddress,
@@ -43,7 +43,7 @@ func TestBindedSignerGet(t *testing.T) {
 
 func TestBindedSignerRemove(t *testing.T) {
 	keeper, ctx := keepertest.NftoracleKeeper(t)
-	items := createNBindedSigner(keeper, ctx, 10)
+	items := createNBindedSigner(&keeper, ctx, 10)
 	for _, item := range items {
 		keeper.RemoveBindedSigner(ctx,
 			item.OwnerAddress,
@@ -57,7 +57,7 @@ func TestBindedSignerRemove(t *testing.T) {
 
 func TestBindedSignerGetAll(t *testing.T) {
 	keeper, ctx := keepertest.NftoracleKeeper(t)
-	items := createNBindedSigner(keeper, ctx, 10)
+	items := createNBindedSigner(&keeper, ctx, 10)
 	require.ElementsMatch(t,
 		nullify.Fill(items),
 		nullify.Fill(keeper.GetAllBindedSigner(ctx)),

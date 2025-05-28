@@ -1,10 +1,13 @@
 package keeper
 
 import (
+	"context"
 	"strconv"
 	"strings"
 
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+
+	errormod "cosmossdk.io/errors"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -21,7 +24,7 @@ func (k Keeper) CreateNftSchemaKeeper(ctx sdk.Context, creator string, schemaInp
 	// Validate Schema Message and return error if not valid
 	_, err = ValidateNFTSchema(&schemaInput)
 	if err != nil {
-		return sdkerrors.Wrap(types.ErrValidatingNFTSchema, err.Error())
+		return errormod.Wrap(types.ErrValidatingNFTSchema, err.Error())
 	}
 
 	// if mint_authorization is empty then set system to default
@@ -32,7 +35,7 @@ func (k Keeper) CreateNftSchemaKeeper(ctx sdk.Context, creator string, schemaInp
 	// Check if the schemaInput already exists
 	_, found := k.GetNFTSchema(ctx, schemaInput.Code)
 	if found {
-		return sdkerrors.Wrap(types.ErrSchemaAlreadyExists, schemaInput.Code)
+		return errormod.Wrap(types.ErrSchemaAlreadyExists, schemaInput.Code)
 	}
 
 	// check if schemaCode match with some virtual schema proposal
@@ -50,7 +53,7 @@ func (k Keeper) CreateNftSchemaKeeper(ctx sdk.Context, creator string, schemaInp
 		if found {
 			// Check owner of organization
 			if storedOrganization.Owner != creator {
-				return sdkerrors.Wrap(types.ErrOrganizationOwner, creator)
+				return errormod.Wrap(types.ErrOrganizationOwner, creator)
 			}
 		} else {
 			// Store organization
@@ -87,7 +90,7 @@ func (k Keeper) CreateNftSchemaKeeper(ctx sdk.Context, creator string, schemaInp
 		// parse DefaultMintValue to SchemaAttributeValue
 		schmaAttributeValue, err := ConvertDefaultMintValueToSchemaAttributeValue(schemaDefaultMintAttribute.DefaultMintValue)
 		if err != nil {
-			return sdkerrors.Wrap(types.ErrParsingMetadataMessage, err.Error())
+			return errormod.Wrap(types.ErrParsingMetadataMessage, err.Error())
 		}
 
 		k.SetSchemaAttribute(ctx, types.SchemaAttribute{
@@ -131,7 +134,7 @@ func (k Keeper) CreateNftSchemaKeeper(ctx sdk.Context, creator string, schemaInp
 		// validate address
 		_, err := sdk.AccAddressFromBech32(actionExecutor)
 		if err != nil {
-			return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, actionExecutor)
+			return errormod.Wrap(sdkerrors.ErrInvalidAddress, actionExecutor)
 		}
 
 		// check if actionExecutor already exists
@@ -194,7 +197,7 @@ func (k Keeper) CreateNftSchemaKeeper(ctx sdk.Context, creator string, schemaInp
 		// Get Denom
 		amount, err := sdk.ParseCoinNormalized(feeConfig.SchemaFee.FeeAmount)
 		if err != nil {
-			return sdkerrors.Wrap(types.ErrInvalidFeeAmount, err.Error())
+			return errormod.Wrap(types.ErrInvalidFeeAmount, err.Error())
 		}
 		feeBalances, found := k.GetNFTFeeBalance(ctx)
 		if !found {
@@ -210,7 +213,7 @@ func (k Keeper) CreateNftSchemaKeeper(ctx sdk.Context, creator string, schemaInp
 		}
 		err = k.ProcessFee(ctx, &feeConfig, &feeBalances, types.FeeSubject_CREATE_NFT_SCHEMA, creatorAddress)
 		if err != nil {
-			return sdkerrors.Wrap(types.ErrProcessingFee, err.Error())
+			return errormod.Wrap(types.ErrProcessingFee, err.Error())
 		}
 		// Set Fee Balance
 		k.SetNFTFeeBalance(ctx, feeBalances)
@@ -237,47 +240,14 @@ func (k Keeper) ProcessFee(ctx sdk.Context, feeConfig *types.NFTFeeConfig, feeBa
 	return nil
 }
 
-func (k Keeper) VirtualSchemaProcessFee(ctx sdk.Context, feeConfig *types.NFTFeeConfig, feeBalances *types.NFTFeeBalance, feeSubject types.FeeSubject, pass bool, proposalId string) error {
-	lockedAsset, found := k.GetLockSchemaFee(ctx, proposalId)
-	if !found {
-		return sdkerrors.Wrap(types.ErrLockedAssetNotFound, proposalId)
-	}
-	creatorAddress, err := sdk.AccAddressFromBech32(lockedAsset.Proposer)
-	if err != nil {
-		return err
-	}
-
-	if !pass {
-		err := k.bankKeeper.SendCoinsFromModuleToAccount(
-			ctx, types.ModuleName, creatorAddress, sdk.NewCoins(lockedAsset.Amount),
-		)
-		if err != nil {
-			return err
-		}
-	} else {
-		currentFeeBalance, _ := sdk.ParseCoinNormalized(feeBalances.FeeBalances[int32(feeSubject)])
-		feeAmount, _ := sdk.ParseCoinNormalized(feeConfig.SchemaFee.FeeAmount)
-		// make sure fee lockamount enough for feeAmount
-		if feeAmount.Amount.LT(lockedAsset.Amount.Amount) {
-			return sdkerrors.Wrap(sdkerrors.ErrInsufficientFunds, "insufficient fee balance")
-		}
-		// Plus fee amount to fee balance
-		currentFeeBalance = currentFeeBalance.Add(feeAmount)
-		feeBalances.FeeBalances[int32(feeSubject)] = strconv.FormatInt(currentFeeBalance.Amount.Int64(), 10) + feeAmount.Denom
-	}
-
-	k.RemoveLockSchemaFee(ctx, proposalId)
-	return nil
-}
-
 func (k Keeper) SetBaseURIKeeper(ctx sdk.Context, creator, nftSchemaName, baseURI string) error {
 	schema, found := k.GetNFTSchema(ctx, nftSchemaName)
 	if !found {
-		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
+		return errormod.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
 	}
 
 	if creator != schema.Owner {
-		return sdkerrors.Wrap(types.ErrCreatorDoesNotMatch, creator)
+		return errormod.Wrap(types.ErrCreatorDoesNotMatch, creator)
 	}
 
 	schema.OriginData.OriginBaseUri = baseURI
@@ -289,11 +259,11 @@ func (k Keeper) SetBaseURIKeeper(ctx sdk.Context, creator, nftSchemaName, baseUR
 func (k Keeper) SetMetadataFormatKeeper(ctx sdk.Context, creator, nftSchemaName, format string) error {
 	schema, found := k.GetNFTSchema(ctx, nftSchemaName)
 	if !found {
-		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
+		return errormod.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
 	}
 
 	if creator != schema.Owner {
-		return sdkerrors.Wrap(types.ErrCreatorDoesNotMatch, creator)
+		return errormod.Wrap(types.ErrCreatorDoesNotMatch, creator)
 	}
 
 	schema.OriginData.MetadataFormat = format
@@ -306,11 +276,11 @@ func (k Keeper) SetMetadataFormatKeeper(ctx sdk.Context, creator, nftSchemaName,
 func (k Keeper) SetMintAuthKeeper(ctx sdk.Context, creator, nftSchemaName string, authTo types.AuthorizeTo) error {
 	schema, found := k.GetNFTSchema(ctx, nftSchemaName)
 	if !found {
-		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
+		return errormod.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
 	}
 
 	if creator != schema.Owner {
-		return sdkerrors.Wrap(types.ErrCreatorDoesNotMatch, creator)
+		return errormod.Wrap(types.ErrCreatorDoesNotMatch, creator)
 	}
 
 	// Swith location of attribute
@@ -332,11 +302,11 @@ func (k Keeper) SetMintAuthKeeper(ctx sdk.Context, creator, nftSchemaName string
 func (k Keeper) SetOriginChainKeeper(ctx sdk.Context, creator, nftSchemaName, originChain string) error {
 	schema, found := k.GetNFTSchema(ctx, nftSchemaName)
 	if !found {
-		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
+		return errormod.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
 	}
 
 	if creator != schema.Owner {
-		return sdkerrors.Wrap(types.ErrCreatorDoesNotMatch, creator)
+		return errormod.Wrap(types.ErrCreatorDoesNotMatch, creator)
 	}
 
 	// to uppercase
@@ -351,11 +321,11 @@ func (k Keeper) SetOriginChainKeeper(ctx sdk.Context, creator, nftSchemaName, or
 func (k Keeper) SetOriginContractKeeper(ctx sdk.Context, creator, nftSchemaName, contract string) error {
 	schema, found := k.GetNFTSchema(ctx, nftSchemaName)
 	if !found {
-		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
+		return errormod.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
 	}
 
 	if creator != schema.Owner {
-		return sdkerrors.Wrap(types.ErrCreatorDoesNotMatch, creator)
+		return errormod.Wrap(types.ErrCreatorDoesNotMatch, creator)
 	}
 
 	schema.OriginData.OriginContractAddress = contract
@@ -367,11 +337,11 @@ func (k Keeper) SetOriginContractKeeper(ctx sdk.Context, creator, nftSchemaName,
 func (k Keeper) SetURIRetrievalKeeper(ctx sdk.Context, creator, nftSchemaName string, method int32) error {
 	schema, found := k.GetNFTSchema(ctx, nftSchemaName)
 	if !found {
-		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
+		return errormod.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
 	}
 
 	if creator != schema.Owner {
-		return sdkerrors.Wrap(types.ErrCreatorDoesNotMatch, creator)
+		return errormod.Wrap(types.ErrCreatorDoesNotMatch, creator)
 	}
 
 	switch method {
@@ -386,12 +356,12 @@ func (k Keeper) SetURIRetrievalKeeper(ctx sdk.Context, creator, nftSchemaName st
 	return nil
 }
 
-func (k Keeper) checkDuplicateSchemaCodeWithVirtualSchemaProposal(ctx sdk.Context, schemaCode string) error {
+func (k Keeper) checkDuplicateSchemaCodeWithVirtualSchemaProposal(ctx context.Context, schemaCode string) error {
 	allAciveProposal := k.GetAllActiveVirtualSchemaProposal(ctx)
 	for _, proposal := range allAciveProposal {
 		virtualSchemaProposal, _ := k.GetVirtualSchemaProposal(ctx, proposal.Id)
 		if virtualSchemaProposal.VirtualSchema.VirtualNftSchemaCode == schemaCode {
-			return sdkerrors.Wrap(types.ErrSchemaAlreadyExists, "schema code already exists in proposal: "+proposal.Id)
+			return errormod.Wrap(types.ErrSchemaAlreadyExists, "schema code already exists in proposal: "+proposal.Id)
 		}
 	}
 	return nil

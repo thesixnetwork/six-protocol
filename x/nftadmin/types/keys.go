@@ -14,12 +14,14 @@ const (
 	QuerierRoute = ModuleName
 
 	// MemStoreKey defines the in-memory store key
-	MemStoreKey = "mem_admin"
+	MemStoreKey = "mem_nftadmin"
 
 	KeyPermissionMinter = "minter"
 	KeyPermissionBurner = "burner"
 	KeyPermissionBinder = "binder"
 )
+
+var ParamsKey = []byte("p_nftadmin")
 
 func KeyPrefix(p string) []byte {
 	return []byte(p)

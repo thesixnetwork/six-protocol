@@ -6,7 +6,7 @@ import (
 )
 
 // FindAccount find a specific address from an account list
-func _FindAccount(accs []simtypes.Account, address string) (simtypes.Account, bool) {
+func FindAccount(accs []simtypes.Account, address string) (simtypes.Account, bool) {
 	creator, err := sdk.AccAddressFromBech32(address)
 	if err != nil {
 		panic(err)

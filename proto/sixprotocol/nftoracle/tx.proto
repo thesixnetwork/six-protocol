@@ -1,0 +1,255 @@
+syntax = "proto3";
+package sixprotocol.nftoracle;
+
+import "amino/amino.proto";
+import "cosmos/msg/v1/msg.proto";
+import "cosmos_proto/cosmos.proto";
+import "gogoproto/gogo.proto";
+import "sixprotocol/nftoracle/params.proto";
+import "sixprotocol/nftoracle/action_signer.proto";
+import "sixprotocol/nftoracle/action_signer_config.proto";
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/nftoracle/types";
+
+// Msg defines the Msg service.
+service Msg {
+  option (cosmos.msg.v1.service) = true;
+
+  // UpdateParams defines a (governance) operation for updating the module
+  // parameters. The authority defaults to the x/gov module account.
+  rpc UpdateParams(MsgUpdateParams) returns (MsgUpdateParamsResponse);
+
+  rpc CreateMintRequest(MsgCreateMintRequest)
+      returns (MsgCreateMintRequestResponse);
+  rpc SubmitMintResponse(MsgSubmitMintResponse)
+      returns (MsgSubmitMintResponseResponse);
+  rpc CreateActionRequest(MsgCreateActionRequest)
+      returns (MsgCreateActionRequestResponse);
+  rpc SubmitActionResponse(MsgSubmitActionResponse)
+      returns (MsgSubmitActionResponseResponse);
+  rpc CreateVerifyCollectionOwnerRequest(MsgCreateVerifyCollectionOwnerRequest)
+      returns (MsgCreateVerifyCollectionOwnerRequestResponse);
+  rpc SubmitVerifyCollectionOwner(MsgSubmitVerifyCollectionOwner)
+      returns (MsgSubmitVerifyCollectionOwnerResponse);
+  rpc SetMinimumConfirmation(MsgSetMinimumConfirmation)
+      returns (MsgSetMinimumConfirmationResponse);
+  rpc CreateActionSigner(MsgCreateActionSigner)
+      returns (MsgCreateActionSignerResponse);
+  rpc UpdateActionSigner(MsgUpdateActionSigner)
+      returns (MsgUpdateActionSignerResponse);
+  rpc DeleteActionSigner(MsgDeleteActionSigner)
+      returns (MsgDeleteActionSignerResponse);
+  rpc CreateActionSignerConfig(MsgCreateActionSignerConfig)
+      returns (MsgCreateActionSignerConfigResponse);
+  rpc UpdateActionSignerConfig(MsgUpdateActionSignerConfig)
+      returns (MsgUpdateActionSignerConfigResponse);
+  rpc DeleteActionSignerConfig(MsgDeleteActionSignerConfig)
+      returns (MsgDeleteActionSignerConfigResponse);
+  rpc CreateSyncActionSigner(MsgCreateSyncActionSigner)
+      returns (MsgCreateSyncActionSignerResponse);
+  rpc SubmitSyncActionSigner(MsgSubmitSyncActionSigner)
+      returns (MsgSubmitSyncActionSignerResponse);
+}
+
+// MsgUpdateParams is the Msg/UpdateParams request type.
+message MsgUpdateParams {
+  option (cosmos.msg.v1.signer) = "authority";
+  option (amino.name) = "sixprotocol/x/nftoracle/MsgUpdateParams";
+
+  // authority is the address that controls the module (defaults to x/gov unless
+  // overwritten).
+  string authority = 1 [ (cosmos_proto.scalar) = "cosmos.AddressString" ];
+
+  // params defines the module parameters to update.
+  //
+  // NOTE: All parameters must be supplied.
+  Params params = 2
+      [ (gogoproto.nullable) = false, (amino.dont_omitempty) = true ];
+}
+
+// MsgUpdateParamsResponse defines the response structure for executing a
+// MsgUpdateParams message.
+message MsgUpdateParamsResponse {}
+
+message MsgCreateMintRequest {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string nftSchemaCode = 2;
+  string tokenId = 3;
+  uint64 requiredConfirm = 4;
+}
+
+message MsgCreateMintRequestResponse {
+  uint64 id = 1;
+  string nftSchemaCode = 2;
+  string tokenId = 3;
+}
+
+message MsgSubmitMintResponse {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  uint64 mintRequestID = 2;
+  string base64NftData = 3;
+}
+
+message MsgSubmitMintResponseResponse { string mintRequestID = 1; }
+
+message MsgCreateActionRequest {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string vm = 2;
+  string base64ActionSignature = 3;
+  uint64 requiredConfirm = 4;
+}
+
+message MsgCreateActionRequestResponse { uint64 id = 1; }
+
+message MsgSubmitActionResponse {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  uint64 actionRequestID = 2;
+  string base64NftData = 3;
+}
+
+message MsgSubmitActionResponseResponse { string actionRequestID = 1; }
+
+message MsgCreateVerifyCollectionOwnerRequest {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string nftSchemaCode = 2;
+  string base64VerifyRequestorSignature = 3;
+  uint64 requiredConfirm = 4;
+}
+
+message MsgCreateVerifyCollectionOwnerRequestResponse {
+  uint64 id = 1;
+  string nftSchemaCode = 2;
+  string ownerAddress = 3;
+}
+
+message MsgSubmitVerifyCollectionOwner {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  uint64 verifyRequestID = 2;
+  string nftSchemaCode = 3;
+  string base64OriginContractInfo = 4;
+}
+
+message MsgSubmitVerifyCollectionOwnerResponse { uint64 verifyRequestID = 1; }
+
+message MsgSetMinimumConfirmation {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string newConfirmation = 2;
+}
+
+message MsgSetMinimumConfirmationResponse { string newConfirmation = 1; }
+
+message MsgCreateActionSigner {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string base64EncodedSetSignerAction = 2;
+}
+message MsgCreateActionSignerResponse {
+  string ownerAddress = 1;
+  string signerAddress = 2;
+  string expireAt = 3;
+}
+
+message MsgUpdateActionSigner {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string base64EncodedSetSignerAction = 2;
+}
+message MsgUpdateActionSignerResponse {
+  string ownerAddress = 1;
+  string signerAddress = 2;
+  string expireAt = 3;
+}
+
+message MsgDeleteActionSigner {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string base64EncodedSetSignerAction = 2;
+}
+message MsgDeleteActionSignerResponse {
+  string ownerAddress = 1;
+  string signerAddress = 2;
+}
+message MsgCreateActionSignerConfig {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string chain = 2;
+  string rpc_endpoint = 3;
+  string contractAddress = 4;
+  string contractName = 5;
+  string contractOwner = 6;
+}
+message MsgCreateActionSignerConfigResponse {
+  string chain = 1;
+  string rpc_endpoint = 2;
+  string contractAddress = 3;
+  string contractName = 4;
+  string contractOwner = 5;
+}
+
+message MsgUpdateActionSignerConfig {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string chain = 2;
+  string rpc_endpoint = 3;
+  string contractAddress = 4;
+  string contractName = 5;
+  string contractOwner = 6;
+}
+message MsgUpdateActionSignerConfigResponse {
+  string chain = 1;
+  string rpc_endpoint = 2;
+  string new_rpc_endpoint = 3;
+  string contractAddress = 4;
+  string new_contractAddress = 5;
+  string contractName = 6;
+  string new_contractName = 7;
+  string contractOwner = 8;
+  string new_contractOwner = 9;
+}
+
+message MsgDeleteActionSignerConfig {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string chain = 2;
+}
+message MsgDeleteActionSignerConfigResponse { string chain = 1; }
+
+message MsgCreateSyncActionSigner {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string chain = 2;
+  string actorAddress = 3;
+  string ownerAddress = 4;
+  uint64 requiredConfirm = 5;
+}
+
+message MsgCreateSyncActionSignerResponse {
+  uint64 id = 1;
+  string chain = 2;
+  string ownerAddress = 3;
+  string actorAddress = 4;
+}
+
+message MsgSubmitSyncActionSigner {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  uint64 syncId = 2;
+  string chain = 3;
+  string actorAddress = 4;
+  string ownerAddress = 5;
+  string expire_epoch = 6;
+  /* usign epoch because the data will came from smart contract
+  and it is easier to make communication between smart contract and cosmos */
+}
+
+message MsgSubmitSyncActionSignerResponse {
+  uint64 verifyRequestID = 1;
+  string expireAt = 2;
+}

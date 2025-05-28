@@ -3,10 +3,12 @@ package keeper
 import (
 	"context"
 
+	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+
+	errorsmod "cosmossdk.io/errors"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-
-	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
 func (k msgServer) CreateMintperm(goCtx context.Context, msg *types.MsgCreateMintperm) (*types.MsgCreateMintpermResponse, error) {
@@ -14,12 +16,12 @@ func (k msgServer) CreateMintperm(goCtx context.Context, msg *types.MsgCreateMin
 
 	pass := k.protocoladminKeeper.Authenticate(ctx, TOKEN_ADMIN, msg.Creator)
 	if !pass {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "message creator is not token admin or super admin")
+		return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "message creator is not token admin or super admin")
 	}
 
 	_, foundToken := k.GetToken(ctx, msg.Token)
 	if !foundToken {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "token does not existed")
+		return nil, errorsmod.Wrap(sdkerrors.ErrKeyNotFound, "token does not existed")
 	}
 
 	// ** Prepare this code for future but it might be bypass by bank module **
@@ -60,7 +62,7 @@ func (k msgServer) CreateMintperm(goCtx context.Context, msg *types.MsgCreateMin
 		msg.Address,
 	)
 	if isFound {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "index already set")
+		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "index already set")
 	}
 
 	mintperm := types.Mintperm{
@@ -81,7 +83,7 @@ func (k msgServer) UpdateMintperm(goCtx context.Context, msg *types.MsgUpdateMin
 
 	pass := k.protocoladminKeeper.Authenticate(ctx, TOKEN_ADMIN, msg.Creator)
 	if !pass {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "message creator is not token admin or super admin")
+		return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "message creator is not token admin or super admin")
 	}
 
 	// Check if the value exists
@@ -91,7 +93,7 @@ func (k msgServer) UpdateMintperm(goCtx context.Context, msg *types.MsgUpdateMin
 		msg.Address,
 	)
 	if !isFound {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
+		return nil, errorsmod.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
 	}
 
 	mintperm := types.Mintperm{
@@ -110,7 +112,7 @@ func (k msgServer) DeleteMintperm(goCtx context.Context, msg *types.MsgDeleteMin
 
 	pass := k.protocoladminKeeper.Authenticate(ctx, TOKEN_ADMIN, msg.Creator)
 	if !pass {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "message creator is not token admin or super admin")
+		return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "message creator is not token admin or super admin")
 	}
 
 	// Check if the value exists
@@ -120,7 +122,7 @@ func (k msgServer) DeleteMintperm(goCtx context.Context, msg *types.MsgDeleteMin
 		msg.Address,
 	)
 	if !isFound {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
+		return nil, errorsmod.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
 	}
 
 	k.RemoveMintperm(
