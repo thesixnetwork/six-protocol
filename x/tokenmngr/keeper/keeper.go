@@ -3,65 +3,63 @@ package keeper
 import (
 	"fmt"
 
-	"github.com/tendermint/tendermint/libs/log"
+	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+
+	"cosmossdk.io/core/store"
+	"cosmossdk.io/log"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
-	"github.com/ignite/cli/ignite/pkg/cosmosibckeeper"
-
-	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
 type (
 	Keeper struct {
-		*cosmosibckeeper.Keeper
-		cdc        codec.BinaryCodec
-		storeKey   sdk.StoreKey
-		memKey     sdk.StoreKey
-		paramstore paramtypes.Subspace
+		cdc          codec.BinaryCodec
+		storeService store.KVStoreService
+		logger       log.Logger
 
-		bankKeeper          types.BankKeeper
+		// the address capable of executing a MsgUpdateParams message. Typically, this
+		// should be the x/gov module account.
+		authority string
+
 		accountKeeper       types.AccountKeeper
+		bankKeeper          types.BankKeeper
 		protocoladminKeeper types.ProtocoladminKeeper
-		evmKeeper           types.EVMKeeper
 	}
 )
 
 func NewKeeper(
 	cdc codec.BinaryCodec,
-	storeKey,
-	memKey sdk.StoreKey,
-	ps paramtypes.Subspace,
-	channelKeeper cosmosibckeeper.ChannelKeeper,
-	portKeeper cosmosibckeeper.PortKeeper,
-	scopedKeeper cosmosibckeeper.ScopedKeeper,
-	bankKeeper types.BankKeeper,
+	storeService store.KVStoreService,
+	logger log.Logger,
+	authority string,
+
 	accountKeeper types.AccountKeeper,
+	bankKeeper types.BankKeeper,
 	protocoladminKeeper types.ProtocoladminKeeper,
-	evmKeeper types.EVMKeeper,
-) *Keeper {
-	// set KeyTable if it has not already been set
-	if !ps.HasKeyTable() {
-		ps = ps.WithKeyTable(types.ParamKeyTable())
+) Keeper {
+	if _, err := sdk.AccAddressFromBech32(authority); err != nil {
+		panic(fmt.Sprintf("invalid authority address: %s", authority))
 	}
 
-	return &Keeper{
-		Keeper: cosmosibckeeper.NewKeeper(
-			types.PortKey,
-			storeKey,
-			channelKeeper,
-			portKeeper,
-			scopedKeeper,
-		),
-		cdc:        cdc,
-		storeKey:   storeKey,
-		memKey:     memKey,
-		paramstore: ps,
-		bankKeeper: bankKeeper, accountKeeper: accountKeeper, protocoladminKeeper: protocoladminKeeper, evmKeeper: evmKeeper,
+	return Keeper{
+		cdc:          cdc,
+		storeService: storeService,
+		authority:    authority,
+		logger:       logger,
+
+		accountKeeper:       accountKeeper,
+		bankKeeper:          bankKeeper,
+		protocoladminKeeper: protocoladminKeeper,
 	}
 }
 
-func (k Keeper) Logger(ctx sdk.Context) log.Logger {
-	return ctx.Logger().With("module", fmt.Sprintf("x/%s", types.ModuleName))
+// GetAuthority returns the module's authority.
+func (k Keeper) GetAuthority() string {
+	return k.authority
+}
+
+// Logger returns a module-specific logger.
+func (k Keeper) Logger() log.Logger {
+	return k.logger.With("module", fmt.Sprintf("x/%s", types.ModuleName))
 }

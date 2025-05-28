@@ -4,13 +4,12 @@ import (
 	"strconv"
 	"testing"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/stretchr/testify/require"
-
 	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/keeper"
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
 // Prevent strconv unused error
@@ -18,15 +17,14 @@ var _ = strconv.IntSize
 
 func TestActionSignerMsgServerCreate(t *testing.T) {
 	k, ctx := keepertest.NftoracleKeeper(t)
-	srv := keeper.NewMsgServerImpl(*k)
-	wctx := sdk.WrapSDKContext(ctx)
+	srv := keeper.NewMsgServerImpl(k)
 	creator := "A"
 	for i := 0; i < 5; i++ {
 		expected := &types.MsgCreateActionSigner{
 			Creator:                      creator,
 			Base64EncodedSetSignerAction: strconv.Itoa(i),
 		}
-		_, err := srv.CreateActionSigner(wctx, expected)
+		_, err := srv.CreateActionSigner(ctx, expected)
 		require.NoError(t, err)
 		rst, found := k.GetActionSigner(ctx,
 			creator,
@@ -71,16 +69,15 @@ func TestActionSignerMsgServerUpdate(t *testing.T) {
 	} {
 		t.Run(tc.desc, func(t *testing.T) {
 			k, ctx := keepertest.NftoracleKeeper(t)
-			srv := keeper.NewMsgServerImpl(*k)
-			wctx := sdk.WrapSDKContext(ctx)
+			srv := keeper.NewMsgServerImpl(k)
 			expected := &types.MsgCreateActionSigner{
 				Creator:                      creator,
 				Base64EncodedSetSignerAction: strconv.Itoa(0),
 			}
-			_, err := srv.CreateActionSigner(wctx, expected)
+			_, err := srv.CreateActionSigner(ctx, expected)
 			require.NoError(t, err)
 
-			_, err = srv.UpdateActionSigner(wctx, tc.request)
+			_, err = srv.UpdateActionSigner(ctx, tc.request)
 			if tc.err != nil {
 				require.ErrorIs(t, err, tc.err)
 			} else {
@@ -130,15 +127,14 @@ func TestActionSignerMsgServerDelete(t *testing.T) {
 	} {
 		t.Run(tc.desc, func(t *testing.T) {
 			k, ctx := keepertest.NftoracleKeeper(t)
-			srv := keeper.NewMsgServerImpl(*k)
-			wctx := sdk.WrapSDKContext(ctx)
+			srv := keeper.NewMsgServerImpl(k)
 
-			_, err := srv.CreateActionSigner(wctx, &types.MsgCreateActionSigner{
+			_, err := srv.CreateActionSigner(ctx, &types.MsgCreateActionSigner{
 				Creator:                      creator,
 				Base64EncodedSetSignerAction: strconv.Itoa(0),
 			})
 			require.NoError(t, err)
-			_, err = srv.DeleteActionSigner(wctx, tc.request)
+			_, err = srv.DeleteActionSigner(ctx, tc.request)
 			if tc.err != nil {
 				require.ErrorIs(t, err, tc.err)
 			} else {

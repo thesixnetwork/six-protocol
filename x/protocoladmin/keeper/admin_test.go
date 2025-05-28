@@ -1,12 +1,11 @@
 package keeper_test
 
 import (
+	"context"
 	"strconv"
 	"testing"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
-
 	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 	"github.com/thesixnetwork/six-protocol/testutil/nullify"
 	"github.com/thesixnetwork/six-protocol/x/protocoladmin/keeper"
@@ -16,7 +15,7 @@ import (
 // Prevent strconv unused error
 var _ = strconv.IntSize
 
-func createNAdmin(keeper *keeper.Keeper, ctx sdk.Context, n int) []types.Admin {
+func createNAdmin(keeper keeper.Keeper, ctx context.Context, n int) []types.Admin {
 	items := make([]types.Admin, n)
 	for i := range items {
 		items[i].Group = strconv.Itoa(i)
@@ -62,10 +61,6 @@ func TestAdminRemove(t *testing.T) {
 func TestAdminGetAll(t *testing.T) {
 	keeper, ctx := keepertest.ProtocoladminKeeper(t)
 	items := createNAdmin(keeper, ctx, 10)
-	items = append(items, types.Admin{
-		Group: "super.admin",
-		Admin: "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv",
-	})
 	require.ElementsMatch(t,
 		nullify.Fill(items),
 		nullify.Fill(keeper.GetAllAdmin(ctx)),

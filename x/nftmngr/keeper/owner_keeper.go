@@ -1,27 +1,28 @@
 package keeper
 
 import (
+	"context"
+
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	errormod "cosmossdk.io/errors"
 )
 
-func (k Keeper) GetSchemaOwner(ctx sdk.Context, nftSchemaName string) (string, error) {
+func (k Keeper) GetSchemaOwner(ctx context.Context, nftSchemaName string) (string, error) {
 	var ownerAddress string
 
 	schema, found := k.GetNFTSchema(ctx, nftSchemaName)
 	if !found {
-		return "", sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
+		return "", errormod.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
 	}
 	ownerAddress = schema.Owner
 	return ownerAddress, nil
 }
 
-func (k Keeper) IsSchemaOwner(ctx sdk.Context, nftSchemaName, inputAddress string) (bool, error) {
+func (k Keeper) IsSchemaOwner(ctx context.Context, nftSchemaName, inputAddress string) (bool, error) {
 	schema, found := k.GetNFTSchema(ctx, nftSchemaName)
 	if !found {
-		return false, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
+		return false, errormod.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
 	}
 
 	if schema.Owner != inputAddress {
@@ -31,15 +32,15 @@ func (k Keeper) IsSchemaOwner(ctx sdk.Context, nftSchemaName, inputAddress strin
 	return true, nil
 }
 
-func (k Keeper) ChangeOrgOwner(ctx sdk.Context, creator, newOwner, orgName string) error {
+func (k Keeper) ChangeOrgOwner(ctx context.Context, creator, newOwner, orgName string) error {
 	// get the organization
 	organization, found := k.GetOrganization(ctx, orgName)
 	if !found {
-		return sdkerrors.Wrap(types.ErrOrganizationNotFound, orgName)
+		return errormod.Wrap(types.ErrOrganizationNotFound, orgName)
 	}
 
 	if organization.Owner != creator {
-		return sdkerrors.Wrap(types.ErrOrganizationOwner, creator)
+		return errormod.Wrap(types.ErrOrganizationOwner, creator)
 	}
 
 	// change the owner
@@ -50,16 +51,16 @@ func (k Keeper) ChangeOrgOwner(ctx sdk.Context, creator, newOwner, orgName strin
 	return nil
 }
 
-func (k Keeper) ChangeSchemaOwner(ctx sdk.Context, creator, newOwner, nftSchemaName string) error {
+func (k Keeper) ChangeSchemaOwner(ctx context.Context, creator, newOwner, nftSchemaName string) error {
 	// Retrieve schema data
 	schema, found := k.GetNFTSchema(ctx, nftSchemaName)
 	if !found {
-		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, creator)
+		return errormod.Wrap(types.ErrSchemaDoesNotExists, creator)
 	}
 
 	// Check if the creator is the same as the current owner
 	if creator != schema.Owner {
-		return sdkerrors.Wrap(types.ErrCreatorDoesNotMatch, creator)
+		return errormod.Wrap(types.ErrCreatorDoesNotMatch, creator)
 	}
 
 	// Change the owner

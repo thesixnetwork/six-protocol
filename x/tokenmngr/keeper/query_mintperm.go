@@ -3,24 +3,24 @@ package keeper
 import (
 	"context"
 
-	"github.com/cosmos/cosmos-sdk/store/prefix"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/types/query"
+	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+	"cosmossdk.io/store/prefix"
+
+	"github.com/cosmos/cosmos-sdk/runtime"
+	"github.com/cosmos/cosmos-sdk/types/query"
 )
 
-func (k Keeper) MintpermAll(c context.Context, req *types.QueryAllMintpermRequest) (*types.QueryAllMintpermResponse, error) {
+func (k Keeper) MintpermAll(ctx context.Context, req *types.QueryAllMintpermRequest) (*types.QueryAllMintpermResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
 	var mintperms []types.Mintperm
-	ctx := sdk.UnwrapSDKContext(c)
 
-	store := ctx.KVStore(k.storeKey)
+	store := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	mintpermStore := prefix.NewStore(store, types.KeyPrefix(types.MintpermKeyPrefix))
 
 	pageRes, err := query.Paginate(mintpermStore, req.Pagination, func(key []byte, value []byte) error {
@@ -39,11 +39,10 @@ func (k Keeper) MintpermAll(c context.Context, req *types.QueryAllMintpermReques
 	return &types.QueryAllMintpermResponse{Mintperm: mintperms, Pagination: pageRes}, nil
 }
 
-func (k Keeper) Mintperm(c context.Context, req *types.QueryGetMintpermRequest) (*types.QueryGetMintpermResponse, error) {
+func (k Keeper) Mintperm(ctx context.Context, req *types.QueryGetMintpermRequest) (*types.QueryGetMintpermResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
-	ctx := sdk.UnwrapSDKContext(c)
 
 	val, found := k.GetMintperm(
 		ctx,
@@ -51,7 +50,7 @@ func (k Keeper) Mintperm(c context.Context, req *types.QueryGetMintpermRequest) 
 		req.Address,
 	)
 	if !found {
-		return nil, status.Error(codes.InvalidArgument, "not found")
+		return nil, status.Error(codes.NotFound, "not found")
 	}
 
 	return &types.QueryGetMintpermResponse{Mintperm: val}, nil

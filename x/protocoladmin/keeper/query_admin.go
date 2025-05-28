@@ -3,24 +3,24 @@ package keeper
 import (
 	"context"
 
-	"github.com/cosmos/cosmos-sdk/store/prefix"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/types/query"
+	"github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
+	"cosmossdk.io/store/prefix"
+
+	"github.com/cosmos/cosmos-sdk/runtime"
+	"github.com/cosmos/cosmos-sdk/types/query"
 )
 
-func (k Keeper) AdminAll(c context.Context, req *types.QueryAllAdminRequest) (*types.QueryAllAdminResponse, error) {
+func (k Keeper) AdminAll(ctx context.Context, req *types.QueryAllAdminRequest) (*types.QueryAllAdminResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
 	var admins []types.Admin
-	ctx := sdk.UnwrapSDKContext(c)
 
-	store := ctx.KVStore(k.storeKey)
+	store := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	adminStore := prefix.NewStore(store, types.KeyPrefix(types.AdminKeyPrefix))
 
 	pageRes, err := query.Paginate(adminStore, req.Pagination, func(key []byte, value []byte) error {
@@ -39,11 +39,10 @@ func (k Keeper) AdminAll(c context.Context, req *types.QueryAllAdminRequest) (*t
 	return &types.QueryAllAdminResponse{Admin: admins, Pagination: pageRes}, nil
 }
 
-func (k Keeper) Admin(c context.Context, req *types.QueryGetAdminRequest) (*types.QueryGetAdminResponse, error) {
+func (k Keeper) Admin(ctx context.Context, req *types.QueryGetAdminRequest) (*types.QueryGetAdminResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
-	ctx := sdk.UnwrapSDKContext(c)
 
 	val, found := k.GetAdmin(
 		ctx,
@@ -51,7 +50,7 @@ func (k Keeper) Admin(c context.Context, req *types.QueryGetAdminRequest) (*type
 		req.Admin,
 	)
 	if !found {
-		return nil, status.Error(codes.InvalidArgument, "not found")
+		return nil, status.Error(codes.NotFound, "not found")
 	}
 
 	return &types.QueryGetAdminResponse{Admin: val}, nil

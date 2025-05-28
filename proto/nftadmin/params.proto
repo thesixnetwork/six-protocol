@@ -1,9 +1,0 @@
-syntax = "proto3";
-package thesixnetwork.sixprotocol.nftadmin;
-
-import "gogoproto/gogo.proto";
-
-option go_package = "github.com/thesixnetwork/six-protocol/x/nftadmin/types";
-
-// Params defines the parameters for the module.
-message Params { option (gogoproto.goproto_stringer) = false; }

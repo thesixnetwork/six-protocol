@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/cosmos/cosmos-sdk/codec"
+	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
@@ -30,7 +31,7 @@ type AccountKeeper interface {
 }
 
 type TokenmngrKeeper interface {
-	AttoCoinConverter(sdk.Context, sdk.AccAddress, sdk.AccAddress, sdk.Int) error
+	AttoCoinConverter(sdk.Context, sdk.AccAddress, sdk.AccAddress, sdkmath.Int) error
 }
 
 type TokenmngrMsgServer interface {

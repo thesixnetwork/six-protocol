@@ -4,14 +4,12 @@ import (
 	"strconv"
 	"testing"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
-
 	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 	"github.com/thesixnetwork/six-protocol/testutil/nullify"
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 // Prevent strconv unused error
@@ -19,8 +17,7 @@ var _ = strconv.IntSize
 
 func TestBindedSignerQuerySingle(t *testing.T) {
 	keeper, ctx := keepertest.NftoracleKeeper(t)
-	wctx := sdk.WrapSDKContext(ctx)
-	msgs := createNBindedSigner(keeper, ctx, 2)
+	msgs := createNBindedSigner(&keeper, ctx, 2)
 	for _, tc := range []struct {
 		desc     string
 		request  *types.QueryGetBindedSignerRequest
@@ -54,7 +51,7 @@ func TestBindedSignerQuerySingle(t *testing.T) {
 		},
 	} {
 		t.Run(tc.desc, func(t *testing.T) {
-			response, err := keeper.BindedSigner(wctx, tc.request)
+			response, err := keeper.BindedSigner(ctx, tc.request)
 			if tc.err != nil {
 				require.ErrorIs(t, err, tc.err)
 			} else {

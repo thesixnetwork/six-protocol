@@ -1,0 +1,42 @@
+syntax = "proto3";
+package sixprotocol.nftadmin;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "sixprotocol/nftadmin/params.proto";
+import "sixprotocol/nftadmin/authorization.proto";
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/nftadmin/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  // Parameters queries the parameters of the module.
+  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/six-protocol/nftadmin/params";
+  }
+  // Queries a Authorization by index.
+  rpc Authorization(QueryGetAuthorizationRequest)
+      returns (QueryGetAuthorizationResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/sixnft/nftadmin/authorization";
+  }
+}
+
+// QueryParamsRequest is request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is response type for the Query/Params RPC method.
+message QueryParamsResponse {
+  // params holds all the parameters of this module.
+  Params params = 1
+      [ (gogoproto.nullable) = false, (amino.dont_omitempty) = true ];
+}
+
+message QueryGetAuthorizationRequest {}
+
+message QueryGetAuthorizationResponse {
+  Authorization Authorization = 1 [ (gogoproto.nullable) = false ];
+}

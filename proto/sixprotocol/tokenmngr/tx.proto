@@ -1,0 +1,201 @@
+syntax = "proto3";
+
+package sixprotocol.tokenmngr;
+
+import "amino/amino.proto";
+import "cosmos/msg/v1/msg.proto";
+import "cosmos/base/v1beta1/coin.proto";
+import "cosmos_proto/cosmos.proto";
+import "gogoproto/gogo.proto";
+import "sixprotocol/tokenmngr/params.proto";
+import "sixprotocol/tokenmngr/token.proto";
+import "sixprotocol/tokenmngr/mintperm.proto";
+import "sixprotocol/tokenmngr/options.proto";
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/tokenmngr/types";
+
+// Msg defines the Msg service.
+service Msg {
+  option (cosmos.msg.v1.service) = true;
+
+  // UpdateParams defines a (governance) operation for updating the module
+  // parameters. The authority defaults to the x/gov module account.
+  rpc UpdateParams(MsgUpdateParams) returns (MsgUpdateParamsResponse);
+  rpc CreateToken(MsgCreateToken) returns (MsgCreateTokenResponse);
+  rpc UpdateToken(MsgUpdateToken) returns (MsgUpdateTokenResponse);
+  rpc DeleteToken(MsgDeleteToken) returns (MsgDeleteTokenResponse);
+  rpc CreateMintperm(MsgCreateMintperm) returns (MsgCreateMintpermResponse);
+  rpc UpdateMintperm(MsgUpdateMintperm) returns (MsgUpdateMintpermResponse);
+  rpc DeleteMintperm(MsgDeleteMintperm) returns (MsgDeleteMintpermResponse);
+  rpc CreateOptions(MsgCreateOptions) returns (MsgCreateOptionsResponse);
+  rpc UpdateOptions(MsgUpdateOptions) returns (MsgUpdateOptionsResponse);
+  rpc DeleteOptions(MsgDeleteOptions) returns (MsgDeleteOptionsResponse);
+  rpc Burn(MsgBurn) returns (MsgBurnResponse);
+  rpc WrapToken(MsgWrapToken) returns (MsgWrapTokenResponse);
+  rpc UnwrapToken(MsgUnwrapToken) returns (MsgUnwrapTokenResponse);
+  rpc SendWrapToken(MsgSendWrapToken) returns (MsgSendWrapTokenResponse);
+}
+// MsgUpdateParams is the Msg/UpdateParams request type.
+message MsgUpdateParams {
+  option (cosmos.msg.v1.signer) = "authority";
+  option (amino.name) = "sixprotocol/x/tokenmngr/MsgUpdateParams";
+
+  // authority is the address that controls the module (defaults to x/gov unless
+  // overwritten).
+  string authority = 1 [ (cosmos_proto.scalar) = "cosmos.AddressString" ];
+
+  // params defines the module parameters to update.
+
+  // NOTE: All parameters must be supplied.
+  Params params = 2
+      [ (gogoproto.nullable) = false, (amino.dont_omitempty) = true ];
+}
+
+// MsgUpdateParamsResponse defines the response structure for executing a
+// MsgUpdateParams message.
+message MsgUpdateParamsResponse {}
+
+message MsgCreateToken {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string name = 2;
+  cosmos.base.v1beta1.Coin maxSupply = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+  ];
+  string denomMetaData = 4;
+  string mintee = 5;
+}
+
+message MsgCreateTokenResponse {}
+
+message MsgUpdateToken {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string name = 2;
+  cosmos.base.v1beta1.Coin maxSupply = 4 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+  ];
+  string mintee = 5;
+}
+
+message MsgUpdateTokenResponse {}
+
+message MsgDeleteToken {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string name = 2;
+}
+
+message MsgDeleteTokenResponse {}
+
+message MsgCreateMintperm {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string token = 2;
+  string address = 3;
+}
+
+message MsgCreateMintpermResponse {}
+
+message MsgUpdateMintperm {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string token = 2;
+  string address = 3;
+}
+
+message MsgUpdateMintpermResponse {}
+
+message MsgDeleteMintperm {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string token = 2;
+  string address = 3;
+}
+
+message MsgDeleteMintpermResponse {}
+
+message MsgCreateOptions {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string defaultMintee = 3;
+}
+
+message MsgCreateOptionsResponse {}
+
+message MsgUpdateOptions {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string defaultMintee = 3;
+}
+
+message MsgUpdateOptionsResponse {}
+
+message MsgDeleteOptions {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+}
+
+message MsgDeleteOptionsResponse {}
+
+message MsgBurn {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  cosmos.base.v1beta1.Coin amount = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+  ];
+}
+
+message MsgBurnResponse { uint64 id = 1; }
+
+message MsgWrapToken {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  cosmos.base.v1beta1.Coin amount = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+  ];
+  string receiver = 3;
+}
+
+message MsgWrapTokenResponse {
+  cosmos.base.v1beta1.Coin amount = 1 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+  ];
+}
+
+message MsgUnwrapToken {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  cosmos.base.v1beta1.Coin amount = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+  ];
+  string receiver = 3;
+}
+
+message MsgUnwrapTokenResponse {
+  cosmos.base.v1beta1.Coin amount = 1 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+  ];
+}
+
+message MsgSendWrapToken {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string ethAddress = 2;
+  cosmos.base.v1beta1.Coin amount = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+  ];
+}
+
+message MsgSendWrapTokenResponse {
+  string receiver = 1;
+  string amount = 2;
+}

@@ -1,17 +1,18 @@
+// Copyright Tharsis Labs Ltd.(Evmos)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
 package client
 
 import (
+	"fmt"
 	"os"
-	"path"
+	"path/filepath"
 
+	"github.com/cometbft/cometbft/libs/cli"
+	"github.com/evmos/evmos/v20/types"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/tendermint/tendermint/libs/cli"
-
 	"github.com/cosmos/cosmos-sdk/client/flags"
-
-	ethermint "github.com/evmos/ethermint/types"
 )
 
 // InitConfig adds the chain-id, encoding and output flags to the persistent flag set.
@@ -21,11 +22,11 @@ func InitConfig(cmd *cobra.Command) error {
 		return err
 	}
 
-	configFile := path.Join(home, "config", "config.toml")
+	configFile := filepath.Join(home, "config", "config.toml")
 	_, err = os.Stat(configFile)
 	if err != nil && !os.IsNotExist(err) {
 		// Immediately return if the error isn't related to the file not existing.
-		// See issue https://github.com/evmos/ethermint/issues/539
+		// See issue https://github.com/evmos/evmos/v20/issues/539
 		return err
 	}
 	if err == nil {
@@ -56,8 +57,8 @@ func ValidateChainID(baseCmd *cobra.Command) *cobra.Command {
 	validateFn := func(cmd *cobra.Command, args []string) error {
 		chainID, _ := cmd.Flags().GetString(flags.FlagChainID)
 
-		if !ethermint.IsValidChainID(chainID) {
-			ethermint.ChainIDJumper(&chainID)
+		if !types.IsValidChainID(chainID) {
+			return fmt.Errorf("invalid chain-id format: %s", chainID)
 		}
 
 		return baseRunE(cmd, args)

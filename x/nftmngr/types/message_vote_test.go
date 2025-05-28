@@ -3,10 +3,10 @@ package types
 import (
 	"testing"
 
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/stretchr/testify/require"
-
 	"github.com/thesixnetwork/six-protocol/testutil/sample"
+
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
 func TestMsgVoteVirtualSchemaProposal_ValidateBasic(t *testing.T) {

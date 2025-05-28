@@ -1,17 +1,19 @@
 package keeper
 
 import (
+	"context"
 	"encoding/json"
 	"strconv"
 	"time"
 
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 
+	errormod "cosmossdk.io/errors"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
-func (k Keeper) SetupSchemaAndMetadata(ctx sdk.Context, schemaName, tokenId string) (*types.NFTSchema, *types.NftData, []*types.NftAttributeValue) {
+func (k Keeper) SetupSchemaAndMetadata(ctx context.Context, schemaName, tokenId string) (*types.NFTSchema, *types.NftData, []*types.NftAttributeValue) {
 	var (
 		schema                    = types.NFTSchema{}
 		tokenData                 = types.NftData{}
@@ -71,10 +73,12 @@ func (k Keeper) SetupSchemaAndMetadata(ctx sdk.Context, schemaName, tokenId stri
 	return &schema, &tokenData, convertedSchemaAttributes
 }
 
-func (k Keeper) ActionByAdmin(ctx sdk.Context, creator, nftSchemaName, tokenId, actionName, refId string, parameters []*types.ActionParameter) (changelist types.ActionChangeList, err error) {
+func (k Keeper) ActionByAdmin(ctx context.Context, creator, nftSchemaName, tokenId, actionName, refId string, parameters []*types.ActionParameter) (changelist types.ActionChangeList, err error) {
+	ctxCosmos := sdk.UnwrapSDKContext(ctx)
+
 	schema, found := k.GetNFTSchema(ctx, nftSchemaName)
 	if !found {
-		return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
+		return nil, errormod.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
 	}
 
 	var isOwner bool
@@ -93,7 +97,7 @@ func (k Keeper) ActionByAdmin(ctx sdk.Context, creator, nftSchemaName, tokenId, 
 		)
 
 		if !isFound {
-			return nil, sdkerrors.Wrap(types.ErrUnauthorized, creator)
+			return nil, errormod.Wrap(types.ErrUnauthorized, creator)
 		}
 	}
 
@@ -104,15 +108,15 @@ func (k Keeper) ActionByAdmin(ctx sdk.Context, creator, nftSchemaName, tokenId, 
 	if found {
 		action := schema.OnchainData.Actions[action_.Index]
 		if action.Disable {
-			return nil, sdkerrors.Wrap(types.ErrActionIsDisabled, actionName)
+			return nil, errormod.Wrap(types.ErrActionIsDisabled, actionName)
 		}
 		mapAction = *action
 	} else {
-		return nil, sdkerrors.Wrap(types.ErrActionDoesNotExists, actionName)
+		return nil, errormod.Wrap(types.ErrActionDoesNotExists, actionName)
 	}
 
 	if mapAction.GetAllowedActioner() == types.AllowedActioner_ALLOWED_ACTIONER_USER_ONLY {
-		return nil, sdkerrors.Wrap(types.ErrActionIsForUserOnly, actionName)
+		return nil, errormod.Wrap(types.ErrActionIsForUserOnly, actionName)
 	}
 
 	// Check if action requires parameters
@@ -126,12 +130,12 @@ func (k Keeper) ActionByAdmin(ctx sdk.Context, creator, nftSchemaName, tokenId, 
 	}
 
 	if len(required_param) > len(parameters) {
-		return nil, sdkerrors.Wrap(types.ErrInvalidParameter, "Input parameters length is not equal to required parameters length")
+		return nil, errormod.Wrap(types.ErrInvalidParameter, "Input parameters length is not equal to required parameters length")
 	}
 
 	for i := 0; i < len(required_param); i++ {
 		if parameters[i].Name != required_param[i].Name {
-			return nil, sdkerrors.Wrap(types.ErrInvalidParameter, "input parameter name is not match to "+required_param[i].Name)
+			return nil, errormod.Wrap(types.ErrInvalidParameter, "input parameter name is not match to "+required_param[i].Name)
 		}
 		if parameters[i].Value == "" {
 			parameters[i].Value = required_param[i].DefaultValue
@@ -140,7 +144,7 @@ func (k Keeper) ActionByAdmin(ctx sdk.Context, creator, nftSchemaName, tokenId, 
 
 	tokenData, found := k.GetNftData(ctx, nftSchemaName, tokenId)
 	if !found {
-		return nil, sdkerrors.Wrap(types.ErrMetadataDoesNotExists, "Schema: "+nftSchemaName+" TokenID: "+tokenId)
+		return nil, errormod.Wrap(types.ErrMetadataDoesNotExists, "Schema: "+nftSchemaName+" TokenID: "+tokenId)
 	}
 
 	// ** TOKEN DATA LAYER **
@@ -154,7 +158,7 @@ func (k Keeper) ActionByAdmin(ctx sdk.Context, creator, nftSchemaName, tokenId, 
 	for _, attribute := range schema.OnchainData.TokenAttributes {
 		if _, ok := mapExistingAttributes[attribute.Name]; !ok {
 			if attribute.DefaultMintValue == nil {
-				return nil, sdkerrors.Wrap(types.ErrNoDefaultValue, attribute.Name)
+				return nil, errormod.Wrap(types.ErrNoDefaultValue, attribute.Name)
 			}
 			// Add attribute to nftdata with default value
 			tokenData.OnchainAttributes = append(tokenData.OnchainAttributes,
@@ -177,7 +181,7 @@ func (k Keeper) ActionByAdmin(ctx sdk.Context, creator, nftSchemaName, tokenId, 
 		nftAttributeValue, found := k.GetSchemaAttribute(ctx, schema.Code, schema_attribute.Name)
 
 		if !found {
-			return nil, sdkerrors.Wrap(types.ErrNoDefaultValue, schema_attribute.Name+" NOT FOUND")
+			return nil, errormod.Wrap(types.ErrNoDefaultValue, schema_attribute.Name+" NOT FOUND")
 		}
 
 		// Add the attribute to the map
@@ -191,19 +195,19 @@ func (k Keeper) ActionByAdmin(ctx sdk.Context, creator, nftSchemaName, tokenId, 
 	meta.SetGetNFTFunction(func(tokenId string) (*types.NftData, error) {
 		tokenData, found := k.GetNftData(ctx, nftSchemaName, tokenId)
 		if !found {
-			return nil, sdkerrors.Wrap(types.ErrMetadataDoesNotExists, nftSchemaName)
+			return nil, errormod.Wrap(types.ErrMetadataDoesNotExists, nftSchemaName)
 		}
 		return &tokenData, nil
 	})
 
 	// utils function
 	meta.SetGetBlockTimeFunction(func() time.Time {
-		return ctx.BlockTime()
+		return ctxCosmos.BlockTime()
 	})
 
 	// utils function
 	meta.SetGetBlockHeightFunction(func() int64 {
-		return ctx.BlockHeight()
+		return ctxCosmos.BlockHeight()
 	})
 
 	err = ProcessAction(meta, &mapAction, parameters)
@@ -213,7 +217,7 @@ func (k Keeper) ActionByAdmin(ctx sdk.Context, creator, nftSchemaName, tokenId, 
 
 	// Check if ChangeList is empty, error if empty
 	if len(meta.ChangeList) == 0 {
-		return nil, sdkerrors.Wrap(types.ErrEmptyChangeList, actionName)
+		return nil, errormod.Wrap(types.ErrEmptyChangeList, actionName)
 	}
 
 	// Update back to nftdata
@@ -266,7 +270,7 @@ func (k Keeper) ActionByAdmin(ctx sdk.Context, creator, nftSchemaName, tokenId, 
 					},
 				}
 			default:
-				return nil, sdkerrors.Wrap(types.ErrParsingAttributeValue, val.DataType)
+				return nil, errormod.Wrap(types.ErrParsingAttributeValue, val.DataType)
 			}
 
 			k.SetSchemaAttribute(ctx, val)
@@ -278,7 +282,7 @@ func (k Keeper) ActionByAdmin(ctx sdk.Context, creator, nftSchemaName, tokenId, 
 
 		_, found := k.GetActionByRefId(ctx, refId)
 		if found {
-			return nil, sdkerrors.Wrap(types.ErrRefIdAlreadyExists, refId)
+			return nil, errormod.Wrap(types.ErrRefIdAlreadyExists, refId)
 		}
 
 		k.SetActionByRefId(ctx, types.ActionByRefId{
@@ -295,21 +299,21 @@ func (k Keeper) ActionByAdmin(ctx sdk.Context, creator, nftSchemaName, tokenId, 
 	return changeList, nil
 }
 
-func (k Keeper) AddActionKeeper(ctx sdk.Context, creator string, nftSchemaName string, newAction types.Action) error {
+func (k Keeper) AddActionKeeper(ctx context.Context, creator string, nftSchemaName string, newAction types.Action) error {
 	// get existing action in schema
 	schema, schemaFound := k.GetNFTSchema(ctx, nftSchemaName)
 	if !schemaFound {
-		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
+		return errormod.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
 	}
 
 	if creator != schema.Owner {
-		return sdkerrors.Wrap(types.ErrCreatorDoesNotMatch, creator)
+		return errormod.Wrap(types.ErrCreatorDoesNotMatch, creator)
 	}
 
 	// validate Action data
 	err := ValidateAction(&newAction, &schema)
 	if err != nil {
-		return sdkerrors.Wrap(types.ErrValidatingMetadata, err.Error())
+		return errormod.Wrap(types.ErrValidatingMetadata, err.Error())
 	}
 
 	// append new action
@@ -328,24 +332,24 @@ func (k Keeper) AddActionKeeper(ctx sdk.Context, creator string, nftSchemaName s
 	return nil
 }
 
-func (k Keeper) AddVirtualActionKeeper(ctx sdk.Context, nftSchemaName string, newAction types.Action) error {
+func (k Keeper) AddVirtualActionKeeper(ctx context.Context, nftSchemaName string, newAction types.Action) error {
 	_, found := k.GetVirtualSchema(ctx, nftSchemaName)
 	if !found {
-		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
+		return errormod.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
 	}
 
 	// validate Action data
 	err := ValidateVirutualAction(&newAction)
 	if err != nil {
-		return sdkerrors.Wrap(types.ErrValidatingMetadata, err.Error())
+		return errormod.Wrap(types.ErrValidatingMetadata, err.Error())
 	}
 
 	if _, found := k.GetVirtualAction(ctx, nftSchemaName, newAction.Name); found {
-		return sdkerrors.Wrap(types.ErrActionAlreadyExists, newAction.Name)
+		return errormod.Wrap(types.ErrActionAlreadyExists, newAction.Name)
 	}
 
 	if _, found := k.GetActionOfSchema(ctx, nftSchemaName, newAction.Name); found {
-		return sdkerrors.Wrap(types.ErrActionAlreadyExists, newAction.Name)
+		return errormod.Wrap(types.ErrActionAlreadyExists, newAction.Name)
 	}
 
 	allSchemaAction := k.GetAllActionOfSchema(ctx)
@@ -377,22 +381,22 @@ func (k Keeper) AddVirtualActionKeeper(ctx sdk.Context, nftSchemaName string, ne
 	return nil
 }
 
-func (k Keeper) UpdateActionKeeper(ctx sdk.Context, creator, nftSchemaName string, updateAction types.Action) error {
+func (k Keeper) UpdateActionKeeper(ctx context.Context, creator, nftSchemaName string, updateAction types.Action) error {
 	// get existing action
 	actionOfSchema, found := k.GetActionOfSchema(ctx, nftSchemaName, updateAction.Name)
 	if !found {
-		return sdkerrors.Wrap(types.ErrActionDoesNotExists, updateAction.Name)
+		return errormod.Wrap(types.ErrActionDoesNotExists, updateAction.Name)
 	}
 
 	// get existing nft schema
 	schema, found := k.GetNFTSchema(ctx, nftSchemaName)
 	if !found {
-		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
+		return errormod.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
 	}
 
 	// updator is valid
 	if creator != schema.Owner {
-		return sdkerrors.Wrap(types.ErrUnauthorized, creator)
+		return errormod.Wrap(types.ErrUnauthorized, creator)
 	}
 
 	// update action by its index
@@ -403,33 +407,7 @@ func (k Keeper) UpdateActionKeeper(ctx sdk.Context, creator, nftSchemaName strin
 	return nil
 }
 
-func (k Keeper) UpdateVirtualActionKeeper(ctx sdk.Context, nftSchemaName string, updateAction types.Action) error {
-	_, found := k.GetVirtualSchema(ctx, nftSchemaName)
-	if !found {
-		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
-	}
-
-	// validate Action data
-	err := ValidateVirutualAction(&updateAction)
-	if err != nil {
-		return sdkerrors.Wrap(types.ErrValidatingMetadata, err.Error())
-	}
-
-	k.SetVirtualAction(ctx, types.VirtualAction{
-		VirtualNftSchemaCode: nftSchemaName,
-		Name:                 updateAction.Name,
-		Desc:                 updateAction.Desc,
-		When:                 updateAction.When,
-		Then:                 updateAction.Then,
-		Params:               updateAction.Params,
-		Disable:              updateAction.Disable,
-		AllowedActioner:      updateAction.AllowedActioner,
-	})
-
-	return nil
-}
-
-func (k Keeper) ToggleActionKeeper(ctx sdk.Context, creator, nftSchemaName, actionName string, status bool) error {
+func (k Keeper) ToggleActionKeeper(ctx context.Context, creator, nftSchemaName, actionName string, status bool) error {
 	isVirtual := false
 	if _, found := k.GetVirtualSchema(ctx, nftSchemaName); found {
 		isVirtual = true
@@ -441,11 +419,11 @@ func (k Keeper) ToggleActionKeeper(ctx sdk.Context, creator, nftSchemaName, acti
 
 	schema, found := k.GetNFTSchema(ctx, nftSchemaName)
 	if !found {
-		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
+		return errormod.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
 	}
 	// Check if creator is owner of schema
 	if creator != schema.Owner {
-		return sdkerrors.Wrap(types.ErrCreatorDoesNotMatch, creator)
+		return errormod.Wrap(types.ErrCreatorDoesNotMatch, creator)
 	}
 
 	// Update is_active in schema
@@ -460,10 +438,10 @@ func (k Keeper) ToggleActionKeeper(ctx sdk.Context, creator, nftSchemaName, acti
 	return nil
 }
 
-func (k Keeper) ToggleVirtualActionKeeper(ctx sdk.Context, creator, nftSchemaName, actionName string, status bool) error {
+func (k Keeper) ToggleVirtualActionKeeper(ctx context.Context, creator, nftSchemaName, actionName string, status bool) error {
 	virtualSchema, found := k.GetVirtualSchema(ctx, nftSchemaName)
 	if !found {
-		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
+		return errormod.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
 	}
 
 	err := k.validateOwnerOfRegistry(ctx, creator, virtualSchema.Registry)
@@ -473,7 +451,7 @@ func (k Keeper) ToggleVirtualActionKeeper(ctx sdk.Context, creator, nftSchemaNam
 
 	action, found := k.GetVirtualAction(ctx, nftSchemaName, actionName)
 	if !found {
-		return sdkerrors.Wrap(types.ErrActionDoesNotExists, actionName)
+		return errormod.Wrap(types.ErrActionDoesNotExists, actionName)
 	}
 
 	// save
@@ -491,7 +469,7 @@ func (k Keeper) ToggleVirtualActionKeeper(ctx sdk.Context, creator, nftSchemaNam
 	return nil
 }
 
-func (k Keeper) PerformVirtualActionKeeper(ctx sdk.Context, creator, virtualSchemaCode string, tokenIdMap []*types.TokenIdMap, actionName, refId string, parameters []*types.ActionParameter) (changeList types.ActionChangeList, err error) {
+func (k Keeper) PerformVirtualActionKeeper(ctx context.Context, creator, virtualSchemaCode string, tokenIdMap []*types.TokenIdMap, actionName, refId string, parameters []*types.ActionParameter) (changeList types.ActionChangeList, err error) {
 	var (
 		schemaList             = []*types.NFTSchema{}
 		tokenDataList          = []*types.NftData{}
@@ -502,21 +480,21 @@ func (k Keeper) PerformVirtualActionKeeper(ctx sdk.Context, creator, virtualSche
 	// get virtual schema
 	virtualSchema, found := k.GetVirtualSchema(ctx, virtualSchemaCode)
 	if !found {
-		return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, virtualSchemaCode)
+		return nil, errormod.Wrap(types.ErrSchemaDoesNotExists, virtualSchemaCode)
 	}
 
 	if !virtualSchema.Enable {
-		return nil, sdkerrors.Wrap(types.ErrSchemaIsDisable, virtualSchemaCode)
+		return nil, errormod.Wrap(types.ErrSchemaIsDisable, virtualSchemaCode)
 	}
 
 	// get virtual action
 	vitualAction, found := k.GetVirtualAction(ctx, virtualSchemaCode, actionName)
 	if found {
 		if vitualAction.Disable {
-			return nil, sdkerrors.Wrap(types.ErrActionIsDisabled, actionName)
+			return nil, errormod.Wrap(types.ErrActionIsDisabled, actionName)
 		}
 	} else {
-		return nil, sdkerrors.Wrap(types.ErrActionDoesNotExists, actionName)
+		return nil, errormod.Wrap(types.ErrActionDoesNotExists, actionName)
 	}
 
 	// Check if action requires parameters
@@ -529,12 +507,12 @@ func (k Keeper) PerformVirtualActionKeeper(ctx sdk.Context, creator, virtualSche
 	}
 
 	if len(required_param) > len(parameters) {
-		return nil, sdkerrors.Wrap(types.ErrInvalidParameter, "Input parameters length is not equal to required parameters length")
+		return nil, errormod.Wrap(types.ErrInvalidParameter, "Input parameters length is not equal to required parameters length")
 	}
 
 	for i := 0; i < len(required_param); i++ {
 		if parameters[i].Name != required_param[i].Name {
-			return nil, sdkerrors.Wrap(types.ErrInvalidParameter, "input parameter name is not match to "+required_param[i].Name)
+			return nil, errormod.Wrap(types.ErrInvalidParameter, "input parameter name is not match to "+required_param[i].Name)
 		}
 		if parameters[i].Value == "" {
 			parameters[i].Value = required_param[i].DefaultValue
@@ -558,7 +536,7 @@ func (k Keeper) PerformVirtualActionKeeper(ctx sdk.Context, creator, virtualSche
 
 		schema, tokenData, convertedSchemaAttributes := k.SetupSchemaAndMetadata(ctx, schemaRegistry.NftSchemaCode, tokenIdOFSchema)
 		if (schema == nil) || (tokenData == nil) || (convertedSchemaAttributes == nil) {
-			return changeList, sdkerrors.Wrap(types.ErrMetadataDoesNotExists, schemaRegistry.NftSchemaCode)
+			return changeList, errormod.Wrap(types.ErrMetadataDoesNotExists, schemaRegistry.NftSchemaCode)
 		}
 		schemaList = append(schemaList, schema)
 		tokenDataList = append(tokenDataList, tokenData)
@@ -582,7 +560,7 @@ func (k Keeper) PerformVirtualActionKeeper(ctx sdk.Context, creator, virtualSche
 	}
 
 	if !someValueChange {
-		return nil, sdkerrors.Wrap(types.ErrEmptyChangeList, actionName)
+		return nil, errormod.Wrap(types.ErrEmptyChangeList, actionName)
 	}
 
 	for i, schemaRegistry := range virtualSchema.Registry {
@@ -629,7 +607,7 @@ func (k Keeper) PerformVirtualActionKeeper(ctx sdk.Context, creator, virtualSche
 						},
 					}
 				default:
-					return nil, sdkerrors.Wrap(types.ErrParsingAttributeValue, val.DataType)
+					return nil, errormod.Wrap(types.ErrParsingAttributeValue, val.DataType)
 				}
 
 				k.SetSchemaAttribute(ctx, val)
@@ -645,7 +623,7 @@ func (k Keeper) PerformVirtualActionKeeper(ctx sdk.Context, creator, virtualSche
 
 		_, found := k.GetActionByRefId(ctx, refId)
 		if found {
-			return nil, sdkerrors.Wrap(types.ErrRefIdAlreadyExists, refId)
+			return nil, errormod.Wrap(types.ErrRefIdAlreadyExists, refId)
 		}
 
 		k.SetActionByRefId(ctx, types.ActionByRefId{

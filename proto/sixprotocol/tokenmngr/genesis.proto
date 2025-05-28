@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package sixprotocol.tokenmngr;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "sixprotocol/tokenmngr/params.proto";
+import "sixprotocol/tokenmngr/token.proto";
+import "sixprotocol/tokenmngr/mintperm.proto";
+import "sixprotocol/tokenmngr/token_burn.proto";
+import "sixprotocol/tokenmngr/options.proto";
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/tokenmngr/types";
+
+// GenesisState defines the tokenmngr module's genesis state.
+message GenesisState {
+
+  // params defines all the parameters of the module.
+  Params params = 1
+      [ (gogoproto.nullable) = false, (amino.dont_omitempty) = true ];
+  repeated Token tokenList = 2 [ (gogoproto.nullable) = false ];
+  repeated Mintperm mintpermList = 3 [ (gogoproto.nullable) = false ];
+  repeated TokenBurn tokenBurnList = 4 [ (gogoproto.nullable) = false ];
+  Options options = 5;
+}

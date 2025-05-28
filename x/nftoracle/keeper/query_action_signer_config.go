@@ -3,13 +3,15 @@ package keeper
 import (
 	"context"
 
-	"github.com/cosmos/cosmos-sdk/store/prefix"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/types/query"
+	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+	"cosmossdk.io/store/prefix"
+
+	"github.com/cosmos/cosmos-sdk/runtime"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/types/query"
 )
 
 func (k Keeper) ActionSignerConfigAll(c context.Context, req *types.QueryAllActionSignerConfigRequest) (*types.QueryAllActionSignerConfigResponse, error) {
@@ -20,8 +22,8 @@ func (k Keeper) ActionSignerConfigAll(c context.Context, req *types.QueryAllActi
 	var actionSignerConfigs []types.ActionSignerConfig
 	ctx := sdk.UnwrapSDKContext(c)
 
-	store := ctx.KVStore(k.storeKey)
-	actionSignerConfigStore := prefix.NewStore(store, types.KeyPrefix(types.ActionSignerConfigKeyPrefix))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	actionSignerConfigStore := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ActionSignerConfigKeyPrefix))
 
 	pageRes, err := query.Paginate(actionSignerConfigStore, req.Pagination, func(key []byte, value []byte) error {
 		var actionSignerConfig types.ActionSignerConfig

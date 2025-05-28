@@ -3,24 +3,24 @@ package keeper
 import (
 	"context"
 
-	"github.com/cosmos/cosmos-sdk/store/prefix"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/types/query"
+	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+	"cosmossdk.io/store/prefix"
+
+	"github.com/cosmos/cosmos-sdk/runtime"
+	"github.com/cosmos/cosmos-sdk/types/query"
 )
 
-func (k Keeper) ActionExecutorAll(c context.Context, req *types.QueryAllActionExecutorRequest) (*types.QueryAllActionExecutorResponse, error) {
+func (k Keeper) ActionExecutorAll(ctx context.Context, req *types.QueryAllActionExecutorRequest) (*types.QueryAllActionExecutorResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
 	var actionExecutors []types.ActionExecutor
-	ctx := sdk.UnwrapSDKContext(c)
 
-	store := ctx.KVStore(k.storeKey)
+	store := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	actionExecutorStore := prefix.NewStore(store, types.KeyPrefix(types.ActionExecutorKeyPrefix))
 
 	pageRes, err := query.Paginate(actionExecutorStore, req.Pagination, func(key []byte, value []byte) error {
@@ -39,11 +39,10 @@ func (k Keeper) ActionExecutorAll(c context.Context, req *types.QueryAllActionEx
 	return &types.QueryAllActionExecutorResponse{ActionExecutor: actionExecutors, Pagination: pageRes}, nil
 }
 
-func (k Keeper) ActionExecutor(c context.Context, req *types.QueryGetActionExecutorRequest) (*types.QueryGetActionExecutorResponse, error) {
+func (k Keeper) ActionExecutor(ctx context.Context, req *types.QueryGetActionExecutorRequest) (*types.QueryGetActionExecutorResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
-	ctx := sdk.UnwrapSDKContext(c)
 
 	val, found := k.GetActionExecutor(
 		ctx,
@@ -57,15 +56,28 @@ func (k Keeper) ActionExecutor(c context.Context, req *types.QueryGetActionExecu
 	return &types.QueryGetActionExecutorResponse{ActionExecutor: val}, nil
 }
 
-func (k Keeper) ExecutorOfSchemaAll(c context.Context, req *types.QueryAllExecutorOfSchemaRequest) (*types.QueryAllExecutorOfSchemaResponse, error) {
+// ExecutorOfSchema implements types.QueryServer.
+func (k Keeper) ExecutorOfSchema(ctx context.Context, req *types.QueryGetExecutorOfSchemaRequest) (*types.QueryGetExecutorOfSchemaResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
-	var executorOfSchemas []types.ExecutorOfSchema
-	ctx := sdk.UnwrapSDKContext(c)
+	val, found := k.GetExecutorOfSchema(
+		ctx,
+		req.NftSchemaCode,
+	)
+	if !found {
+		return nil, status.Error(codes.NotFound, "not found")
+	}
 
-	store := ctx.KVStore(k.storeKey)
+	return &types.QueryGetExecutorOfSchemaResponse{ExecutorOfSchema: val}, nil
+}
+
+// ExecutorOfSchemaAll implements types.QueryServer.
+func (k Keeper) ExecutorOfSchemaAll(ctx context.Context, req *types.QueryAllExecutorOfSchemaRequest) (*types.QueryAllExecutorOfSchemaResponse, error) {
+	var executorOfSchemas []types.ExecutorOfSchema
+	store := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+
 	executorOfSchemaStore := prefix.NewStore(store, types.KeyPrefix(types.ExecutorOfSchemaKeyPrefix))
 
 	pageRes, err := query.Paginate(executorOfSchemaStore, req.Pagination, func(key []byte, value []byte) error {
@@ -82,21 +94,4 @@ func (k Keeper) ExecutorOfSchemaAll(c context.Context, req *types.QueryAllExecut
 	}
 
 	return &types.QueryAllExecutorOfSchemaResponse{ExecutorOfSchema: executorOfSchemas, Pagination: pageRes}, nil
-}
-
-func (k Keeper) ExecutorOfSchema(c context.Context, req *types.QueryGetExecutorOfSchemaRequest) (*types.QueryGetExecutorOfSchemaResponse, error) {
-	if req == nil {
-		return nil, status.Error(codes.InvalidArgument, "invalid request")
-	}
-	ctx := sdk.UnwrapSDKContext(c)
-
-	val, found := k.GetExecutorOfSchema(
-		ctx,
-		req.NftSchemaCode,
-	)
-	if !found {
-		return nil, status.Error(codes.NotFound, "not found")
-	}
-
-	return &types.QueryGetExecutorOfSchemaResponse{ExecutorOfSchema: val}, nil
 }

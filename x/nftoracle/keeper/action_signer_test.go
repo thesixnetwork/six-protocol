@@ -4,13 +4,13 @@ import (
 	"strconv"
 	"testing"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
-
 	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 	"github.com/thesixnetwork/six-protocol/testutil/nullify"
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/keeper"
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+
+	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 // Prevent strconv unused error
@@ -28,11 +28,11 @@ func createNActionSigner(keeper *keeper.Keeper, ctx sdk.Context, n int) []types.
 
 func TestActionSignerGet(t *testing.T) {
 	keeper, ctx := keepertest.NftoracleKeeper(t)
-	items := createNActionSigner(keeper, ctx, 10)
+	items := createNActionSignerConfig(&keeper, ctx, 10)
 	for _, item := range items {
 		rst, found := keeper.GetActionSigner(ctx,
-			item.ActorAddress,
-			item.OwnerAddress,
+			item.Creator,
+			item.ContractAddress,
 		)
 		require.True(t, found)
 		require.Equal(t,
@@ -44,15 +44,15 @@ func TestActionSignerGet(t *testing.T) {
 
 func TestActionSignerRemove(t *testing.T) {
 	keeper, ctx := keepertest.NftoracleKeeper(t)
-	items := createNActionSigner(keeper, ctx, 10)
+	items := createNActionSignerConfig(&keeper, ctx, 10)
 	for _, item := range items {
 		keeper.RemoveActionSigner(ctx,
-			item.ActorAddress,
-			item.OwnerAddress,
+			item.Creator,
+			item.ContractAddress,
 		)
 		_, found := keeper.GetActionSigner(ctx,
-			item.ActorAddress,
-			item.OwnerAddress,
+			item.Creator,
+			item.ContractAddress,
 		)
 		require.False(t, found)
 	}
@@ -60,7 +60,7 @@ func TestActionSignerRemove(t *testing.T) {
 
 func TestActionSignerGetAll(t *testing.T) {
 	keeper, ctx := keepertest.NftoracleKeeper(t)
-	items := createNActionSigner(keeper, ctx, 10)
+	items := createNActionSignerConfig(&keeper, ctx, 10)
 	require.ElementsMatch(t,
 		nullify.Fill(items),
 		nullify.Fill(keeper.GetAllActionSigner(ctx)),

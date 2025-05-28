@@ -5,18 +5,22 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/cosmos/cosmos-sdk/store/prefix"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+
+	"cosmossdk.io/store/prefix"
+	storetypes "cosmossdk.io/store/types"
+
+	"github.com/cosmos/cosmos-sdk/runtime"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 var ActiveVerifyCollectionRequestQueuePrefix = []byte{0x03}
 
 // GetCollectionOwnerRequestCount get the total number of collectionOwnerRequest
 func (k Keeper) GetCollectionOwnerRequestCount(ctx sdk.Context) uint64 {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), []byte{})
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	byteKey := types.KeyPrefix(types.CollectionOwnerRequestCountKey)
+	store := prefix.NewStore(storeAdapter, byteKey)
 	bz := store.Get(byteKey)
 
 	// Count doesn't exist: no element
@@ -30,8 +34,9 @@ func (k Keeper) GetCollectionOwnerRequestCount(ctx sdk.Context) uint64 {
 
 // SetCollectionOwnerRequestCount set the total number of collectionOwnerRequest
 func (k Keeper) SetCollectionOwnerRequestCount(ctx sdk.Context, count uint64) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), []byte{})
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	byteKey := types.KeyPrefix(types.CollectionOwnerRequestCountKey)
+	store := prefix.NewStore(storeAdapter, byteKey)
 	bz := make([]byte, 8)
 	binary.BigEndian.PutUint64(bz, count)
 	store.Set(byteKey, bz)
@@ -48,7 +53,8 @@ func (k Keeper) AppendCollectionOwnerRequest(
 	// Set the ID of the appended value
 	collectionOwnerRequest.Id = count
 
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.CollectionOwnerRequestKey))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.CollectionOwnerRequestKey))
 	appendedValue := k.cdc.MustMarshal(&collectionOwnerRequest)
 	store.Set(GetCollectionOwnerRequestIDBytes(collectionOwnerRequest.Id), appendedValue)
 
@@ -60,14 +66,16 @@ func (k Keeper) AppendCollectionOwnerRequest(
 
 // SetCollectionOwnerRequest set a specific collectionOwnerRequest in the store
 func (k Keeper) SetCollectionOwnerRequest(ctx sdk.Context, collectionOwnerRequest types.CollectionOwnerRequest) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.CollectionOwnerRequestKey))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.CollectionOwnerRequestKey))
 	b := k.cdc.MustMarshal(&collectionOwnerRequest)
 	store.Set(GetCollectionOwnerRequestIDBytes(collectionOwnerRequest.Id), b)
 }
 
 // GetCollectionOwnerRequest returns a collectionOwnerRequest from its id
 func (k Keeper) GetCollectionOwnerRequest(ctx sdk.Context, id uint64) (val types.CollectionOwnerRequest, found bool) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.CollectionOwnerRequestKey))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.CollectionOwnerRequestKey))
 	b := store.Get(GetCollectionOwnerRequestIDBytes(id))
 	if b == nil {
 		return val, false
@@ -78,14 +86,16 @@ func (k Keeper) GetCollectionOwnerRequest(ctx sdk.Context, id uint64) (val types
 
 // RemoveCollectionOwnerRequest removes a collectionOwnerRequest from the store
 func (k Keeper) RemoveCollectionOwnerRequest(ctx sdk.Context, id uint64) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.CollectionOwnerRequestKey))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.CollectionOwnerRequestKey))
 	store.Delete(GetCollectionOwnerRequestIDBytes(id))
 }
 
 // GetAllCollectionOwnerRequest returns all collectionOwnerRequest
 func (k Keeper) GetAllCollectionOwnerRequest(ctx sdk.Context) (list []types.CollectionOwnerRequest) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.CollectionOwnerRequestKey))
-	iterator := sdk.KVStorePrefixIterator(store, []byte{})
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.CollectionOwnerRequestKey))
+	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
 
 	defer iterator.Close()
 
@@ -111,14 +121,14 @@ func GetCollectionOwnerRequestIDFromBytes(bz []byte) uint64 {
 }
 
 func (k Keeper) InsertActiveVerifyCollectionOwnerRequestQueue(ctx sdk.Context, requestID uint64, endTime time.Time) {
-	store := ctx.KVStore(k.storeKey)
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	bz := GetCollectionOwnerRequestIDBytes(requestID)
-	store.Set(ActiveVerifyCollectionOwnerQueueKey(requestID, endTime), bz)
+	storeAdapter.Set(ActiveVerifyCollectionOwnerQueueKey(requestID, endTime), bz)
 }
 
 func (k Keeper) RemoveFromActiveVerifyCollectionOwnerQueue(ctx sdk.Context, requestID uint64, endTime time.Time) {
-	store := ctx.KVStore(k.storeKey)
-	store.Delete(ActiveVerifyCollectionOwnerQueueKey(requestID, endTime))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	storeAdapter.Delete(ActiveVerifyCollectionOwnerQueueKey(requestID, endTime))
 }
 
 func (k Keeper) IterateActiveVerifyCollectionOwnersQueue(ctx sdk.Context, endTime time.Time, cb func(mintRequest types.CollectionOwnerRequest) (stop bool)) {
@@ -138,9 +148,9 @@ func (k Keeper) IterateActiveVerifyCollectionOwnersQueue(ctx sdk.Context, endTim
 	}
 }
 
-func (k Keeper) ActiveVerifyCollectionOwnerQueueIterator(ctx sdk.Context, endTime time.Time) sdk.Iterator {
-	store := ctx.KVStore(k.storeKey)
-	return store.Iterator(ActiveVerifyCollectionRequestQueuePrefix, sdk.PrefixEndBytes(ActiveVerifyCollectionOwnerByTimeKey(endTime)))
+func (k Keeper) ActiveVerifyCollectionOwnerQueueIterator(ctx sdk.Context, endTime time.Time) storetypes.Iterator {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	return storeAdapter.Iterator(ActiveVerifyCollectionRequestQueuePrefix, storetypes.PrefixEndBytes(ActiveVerifyCollectionOwnerByTimeKey(endTime)))
 }
 
 func ActiveVerifyCollectionOwnerQueueKey(requestID uint64, endTime time.Time) []byte {

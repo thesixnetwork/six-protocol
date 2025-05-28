@@ -3,12 +3,12 @@ package simulation
 import (
 	"math/rand"
 
+	"github.com/thesixnetwork/six-protocol/x/tokenmngr/keeper"
+	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
-
-	"github.com/thesixnetwork/six-protocol/x/tokenmngr/keeper"
-	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
 func SimulateMsgBurn(
@@ -25,6 +25,6 @@ func SimulateMsgBurn(
 
 		// TODO: Handling the Burn simulation
 
-		return simtypes.NoOpMsg(types.ModuleName, msg.Type(), "Burn simulation not implemented"), nil, nil
+		return simtypes.NoOpMsg(types.ModuleName, sdk.MsgTypeURL(msg), "Burn simulation not implemented"), nil, nil
 	}
 }

@@ -210,7 +210,7 @@ update-module:
 	@go mod tidy
 
 start: update-module
-	@ignite chain serve --config ./config.yml -r -f $(VERBOSE) --skip-proto
+	@ignite chain serve --config ./config.yml -r -f $(VERBOSE)
 
 
 ###############################################################################

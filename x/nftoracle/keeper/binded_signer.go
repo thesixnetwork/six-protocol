@@ -1,15 +1,20 @@
 package keeper
 
 import (
-	"github.com/cosmos/cosmos-sdk/store/prefix"
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	"context"
 
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+
+	"cosmossdk.io/store/prefix"
+	storetypes "cosmossdk.io/store/types"
+
+	"github.com/cosmos/cosmos-sdk/runtime"
 )
 
 // SetBindedSigner set a specific bindedSigner in the store from its index
-func (k Keeper) SetBindedSigner(ctx sdk.Context, bindedSigner types.BindedSigner) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.BindedSignerKeyPrefix))
+func (k Keeper) SetBindedSigner(ctx context.Context, bindedSigner types.BindedSigner) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.BindedSignerKeyPrefix))
 	b := k.cdc.MustMarshal(&bindedSigner)
 	store.Set(types.BindedSignerKey(
 		bindedSigner.OwnerAddress,
@@ -18,10 +23,11 @@ func (k Keeper) SetBindedSigner(ctx sdk.Context, bindedSigner types.BindedSigner
 
 // GetBindedSigner returns a bindedSigner from its index
 func (k Keeper) GetBindedSigner(
-	ctx sdk.Context,
+	ctx context.Context,
 	ownerAddress string,
 ) (val types.BindedSigner, found bool) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.BindedSignerKeyPrefix))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.BindedSignerKeyPrefix))
 
 	b := store.Get(types.BindedSignerKey(
 		ownerAddress,
@@ -36,10 +42,11 @@ func (k Keeper) GetBindedSigner(
 
 // RemoveBindedSigner removes a bindedSigner from the store
 func (k Keeper) RemoveBindedSigner(
-	ctx sdk.Context,
+	ctx context.Context,
 	ownerAddress string,
 ) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.BindedSignerKeyPrefix))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.BindedSignerKeyPrefix))
 	store.Delete(types.BindedSignerKey(
 		ownerAddress,
 	))
@@ -47,7 +54,7 @@ func (k Keeper) RemoveBindedSigner(
 
 // Remove Sepecific Signer fron bindedSignerList
 func (k Keeper) RemoveSignerFromBindedSignerList(
-	ctx sdk.Context,
+	ctx context.Context,
 	ownerAddress string,
 	signerAddress string,
 ) {
@@ -66,9 +73,10 @@ func (k Keeper) RemoveSignerFromBindedSignerList(
 }
 
 // GetAllBindedSigner returns all bindedSigner
-func (k Keeper) GetAllBindedSigner(ctx sdk.Context) (list []types.BindedSigner) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.BindedSignerKeyPrefix))
-	iterator := sdk.KVStorePrefixIterator(store, []byte{})
+func (k Keeper) GetAllBindedSigner(ctx context.Context) (list []types.BindedSigner) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.BindedSignerKeyPrefix))
+	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
 
 	defer iterator.Close()
 

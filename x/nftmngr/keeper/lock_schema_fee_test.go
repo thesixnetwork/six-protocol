@@ -4,13 +4,13 @@ import (
 	"strconv"
 	"testing"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
-
 	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 	"github.com/thesixnetwork/six-protocol/testutil/nullify"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/keeper"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+
+	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 // Prevent strconv unused error
@@ -28,7 +28,7 @@ func createNLockSchemaFee(keeper *keeper.Keeper, ctx sdk.Context, n int) []types
 
 func TestLockSchemaFeeGet(t *testing.T) {
 	keeper, ctx := keepertest.NftmngrKeeper(t)
-	items := createNLockSchemaFee(keeper, ctx, 10)
+	items := createNLockSchemaFee(&keeper, ctx, 10)
 	for _, item := range items {
 		rst, found := keeper.GetLockSchemaFee(ctx,
 			item.Id,
@@ -43,7 +43,7 @@ func TestLockSchemaFeeGet(t *testing.T) {
 
 func TestLockSchemaFeeRemove(t *testing.T) {
 	keeper, ctx := keepertest.NftmngrKeeper(t)
-	items := createNLockSchemaFee(keeper, ctx, 10)
+	items := createNLockSchemaFee(&keeper, ctx, 10)
 	for _, item := range items {
 		keeper.RemoveLockSchemaFee(ctx,
 			item.Id,
@@ -57,7 +57,7 @@ func TestLockSchemaFeeRemove(t *testing.T) {
 
 func TestLockSchemaFeeGetAll(t *testing.T) {
 	keeper, ctx := keepertest.NftmngrKeeper(t)
-	items := createNLockSchemaFee(keeper, ctx, 10)
+	items := createNLockSchemaFee(&keeper, ctx, 10)
 	require.ElementsMatch(t,
 		nullify.Fill(items),
 		nullify.Fill(keeper.GetAllLockSchemaFee(ctx)),

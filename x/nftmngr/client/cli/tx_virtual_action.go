@@ -1,13 +1,13 @@
 package cli
 
 import (
+	"github.com/spf13/cobra"
+	nftmngrutils "github.com/thesixnetwork/six-protocol/x/nftmngr/client/utils"
+	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
-	"github.com/spf13/cobra"
-
-	nftmngrutils "github.com/thesixnetwork/six-protocol/x/nftmngr/client/utils"
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
 func CmdCreateVirtualAction() *cobra.Command {

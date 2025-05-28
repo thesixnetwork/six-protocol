@@ -1,6 +1,8 @@
 package types
 
 import (
+	errormod "cosmossdk.io/errors"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
@@ -49,7 +51,7 @@ func (msg *MsgCreateVirtualAction) GetSignBytes() []byte {
 func (msg *MsgCreateVirtualAction) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+		return errormod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
 	return nil
 }
@@ -58,13 +60,13 @@ func (msg *MsgCreateVirtualAction) CheckDuplicateAction() error {
 	actionNames := make(map[string]bool)
 	for _, action := range msg.NewActions {
 		if _, existed := actionNames[action.Name]; existed {
-			return sdkerrors.Wrapf(ErrDuplicateActionName, "duplicate action: %s", action)
+			return errormod.Wrapf(ErrDuplicateActionName, "duplicate action: %s", action)
 		}
 
 		paramName := make(map[string]bool)
 		for _, param := range action.Params {
 			if _, existed := paramName[param.Name]; existed {
-				return sdkerrors.Wrapf(ErrInvalidParameter, "duplicate action name: %s", action)
+				return errormod.Wrapf(ErrInvalidParameter, "duplicate action name: %s", action)
 			}
 		}
 	}
@@ -109,7 +111,7 @@ func (msg *MsgUpdateVirtualAction) GetSignBytes() []byte {
 func (msg *MsgUpdateVirtualAction) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+		return errormod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
 	return nil
 }
@@ -118,13 +120,13 @@ func (msg *MsgUpdateVirtualAction) CheckDuplicateAction() error {
 	actionNames := make(map[string]bool)
 	for _, action := range msg.NewActions {
 		if _, existed := actionNames[action.Name]; existed {
-			return sdkerrors.Wrapf(ErrDuplicateActionName, "duplicate action: %s", action)
+			return errormod.Wrapf(ErrDuplicateActionName, "duplicate action: %s", action)
 		}
 
 		paramName := make(map[string]bool)
 		for _, param := range action.Params {
 			if _, existed := paramName[param.Name]; existed {
-				return sdkerrors.Wrapf(ErrInvalidParameter, "duplicate action name: %s", action)
+				return errormod.Wrapf(ErrInvalidParameter, "duplicate action name: %s", action)
 			}
 		}
 	}
@@ -169,7 +171,7 @@ func (msg *MsgDeleteVirtualAction) GetSignBytes() []byte {
 func (msg *MsgDeleteVirtualAction) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+		return errormod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
 	return nil
 }

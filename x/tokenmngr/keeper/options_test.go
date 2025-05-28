@@ -1,18 +1,17 @@
 package keeper_test
 
 import (
+	"context"
 	"testing"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
-
 	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 	"github.com/thesixnetwork/six-protocol/testutil/nullify"
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/keeper"
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
-func createTestOptions(keeper *keeper.Keeper, ctx sdk.Context) types.Options {
+func createTestOptions(keeper keeper.Keeper, ctx context.Context) types.Options {
 	item := types.Options{}
 	keeper.SetOptions(ctx, item)
 	return item

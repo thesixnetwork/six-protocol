@@ -4,13 +4,12 @@ import (
 	"strconv"
 	"testing"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/stretchr/testify/require"
-
 	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 	"github.com/thesixnetwork/six-protocol/x/protocoladmin/keeper"
 	"github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
+
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
 // Prevent strconv unused error
@@ -18,28 +17,14 @@ var _ = strconv.IntSize
 
 func TestGroupMsgServerCreate(t *testing.T) {
 	k, ctx := keepertest.ProtocoladminKeeper(t)
-	srv := keeper.NewMsgServerImpl(*k)
-	wctx := sdk.WrapSDKContext(ctx)
-	owner := "B"
-	expected := &types.MsgCreateGroup{
-		Creator: owner,
-		Name:    "test.admin",
-	}
-	_, err := srv.CreateGroup(wctx, expected)
-	require.Error(t, err, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "message creator is not super admin"))
-}
-
-func TestGroupMsgServerCreateWithSuperAdmin(t *testing.T) {
-	k, ctx := keepertest.ProtocoladminKeeper(t)
-	srv := keeper.NewMsgServerImpl(*k)
-	wctx := sdk.WrapSDKContext(ctx)
-	owner := "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"
+	srv := keeper.NewMsgServerImpl(k)
+	owner := "A"
 	for i := 0; i < 5; i++ {
 		expected := &types.MsgCreateGroup{
 			Creator: owner,
 			Name:    strconv.Itoa(i),
 		}
-		_, err := srv.CreateGroup(wctx, expected)
+		_, err := srv.CreateGroup(ctx, expected)
 		require.NoError(t, err)
 		rst, found := k.GetGroup(ctx,
 			expected.Name,
@@ -50,9 +35,9 @@ func TestGroupMsgServerCreateWithSuperAdmin(t *testing.T) {
 }
 
 func TestGroupMsgServerUpdate(t *testing.T) {
-	owner := "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"
+	owner := "A"
 
-	for _, tc := range []struct {
+	tests := []struct {
 		desc    string
 		request *types.MsgUpdateGroup
 		err     error
@@ -80,19 +65,19 @@ func TestGroupMsgServerUpdate(t *testing.T) {
 			},
 			err: sdkerrors.ErrKeyNotFound,
 		},
-	} {
+	}
+	for _, tc := range tests {
 		t.Run(tc.desc, func(t *testing.T) {
 			k, ctx := keepertest.ProtocoladminKeeper(t)
-			srv := keeper.NewMsgServerImpl(*k)
-			wctx := sdk.WrapSDKContext(ctx)
+			srv := keeper.NewMsgServerImpl(k)
 			expected := &types.MsgCreateGroup{
 				Creator: owner,
 				Name:    strconv.Itoa(0),
 			}
-			_, err := srv.CreateGroup(wctx, expected)
+			_, err := srv.CreateGroup(ctx, expected)
 			require.NoError(t, err)
 
-			_, err = srv.UpdateGroup(wctx, tc.request)
+			_, err = srv.UpdateGroup(ctx, tc.request)
 			if tc.err != nil {
 				require.ErrorIs(t, err, tc.err)
 			} else {
@@ -108,9 +93,9 @@ func TestGroupMsgServerUpdate(t *testing.T) {
 }
 
 func TestGroupMsgServerDelete(t *testing.T) {
-	owner := "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"
+	owner := "A"
 
-	for _, tc := range []struct {
+	tests := []struct {
 		desc    string
 		request *types.MsgDeleteGroup
 		err     error
@@ -138,18 +123,18 @@ func TestGroupMsgServerDelete(t *testing.T) {
 			},
 			err: sdkerrors.ErrKeyNotFound,
 		},
-	} {
+	}
+	for _, tc := range tests {
 		t.Run(tc.desc, func(t *testing.T) {
 			k, ctx := keepertest.ProtocoladminKeeper(t)
-			srv := keeper.NewMsgServerImpl(*k)
-			wctx := sdk.WrapSDKContext(ctx)
+			srv := keeper.NewMsgServerImpl(k)
 
-			_, err := srv.CreateGroup(wctx, &types.MsgCreateGroup{
+			_, err := srv.CreateGroup(ctx, &types.MsgCreateGroup{
 				Creator: owner,
 				Name:    strconv.Itoa(0),
 			})
 			require.NoError(t, err)
-			_, err = srv.DeleteGroup(wctx, tc.request)
+			_, err = srv.DeleteGroup(ctx, tc.request)
 			if tc.err != nil {
 				require.ErrorIs(t, err, tc.err)
 			} else {

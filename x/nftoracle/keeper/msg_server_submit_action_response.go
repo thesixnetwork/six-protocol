@@ -10,19 +10,19 @@ import (
 	"strconv"
 	"time"
 
-	utils "github.com/thesixnetwork/six-protocol/utils"
-	nftmngrkeeper "github.com/thesixnetwork/six-protocol/x/nftmngr/keeper"
-	nftmngrtypes "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
-
-	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
-
-	"github.com/cosmos/cosmos-sdk/codec"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/hyperjumptech/grule-rule-engine/ast"
 	"github.com/hyperjumptech/grule-rule-engine/builder"
 	"github.com/hyperjumptech/grule-rule-engine/engine"
 	"github.com/hyperjumptech/grule-rule-engine/pkg"
+	utils "github.com/thesixnetwork/six-protocol/utils"
+	nftmngrkeeper "github.com/thesixnetwork/six-protocol/x/nftmngr/keeper"
+	nftmngrtypes "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+
+	errormod "cosmossdk.io/errors"
+
+	"github.com/cosmos/cosmos-sdk/codec"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 func (k msgServer) SubmitActionResponse(goCtx context.Context, msg *types.MsgSubmitActionResponse) (*types.MsgSubmitActionResponseResponse, error) {
@@ -35,38 +35,38 @@ func (k msgServer) SubmitActionResponse(goCtx context.Context, msg *types.MsgSub
 
 	granted := k.nftadminKeeper.HasPermission(ctx, types.KeyPermissionOracle, oracle)
 	if !granted {
-		return nil, sdkerrors.Wrap(types.ErrNoOraclePermission, msg.Creator)
+		return nil, errormod.Wrap(types.ErrNoOraclePermission, msg.Creator)
 	}
 
 	actionRequest, found := k.GetActionRequest(ctx, msg.ActionRequestID)
 	if !found {
-		return nil, sdkerrors.Wrap(types.ErrMintRequestNotFound, strconv.FormatUint(msg.ActionRequestID, 10))
+		return nil, errormod.Wrap(types.ErrMintRequestNotFound, strconv.FormatUint(msg.ActionRequestID, 10))
 	}
 
 	// Check if mint request is still pending
 	if actionRequest.Status != types.RequestStatus_PENDING {
-		return nil, sdkerrors.Wrap(types.ErrActionRequestNotPending, strconv.FormatUint(msg.ActionRequestID, 10))
+		return nil, errormod.Wrap(types.ErrActionRequestNotPending, strconv.FormatUint(msg.ActionRequestID, 10))
 	}
 
 	// Check if currernt confirmation count is less than required confirmation count
 	if actionRequest.CurrentConfirm >= actionRequest.RequiredConfirm {
-		return nil, sdkerrors.Wrap(types.ErrActionRequestConfirmedAlreadyComplete, strconv.FormatUint(msg.ActionRequestID, 10))
+		return nil, errormod.Wrap(types.ErrActionRequestConfirmedAlreadyComplete, strconv.FormatUint(msg.ActionRequestID, 10))
 	}
 
 	// Convert msg.Base64NftMetadata to bytes
 	nftMetadata, err := base64.StdEncoding.DecodeString(msg.Base64NftData)
 	if err != nil {
-		return nil, sdkerrors.Wrap(types.ErrParsingBase64, err.Error())
+		return nil, errormod.Wrap(types.ErrParsingBase64, err.Error())
 	}
 
 	nftOriginData := types.NftOriginData{}
 	err = k.cdc.(*codec.ProtoCodec).UnmarshalJSON(nftMetadata, &nftOriginData)
 	if err != nil {
-		return nil, sdkerrors.Wrap(types.ErrParsingOriginData, err.Error())
+		return nil, errormod.Wrap(types.ErrParsingOriginData, err.Error())
 	}
 
 	if nftOriginData.HolderAddress == "" || nftOriginData.Image == "" || nftOriginData.Traits == nil || len(nftOriginData.Traits) == 0 {
-		return nil, sdkerrors.Wrap(types.ErrParsingOriginData, "missing required fields")
+		return nil, errormod.Wrap(types.ErrParsingOriginData, "missing required fields")
 	}
 
 	if actionRequest.CurrentConfirm == 0 {
@@ -82,11 +82,11 @@ func (k msgServer) SubmitActionResponse(goCtx context.Context, msg *types.MsgSub
 		// fetch confirmed data
 		for _, confirmer := range actionRequest.Confirmers {
 			if confirmer == msg.Creator {
-				return nil, sdkerrors.Wrap(types.ErrOracleConfirmedAlready, strconv.FormatUint(msg.ActionRequestID, 10))
+				return nil, errormod.Wrap(types.ErrOracleConfirmedAlready, strconv.FormatUint(msg.ActionRequestID, 10))
 			}
 		}
 		// if _, ok := actionRequest.Confirmers[msg.Creator]; ok {
-		// 	return nil, sdkerrors.Wrap(types.ErrOracleConfirmedAlready, strconv.FormatUint(msg.ActionRequestID, 10)+", "+msg.Creator)
+		// 	return nil, errormod.Wrap(types.ErrOracleConfirmedAlready, strconv.FormatUint(msg.ActionRequestID, 10)+", "+msg.Creator)
 		// }
 		// Compare data hash with previous data hash
 		dataHash := sha256.Sum256(nftMetadata)
@@ -140,7 +140,7 @@ func (k msgServer) SubmitActionResponse(goCtx context.Context, msg *types.MsgSub
 			// Udpate NFT Data
 			nftData, found := k.nftmngrKeeper.GetNftData(ctx, actionRequest.NftSchemaCode, actionRequest.TokenId)
 			if !found {
-				return nil, sdkerrors.Wrap(types.ErrMetaDataNotFound, actionRequest.NftSchemaCode+":"+actionRequest.TokenId)
+				return nil, errormod.Wrap(types.ErrMetaDataNotFound, actionRequest.NftSchemaCode+":"+actionRequest.TokenId)
 			}
 			// ctx sdk.Context, nftData nftmngrtypes.NftData, originData *types.NftOriginData
 			err = k.UpdateMetaDataFromOriginData(ctx, &nftData, actionRequest.DataHashes[0].OriginData)
@@ -168,11 +168,11 @@ func (k msgServer) SubmitActionResponse(goCtx context.Context, msg *types.MsgSub
 func (k msgServer) PerformAction(ctx sdk.Context, actionRequest *types.ActionOracleRequest, tokenData *nftmngrtypes.NftData) error {
 	schema, found := k.nftmngrKeeper.GetNFTSchema(ctx, actionRequest.NftSchemaCode)
 	if !found {
-		return sdkerrors.Wrap(types.ErrNFTSchemaNotFound, actionRequest.NftSchemaCode)
+		return errormod.Wrap(types.ErrNFTSchemaNotFound, actionRequest.NftSchemaCode)
 	}
 
 	if actionRequest.Caller != actionRequest.DataHashes[0].OriginData.HolderAddress {
-		return sdkerrors.Wrap(types.ErrUnauthorizedCaller, actionRequest.Caller)
+		return errormod.Wrap(types.ErrUnauthorizedCaller, actionRequest.Caller)
 	}
 
 	mapAction := nftmngrtypes.Action{}
@@ -181,16 +181,16 @@ func (k msgServer) PerformAction(ctx sdk.Context, actionRequest *types.ActionOra
 	if found {
 		action := schema.OnchainData.Actions[action_.Index]
 		if action.Disable {
-			return sdkerrors.Wrap(nftmngrtypes.ErrActionIsDisabled, actionRequest.Action)
+			return errormod.Wrap(nftmngrtypes.ErrActionIsDisabled, actionRequest.Action)
 		}
 		mapAction = *action
 	} else {
-		return sdkerrors.Wrap(nftmngrtypes.ErrActionDoesNotExists, actionRequest.Action)
+		return errormod.Wrap(nftmngrtypes.ErrActionDoesNotExists, actionRequest.Action)
 	}
 
 	// for _, action := range schema.OnchainData.Actions {
 	// 	if action.Name == msg.Action && action.Disable {
-	// 		return nil, sdkerrors.Wrap(types.ErrActionIsDisabled, action.Name)
+	// 		return nil, errormod.Wrap(types.ErrActionIsDisabled, action.Name)
 	// 	}
 	// 	if action.Name == msg.Action {
 	// 		mapAction = *action
@@ -200,12 +200,12 @@ func (k msgServer) PerformAction(ctx sdk.Context, actionRequest *types.ActionOra
 
 	// // Check if action exists
 	// if mapAction.Name == "" {
-	// 	return nil, sdkerrors.Wrap(types.ErrActionDoesNotExists, msg.Action)
+	// 	return nil, errormod.Wrap(types.ErrActionDoesNotExists, msg.Action)
 	// }
 
 	// Check if AllowedAction is for user
 	if mapAction.GetAllowedActioner() == nftmngrtypes.AllowedActioner_ALLOWED_ACTIONER_SYSTEM_ONLY {
-		return sdkerrors.Wrap(nftmngrtypes.ErrActionIsForSystemOnly, mapAction.Name)
+		return errormod.Wrap(nftmngrtypes.ErrActionIsForSystemOnly, mapAction.Name)
 	}
 
 	// Check if action requires parameters
@@ -219,12 +219,12 @@ func (k msgServer) PerformAction(ctx sdk.Context, actionRequest *types.ActionOra
 	}
 
 	if len(required_param) > len(actionRequest.Params) {
-		return sdkerrors.Wrap(nftmngrtypes.ErrInvalidParameter, "Input parameters length is not equal to required parameters length")
+		return errormod.Wrap(nftmngrtypes.ErrInvalidParameter, "Input parameters length is not equal to required parameters length")
 	}
 
 	for i := 0; i < len(required_param); i++ {
 		if actionRequest.Params[i].Name != required_param[i].Name {
-			return sdkerrors.Wrap(nftmngrtypes.ErrInvalidParameter, "input parameter name is not match to "+required_param[i].Name)
+			return errormod.Wrap(nftmngrtypes.ErrInvalidParameter, "input parameter name is not match to "+required_param[i].Name)
 		}
 		if actionRequest.Params[i].Value == "" {
 			actionRequest.Params[i].Value = required_param[i].DefaultValue
@@ -269,7 +269,7 @@ func (k msgServer) PerformAction(ctx sdk.Context, actionRequest *types.ActionOra
 	meta.SetGetNFTFunction(func(tokenId string) (*nftmngrtypes.NftData, error) {
 		tokenData, found := k.nftmngrKeeper.GetNftData(ctx, schema.Code, tokenId)
 		if !found {
-			return nil, sdkerrors.Wrap(nftmngrtypes.ErrMetadataDoesNotExists, schema.Code)
+			return nil, errormod.Wrap(nftmngrtypes.ErrMetadataDoesNotExists, schema.Code)
 		}
 		return &tokenData, nil
 	})
@@ -290,7 +290,7 @@ func (k msgServer) PerformAction(ctx sdk.Context, actionRequest *types.ActionOra
 	}
 	// Check if ChangeList is empty, error if empty
 	if len(meta.ChangeList) == 0 {
-		return sdkerrors.Wrap(types.ErrEmptyChangeList, actionRequest.Action)
+		return errormod.Wrap(types.ErrEmptyChangeList, actionRequest.Action)
 	}
 
 	k.nftmngrKeeper.SetNftData(ctx, *tokenData)
@@ -342,7 +342,7 @@ func (k msgServer) PerformAction(ctx sdk.Context, actionRequest *types.ActionOra
 					},
 				}
 			default:
-				return sdkerrors.Wrap(nftmngrtypes.ErrParsingAttributeValue, val.DataType)
+				return errormod.Wrap(nftmngrtypes.ErrParsingAttributeValue, val.DataType)
 			}
 
 			k.nftmngrKeeper.SetSchemaAttribute(ctx, val)
@@ -354,7 +354,7 @@ func (k msgServer) PerformAction(ctx sdk.Context, actionRequest *types.ActionOra
 
 		_, found := k.nftmngrKeeper.GetActionByRefId(ctx, actionRequest.RefId)
 		if found {
-			return sdkerrors.Wrap(types.ErrRefIdAlreadyExists, actionRequest.RefId)
+			return errormod.Wrap(types.ErrRefIdAlreadyExists, actionRequest.RefId)
 		}
 
 		k.nftmngrKeeper.SetActionByRefId(ctx, nftmngrtypes.ActionByRefId{
@@ -441,7 +441,7 @@ func ProcessAction(meta *nftmngrtypes.Metadata, action *nftmngrtypes.Action, par
 func (k msgServer) UpdateMetaDataFromOriginData(ctx sdk.Context, nftData *nftmngrtypes.NftData, originData *types.NftOriginData) error {
 	schema, found := k.nftmngrKeeper.GetNFTSchema(ctx, nftData.NftSchemaCode)
 	if !found {
-		return sdkerrors.Wrap(types.ErrNFTSchemaNotFound, nftData.NftSchemaCode)
+		return errormod.Wrap(types.ErrNFTSchemaNotFound, nftData.NftSchemaCode)
 	}
 
 	originAttributes, err := k.FromOriginDataToNftOriginAttribute(ctx, &schema, originData)

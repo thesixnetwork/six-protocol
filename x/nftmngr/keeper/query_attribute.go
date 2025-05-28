@@ -3,13 +3,16 @@ package keeper
 import (
 	"context"
 
-	"github.com/cosmos/cosmos-sdk/store/prefix"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/types/query"
+	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+	"cosmossdk.io/store/prefix"
+	storetypes "cosmossdk.io/store/types"
+
+	"github.com/cosmos/cosmos-sdk/runtime"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/types/query"
 )
 
 func (k Keeper) ListAttributeBySchema(goCtx context.Context, req *types.QueryListAttributeBySchemaRequest) (*types.QueryListAttributeBySchemaResponse, error) {
@@ -20,8 +23,8 @@ func (k Keeper) ListAttributeBySchema(goCtx context.Context, req *types.QueryLis
 	var schemaAttributes []types.SchemaAttribute
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	store := ctx.KVStore(k.storeKey)
-	iterator := sdk.KVStorePrefixIterator(store, []byte{})
+	store := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
 
 	defer iterator.Close()
 
@@ -44,7 +47,7 @@ func (k Keeper) SchemaAttributeAll(c context.Context, req *types.QueryAllSchemaA
 	var schemaAttributes []types.SchemaAttribute
 	ctx := sdk.UnwrapSDKContext(c)
 
-	store := ctx.KVStore(k.storeKey)
+	store := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	schemaAttributeStore := prefix.NewStore(store, types.KeyPrefix(types.SchemaAttributeKeyPrefix))
 
 	if req.NftSchemaCode == "" {

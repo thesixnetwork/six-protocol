@@ -3,20 +3,20 @@ package keeper_test
 import (
 	"testing"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
-
 	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 	"github.com/thesixnetwork/six-protocol/testutil/nullify"
 	"github.com/thesixnetwork/six-protocol/x/nftadmin/types"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+
+	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 func TestAuthorizationQuery(t *testing.T) {
-	keeper, ctx := keepertest.NftAdminKeeper(t)
+	keeper, ctx := keepertest.NftadminKeeper(t)
 	wctx := sdk.WrapSDKContext(ctx)
-	item := createTestAuthorization(keeper, ctx)
+	item := createTestAuthorization(&keeper, ctx)
 	for _, tc := range []struct {
 		desc     string
 		request  *types.QueryGetAuthorizationRequest

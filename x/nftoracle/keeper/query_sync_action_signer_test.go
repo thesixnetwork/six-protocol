@@ -3,22 +3,21 @@ package keeper_test
 import (
 	"testing"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/cosmos/cosmos-sdk/types/query"
 	"github.com/stretchr/testify/require"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
-
 	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 	"github.com/thesixnetwork/six-protocol/testutil/nullify"
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	"github.com/cosmos/cosmos-sdk/types/query"
 )
 
 func TestSyncActionSignerQuerySingle(t *testing.T) {
 	keeper, ctx := keepertest.NftoracleKeeper(t)
-	wctx := sdk.WrapSDKContext(ctx)
-	msgs := createNSyncActionSigner(keeper, ctx, 2)
+	msgs := createNSyncActionSigner(&keeper, ctx, 2)
 	for _, tc := range []struct {
 		desc     string
 		request  *types.QueryGetSyncActionSignerRequest
@@ -46,7 +45,7 @@ func TestSyncActionSignerQuerySingle(t *testing.T) {
 		},
 	} {
 		t.Run(tc.desc, func(t *testing.T) {
-			response, err := keeper.SyncActionSigner(wctx, tc.request)
+			response, err := keeper.SyncActionSigner(ctx, tc.request)
 			if tc.err != nil {
 				require.ErrorIs(t, err, tc.err)
 			} else {
@@ -63,7 +62,7 @@ func TestSyncActionSignerQuerySingle(t *testing.T) {
 func TestSyncActionSignerQueryPaginated(t *testing.T) {
 	keeper, ctx := keepertest.NftoracleKeeper(t)
 	wctx := sdk.WrapSDKContext(ctx)
-	msgs := createNSyncActionSigner(keeper, ctx, 5)
+	msgs := createNSyncActionSigner(&keeper, ctx, 5)
 
 	request := func(next []byte, offset, limit uint64, total bool) *types.QueryAllSyncActionSignerRequest {
 		return &types.QueryAllSyncActionSignerRequest{

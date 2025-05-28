@@ -3,11 +3,11 @@ package cli
 import (
 	"strconv"
 
+	"github.com/spf13/cobra"
+	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
-	"github.com/spf13/cobra"
-
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
 var _ = strconv.Itoa(0)

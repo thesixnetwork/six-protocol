@@ -1,60 +1,44 @@
 package keeper
 
 import (
-	"os"
 	"testing"
 
-	"github.com/gogo/protobuf/jsonpb"
-
-	sim "github.com/thesixnetwork/six-protocol/x/nftmngr/simulation"
-
+	cmtproto "github.com/cometbft/cometbft/proto/tendermint/types"
+	dbm "github.com/cosmos/cosmos-db"
+	"github.com/stretchr/testify/require"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/keeper"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 
+	"cosmossdk.io/log"
+	"cosmossdk.io/store"
+	"cosmossdk.io/store/metrics"
+	storetypes "cosmossdk.io/store/types"
+
 	"github.com/cosmos/cosmos-sdk/codec"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
-	"github.com/cosmos/cosmos-sdk/store"
-	storetypes "github.com/cosmos/cosmos-sdk/store/types"
+	"github.com/cosmos/cosmos-sdk/runtime"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	typesparams "github.com/cosmos/cosmos-sdk/x/params/types"
-	"github.com/stretchr/testify/require"
-	"github.com/tendermint/tendermint/libs/log"
-	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
-	tmdb "github.com/tendermint/tm-db"
+	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
+	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 )
 
-func init() {
-	config := sdk.GetConfig()
-	config.SetBech32PrefixForAccount("6x", "6xpub")
-	config.Seal()
-}
+func NftmngrKeeper(t testing.TB) (keeper.Keeper, sdk.Context) {
+	storeKey := storetypes.NewKVStoreKey(types.StoreKey)
 
-func NftmngrKeeper(t testing.TB) (*keeper.Keeper, sdk.Context) {
-	storeKey := sdk.NewKVStoreKey(types.StoreKey)
-	memStoreKey := storetypes.NewMemoryStoreKey(types.MemStoreKey)
-
-	db := tmdb.NewMemDB()
-	stateStore := store.NewCommitMultiStore(db)
-	stateStore.MountStoreWithDB(storeKey, sdk.StoreTypeIAVL, db)
-	stateStore.MountStoreWithDB(memStoreKey, sdk.StoreTypeMemory, nil)
+	db := dbm.NewMemDB()
+	stateStore := store.NewCommitMultiStore(db, log.NewNopLogger(), metrics.NewNoOpMetrics())
+	stateStore.MountStoreWithDB(storeKey, storetypes.StoreTypeIAVL, db)
 	require.NoError(t, stateStore.LoadLatestVersion())
 
 	registry := codectypes.NewInterfaceRegistry()
 	cdc := codec.NewProtoCodec(registry)
-
-	paramsSubspace := typesparams.NewSubspace(cdc,
-		types.Amino,
-		storeKey,
-		memStoreKey,
-		"NftmngrParams",
-	)
+	authority := authtypes.NewModuleAddress(govtypes.ModuleName)
 
 	k := keeper.NewKeeper(
 		cdc,
-		storeKey,
-		memStoreKey,
-		paramsSubspace,
-		nil,
+		runtime.NewKVStoreService(storeKey),
+		log.NewNopLogger(),
+		authority.String(),
 		nil,
 		nil,
 		nil,
@@ -62,53 +46,12 @@ func NftmngrKeeper(t testing.TB) (*keeper.Keeper, sdk.Context) {
 		nil,
 	)
 
-	ctx := sdk.NewContext(stateStore, tmproto.Header{}, false, log.NewNopLogger())
+	ctx := sdk.NewContext(stateStore, cmtproto.Header{}, false, log.NewNopLogger())
 
 	// Initialize params
-	k.SetParams(ctx, types.DefaultParams())
+	if err := k.SetParams(ctx, types.DefaultParams()); err != nil {
+		panic(err)
+	}
 
 	return k, ctx
-}
-
-func InitSchema(t *testing.T, schemaJSONFilePath string) (types.NFTSchema, types.NFTSchemaINPUT) {
-	// init schema
-	schemaJSON, err := os.ReadFile(schemaJSONFilePath)
-	if err != nil {
-		panic(err)
-	}
-
-	schemaInput := types.NFTSchemaINPUT{}
-	err = jsonpb.UnmarshalString(string(schemaJSON), &schemaInput)
-	if err != nil {
-		panic(err)
-	}
-
-	schema := sim.GenNFTSchemaFromInput(schemaInput)
-
-	keeper, ctx := NftmngrKeeper(t)
-	err = keeper.CreateNftSchemaKeeper(ctx, "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq", schemaInput)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	return schema, schemaInput
-}
-
-func InitMetadata(t *testing.T, metadataJSONFilePath string) types.NftData {
-	// init metadata
-	metaJSON, err := os.ReadFile(metadataJSONFilePath)
-	if err != nil {
-		panic(err)
-	}
-
-	metaInput := types.NftData{}
-	err = jsonpb.UnmarshalString(string(metaJSON), &metaInput)
-	if err != nil {
-		panic(err)
-	}
-
-	keeper, ctx := NftmngrKeeper(t)
-	keeper.SetNftData(ctx, metaInput)
-
-	return metaInput
 }

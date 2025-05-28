@@ -4,15 +4,14 @@ import (
 	"strconv"
 	"testing"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/types/query"
 	"github.com/stretchr/testify/require"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
-
 	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 	"github.com/thesixnetwork/six-protocol/testutil/nullify"
 	"github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+
+	"github.com/cosmos/cosmos-sdk/types/query"
 )
 
 // Prevent strconv unused error
@@ -20,9 +19,8 @@ var _ = strconv.IntSize
 
 func TestGroupQuerySingle(t *testing.T) {
 	keeper, ctx := keepertest.ProtocoladminKeeper(t)
-	wctx := sdk.WrapSDKContext(ctx)
 	msgs := createNGroup(keeper, ctx, 2)
-	for _, tc := range []struct {
+	tests := []struct {
 		desc     string
 		request  *types.QueryGetGroupRequest
 		response *types.QueryGetGroupResponse
@@ -47,15 +45,16 @@ func TestGroupQuerySingle(t *testing.T) {
 			request: &types.QueryGetGroupRequest{
 				Name: strconv.Itoa(100000),
 			},
-			err: status.Error(codes.InvalidArgument, "not found"),
+			err: status.Error(codes.NotFound, "not found"),
 		},
 		{
 			desc: "InvalidRequest",
 			err:  status.Error(codes.InvalidArgument, "invalid request"),
 		},
-	} {
+	}
+	for _, tc := range tests {
 		t.Run(tc.desc, func(t *testing.T) {
-			response, err := keeper.Group(wctx, tc.request)
+			response, err := keeper.Group(ctx, tc.request)
 			if tc.err != nil {
 				require.ErrorIs(t, err, tc.err)
 			} else {
@@ -71,7 +70,6 @@ func TestGroupQuerySingle(t *testing.T) {
 
 func TestGroupQueryPaginated(t *testing.T) {
 	keeper, ctx := keepertest.ProtocoladminKeeper(t)
-	wctx := sdk.WrapSDKContext(ctx)
 	msgs := createNGroup(keeper, ctx, 5)
 
 	request := func(next []byte, offset, limit uint64, total bool) *types.QueryAllGroupRequest {
@@ -87,7 +85,7 @@ func TestGroupQueryPaginated(t *testing.T) {
 	t.Run("ByOffset", func(t *testing.T) {
 		step := 2
 		for i := 0; i < len(msgs); i += step {
-			resp, err := keeper.GroupAll(wctx, request(nil, uint64(i), uint64(step), false))
+			resp, err := keeper.GroupAll(ctx, request(nil, uint64(i), uint64(step), false))
 			require.NoError(t, err)
 			require.LessOrEqual(t, len(resp.Group), step)
 			require.Subset(t,
@@ -100,7 +98,7 @@ func TestGroupQueryPaginated(t *testing.T) {
 		step := 2
 		var next []byte
 		for i := 0; i < len(msgs); i += step {
-			resp, err := keeper.GroupAll(wctx, request(next, 0, uint64(step), false))
+			resp, err := keeper.GroupAll(ctx, request(next, 0, uint64(step), false))
 			require.NoError(t, err)
 			require.LessOrEqual(t, len(resp.Group), step)
 			require.Subset(t,
@@ -111,7 +109,7 @@ func TestGroupQueryPaginated(t *testing.T) {
 		}
 	})
 	t.Run("Total", func(t *testing.T) {
-		resp, err := keeper.GroupAll(wctx, request(nil, 0, 0, true))
+		resp, err := keeper.GroupAll(ctx, request(nil, 0, 0, true))
 		require.NoError(t, err)
 		require.Equal(t, len(msgs), int(resp.Pagination.Total))
 		require.ElementsMatch(t,
@@ -120,7 +118,7 @@ func TestGroupQueryPaginated(t *testing.T) {
 		)
 	})
 	t.Run("InvalidRequest", func(t *testing.T) {
-		_, err := keeper.GroupAll(wctx, nil)
+		_, err := keeper.GroupAll(ctx, nil)
 		require.ErrorIs(t, err, status.Error(codes.InvalidArgument, "invalid request"))
 	})
 }

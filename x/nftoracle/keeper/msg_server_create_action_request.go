@@ -6,14 +6,15 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/ethereum/go-ethereum/common/hexutil"
+	"github.com/ethereum/go-ethereum/crypto"
 	nftmngrtypes "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 
+	errormod "cosmossdk.io/errors"
+
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/crypto"
 )
 
 func (k msgServer) CreateActionRequest(goCtx context.Context, msg *types.MsgCreateActionRequest) (*types.MsgCreateActionRequestResponse, error) {
@@ -21,17 +22,17 @@ func (k msgServer) CreateActionRequest(goCtx context.Context, msg *types.MsgCrea
 
 	actionSigBz, err := base64.StdEncoding.DecodeString(msg.Base64ActionSignature)
 	if err != nil {
-		return nil, sdkerrors.Wrap(types.ErrInvalidBase64, msg.Base64ActionSignature)
+		return nil, errormod.Wrap(types.ErrInvalidBase64, msg.Base64ActionSignature)
 	}
 	data := types.ActionSignature{}
 	err = k.cdc.(*codec.ProtoCodec).UnmarshalJSON(actionSigBz, &data)
 	if err != nil {
-		return nil, sdkerrors.Wrap(types.ErrParsingActionSignature, err.Error())
+		return nil, errormod.Wrap(types.ErrParsingActionSignature, err.Error())
 	}
 
 	actionOralceParam, signer, err := k.ValidateActionSignature(data)
 	if err != nil {
-		return nil, sdkerrors.Wrap(types.ErrValidateSignature, err.Error())
+		return nil, errormod.Wrap(types.ErrValidateSignature, err.Error())
 	}
 
 	switch {
@@ -44,20 +45,20 @@ func (k msgServer) CreateActionRequest(goCtx context.Context, msg *types.MsgCrea
 		if isActionSigner && _actionSigner.ExpiredAt.After(ctx.BlockTime().UTC()) && actionOralceParam.OnBehalfOf == _actionSigner.OwnerAddress {
 			*signer = _actionSigner.OwnerAddress
 		} else {
-			return nil, sdkerrors.Wrap(types.ErrInvalidSigningOnBehalfOf, "invalid onBehalfOf or ActionSigner is expired")
+			return nil, errormod.Wrap(types.ErrInvalidSigningOnBehalfOf, "invalid onBehalfOf or ActionSigner is expired")
 		}
 	}
 
 	// get schema from action request
 	schema, found := k.nftmngrKeeper.GetNFTSchema(ctx, actionOralceParam.NftSchemaCode)
 	if !found {
-		return nil, sdkerrors.Wrap(types.ErrNFTSchemaNotFound, actionOralceParam.NftSchemaCode)
+		return nil, errormod.Wrap(types.ErrNFTSchemaNotFound, actionOralceParam.NftSchemaCode)
 	}
 
 	mapAction := nftmngrtypes.Action{}
 	for _, action := range schema.OnchainData.Actions {
 		if action.Name == actionOralceParam.Action && action.Disable {
-			return nil, sdkerrors.Wrap(nftmngrtypes.ErrActionIsDisabled, action.Name)
+			return nil, errormod.Wrap(nftmngrtypes.ErrActionIsDisabled, action.Name)
 		}
 		if action.Name == actionOralceParam.Action {
 			mapAction = *action
@@ -76,12 +77,12 @@ func (k msgServer) CreateActionRequest(goCtx context.Context, msg *types.MsgCrea
 	}
 
 	if len(required_param) > len(actionOralceParam.Params) {
-		return nil, sdkerrors.Wrap(nftmngrtypes.ErrInvalidParameter, "Input parameters length is not equal to required parameters length")
+		return nil, errormod.Wrap(nftmngrtypes.ErrInvalidParameter, "Input parameters length is not equal to required parameters length")
 	}
 
 	for i := 0; i < len(required_param); i++ {
 		if actionOralceParam.Params[i].Name != required_param[i].Name {
-			return nil, sdkerrors.Wrap(nftmngrtypes.ErrInvalidParameter, "input parameter name is not match to "+required_param[i].Name)
+			return nil, errormod.Wrap(nftmngrtypes.ErrInvalidParameter, "input parameter name is not match to "+required_param[i].Name)
 		}
 		if actionOralceParam.Params[i].Value == "" {
 			actionOralceParam.Params[i].Value = required_param[i].DefaultValue
@@ -93,7 +94,7 @@ func (k msgServer) CreateActionRequest(goCtx context.Context, msg *types.MsgCrea
 	// Check if the token is already Actioned
 	_, found = k.nftmngrKeeper.GetNftData(ctx, actionOralceParam.NftSchemaCode, actionOralceParam.TokenId)
 	if !found {
-		return nil, sdkerrors.Wrap(types.ErrMetadataNotExists, actionOralceParam.NftSchemaCode)
+		return nil, errormod.Wrap(types.ErrMetadataNotExists, actionOralceParam.NftSchemaCode)
 	}
 
 	// Check action with reference exists
@@ -101,18 +102,18 @@ func (k msgServer) CreateActionRequest(goCtx context.Context, msg *types.MsgCrea
 
 		_, found := k.nftmngrKeeper.GetActionByRefId(ctx, actionOralceParam.RefId)
 		if found {
-			return nil, sdkerrors.Wrap(types.ErrRefIdAlreadyExists, actionOralceParam.RefId)
+			return nil, errormod.Wrap(types.ErrRefIdAlreadyExists, actionOralceParam.RefId)
 		}
 	}
 
 	oracleConfig, found := k.GetOracleConfig(ctx)
 	if !found {
-		return nil, sdkerrors.Wrap(types.ErrOracleConfigNotFound, "")
+		return nil, errormod.Wrap(types.ErrOracleConfigNotFound, "")
 	}
 
 	// Verify msg.RequiredConfirmations is less than or equal to oracleConfig.MinimumConfirmation
 	if int32(msg.RequiredConfirm) < oracleConfig.MinimumConfirmation {
-		return nil, sdkerrors.Wrap(types.ErrRequiredConfirmTooLess, strconv.Itoa(int(oracleConfig.MinimumConfirmation)))
+		return nil, errormod.Wrap(types.ErrRequiredConfirmTooLess, strconv.Itoa(int(oracleConfig.MinimumConfirmation)))
 	}
 
 	createdAt := ctx.BlockTime() // now time of block
@@ -167,18 +168,18 @@ func (k msgServer) ValidateActionSignature(actionSig types.ActionSignature) (*ty
 	actionOralceParam := &types.ActionOracleParam{}
 	actionParamBz, err := base64.StdEncoding.DecodeString(actionSig.Message)
 	if err != nil {
-		return nil, nil, sdkerrors.Wrap(types.ErrParsingActionParam, "Error to DecodeString")
+		return nil, nil, errormod.Wrap(types.ErrParsingActionParam, "Error to DecodeString")
 	}
 	err = k.cdc.(*codec.ProtoCodec).UnmarshalJSON(actionParamBz, actionOralceParam)
 	if err != nil {
-		return nil, nil, sdkerrors.Wrap(types.ErrParsingActionParam, "Error to UnmarshalJSON")
+		return nil, nil, errormod.Wrap(types.ErrParsingActionParam, "Error to UnmarshalJSON")
 	}
 
 	// validate signature format
 	decode_signature, err := hexutil.Decode(actionSig.Signature)
 	if err != nil {
 		// log.Fatalf("Failed to decode signature: %v", msg.Signature)
-		return nil, nil, sdkerrors.Wrap(types.ErrHexDecode, "Failed to decode signature")
+		return nil, nil, errormod.Wrap(types.ErrHexDecode, "Failed to decode signature")
 	}
 	signature_with_revocery_id := decode_signature
 	// remove last byte coz is is recovery id
@@ -186,20 +187,20 @@ func (k msgServer) ValidateActionSignature(actionSig types.ActionSignature) (*ty
 	// get pulic key from signature
 	sigPublicKey, err := crypto.Ecrecover(hash_bytes, decode_signature) // recover publickey from signature and hash
 	if err != nil {
-		return nil, nil, sdkerrors.Wrap(types.ErrEcrecover, "invalid signature or message")
+		return nil, nil, errormod.Wrap(types.ErrEcrecover, "invalid signature or message")
 	}
 
 	// fmt.Println("sigPublicKey:", hexutil.Encode(sigPublicKey))
 	// get address from public key
 	pubEDCA, err := crypto.UnmarshalPubkey(sigPublicKey)
 	if err != nil {
-		return nil, nil, sdkerrors.Wrap(types.ErrUnmarshalPubkey, "faild to unmarshal public key")
+		return nil, nil, errormod.Wrap(types.ErrUnmarshalPubkey, "faild to unmarshal public key")
 	}
 	eth_address_from_pubkey := crypto.PubkeyToAddress(*pubEDCA)
 
 	signatureNoRecoverID := signature_with_revocery_id[:len(signature_with_revocery_id)-1] // remove recovery id
 	if verified := crypto.VerifySignature(sigPublicKey, hash.Bytes(), signatureNoRecoverID); !verified {
-		return nil, nil, sdkerrors.Wrap(types.ErrVerifyingSignature, "invalid signature")
+		return nil, nil, errormod.Wrap(types.ErrVerifyingSignature, "invalid signature")
 	}
 	signer := eth_address_from_pubkey.Hex()
 	return actionOralceParam, &signer, nil

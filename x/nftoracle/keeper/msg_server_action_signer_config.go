@@ -3,11 +3,12 @@ package keeper
 import (
 	"context"
 
+	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+
+	errormod "cosmossdk.io/errors"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-
-	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
-	// "github.com/ethereum/go-ethereum/common"
 )
 
 func (k msgServer) CreateActionSignerConfig(goCtx context.Context, msg *types.MsgCreateActionSignerConfig) (*types.MsgCreateActionSignerConfigResponse, error) {
@@ -21,7 +22,7 @@ func (k msgServer) CreateActionSignerConfig(goCtx context.Context, msg *types.Ms
 
 	granted := k.nftadminKeeper.HasPermission(ctx, types.KeyPermissionAdminSignerConfig, creator)
 	if !granted {
-		return nil, sdkerrors.Wrap(types.ErrNoPermissionAdminSignerConfig, msg.Creator)
+		return nil, errormod.Wrap(types.ErrNoPermissionAdminSignerConfig, msg.Creator)
 	}
 
 	// Check if the value already exists
@@ -30,17 +31,17 @@ func (k msgServer) CreateActionSignerConfig(goCtx context.Context, msg *types.Ms
 		msg.Chain,
 	)
 	if isFound {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "index already set")
+		return nil, errormod.Wrap(sdkerrors.ErrInvalidRequest, "index already set")
 	}
 
 	// // validate ContractOwner address
 	// if !common.IsHexAddress(msg.ContractOwner) {
-	// 	return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid contract owner address")
+	// 	return nil, errormod.Wrap(sdkerrors.ErrInvalidRequest, "invalid contract owner address")
 	// }
 
 	// // validate ContractAddress address
 	// if !common.IsHexAddress(msg.ContractAddress) {
-	// 	return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid contract address")
+	// 	return nil, errormod.Wrap(sdkerrors.ErrInvalidRequest, "invalid contract address")
 	// }
 
 	actionSignerConfig := types.ActionSignerConfig{
@@ -75,7 +76,7 @@ func (k msgServer) UpdateActionSignerConfig(goCtx context.Context, msg *types.Ms
 
 	granted := k.nftadminKeeper.HasPermission(ctx, types.KeyPermissionAdminSignerConfig, creator)
 	if !granted {
-		return nil, sdkerrors.Wrap(types.ErrNoPermissionAdminSignerConfig, msg.Creator)
+		return nil, errormod.Wrap(types.ErrNoPermissionAdminSignerConfig, msg.Creator)
 	}
 	// Check if the value exists
 	valFound, isFound := k.GetActionSignerConfig(
@@ -83,22 +84,22 @@ func (k msgServer) UpdateActionSignerConfig(goCtx context.Context, msg *types.Ms
 		msg.Chain,
 	)
 	if !isFound {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
+		return nil, errormod.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
 	}
 
 	// Checks if the the msg creator is the same as the current owner
 	if msg.Creator != valFound.Creator {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
+		return nil, errormod.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
 	}
 
 	// // validate ContractOwner address
 	// if !common.IsHexAddress(msg.ContractOwner) {
-	// 	return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid contract owner address")
+	// 	return nil, errormod.Wrap(sdkerrors.ErrInvalidRequest, "invalid contract owner address")
 	// }
 
 	// // validate ContractAddress address
 	// if !common.IsHexAddress(msg.ContractAddress) {
-	// 	return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid contract address")
+	// 	return nil, errormod.Wrap(sdkerrors.ErrInvalidRequest, "invalid contract address")
 	// }
 
 	actionSignerConfig := types.ActionSignerConfig{
@@ -131,7 +132,7 @@ func (k msgServer) DeleteActionSignerConfig(goCtx context.Context, msg *types.Ms
 
 	granted := k.nftadminKeeper.HasPermission(ctx, types.KeyPermissionAdminSignerConfig, creator)
 	if !granted {
-		return nil, sdkerrors.Wrap(types.ErrNoPermissionAdminSignerConfig, msg.Creator)
+		return nil, errormod.Wrap(types.ErrNoPermissionAdminSignerConfig, msg.Creator)
 	}
 	// Check if the value exists
 	valFound, isFound := k.GetActionSignerConfig(
@@ -139,12 +140,12 @@ func (k msgServer) DeleteActionSignerConfig(goCtx context.Context, msg *types.Ms
 		msg.Chain,
 	)
 	if !isFound {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
+		return nil, errormod.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
 	}
 
 	// Checks if the the msg creator is the same as the current owner
 	if msg.Creator != valFound.Creator {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
+		return nil, errormod.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
 	}
 
 	k.RemoveActionSignerConfig(

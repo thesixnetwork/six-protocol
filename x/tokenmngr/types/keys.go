@@ -7,34 +7,18 @@ const (
 	// StoreKey defines the primary module store key
 	StoreKey = ModuleName
 
-	// RouterKey is the message route for slashing
-	RouterKey = ModuleName
-
-	// QuerierRoute defines the module's query routing key
-	QuerierRoute = ModuleName
-
 	// MemStoreKey defines the in-memory store key
 	MemStoreKey = "mem_tokenmngr"
-
-	// Version defines the current version the IBC module supports
-	Version = "tokenmngr-1"
-
-	// PortID is the default port id that module binds to
-	PortID = "tokenmngr"
-
-	// MintdesKey defines the key to store the mint destination address
-	MintdesKey = "tokenmngr-mintdes"
 )
 
-// PortKey defines the key to store the port ID in store
-var PortKey = KeyPrefix("tokenmngr-port-")
+var ParamsKey = []byte("p_tokenmngr")
 
 func KeyPrefix(p string) []byte {
 	return []byte(p)
 }
 
 const (
-	OptionsKey   = "Options-value-"
-	BurnKey      = "Burn-value-"
-	BurnCountKey = "Burn-count-"
+	OptionsKey   = "Options/value/"
+	BurnKey      = "Burn/value/"
+	BurnCountKey = "Burn/count/"
 )

@@ -3,15 +3,16 @@ package cli
 import (
 	"strconv"
 
+	"github.com/spf13/cobra"
+	nftmngrutils "github.com/thesixnetwork/six-protocol/x/nftmngr/client/utils"
+	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+
+	errormod "cosmossdk.io/errors"
+
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
-	"github.com/spf13/cobra"
-
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-
-	nftmngrutils "github.com/thesixnetwork/six-protocol/x/nftmngr/client/utils"
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
 var _ = strconv.Itoa(0)
@@ -55,6 +56,6 @@ func ParseFeeSubject(option string) (types.FeeSubject, error) {
 	case "0":
 		return types.FeeSubject_CREATE_NFT_SCHEMA, nil
 	default:
-		return types.FeeSubject_CREATE_NFT_SCHEMA, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid subject. Use 0 or 1")
+		return types.FeeSubject_CREATE_NFT_SCHEMA, errormod.Wrap(sdkerrors.ErrInvalidRequest, "invalid subject. Use 0 or 1")
 	}
 }

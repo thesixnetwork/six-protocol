@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+package sixprotocol.protocoladmin;
+
+import "amino/amino.proto";
+import "cosmos/msg/v1/msg.proto";
+import "cosmos_proto/cosmos.proto";
+import "gogoproto/gogo.proto";
+import "sixprotocol/protocoladmin/params.proto";
+import "sixprotocol/protocoladmin/group.proto";
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/protocoladmin/types";
+
+// Msg defines the Msg service.
+service Msg {
+  option (cosmos.msg.v1.service) = true;
+
+  // UpdateParams defines a (governance) operation for updating the module
+  // parameters. The authority defaults to the x/gov module account.
+  rpc UpdateParams(MsgUpdateParams) returns (MsgUpdateParamsResponse);
+  rpc CreateGroup(MsgCreateGroup) returns (MsgCreateGroupResponse);
+  rpc UpdateGroup(MsgUpdateGroup) returns (MsgUpdateGroupResponse);
+  rpc DeleteGroup(MsgDeleteGroup) returns (MsgDeleteGroupResponse);
+  rpc AddAdminToGroup(MsgAddAdminToGroup) returns (MsgAddAdminToGroupResponse);
+  rpc RemoveAdminFromGroup(MsgRemoveAdminFromGroup)
+      returns (MsgRemoveAdminFromGroupResponse);
+}
+// MsgUpdateParams is the Msg/UpdateParams request type.
+message MsgUpdateParams {
+  option (cosmos.msg.v1.signer) = "authority";
+  option (amino.name) = "sixprotocol/x/protocoladmin/MsgUpdateParams";
+
+  // authority is the address that controls the module (defaults to x/gov unless
+  // overwritten).
+  string authority = 1 [ (cosmos_proto.scalar) = "cosmos.AddressString" ];
+
+  // params defines the module parameters to update.
+
+  // NOTE: All parameters must be supplied.
+  Params params = 2
+      [ (gogoproto.nullable) = false, (amino.dont_omitempty) = true ];
+}
+
+// MsgUpdateParamsResponse defines the response structure for executing a
+// MsgUpdateParams message.
+message MsgUpdateParamsResponse {}
+
+message MsgCreateGroup {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string name = 2;
+}
+
+message MsgCreateGroupResponse {}
+
+message MsgUpdateGroup {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string name = 2;
+}
+
+message MsgUpdateGroupResponse {}
+
+message MsgDeleteGroup {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string name = 2;
+}
+
+message MsgDeleteGroupResponse {}
+
+message MsgAddAdminToGroup {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string name = 2;
+  string address = 3;
+}
+
+message MsgAddAdminToGroupResponse {}
+
+message MsgRemoveAdminFromGroup {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string name = 2;
+  string address = 3;
+}
+
+message MsgRemoveAdminFromGroupResponse {}

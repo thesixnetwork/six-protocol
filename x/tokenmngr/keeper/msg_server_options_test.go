@@ -3,22 +3,20 @@ package keeper_test
 import (
 	"testing"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/stretchr/testify/require"
-
 	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/keeper"
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
 func TestOptionsMsgServerCreate(t *testing.T) {
 	k, ctx := keepertest.TokenmngrKeeper(t)
-	srv := keeper.NewMsgServerImpl(*k)
-	wctx := sdk.WrapSDKContext(ctx)
+	srv := keeper.NewMsgServerImpl(k)
 	creator := "A"
 	expected := &types.MsgCreateOptions{Creator: creator}
-	_, err := srv.CreateOptions(wctx, expected)
+	_, err := srv.CreateOptions(ctx, expected)
 	require.NoError(t, err)
 	rst, found := k.GetOptions(ctx)
 	require.True(t, found)
@@ -28,7 +26,7 @@ func TestOptionsMsgServerCreate(t *testing.T) {
 func TestOptionsMsgServerUpdate(t *testing.T) {
 	creator := "A"
 
-	for _, tc := range []struct {
+	tests := []struct {
 		desc    string
 		request *types.MsgUpdateOptions
 		err     error
@@ -42,16 +40,16 @@ func TestOptionsMsgServerUpdate(t *testing.T) {
 			request: &types.MsgUpdateOptions{Creator: "B"},
 			err:     sdkerrors.ErrUnauthorized,
 		},
-	} {
+	}
+	for _, tc := range tests {
 		t.Run(tc.desc, func(t *testing.T) {
 			k, ctx := keepertest.TokenmngrKeeper(t)
-			srv := keeper.NewMsgServerImpl(*k)
-			wctx := sdk.WrapSDKContext(ctx)
+			srv := keeper.NewMsgServerImpl(k)
 			expected := &types.MsgCreateOptions{Creator: creator}
-			_, err := srv.CreateOptions(wctx, expected)
+			_, err := srv.CreateOptions(ctx, expected)
 			require.NoError(t, err)
 
-			_, err = srv.UpdateOptions(wctx, tc.request)
+			_, err = srv.UpdateOptions(ctx, tc.request)
 			if tc.err != nil {
 				require.ErrorIs(t, err, tc.err)
 			} else {
@@ -67,7 +65,7 @@ func TestOptionsMsgServerUpdate(t *testing.T) {
 func TestOptionsMsgServerDelete(t *testing.T) {
 	creator := "A"
 
-	for _, tc := range []struct {
+	tests := []struct {
 		desc    string
 		request *types.MsgDeleteOptions
 		err     error
@@ -81,15 +79,15 @@ func TestOptionsMsgServerDelete(t *testing.T) {
 			request: &types.MsgDeleteOptions{Creator: "B"},
 			err:     sdkerrors.ErrUnauthorized,
 		},
-	} {
+	}
+	for _, tc := range tests {
 		t.Run(tc.desc, func(t *testing.T) {
 			k, ctx := keepertest.TokenmngrKeeper(t)
-			srv := keeper.NewMsgServerImpl(*k)
-			wctx := sdk.WrapSDKContext(ctx)
+			srv := keeper.NewMsgServerImpl(k)
 
-			_, err := srv.CreateOptions(wctx, &types.MsgCreateOptions{Creator: creator})
+			_, err := srv.CreateOptions(ctx, &types.MsgCreateOptions{Creator: creator})
 			require.NoError(t, err)
-			_, err = srv.DeleteOptions(wctx, tc.request)
+			_, err = srv.DeleteOptions(ctx, tc.request)
 			if tc.err != nil {
 				require.ErrorIs(t, err, tc.err)
 			} else {

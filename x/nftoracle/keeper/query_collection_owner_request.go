@@ -3,14 +3,16 @@ package keeper
 import (
 	"context"
 
-	"github.com/cosmos/cosmos-sdk/store/prefix"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/cosmos/cosmos-sdk/types/query"
+	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+	"cosmossdk.io/store/prefix"
+
+	"github.com/cosmos/cosmos-sdk/runtime"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	"github.com/cosmos/cosmos-sdk/types/query"
 )
 
 func (k Keeper) CollectionOwnerRequestAll(c context.Context, req *types.QueryAllCollectionOwnerRequestRequest) (*types.QueryAllCollectionOwnerRequestResponse, error) {
@@ -21,8 +23,8 @@ func (k Keeper) CollectionOwnerRequestAll(c context.Context, req *types.QueryAll
 	var collectionOwnerRequests []types.CollectionOwnerRequest
 	ctx := sdk.UnwrapSDKContext(c)
 
-	store := ctx.KVStore(k.storeKey)
-	collectionOwnerRequestStore := prefix.NewStore(store, types.KeyPrefix(types.CollectionOwnerRequestKey))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	collectionOwnerRequestStore := prefix.NewStore(storeAdapter, types.KeyPrefix(types.CollectionOwnerRequestKey))
 
 	pageRes, err := query.Paginate(collectionOwnerRequestStore, req.Pagination, func(key []byte, value []byte) error {
 		var collectionOwnerRequest types.CollectionOwnerRequest

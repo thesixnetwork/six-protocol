@@ -1,0 +1,13 @@
+syntax = "proto3";
+package sixprotocol.tokenmngr;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/tokenmngr/types";
+
+// Params defines the parameters for the module.
+message Params {
+  option (amino.name) = "sixprotocol/x/tokenmngr/Params";
+  option (gogoproto.equal) = true;
+}

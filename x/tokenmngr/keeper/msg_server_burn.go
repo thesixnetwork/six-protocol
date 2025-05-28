@@ -4,12 +4,13 @@ import (
 	"context"
 	"fmt"
 
-	// "encoding/binary"
-	// "github.com/cosmos/cosmos-sdk/store/prefix"
+	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+
+	errorsmod "cosmossdk.io/errors"
+	sdkmath "cosmossdk.io/math"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-
-	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
 func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBurnResponse, error) {
@@ -19,6 +20,7 @@ func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBu
 		Creator: msg.Creator,
 		Amount:  msg.Amount,
 	}
+
 	// Check is token exist
 	// _, foundToken := k.GetToken(ctx, msg.Token)
 	// if !foundToken {
@@ -32,7 +34,7 @@ func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBu
 	}
 
 	if msg.Amount.Amount.IsZero() {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is prohibit from module")
+		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is prohibit from module")
 	}
 	// TODO:: Make sure MaxSupply and totalSupply is Dupplicate or not
 	// if uint64(token.MaxSupply) < msg.Amount{
@@ -41,12 +43,12 @@ func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBu
 
 	supply := k.bankKeeper.GetSupply(ctx, msg.Amount.Denom)
 	if supply.Amount.LT(msg.Amount.Amount) {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is higher than current total supply")
+		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is higher than current total supply")
 	}
 
-	burnAmount, ok := sdk.NewIntFromString(msg.Amount.Amount.String())
+	burnAmount, ok := sdkmath.NewIntFromString(msg.Amount.Amount.String())
 	if !ok {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token out of range of uint256")
+		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "amount of token out of range of uint256")
 	}
 
 	tokens := sdk.Coin{
@@ -55,7 +57,7 @@ func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBu
 	}
 
 	if balance := k.bankKeeper.GetBalance(ctx, burner, msg.Amount.Denom); balance.Amount.LT(msg.Amount.Amount) {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Amount of token is too high than current balance")
+		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "Amount of token is too high than current balance")
 	}
 
 	// send to module
