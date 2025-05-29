@@ -7,6 +7,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
 )
 
 type ProtocoladminKeeper interface {
@@ -19,6 +20,7 @@ type ProtocoladminKeeper interface {
 // AccountKeeper defines the expected interface for the Account module.
 type AccountKeeper interface {
 	GetAccount(context.Context, sdk.AccAddress) sdk.AccountI // only used for simulation
+	GetModuleAddress(moduleName string) sdk.AccAddress
 	// Methods imported from account should be defined here
 }
 
@@ -36,6 +38,11 @@ type BankKeeper interface {
 	SendCoinsFromAccountToModule(ctx context.Context, senderAddr sdk.AccAddress, recipientModule string, amt sdk.Coins) error
 	SendCoins(ctx context.Context, fromAddr sdk.AccAddress, toAddr sdk.AccAddress, amt sdk.Coins) error
 	// Methods imported from bank should be defined here
+}
+
+type EVMKeeper interface {
+	GetParams(ctx sdk.Context) evmtypes.Params
+	SetParams(ctx sdk.Context, params evmtypes.Params)
 }
 
 // ParamSubspace defines the expected Subspace interface for parameters.
