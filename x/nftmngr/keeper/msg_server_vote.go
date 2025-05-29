@@ -21,7 +21,7 @@ func (k msgServer) VoteVirtualSchemaProposal(goCtx context.Context, msg *types.M
 	return &types.MsgVoteVirtualSchemaProposalResponse{}, nil
 }
 
-func (k Keeper) VoteVirtualSchemaProposalKeeper(ctx sdk.Context, creator, proposalId, srcNftSchemaCode string, option types.RegistryStatus) error {
+func (k Keeper) VoteVirtualSchemaProposalKeeper(ctx context.Context, creator, proposalId, srcNftSchemaCode string, option types.RegistryStatus) error {
 	virtualSchemaProposal, found := k.GetVirtualSchemaProposal(ctx, proposalId)
 	if !found {
 		return errormod.Wrap(types.ErrProposalIdDoesNotExists, proposalId)
