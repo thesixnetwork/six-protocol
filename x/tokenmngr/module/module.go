@@ -182,6 +182,7 @@ type ModuleInputs struct {
 	AccountKeeper       types.AccountKeeper
 	BankKeeper          types.BankKeeper
 	ProtocoladminKeeper types.ProtocoladminKeeper
+	EVMKeeper           types.EVMKeeper
 }
 
 type ModuleOutputs struct {
@@ -205,6 +206,7 @@ func ProvideModule(in ModuleInputs) ModuleOutputs {
 		in.AccountKeeper,
 		in.BankKeeper,
 		in.ProtocoladminKeeper,
+		in.EVMKeeper,
 	)
 	m := NewAppModule(
 		in.Cdc,
