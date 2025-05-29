@@ -73,3 +73,7 @@ func (k Keeper) Logger() log.Logger {
 func (k Keeper) GetModuleAddress() sdk.AccAddress {
 	return k.accountKeeper.GetModuleAddress(types.ModuleName)
 }
+
+func (k Keeper) GetCodec() codec.BinaryCodec {
+	return k.cdc
+}

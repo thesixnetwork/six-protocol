@@ -26,7 +26,9 @@ func (k msgServer) ProposalVirtualSchema(goCtx context.Context, msg *types.MsgPr
 	}, nil
 }
 
-func (k Keeper) ProposalVirtualSchemaKeeper(ctx sdk.Context, creator, virtualNftSchemaCode string, proposalType types.ProposalType, registryReq []*types.VirtualSchemaRegistryRequest, actions []*types.Action, executors []string, enable bool) (string, error) {
+func (k Keeper) ProposalVirtualSchemaKeeper(goCtx context.Context, creator, virtualNftSchemaCode string, proposalType types.ProposalType, registryReq []*types.VirtualSchemaRegistryRequest, actions []*types.Action, executors []string, enable bool) (string, error) {
+	ctx := sdk.UnwrapSDKContext(goCtx)
+	
 	var (
 		registry []*types.VirtualSchemaRegistry
 		err      error
@@ -121,7 +123,7 @@ func (k Keeper) ProposalVirtualSchemaKeeper(ctx sdk.Context, creator, virtualNft
 	return strProposalId, nil
 }
 
-func (k Keeper) validateVirtualSchemaPermission(ctx sdk.Context, virtualNftSchemaCode, creator string) error {
+func (k Keeper) validateVirtualSchemaPermission(ctx context.Context, virtualNftSchemaCode, creator string) error {
 	virtualSchema, found := k.GetVirtualSchema(ctx, virtualNftSchemaCode)
 	if !found {
 		return errormod.Wrap(types.ErrSchemaDoesNotExists, virtualNftSchemaCode)
@@ -229,7 +231,7 @@ func (k Keeper) validateCreateVirtualSchemaProposal(ctx context.Context, virtual
 	return registry, nil
 }
 
-func (k Keeper) validateUpdateVirtualSchemaProposal(ctx sdk.Context, virtualNftSchemaCode string, registryReq []*types.VirtualSchemaRegistryRequest) ([]*types.VirtualSchemaRegistry, error) {
+func (k Keeper) validateUpdateVirtualSchemaProposal(ctx context.Context, virtualNftSchemaCode string, registryReq []*types.VirtualSchemaRegistryRequest) ([]*types.VirtualSchemaRegistry, error) {
 	registry := []*types.VirtualSchemaRegistry{}
 
 	// Check if the value already exists
@@ -249,7 +251,7 @@ func (k Keeper) validateUpdateVirtualSchemaProposal(ctx sdk.Context, virtualNftS
 	return registry, nil
 }
 
-func (k Keeper) getLastVirtualSchemaProposalId(ctx sdk.Context) string {
+func (k Keeper) getLastVirtualSchemaProposalId(ctx context.Context) string {
 	lastProposalId := len(k.GetAllVirtualSchemaProposal(ctx))
 	proposalId := lastProposalId + 1
 	strProposalId := strconv.FormatInt(int64(proposalId), 10)

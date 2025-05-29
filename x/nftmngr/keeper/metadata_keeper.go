@@ -1,16 +1,15 @@
 package keeper
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 
 	errormod "cosmossdk.io/errors"
-
-	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
-func (k Keeper) CreateNewMetadataKeeper(ctx sdk.Context, creator, nftSchemaName, tokenId string, metadata types.NftData) error {
+func (k Keeper) CreateNewMetadataKeeper(ctx context.Context, creator, nftSchemaName, tokenId string, metadata types.NftData) error {
 	schema, schemaFound := k.GetNFTSchema(ctx, nftSchemaName)
 	if !schemaFound {
 		return errormod.Wrap(types.ErrSchemaDoesNotExists, nftSchemaName)
