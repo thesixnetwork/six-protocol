@@ -85,8 +85,10 @@ func (p PrecompileExecutor) Execute(ctx sdk.Context, method *abi.Method, caller 
 	switch method.Name {
 	case SendToCosmos:
 		return p.sendToCosmos(ctx, caller, method, args, value, readOnly)
-	case UnwrapStakeToken:
+	case SendToCrossChain:
 		return p.sendToCrossChain(ctx, caller, method, args, value, readOnly)
+	case UnwrapStakeToken:
+		return p.unwrapStakeToken(ctx, caller, method, args, value, readOnly)
 	}
 	return
 }
@@ -146,6 +148,18 @@ func (p PrecompileExecutor) sendToCosmos(ctx sdk.Context, caller common.Address,
 	if err != nil {
 		return nil, err
 	}
+
+	// emit events
+	ctx.EventManager().EmitEvents(sdk.Events{
+		sdk.NewEvent(
+			"precompile",
+			sdk.NewAttribute(sdk.AttributeKeyModule, tokenmoduletypes.ModuleName),
+			sdk.NewAttribute(sdk.AttributeKeyAction, tokenmoduletypes.EventTypesConvertCoinToMicro),
+			sdk.NewAttribute(tokenmoduletypes.AttributeKeyEvmSender, caller.Hex()),
+			sdk.NewAttribute(tokenmoduletypes.AttributeKeyDestAddress, receiverCosmoAddr.String()),
+			sdk.NewAttribute(tokenmoduletypes.AttributeKeyAmount, amount.String()),
+		),
+	})
 
 	return method.Outputs.Pack(true)
 }
@@ -220,12 +234,64 @@ func (p PrecompileExecutor) sendToCrossChain(ctx sdk.Context, caller common.Addr
 	// emit events
 	ctx.EventManager().EmitEvents(sdk.Events{
 		sdk.NewEvent(
-			tokenmoduletypes.EventTypesSentToCrossChain,
-			sdk.NewAttribute(tokenmoduletypes.AttributeKeyDestAddress, receiverCosmoAddr.String()),
+			"precompile",
+			sdk.NewAttribute(sdk.AttributeKeyModule, tokenmoduletypes.ModuleName),
+			sdk.NewAttribute(sdk.AttributeKeyAction, tokenmoduletypes.EventTypesSentToCrossChain),
+			sdk.NewAttribute(tokenmoduletypes.AttributeKeyEvmSender, caller.Hex()),
 			sdk.NewAttribute(tokenmoduletypes.AttributeKeyDestChain, chain),
 			sdk.NewAttribute(tokenmoduletypes.AttributeKeyMemo, memo),
+			sdk.NewAttribute(tokenmoduletypes.AttributeKeyAmount, amount.String()),
 		),
 	})
+
+	return method.Outputs.Pack(true)
+}
+
+// from evm-end usix consider as wrapedToken
+// unwraped of evm-end = wrap from  cosmos-end
+func (p PrecompileExecutor) unwrapStakeToken(ctx sdk.Context, caller common.Address, method *abi.Method, args []interface{}, value *big.Int, readOnly bool) ([]byte, error) {
+	var err error
+
+	defer func() {
+		if err != nil {
+			ctx.Logger().Error("delegation precompile execution failed",
+				"error", err.Error(),
+			)
+		}
+	}()
+	if readOnly {
+		return nil, errors.New("cannot call send from staticcall")
+	}
+
+	if err = pcommon.ValidateNonPayable(value); err != nil {
+		return nil, err
+	}
+
+	if err = pcommon.ValidateArgsLength(args, 1); err != nil {
+		return nil, err
+	}
+
+	amount := args[0].(*big.Int)
+	if amount.Cmp(utils.Big0) == 0 {
+		// short circuit
+		return method.Outputs.Pack(true)
+	}
+
+	senderCosmoAddr, err := p.accAddressFromArg(caller)
+	if err != nil {
+		return nil, err
+	}
+
+	msg := &tokenmoduletypes.MsgWrapToken{
+		Creator:  senderCosmoAddr.String(),
+		Receiver: senderCosmoAddr.String(),
+		Amount:   sdk.NewCoin(tokenmngr.DefaultMicroDenom, sdk.NewIntFromBigInt(amount)),
+	}
+
+	_, err = p.tokenmngrMsgServer.WrapToken(sdk.WrapSDKContext(ctx), msg)
+	if err != nil {
+		return nil, err
+	}
 
 	return method.Outputs.Pack(true)
 }
