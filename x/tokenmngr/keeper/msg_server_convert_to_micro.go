@@ -85,6 +85,16 @@ func (k msgServer) UnwrapToken(goCtx context.Context, msg *types.MsgUnwrapToken)
 		return nil, sdkerrors.Wrap(types.ErrSendCoinsFromAccountToModule, "unable to send msg.Amounts from module to account despite previously minting msg.Amounts to module account:"+err.Error())
 	}
 
+	ctx.EventManager().EmitEvents(sdk.Events{
+		sdk.NewEvent(
+			sdk.EventTypeMessage,
+			sdk.NewAttribute(sdk.AttributeKeyModule, types.ModuleName),
+			sdk.NewAttribute(sdk.AttributeKeyAction, types.EventTypesConvertCoinToMicro),
+			sdk.NewAttribute(types.AttributeKeyDestAddress, receiver.String()),
+			sdk.NewAttribute(types.AttributeKeyAmount, msg.Amount.String()),
+		),
+	})
+
 	return &types.MsgUnwrapTokenResponse{
 		Amount: microSix,
 	}, nil
