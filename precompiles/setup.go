@@ -9,9 +9,9 @@ import (
 	"github.com/ethereum/go-ethereum/core/vm"
 
 	"github.com/thesixnetwork/six-protocol/precompiles/bank"
-	"github.com/thesixnetwork/six-protocol/precompiles/tokenfactory"
 	"github.com/thesixnetwork/six-protocol/precompiles/common"
 	"github.com/thesixnetwork/six-protocol/precompiles/nftmngr"
+	"github.com/thesixnetwork/six-protocol/precompiles/tokenfactory"
 )
 
 var (
