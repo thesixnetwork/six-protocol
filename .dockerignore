@@ -10,3 +10,11 @@ build/sixnode*
 
 */node_module/**
 node_module/
+
+/contracts/*
+cache/
+
+*.log
+
+.env
+.env.*
