@@ -659,6 +659,7 @@ func New(
 		app.BankKeeper,
 		app.AccountKeeper,
 		app.TokenmngrKeeper,
+		tokenmngrmodulekeeper.NewMsgServerImpl(app.TokenmngrKeeper),
 		app.NftmngrKeeper,
 	); err != nil {
 		panic(err)
