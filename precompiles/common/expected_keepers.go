@@ -1,12 +1,14 @@
 package common
 
 import (
+	"context"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 
 	nftmngrtypes "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+	tokenmngrtypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
 type BankKeeper interface {
@@ -27,6 +29,11 @@ type AccountKeeper interface {
 
 type TokenmngrKeeper interface {
 	AttoCoinConverter(sdk.Context, sdk.AccAddress, sdk.AccAddress, sdk.Int) error
+}
+
+type TokenmngrMsgServer interface {
+	UnwrapToken(goCtx context.Context, msg *tokenmngrtypes.MsgUnwrapToken) (*tokenmngrtypes.MsgUnwrapTokenResponse, error)
+	WrapToken(goCtx context.Context, msg *tokenmngrtypes.MsgWrapToken) (*tokenmngrtypes.MsgWrapTokenResponse, error)
 }
 
 type NftmngrKeeper interface {

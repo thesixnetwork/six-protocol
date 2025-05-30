@@ -9,7 +9,7 @@ import (
 	"github.com/ethereum/go-ethereum/core/vm"
 
 	"github.com/thesixnetwork/six-protocol/precompiles/bank"
-	"github.com/thesixnetwork/six-protocol/precompiles/bridge"
+	"github.com/thesixnetwork/six-protocol/precompiles/tokenfactory"
 	"github.com/thesixnetwork/six-protocol/precompiles/common"
 	"github.com/thesixnetwork/six-protocol/precompiles/nftmngr"
 )
@@ -40,6 +40,7 @@ func InitializePrecompiles(
 	bankKeeper common.BankKeeper,
 	accountKeeper common.AccountKeeper,
 	tokenmngrKeeper common.TokenmngrKeeper,
+	tokenmngrMsgServer common.TokenmngrMsgServer,
 	nftmngrKeeper common.NftmngrKeeper,
 ) error {
 	SetupMtx.Lock()
@@ -51,7 +52,7 @@ func InitializePrecompiles(
 	if err != nil {
 		return err
 	}
-	bridgep, err := bridge.NewPrecompile(bankKeeper, accountKeeper, tokenmngrKeeper)
+	bridgep, err := tokenfactory.NewPrecompile(bankKeeper, accountKeeper, tokenmngrKeeper, tokenmngrMsgServer)
 	if err != nil {
 		return err
 	}
@@ -78,7 +79,7 @@ func InitializePrecompiles(
 func GetPrecompileInfo(name string) PrecompileInfo {
 	if !Initialized {
 		// Precompile Info does not require any keeper state
-		_ = InitializePrecompiles(true, nil, nil, nil, nil, nil)
+		_ = InitializePrecompiles(true, nil, nil, nil, nil, nil, nil)
 	}
 	i, ok := PrecompileNamesToInfo[name]
 	if !ok {
