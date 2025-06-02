@@ -33,6 +33,6 @@ out/
 /logs/
 *.log
 
-!.env.example
 .env
 .env.*
+!.env.example
