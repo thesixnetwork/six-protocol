@@ -25,7 +25,6 @@ EVM_TOKEN="asix"
 # These are the key addresses from the working genesis
 ALICE_ADDRESS="6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq"
 BOB_ADDRESS="6x13g50hqdqsjk85fmgqz2h5xdxq49lsmjdwlemsp"
-FAUCET_ADDRESS="6x1fufwffwgwp3y54xeqdyal8p250zpvkxc80un0a" # Only in working genesis
 SUPER_ADMIN_ADDRESS="6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"
 SPECIAL_EVM_ADDRESS="6x18743s33zmsvmvyynfxu5sy2f80e2g5mz8dk65g"
 
@@ -303,7 +302,7 @@ fi
 echo "Configuring app.toml to match ignite settings..."
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    # Minimum gas prices - THIS IS CRITICAL
+    # Minimum gas prices - CRITICAL
     sed -i '' 's/minimum-gas-prices = "0stake"/minimum-gas-prices = "0usix"/g' ${SIX_HOME}/config/app.toml
 
     # API configuration
@@ -313,17 +312,19 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     sed -i '' 's/address = "tcp:\/\/localhost:1317"/address = "tcp:\/\/0.0.0.0:1317"/g' ${SIX_HOME}/config/app.toml
     
     # gRPC configuration
+    sed -i '' 's/enable = false/enable = true/g' ${SIX_HOME}/config/app.toml
     sed -i '' 's/address = "0.0.0.0:9090"/address = "0.0.0.0:9090"/g' ${SIX_HOME}/config/app.toml
     sed -i '' 's/address = "0.0.0.0:9091"/address = "0.0.0.0:9091"/g' ${SIX_HOME}/config/app.toml
+    sed -i '' 's/enable = false/enable = true/g' ${SIX_HOME}/config/app.toml
     
-    # JSON-RPC configuration
+    # JSON-RPC configuration - CRITICAL for immediate startup
     sed -i '' 's/enable = false/enable = true/g' ${SIX_HOME}/config/app.toml
     sed -i '' 's/api = "eth,net,web3"/api = "eth,txpool,personal,net,debug,web3"/g' ${SIX_HOME}/config/app.toml
     sed -i '' 's/address = "127.0.0.1:8545"/address = "0.0.0.0:8545"/g' ${SIX_HOME}/config/app.toml
     sed -i '' 's/ws-address = "127.0.0.1:8546"/ws-address = "0.0.0.0:8546"/g' ${SIX_HOME}/config/app.toml
     sed -i '' 's/allow-unprotected-txs = false/allow-unprotected-txs = true/g' ${SIX_HOME}/config/app.toml
 else
-    # Minimum gas prices - THIS IS CRITICAL
+    # Minimum gas prices - CRITICAL
     sed -i 's/minimum-gas-prices = "0stake"/minimum-gas-prices = "0usix"/g' ${SIX_HOME}/config/app.toml
     
     # API configuration
@@ -333,10 +334,12 @@ else
     sed -i 's/address = "tcp:\/\/localhost:1317"/address = "tcp:\/\/0.0.0.0:1317"/g' ${SIX_HOME}/config/app.toml
     
     # gRPC configuration
+    sed -i 's/enable = false/enable = true/g' ${SIX_HOME}/config/app.toml
     sed -i 's/address = "0.0.0.0:9090"/address = "0.0.0.0:9090"/g' ${SIX_HOME}/config/app.toml
     sed -i 's/address = "0.0.0.0:9091"/address = "0.0.0.0:9091"/g' ${SIX_HOME}/config/app.toml
+    sed -i 's/enable = false/enable = true/g' ${SIX_HOME}/config/app.toml
     
-    # JSON-RPC configuration
+    # JSON-RPC configuration - CRITICAL for immediate startup
     sed -i 's/enable = false/enable = true/g' ${SIX_HOME}/config/app.toml
     sed -i 's/api = "eth,net,web3"/api = "eth,txpool,personal,net,debug,web3"/g' ${SIX_HOME}/config/app.toml
     sed -i 's/address = "127.0.0.1:8545"/address = "0.0.0.0:8545"/g' ${SIX_HOME}/config/app.toml
@@ -361,19 +364,9 @@ add_genesis_account() {
     sixd add-genesis-account $address $amount --home ${SIX_HOME}
 }
 
-# Add alice (exact amount from working genesis)
 add_genesis_account "$ALICE_ADDRESS" "100000000000000${STAKING_TOKEN}"
-
-# Add bob (exact amount from working genesis)
 add_genesis_account "$BOB_ADDRESS" "200000000000000${STAKING_TOKEN}"
-
-# Add super-admin (exact amount from working genesis)
 add_genesis_account "$SUPER_ADMIN_ADDRESS" "300000000000000${STAKING_TOKEN}"
-
-# Add faucet account (this is in the working genesis but not your script)
-add_genesis_account "$FAUCET_ADDRESS" "300000000000000${STAKING_TOKEN}"
-
-# Add the special EVM address from config.yml (exact amount from working genesis)
 add_genesis_account "$SPECIAL_EVM_ADDRESS" "10000000000000000000${EVM_TOKEN}"
 
 # =====================================================
@@ -381,7 +374,6 @@ add_genesis_account "$SPECIAL_EVM_ADDRESS" "10000000000000000000${EVM_TOKEN}"
 # =====================================================
 echo "Creating and collecting gentxs with bob as validator..."
 
-# Sign genesis transaction with bob's key - Use the EXACT same amount as in the working genesis
 sixd gentx bob 1000000000000${STAKING_TOKEN} --chain-id ${CHAINID} --home ${SIX_HOME} --keyring-backend ${KEYRING}
 
 # Collect genesis txs
@@ -400,11 +392,11 @@ echo "Moniker: $MONIKER"
 echo "Home: $SIX_HOME"
 echo ""
 echo "To start your node, run:"
-echo "sixd start --rpc.laddr \"tcp://0.0.0.0:26657\" --api.enable true --home ${SIX_HOME}"
+echo "sixd start --json-rpc.enable --json-rpc.api eth,txpool,personal,net,debug,web3 --json-rpc.address 0.0.0.0:8545 --json-rpc.ws-address 0.0.0.0:8546 --api.enable --rpc.laddr tcp://0.0.0.0:26657 --home ${SIX_HOME}"
 echo "====================================================="
 
 # Start the node if requested
 if [ "$2" == "start" ]; then
     echo "Starting node..."
-    sixd start --rpc.laddr "tcp://0.0.0.0:26657" --api.enable true --home ${SIX_HOME}
+    sixd start --minimum-gas-prices=1.25usix,1250000000000asix --json-rpc.api eth,txpool,personal,net,debug,web3 --rpc.laddr tcp://0.0.0.0:26657 --api.enable true --log_level info --json-rpc.allow-unprotected-txs true --home ${SIX_HOME}
 fi
