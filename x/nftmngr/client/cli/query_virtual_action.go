@@ -13,9 +13,14 @@ import (
 func CmdListVirtualAction() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list-virtual-action",
-		Short: "list all virtual action",
+		Short: "list all virtual action [nftSchemaCode(optional)]",
+		Args:  cobra.RangeArgs(0, 1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx := client.GetClientContextFromCmd(cmd)
+			argSchemaCode := ""
+			if len(args) > 0 {
+				argSchemaCode = args[0]
+			}
 
 			pageReq, err := client.ReadPageRequest(cmd.Flags())
 			if err != nil {
@@ -25,7 +30,8 @@ func CmdListVirtualAction() *cobra.Command {
 			queryClient := types.NewQueryClient(clientCtx)
 
 			params := &types.QueryAllVirtualActionRequest{
-				Pagination: pageReq,
+				NftSchemaCode: argSchemaCode,
+				Pagination:    pageReq,
 			}
 
 			res, err := queryClient.VirtualActionAll(context.Background(), params)

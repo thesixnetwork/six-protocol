@@ -1,13 +1,15 @@
 package common
 
 import (
+	"context"
+
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 
 	nftmngrtypes "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
-	// "github.com/ethereum/go-ethereum/common"
+	tokenmngrtypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
 type BankKeeper interface {
@@ -28,6 +30,11 @@ type AccountKeeper interface {
 
 type TokenmngrKeeper interface {
 	AttoCoinConverter(sdk.Context, sdk.AccAddress, sdk.AccAddress, sdk.Int) error
+}
+
+type TokenmngrMsgServer interface {
+	UnwrapToken(goCtx context.Context, msg *tokenmngrtypes.MsgUnwrapToken) (*tokenmngrtypes.MsgUnwrapTokenResponse, error)
+	WrapToken(goCtx context.Context, msg *tokenmngrtypes.MsgWrapToken) (*tokenmngrtypes.MsgWrapTokenResponse, error)
 }
 
 type NftmngrKeeper interface {
@@ -63,4 +70,7 @@ type NftmngrKeeper interface {
 	ChangeSchemaOwner(ctx sdk.Context, creator, newOwner, nftSchemaName string) error
 	AddActionExecutor(ctx sdk.Context, creator string, nftSchemaName string, executorAddress string) error
 	DelActionExecutor(ctx sdk.Context, creator, nftSchemaName, executorAddress string) error
+	PerformVirtualActionKeeper(ctx sdk.Context, creator, vitualSchemaName string, tokenIdMap []*nftmngrtypes.TokenIdMap, actionName, refId string, parameters []*nftmngrtypes.ActionParameter) (changeList nftmngrtypes.ActionChangeList, err error)
+	VoteVirtualSchemaProposalKeeper(ctx sdk.Context, creator, proposalId, srcNftSchemaCode string, option nftmngrtypes.RegistryStatus) error
+	ProposalVirtualSchemaKeeper(ctx sdk.Context, creator, virtualNftSchemaCode string, proposalType nftmngrtypes.ProposalType, registryReq []*nftmngrtypes.VirtualSchemaRegistryRequest, actions []*nftmngrtypes.Action, executors []string, enable bool) (string, error)
 }

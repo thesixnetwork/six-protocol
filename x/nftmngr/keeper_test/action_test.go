@@ -249,10 +249,11 @@ type virtualActionTestCase struct {
 		attribute  string
 		value      interface{}
 	}
+	expectedImage map[string]string
 }
 
 func setupVirtualAction(t *testing.T, keeper *keeper.Keeper, ctx sdk.Context, virtualSchema *types.VirtualSchema, action types.Action) *types.VirtualAction {
-	keeper.AddVirtualActionKeeper(ctx,virtualSchema.VirtualNftSchemaCode, action)
+	keeper.AddVirtualActionKeeper(ctx, virtualSchema.VirtualNftSchemaCode, action)
 	storedAction, found := keeper.GetVirtualAction(ctx, virtualSchema.VirtualNftSchemaCode, action.Name)
 	require.True(t, found)
 	require.Equal(t, action, *storedAction.ToAction())
@@ -289,6 +290,13 @@ func runVirtualActionTest(t *testing.T, k *keeper.Keeper, ctx sdk.Context, cross
 	if testCase.expectedError {
 		require.Error(t, err)
 	}
+
+	if testCase.expectedImage != nil {
+		for schemaCode, expectedImage := range testCase.expectedImage {
+			image := crossMetadata.GetImage(schemaCode)
+			require.Equal(t, expectedImage, image)
+		}
+	}
 }
 
 func TestCrossSchemaAction(t *testing.T) {
@@ -313,15 +321,13 @@ func TestCrossSchemaAction(t *testing.T) {
 	)
 
 	registrySchemaA := types.VirtualSchemaRegistry{
-		NftSchemaCode:    schemaA.Code,
-		SharedAttributes: []string{"service_3", "service_4", "service_7"},
-		Decision:           types.RegistryStatus_ACCEPT,
+		NftSchemaCode: schemaA.Code,
+		Decision:      types.RegistryStatus_ACCEPT,
 	}
 
 	registrySchemaB := types.VirtualSchemaRegistry{
-		NftSchemaCode:    schemaB.Code,
-		SharedAttributes: []string{"service_1", "service_2", "service_x"},
-		Decision:           types.RegistryStatus_ACCEPT,
+		NftSchemaCode: schemaB.Code,
+		Decision:      types.RegistryStatus_ACCEPT,
 	}
 
 	virtualSchema := types.VirtualSchema{
@@ -346,12 +352,7 @@ func TestCrossSchemaAction(t *testing.T) {
 		schemaB.Code: convertedSchemaAttributesB,
 	}
 
-	sharedAttribute := types.CrossSchemaSharedAttributeName{
-		schemaA.Code: registrySchemaA.SharedAttributes,
-		schemaB.Code: registrySchemaB.SharedAttributes,
-	}
-
-	crossMetadata := types.NewCrossSchemaMetadata(schemaList, tokenDataList, crossSchemaOveride, schemaGlobalAttributes, sharedAttribute)
+	crossMetadata := types.NewCrossSchemaMetadata(schemaList, tokenDataList, crossSchemaOveride, schemaGlobalAttributes)
 	testCases := []virtualActionTestCase{
 		{
 			name: "Bridge service 3 to 1",
@@ -447,6 +448,27 @@ func TestCrossSchemaAction(t *testing.T) {
 			}{
 				"service_x": {schemaCode: schemaB.Code, attribute: "service_x", value: int64(1)},
 				"service_7": {schemaCode: schemaA.Code, attribute: "service_7", value: int64(9)},
+			},
+		},
+		{
+			name: "Action ChageImage",
+			action: types.Action{
+				Name:    "transform",
+				Desc:    "Transform Metadata",
+				Disable: false,
+				When:    "true",
+				Then: []string{
+					"meta.SetImage('sixprotocol.divine_elite','https://image-trasformed-divine')",
+					"meta.SetImage('sixprotocol.membership','https://image-trasformed-membership')",
+				},
+				AllowedActioner: 0,
+				Params:          []*types.ActionParams{{}},
+			},
+			actionParams: []*types.ActionParameter{{}},
+			// expectedError: types.ErrAttributeNotAllowedToShare,
+			expectedImage: map[string]string{
+				"sixprotocol.divine_elite": "https://image-trasformed-divine",
+				"sixprotocol.membership":   "https://image-trasformed-membership",
 			},
 		},
 	}

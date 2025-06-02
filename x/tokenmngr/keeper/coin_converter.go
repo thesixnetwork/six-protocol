@@ -14,6 +14,11 @@ var (
 )
 
 func (k Keeper) AttoCoinConverter(ctx sdk.Context, sender sdk.AccAddress, receiver sdk.AccAddress, amount sdk.Int) error {
+
+	if !amount.ModRaw(int64(DefaultAttoToMicroDiff)).IsZero() {
+		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount must be a multiple of 1e12 (atto to micro conversion factor)")
+	}
+
 	attoCoin := sdk.Coin{
 		Denom:  DefaultAttoDenom,
 		Amount: amount,

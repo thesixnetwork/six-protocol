@@ -11,38 +11,51 @@ import (
 )
 
 func (k msgServer) ProposalVirtualSchema(goCtx context.Context, msg *types.MsgProposalVirtualSchema) (*types.MsgProposalVirtualSchemaResponse, error) {
+	ctx := sdk.UnwrapSDKContext(goCtx)
+
+	strProposalId, err := k.ProposalVirtualSchemaKeeper(ctx, msg.Creator, msg.VirtualNftSchemaCode, msg.ProposalType, msg.Registry, msg.Actions, msg.Executors, msg.Enable)
+	if err != nil {
+		return nil, err
+	}
+
+	return &types.MsgProposalVirtualSchemaResponse{
+		Id:                   strProposalId,
+		VirtualNftSchemaCode: msg.VirtualNftSchemaCode,
+		ProposalType:         msg.ProposalType,
+	}, nil
+}
+
+func (k Keeper) ProposalVirtualSchemaKeeper(ctx sdk.Context, creator, virtualNftSchemaCode string, proposalType types.ProposalType, registryReq []*types.VirtualSchemaRegistryRequest, actions []*types.Action, executors []string, enable bool) (string, error) {
 	var (
 		registry []*types.VirtualSchemaRegistry
 		err      error
 	)
 
-	ctx := sdk.UnwrapSDKContext(goCtx)
-
-	if msg.ProposalType == types.ProposalType_CREATE {
-		registry, err = k.validateCreateVirtualSchemaProposal(ctx, msg.VirtualNftSchemaCode, msg.Registry)
+	if proposalType == types.ProposalType_CREATE {
+		registry, err = k.validateCreateVirtualSchemaProposal(ctx, virtualNftSchemaCode, registryReq, creator)
 		if err != nil {
-			return nil, err
+			return "", err
 		}
 	} else {
-		registry, err = k.validateUpdateVirtualSchemaProposal(ctx, msg.VirtualNftSchemaCode, msg.Registry)
+		registry, err = k.validateUpdateVirtualSchemaProposal(ctx, virtualNftSchemaCode, registryReq)
 		if err != nil {
-			return nil, err
+			return "", err
 		}
 	}
 
-	err = k.validateOwnerOfRegistry(ctx, msg.Creator, registry)
+	err = k.validateOwnerOfRegistry(ctx, creator, registry)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
 	actionNameMap := make(map[string]bool)
 	// validateAction
-	for _, action := range msg.Actions {
+	for _, action := range actions {
 		if err := ValidateVirutualAction(action); err != nil {
-			return nil, err
+			return "", err
 		}
 		if _, found := actionNameMap[action.Name]; found {
-			return nil, sdkerrors.Wrap(types.ErrDuplicateActionName, action.Name)
+			return "", sdkerrors.Wrap(types.ErrDuplicateActionName, action.Name)
 		}
 		actionNameMap[action.Name] = true
 	}
@@ -56,13 +69,14 @@ func (k msgServer) ProposalVirtualSchema(goCtx context.Context, msg *types.MsgPr
 
 	k.SetVirtualSchemaProposal(ctx, types.VirtualSchemaProposal{
 		Id:           strProposalId,
-		ProposalType: msg.ProposalType,
+		ProposalType: proposalType,
 		VirtualSchema: &types.VirtualSchema{
-			VirtualNftSchemaCode: msg.VirtualNftSchemaCode,
+			VirtualNftSchemaCode: virtualNftSchemaCode,
 			Registry:             registry,
-			Enable:               msg.Enable,
+			Enable:               enable,
 		},
-		Actions:         msg.Actions,
+		Actions:         actions,
+		Executors:       executors,
 		SubmitTime:      submitTime,
 		VotingStartTime: submitTime,
 		VotingEndTime:   endTime,
@@ -72,11 +86,38 @@ func (k msgServer) ProposalVirtualSchema(goCtx context.Context, msg *types.MsgPr
 		Id: strProposalId,
 	})
 
-	return &types.MsgProposalVirtualSchemaResponse{
-		Id:                   strProposalId,
-		VirtualNftSchemaCode: msg.VirtualNftSchemaCode,
-		ProposalType:         msg.ProposalType,
-	}, nil
+	if proposalType == types.ProposalType_CREATE {
+		// lock the amount of value to module account
+		feeConfig, found := k.GetNFTFeeConfig(ctx)
+		// **** SCHEMA FEE ****
+		if found {
+			// Get Denom
+			amount, err := sdk.ParseCoinNormalized(feeConfig.SchemaFee.FeeAmount)
+			if err != nil {
+				return "", sdkerrors.Wrap(types.ErrInvalidFeeAmount, err.Error())
+			}
+
+			creatorAddress, err := sdk.AccAddressFromBech32(creator)
+			if err != nil {
+				return "", err
+			}
+
+			// Lock the amount
+			err = k.bankKeeper.SendCoinsFromAccountToModule(ctx, creatorAddress, types.ModuleName, sdk.NewCoins(amount))
+			if err != nil {
+				return "", err
+			}
+
+			k.SetLockSchemaFee(ctx, types.LockSchemaFee{
+				Id:                strProposalId,
+				VirtualSchemaCode: virtualNftSchemaCode,
+				Amount:            amount,
+				Proposer:          creator,
+			})
+		}
+	}
+
+	return strProposalId, nil
 }
 
 func (k Keeper) validateVirtualSchemaPermission(ctx sdk.Context, virtualNftSchemaCode, creator string) error {
@@ -118,7 +159,28 @@ func (k Keeper) validateOwnerOfRegistry(ctx sdk.Context, creator string, registr
 	return nil
 }
 
-func (k Keeper) validateCreateVirtualSchemaProposal(ctx sdk.Context, virtualNftSchemaCode string, registryReq []*types.VirtualSchemaRegistryRequest) ([]*types.VirtualSchemaRegistry, error) {
+func (k Keeper) validateIsExecutorOfSchema(ctx sdk.Context, creator, virtualSchemaCode string) error {
+	executors, found := k.GetExecutorOfSchema(ctx, virtualSchemaCode)
+	if !found {
+		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, virtualSchemaCode)
+	}
+
+	// check if creator in the list
+	isExecutor := false
+	for _, executor := range executors.ExecutorAddress {
+		if executor == creator {
+			isExecutor = true
+		}
+	}
+
+	if !isExecutor {
+		return sdkerrors.Wrap(types.ErrUnauthorized, "Creator ErrUnauthorized: "+creator)
+	}
+
+	return nil
+}
+
+func (k Keeper) validateCreateVirtualSchemaProposal(ctx sdk.Context, virtualNftSchemaCode string, registryReq []*types.VirtualSchemaRegistryRequest, creator string) ([]*types.VirtualSchemaRegistry, error) {
 	registry := []*types.VirtualSchemaRegistry{}
 	// Check if schema already
 	_, found := k.GetNFTSchema(ctx, virtualNftSchemaCode)
@@ -139,6 +201,24 @@ func (k Keeper) validateCreateVirtualSchemaProposal(ctx sdk.Context, virtualNftS
 	err := k.checkDuplicateSchemaCodeWithVirtualSchemaProposal(ctx, virtualNftSchemaCode)
 	if err != nil {
 		return nil, err
+	}
+
+	foundOrganization, organizationName := GetOrganizationFromSchemaCode(virtualNftSchemaCode)
+
+	if foundOrganization {
+		storedOrganization, found := k.GetOrganization(ctx, organizationName)
+		if found {
+			// Check owner of organization
+			if storedOrganization.Owner != creator {
+				return nil, sdkerrors.Wrap(types.ErrOrganizationOwner, creator)
+			}
+		} else {
+			// Store organization
+			k.SetOrganization(ctx, types.Organization{
+				Owner: creator,
+				Name:  organizationName,
+			})
+		}
 	}
 
 	for _, regis := range registryReq {

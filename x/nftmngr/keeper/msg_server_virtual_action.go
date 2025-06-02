@@ -20,9 +20,9 @@ func (k msgServer) CreateVirtualAction(goCtx context.Context, msg *types.MsgCrea
 
 	// check permission of the creator
 	err := k.validateVirtualSchemaPermission(ctx, msg.NftSchemaCode, msg.Creator)
-  if err != nil {
-    return nil, err
-  }
+	if err != nil {
+		return nil, err
+	}
 
 	for _, newAction := range msg.NewActions {
 		err := k.AddVirtualActionKeeper(ctx, msg.NftSchemaCode, *newAction)

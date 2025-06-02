@@ -403,7 +403,7 @@ func (p PrecompileExecutor) actionByAdmin(ctx sdk.Context, caller common.Address
 		return nil, err
 	}
 
-	paramPointers, err := p.ParametersFromJSONArg(args[4])
+	paramPointers, err := p.ParametersFromJSONString(args[4])
 	if err != nil {
 		return nil, err
 	}
@@ -413,8 +413,6 @@ func (p PrecompileExecutor) actionByAdmin(ctx sdk.Context, caller common.Address
 	// |          CORE NFTMODULE            |
 	// |                                    |
 	//  ------------------------------------
-
-	// paramPointers := make([]*nftmngrtype.ActionParameter, 0)
 
 	_, err = p.nftmngrKeeper.ActionByAdmin(ctx, senderCosmoAddr.String(), nftschema, tokenId, actionName, refId, paramPointers)
 	if err != nil {
@@ -779,7 +777,7 @@ func (p PrecompileExecutor) showAttribute(ctx sdk.Context, caller common.Address
 		return nil, err
 	}
 
-	status, err := p.boolFromArg(args[1])
+	status, err := p.BoolFromArg(args[1])
 	if err != nil {
 		return nil, err
 	}
@@ -824,7 +822,7 @@ func (p PrecompileExecutor) toggleAction(ctx sdk.Context, caller common.Address,
 		return nil, err
 	}
 
-	disable, err := p.boolFromArg(args[2])
+	disable, err := p.BoolFromArg(args[2])
 	if err != nil {
 		return nil, err
 	}

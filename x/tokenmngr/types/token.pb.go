@@ -5,19 +5,23 @@ package types
 
 import (
 	fmt "fmt"
+	io "io"
+	math "math"
+	math_bits "math/bits"
+
 	types "github.com/cosmos/cosmos-sdk/types"
 	_ "github.com/gogo/protobuf/gogoproto"
 	proto "github.com/gogo/protobuf/proto"
 	_ "github.com/regen-network/cosmos-proto"
-	io "io"
-	math "math"
-	math_bits "math/bits"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-var _ = fmt.Errorf
-var _ = math.Inf
+
+var (
+	_ = fmt.Errorf
+	_ = math.Inf
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -40,9 +44,11 @@ func (*Token) ProtoMessage()    {}
 func (*Token) Descriptor() ([]byte, []int) {
 	return fileDescriptor_908cce9763fd7dbb, []int{0}
 }
+
 func (m *Token) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *Token) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_Token.Marshal(b, m, deterministic)
@@ -55,12 +61,15 @@ func (m *Token) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return b[:n], nil
 	}
 }
+
 func (m *Token) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_Token.Merge(m, src)
 }
+
 func (m *Token) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *Token) XXX_DiscardUnknown() {
 	xxx_messageInfo_Token.DiscardUnknown(m)
 }
@@ -88,9 +97,11 @@ func (*DenomUnit) ProtoMessage()    {}
 func (*DenomUnit) Descriptor() ([]byte, []int) {
 	return fileDescriptor_908cce9763fd7dbb, []int{1}
 }
+
 func (m *DenomUnit) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *DenomUnit) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_DenomUnit.Marshal(b, m, deterministic)
@@ -103,12 +114,15 @@ func (m *DenomUnit) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return b[:n], nil
 	}
 }
+
 func (m *DenomUnit) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_DenomUnit.Merge(m, src)
 }
+
 func (m *DenomUnit) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *DenomUnit) XXX_DiscardUnknown() {
 	xxx_messageInfo_DenomUnit.DiscardUnknown(m)
 }
@@ -164,9 +178,11 @@ func (*Metadata) ProtoMessage()    {}
 func (*Metadata) Descriptor() ([]byte, []int) {
 	return fileDescriptor_908cce9763fd7dbb, []int{2}
 }
+
 func (m *Metadata) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *Metadata) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_Metadata.Marshal(b, m, deterministic)
@@ -179,12 +195,15 @@ func (m *Metadata) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return b[:n], nil
 	}
 }
+
 func (m *Metadata) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_Metadata.Merge(m, src)
 }
+
 func (m *Metadata) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *Metadata) XXX_DiscardUnknown() {
 	xxx_messageInfo_Metadata.DiscardUnknown(m)
 }
@@ -313,6 +332,7 @@ func (this *Token) Equal(that interface{}) bool {
 	}
 	return true
 }
+
 func (m *Token) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
@@ -501,6 +521,7 @@ func encodeVarintToken(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
+
 func (m *Token) Size() (n int) {
 	if m == nil {
 		return 0
@@ -588,9 +609,11 @@ func (m *Metadata) Size() (n int) {
 func sovToken(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
+
 func sozToken(x uint64) (n int) {
 	return sovToken(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
+
 func (m *Token) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -802,6 +825,7 @@ func (m *Token) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func (m *DenomUnit) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -935,6 +959,7 @@ func (m *DenomUnit) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func (m *Metadata) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1179,6 +1204,7 @@ func (m *Metadata) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func skipToken(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0

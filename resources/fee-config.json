@@ -1,0 +1,13 @@
+{
+  "fee_amount": "1000000usix",
+  "fee_distributions": [
+    {
+      "method": "BURN",
+      "portion": "0.1"
+    },
+    {
+      "method": "REWARD_POOL",
+      "portion": "0.9"
+    }
+  ]
+}

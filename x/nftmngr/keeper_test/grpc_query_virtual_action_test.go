@@ -18,7 +18,6 @@ import (
 // Prevent strconv unused error
 var _ = strconv.IntSize
 
-// TODO:: Feat(VirtualSchema)
 func TestVirtualActionQuerySingle(t *testing.T) {
 	keeper, ctx := keepertest.NftmngrKeeper(t)
 	wctx := sdk.WrapSDKContext(ctx)
@@ -73,7 +72,6 @@ func TestVirtualActionQuerySingle(t *testing.T) {
 	}
 }
 
-// TODO:: Feat(VirtualSchema)
 func TestVirtualActionQueryPaginated(t *testing.T) {
 	keeper, ctx := keepertest.NftmngrKeeper(t)
 	wctx := sdk.WrapSDKContext(ctx)

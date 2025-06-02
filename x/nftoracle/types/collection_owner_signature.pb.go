@@ -5,16 +5,20 @@ package types
 
 import (
 	fmt "fmt"
-	proto "github.com/gogo/protobuf/proto"
 	io "io"
 	math "math"
 	math_bits "math/bits"
+
+	proto "github.com/gogo/protobuf/proto"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
-var _ = fmt.Errorf
-var _ = math.Inf
+
+var (
+	_ = fmt.Errorf
+	_ = math.Inf
+)
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -33,9 +37,11 @@ func (*CollectionOwnerSignature) ProtoMessage()    {}
 func (*CollectionOwnerSignature) Descriptor() ([]byte, []int) {
 	return fileDescriptor_0b0699075b8b0c24, []int{0}
 }
+
 func (m *CollectionOwnerSignature) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
+
 func (m *CollectionOwnerSignature) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
 		return xxx_messageInfo_CollectionOwnerSignature.Marshal(b, m, deterministic)
@@ -48,12 +54,15 @@ func (m *CollectionOwnerSignature) XXX_Marshal(b []byte, deterministic bool) ([]
 		return b[:n], nil
 	}
 }
+
 func (m *CollectionOwnerSignature) XXX_Merge(src proto.Message) {
 	xxx_messageInfo_CollectionOwnerSignature.Merge(m, src)
 }
+
 func (m *CollectionOwnerSignature) XXX_Size() int {
 	return m.Size()
 }
+
 func (m *CollectionOwnerSignature) XXX_DiscardUnknown() {
 	xxx_messageInfo_CollectionOwnerSignature.DiscardUnknown(m)
 }
@@ -147,6 +156,7 @@ func encodeVarintCollectionOwnerSignature(dAtA []byte, offset int, v uint64) int
 	dAtA[offset] = uint8(v)
 	return base
 }
+
 func (m *CollectionOwnerSignature) Size() (n int) {
 	if m == nil {
 		return 0
@@ -167,9 +177,11 @@ func (m *CollectionOwnerSignature) Size() (n int) {
 func sovCollectionOwnerSignature(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
+
 func sozCollectionOwnerSignature(x uint64) (n int) {
 	return sovCollectionOwnerSignature(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
+
 func (m *CollectionOwnerSignature) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -284,6 +296,7 @@ func (m *CollectionOwnerSignature) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+
 func skipCollectionOwnerSignature(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0

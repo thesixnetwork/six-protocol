@@ -17,7 +17,6 @@ import (
 // Prevent strconv unused error
 var _ = strconv.IntSize
 
-// TODO:: Feat(VirtualSchema)
 func SimulateMsgCreateVirtualAction(
 	ak types.AccountKeeper,
 	bk types.BankKeeper,
@@ -59,7 +58,6 @@ func SimulateMsgCreateVirtualAction(
 	}
 }
 
-// TODO:: Feat(VirtualSchema)
 func SimulateMsgUpdateVirtualAction(
 	ak types.AccountKeeper,
 	bk types.BankKeeper,

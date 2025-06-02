@@ -47,20 +47,40 @@ func (k Keeper) SchemaAttributeAll(c context.Context, req *types.QueryAllSchemaA
 	store := ctx.KVStore(k.storeKey)
 	schemaAttributeStore := prefix.NewStore(store, types.KeyPrefix(types.SchemaAttributeKeyPrefix))
 
-	pageRes, err := query.Paginate(schemaAttributeStore, req.Pagination, func(key []byte, value []byte) error {
-		var schemaAttribute types.SchemaAttribute
-		if err := k.cdc.Unmarshal(value, &schemaAttribute); err != nil {
-			return err
+	if req.NftSchemaCode == "" {
+		pageRes, err := query.Paginate(schemaAttributeStore, req.Pagination, func(key []byte, value []byte) error {
+			var schemaAttribute types.SchemaAttribute
+			if err := k.cdc.Unmarshal(value, &schemaAttribute); err != nil {
+				return err
+			}
+
+			schemaAttributes = append(schemaAttributes, schemaAttribute)
+			return nil
+		})
+		if err != nil {
+			return nil, status.Error(codes.Internal, err.Error())
 		}
 
-		schemaAttributes = append(schemaAttributes, schemaAttribute)
-		return nil
-	})
-	if err != nil {
-		return nil, status.Error(codes.Internal, err.Error())
-	}
+		return &types.QueryAllSchemaAttributeResponse{SchemaAttribute: schemaAttributes, Pagination: pageRes}, nil
+	} else {
+		pageRes, err := query.Paginate(schemaAttributeStore, req.Pagination, func(key []byte, value []byte) error {
+			var schemaAttribute types.SchemaAttribute
+			if err := k.cdc.Unmarshal(value, &schemaAttribute); err != nil {
+				return err
+			}
 
-	return &types.QueryAllSchemaAttributeResponse{SchemaAttribute: schemaAttributes, Pagination: pageRes}, nil
+			if schemaAttribute.NftSchemaCode == req.NftSchemaCode {
+				schemaAttributes = append(schemaAttributes, schemaAttribute)
+			}
+			return nil
+		})
+		if err != nil {
+			return nil, status.Error(codes.Internal, err.Error())
+		}
+		pageRes.Total = uint64(len(schemaAttributes))
+		pageRes.NextKey = nil
+		return &types.QueryAllSchemaAttributeResponse{SchemaAttribute: schemaAttributes, Pagination: pageRes}, nil
+	}
 }
 
 func (k Keeper) SchemaAttribute(c context.Context, req *types.QueryGetSchemaAttributeRequest) (*types.QueryGetSchemaAttributeResponse, error) {

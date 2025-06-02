@@ -20,6 +20,7 @@ type (
 		paramstore paramtypes.Subspace
 
 		nftadminKeeper     types.NftadminKeeper
+		accountKeeper      types.AccountKeeper
 		bankKeeper         types.BankKeeper
 		stakingKeeper      types.StakingKeeper
 		distributionKeeper types.DistributionKeeper
@@ -33,6 +34,7 @@ func NewKeeper(
 	memKey sdk.StoreKey,
 	ps paramtypes.Subspace,
 	nftadminKeeper types.NftadminKeeper,
+	accountKeeper types.AccountKeeper,
 	bankKeeper types.BankKeeper,
 	stakingKeeper types.StakingKeeper,
 	distributionKeeper types.DistributionKeeper,
@@ -49,6 +51,7 @@ func NewKeeper(
 		memKey:             memKey,
 		paramstore:         ps,
 		nftadminKeeper:     nftadminKeeper,
+		accountKeeper:      accountKeeper,
 		bankKeeper:         bankKeeper,
 		stakingKeeper:      stakingKeeper,
 		distributionKeeper: distributionKeeper,
@@ -62,4 +65,8 @@ func (k Keeper) GetCodec() codec.BinaryCodec {
 
 func (k Keeper) Logger(ctx sdk.Context) log.Logger {
 	return ctx.Logger().With("module", fmt.Sprintf("x/%s", types.ModuleName))
+}
+
+func (k Keeper) GetModuleAddress() sdk.AccAddress {
+	return k.accountKeeper.GetModuleAddress(types.ModuleName)
 }

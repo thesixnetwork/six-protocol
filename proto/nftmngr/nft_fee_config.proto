@@ -20,3 +20,5 @@ message FeeConfig {
 }
 
 message NFTFeeConfig { FeeConfig schema_fee = 1; }
+
+enum FeeSubject { CREATE_NFT_SCHEMA = 0; }

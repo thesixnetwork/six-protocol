@@ -1,12 +1,11 @@
 package nftmngr_test
 
 import (
-	// "encoding/json"
-
 	"testing"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	accountKeeper "github.com/cosmos/cosmos-sdk/x/auth/keeper"
 	bankkeeper "github.com/cosmos/cosmos-sdk/x/bank/keeper"
 
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
@@ -22,6 +21,7 @@ type NftmngrPrecompileTestSuite struct {
 	suite.Suite
 	ctx           sdk.Context
 	nftmngrKeeper *nftmngrkeeper.Keeper
+	accountKeeper accountKeeper.AccountKeeper
 	bankKeeper    bankkeeper.Keeper
 	cdc           codec.Codec
 	nftprecompile *prenftmgr.PrecompileExecutor
@@ -43,7 +43,7 @@ func (suite *NftmngrPrecompileTestSuite) SetupTest() {
 
 	// Create precompile
 	// precompile, err := prenftmgr.NewPrecompile(suite.nftmngrKeeper, suite.bankKeeper)
-	precompile, err := prenftmgr.NewExecutor(suite.nftmngrKeeper, suite.bankKeeper)
+	precompile, err := prenftmgr.NewExecutor(suite.nftmngrKeeper, suite.accountKeeper, suite.bankKeeper)
 	suite.Require().NoError(err)
 	suite.nftprecompile = precompile
 }
@@ -61,7 +61,7 @@ func (suite *NftmngrPrecompileTestSuite) TestActionParameterParsing() {
 		},
 	}
 
-	result, err := suite.nftprecompile.ParametersFromJSONArg(`[{"name":"service_name","value":"binchotan"},{"name":"amount","value":"1"}]`)
+	result, err := suite.nftprecompile.ParametersFromJSONString(`[{"name":"service_name","value":"binchotan"},{"name":"amount","value":"1"}]`)
 	suite.Require().NoError(err)
 	suite.Require().Len(result, 2)
 
