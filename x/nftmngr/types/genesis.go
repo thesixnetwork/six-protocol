@@ -28,6 +28,7 @@ func DefaultGenesis() *GenesisState {
 		VirtualSchemaProposalList:         []VirtualSchemaProposal{},
 		ActiveVirtualSchemaProposalList:   []ActiveVirtualSchemaProposal{},
 		InactiveVirtualSchemaProposalList: []InactiveVirtualSchemaProposal{},
+		LockSchemaFeeList:                 []LockSchemaFee{},
 		// this line is used by starport scaffolding # genesis/types/default
 		Params: DefaultParams(),
 	}
@@ -195,6 +196,16 @@ func (gs GenesisState) Validate() error {
 			return fmt.Errorf("duplicated index for inactiveVirtualSchemaProposal")
 		}
 		inactiveVirtualSchemaProposalIndexMap[index] = struct{}{}
+	}
+	// Check for duplicated index in lockSchemaFee
+	lockSchemaFeeIndexMap := make(map[string]struct{})
+
+	for _, elem := range gs.LockSchemaFeeList {
+		index := string(LockSchemaFeeKey(elem.Id))
+		if _, ok := lockSchemaFeeIndexMap[index]; ok {
+			return fmt.Errorf("duplicated index for lockSchemaFee")
+		}
+		lockSchemaFeeIndexMap[index] = struct{}{}
 	}
 	// this line is used by starport scaffolding # genesis/types/validate
 

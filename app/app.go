@@ -625,6 +625,7 @@ func New(
 		keys[nftmngrmoduletypes.MemStoreKey],
 		app.GetSubspace(nftmngrmoduletypes.ModuleName),
 		app.NftadminKeeper,
+		app.AccountKeeper,
 		app.BankKeeper,
 		app.StakingKeeper,
 		app.DistrKeeper,
@@ -658,6 +659,7 @@ func New(
 		app.BankKeeper,
 		app.AccountKeeper,
 		app.TokenmngrKeeper,
+		tokenmngrmodulekeeper.NewMsgServerImpl(app.TokenmngrKeeper),
 		app.NftmngrKeeper,
 	); err != nil {
 		panic(err)

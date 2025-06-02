@@ -33,7 +33,6 @@ func TestVirtualActionMsgServerCreate(t *testing.T) {
 	// 		expected.NftSchemaCode,
 	// 		"name",
 	// 	)
-	// 	// TODO:
 	// 	_ = rst.Name
 	// 	require.True(t, found)
 	// 	require.Equal(t, expected.Creator, "schemaOwner")
@@ -104,7 +103,6 @@ func TestVirtualActionMsgServerUpdate(t *testing.T) {
 	}
 }
 
-// TODO:: Feat(VirtualSchema)
 func TestVirtualActionMsgServerDelete(t *testing.T) {
 	creator := "A"
 

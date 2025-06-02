@@ -41,13 +41,13 @@ contract ActionScript is Script {
         ownerAddress = vm.envAddress("OWNER");
         currentNonce = vm.getNonce(ownerAddress);
         nftSchema = vm.envString("NFT_SCHEMA");
-        
+
         actionName = vm.envString("ACTION_NAME");
         tokenId = vm.envString("TOKEN_ID");
         refId = vm.envString("REF_ID");
         jsonParams = vm.envString("JSON_PARAMS");
 
-        string memory routerContractInfoPath = "./broadcast/ActionRouter.s.sol/98/run-latest.json";
+        string memory routerContractInfoPath = "./broadcast/ActionRouter.s.sol/666/run-latest.json";
         string memory routerContractInfo = vm.readFile(routerContractInfoPath);
         bytes memory routerJsonParsed = vm.parseJson(
             routerContractInfo,
@@ -83,6 +83,53 @@ contract ActionScript is Script {
 
         // Log the success message
         console.log("Action executed successfully!");
+        vm.stopBroadcast();
+    }
+}
+
+
+contract VoteScript is Script {
+    address ownerAddress;
+    uint64 currentNonce;
+    string nftSchema;
+    address routerContractAddress;
+
+    // action env
+    string actionName;
+    string tokenId;
+    string refId;
+    string jsonParams;
+
+    function setUp() public {
+        ownerAddress = vm.envAddress("OWNER");
+        currentNonce = vm.getNonce(ownerAddress);
+        nftSchema = "sixprotocol.membership";
+
+        string memory routerContractInfoPath = "./broadcast/ActionRouter.s.sol/666/run-latest.json";
+        string memory routerContractInfo = vm.readFile(routerContractInfoPath);
+        bytes memory routerJsonParsed = vm.parseJson(
+            routerContractInfo,
+            ".transactions[0].contractAddress"
+        );
+        routerContractAddress = abi.decode(routerJsonParsed, (address));
+    }
+
+    function run() external {
+        uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
+        vm.startBroadcast(deployerPrivateKey);
+
+        Router actionRouter = Router(routerContractAddress);
+
+        bool success = actionRouter.voteVirtualAction(
+            "1",
+            nftSchema,
+            2
+        );
+
+        require(success, "Transaction failed. Check error message below:");
+
+        // Log the success message
+        console.log("Vote executed successfully!");
         vm.stopBroadcast();
     }
 }

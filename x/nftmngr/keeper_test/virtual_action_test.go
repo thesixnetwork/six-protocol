@@ -16,7 +16,6 @@ import (
 // Prevent strconv unused error
 var _ = strconv.IntSize
 
-// TODO:: Feat(VirtualSchema)
 func createNVirtualAction(keeper *keeper.Keeper, ctx sdk.Context, n int) []types.VirtualAction {
 	items := make([]types.VirtualAction, n)
 	for i := range items {
@@ -27,7 +26,6 @@ func createNVirtualAction(keeper *keeper.Keeper, ctx sdk.Context, n int) []types
 	return items
 }
 
-// TODO:: Feat(VirtualSchema)
 func TestVirtualActionGet(t *testing.T) {
 	keeper, ctx := keepertest.NftmngrKeeper(t)
 	items := createNVirtualAction(keeper, ctx, 10)
@@ -44,7 +42,6 @@ func TestVirtualActionGet(t *testing.T) {
 	}
 }
 
-// TODO:: Feat(VirtualSchema)
 func TestVirtualActionRemove(t *testing.T) {
 	keeper, ctx := keepertest.NftmngrKeeper(t)
 	items := createNVirtualAction(keeper, ctx, 10)
@@ -61,7 +58,6 @@ func TestVirtualActionRemove(t *testing.T) {
 	}
 }
 
-// TODO:: Feat(VirtualSchema)
 func TestVirtualActionGetAll(t *testing.T) {
 	keeper, ctx := keepertest.NftmngrKeeper(t)
 	items := createNVirtualAction(keeper, ctx, 10)

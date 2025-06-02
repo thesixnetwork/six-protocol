@@ -46,7 +46,7 @@ func (p PrecompileExecutor) ArrayOfstringFromArg(arg interface{}) ([]string, err
 	return arrayStringArg, nil
 }
 
-func (p PrecompileExecutor) boolFromArg(arg interface{}) (bool, error) {
+func (p PrecompileExecutor) BoolFromArg(arg interface{}) (bool, error) {
 	boolArg, ok := arg.(bool)
 	if !ok {
 		return false, errors.New("invalid argument type string")
@@ -73,7 +73,7 @@ func (p PrecompileExecutor) Uint32FromArg(arg interface{}) (uint32, error) {
 	return uint32Arg, nil
 }
 
-func (p PrecompileExecutor) ParametersFromJSONArg(arg interface{}) ([]*nftmngrtype.ActionParameter, error) {
+func (p PrecompileExecutor) ParametersFromJSONString(arg interface{}) ([]*nftmngrtype.ActionParameter, error) {
 	jsonStr, ok := arg.(string)
 	if !ok {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid argument type, expected string")
@@ -91,4 +91,46 @@ func (p PrecompileExecutor) ParametersFromJSONArg(arg interface{}) ([]*nftmngrty
 	}
 
 	return paramPointers, nil
+}
+
+func (p PrecompileExecutor) ParseVoteOption(option int32) (nftmngrtype.RegistryStatus, error) {
+	switch option {
+	case 1:
+		return nftmngrtype.RegistryStatus_REJECT, nil
+	case 2:
+		return nftmngrtype.RegistryStatus_ACCEPT, nil
+	default:
+		return nftmngrtype.RegistryStatus_PENDING, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid vote option. Use 'YES' or 'NO'")
+	}
+}
+
+func (p PrecompileExecutor) TokenIdMapFromJSONString(arg interface{}) ([]*nftmngrtype.TokenIdMap, error) {
+	jsonStr, ok := arg.(string)
+	if !ok {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid argument type, expected string")
+	}
+
+	var tokenIdMap []nftmngrtype.TokenIdMap
+	if err := json.Unmarshal([]byte(jsonStr), &tokenIdMap); err != nil {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid JSON format")
+	}
+
+	// Convert to slice of pointers to ActionParameter
+	tokenIdMapPointer := make([]*nftmngrtype.TokenIdMap, len(tokenIdMap))
+	for i := range tokenIdMap {
+		tokenIdMapPointer[i] = &tokenIdMap[i]
+	}
+
+	return tokenIdMapPointer, nil
+}
+
+func (p PrecompileExecutor) parseProposalType(option int32) (nftmngrtype.ProposalType, error) {
+	switch option {
+	case 0:
+		return nftmngrtype.ProposalType_CREATE, nil
+	case 1:
+		return nftmngrtype.ProposalType_EDIT, nil
+	default:
+		return nftmngrtype.ProposalType_CREATE, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Invalid proposal type. Use 'create(0)/edit(1)'")
+	}
 }

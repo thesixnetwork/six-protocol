@@ -9,7 +9,6 @@ import (
 	"github.com/thesixnetwork/six-protocol/testutil/sample"
 )
 
-// TODO:: Feat(VirtualSchema)
 func TestMsgCreateVirtual_ValidateBasic(t *testing.T) {
 	tests := []struct {
 		name string
@@ -72,7 +71,6 @@ func TestMsgUpdateVirtual_ValidateBasic(t *testing.T) {
 	}
 }
 
-// TODO:: Feat(VirtualSchema)
 func TestMsgDeleteVirtual_ValidateBasic(t *testing.T) {
 	tests := []struct {
 		name string
