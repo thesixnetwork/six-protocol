@@ -367,7 +367,7 @@ add_genesis_account() {
 add_genesis_account "$ALICE_ADDRESS" "100000000000000${STAKING_TOKEN}"
 add_genesis_account "$BOB_ADDRESS" "200000000000000${STAKING_TOKEN}"
 add_genesis_account "$SUPER_ADMIN_ADDRESS" "300000000000000${STAKING_TOKEN}"
-add_genesis_account "$SPECIAL_EVM_ADDRESS" "10000000000000000000${EVM_TOKEN}"
+add_genesis_account "$SPECIAL_EVM_ADDRESS" "100000000000000000${EVM_TOKEN}"
 
 # =====================================================
 # GENTX SECTION
