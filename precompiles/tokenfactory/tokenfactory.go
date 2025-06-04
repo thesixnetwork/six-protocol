@@ -240,6 +240,7 @@ func (p PrecompileExecutor) sendToCrossChain(ctx sdk.Context, caller common.Addr
 			sdk.NewAttribute(tokenmoduletypes.AttributeKeyEvmSender, caller.Hex()),
 			sdk.NewAttribute(tokenmoduletypes.AttributeKeyDestChain, chain),
 			sdk.NewAttribute(tokenmoduletypes.AttributeKeyMemo, memo),
+			sdk.NewAttribute(tokenmoduletypes.AttributeKeyDestAddress, receiverCosmoAddr.String()),
 			sdk.NewAttribute(tokenmoduletypes.AttributeKeyAmount, amount.String()),
 		),
 	})
