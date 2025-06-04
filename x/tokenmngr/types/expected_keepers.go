@@ -42,7 +42,7 @@ type BankKeeper interface {
 
 type EVMKeeper interface {
 	GetParams(ctx sdk.Context) evmtypes.Params
-	SetParams(ctx sdk.Context, params evmtypes.Params)
+	SetParams(ctx sdk.Context, params evmtypes.Params) error
 }
 
 // ParamSubspace defines the expected Subspace interface for parameters.
