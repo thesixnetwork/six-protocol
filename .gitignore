@@ -30,8 +30,9 @@ out/
 /broadcast/**/713715/
 
 /contracts/lib/*
-
+/logs/
 *.log
 
 .env
 .env.*
+!.env.example
