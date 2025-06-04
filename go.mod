@@ -325,6 +325,7 @@ replace (
 	github.com/cosmos/cosmos-sdk => github.com/thesixnetwork/cosmos-sdk v0.50.10-six-1
 
 	github.com/ethereum/go-ethereum => github.com/thesixnetwork/go-ethereum v1.13.6-0.20250527090619-ce7e30070804
+	// github.com/ethereum/go-ethereum => github.com/evmos/go-ethereum v1.10.26-evmos-rc4
 
 	github.com/evmos/evmos/v20 => github.com/thesixnetwork/evmos/v20 v20.0.1-0.20250528190755-58e496f93870
 	// fix upstream GHSA-h395-qcrw-5vmq vulnerability.
