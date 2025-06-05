@@ -272,7 +272,7 @@ func (p PrecompileExecutor) accAddressFromArg(arg interface{}) (sdk.AccAddress, 
 	return bec32Addr, nil
 }
 
-func (PrecompileExecutor) IsTransaction(method string) bool {
+func (p PrecompileExecutor) IsTransaction(method string) bool {
 	switch method {
 	case SendMethod:
 		return true
