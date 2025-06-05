@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"embed"
 	"errors"
-	"fmt"
 	"math/big"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -110,7 +109,6 @@ func (p *PrecompileExecutor) Execute(ctx sdk.Context, method *abi.Method, caller
 	*/
 
 	if DISABLE {
-		fmt.Println("THIS PRECOMPILE IS DISABLED")
 		return nil, errors.New("THIS PRECOMPILE IS DISABLED")
 	}
 
