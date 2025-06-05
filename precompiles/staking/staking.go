@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"embed"
 	"errors"
+	"fmt"
 	"math/big"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -30,6 +31,8 @@ const (
 	bridgeDiffTreshold     = 1
 	defaultAttoToMicroDiff = 1_000_000_000_000
 )
+
+const DISABLE = true
 
 // Embed abi json file to the executable binary. Needed when importing as dependency.
 //
@@ -101,6 +104,16 @@ func NewPrecompile(stakingKeeper pcommon.StakingKeeper, stakingQuerier pcommon.S
 }
 
 func (p *PrecompileExecutor) Execute(ctx sdk.Context, method *abi.Method, caller common.Address, callingContract common.Address, args []interface{}, value *big.Int, readOnly bool, evm *vm.EVM) ([]byte, error) {
+
+	/*
+		NOTE: Will suppoort on next release (after 3.3.2)
+	*/
+
+	if DISABLE {
+		fmt.Println("THIS PRECOMPILE IS DISABLED")
+		return nil, errors.New("THIS PRECOMPILE IS DISABLED")
+	}
+
 	switch method.Name {
 	case DelegateMethod:
 		return p.delegate(ctx, caller, method, args, value, readOnly)
