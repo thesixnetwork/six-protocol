@@ -2,7 +2,7 @@
 pragma solidity ^0.8.20;
 
 import "forge-std/Script.sol";
-import {IBank, BANK_PRECOMPILE_ADDRESS} from "../src/IBank.sol";
+import {IBank, BANK_PRECOMPILE_ADDRESS} from "../src/precompiles/IBank.sol";
 
 contract BankScript is Script {
     address ownerAddress;

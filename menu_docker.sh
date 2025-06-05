@@ -206,18 +206,17 @@ case $choice in
     # i=0
     # for val in ${validator_keys[@]}
     for val in ${validator_keys[@]:1:3}; do
-        # if i=3, echo "#######################################"
-        if [[ $i -eq 2 ]]; then
+        if [[ $i -eq 2 ]] || [[ $i -eq 3 ]]; then
             echo "#######################################"
             (
                 echo "Creating validators ${val}"
                 echo ${node_homes[i]}
                 export DAEMON_HOME=./build/${node_homes[i]}
-                sixd tx staking create-validator --amount 1000000usix --license-mode=true --max-license=1 --pubkey $(sixd tendermint show-validator --home ./build/${node_homes[i]}) --home build/${node_homes[i]} \
-                    --min-delegation 1000000 --delegation-increment 1000000 --enable-redelegation=false --moniker ${node_homes[i]} --from=${val} \
+                sixd tx staking create-validator --amount 100000000000usix --license-mode=true --max-license=100 --pubkey $(sixd tendermint show-validator --home ./build/${node_homes[i]}) --home build/${node_homes[i]} \
+                    --min-delegation 10000000000 --delegation-increment 10000000000 --enable-redelegation=false --moniker ${node_homes[i]} --from=${val} \
                     --commission-rate "0.1" --commission-max-rate "0.1" \
                     --commission-max-change-rate "0.1" --chain-id $CHAIN_ID \
-                    --sign-mode amino-json --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix --min-self-delegation 1000000 --keyring-backend test -y
+                    --sign-mode amino-json --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix --min-self-delegation 10000000000 --keyring-backend test -y
                 echo "Config Genesis at ${home} Success 🟢"
             ) || exit 1
         else
