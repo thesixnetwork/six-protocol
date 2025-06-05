@@ -24,8 +24,8 @@ interface Delegation {
 async function main() {
   const stakingPrecompileContract =
     "0x0000000000000000000000000000000000001005";
-  const delegator = "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv";
-  const validator = "6xvaloper1t3p2vzd7w036ahxf4kefsc9sn24pvlqpmk79jh";
+  const delegator = "6x1kch0sdjr5tuvjh0h3a55c6l5sr6m0phjeag9f2";
+  const validator = "6xvaloper13g50hqdqsjk85fmgqz2h5xdxq49lsmjdz3mr76";
 
   const stakingContract = new ethers.Contract(
     stakingPrecompileContract,

@@ -6,8 +6,8 @@ const provider = new JsonRpcProvider("http://localhost:8545");
 
 async function main() {
   const distributionPrecompileContract = "0x0000000000000000000000000000000000001007";
-  const delegator = "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv";
-  const validator = "6xvaloper1t3p2vzd7w036ahxf4kefsc9sn24pvlqpmk79jh";
+  const delegator = "6x1kch0sdjr5tuvjh0h3a55c6l5sr6m0phjeag9f2";
+  const validator = "6xvaloper13g50hqdqsjk85fmgqz2h5xdxq49lsmjdz3mr76";
 
   const DISPLAY_DECIMALS = 18;
   const USIX_DECIMALS = 6;

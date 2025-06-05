@@ -30,8 +30,6 @@ const (
 	defaultAttoToMicroDiff = 1_000_000_000_000
 )
 
-const DISABLE = true
-
 // Embed abi json file to the executable binary. Needed when importing as dependency.
 //
 //go:embed abi.json
@@ -51,6 +49,8 @@ func GetABI() abi.ABI {
 }
 
 type PrecompileExecutor struct {
+	Enable          bool
+
 	stakingKeeper   pcommon.StakingKeeper
 	stakingQuerier  pcommon.StakingQuerier
 	bankKeeper      pcommon.BankKeeper
@@ -83,6 +83,11 @@ func NewPrecompile(stakingKeeper pcommon.StakingKeeper, stakingQuerier pcommon.S
 		bankKeeper:      bankKeeper,
 		tokenmngrKeeper: tokenmngrKeeper,
 		address:         common.HexToAddress(StakingAddress),
+
+	/*
+		NOTE: Will suppoort on next release (after 3.3.2)
+	*/
+		Enable:          false,
 	}
 
 	for name, m := range newAbi.Methods {
@@ -103,11 +108,7 @@ func NewPrecompile(stakingKeeper pcommon.StakingKeeper, stakingQuerier pcommon.S
 
 func (p *PrecompileExecutor) Execute(ctx sdk.Context, method *abi.Method, caller common.Address, callingContract common.Address, args []interface{}, value *big.Int, readOnly bool, evm *vm.EVM) ([]byte, error) {
 
-	/*
-		NOTE: Will suppoort on next release (after 3.3.2)
-	*/
-
-	if DISABLE {
+	if !p.Enable {
 		return nil, errors.New("THIS PRECOMPILE IS DISABLED")
 	}
 
