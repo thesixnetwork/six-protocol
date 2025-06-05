@@ -4,12 +4,12 @@ pragma solidity ^0.8.20;
 import "../MyNFT.sol";
 
 contract ERC721Factory {
-    event Deployed(address addr, uint256 salt);
+    event Deployed(address addr, uint256 salt, address initialOwner);
 
     function deployERC721(uint256 salt) public returns (address) {
         bytes32 saltBytes = bytes32(salt);
-        MyNFT token = new MyNFT{salt: saltBytes}("MyNFT", "NFT");
-        emit Deployed(address(token), salt);
+        MyNFT token = new MyNFT{salt: saltBytes}("MyNFT", "NFT", msg.sender);
+        emit Deployed(address(token), salt, msg.sender);
         return address(token);
     }
 

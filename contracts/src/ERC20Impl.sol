@@ -40,7 +40,7 @@ contract ERC20Impl is ERC20Capped, Ownable {
         string memory _symbol,
         uint256 _supply,
         address _owner
-    ) ERC20(_name, _symbol) ERC20Capped(_supply) Ownable() {
+    ) ERC20(_name, _symbol) ERC20Capped(_supply) Ownable(msg.sender) {
         _mint(_owner, _supply);
         totalAllocatedAmount = 0;
     }

@@ -4,7 +4,7 @@ pragma solidity ^0.8.4;
 import "./ERC721A/ERC721A.sol";
 import {ERC721AQueryable} from "./extensions/ERC721AQueryable.sol";
 import {Ownable} from "openzeppelin-contracts/access/Ownable.sol";
-import {ReentrancyGuard} from "openzeppelin-contracts/security/ReentrancyGuard.sol";
+import {ReentrancyGuard} from "openzeppelin-contracts/utils/ReentrancyGuard.sol";
 
 contract MyNFT is ERC721A, Ownable, ERC721AQueryable, ReentrancyGuard {
     event WithdrawMoney(uint256 indexed blocktime, uint256 indexed amount, address indexed sender);
@@ -15,8 +15,9 @@ contract MyNFT is ERC721A, Ownable, ERC721AQueryable, ReentrancyGuard {
 
     constructor(
       string memory _name,
-      string memory _symbol
-    ) ERC721A(_name, _symbol) {}
+      string memory _symbol,
+      address initialOwner
+    ) ERC721A(_name, _symbol) Ownable(initialOwner) {}
 
     function _startTokenId() internal view virtual override returns (uint256) {
         return 1;
