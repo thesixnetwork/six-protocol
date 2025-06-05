@@ -27,7 +27,6 @@ const (
 
 const (
 	StakingAddress         = "0x0000000000000000000000000000000000001005"
-	bridgeDiffTreshold     = 1
 	defaultAttoToMicroDiff = 1_000_000_000_000
 )
 
@@ -390,13 +389,7 @@ func (p *PrecompileExecutor) convertWeiToStakingCoin(ctx sdk.Context, weiAmount 
 
 	// check if balance and input are valid
 	if balance := p.bankKeeper.GetBalance(ctx, bech32Address, "asix"); balance.Amount.LT(intAmount) {
-		// if current_balance + 1 >= inputAmount then convert all token of the account
-
-		tresshold_balance := balance.Amount.Add(sdk.NewInt(bridgeDiffTreshold))
-		if tresshold_balance.LT(intAmount) {
-			return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Amount of token is too high than current balance")
-		}
-		intAmount = balance.Amount
+		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Amount of token is too high than current balance")
 	}
 
 	// check total supply of evm denom
