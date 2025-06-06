@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
+
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"

@@ -8,6 +8,7 @@ import (
 
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/crypto"
+
 	nftmngrtypes "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 

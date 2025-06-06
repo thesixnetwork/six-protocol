@@ -8,6 +8,7 @@ import (
 
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/crypto"
+
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 
 	errormod "cosmossdk.io/errors"

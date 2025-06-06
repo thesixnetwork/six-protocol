@@ -8,13 +8,13 @@ import (
 	"strings"
 
 	"github.com/ethereum/go-ethereum/common"
-	
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+
 	erromod "cosmossdk.io/errors"
 	"github.com/cosmos/cosmos-sdk/crypto/keys/ed25519"
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
 	"github.com/cosmos/cosmos-sdk/crypto/types/multisig"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/evmos/evmos/v20/crypto/ethsecp256k1"
 )
 

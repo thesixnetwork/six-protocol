@@ -8,10 +8,12 @@ import (
 	ibcfeetypes "github.com/cosmos/ibc-go/v8/modules/apps/29-fee/types"
 	ibctransfertypes "github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
 	ibcexported "github.com/cosmos/ibc-go/v8/modules/core/exported"
+
 	// EVM
 	erc20types "github.com/evmos/evmos/v20/x/erc20/types"
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
 	feemarkettypes "github.com/evmos/evmos/v20/x/feemarket/types"
+
 	nftadminmodulev1 "github.com/thesixnetwork/six-protocol/api/sixprotocol/nftadmin/module"
 	nftoraclemodulev1 "github.com/thesixnetwork/six-protocol/api/sixprotocol/nftoracle/module"
 	protocoladminmodulev1 "github.com/thesixnetwork/six-protocol/api/sixprotocol/protocoladmin/module"

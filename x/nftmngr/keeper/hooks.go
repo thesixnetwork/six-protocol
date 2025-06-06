@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	abci "github.com/cometbft/cometbft/abci/types"
+
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 
 	sdkmath "cosmossdk.io/math"

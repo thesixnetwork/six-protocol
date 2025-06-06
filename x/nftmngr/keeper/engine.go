@@ -7,6 +7,7 @@ import (
 	"github.com/hyperjumptech/grule-rule-engine/builder"
 	"github.com/hyperjumptech/grule-rule-engine/engine"
 	"github.com/hyperjumptech/grule-rule-engine/pkg"
+
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 

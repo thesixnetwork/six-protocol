@@ -7,6 +7,7 @@ import (
 
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/spf13/cobra"
+
 	modulev1 "github.com/thesixnetwork/six-protocol/api/sixprotocol/nftadmin/module"
 	"github.com/thesixnetwork/six-protocol/x/nftadmin/client/cli"
 	"github.com/thesixnetwork/six-protocol/x/nftadmin/keeper"

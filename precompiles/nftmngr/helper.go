@@ -9,6 +9,7 @@ import (
 	erromod "cosmossdk.io/errors"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/ethereum/go-ethereum/common"
+
 	"github.com/thesixnetwork/six-protocol/utils"
 
 	nftmngrtype "github.com/thesixnetwork/six-protocol/x/nftmngr/types"

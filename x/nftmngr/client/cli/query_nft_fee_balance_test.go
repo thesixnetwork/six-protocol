@@ -6,11 +6,12 @@ import (
 
 	tmcli "github.com/cometbft/cometbft/libs/cli"
 	"github.com/stretchr/testify/require"
+	"google.golang.org/grpc/status"
+
 	"github.com/thesixnetwork/six-protocol/testutil/network"
 	"github.com/thesixnetwork/six-protocol/testutil/nullify"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/client/cli"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
-	"google.golang.org/grpc/status"
 
 	clitestutil "github.com/cosmos/cosmos-sdk/testutil/cli"
 )

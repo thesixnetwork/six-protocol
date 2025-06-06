@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
+
 	modulev1 "github.com/thesixnetwork/six-protocol/api/sixprotocol/protocoladmin/module"
 	"github.com/thesixnetwork/six-protocol/x/protocoladmin/keeper"
 	"github.com/thesixnetwork/six-protocol/x/protocoladmin/types"

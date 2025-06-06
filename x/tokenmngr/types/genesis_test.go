@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
+
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 
 	sdkmath "cosmossdk.io/math"

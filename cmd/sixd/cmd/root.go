@@ -6,6 +6,7 @@ import (
 	dbm "github.com/cosmos/cosmos-db"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
+
 	"github.com/thesixnetwork/six-protocol/app"
 	"github.com/thesixnetwork/six-protocol/app/params"
 	sixkey "github.com/thesixnetwork/six-protocol/crypto/keyring"

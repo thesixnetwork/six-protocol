@@ -3,9 +3,10 @@ package keeper
 import (
 	"context"
 
-	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+
+	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )

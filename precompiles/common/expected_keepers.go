@@ -9,6 +9,7 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	disttypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
+
 	nftmngrtypes "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 	tokenmngrtypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )

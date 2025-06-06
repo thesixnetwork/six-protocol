@@ -28,7 +28,7 @@ func (k msgServer) ProposalVirtualSchema(goCtx context.Context, msg *types.MsgPr
 
 func (k Keeper) ProposalVirtualSchemaKeeper(goCtx context.Context, creator, virtualNftSchemaCode string, proposalType types.ProposalType, registryReq []*types.VirtualSchemaRegistryRequest, actions []*types.Action, executors []string, enable bool) (string, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
-	
+
 	var (
 		registry []*types.VirtualSchemaRegistry
 		err      error
