@@ -209,7 +209,7 @@ update-module:
 	@rm -f go.sum && touch go.sum
 	@go mod tidy
 
-start: update-module
+start: remove-doc update-module
 	@ignite chain serve --config ./config.yml -r -f $(VERBOSE)
 
 
