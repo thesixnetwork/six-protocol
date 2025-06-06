@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
+
 	"github.com/thesixnetwork/six-protocol/testutil/network"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/client/cli"
 

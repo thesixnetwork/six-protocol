@@ -6,8 +6,8 @@ package ante
 import (
 	"fmt"
 
-	"github.com/evmos/evmos/v20/crypto/ethsecp256k1"
 	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"
+	"github.com/evmos/evmos/v20/crypto/ethsecp256k1"
 
 	errorsmod "cosmossdk.io/errors"
 	storetypes "cosmossdk.io/store/types"

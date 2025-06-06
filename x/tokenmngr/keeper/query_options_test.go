@@ -4,11 +4,12 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+
 	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 	"github.com/thesixnetwork/six-protocol/testutil/nullify"
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 )
 
 func TestOptionsQuery(t *testing.T) {

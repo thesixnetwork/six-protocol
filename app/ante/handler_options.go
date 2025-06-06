@@ -39,6 +39,7 @@ type HandlerOptions struct {
 	MaxTxGasWanted         uint64
 	TxFeeChecker           ante.TxFeeChecker
 	CircuitKeeper          *circuitkeeper.Keeper
+	AllowUnorderedTx       bool
 }
 
 // Validate checks if the keepers are defined

@@ -14,6 +14,7 @@ import (
 	"github.com/hyperjumptech/grule-rule-engine/builder"
 	"github.com/hyperjumptech/grule-rule-engine/engine"
 	"github.com/hyperjumptech/grule-rule-engine/pkg"
+
 	utils "github.com/thesixnetwork/six-protocol/utils"
 	nftmngrkeeper "github.com/thesixnetwork/six-protocol/x/nftmngr/keeper"
 	nftmngrtypes "github.com/thesixnetwork/six-protocol/x/nftmngr/types"

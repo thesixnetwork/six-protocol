@@ -12,9 +12,11 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/vm"
+
 	"github.com/thesixnetwork/six-protocol/utils"
 
 	distrtypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
+
 	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
 )
 

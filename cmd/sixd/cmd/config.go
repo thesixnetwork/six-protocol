@@ -20,13 +20,12 @@ func initCometBFTConfig() *cmtcfg.Config {
 }
 
 type CustomAppConfig struct {
-		serverconfig.Config `mapstructure:",squash"`
+	serverconfig.Config `mapstructure:",squash"`
 
-		EVM     evmosserverconfig.EVMConfig
-		JSONRPC evmosserverconfig.JSONRPCConfig
-		TLS     evmosserverconfig.TLSConfig
-	}
-
+	EVM     evmosserverconfig.EVMConfig
+	JSONRPC evmosserverconfig.JSONRPCConfig
+	TLS     evmosserverconfig.TLSConfig
+}
 
 // initAppConfig helps to override default appConfig template and configs.
 // return "", nil if no custom configuration is required for the application.

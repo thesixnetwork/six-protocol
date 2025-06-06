@@ -6,14 +6,15 @@ import (
 	"errors"
 	"math/big"
 
+	erromod "cosmossdk.io/errors"
 	"cosmossdk.io/log"
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	erromod "cosmossdk.io/errors"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/vm"
+
 	"github.com/thesixnetwork/six-protocol/utils"
 
 	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"

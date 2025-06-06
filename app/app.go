@@ -56,6 +56,7 @@ import (
 	"github.com/evmos/evmos/v20/x/ibc/transfer"
 	ibctransferkeeper "github.com/evmos/evmos/v20/x/ibc/transfer/keeper"
 	"github.com/spf13/cast"
+
 	"github.com/thesixnetwork/six-protocol/app/ante"
 	"github.com/thesixnetwork/six-protocol/docs"
 	nftadminmodulekeeper "github.com/thesixnetwork/six-protocol/x/nftadmin/keeper"
@@ -923,13 +924,14 @@ func New(
 	app.MountMemoryStores(memKeys)
 
 	maxGasWanted := cast.ToUint64(appOpts.Get(srvflags.EVMMaxTxGasWanted))
+	unsafeUnorderedTx := cast.ToBool(appOpts.Get(srvflags.EVMUnsafeOrderedTx))
 
 	// initialize BaseApp
 	app.SetInitChainer(app.InitChainer)
 	app.SetPreBlocker(app.PreBlocker)
 	app.SetBeginBlocker(app.BeginBlocker)
 	app.SetEndBlocker(app.EndBlocker)
-	app.setAnteHandler(txConfig, maxGasWanted)
+	app.setAnteHandler(txConfig, maxGasWanted, unsafeUnorderedTx)
 
 	/*
 		In v0.46, the SDK introduces _postHandlers_. PostHandlers are like
@@ -991,7 +993,7 @@ func (app *App) setPostHandler() {
 
 func (app *App) Name() string { return app.BaseApp.Name() }
 
-func (app *App) setAnteHandler(txConfig client.TxConfig, maxGasWanted uint64) {
+func (app *App) setAnteHandler(txConfig client.TxConfig, maxGasWanted uint64, unsafeUnorderedTx bool) {
 	options := ante.HandlerOptions{
 		Cdc:                    app.appCodec,
 		AccountKeeper:          app.AccountKeeper,
@@ -1008,6 +1010,7 @@ func (app *App) setAnteHandler(txConfig client.TxConfig, maxGasWanted uint64) {
 		MaxTxGasWanted:         maxGasWanted,
 		TxFeeChecker:           ethante.NewDynamicFeeChecker(app.EVMKeeper),
 		CircuitKeeper:          &app.CircuitBreakerKeeper,
+		AllowUnorderedTx:       unsafeUnorderedTx,
 	}
 
 	if err := options.Validate(); err != nil {

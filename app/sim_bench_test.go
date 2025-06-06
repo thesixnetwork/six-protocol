@@ -7,6 +7,7 @@ import (
 
 	cmtproto "github.com/cometbft/cometbft/proto/tendermint/types"
 	"github.com/stretchr/testify/require"
+
 	"github.com/thesixnetwork/six-protocol/app"
 
 	"github.com/cosmos/cosmos-sdk/client/flags"

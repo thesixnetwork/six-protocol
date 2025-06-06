@@ -2,6 +2,7 @@ package cli
 
 import (
 	"github.com/spf13/cobra"
+
 	nftmngrutils "github.com/thesixnetwork/six-protocol/x/nftmngr/client/utils"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 

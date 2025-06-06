@@ -3,9 +3,10 @@ package keeper
 import (
 	"context"
 
-	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+
+	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 
 	"cosmossdk.io/store/prefix"
 
