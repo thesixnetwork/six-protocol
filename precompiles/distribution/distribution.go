@@ -70,15 +70,17 @@ type PrecompileExecutor struct {
 	WithdrawRewardsMethodID    []byte
 }
 
-func NewPrecompile(distKeeper pcommon.DistributionKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper) (*pcommon.Precompile, error) {
-	newAbi := GetABI()
-
-	p := &PrecompileExecutor{
+func NewExecutor(distKeeper pcommon.DistributionKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper) *PrecompileExecutor  {
+	return &PrecompileExecutor{
 		distrKeeper:     distKeeper,
 		tokenmngrKeeper: tokenmngrKeeper,
 		address:         common.HexToAddress(DistrAddress),
 	}
+}
 
+func NewPrecompile(distKeeper pcommon.DistributionKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper) (*pcommon.Precompile, error) {
+	newAbi := GetABI()
+	p := NewExecutor(distKeeper, tokenmngrKeeper)
 	for name, m := range newAbi.Methods {
 		switch name {
 		case SetWithdrawAddressMethod:
@@ -93,6 +95,11 @@ func NewPrecompile(distKeeper pcommon.DistributionKeeper, tokenmngrKeeper pcommo
 	}
 
 	return pcommon.NewPrecompile(newAbi, p, p.address, "distribution"), nil
+}
+
+// Address implements common.PrecompileExecutor.
+func (p *PrecompileExecutor) Address() common.Address {
+	return p.address
 }
 
 func (p *PrecompileExecutor) Execute(ctx sdk.Context, method *abi.Method, caller common.Address, callingContract common.Address, args []interface{}, value *big.Int, readOnly bool, evm *vm.EVM) ([]byte, error) {

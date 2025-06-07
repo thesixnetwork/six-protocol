@@ -63,17 +63,26 @@ type PrecompileExecutor struct {
 	address       common.Address
 }
 
+// Address implements common.PrecompileExecutor.
+func (p *PrecompileExecutor) Address() common.Address {
+	return p.address
+}
+
 type CoinBalance struct {
 	Amount *big.Int
 	Denom  string
 }
 
+func NewExecutor(bankKeeper pcommon.BankKeeper) *PrecompileExecutor  {
+	return &PrecompileExecutor{
+		bankKeeper:    bankKeeper,
+		address:       common.HexToAddress(BankAddress),
+	}
+}
+
 func NewPrecompile(bankKeeper pcommon.BankKeeper) (*pcommon.Precompile, error) {
 	newAbi := GetABI()
-	p := &PrecompileExecutor{
-		bankKeeper: bankKeeper,
-		address:    common.HexToAddress(BankAddress),
-	}
+	p := NewExecutor(bankKeeper)
 
 	for name, m := range newAbi.Methods {
 		switch name {

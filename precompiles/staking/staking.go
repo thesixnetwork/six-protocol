@@ -75,16 +75,20 @@ type PrecompileExecutor struct {
 	UndelegateID []byte
 }
 
-func NewPrecompile(stakingKeeper pcommon.StakingKeeper, stakingQuerier pcommon.StakingQuerier, bankKeeper pcommon.BankKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper) (*pcommon.Precompile, error) {
-	newAbi := GetABI()
-
-	p := &PrecompileExecutor{
+func NewExecutor(stakingKeeper pcommon.StakingKeeper, stakingQuerier pcommon.StakingQuerier, bankKeeper pcommon.BankKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper) *PrecompileExecutor {
+	return &PrecompileExecutor{
 		stakingKeeper:   stakingKeeper,
 		stakingQuerier:  stakingQuerier,
 		bankKeeper:      bankKeeper,
 		tokenmngrKeeper: tokenmngrKeeper,
 		address:         common.HexToAddress(StakingAddress),
 	}
+}
+
+func NewPrecompile(stakingKeeper pcommon.StakingKeeper, stakingQuerier pcommon.StakingQuerier, bankKeeper pcommon.BankKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper) (*pcommon.Precompile, error) {
+	newAbi := GetABI()
+
+	p := NewExecutor(stakingKeeper, stakingQuerier, bankKeeper, tokenmngrKeeper)
 
 	for name, m := range newAbi.Methods {
 		switch name {
@@ -100,6 +104,11 @@ func NewPrecompile(stakingKeeper pcommon.StakingKeeper, stakingQuerier pcommon.S
 	}
 
 	return pcommon.NewPrecompile(newAbi, p, p.address, "staking"), nil
+}
+
+// Address implements common.PrecompileExecutor.
+func (p *PrecompileExecutor) Address() common.Address {
+	return p.address
 }
 
 func (p *PrecompileExecutor) Execute(ctx sdk.Context, method *abi.Method, caller common.Address, callingContract common.Address, args []interface{}, value *big.Int, readOnly bool, evm *vm.EVM) ([]byte, error) {
@@ -158,7 +167,7 @@ func (p *PrecompileExecutor) delegate(ctx sdk.Context, caller common.Address, me
 		return nil, err
 	}
 
-	_, err = p.stakingKeeper.Delegate(sdk.WrapSDKContext(ctx), &stakingtypes.MsgDelegate{
+	_, err = p.stakingKeeper.Delegate(ctx, &stakingtypes.MsgDelegate{
 		DelegatorAddress: senderCosmoAddr.String(),
 		ValidatorAddress: validatorBech32,
 		Amount:           delegateAmount,
@@ -206,7 +215,7 @@ func (p *PrecompileExecutor) undelegate(ctx sdk.Context, caller common.Address, 
 		return nil, err
 	}
 
-	_, err = p.stakingKeeper.Undelegate(sdk.WrapSDKContext(ctx), &stakingtypes.MsgUndelegate{
+	_, err = p.stakingKeeper.Undelegate(ctx, &stakingtypes.MsgUndelegate{
 		DelegatorAddress: senderCosmoAddr.String(),
 		ValidatorAddress: validatorBech32,
 		Amount:           delegateAmount,
@@ -258,7 +267,7 @@ func (p *PrecompileExecutor) redelegate(ctx sdk.Context, caller common.Address, 
 		return nil, err
 	}
 
-	_, err = p.stakingKeeper.BeginRedelegate(sdk.WrapSDKContext(ctx), &stakingtypes.MsgBeginRedelegate{
+	_, err = p.stakingKeeper.BeginRedelegate(ctx, &stakingtypes.MsgBeginRedelegate{
 		DelegatorAddress:    senderCosmoAddr.String(),
 		ValidatorSrcAddress: srcValidatorBech32,
 		ValidatorDstAddress: dstValidatorBech32,
@@ -313,7 +322,7 @@ func (p PrecompileExecutor) delegation(ctx sdk.Context, method *abi.Method, args
 	}
 
 	var delegationResponse *stakingtypes.QueryDelegationResponse
-	delegationResponse, err = p.stakingQuerier.Delegation(sdk.WrapSDKContext(ctx), delegationRequest)
+	delegationResponse, err = p.stakingQuerier.Delegation(ctx, delegationRequest)
 	if err != nil {
 		return nil, err
 	}

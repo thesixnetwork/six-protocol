@@ -86,25 +86,18 @@ type PrecompileExecutor struct {
 	PerformVirtualActionId  []byte
 }
 
-func NewExecutor(nftmngrKeeper pcommon.NftmngrKeeper, accountKeeper pcommon.AccountKeeper, bankKeeper pcommon.BankKeeper) (*PrecompileExecutor, error) {
-	p := &PrecompileExecutor{
+func NewExecutor(nftmngrKeeper pcommon.NftmngrKeeper, accountKeeper pcommon.AccountKeeper, bankKeeper pcommon.BankKeeper) *PrecompileExecutor {
+	return &PrecompileExecutor{
 		nftmngrKeeper: nftmngrKeeper,
 		accountKeeper: accountKeeper,
 		bankKeeper:    bankKeeper,
 		address:       common.HexToAddress(NftmngrAddress),
 	}
-
-	return p, nil
 }
 
 func NewPrecompile(nftmngrKeeper pcommon.NftmngrKeeper, accountKeeper pcommon.AccountKeeper, bankKeeper pcommon.BankKeeper) (*pcommon.Precompile, error) {
 	newAbi := GetABI()
-	p := &PrecompileExecutor{
-		nftmngrKeeper: nftmngrKeeper,
-		accountKeeper: accountKeeper,
-		bankKeeper:    bankKeeper,
-		address:       common.HexToAddress(NftmngrAddress),
-	}
+	p := NewExecutor(nftmngrKeeper, accountKeeper, bankKeeper)
 
 	for name, m := range newAbi.Methods {
 		switch name {
@@ -166,6 +159,11 @@ func NewPrecompile(nftmngrKeeper pcommon.NftmngrKeeper, accountKeeper pcommon.Ac
 	}
 
 	return pcommon.NewPrecompile(newAbi, p, p.address, "nftmngr"), nil
+}
+
+// Address implements common.PrecompileExecutor.
+func (p *PrecompileExecutor) Address() common.Address {
+	return p.address
 }
 
 // RequiredGas returns the required bare minimum gas to execute the precompile.

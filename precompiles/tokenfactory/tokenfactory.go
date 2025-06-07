@@ -59,15 +59,19 @@ type PrecompileExecutor struct {
 	address            common.Address
 }
 
-func NewPrecompile(bankKeeper pcommon.BankKeeper, accountKeeper pcommon.AccountKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper, tokennmngrMsgServer pcommon.TokenmngrMsgServer) (*pcommon.Precompile, error) {
-	newAbi := GetABI()
-	p := &PrecompileExecutor{
+func NewExecutor(bankKeeper pcommon.BankKeeper, accountKeeper pcommon.AccountKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper, tokennmngrMsgServer pcommon.TokenmngrMsgServer) *PrecompileExecutor {
+	return &PrecompileExecutor{
 		bankKeeper:         bankKeeper,
 		accountKeeper:      accountKeeper,
 		tokenmngrKeeper:    tokenmngrKeeper,
 		tokenmngrMsgServer: tokennmngrMsgServer,
 		address:            common.HexToAddress(BridgeAddress),
 	}
+}
+
+func NewPrecompile(bankKeeper pcommon.BankKeeper, accountKeeper pcommon.AccountKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper, tokennmngrMsgServer pcommon.TokenmngrMsgServer) (*pcommon.Precompile, error) {
+	newAbi := GetABI()
+	p := NewExecutor(bankKeeper, accountKeeper, tokenmngrKeeper, tokennmngrMsgServer)
 
 	for name, m := range newAbi.Methods {
 		switch name {
@@ -77,6 +81,11 @@ func NewPrecompile(bankKeeper pcommon.BankKeeper, accountKeeper pcommon.AccountK
 	}
 
 	return pcommon.NewPrecompile(newAbi, p, p.address, "tokenfactory"), nil
+}
+
+// Address implements common.PrecompileExecutor.
+func (p *PrecompileExecutor) Address() common.Address {
+	return p.address
 }
 
 // RequiredGas returns the required bare minimum gas to execute the precompile.
