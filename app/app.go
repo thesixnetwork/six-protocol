@@ -28,6 +28,8 @@ import (
 	ibcfee "github.com/cosmos/ibc-go/v8/modules/apps/29-fee"
 	ibcfeekeeper "github.com/cosmos/ibc-go/v8/modules/apps/29-fee/keeper"
 	ibcfeetypes "github.com/cosmos/ibc-go/v8/modules/apps/29-fee/types"
+	"github.com/cosmos/ibc-go/v8/modules/apps/transfer"
+	ibctransferkeeper "github.com/cosmos/ibc-go/v8/modules/apps/transfer/keeper"
 	ibctransfertypes "github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
 	ibc "github.com/cosmos/ibc-go/v8/modules/core"
 	ibcclienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types" //nolint:staticcheck
@@ -42,9 +44,6 @@ import (
 	"github.com/evmos/evmos/v20/app/post"
 	srvflags "github.com/evmos/evmos/v20/server/flags"
 	evmostypes "github.com/evmos/evmos/v20/types"
-	"github.com/evmos/evmos/v20/x/erc20"
-	erc20keeper "github.com/evmos/evmos/v20/x/erc20/keeper"
-	erc20types "github.com/evmos/evmos/v20/x/erc20/types"
 	evmmodule "github.com/evmos/evmos/v20/x/evm"
 	_ "github.com/evmos/evmos/v20/x/evm/core/tracers/js"
 	_ "github.com/evmos/evmos/v20/x/evm/core/tracers/native"
@@ -53,8 +52,7 @@ import (
 	"github.com/evmos/evmos/v20/x/feemarket"
 	feemarketkeeper "github.com/evmos/evmos/v20/x/feemarket/keeper"
 	feemarkettypes "github.com/evmos/evmos/v20/x/feemarket/types"
-	"github.com/evmos/evmos/v20/x/ibc/transfer"
-	ibctransferkeeper "github.com/evmos/evmos/v20/x/ibc/transfer/keeper"
+
 	"github.com/spf13/cast"
 
 	"github.com/thesixnetwork/six-protocol/app/ante"
@@ -226,7 +224,6 @@ type App struct {
 	// EVM
 	FeeMarketKeeper feemarketkeeper.Keeper
 	EVMKeeper       *evmkeeper.Keeper
-	Erc20Keeper     erc20keeper.Keeper
 
 	ScopedIBCKeeper           capabilitykeeper.ScopedKeeper
 	ScopedICAHostKeeper       capabilitykeeper.ScopedKeeper
@@ -284,7 +281,6 @@ func New(
 			},
 			CustomGetSigners: map[protoreflect.FullName]signing.GetSignersFunc{
 				evmtypes.MsgEthereumTxCustomGetSigner.MsgType:     evmtypes.MsgEthereumTxCustomGetSigner.Fn,
-				erc20types.MsgConvertERC20CustomGetSigner.MsgType: erc20types.MsgConvertERC20CustomGetSigner.Fn,
 			},
 		},
 	})
@@ -331,7 +327,6 @@ func New(
 		// EVM
 		evmtypes.StoreKey,
 		feemarkettypes.StoreKey,
-		erc20types.StoreKey,
 
 		// SIX
 		protocoladminmoduletypes.StoreKey,
@@ -416,10 +411,11 @@ func New(
 		memKeys[capabilitytypes.MemStoreKey],
 	)
 
+	// grant capabilities for the ibc and ibc-transfer modules
 	scopedIBCKeeper := app.CapabilityKeeper.ScopeToModule(ibcexported.ModuleName)
-	scopedICAHostKeeper := app.CapabilityKeeper.ScopeToModule(icahosttypes.SubModuleName)
 	scopedICAControllerKeeper := app.CapabilityKeeper.ScopeToModule(icacontrollertypes.SubModuleName)
 	scopedTransferKeeper := app.CapabilityKeeper.ScopeToModule(ibctransfertypes.ModuleName)
+	scopedICAHostKeeper := app.CapabilityKeeper.ScopeToModule(icahosttypes.SubModuleName)
 	app.CapabilityKeeper.Seal()
 
 	// add keepers
@@ -547,20 +543,7 @@ func New(
 		app.BankKeeper,
 		app.StakingKeeper,
 		app.FeeMarketKeeper,
-		&app.Erc20Keeper,
 		tracer, app.GetSubspace(evmtypes.ModuleName),
-	)
-
-	app.Erc20Keeper = erc20keeper.NewKeeper(
-		keys[erc20types.StoreKey],
-		appCodec,
-		authtypes.NewModuleAddress(govtypes.ModuleName),
-		app.AccountKeeper,
-		app.BankKeeper,
-		app.EVMKeeper,
-		app.StakingKeeper,
-		app.AuthzKeeper,
-		&app.TransferKeeper,
 	)
 
 	// get skipUpgradeHeights from the app options
@@ -725,7 +708,6 @@ func New(
 		app.AccountKeeper,
 		app.BankKeeper,
 		scopedTransferKeeper,
-		app.Erc20Keeper,
 		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 	)
 
@@ -734,7 +716,6 @@ func New(
 		app.RatelimitKeeper,
 		app.IBCKeeper.ChannelKeeper, app.IBCKeeper.PortKeeper,
 		app.AccountKeeper, app.BankKeeper, scopedTransferKeeper,
-		app.Erc20Keeper, // Add ERC20 Keeper for ERC20 transfers
 		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 	)
 
@@ -858,7 +839,6 @@ func New(
 		// EVM
 		evmmodule.NewAppModule(app.EVMKeeper, app.AccountKeeper, app.GetSubspace(evmtypes.ModuleName)),
 		feemarket.NewAppModule(app.FeeMarketKeeper, app.GetSubspace(feemarkettypes.ModuleName)),
-		erc20.NewAppModule(app.Erc20Keeper, app.AccountKeeper, app.GetSubspace(erc20types.ModuleName)),
 
 		// SIX
 		protocoladminmodule.NewAppModule(appCodec, app.ProtocoladminKeeper, app.AccountKeeper, app.BankKeeper),
@@ -1253,7 +1233,6 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	// ethermint subspaces
 	paramsKeeper.Subspace(evmtypes.ModuleName)
 	paramsKeeper.Subspace(feemarkettypes.ModuleName)
-	paramsKeeper.Subspace(erc20types.ModuleName)
 
 	return paramsKeeper
 }

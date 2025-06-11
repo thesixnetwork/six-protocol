@@ -16,6 +16,8 @@ import (
 	ibcfee "github.com/cosmos/ibc-go/v8/modules/apps/29-fee"
 	ibcfeekeeper "github.com/cosmos/ibc-go/v8/modules/apps/29-fee/keeper"
 	ibcfeetypes "github.com/cosmos/ibc-go/v8/modules/apps/29-fee/types"
+	"github.com/cosmos/ibc-go/v8/modules/apps/transfer"
+	ibctransferkeeper "github.com/cosmos/ibc-go/v8/modules/apps/transfer/keeper"
 	ibctransfertypes "github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
 	ibc "github.com/cosmos/ibc-go/v8/modules/core"
 	ibcclienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
@@ -25,8 +27,6 @@ import (
 	ibckeeper "github.com/cosmos/ibc-go/v8/modules/core/keeper"
 	solomachine "github.com/cosmos/ibc-go/v8/modules/light-clients/06-solomachine"
 	ibctm "github.com/cosmos/ibc-go/v8/modules/light-clients/07-tendermint"
-	ibctransfer "github.com/evmos/evmos/v20/x/ibc/transfer"
-	ibctransferkeeper "github.com/evmos/evmos/v20/x/ibc/transfer/keeper"
 
 	"cosmossdk.io/core/appmodule"
 
@@ -113,7 +113,6 @@ func (app *App) _(_ servertypes.AppOptions) error {
 		app.AccountKeeper,
 		app.BankKeeper,
 		app.ScopedIBCFeeKeeper,
-		app.Erc20Keeper,
 		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 	)
 
@@ -146,7 +145,7 @@ func (app *App) _(_ servertypes.AppOptions) error {
 	app.GovKeeper.SetLegacyRouter(govRouter)
 
 	// Create IBC modules with ibcfee middleware
-	transferIBCModule := ibcfee.NewIBCMiddleware(ibctransfer.NewIBCModule(app.TransferKeeper), app.IBCFeeKeeper)
+	transferIBCModule := ibcfee.NewIBCMiddleware(transfer.NewIBCModule(app.TransferKeeper), app.IBCFeeKeeper)
 
 	// integration point for custom authentication modules
 	var noAuthzModule porttypes.IBCModule
@@ -194,7 +193,7 @@ func (app *App) _(_ servertypes.AppOptions) error {
 func RegisterIBC(registry cdctypes.InterfaceRegistry) map[string]appmodule.AppModule {
 	modules := map[string]appmodule.AppModule{
 		ibcexported.ModuleName:      ibc.AppModule{},
-		ibctransfertypes.ModuleName: ibctransfer.AppModule{},
+		ibctransfertypes.ModuleName: transfer.AppModule{},
 		ibcfeetypes.ModuleName:      ibcfee.AppModule{},
 		icatypes.ModuleName:         icamodule.AppModule{},
 		capabilitytypes.ModuleName:  capability.AppModule{},

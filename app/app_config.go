@@ -10,7 +10,6 @@ import (
 	ibcexported "github.com/cosmos/ibc-go/v8/modules/core/exported"
 
 	// EVM
-	erc20types "github.com/evmos/evmos/v20/x/erc20/types"
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
 	feemarkettypes "github.com/evmos/evmos/v20/x/feemarket/types"
 
@@ -109,7 +108,6 @@ var (
 		// EVM
 		evmtypes.ModuleName,
 		feemarkettypes.ModuleName,
-		erc20types.ModuleName,
 
 		// chain modules
 		protocoladminmoduletypes.ModuleName,
@@ -147,7 +145,6 @@ var (
 		// EVM
 		evmtypes.ModuleName,
 		feemarkettypes.ModuleName,
-		erc20types.ModuleName,
 		// chain modules
 		protocoladminmoduletypes.ModuleName,
 		tokenmngrmoduletypes.ModuleName,
@@ -176,7 +173,6 @@ var (
 		// EVM
 		evmtypes.ModuleName,
 		feemarkettypes.ModuleName,
-		erc20types.ModuleName,
 
 		// chain modules
 		protocoladminmoduletypes.ModuleName,
@@ -204,7 +200,6 @@ var (
 		{Account: ibcfeetypes.ModuleName},
 		{Account: icatypes.ModuleName},
 		{Account: ratelimittypes.ModuleName},
-		{Account: erc20types.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner}},
 		{Account: evmtypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner}},
 		{Account: tokenmngrmoduletypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner, authtypes.Staking}},
 		{Account: nftmngrmoduletypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner, authtypes.Staking}},
