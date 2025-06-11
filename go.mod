@@ -327,7 +327,7 @@ replace (
 	github.com/ethereum/go-ethereum => github.com/thesixnetwork/go-ethereum v1.13.6-0.20250607133945-ba2bad3ed2da
 	// github.com/ethereum/go-ethereum => github.com/evmos/go-ethereum v1.10.26-evmos-rc4
 
-	github.com/evmos/evmos/v20 => github.com/thesixnetwork/evmos/v20 v20.0.1-0.20250607135611-5cf1308e0b6a
+	github.com/evmos/evmos/v20 => ../evmos
 	// fix upstream GHSA-h395-qcrw-5vmq vulnerability.
 	github.com/gin-gonic/gin => github.com/gin-gonic/gin v1.7.0
 	// replace broken goleveldb
