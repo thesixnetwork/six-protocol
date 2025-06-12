@@ -1,39 +1,32 @@
+// Copyright Tharsis Labs Ltd.(Evmos)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+
 package ante
 
 import (
-	ibcante "github.com/cosmos/ibc-go/v8/modules/core/ante"
-	evmoscosmosante "github.com/evmos/evmos/v20/app/ante/cosmos"
-	evmante "github.com/evmos/evmos/v20/app/ante/evm"
-	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
-
-	circuitante "cosmossdk.io/x/circuit/ante"
-
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/auth/ante"
 	sdkvesting "github.com/cosmos/cosmos-sdk/x/auth/vesting/types"
+	ibcante "github.com/cosmos/ibc-go/v8/modules/core/ante"
+	cosmosante "github.com/evmos/evmos/v20/app/ante/cosmos"
+	evmante "github.com/evmos/evmos/v20/app/ante/evm"
+	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
 )
 
-// NewRejectMessagesDecorator creates a new RejectMessagesDecorator.
-func NewRejectMessagesDecorator() sdk.AnteDecorator {
-	return evmoscosmosante.RejectMessagesDecorator{}
-}
-
 // newCosmosAnteHandler creates the default ante handler for Cosmos transactions
-func NewCosmosAnteHandler(options HandlerOptions) sdk.AnteHandler {
+func newCosmosAnteHandler(options HandlerOptions) sdk.AnteHandler {
 	return sdk.ChainAnteDecorators(
-		NewRejectMessagesDecorator(), // reject MsgEthereumTxs
-		evmoscosmosante.NewAuthzLimiterDecorator( // disable the Msg types that cannot be included on an authz.MsgExec msgs field
+		cosmosante.RejectMessagesDecorator{}, // reject MsgEthereumTxs
+		cosmosante.NewAuthzLimiterDecorator( // disable the Msg types that cannot be included on an authz.MsgExec msgs field
 			sdk.MsgTypeURL(&evmtypes.MsgEthereumTx{}),
 			sdk.MsgTypeURL(&sdkvesting.MsgCreateVestingAccount{}),
 		),
-
 		ante.NewSetUpContextDecorator(),
-		circuitante.NewCircuitBreakerDecorator(options.CircuitKeeper),
 		ante.NewExtensionOptionsDecorator(options.ExtensionOptionChecker),
 		ante.NewValidateBasicDecorator(),
 		ante.NewTxTimeoutHeightDecorator(),
 		ante.NewValidateMemoDecorator(options.AccountKeeper),
-		evmoscosmosante.NewMinGasPriceDecorator(options.FeeMarketKeeper, options.EvmKeeper),
+		cosmosante.NewMinGasPriceDecorator(options.FeeMarketKeeper, options.EvmKeeper),
 		ante.NewConsumeGasForTxSizeDecorator(options.AccountKeeper),
 		ante.NewDeductFeeDecorator(options.AccountKeeper, options.BankKeeper, options.FeegrantKeeper, options.TxFeeChecker),
 		// SetPubKeyDecorator must be called before all signature verification decorators
