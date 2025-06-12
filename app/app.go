@@ -40,7 +40,7 @@ import (
 	ibctm "github.com/cosmos/ibc-go/v8/modules/light-clients/07-tendermint"
 
 	// EVM
-	"github.com/evmos/evmos/v20/app/post"
+	// "github.com/evmos/evmos/v20/app/post"
 	srvflags "github.com/evmos/evmos/v20/server/flags"
 	evmostypes "github.com/evmos/evmos/v20/types"
 	evmmodule "github.com/evmos/evmos/v20/x/evm"
@@ -934,7 +934,7 @@ func New(
 		upgrade.
 	*/
 
-	app.setPostHandler()
+	// app.setPostHandler()
 
 	// At startup, after all modules have been registered, check that all prot
 	// annotations are correct.
@@ -958,18 +958,18 @@ func New(
 	return app
 }
 
-func (app *App) setPostHandler() {
-	options := post.HandlerOptions{
-		FeeCollectorName: authtypes.FeeCollectorName,
-		BankKeeper:       app.BankKeeper,
-	}
+// func (app *App) setPostHandler() {
+// 	options := post.HandlerOptions{
+// 		FeeCollectorName: authtypes.FeeCollectorName,
+// 		BankKeeper:       app.BankKeeper,
+// 	}
 
-	if err := options.Validate(); err != nil {
-		panic(err)
-	}
+// 	if err := options.Validate(); err != nil {
+// 		panic(err)
+// 	}
 
-	app.SetPostHandler(post.NewPostHandler(options))
-}
+// 	app.SetPostHandler(post.NewPostHandler(options))
+// }
 
 func (app *App) Name() string { return app.BaseApp.Name() }
 
