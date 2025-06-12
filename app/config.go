@@ -1,8 +1,6 @@
 package app
 
 import (
-	evmostype "github.com/evmos/evmos/v20/types"
-
 	sdkmath "cosmossdk.io/math"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -29,7 +27,7 @@ func init() {
 const (
 	// DisplayDenom defines the denomination displayed to users in client applications.
 	DisplayDenom = "six"
-	BaseDenom    = "asix"
+	EVMDenom     = "asix"
 )
 
 // RegisterDenoms registers the base and display denominations to the SDK.
@@ -38,7 +36,7 @@ func RegisterDenoms() {
 		panic(err)
 	}
 
-	if err := sdk.RegisterDenom(BaseDenom, sdkmath.LegacyNewDecWithPrec(1, evmostype.BaseDenomUnit)); err != nil {
+	if err := sdk.RegisterDenom(BaseDenom, sdkmath.LegacyNewDecWithPrec(1, BaseDenomUnit)); err != nil {
 		panic(err)
 	}
 }

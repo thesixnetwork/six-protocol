@@ -164,6 +164,7 @@ const (
 	Name                 = "six"
 	Bech32Prefix         = "6x"
 	BaseDenomUnit        = 6
+	BaseDenom            = "usix"
 )
 
 // DefaultNodeHome default home directories for the application daemon

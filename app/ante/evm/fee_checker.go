@@ -36,12 +36,11 @@ func NewDynamicFeeChecker(k DynamicFeeEVMKeeper) authante.TxFeeChecker {
 			return checkTxFeeWithValidatorMinGasPrices(ctx, feeTx)
 		}
 
-		feeDenom :=feeTx.GetFee().Denoms()[0]
 		params := k.GetParams(ctx)
-		// denom := params.EvmDenom
+		evmDenom := params.EvmDenom
 		ethCfg := params.ChainConfig.EthereumConfig(k.ChainID())
 
-		return FeeChecker(ctx, k, feeDenom, ethCfg, feeTx)
+		return FeeChecker(ctx, k, evmDenom, ethCfg, feeTx)
 	}
 }
 
@@ -49,12 +48,17 @@ func NewDynamicFeeChecker(k DynamicFeeEVMKeeper) authante.TxFeeChecker {
 func FeeChecker(
 	ctx sdk.Context,
 	k DynamicFeeEVMKeeper,
-	denom string,
+	ethDenom string,
 	ethConfig *params.ChainConfig,
 	feeTx sdk.FeeTx,
 ) (sdk.Coins, int64, error) {
-	baseFee := k.GetBaseFee(ctx, ethConfig)
-	if baseFee == nil || denom =="usix"{
+	baseDenom, err := sdk.GetBaseDenom()
+	if err != nil {
+		return nil, 0, err
+	}
+	found, _ := feeTx.GetFee().Find(baseDenom)
+	evmBaseFee := k.GetBaseFee(ctx, ethConfig)
+	if evmBaseFee == nil || found {
 		// london hardfork is not enabled: fallback to min-gas-prices logic
 		return checkTxFeeWithValidatorMinGasPrices(ctx, feeTx)
 	}
@@ -79,13 +83,13 @@ func FeeChecker(
 
 	gas := feeTx.GetGas()
 	feeCoins := feeTx.GetFee()
-	fee := feeCoins.AmountOfNoDenomValidation(denom)
+	fee := feeCoins.AmountOfNoDenomValidation(ethDenom)
 
 	feeCap := fee.Quo(sdkmath.NewIntFromUint64(gas))
-	baseFeeInt := sdkmath.NewIntFromBigInt(baseFee)
+	baseFeeInt := sdkmath.NewIntFromBigInt(evmBaseFee)
 
 	if feeCap.LT(baseFeeInt) {
-		return nil, 0, errorsmod.Wrapf(errortypes.ErrInsufficientFee, "gas prices too low, got: %s%s required: %s%s. Please retry using a higher gas price or a higher fee", feeCap, denom, baseFeeInt, denom)
+		return nil, 0, errorsmod.Wrapf(errortypes.ErrInsufficientFee, "gas prices too low, got: %s%s required: %s%s. Please retry using a higher gas price or a higher fee", feeCap, ethDenom, baseFeeInt, ethDenom)
 	}
 
 	// calculate the effective gas price using the EIP-1559 logic.
@@ -94,7 +98,7 @@ func FeeChecker(
 	// NOTE: create a new coins slice without having to validate the denom
 	effectiveFee := sdk.Coins{
 		{
-			Denom:  denom,
+			Denom:  ethDenom,
 			Amount: effectivePrice.Mul(sdkmath.NewIntFromUint64(gas)),
 		},
 	}
