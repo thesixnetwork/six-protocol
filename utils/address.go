@@ -33,7 +33,7 @@ const (
 	MainnetChainID = "sixnet_98"
 	TestnetChainID = "fivenet_150"
 	TestingChainID = "testnet_666"
-	BaseDenom      = "asix"
+	EvmDenom       = "asix"
 )
 
 // EthHexToCosmosAddr takes a given Hex string and derives a Cosmos SDK account address
