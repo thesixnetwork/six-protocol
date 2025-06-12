@@ -22,7 +22,8 @@ import (
 var _ = strconv.IntSize
 
 func TestUpdateSchemaAttribute(t *testing.T) {
-	net := network.New(t)
+	net, err := network.New(t, network.DefaultConfig())
+	require.NoError(t, err)
 	val := net.Validators[0]
 	ctx := val.ClientCtx
 
@@ -39,7 +40,7 @@ func TestUpdateSchemaAttribute(t *testing.T) {
 	}
 	args = append(args, fields...)
 	args = append(args, common...)
-	_, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdAddAttribute(), args)
+	_, err = clitestutil.ExecTestCLICmd(ctx, cli.CmdAddAttribute(), args)
 	require.NoError(t, err)
 
 	for _, tc := range []struct {

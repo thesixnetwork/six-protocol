@@ -22,7 +22,8 @@ import (
 var _ = strconv.IntSize
 
 func TestCreateVirtual(t *testing.T) {
-	net := network.New(t)
+	net, err := network.New(t, network.DefaultConfig())
+	require.NoError(t, err)
 	val := net.Validators[0]
 	ctx := val.ClientCtx
 
@@ -67,7 +68,8 @@ func TestCreateVirtual(t *testing.T) {
 }
 
 func TestUpdateVirtual(t *testing.T) {
-	net := network.New(t)
+	net, err := network.New(t, network.DefaultConfig())
+	require.NoError(t, err)
 	val := net.Validators[0]
 	ctx := val.ClientCtx
 
@@ -83,7 +85,7 @@ func TestUpdateVirtual(t *testing.T) {
 	}
 	args = append(args, fields...)
 	args = append(args, common...)
-	_, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdCreateVirtualAction(), args)
+	_, err = clitestutil.ExecTestCLICmd(ctx, cli.CmdCreateVirtualAction(), args)
 	require.NoError(t, err)
 
 	for _, tc := range []struct {
@@ -128,7 +130,8 @@ func TestUpdateVirtual(t *testing.T) {
 }
 
 func TestDeleteVirtual(t *testing.T) {
-	net := network.New(t)
+	net, err := network.New(t, network.DefaultConfig())
+	require.NoError(t, err)
 
 	val := net.Validators[0]
 	ctx := val.ClientCtx
@@ -145,7 +148,7 @@ func TestDeleteVirtual(t *testing.T) {
 	}
 	args = append(args, fields...)
 	args = append(args, common...)
-	_, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdCreateVirtualAction(), args)
+	_, err = clitestutil.ExecTestCLICmd(ctx, cli.CmdCreateVirtualAction(), args)
 	require.NoError(t, err)
 
 	for _, tc := range []struct {

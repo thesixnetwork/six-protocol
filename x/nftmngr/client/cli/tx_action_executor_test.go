@@ -22,7 +22,8 @@ import (
 var _ = strconv.IntSize
 
 func TestCreateActionExecutor(t *testing.T) {
-	net := network.New(t)
+	net, err := network.New(t, network.DefaultConfig())
+	require.NoError(t, err)
 	val := net.Validators[0]
 	ctx := val.ClientCtx
 
@@ -70,7 +71,8 @@ func TestCreateActionExecutor(t *testing.T) {
 }
 
 func TestUpdateActionExecutor(t *testing.T) {
-	net := network.New(t)
+	net, err := network.New(t, network.DefaultConfig())
+	require.NoError(t, err)
 	val := net.Validators[0]
 	ctx := val.ClientCtx
 
@@ -87,7 +89,7 @@ func TestUpdateActionExecutor(t *testing.T) {
 	}
 	args = append(args, fields...)
 	args = append(args, common...)
-	_, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdCreateActionExecutor(), args)
+	_, err = clitestutil.ExecTestCLICmd(ctx, cli.CmdCreateActionExecutor(), args)
 	require.NoError(t, err)
 
 	for _, tc := range []struct {
@@ -136,7 +138,8 @@ func TestUpdateActionExecutor(t *testing.T) {
 }
 
 func TestDeleteActionExecutor(t *testing.T) {
-	net := network.New(t)
+	net, err := network.New(t, network.DefaultConfig())
+	require.NoError(t, err)
 
 	val := net.Validators[0]
 	ctx := val.ClientCtx
@@ -154,7 +157,7 @@ func TestDeleteActionExecutor(t *testing.T) {
 	}
 	args = append(args, fields...)
 	args = append(args, common...)
-	_, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdCreateActionExecutor(), args)
+	_, err = clitestutil.ExecTestCLICmd(ctx, cli.CmdCreateActionExecutor(), args)
 	require.NoError(t, err)
 
 	for _, tc := range []struct {

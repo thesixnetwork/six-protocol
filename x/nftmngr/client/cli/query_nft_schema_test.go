@@ -38,7 +38,10 @@ func networkWithNFTSchemaObjects(t *testing.T, n int) (*network.Network, []types
 	buf, err := cfg.Codec.MarshalJSON(&state)
 	require.NoError(t, err)
 	cfg.GenesisState[types.ModuleName] = buf
-	return network.New(t, cfg), state.NFTSchemaList
+	nw, err := network.New(t, cfg)
+	require.NoError(t, err)
+
+	return nw,  state.NFTSchemaList
 }
 
 func TestShowNFTSchema(t *testing.T) {

@@ -38,7 +38,10 @@ func networkWithMetadataCreatorObjects(t *testing.T, n int) (*network.Network, [
 	buf, err := cfg.Codec.MarshalJSON(&state)
 	require.NoError(t, err)
 	cfg.GenesisState[types.ModuleName] = buf
-	return network.New(t, cfg), state.MetadataCreatorList
+	nw, err := network.New(t, cfg)
+	require.NoError(t, err)
+
+	return nw, state.MetadataCreatorList
 }
 
 func TestShowMetadataCreator(t *testing.T) {
