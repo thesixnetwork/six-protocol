@@ -102,8 +102,7 @@ type Config struct {
 // testing requirements.
 func DefaultConfig() Config {
 	DefaultPowerReduction := math.NewIntFromBigInt(new(big.Int).Exp(big.NewInt(10), big.NewInt(BaseDenomUnit), nil))
-
-	chainID := fmt.Sprintf("testnet")
+	chainID := "testnet"
 	app := app.New(log.NewNopLogger(), dbm.NewMemDB(), nil, true, nil, baseapp.SetChainID(chainID))
 	return Config{
 		Codec:             app.AppCodec(),
