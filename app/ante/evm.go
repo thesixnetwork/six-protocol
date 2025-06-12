@@ -1,12 +1,13 @@
+// Copyright Tharsis Labs Ltd.(Evmos)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
+
 package ante
 
 import (
-	evmante "github.com/evmos/evmos/v20/app/ante/evm"
-
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	evmante "github.com/evmos/evmos/v20/app/ante/evm"
 )
 
-// newMonoEVMAnteHandler creates the sdk.AnteHandler implementation for the EVM transactions.
 func newMonoEVMAnteHandler(options HandlerOptions) sdk.AnteHandler {
 	return sdk.ChainAnteDecorators(
 		evmante.NewMonoDecorator(
@@ -17,7 +18,7 @@ func newMonoEVMAnteHandler(options HandlerOptions) sdk.AnteHandler {
 			options.DistributionKeeper,
 			options.StakingKeeper,
 			options.MaxTxGasWanted,
-			options.AllowUnorderedTx,
+			true,
 		),
 	)
 }
