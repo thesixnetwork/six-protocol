@@ -13,8 +13,6 @@ import (
 	consensustypes "github.com/cosmos/cosmos-sdk/x/consensus/types"
 
 	"github.com/evmos/evmos/v20/app"
-	ante "github.com/evmos/evmos/v20/app/ante"
-	evmante "github.com/evmos/evmos/v20/app/ante/evm"
 	"github.com/evmos/evmos/v20/testutil/integration/evmos/factory"
 	"github.com/evmos/evmos/v20/testutil/integration/evmos/grpc"
 	"github.com/evmos/evmos/v20/testutil/integration/evmos/keyring"
@@ -22,6 +20,8 @@ import (
 	"github.com/evmos/evmos/v20/types"
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
 	feemarkettypes "github.com/evmos/evmos/v20/x/feemarket/types"
+	ante "github.com/thesixnetwork/six-protocol/app/ante"
+	evmante "github.com/thesixnetwork/six-protocol/app/ante/evm"
 )
 
 type AnteTestSuite struct {

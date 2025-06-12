@@ -18,10 +18,10 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
-	cosmosante "github.com/evmos/evmos/v20/app/ante/cosmos"
 	"github.com/evmos/evmos/v20/testutil"
 	"github.com/evmos/evmos/v20/testutil/integration/common/factory"
 	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
+	cosmosante "github.com/thesixnetwork/six-protocol/app/ante/cosmos"
 
 	utiltx "github.com/evmos/evmos/v20/testutil/tx"
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"

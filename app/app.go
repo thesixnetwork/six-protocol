@@ -40,7 +40,6 @@ import (
 	ibctm "github.com/cosmos/ibc-go/v8/modules/light-clients/07-tendermint"
 
 	// EVM
-	ethante "github.com/evmos/evmos/v20/app/ante/evm"
 	"github.com/evmos/evmos/v20/app/post"
 	srvflags "github.com/evmos/evmos/v20/server/flags"
 	evmostypes "github.com/evmos/evmos/v20/types"
@@ -52,6 +51,7 @@ import (
 	"github.com/evmos/evmos/v20/x/feemarket"
 	feemarketkeeper "github.com/evmos/evmos/v20/x/feemarket/keeper"
 	feemarkettypes "github.com/evmos/evmos/v20/x/feemarket/types"
+	ethante "github.com/thesixnetwork/six-protocol/app/ante/evm"
 
 	"github.com/spf13/cast"
 
@@ -280,7 +280,7 @@ func New(
 				Bech32Prefix: sdk.GetConfig().GetBech32ValidatorAddrPrefix(),
 			},
 			CustomGetSigners: map[protoreflect.FullName]signing.GetSignersFunc{
-				evmtypes.MsgEthereumTxCustomGetSigner.MsgType:     evmtypes.MsgEthereumTxCustomGetSigner.Fn,
+				evmtypes.MsgEthereumTxCustomGetSigner.MsgType: evmtypes.MsgEthereumTxCustomGetSigner.Fn,
 			},
 		},
 	})
