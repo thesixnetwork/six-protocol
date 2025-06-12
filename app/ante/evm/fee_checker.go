@@ -35,11 +35,13 @@ func NewDynamicFeeChecker(k DynamicFeeEVMKeeper) authante.TxFeeChecker {
 			// genesis transactions: fallback to min-gas-price logic
 			return checkTxFeeWithValidatorMinGasPrices(ctx, feeTx)
 		}
+
+		feeDenom :=feeTx.GetFee().Denoms()[0]
 		params := k.GetParams(ctx)
-		denom := params.EvmDenom
+		// denom := params.EvmDenom
 		ethCfg := params.ChainConfig.EthereumConfig(k.ChainID())
 
-		return FeeChecker(ctx, k, denom, ethCfg, feeTx)
+		return FeeChecker(ctx, k, feeDenom, ethCfg, feeTx)
 	}
 }
 
@@ -52,7 +54,7 @@ func FeeChecker(
 	feeTx sdk.FeeTx,
 ) (sdk.Coins, int64, error) {
 	baseFee := k.GetBaseFee(ctx, ethConfig)
-	if baseFee == nil {
+	if baseFee == nil || denom =="usix"{
 		// london hardfork is not enabled: fallback to min-gas-prices logic
 		return checkTxFeeWithValidatorMinGasPrices(ctx, feeTx)
 	}
