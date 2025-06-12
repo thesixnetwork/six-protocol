@@ -214,7 +214,7 @@ validators:
     #   timeout_commit: "5s"
     moniker: mychain
   client:
-    broadcast-mode: block
+    broadcast-mode: sync
     chain-id: testnet
     keyring-backend: test
     node: tcp://localhost:26657
