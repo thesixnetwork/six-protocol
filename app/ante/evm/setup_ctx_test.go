@@ -3,8 +3,8 @@ package evm_test
 import (
 	"math/big"
 
-	evmante "github.com/evmos/evmos/v20/app/ante/evm"
 	"github.com/evmos/evmos/v20/testutil"
+	evmante "github.com/thesixnetwork/six-protocol/app/ante/evm"
 
 	storetypes "cosmossdk.io/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"

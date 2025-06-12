@@ -8,12 +8,12 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/evmos/evmos/v20/app/ante/evm"
 	testutil "github.com/evmos/evmos/v20/testutil"
 	"github.com/evmos/evmos/v20/testutil/integration/evmos/grpc"
 	testkeyring "github.com/evmos/evmos/v20/testutil/integration/evmos/keyring"
 	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+	"github.com/thesixnetwork/six-protocol/app/ante/evm"
 )
 
 func (suite *EvmAnteTestSuite) TestIncrementSequence() {

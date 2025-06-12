@@ -5,15 +5,15 @@ package ante
 
 import (
 	ibckeeper "github.com/cosmos/ibc-go/v8/modules/core/keeper"
-	evmante "github.com/evmos/evmos/v20/app/ante/evm"
-	anteutils "github.com/evmos/evmos/v20/app/ante/utils"
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+	evmante "github.com/thesixnetwork/six-protocol/app/ante/evm"
+	anteutils "github.com/thesixnetwork/six-protocol/app/ante/utils"
 
 	errorsmod "cosmossdk.io/errors"
 	storetypes "cosmossdk.io/store/types"
 	circuitkeeper "cosmossdk.io/x/circuit/keeper"
 	txsigning "cosmossdk.io/x/tx/signing"
-	
+
 	"github.com/cosmos/cosmos-sdk/codec"
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/cosmos/cosmos-sdk/types/tx/signing"

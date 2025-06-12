@@ -10,8 +10,6 @@ import (
 	"cosmossdk.io/math"
 	sdktypes "github.com/cosmos/cosmos-sdk/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-	"github.com/evmos/evmos/v20/app/ante"
-	ethante "github.com/evmos/evmos/v20/app/ante/evm"
 	cmmnfactory "github.com/evmos/evmos/v20/testutil/integration/common/factory"
 	"github.com/evmos/evmos/v20/testutil/integration/evmos/factory"
 	"github.com/evmos/evmos/v20/testutil/integration/evmos/grpc"
@@ -19,6 +17,8 @@ import (
 	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
 	evmostypes "github.com/evmos/evmos/v20/types"
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+	"github.com/thesixnetwork/six-protocol/app/ante"
+	ethante "github.com/thesixnetwork/six-protocol/app/ante/evm"
 )
 
 type benchmarkSuite struct {
