@@ -28,7 +28,10 @@ func networkWithAuthorizationObjects(t *testing.T) (*network.Network, types.Auth
 	buf, err := cfg.Codec.MarshalJSON(&state)
 	require.NoError(t, err)
 	cfg.GenesisState[types.ModuleName] = buf
-	return network.New(t, cfg), *state.Authorization
+	nw, err := network.New(t, cfg)
+	require.NoError(t, err)
+
+	return nw,  *state.Authorization
 }
 
 func TestShowAuthorization(t *testing.T) {

@@ -28,7 +28,10 @@ func networkWithNFTFeeBalanceObjects(t *testing.T) (*network.Network, types.NFTF
 	buf, err := cfg.Codec.MarshalJSON(&state)
 	require.NoError(t, err)
 	cfg.GenesisState[types.ModuleName] = buf
-	return network.New(t, cfg), *state.NFTFeeBalance
+	nw, err := network.New(t, cfg)
+	require.NoError(t, err)
+
+	return nw,  *state.NFTFeeBalance
 }
 
 func TestShowNFTFeeBalance(t *testing.T) {

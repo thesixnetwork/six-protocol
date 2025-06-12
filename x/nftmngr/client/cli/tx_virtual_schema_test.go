@@ -21,7 +21,8 @@ import (
 var _ = strconv.IntSize
 
 func TestCreateVirtualSchema(t *testing.T) {
-	net := network.New(t)
+	net, err := network.New(t, network.DefaultConfig())
+	require.NoError(t, err)
 	val := net.Validators[0]
 	ctx := val.ClientCtx
 

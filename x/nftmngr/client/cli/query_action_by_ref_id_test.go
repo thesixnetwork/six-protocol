@@ -38,7 +38,11 @@ func networkWithActionByRefIdObjects(t *testing.T, n int) (*network.Network, []t
 	buf, err := cfg.Codec.MarshalJSON(&state)
 	require.NoError(t, err)
 	cfg.GenesisState[types.ModuleName] = buf
-	return network.New(t, cfg), state.ActionByRefIdList
+
+	nw, err := network.New(t, cfg)
+	require.NoError(t, err)
+
+	return nw, state.ActionByRefIdList
 }
 
 func TestShowActionByRefId(t *testing.T) {

@@ -39,7 +39,10 @@ func networkWithNftDataObjects(t *testing.T, n int) (*network.Network, []types.N
 	buf, err := cfg.Codec.MarshalJSON(&state)
 	require.NoError(t, err)
 	cfg.GenesisState[types.ModuleName] = buf
-	return network.New(t, cfg), state.NftDataList
+	nw, err := network.New(t, cfg)
+	require.NoError(t, err)
+
+	return nw,  state.NftDataList
 }
 
 func TestShowNftData(t *testing.T) {
