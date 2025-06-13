@@ -18,7 +18,7 @@ func newMonoEVMAnteHandler(options HandlerOptions) sdk.AnteHandler {
 			options.DistributionKeeper,
 			options.StakingKeeper,
 			options.MaxTxGasWanted,
-			true,
+			options.AllowUnorderedTx,
 		),
 	)
 }
