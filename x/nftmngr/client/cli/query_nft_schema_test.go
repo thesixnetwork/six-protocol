@@ -41,7 +41,7 @@ func networkWithNFTSchemaObjects(t *testing.T, n int) (*network.Network, []types
 	nw, err := network.New(t, cfg)
 	require.NoError(t, err)
 
-	return nw,  state.NFTSchemaList
+	return nw, state.NFTSchemaList
 }
 
 func TestShowNFTSchema(t *testing.T) {

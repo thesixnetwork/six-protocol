@@ -41,6 +41,7 @@ import (
 
 	// EVM
 	// "github.com/evmos/evmos/v20/app/post"
+	"github.com/evmos/evmos/v20/ethereum/eip712"
 	srvflags "github.com/evmos/evmos/v20/server/flags"
 	evmostypes "github.com/evmos/evmos/v20/types"
 	evmmodule "github.com/evmos/evmos/v20/x/evm"
@@ -51,8 +52,8 @@ import (
 	"github.com/evmos/evmos/v20/x/feemarket"
 	feemarketkeeper "github.com/evmos/evmos/v20/x/feemarket/keeper"
 	feemarkettypes "github.com/evmos/evmos/v20/x/feemarket/types"
+
 	ethante "github.com/thesixnetwork/six-protocol/app/ante/evm"
-	"github.com/evmos/evmos/v20/ethereum/eip712"
 
 	"github.com/spf13/cast"
 

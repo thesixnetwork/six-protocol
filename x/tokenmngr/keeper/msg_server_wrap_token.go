@@ -2,16 +2,18 @@ package keeper
 
 import (
 	"context"
+
 	errorsmod "cosmossdk.io/errors"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 	"github.com/ethereum/go-ethereum/common"
 	evmostype "github.com/evmos/evmos/v20/types"
-	sdk "github.com/cosmos/cosmos-sdk/types"
+
+	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
 func (k msgServer) WrapToken(goCtx context.Context, msg *types.MsgWrapToken) (*types.MsgWrapTokenResponse, error) {
-ctx := sdk.UnwrapSDKContext(goCtx)
+	ctx := sdk.UnwrapSDKContext(goCtx)
 	denom := msg.Amount.Denom
 	convertAmount := sdk.NewCoins(msg.Amount)
 

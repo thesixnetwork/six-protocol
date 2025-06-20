@@ -41,7 +41,7 @@ func networkWithOrganizationObjects(t *testing.T, n int) (*network.Network, []ty
 	nw, err := network.New(t, cfg)
 	require.NoError(t, err)
 
-	return nw,  state.OrganizationList
+	return nw, state.OrganizationList
 }
 
 func TestShowOrganization(t *testing.T) {

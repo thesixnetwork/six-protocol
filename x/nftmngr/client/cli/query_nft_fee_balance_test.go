@@ -31,7 +31,7 @@ func networkWithNFTFeeBalanceObjects(t *testing.T) (*network.Network, types.NFTF
 	nw, err := network.New(t, cfg)
 	require.NoError(t, err)
 
-	return nw,  *state.NFTFeeBalance
+	return nw, *state.NFTFeeBalance
 }
 
 func TestShowNFTFeeBalance(t *testing.T) {

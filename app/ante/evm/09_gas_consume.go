@@ -12,6 +12,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/evmos/evmos/v20/types"
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+
 	anteutils "github.com/thesixnetwork/six-protocol/app/ante/utils"
 )
 

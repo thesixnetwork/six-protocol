@@ -10,6 +10,7 @@ import (
 	"github.com/evmos/evmos/v20/testutil"
 	testutiltx "github.com/evmos/evmos/v20/testutil/tx"
 	"github.com/evmos/evmos/v20/utils"
+
 	cosmosante "github.com/thesixnetwork/six-protocol/app/ante/cosmos"
 )
 

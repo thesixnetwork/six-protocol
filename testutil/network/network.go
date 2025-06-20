@@ -49,6 +49,7 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/cosmos/cosmos-sdk/x/genutil"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
+
 	"github.com/thesixnetwork/six-protocol/app"
 
 	"github.com/evmos/evmos/v20/server/config"

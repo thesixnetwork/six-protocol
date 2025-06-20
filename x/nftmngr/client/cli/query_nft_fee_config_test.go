@@ -31,7 +31,7 @@ func networkWithNFTFeeConfigObjects(t *testing.T) (*network.Network, types.NFTFe
 	nw, err := network.New(t, cfg)
 	require.NoError(t, err)
 
-	return nw,  *state.NftFeeConfig
+	return nw, *state.NftFeeConfig
 }
 
 func TestShowNFTFeeConfig(t *testing.T) {

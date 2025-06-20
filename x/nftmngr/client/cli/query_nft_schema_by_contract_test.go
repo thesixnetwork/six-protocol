@@ -41,7 +41,7 @@ func networkWithNFTSchemaByContractObjects(t *testing.T, n int) (*network.Networ
 	nw, err := network.New(t, cfg)
 	require.NoError(t, err)
 
-	return nw,  state.NFTSchemaByContractList
+	return nw, state.NFTSchemaByContractList
 }
 
 func TestShowNFTSchemaByContract(t *testing.T) {

@@ -8,6 +8,7 @@ import (
 	"github.com/evmos/evmos/v20/testutil"
 	testutiltx "github.com/evmos/evmos/v20/testutil/tx"
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+
 	ethante "github.com/thesixnetwork/six-protocol/app/ante/evm"
 )
 

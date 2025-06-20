@@ -41,7 +41,7 @@ func networkWithVirtualSchemaProposalObjects(t *testing.T, n int) (*network.Netw
 	nw, err := network.New(t, cfg)
 	require.NoError(t, err)
 
-	return nw,  state.VirtualSchemaProposalList
+	return nw, state.VirtualSchemaProposalList
 }
 
 func TestShowVirtualSchemaProposal(t *testing.T) {

@@ -15,6 +15,7 @@ import (
 	testkeyring "github.com/evmos/evmos/v20/testutil/integration/evmos/keyring"
 	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
 	vestingtypes "github.com/evmos/evmos/v20/x/vesting/types"
+
 	"github.com/thesixnetwork/six-protocol/app/ante/evm"
 )
 

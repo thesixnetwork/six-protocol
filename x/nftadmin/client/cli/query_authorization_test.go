@@ -31,7 +31,7 @@ func networkWithAuthorizationObjects(t *testing.T) (*network.Network, types.Auth
 	nw, err := network.New(t, cfg)
 	require.NoError(t, err)
 
-	return nw,  *state.Authorization
+	return nw, *state.Authorization
 }
 
 func TestShowAuthorization(t *testing.T) {

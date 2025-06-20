@@ -4,6 +4,7 @@ import (
 	"math/big"
 
 	"github.com/evmos/evmos/v20/testutil"
+
 	evmante "github.com/thesixnetwork/six-protocol/app/ante/evm"
 
 	storetypes "cosmossdk.io/store/types"

@@ -18,6 +18,7 @@ import (
 
 	"github.com/evmos/evmos/v20/crypto/ethsecp256k1"
 	"github.com/evmos/evmos/v20/encoding"
+
 	"github.com/thesixnetwork/six-protocol/app/ante"
 )
 

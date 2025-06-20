@@ -6,6 +6,7 @@ import (
 	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
 	"github.com/evmos/evmos/v20/types"
 	"github.com/stretchr/testify/require"
+
 	ethante "github.com/thesixnetwork/six-protocol/app/ante/evm"
 
 	"github.com/thesixnetwork/six-protocol/app/ante"

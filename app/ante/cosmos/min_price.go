@@ -9,6 +9,7 @@ import (
 
 	errorsmod "cosmossdk.io/errors"
 	"cosmossdk.io/math"
+
 	evmante "github.com/thesixnetwork/six-protocol/app/ante/evm"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"

@@ -42,7 +42,7 @@ func networkWithNftDataObjects(t *testing.T, n int) (*network.Network, []types.N
 	nw, err := network.New(t, cfg)
 	require.NoError(t, err)
 
-	return nw,  state.NftDataList
+	return nw, state.NftDataList
 }
 
 func TestShowNftData(t *testing.T) {
