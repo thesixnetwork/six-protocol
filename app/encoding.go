@@ -8,9 +8,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/std"
 	"github.com/cosmos/cosmos-sdk/x/auth/tx"
 
-	"github.com/evmos/evmos/v20/ethereum/eip712"
 	"github.com/cosmos/cosmos-sdk/x/auth/migrations/legacytx"
 	enccodec "github.com/evmos/evmos/v20/encoding/codec"
+	"github.com/evmos/evmos/v20/ethereum/eip712"
 )
 
 // makeEncodingConfig creates an EncodingConfig for an amino based test configuration.
@@ -23,7 +23,7 @@ func makeEncodingConfig() params.EncodingConfig {
 	enccodec.RegisterInterfaces(interfaceRegistry)
 	// This is needed for the EIP712 txs because currently is using
 	// the deprecated method legacytx.StdSignBytes
-	legacytx.RegressionTestingAminoCodec = amino 
+	legacytx.RegressionTestingAminoCodec = amino
 	eip712.SetEncodingConfig(amino, interfaceRegistry)
 
 	return params.EncodingConfig{

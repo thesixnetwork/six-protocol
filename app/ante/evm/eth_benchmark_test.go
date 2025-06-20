@@ -13,6 +13,7 @@ import (
 	testutiltx "github.com/evmos/evmos/v20/testutil/tx"
 	"github.com/evmos/evmos/v20/x/evm/statedb"
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+
 	ethante "github.com/thesixnetwork/six-protocol/app/ante/evm"
 
 	"github.com/thesixnetwork/six-protocol/app/ante/testutils"

@@ -13,6 +13,7 @@ import (
 	"github.com/evmos/evmos/v20/types"
 	"github.com/evmos/evmos/v20/utils"
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+
 	"github.com/thesixnetwork/six-protocol/app/ante/evm"
 	"github.com/thesixnetwork/six-protocol/app/ante/testutils"
 )

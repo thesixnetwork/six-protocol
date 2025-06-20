@@ -70,7 +70,7 @@ type PrecompileExecutor struct {
 	WithdrawRewardsMethodID    []byte
 }
 
-func NewExecutor(distKeeper pcommon.DistributionKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper) *PrecompileExecutor  {
+func NewExecutor(distKeeper pcommon.DistributionKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper) *PrecompileExecutor {
 	return &PrecompileExecutor{
 		distrKeeper:     distKeeper,
 		tokenmngrKeeper: tokenmngrKeeper,

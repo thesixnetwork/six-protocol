@@ -14,6 +14,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/authz"
 
 	"github.com/evmos/evmos/v20/crypto/ethsecp256k1"
+
 	"github.com/thesixnetwork/six-protocol/app/ante/testutils"
 )
 

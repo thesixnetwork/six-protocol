@@ -10,6 +10,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	testkeyring "github.com/evmos/evmos/v20/testutil/integration/evmos/keyring"
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+
 	"github.com/thesixnetwork/six-protocol/app/ante/evm"
 )
 

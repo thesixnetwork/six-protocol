@@ -47,7 +47,7 @@ func networkWithVirtualActionObjects(t *testing.T, n int) (*network.Network, []t
 	nw, err := network.New(t, cfg)
 	require.NoError(t, err)
 
-	return nw,  state.VirtualActionList
+	return nw, state.VirtualActionList
 }
 
 func TestShowVirtualAction(t *testing.T) {

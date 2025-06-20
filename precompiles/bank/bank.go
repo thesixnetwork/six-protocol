@@ -73,10 +73,10 @@ type CoinBalance struct {
 	Denom  string
 }
 
-func NewExecutor(bankKeeper pcommon.BankKeeper) *PrecompileExecutor  {
+func NewExecutor(bankKeeper pcommon.BankKeeper) *PrecompileExecutor {
 	return &PrecompileExecutor{
-		bankKeeper:    bankKeeper,
-		address:       common.HexToAddress(BankAddress),
+		bankKeeper: bankKeeper,
+		address:    common.HexToAddress(BankAddress),
 	}
 }
 

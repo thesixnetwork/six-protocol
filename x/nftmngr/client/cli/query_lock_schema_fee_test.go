@@ -41,7 +41,7 @@ func networkWithLockSchemaFeeObjects(t *testing.T, n int) (*network.Network, []t
 	nw, err := network.New(t, cfg)
 	require.NoError(t, err)
 
-	return nw,  state.LockSchemaFeeList
+	return nw, state.LockSchemaFeeList
 }
 
 func TestShowLockSchemaFee(t *testing.T) {

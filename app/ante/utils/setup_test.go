@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/suite"
+
 	"github.com/thesixnetwork/six-protocol/app/ante/testutils"
 )
 

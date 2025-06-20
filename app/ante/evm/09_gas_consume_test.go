@@ -8,6 +8,7 @@ import (
 	"github.com/evmos/evmos/v20/testutil/integration/evmos/grpc"
 	testkeyring "github.com/evmos/evmos/v20/testutil/integration/evmos/keyring"
 	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
+
 	evmante "github.com/thesixnetwork/six-protocol/app/ante/evm"
 )
 

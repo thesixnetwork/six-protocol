@@ -6,6 +6,7 @@ package ante
 import (
 	ibckeeper "github.com/cosmos/ibc-go/v8/modules/core/keeper"
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+
 	evmante "github.com/thesixnetwork/six-protocol/app/ante/evm"
 	anteutils "github.com/thesixnetwork/six-protocol/app/ante/utils"
 
