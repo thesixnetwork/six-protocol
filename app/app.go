@@ -52,6 +52,7 @@ import (
 	feemarketkeeper "github.com/evmos/evmos/v20/x/feemarket/keeper"
 	feemarkettypes "github.com/evmos/evmos/v20/x/feemarket/types"
 	ethante "github.com/thesixnetwork/six-protocol/app/ante/evm"
+	"github.com/evmos/evmos/v20/ethereum/eip712"
 
 	"github.com/spf13/cast"
 
@@ -192,6 +193,7 @@ type App struct {
 
 	// keepers
 	AccountKeeper         authkeeper.AccountKeeper
+	EVMAccountKeeper      authkeeper.AccountKeeper
 	BankKeeper            bankkeeper.Keeper
 	CapabilityKeeper      *capabilitykeeper.Keeper
 	StakingKeeper         *stakingkeeper.Keeper
@@ -290,8 +292,10 @@ func New(
 	legacyAmino := codec.NewLegacyAmino()
 	txConfig := authtx.NewTxConfig(appCodec, authtx.DefaultSignModes)
 
+	eip712.SetEncodingConfig(legacyAmino, interfaceRegistry)
 	std.RegisterLegacyAminoCodec(legacyAmino)
 	std.RegisterInterfaces(interfaceRegistry)
+	evmostypes.RegisterInterfaces(interfaceRegistry)
 
 	baseAppOptions = append(baseAppOptions, baseapp.SetOptimisticExecution())
 	bApp := baseapp.NewBaseApp(Name, logger, db, txConfig.TxDecoder(), baseAppOptions...)
@@ -430,6 +434,16 @@ func New(
 		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 	)
 
+	evmAccount := authkeeper.NewAccountKeeper(
+		appCodec,
+		runtime.NewKVStoreService(keys[authtypes.StoreKey]),
+		evmostypes.ProtoAccount,
+		GetMaccPerms(),
+		authcodec.NewBech32Codec(sdk.GetConfig().GetBech32AccountAddrPrefix()),
+		sdk.GetConfig().GetBech32AccountAddrPrefix(),
+		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
+	)
+
 	app.BankKeeper = bankkeeper.NewBaseKeeper(
 		appCodec,
 		runtime.NewKVStoreService(keys[banktypes.StoreKey]),
@@ -540,7 +554,7 @@ func New(
 		keys[evmtypes.StoreKey],
 		tkeys[evmtypes.TransientKey],
 		authtypes.NewModuleAddress(govtypes.ModuleName),
-		app.AccountKeeper,
+		evmAccount,
 		app.BankKeeper,
 		app.StakingKeeper,
 		app.FeeMarketKeeper,
@@ -663,7 +677,7 @@ func New(
 
 	app.NftadminKeeper = nftadminmodulekeeper.NewKeeper(
 		appCodec,
-		runtime.NewKVStoreService(keys[nftmngrmoduletypes.StoreKey]),
+		runtime.NewKVStoreService(keys[nftadminmoduletypes.StoreKey]),
 		logger,
 		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 		app.BankKeeper,
@@ -671,7 +685,7 @@ func New(
 
 	app.NftoracleKeeper = nftoraclemodulekeeper.NewKeeper(
 		appCodec,
-		runtime.NewKVStoreService(keys[nftmngrmoduletypes.StoreKey]),
+		runtime.NewKVStoreService(keys[nftoraclemoduletypes.StoreKey]),
 		logger,
 		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 		app.NftadminKeeper,
@@ -709,14 +723,6 @@ func New(
 		app.AccountKeeper,
 		app.BankKeeper,
 		scopedTransferKeeper,
-		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
-	)
-
-	app.TransferKeeper = ibctransferkeeper.NewKeeper(
-		appCodec, keys[ibctransfertypes.StoreKey], app.GetSubspace(ibctransfertypes.ModuleName),
-		app.RatelimitKeeper,
-		app.IBCKeeper.ChannelKeeper, app.IBCKeeper.PortKeeper,
-		app.AccountKeeper, app.BankKeeper, scopedTransferKeeper,
 		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 	)
 
@@ -838,7 +844,7 @@ func New(
 		ratelimit.NewAppModule(appCodec, app.RatelimitKeeper),
 
 		// EVM
-		evmmodule.NewAppModule(app.EVMKeeper, app.AccountKeeper, app.GetSubspace(evmtypes.ModuleName)),
+		evmmodule.NewAppModule(app.EVMKeeper, evmAccount, app.GetSubspace(evmtypes.ModuleName)),
 		feemarket.NewAppModule(app.FeeMarketKeeper, app.GetSubspace(feemarkettypes.ModuleName)),
 
 		// SIX
