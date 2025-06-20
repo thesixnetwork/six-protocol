@@ -16,7 +16,10 @@ contract ERC721Factory {
     function getDeploymentAddress(uint256 salt) public view returns (address addr) {
         bytes memory bytecode = abi.encodePacked(type(MyNFT).creationCode, abi.encode("MyNFT", "NFT", msg.sender));
         bytes32 saltBytes = bytes32(salt);
-        bytes32 bytecodeHash = keccak256(bytecode);
+        bytes32 bytecodeHash;
+        assembly {
+            bytecodeHash := keccak256(add(bytecode, 32), mload(bytecode))
+        }
 
         assembly {
             let ptr := mload(0x40)

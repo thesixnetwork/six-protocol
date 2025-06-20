@@ -14,7 +14,10 @@ contract RouterFactory {
     function getAddress(uint256 salt) public view returns (address addr) {
         bytes memory bytecode = abi.encodePacked(type(Router).creationCode, abi.encode());
         bytes32 saltBytes = bytes32(salt);
-        bytes32 bytecodeHash = keccak256(bytecode);
+        bytes32 bytecodeHash;
+        assembly {
+            bytecodeHash := keccak256(add(bytecode, 32), mload(bytecode))
+        }
 
         // Inline assembly for CREATE2 address calculation:
         assembly {
