@@ -66,7 +66,7 @@ func initRootCmd(
 	// add keybase, auxiliary RPC, query, genesis, and tx child commands
 	rootCmd.AddCommand(
 		sdkserver.StatusCommand(),
-		genesisCommand(txConfig, basicManager),
+		// genesisCommand(txConfig, basicManager),
 		queryCommand(),
 		txCommand(),
 		// add EVM key commands

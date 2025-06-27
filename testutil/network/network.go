@@ -427,6 +427,7 @@ func New(l Logger, cfg Config) (*Network, error) {
 
 		createValMsg, err := stakingtypes.NewMsgCreateValidator(
 			addr.String(),
+			"approver",
 			valPubKeys[i],
 			sdk.NewCoin(cfg.BondDenom, cfg.BondedTokens),
 			stakingtypes.NewDescription(nodeDirName, "", "", "", ""),

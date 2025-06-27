@@ -159,9 +159,9 @@ genesis:
         bond_denom: usix
         max_validators: 3
         unbonding_time: 300s
-      # validator_approval:
-      #   approver_address: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
-      #   enabled: false
+      validator_approval:
+        approver_address: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauvgo
+        enabled: false
     tokenmngr:
       mintpermList:
       - address: 6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq
