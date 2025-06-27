@@ -129,6 +129,7 @@ func (suite *AnteTestSuite) CreateTestEIP712MsgCreateValidator(from sdk.AccAddre
 	privEd := ed25519.GenPrivKey()
 	msgCreate, err := stakingtypes.NewMsgCreateValidator(
 		valAddr.String(),
+		valAddr.String(),
 		privEd.PubKey(),
 		sdk.NewCoin(evmtypes.DefaultEVMDenom, sdkmath.NewInt(20)),
 		stakingtypes.NewDescription("moniker", "identity", "website", "security_contract", "details"),
@@ -144,6 +145,7 @@ func (suite *AnteTestSuite) CreateTestEIP712MsgCreateValidator2(from sdk.AccAddr
 	valAddr := sdk.ValAddress(from.Bytes())
 	privEd := ed25519.GenPrivKey()
 	msgCreate, err := stakingtypes.NewMsgCreateValidator(
+		valAddr.String(),
 		valAddr.String(),
 		privEd.PubKey(),
 		sdk.NewCoin(suite.GetNetwork().GetDenom(), sdkmath.NewInt(20)),
@@ -185,6 +187,9 @@ func (suite *AnteTestSuite) CreateTestEIP712MsgEditValidator(from sdk.AccAddress
 		stakingtypes.NewDescription("moniker", "identity", "website", "security_contract", "details"),
 		nil,
 		nil,
+		&sdkmath.Int{},
+		false,
+		false,
 	)
 	return suite.CreateTestEIP712SingleMessageTxBuilder(priv, chainID, gas, gasAmount, msgEdit)
 }
