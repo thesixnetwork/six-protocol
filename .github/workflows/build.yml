@@ -1,18 +1,19 @@
-# This workflow will build the binary once a a new release tag occurs
-
-name: Releas New Binary
+name: Build App
 
 on:
-  release:
-    types: [released]
+  pull_request:
+  merge_group:
+  push:
+    branches:
+      - develop
 
 jobs:
   release-linux-amd64-to-bucket:
     name: release linux/amd64 to bucket
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/v')
     env:
       GCS_BUCKET: ${{ secrets.SIXNET_BINARIES_BUCKET }}
+      BINARY_VERSION: "dev"
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -46,5 +47,4 @@ jobs:
         uses: "google-github-actions/upload-cloud-storage@v2"
         with:
           path: ./build/sixd
-          destination: ${{ secrets.SIXNET_BINARIES_BUCKET }}/sixchain/${{ github.event.release.tag_name }}/sixd
-
+          destination: ${{ secrets.SIXNET_BINARIES_BUCKET }}/sixchain/$BINARY_VERSION/sixd
