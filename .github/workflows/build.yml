@@ -41,6 +41,20 @@ jobs:
       - name: Binary Test
         run: ./build/sixd
 
+      - name: Copy binary to host workspace
+        run: mv ./build/sixd /__w/${{ github.repository }}/sixd
+
+      - name: Install Python for gcloud (on host runner)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-minimal python3-pip
+          if ! command -v python &>/dev/null || [[ "$(python -c 'import sys; print(sys.version_info.major)' 2>/dev/null || echo "0")" != "3" ]]; then
+              echo "Setting up 'python' symlink to 'python3' for gcloud..."
+              sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+              sudo update-alternatives --set python /usr/bin/python3
+          fi
+          python --version
+
       - name: Auth GCLOUD
         uses: "google-github-actions/auth@v2"
         with:
@@ -52,6 +66,7 @@ jobs:
       - name: Upload to cloud storage
         uses: "google-github-actions/upload-cloud-storage@v2"
         with:
-          path: ./build/sixd
+          # Path refers to the file on the host's filesystem, where we moved it.
+          path: /__w/${{ github.repository }}/sixd
           destination: ${{ env.GCS_BUCKET }}/sixchain/${{ env.BINARY_VERSION }}/.
           process_gcloudignore: false
