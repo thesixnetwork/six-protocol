@@ -5,89 +5,24 @@ on:
   merge_group:
   push:
     branches:
-      - develop
-      - feature/**
+      - main
+      - development
 
 jobs:
-  build-linux-amd64:
+  release-linux-amd64-to-bucket:
     name: release linux/amd64 to bucket
     runs-on: ubuntu-latest
-    container:
-      image: golang:1.24-alpine
-
-    env:
-      GCS_BUCKET: ${{ secrets.SIXNET_BINARIES_BUCKET }}
-      BINARY_VERSION: "dev"
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
-      - name: Install build dependencies (for CGO with musl)
-        run: |
-          # Update apk package list
-          apk update
-          apk add --no-cache build-base linux-headers
+      - name: Setup - golang
+        uses: actions/setup-go@v3
+        with:
+          go-version: "1.24"
 
       - name: Build binary
-        run: |
-          GOOS=linux GOARCH=amd64 \
-          CC=gcc \
-          LDFLAGS="-linkmode external -extldflags=-static" \
-          make build
+        run: GOOS=linux GOARCH=amd64 make build
 
       - name: Binary Test Version
         run: ./build/sixd version
-
-      - name: Binary Test
-        run: ./build/sixd
-
-      - name: Upload binary artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: sixd-binary # Name of the artifact
-          path: ./build/sixd # Path to the binary inside the container
-
-  upload-to-gcs: # Job 2: Downloads the binary and uploads it to GCS on the host
-    name: Upload binary to GCS
-    runs-on: ubuntu-latest # This job runs directly on the Ubuntu host
-    needs: build-linux-amd64 # This job depends on the successful completion of the build job
-
-    env:
-      GCS_BUCKET: ${{ secrets.SIXNET_BINARIES_BUCKET }}
-      BINARY_VERSION: "dev"
-
-    steps:
-      - name: Download binary artifact
-        # This action downloads the artifact uploaded by the 'build-linux-amd64' job.
-        uses: actions/download-artifact@v4
-        with:
-          name: sixd-binary # Must match the name used in upload-artifact
-          path: . # Download the binary to the current working directory on the host
-
-      - name: Install Python for gcloud (on host runner)
-        # This step now correctly runs on the 'ubuntu-latest' host, so 'sudo apt-get' works.
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y python3-minimal python3-pip
-          # Ensure a 'python' command exists and points to python3
-          if ! command -v python &>/dev/null || [[ "$(python -c 'import sys; print(sys.version_info.major)' 2>/dev/null || echo "0")" != "3" ]]; then
-              echo "Setting up 'python' symlink to 'python3' for gcloud..."
-              sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
-              sudo update-alternatives --set python /usr/bin/python3
-          fi
-          python --version
-
-      - name: Auth GCLOUD
-        uses: "google-github-actions/auth@v2"
-        with:
-          credentials_json: ${{ secrets.SIXNET_BINARIES_SA_KEY }}
-
-      - name: Setup Cloud SDK
-        uses: google-github-actions/setup-gcloud@v2
-
-      - name: Upload to cloud storage
-        uses: "google-github-actions/upload-cloud-storage@v2"
-        with:
-          path: ./sixd # The binary is now in the current directory on the host
-          destination: ${{ env.GCS_BUCKET }}/sixchain/${{ env.BINARY_VERSION }}/sixd
-          process_gcloudignore: false

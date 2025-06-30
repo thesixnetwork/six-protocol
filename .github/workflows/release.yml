@@ -7,32 +7,67 @@ on:
     types: [released]
 
 jobs:
-  release-linux-amd64-to-bucket:
+  build-linux-amd64:
     name: release linux/amd64 to bucket
     runs-on: ubuntu-latest
+    container:
+      image: golang:1.24-alpine
     if: startsWith(github.ref, 'refs/tags/v')
-    env:
-      GCS_BUCKET: ${{ secrets.SIXNET_BINARIES_BUCKET }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Setup - golang
-        uses: actions/setup-go@v3
-        with:
-          go-version: "1.24"
-
-      #- name: Set up GCC & Make
-      #  run: sudo apt-get update && sudo apt-get install -y build-essential
+      - name: Install build dependencies (for CGO with musl)
+        run: |
+          # Update apk package list
+          apk update
+          apk add --no-cache build-base linux-headers
 
       - name: Build binary
-        run: GOOS=linux GOARCH=amd64 make build
+        run: |
+          GOOS=linux GOARCH=amd64 \
+          CC=gcc \
+          LDFLAGS="-linkmode external -extldflags=-static" \
+          make build
 
       - name: Binary Test Version
         run: ./build/sixd version
 
       - name: Binary Test
         run: ./build/sixd
+
+      - name: Upload binary artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sixd-binary
+          path: ./build/sixd
+
+  upload-to-gcs:
+    name: Upload binary to GCS
+    runs-on: ubuntu-latest
+    needs: build-linux-amd64
+
+    env:
+      GCS_BUCKET: ${{ secrets.SIXNET_BINARIES_BUCKET }}
+      BINARY_VERSION: ${{ github.event_name == 'release' && github.event.release.tag_name || github.sha }}
+
+    steps:
+      - name: Download binary artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: sixd-binary
+          path: .
+
+      - name: Install Python for gcloud (on host runner)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-minimal python3-pip
+          if ! command -v python &>/dev/null || [[ "$(python -c 'import sys; print(sys.version_info.major)' 2>/dev/null || echo "0")" != "3" ]]; then
+              echo "Setting up 'python' symlink to 'python3' for gcloud..."
+              sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+              sudo update-alternatives --set python /usr/bin/python3
+          fi
+          python --version
 
       - name: Auth GCLOUD
         uses: "google-github-actions/auth@v2"
@@ -45,6 +80,6 @@ jobs:
       - name: Upload to cloud storage
         uses: "google-github-actions/upload-cloud-storage@v2"
         with:
-          path: ./build/sixd
-          destination: ${{ secrets.SIXNET_BINARIES_BUCKET }}/sixchain/${{ github.event.release.tag_name }}/sixd
-
+          path: ./sixd
+          destination: ${{ env.GCS_BUCKET }}/sixchain/${{ env.BINARY_VERSION }}/.
+          process_gcloudignore: false
