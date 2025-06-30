@@ -11,7 +11,7 @@ on:
 jobs:
   release-linux-amd64-to-bucket:
     name: release linux/amd64 to bucket
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     env:
       GCS_BUCKET: ${{ secrets.SIXNET_BINARIES_BUCKET }}
       BINARY_VERSION: "dev"
