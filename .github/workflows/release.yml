@@ -7,55 +7,44 @@ on:
     types: [released]
 
 jobs:
-
   release-linux-amd64-to-bucket:
     name: release linux/amd64 to bucket
     runs-on: ubuntu-20.04
-    if: startsWith( github.ref, 'refs/tags/v')
+    if: startsWith(github.ref, 'refs/tags/v')
     env:
       GCS_BUCKET: ${{ secrets.SIXNET_BINARIES_BUCKET }}
-      BINARY_VERSION: ${{ github.event.release.tag_name }}
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
-    - name: Setup - gcloud / gsutil
-      uses: google-github-actions/auth@v0
-      with:
-        credentials_json: ${{ secrets.SIXNET_BINARIES_SA_KEY }}
-        project_id: ${{ secrets.SIXNET_BINARIES_PROJECT }}
+      - name: Setup - golang
+        uses: actions/setup-go@v3
+        with:
+          go-version: "1.24"
 
-    - name: Setup - golang
-      uses: actions/setup-go@v3
-      with:
-        go-version: 1.18.1
+      - name: Set up GCC & Make
+        run: sudo apt-get update && sudo apt-get install -y build-essential
 
-    - name: Set up GCC & Make
-      run: sudo apt-get update && sudo apt-get install build-essential
+      - name: Build binary
+        run: GOOS=linux GOARCH=amd64 make build
 
-    - name: Download dependencies  
-      run: go get github.com/thesixnetwork/sixnft@latest
+      - name: Binary Test Version
+        run: ./build/sixd version
 
-    - name: Build binary
-      run: make build
+      - name: Binary Test
+        run: ./build/sixd
 
-    - name: Create binary folder
-      run: mkdir $BINARY_VERSION
+      - name: Auth GCLOUD
+        uses: "google-github-actions/auth@v2"
+        with:
+          credentials_json: ${{ secrets.SIXNET_BINARIES_SA_KEY }}
 
-    - name: Copy binary to version folder
-      run: cp ./build/sixd ./$BINARY_VERSION/sixd
+      - name: Setup Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
 
-    - name: Check architecture
-      run: go env GOOS GOARCH
-    
-    - name: Binary Test Version
-      run: $BINARY_VERSION/sixd version
+      - name: Upload to cloud storage
+        uses: "google-github-actions/upload-cloud-storage@v2"
+        with:
+          path: ./build/sixd
+          destination: ${{ secrets.SIXNET_BINARIES_BUCKET }}/sixchain/${{ github.event.release.tag_name }}/sixd
 
-    - name: Binary Test
-      run: $BINARY_VERSION/sixd
-
-    - name: Upload to cloud storage
-      uses: google-github-actions/upload-cloud-storage@v0
-      with:
-        path: ${{ github.event.release.tag_name }}
-        destination: ${{ secrets.SIXNET_BINARIES_BUCKET }}
