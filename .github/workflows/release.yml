@@ -13,13 +13,14 @@ jobs:
     container:
       image: golang:1.24-alpine
     if: startsWith(github.ref, 'refs/tags/v')
+    env:
+      BINARY_VERSION: ${{ github.event_name == 'release' && github.event.release.tag_name || github.sha }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Install build dependencies (for CGO with musl)
         run: |
-          # Update apk package list
           apk update
           apk add --no-cache build-base linux-headers
 
@@ -28,6 +29,7 @@ jobs:
           GOOS=linux GOARCH=amd64 \
           CC=gcc \
           LDFLAGS="-linkmode external -extldflags=-static" \
+          VERSION=${{ env.BINARY_VERSION }}
           make build
 
       - name: Binary Test Version
