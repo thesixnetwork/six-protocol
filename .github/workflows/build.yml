@@ -53,7 +53,7 @@ jobs:
         # you might need to replace 'make build' with a direct 'go build' command here.
         run: |
           GOOS=linux GOARCH=amd64 \
-          CC=musl-gcc \
+          CC=gcc \
           LDFLAGS="-linkmode external -extldflags=-static" \
           make build # Assuming 'make build' handles these environment variables
 
