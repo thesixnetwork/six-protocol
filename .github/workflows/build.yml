@@ -24,8 +24,8 @@ jobs:
         with:
           go-version: "1.24"
 
-      - name: Set up GCC & Make
-        run: sudo apt-get update && sudo apt-get install -y build-essential
+      #- name: Set up GCC & Make
+      #  run: sudo apt-get update && sudo apt-get install -y build-essential
 
       - name: Build binary
         run: GOOS=linux GOARCH=amd64 make build
@@ -49,3 +49,4 @@ jobs:
         with:
           path: ./build/sixd
           destination: ${{ secrets.SIXNET_BINARIES_BUCKET }}/sixchain/$BINARY_VERSION/sixd
+          process_gcloudignore: false
