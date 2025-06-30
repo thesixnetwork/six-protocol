@@ -9,43 +9,39 @@ on:
       - feature/**
 
 jobs:
-  build-linux-amd64: # Job 1: Builds the binary inside the Alpine container
-    name: Build linux/amd64 binary (musl)
-    runs-on: ubuntu-latest # Host for the Docker container
+  release-linux-amd64-to-bucket:
+    name: release linux/amd64 to bucket
+    runs-on: ubuntu-latest
     container:
-      image: golang:1.24-alpine # Your Go build environment with musl
+      image: golang:1.24-alpine
 
+    env:
+      GCS_BUCKET: ${{ secrets.SIXNET_BINARIES_BUCKET }}
+      BINARY_VERSION: "dev"
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Install build dependencies (for CGO with musl)
         run: |
+          # Update apk package list
           apk update
-          apk add --no-cache build-base linux-headers # No sudo needed for apk
+          apk add --no-cache build-base linux-headers
 
       - name: Build binary
         run: |
           GOOS=linux GOARCH=amd64 \
-          CC=gcc \ # On Alpine, 'gcc' is the musl-compatible C compiler
+          CC=gcc \
           LDFLAGS="-linkmode external -extldflags=-static" \
-          make build # Assuming this correctly places output at ./build/sixd
-
-      - name: Debug - List contents after build
-        run: |
-          echo "Contents of ./build/ directory:"
-          ls -F ./build/ || echo "  ./build/ directory not found or empty."
-          # If the binary is found, ensure ./build/sixd exists based on previous fixes.
+          make build
 
       - name: Binary Test Version
-        run: ./build/sixd version # Tests binary directly in container
+        run: ./build/sixd version
 
       - name: Binary Test
-        run: ./build/sixd # Tests binary directly in container
+        run: ./build/sixd
 
       - name: Upload binary artifact
-        # This action uploads the compiled binary from the container's workspace
-        # to GitHub's artifact storage, making it available for subsequent jobs.
         uses: actions/upload-artifact@v4
         with:
           name: sixd-binary # Name of the artifact
