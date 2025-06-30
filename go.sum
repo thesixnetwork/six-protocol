@@ -1249,6 +1249,8 @@ github.com/thesixnetwork/cosmos-sdk/api v0.7.6-six h1:otMcn5xC7PAyera9wruhvV1NcZ
 github.com/thesixnetwork/cosmos-sdk/api v0.7.6-six/go.mod h1:iiFHuLEzId8J1wcdqkeq9G8zL/5wOLPeAQB4G2PMRsI=
 github.com/thesixnetwork/cosmos-sdk/store v1.1.1 h1:BeCcB2FnUwtVs3VwBVnfiENqz7vD8OpY2zKx9SXFkg0=
 github.com/thesixnetwork/cosmos-sdk/store v1.1.1/go.mod h1:8DwVTz83/2PSI366FERGbWSH7hL6sB7HbYp8bqksNwM=
+github.com/thesixnetwork/evmos/v20 v20.0.1-0.20250630050649-0868367615fd h1:0xMn4eINt03iTNaf+jfyjJB/FweK/GCkdwG/3kgb6n8=
+github.com/thesixnetwork/evmos/v20 v20.0.1-0.20250630050649-0868367615fd/go.mod h1:NOXazUaDSmET/E8cBKGqXmVHQ0hVNpZ17jA7UiPMk3c=
 github.com/thesixnetwork/go-ethereum v1.13.6-0.20250607133945-ba2bad3ed2da h1:67d3GAjlFgAISSaWKepF3TZCVShpApUNtkSGHrSjpRk=
 github.com/thesixnetwork/go-ethereum v1.13.6-0.20250607133945-ba2bad3ed2da/go.mod h1:0NZ9oFK+iUgZtgUs5ro+re3VG/446p0upk2SOeuonDw=
 github.com/tidwall/btree v1.7.0 h1:L1fkJH/AuEh5zBnnBbmTwQ5Lt+bRJ5A8EWecslvo9iI=
