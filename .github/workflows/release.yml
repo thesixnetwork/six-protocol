@@ -24,14 +24,14 @@ jobs:
       - name: Install build dependencies (for CGO with musl)
         run: |
           apk update
-          apk add --no-cache build-base linux-headers
+          apk add --no-cache build-base linux-headers git
 
       - name: Build binary
         run: |
           GOOS=linux GOARCH=amd64 \
           CC=gcc \
           LDFLAGS="-linkmode external -extldflags=-static" \
-          VERSION=${{ env.BINARY_VERSION }} make build
+          make build
 
       - name: Debug - List contents after build
         run: |
