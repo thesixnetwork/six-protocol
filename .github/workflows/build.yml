@@ -26,6 +26,8 @@ jobs:
 
       #- name: Set up GCC & Make
       #  run: sudo apt-get update && sudo apt-get install -y build-essential
+      - name: update package
+        run: apt-get update && apt-get install -y gcc make git wget
 
       - name: Build binary
         run: CGO_ENABLED=0 GOOS=linux GOARCH=amd64 make build
