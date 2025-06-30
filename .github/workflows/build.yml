@@ -11,7 +11,7 @@ on:
 jobs:
   release-linux-amd64-to-bucket:
     name: release linux/amd64 to bucket
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
       GCS_BUCKET: ${{ secrets.SIXNET_BINARIES_BUCKET }}
       BINARY_VERSION: "dev"
@@ -28,7 +28,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y build-essential gcc
 
       - name: Build binary
-        run: CGO_ENABLED=0 GOOS=linux GOARCH=amd64 make build
+        run: GOOS=linux GOARCH=amd64 make build
 
       - name: Binary Test Version
         run: ./build/sixd version
