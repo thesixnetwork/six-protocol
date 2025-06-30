@@ -1,8 +1,12 @@
 name: Build App
 
 on:
-  release:
-    types: [released]
+  pull_request:
+  merge_group:
+  push:
+    branches:
+      - development
+      - feature/**
 
 jobs:
   build-container:
