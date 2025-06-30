@@ -41,8 +41,8 @@ jobs:
       - name: Binary Test
         run: ./build/sixd
 
-      - name: Copy binary to host workspace
-        run: mv ./build/sixd /__w/${{ github.repository }}/sixd
+      #- name: Copy binary to host workspace
+      #  run: mv ./build/sixd /__w/${{ github.repository }}/sixd
 
       - name: Install Python for gcloud (on host runner)
         run: |
@@ -67,6 +67,6 @@ jobs:
         uses: "google-github-actions/upload-cloud-storage@v2"
         with:
           # Path refers to the file on the host's filesystem, where we moved it.
-          path: /__w/${{ github.repository }}/sixd
+          path: ./build/sixd
           destination: ${{ env.GCS_BUCKET }}/sixchain/${{ env.BINARY_VERSION }}/.
           process_gcloudignore: false
