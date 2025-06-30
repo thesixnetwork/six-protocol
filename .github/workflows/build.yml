@@ -6,10 +6,7 @@ on:
   push:
     branches:
       - develop
-    # If you intend to trigger this workflow on GitHub Releases,
-    # uncomment the 'release' event type below.
-    # release:
-    #   types: [published]
+      - feature/**
 
 jobs:
   release-linux-amd64-to-bucket:
