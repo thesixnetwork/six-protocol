@@ -1,40 +1,38 @@
 name: Build App
 
 on:
-  pull_request:
-  merge_group:
-  push:
-    branches:
-      - development
-      - feature/**
+  release:
+    types: [released]
 
 jobs:
-  release-linux-amd64-to-bucket:
-    name: release linux/amd64 to bucket
-    runs-on: ubuntu-22.04
+  build-container:
+    name: Build in Ubuntu 20.04 container
+    runs-on: ubuntu-latest
     env:
       GCS_BUCKET: ${{ secrets.SIXNET_BINARIES_BUCKET }}
-      BINARY_VERSION: "dev"
+      BINARY_VERSION: ${{ github.event.release.tag_name }}
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup - golang
-        uses: actions/setup-go@v3
+      - name: Build in Ubuntu 20.04
+        uses: addnab/docker-run-action@v3
         with:
-          go-version: "1.24"
+          image: ubuntu:20.04
+          options: -v ${{ github.workspace }}:/workspace
+          run: |
+            apt-get update
+            apt-get install -y gcc make git wget
+            wget https://go.dev/dl/go1.24.0.linux-amd64.tar.gz
+            tar -C /usr/local -xzf go1.24.0.linux-amd64.tar.gz
+            export PATH=$PATH:/usr/local/go/bin
+            cd /workspace
+            go mod tidy
+            make build
+            chmod +x ./build/sixd
 
-      - name: Set up GCC & Make
-        run: sudo apt-get update && sudo apt-get install -y build-essential gcc libc6
-
-      - name: Build binary
-        run: GOOS=linux GOARCH=amd64 make build
-
-      - name: Binary Test Version
+      - name: Test version
         run: ./build/sixd version
-
-      - name: Binary Test
-        run: ./build/sixd
 
       - name: Auth GCLOUD
         uses: "google-github-actions/auth@v2"
