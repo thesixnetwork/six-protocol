@@ -65,13 +65,6 @@ jobs:
         # This step runs inside the container.
         run: ./build/sixd
 
-      - name: Copy binary to host workspace
-        # This is crucial. The subsequent GCloud actions run on the host, not inside the container.
-        # We need to move the built binary from the container's filesystem to the host's shared workspace.
-        # The workspace path is typically /__w/<repo-name>/<repo-name>/ on the host.
-        # We'll move it to /__w/${{ github.repository }}/sixd for easy access.
-        run: mv ./build/sixd /__w/${{ github.repository }}/sixd
-
       - name: Auth GCLOUD
         # This action runs on the host.
         uses: "google-github-actions/auth@v2"
@@ -87,7 +80,7 @@ jobs:
         uses: "google-github-actions/upload-cloud-storage@v2"
         with:
           # Path refers to the file on the host's filesystem, where we moved it.
-          path: /__w/${{ github.repository }}/sixd
+          path: ./build/sixd
           destination: ${{ env.GCS_BUCKET }}/sixchain/${{ env.BINARY_VERSION }}/.
           # project_id is often inferred by the auth action, but can be explicit if needed.
           # project_id: your-gcloud-project-id # Uncomment and set if necessary
