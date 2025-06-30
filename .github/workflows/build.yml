@@ -5,50 +5,92 @@ on:
   merge_group:
   push:
     branches:
-      - development
-      - feature/**
+      - develop
+    # If you intend to trigger this workflow on GitHub Releases,
+    # uncomment the 'release' event type below.
+    # release:
+    #   types: [published]
 
 jobs:
-  build-container:
-    name: Build in Ubuntu 20.04 container
-    runs-on: ubuntu-latest
+  release-linux-amd64-to-bucket:
+    name: release linux/amd64 to bucket
+    runs-on: ubuntu-latest # The host runner, which will run the Docker container
+    container:
+      # Use an Alpine-based Go image for musl libc.
+      # Ensure the Go version matches your project's requirements.
+      image: golang:1.24-alpine # This image includes Go 1.24 and Alpine's musl environment
+
     env:
-      GCS_BUCKET: ${{ secrets.SIXNET_BINARIES_BUCKET }}
-      BINARY_VERSION: ${{ github.event.release.tag_name }}
+      # Determine BINARY_VERSION based on event type.
+      # If it's a release event, use the tag name. Otherwise, use the commit SHA.
+      # For your current triggers (push to develop, pull_request, merge_group),
+      # github.event.release.tag_name will be empty, so it will fall back to github.sha.
+      BINARY_VERSION: ${{ github.event_name == 'release' && github.event.release.tag_name || github.sha }}
+      GCS_BUCKET: ${{ secrets.SIXNET_BINARIES_BUCKET }} # Used in the upload step
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4 # Updated to v4
 
-      - name: Build in Ubuntu 20.04
-        uses: addnab/docker-run-action@v3
-        with:
-          image: ubuntu:20.04
-          options: -v ${{ github.workspace }}:/workspace
-          run: |
-            apt-get update
-            apt-get install -y gcc make git wget
-            wget https://go.dev/dl/go1.24.0.linux-amd64.tar.gz
-            tar -C /usr/local -xzf go1.24.0.linux-amd64.tar.gz
-            export PATH=$PATH:/usr/local/go/bin
-            cd /workspace
-            go mod tidy
-            make build
-            chmod +x ./build/sixd
+      # The 'golang:1.24-alpine' container image already includes Go 1.24,
+      # so 'actions/setup-go' is not needed here.
 
-      - name: Test version
+      - name: Install build dependencies (for CGO with musl)
+        run: |
+          # Update apk package list
+          apk update
+          # Install 'build-base' which provides musl-gcc, make, and other essential build tools.
+          # Add any other C development libraries your specific CGO dependencies might need.
+          # For example, if your CGO code links against SQLite, you might add 'sqlite-dev'.
+          apk add --no-cache build-base
+          # Example for other common CGO dependencies:
+          # apk add --no-cache libpq-dev # For PostgreSQL
+          # apk add --no-cache openssl-dev # For OpenSSL related CGO
+
+      - name: Build binary
+        # CGO_ENABLED=1 is implicitly set by Go when CGO code is detected and CGO_ENABLED is not 0.
+        # We explicitly set CC to musl-gcc and pass ldflags for static linking.
+        # IMPORTANT: Ensure your Makefile's 'build' target (if it exists) correctly
+        # propagates these environment variables (GOOS, GOARCH, CC, LDFLAGS)
+        # to the underlying 'go build' command. If your Makefile doesn't,
+        # you might need to replace 'make build' with a direct 'go build' command here.
+        run: |
+          GOOS=linux GOARCH=amd64 \
+          CC=musl-gcc \
+          LDFLAGS="-linkmode external -extldflags=-static" \
+          make build # Assuming 'make build' handles these environment variables
+
+      - name: Binary Test Version
+        # This step runs inside the container, so the binary is directly available.
         run: ./build/sixd version
 
+      - name: Binary Test
+        # This step runs inside the container.
+        run: ./build/sixd
+
+      - name: Copy binary to host workspace
+        # This is crucial. The subsequent GCloud actions run on the host, not inside the container.
+        # We need to move the built binary from the container's filesystem to the host's shared workspace.
+        # The workspace path is typically /__w/<repo-name>/<repo-name>/ on the host.
+        # We'll move it to /__w/${{ github.repository }}/sixd for easy access.
+        run: mv ./build/sixd /__w/${{ github.repository }}/sixd
+
       - name: Auth GCLOUD
+        # This action runs on the host.
         uses: "google-github-actions/auth@v2"
         with:
           credentials_json: ${{ secrets.SIXNET_BINARIES_SA_KEY }}
 
       - name: Setup Cloud SDK
+        # This action runs on the host.
         uses: google-github-actions/setup-gcloud@v2
 
       - name: Upload to cloud storage
+        # This action runs on the host.
         uses: "google-github-actions/upload-cloud-storage@v2"
         with:
-          path: ./build/sixd
-          destination: ${{ secrets.SIXNET_BINARIES_BUCKET }}/sixchain/${{ env.BINARY_VERSION }}/.
-          process_gcloudignore: false
+          # Path refers to the file on the host's filesystem, where we moved it.
+          path: /__w/${{ github.repository }}/sixd
+          destination: ${{ env.GCS_BUCKET }}/sixchain/${{ env.BINARY_VERSION }}/.
+          # project_id is often inferred by the auth action, but can be explicit if needed.
+          # project_id: your-gcloud-project-id # Uncomment and set if necessary
