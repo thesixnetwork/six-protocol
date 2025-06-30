@@ -39,7 +39,7 @@ jobs:
           # Install 'build-base' which provides musl-gcc, make, and other essential build tools.
           # Add any other C development libraries your specific CGO dependencies might need.
           # For example, if your CGO code links against SQLite, you might add 'sqlite-dev'.
-          apk add --no-cache build-base
+          apk add --no-cache build-base linux-headers
           # Example for other common CGO dependencies:
           # apk add --no-cache libpq-dev # For PostgreSQL
           # apk add --no-cache openssl-dev # For OpenSSL related CGO
