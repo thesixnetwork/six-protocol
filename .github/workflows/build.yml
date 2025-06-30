@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - development
+      - feature/**
 
 jobs:
   release-linux-amd64-to-bucket:
