@@ -13,7 +13,9 @@ accounts:
 - name: alice
   coins:
   - 100000000000000usix
-  mnemonic: history perfect across group seek acoustic delay captain sauce audit carpet tattoo exhaust green there giant cluster want pond bulk close screen scissors remind
+  mnemonic: history perfect across group seek acoustic delay captain sauce audit carpet
+    tattoo exhaust green there giant cluster want pond bulk close screen scissors
+    remind
 - name: bob
   coins:
   - 200000000000000usix
@@ -103,8 +105,6 @@ genesis:
         base_fee_change_denominator: 8
         elasticity_multiplier: 4
         enable_height: "0"
-        # legacy_base_fee: "20000000000"
-        # legacy_min_gas_price: "20000000000.0"
         min_gas_multiplier: "0.5"
         min_gas_price: "5000000000.0"
         no_base_fee: false
@@ -202,16 +202,12 @@ validators:
     json-rpc:
       address: 0.0.0.0:8545
       allow-unprotected-txs: true
-      ws-address: 0.0.0.0:8546
       api: eth,txpool,personal,net,debug,web3
       enable: true
-      # enable-indexer: true // disable this coz cannot stop server
+      ws-address: 0.0.0.0:8546
     log_level: info
     minimum-gas-prices: 1.25usix
   config:
-    # consensus:
-    #   timeout_propose: "3s"
-    #   timeout_commit: "5s"
     moniker: mychain
   client:
     broadcast-mode: sync
