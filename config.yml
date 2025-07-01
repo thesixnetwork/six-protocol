@@ -52,6 +52,8 @@ client:
     path: vue/src/store
   composables:
     path: vue/src/composables
+  hooks:
+    path: react/src/hooks
   openapi:
     path: docs/static/openapi.yml
 genesis:

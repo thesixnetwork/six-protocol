@@ -11,6 +11,7 @@ ts-client/
 build/
 vue/src/store/generated/
 vue/src/composables/
+react/
 .env
 
 /**/wasmvm/
