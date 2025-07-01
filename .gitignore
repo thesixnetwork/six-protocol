@@ -10,6 +10,7 @@ release/
 ts-client/
 build/
 vue/src/store/generated/
+vue/src/composables/
 .env
 
 /**/wasmvm/

@@ -50,6 +50,8 @@ client:
     path: ts-client
   vuex:
     path: vue/src/store
+  composables:
+    path: vue/src/composables
   openapi:
     path: docs/static/openapi.yml
 genesis:
