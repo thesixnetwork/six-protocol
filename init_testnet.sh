@@ -35,8 +35,8 @@ go mod tidy
 make install
 
 # Set client config
-sixd config keyring-backend $KEYRING --home ${SIX_HOME}
-sixd config chain-id $CHAINID --home ${SIX_HOME}
+sixd config set client chain-id $CHAINID --home ${SIX_HOME}
+sixd config set client keyring-backend $KEYRING --home ${SIX_HOME}
 
 # if $KEY exists it should be deleted
 # mint to validator
