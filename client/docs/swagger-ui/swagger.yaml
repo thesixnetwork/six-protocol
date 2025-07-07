@@ -3,9 +3,6 @@ info:
   title: SIX Chain - gRPC Gateway docs
   description: A REST interface for state queries and transactions
   version: 1.0.0
-securityDefinitions:
-  default:
-    type: basic
 paths:
   /thesixnetwork/six-protocol/nftadmin/params:
     get:
