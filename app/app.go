@@ -1181,12 +1181,12 @@ func GetMaccPerms() map[string][]string {
 
 // RegisterTendermintService implements the Application.RegisterTendermintService method.
 func (app *App) RegisterTendermintService(clientCtx client.Context) {
-	cmtApp := server.NewCometABCIWrapper(app)
+	// cmtApp := server.NewCometABCIWrapper(app)
 	cmtservice.RegisterTendermintService(
 		clientCtx,
 		app.BaseApp.GRPCQueryRouter(),
 		app.interfaceRegistry,
-		cmtApp.Query,
+		app.Query,
 	)
 }
 
