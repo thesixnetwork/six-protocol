@@ -58,8 +58,8 @@ import (
 	"github.com/spf13/cast"
 
 	"github.com/thesixnetwork/six-protocol/app/ante"
-	"github.com/thesixnetwork/six-protocol/docs"
 	swagger "github.com/thesixnetwork/six-protocol/client/docs"
+	"github.com/thesixnetwork/six-protocol/docs"
 	nftadminmodulekeeper "github.com/thesixnetwork/six-protocol/x/nftadmin/keeper"
 	nftadminmodule "github.com/thesixnetwork/six-protocol/x/nftadmin/module"
 	nftadminmoduletypes "github.com/thesixnetwork/six-protocol/x/nftadmin/types"
