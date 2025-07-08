@@ -14,7 +14,6 @@ var SwaggerUI embed.FS
 
 // RegisterSwaggerAPI provides a common function which registers swagger route with API Server
 func RegisterSwaggerAPI(_ client.Context, rtr *mux.Router) error {
-
 	root, err := fs.Sub(SwaggerUI, "swagger-ui")
 	if err != nil {
 		return err
