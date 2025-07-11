@@ -1,9 +1,0 @@
-{
-  "title": "Upgrade-v4.0.0",
-  "authors": ["devddee"],
-  "summary": "Upgrade CosmosSDK from v0.45.x to v0.50.x",
-  "details": "Upgrade CosmosSDK from v0.45.x to v0.50.x",
-  "proposal_forum_url": "-",
-  "vote_option_context": "Yes will be upgrade"
-}
-
