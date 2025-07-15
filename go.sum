@@ -1243,8 +1243,8 @@ github.com/syndtr/goleveldb v1.0.1-0.20210819022825-2ae1ddf74ef7 h1:epCh84lMvA70
 github.com/syndtr/goleveldb v1.0.1-0.20210819022825-2ae1ddf74ef7/go.mod h1:q4W45IWZaF22tdD+VEXcAWRA037jwmWEB5VWYORlTpc=
 github.com/tendermint/go-amino v0.16.0 h1:GyhmgQKvqF82e2oZeuMSp9JTN0N09emoSZlb2lyGa2E=
 github.com/tendermint/go-amino v0.16.0/go.mod h1:TQU0M1i/ImAo+tYpZi73AU3V/dKeCoMC9Sphe2ZwGME=
-github.com/thesixnetwork/cosmos-sdk v0.50.11-0.20250627052459-92b5d1477300 h1:iKKVB/+x+8Ybk0+FJcqisdXBXaIDiV8/wTaTZFaEVDA=
-github.com/thesixnetwork/cosmos-sdk v0.50.11-0.20250627052459-92b5d1477300/go.mod h1:6Eesrx3ZE7vxBZWpK++30H+Uc7Q4ahQWCL7JKU/LEdU=
+github.com/thesixnetwork/cosmos-sdk v0.50.11-0.20250715132102-9b2b60820607 h1:QzgdQdP0S7WxBaVsQUZevuCp/PnGwzSZLSN/DgnbTnE=
+github.com/thesixnetwork/cosmos-sdk v0.50.11-0.20250715132102-9b2b60820607/go.mod h1:4X3SgQ9Al2mECTdn+7U02H59CAJtjMzDthU8y0ehrOI=
 github.com/thesixnetwork/cosmos-sdk/api v0.7.6-six h1:otMcn5xC7PAyera9wruhvV1NcZzU1z2ESZQIC60csvE=
 github.com/thesixnetwork/cosmos-sdk/api v0.7.6-six/go.mod h1:iiFHuLEzId8J1wcdqkeq9G8zL/5wOLPeAQB4G2PMRsI=
 github.com/thesixnetwork/cosmos-sdk/store v1.1.1 h1:BeCcB2FnUwtVs3VwBVnfiENqz7vD8OpY2zKx9SXFkg0=
