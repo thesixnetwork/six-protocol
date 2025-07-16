@@ -1,8 +1,14 @@
 MONIKER=$1
+VAL_MODE=$2
 # if empty, default to "testnet"
 if [ -z "$MONIKER" ]; then
   MONIKER="mynode"
 fi
+
+if [ -z "$VAL_MODE" ]; then
+  VAL_MODE=0
+fi
+
 VALKEY=val1 # should be: export as docker env var
 SIX_HOME=~/.six
 ALICE_MNEMONIC="history perfect across group seek acoustic delay captain sauce audit carpet tattoo exhaust green there giant cluster want pond bulk close screen scissors remind"
@@ -141,8 +147,17 @@ echo $KEYRING
 echo $KEY
 # Sign genesis transaction
 # Increase staking amount to be above the DefaultPowerReduction threshold (1,374,398,479,744 usix)
-sixd genesis gentx val1 1000000000usix --keyring-backend $KEYRING --chain-id $CHAINID --home ${SIX_HOME}
-#sixd gentx $KEY2 1000000000000000000000usix --keyring-backend $KEYRING --chain-id $CHAINID
+
+if [ "$VAL_MODE" = "0" ]; then
+  sixd genesis gentx val1 1000000000000usix --min-self-delegation="10000000000" --validator-mode=0 --min-delegation="10000000000" --enable-redelegation=false --keyring-backend $KEYRING --chain-id $CHAINID
+elif [ "$VAL_MODE" = "1" ]; then
+  sixd genesis gentx val1 1500000000000usix --min-self-delegation="10000000000" --validator-mode=1 --min-delegation="10000000000" --delegation-increment="10000000000" --max-license=1000 --enable-redelegation=false --keyring-backend $KEYRING --chain-id $CHAINID --home ${SIX_HOME}
+elif [ "$VAL_MODE" = "2" ]; then
+  sixd genesis gentx val1 1000000000000usix --min-self-delegation="10000000000" --validator-mode=2 --min-delegation="10000000000" --enable-redelegation=false --keyring-backend $KEYRING --chain-id $CHAINID
+else
+  echo "Invalid validator mode: $VAL_MODE. Using default mode 0."
+  sixd genesis gentx val1 1000000000000usix --min-self-delegation="10000000000" --validator-mode=0 --min-delegation="10000000000" --enable-redelegation=false --keyring-backend $KEYRING --chain-id $CHAINID
+fi
 
 # Collect genesis tx
 sixd genesis collect-gentxs --home ${SIX_HOME}
@@ -155,5 +170,5 @@ if [[ $1 == "pending" ]]; then
 fi
 
 # Start the node (remove the --pruning=nothing flag if historical queries are not needed)
-sixd start --minimum-gas-prices=1.25usix,1250000000000asix --json-rpc.api eth,txpool,personal,net,debug,web3 --rpc.laddr "tcp://0.0.0.0:26657" --api.enable true --trace --log_level ${LOGLEVEL} --home ${SIX_HOME}
+sixd start --minimum-gas-prices=1.25usix,1250000000000asix --json-rpc.api eth,txpool,personal,net,debug,web3 --rpc.laddr "tcp://0.0.0.0:26657" --api.enable true $TRACE --log_level ${LOGLEVEL} --home ${SIX_HOME}
 
