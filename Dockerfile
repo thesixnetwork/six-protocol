@@ -19,7 +19,7 @@ RUN go install github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@latest
 
 RUN LEDGER_ENABLED=false BUILD_TAGS=muslc make build
 
-FROM alpine:3.15
+FROM alpine:3.22
 
 WORKDIR /root
 COPY --from=go-builder /go/src/github.com/thesixnetwork/six-protocol/build/sixd /usr/bin/sixd
