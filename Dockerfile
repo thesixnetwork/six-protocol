@@ -14,22 +14,18 @@ WORKDIR /go/src/github.com/thesixnetwork/six-protocol
 COPY . /go/src/github.com/thesixnetwork/six-protocol/
 
 # install comovisor
-# RUN go install github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@latest
+RUN go install github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@latest
 # COPY ./build/bin/cosmovisor /go/bin/cosmovisor
 
-# force it to use static lib (from above) not standard libgo_cosmwasm.so file
 RUN LEDGER_ENABLED=false BUILD_TAGS=muslc make build
-# RUN file /go/src/github.com/thesixnetwork/six-protocol/build/sixd
 
-## Final image for running sixd
-# --------------------------------------------------------
 FROM alpine:3.15
 
 WORKDIR /root
 COPY --from=go-builder /go/src/github.com/thesixnetwork/six-protocol/build/sixd /usr/bin/sixd
-# COPY --from=go-builder /go/bin/cosmovisor /usr/bin/cosmovisor
+COPY --from=go-builder /go/bin/cosmovisor /usr/bin/cosmovisor
 
-# RUN chmod +x /usr/bin/cosmovisor
+RUN chmod +x /usr/bin/cosmovisor
 # install necessary libraries for binary to run
 RUN apk upgrade --no-cache && apk add bash git libgcc jq curl tzdata
 
