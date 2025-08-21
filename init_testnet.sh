@@ -11,20 +11,13 @@ fi
 
 VALKEY=val1 # should be: export as docker env var
 SIX_HOME=~/.six
+
 ALICE_MNEMONIC="history perfect across group seek acoustic delay captain sauce audit carpet tattoo exhaust green there giant cluster want pond bulk close screen scissors remind"
 BOB_MNEMONIC="limb sister humor wisdom elephant weasel beyond must any desert glance stem reform soccer include chest chef clerk call popular display nerve priority venture"
 VAL1_MNEMONIC="note base stone list envelope tail start forget alarm acoustic cook occur divert giant bike curtain chase shuffle fade glow capital slot file provide"
-VAL2_MNEMONIC="strike tower consider despair bridge diesel clay celery violin base hello ride they weather tunnel elite truth oblige spot hen wise flag pet battle"
-VAL3_MNEMONIC="canvas human require month loan oak december blame grit palm slice error absorb total spice autumn trouble soda repeat shove quit bid forward organ"
-VAL4_MNEMONIC="grant raw marine drink text dove flat waste wish buzz output hand merge cluster civil clog stay alert silent reunion idea cake village almost"
-ORACLE1_MNEMONIC="list split future remain scene cheap pledge forum siren purse bright ivory split morning swing dumb fabric rapid remove worth diary task island donkey"
-ORACLE2_MNEMONIC="achieve rice anger junk delay glove slam find poem feed emerge next core twice kitchen road proof remain notice slice walk super piece father"
-ORACLE3_MNEMONIC="hint expose mix lemon leave genuine host fiction peasant daughter enable region mixture bean soda auction armed turtle iron become bracket wasp drama front"
-ORACLE4_MNEMONIC="clown cabbage clean design mosquito surround citizen virus kite castle sponsor wife lesson coffee alien panel hand together good crazy fabric mouse hat town"
 SUPER_ADMIN_MNEMONIC="expect peace defense conduct virtual flight flip unit equip solve broccoli protect shed group else useless tree such tornado minimum decade tower warfare galaxy"
 KEY="mykey"
-KEY2="mykey2"
-CHAINID="testnet"
+CHAIN_ID="testnet"
 KEYRING="test"
 KEYALGO="secp256k1"
 LOGLEVEL="info"
@@ -41,7 +34,7 @@ go mod tidy
 make install
 
 # Set client config
-sixd config set client chain-id $CHAINID --home ${SIX_HOME}
+sixd config set client chain-id $CHAIN_ID --home ${SIX_HOME}
 sixd config set client keyring-backend $KEYRING --home ${SIX_HOME}
 
 # if $KEY exists it should be deleted
@@ -50,16 +43,9 @@ echo $SUPER_ADMIN_MNEMONIC | sixd keys add super-admin --recover --home ${SIX_HO
 echo $ALICE_MNEMONIC | sixd keys add alice --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO}
 echo $BOB_MNEMONIC | sixd keys add bob --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO}
 echo $VAL1_MNEMONIC | sixd keys add val1 --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO}
-echo $VAL2_MNEMONIC | sixd keys add val2 --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO}
-echo $VAL3_MNEMONIC | sixd keys add val3 --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO}
-echo $VAL4_MNEMONIC | sixd keys add val4 --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO}
-echo $ORACLE1_MNEMONIC | sixd keys add oracle1 --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO}
-echo $ORACLE2_MNEMONIC | sixd keys add oracle2 --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO}
-echo $ORACLE3_MNEMONIC | sixd keys add oracle3 --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO}
-echo $ORACLE4_MNEMONIC | sixd keys add oracle4 --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO}
 
 # Set moniker and chain-id for six (Moniker can be anything, chain-id must be an integer)
-sixd init $MONIKER --chain-id $CHAINID --home ${SIX_HOME}
+sixd init $MONIKER --chain-id $CHAIN_ID --home ${SIX_HOME}
 
 # Change parameter token denominations to usix
 ## from stake to usix
@@ -126,37 +112,19 @@ fi
 # Allocate genesis accounts (cosmos formatted addresses)
 ## denom usix
 sixd genesis add-genesis-account $(sixd keys show -a val1 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 11000000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd genesis add-genesis-account $(sixd keys show -a val2 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 11000000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd genesis add-genesis-account $(sixd keys show -a val3 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 11000000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd genesis add-genesis-account $(sixd keys show -a val4 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 11000000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd genesis add-genesis-account $(sixd keys show -a oracle1 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd genesis add-genesis-account $(sixd keys show -a oracle2 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd genesis add-genesis-account $(sixd keys show -a oracle3 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-sixd genesis add-genesis-account $(sixd keys show -a oracle4 --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
 sixd genesis add-genesis-account $(sixd keys show -a alice --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
 sixd genesis add-genesis-account $(sixd keys show -a bob --keyring-backend ${KEYRING} --home ${SIX_HOME}) 10000000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
 sixd genesis add-genesis-account $(sixd keys show -a super-admin --keyring-backend ${KEYRING} --home ${SIX_HOME}) 1000000000000usix --keyring-backend ${KEYRING} --home ${SIX_HOME}
-# Update total supply with claim values
-#validators_supply=$(cat ${SIX_HOME}/config/genesis.json | jq -r '.app_state["bank"]["supply"][0]["amount"]')
-# Bc is required to add this big numbers
-# total_supply=$(bc <<< "$amount_to_claim+$validators_supply")
-# total_supply=1100000000000000000000000000
-# cat ${SIX_HOME}/config/genesis.json | jq -r --arg total_supply "$total_supply" '.app_state["bank"]["supply"][0]["amount"]=$total_supply' > ${SIX_HOME}/config/tmp_genesis.json && mv ${SIX_HOME}/config/tmp_genesis.json ${SIX_HOME}/config/genesis.json
-
-echo $KEYRING
-echo $KEY
-# Sign genesis transaction
-# Increase staking amount to be above the DefaultPowerReduction threshold (1,374,398,479,744 usix)
 
 if [ "$VAL_MODE" = "0" ]; then
-  sixd genesis gentx val1 1000000000000usix --min-self-delegation="10000000000" --validator-mode=0 --min-delegation="10000000000" --enable-redelegation=false --keyring-backend $KEYRING --chain-id $CHAINID
+  sixd genesis gentx val1 1000000000000usix --min-self-delegation="10000000000" --validator-mode=0 --min-delegation="10000000000" --enable-redelegation=false --keyring-backend $KEYRING --chain-id $CHAIN_ID
 elif [ "$VAL_MODE" = "1" ]; then
-  sixd genesis gentx val1 1500000000000usix --min-self-delegation="10000000000" --validator-mode=1 --min-delegation="10000000000" --delegation-increment="10000000000" --max-license=1000 --enable-redelegation=false --keyring-backend $KEYRING --chain-id $CHAINID --home ${SIX_HOME}
+  sixd genesis gentx val1 1500000000000usix --min-self-delegation="10000000000" --validator-mode=1 --min-delegation="10000000000" --delegation-increment="10000000000" --max-license=1000 --enable-redelegation=false --keyring-backend $KEYRING --chain-id $CHAIN_ID --home ${SIX_HOME}
 elif [ "$VAL_MODE" = "2" ]; then
-  sixd genesis gentx val1 1000000000000usix --min-self-delegation="10000000000" --validator-mode=2 --min-delegation="10000000000" --enable-redelegation=false --keyring-backend $KEYRING --chain-id $CHAINID
+  sixd genesis gentx val1 1000000000000usix --min-self-delegation="10000000000" --validator-mode=2 --min-delegation="10000000000" --enable-redelegation=false --keyring-backend $KEYRING --chain-id $CHAIN_ID
 else
   echo "Invalid validator mode: $VAL_MODE. Using default mode 0."
-  sixd genesis gentx val1 1000000000000usix --min-self-delegation="10000000000" --validator-mode=0 --min-delegation="10000000000" --enable-redelegation=false --keyring-backend $KEYRING --chain-id $CHAINID
+  sixd genesis gentx val1 1000000000000usix --min-self-delegation="10000000000" --validator-mode=0 --min-delegation="10000000000" --enable-redelegation=false --keyring-backend $KEYRING --chain-id $CHAIN_ID
 fi
 
 # Collect genesis tx
