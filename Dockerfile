@@ -1,6 +1,6 @@
 # docker build . -t six-protocol/sixd:latest
 # docker run --rm -it cosmoscontracts/sixd:latest /bin/sh
-FROM golang:1.23-alpine AS go-builder
+FROM golang:1.24-alpine AS go-builder
 
 # this comes from standard alpine nightly file
 #  https://github.com/rust-lang/docker-rust-nightly/blob/master/alpine3.12/Dockerfile
@@ -8,13 +8,13 @@ FROM golang:1.23-alpine AS go-builder
 RUN set -eux; apk add --no-cache ca-certificates build-base;
 
 #libc-dev, gcc, linux-headers, eudev-dev are used for cgo and ledger installation
-RUN apk upgrade --no-cache && apk add bash git make libgcc libc-dev gcc linux-headers eudev-dev jq curl
+RUN apk upgrade --no-cache && apk add bash git make libgcc libc-dev gcc linux-headers eudev-dev jq curl binutils-gold
 
 WORKDIR /go/src/github.com/thesixnetwork/six-protocol
 COPY . /go/src/github.com/thesixnetwork/six-protocol/
 
 # install comovisor
-RUN go install github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@latest
+# RUN go install github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@latest
 # COPY ./build/bin/cosmovisor /go/bin/cosmovisor
 
 # force it to use static lib (from above) not standard libgo_cosmwasm.so file
@@ -27,14 +27,14 @@ FROM alpine:3.15
 
 WORKDIR /root
 COPY --from=go-builder /go/src/github.com/thesixnetwork/six-protocol/build/sixd /usr/bin/sixd
-COPY --from=go-builder /go/bin/cosmovisor /usr/bin/cosmovisor
+# COPY --from=go-builder /go/bin/cosmovisor /usr/bin/cosmovisor
 
-RUN chmod +x /usr/bin/cosmovisor
+# RUN chmod +x /usr/bin/cosmovisor
 # install necessary libraries for binary to run
 RUN apk upgrade --no-cache && apk add bash git libgcc jq curl tzdata
 
 # Set timezone
-ENV TZ Asia/Bangkok
+ENV TZ=Asia/Bangkok
 
 # RUN mkdir -p /root/.six
 COPY docker/* /opt/
