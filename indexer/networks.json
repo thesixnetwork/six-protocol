@@ -1,8 +1,8 @@
 {
-  "mainnet": {
+  "local": {
     "ERC20Imp": {
       "address": "0x3753c81072a56072840990d3d02f354efb7425a3",
-      "startBlock": 0
+      "startBlock": 1
     }
   }
 }
