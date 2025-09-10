@@ -8,9 +8,9 @@ import {
 } from "matchstick-as/assembly/index"
 import { Address, BigInt } from "@graphprotocol/graph-ts"
 import { AllAssetUpdatersRevoked } from "../generated/schema"
-import { AllAssetUpdatersRevoked as AllAssetUpdatersRevokedEvent } from "../generated/Contract/Contract"
-import { handleAllAssetUpdatersRevoked } from "../src/contract"
-import { createAllAssetUpdatersRevokedEvent } from "./contract-utils"
+import { AllAssetUpdatersRevoked as AllAssetUpdatersRevokedEvent } from "../generated/ERC20Imp/ERC20Imp"
+import { handleAllAssetUpdatersRevoked } from "../src/erc-20-imp"
+import { createAllAssetUpdatersRevokedEvent } from "./erc-20-imp-utils"
 
 // Tests structure (matchstick-as >=0.5.0)
 // https://thegraph.com/docs/en/subgraphs/developing/creating/unit-testing-framework/#tests-structure

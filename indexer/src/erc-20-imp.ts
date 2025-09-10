@@ -9,7 +9,7 @@ import {
   MultipleHoldersUpdated as MultipleHoldersUpdatedEvent,
   OwnershipTransferred as OwnershipTransferredEvent,
   Transfer as TransferEvent
-} from "../generated/Contract/Contract"
+} from "../generated/ERC20Imp/ERC20Imp"
 import {
   AllAssetUpdatersRevoked,
   Approval,

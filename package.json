@@ -17,6 +17,7 @@
     "vue/",
     "contracts/",
     "ts-client/",
-    "typescript/"
+    "typescript/",
+    "indexer/"
   ]
 }
