@@ -11,7 +11,7 @@ import {
   MultipleHoldersUpdated,
   OwnershipTransferred,
   Transfer
-} from "../generated/Contract/Contract"
+} from "../generated/ERC20Imp/ERC20Imp"
 
 export function createAllAssetUpdatersRevokedEvent(): AllAssetUpdatersRevoked {
   let allAssetUpdatersRevokedEvent =
