@@ -11,3 +11,17 @@ func AccAddress() string {
 	addr := pk.Address()
 	return sdk.AccAddress(addr).String()
 }
+
+// AccAddressBytes returns a sample account address as bytes
+func AccAddressBytes() sdk.AccAddress {
+	pk := ed25519.GenPrivKey().PubKey()
+	addr := pk.Address()
+	return sdk.AccAddress(addr)
+}
+
+// ValAddress returns a sample validator address
+func ValAddress() string {
+	pk := ed25519.GenPrivKey().PubKey()
+	addr := pk.Address()
+	return sdk.ValAddress(addr).String()
+}

@@ -2,11 +2,15 @@ package types
 
 import (
 	"context"
+	"time"
 
+	addresscodec "cosmossdk.io/core/address"
+	"cosmossdk.io/math"
+	
 	protocoladmintypes "github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
-
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
 )
 
@@ -21,8 +25,10 @@ type ProtocoladminKeeper interface {
 type AccountKeeper interface {
 	GetAccount(context.Context, sdk.AccAddress) sdk.AccountI // only used for simulation
 	GetModuleAddress(moduleName string) sdk.AccAddress
+	AddressCodec() addresscodec.Codec
 	// Methods imported from account should be defined here
 }
+
 
 // BankKeeper defines the expected interface for the Bank module.
 type BankKeeper interface {
@@ -49,4 +55,28 @@ type EVMKeeper interface {
 type ParamSubspace interface {
 	Get(context.Context, []byte, interface{})
 	Set(context.Context, []byte, interface{})
+}
+
+// StakingKeeper defines the expected staking keeper methods
+type StakingKeeper interface {
+	ValidatorByConsAddr(sdk.Context, sdk.ConsAddress) stakingtypes.ValidatorI
+	
+	// Delegation methods
+	GetDelegatorDelegations(ctx context.Context, delegator sdk.AccAddress, maxRetrieve uint16) ([]stakingtypes.Delegation, error)
+	SetDelegation(ctx context.Context, delegation stakingtypes.Delegation) error
+	RemoveDelegation(ctx context.Context, delegation stakingtypes.Delegation) error
+	GetDelegatorBonded(ctx context.Context, delegator sdk.AccAddress) (math.Int, error)
+	
+	// Unbonding delegation methods
+	GetUnbondingDelegations(ctx context.Context, delegator sdk.AccAddress, maxRetrieve uint16) ([]stakingtypes.UnbondingDelegation, error)
+	SetUnbondingDelegation(ctx context.Context, ubd stakingtypes.UnbondingDelegation) error
+	RemoveUnbondingDelegation(ctx context.Context, ubd stakingtypes.UnbondingDelegation) error
+	InsertUBDQueue(ctx context.Context, ubd stakingtypes.UnbondingDelegation, completionTime time.Time) error
+	GetDelegatorUnbonding(ctx context.Context, delegator sdk.AccAddress) (math.Int, error)
+	
+	// Redelegation methods
+	GetRedelegations(ctx context.Context, delegator sdk.AccAddress, maxRetrieve uint16) ([]stakingtypes.Redelegation, error)
+	SetRedelegation(ctx context.Context, red stakingtypes.Redelegation) error
+	RemoveRedelegation(ctx context.Context, red stakingtypes.Redelegation) error
+	InsertRedelegationQueue(ctx context.Context, red stakingtypes.Redelegation, completionTime time.Time) error
 }
