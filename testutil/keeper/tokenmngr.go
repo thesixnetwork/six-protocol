@@ -44,6 +44,42 @@ func TokenmngrKeeper(t testing.TB) (keeper.Keeper, sdk.Context) {
 		nil,
 		nil,
 		nil,
+		nil,
+	)
+
+	ctx := sdk.NewContext(stateStore, cmtproto.Header{}, false, log.NewNopLogger())
+
+	// Initialize params
+	if err := k.SetParams(ctx, types.DefaultParams()); err != nil {
+		panic(err)
+	}
+
+	return k, ctx
+}
+
+// TokenmngrKeeperWithDeps creates a tokenmngr keeper with real dependencies for integration testing
+func TokenmngrKeeperWithDeps(t testing.TB, accountKeeper types.AccountKeeper, stakingKeeper types.StakingKeeper) (keeper.Keeper, sdk.Context) {
+	storeKey := storetypes.NewKVStoreKey(types.StoreKey)
+
+	db := dbm.NewMemDB()
+	stateStore := store.NewCommitMultiStore(db, log.NewNopLogger(), metrics.NewNoOpMetrics())
+	stateStore.MountStoreWithDB(storeKey, storetypes.StoreTypeIAVL, db)
+	require.NoError(t, stateStore.LoadLatestVersion())
+
+	registry := codectypes.NewInterfaceRegistry()
+	cdc := codec.NewProtoCodec(registry)
+	authority := authtypes.NewModuleAddress(govtypes.ModuleName)
+
+	k := keeper.NewKeeper(
+		cdc,
+		runtime.NewKVStoreService(storeKey),
+		log.NewNopLogger(),
+		authority.String(),
+		accountKeeper,
+		nil, // bankKeeper - not needed for our test
+		nil, // protocoladminKeeper - not needed for our test
+		nil, // evmKeeper - not needed for our test
+		stakingKeeper,
 	)
 
 	ctx := sdk.NewContext(stateStore, cmtproto.Header{}, false, log.NewNopLogger())
