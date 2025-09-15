@@ -15,6 +15,16 @@
     "inputs": [{ "name": "amount", "type": "uint256", "internalType": "uint256" }],
     "outputs": [{ "name": "success", "type": "bool", "internalType": "bool" }],
     "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "changeDelegatorAddress",
+    "inputs": [
+      { "name": "oldAddr", "type": "address", "internalType": "address" },
+      { "name": "newAddr", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [{ "name": "success", "type": "bool", "internalType": "bool" }],
+    "stateMutability": "nonpayable"
   }
 ]
 
