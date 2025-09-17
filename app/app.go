@@ -662,6 +662,7 @@ func New(
 		app.BankKeeper,
 		app.ProtocoladminKeeper,
 		app.EVMKeeper,
+		app.StakingKeeper,
 	)
 
 	app.NftmngrKeeper = nftmngrmodulekeeper.NewKeeper(
