@@ -11,4 +11,5 @@ interface ITokenFactory {
   function unwrapStakeToken(uint256 amount) external returns (bool success);
 
   function changeDelegatorAddress(address oldAddr, address newAddr) external returns (bool success);
+
 }
