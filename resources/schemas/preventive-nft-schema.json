@@ -303,7 +303,7 @@
           "meta.SetNumber('service_15', 9999)",
           "meta.SetNumber('service_16', 9999)"
         ]
-      },      
+      },
       {
         "name": "update_tier_name",
         "desc": "Use for update tier of user",
@@ -364,7 +364,6 @@
       }
     ]
   },
-  "system_actioners": [
-  ],
+  "system_actioners": [],
   "mint_authorization": "system"
 }

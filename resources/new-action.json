@@ -12,7 +12,5 @@
     }
   ],
   "when": "meta.GetBoolean('started') == true",
-  "then": [
-    "meta.SetNumber('points', meta.GetNumber('points') - params['param1'].GetNumber())"
-  ]
+  "then": ["meta.SetNumber('points', meta.GetNumber('points') - params['param1'].GetNumber())"]
 }

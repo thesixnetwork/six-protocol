@@ -114,25 +114,13 @@ genesis:
     protocoladmin:
       groupList:
         [
-          {
-            name: "super.admin",
-            owner: "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv",
-          },
-          {
-            name: "token.admin",
-            owner: "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv",
-          },
+          { name: "super.admin", owner: "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv" },
+          { name: "token.admin", owner: "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv" },
         ]
       adminList:
         [
-          {
-            group: "super.admin",
-            admin: "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv",
-          },
-          {
-            group: "token.admin",
-            admin: "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv",
-          },
+          { group: "super.admin", admin: "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv" },
+          { group: "token.admin", admin: "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv" },
         ]
     tokenmngr:
       mintpermList:
@@ -187,11 +175,11 @@ genesis:
       authorization:
         root_admin: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
         permissions:
-            permissions:
-              - name: "nft_fee_admin"
+          permissions:
+            - name: "nft_fee_admin"
+              addresses:
                 addresses:
-                  addresses:
-                    - "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"
+                  - "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"
     ### THIS IS DEFAULT CONFIG ON ETHERMINT NO NEED TO SET IT JUST PUT IT HERE FOR REMINDER
     evm:
       params:

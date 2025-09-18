@@ -221,7 +221,7 @@
             "data_type": "number",
             "required": true,
             "default_value": ""
-          },    
+          },
           {
             "name": "expire_date",
             "desc": "set expire date of Privileges",
@@ -236,7 +236,7 @@
           "meta.SetString('expire_date', params['expire_date'].GetString())",
           "meta.SetNumber('service_17', meta.GetNumber('service_17') + group_one)"
         ]
-      },      
+      },
       {
         "name": "update_tier_name",
         "desc": "Use for update tier of user",
@@ -297,7 +297,6 @@
       }
     ]
   },
-  "system_actioners": [
-  ],
+  "system_actioners": [],
   "mint_authorization": "system"
 }
