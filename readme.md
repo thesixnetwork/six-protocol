@@ -16,46 +16,50 @@ SIX Protocol combines the power of Cosmos SDK with EVM compatibility, offering:
 ### Mainnet
 
 #### EVM Integration (Metamask)
-| Parameter | Value |
-|-----------|-------|
-| Network name | SIX Protocol |
-| RPC URL | https://sixnet-rpc-evm.sixprotocol.net |
-| Chain ID | 98 |
-| Currency symbol | SIX |
-| Block explorer | https://evm.sixscan.io/ |
+
+| Parameter       | Value                                  |
+| --------------- | -------------------------------------- |
+| Network name    | SIX Protocol                           |
+| RPC URL         | https://sixnet-rpc-evm.sixprotocol.net |
+| Chain ID        | 98                                     |
+| Currency symbol | SIX                                    |
+| Block explorer  | https://evm.sixscan.io/                |
 
 > Quick setup via [Chainlist](https://chainlist.org/?testnets=false&search=Six+Protocol)
 
 #### Cosmos Integration (Keplr)
-| Parameter | Value |
-|-----------|-------|
-| Network name | SIX Protocol |
-| RPC URL | https://sixnet-rpc.sixprotocol.net |
-| Chain ID | sixnet |
-| Currency symbol | SIX |
-| Block explorer | https://sixscan.io/ |
+
+| Parameter       | Value                              |
+| --------------- | ---------------------------------- |
+| Network name    | SIX Protocol                       |
+| RPC URL         | https://sixnet-rpc.sixprotocol.net |
+| Chain ID        | sixnet                             |
+| Currency symbol | SIX                                |
+| Block explorer  | https://sixscan.io/                |
 
 > Available on [Keplr Chain Registry](https://chains.keplr.app/)
 
 ### Testnet
 
 #### EVM Integration (Metamask)
-| Parameter | Value |
-|-----------|-------|
-| Network name | SIX Protocol Testnet |
-| RPC URL | https://rpc-evm.fivenet.sixprotocol.net |
-| Chain ID | 150 |
-| Currency symbol | tSIX |
-| Block explorer | https://fivenet.evm.sixscan.io/ |
+
+| Parameter       | Value                                   |
+| --------------- | --------------------------------------- |
+| Network name    | SIX Protocol Testnet                    |
+| RPC URL         | https://rpc-evm.fivenet.sixprotocol.net |
+| Chain ID        | 150                                     |
+| Currency symbol | tSIX                                    |
+| Block explorer  | https://fivenet.evm.sixscan.io/         |
 
 #### Cosmos Integration (Keplr)
-| Parameter | Value |
-|-----------|-------|
-| Network name | SIX Protocol Testnet |
-| RPC URL | https://rpc1.fivenet.sixprotocol.net |
-| Chain ID | fivenet |
-| Currency symbol | tSIX |
-| Block explorer | https://sixscan.io/fivenet |
+
+| Parameter       | Value                                |
+| --------------- | ------------------------------------ |
+| Network name    | SIX Protocol Testnet                 |
+| RPC URL         | https://rpc1.fivenet.sixprotocol.net |
+| Chain ID        | fivenet                              |
+| Currency symbol | tSIX                                 |
+| Block explorer  | https://sixscan.io/fivenet           |
 
 ## Why SIX Protocol?
 

@@ -1,18 +1,18 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from "vue-router";
 
-import Data from '../views/Data.vue'
-import Portfolio from '../views/Portfolio.vue'
+import Data from "../views/Data.vue";
+import Portfolio from "../views/Portfolio.vue";
 
-const routerHistory = createWebHistory()
+const routerHistory = createWebHistory();
 const routes = [
-  { path: '/', component: Portfolio },
-  { path: '/portfolio', component: Portfolio },
-  { path: '/data', component: Data }
-]
+  { path: "/", component: Portfolio },
+  { path: "/portfolio", component: Portfolio },
+  { path: "/data", component: Data },
+];
 
 const router = createRouter({
   history: routerHistory,
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;

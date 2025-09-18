@@ -15,11 +15,7 @@ export const wallet = new Wallet(process.env.PRIVATE_KEY, provider);
 
 async function main() {
   const precompileContract = "0x0000000000000000000000000000000000001055";
-  const nftmngr = new ethers.Contract(
-    precompileContract,
-    NFTMngrABI.abi,
-    provider,
-  );
+  const nftmngr = new ethers.Contract(precompileContract, NFTMngrABI.abi, provider);
 
   const tx = await nftmngr
     .connect(wallet)

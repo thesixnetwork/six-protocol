@@ -13,27 +13,27 @@
 </template>
 
 <script>
-import { SpAssets, SpAcc, SpAmountSelect } from '@starport/vue'
-import { computed } from 'vue'
-import { useStore } from 'vuex'
+import { SpAssets, SpAcc, SpAmountSelect } from "@starport/vue";
+import { computed } from "vue";
+import { useStore } from "vuex";
 
 export default {
-  name: 'Portfolio',
+  name: "Portfolio",
 
   components: { SpAcc, SpAssets, SpAmountSelect },
 
   setup() {
     // store
-    let $s = useStore()
+    let $s = useStore();
 
     // computed
-    let address = computed(() => $s.getters['common/wallet/address'])
+    let address = computed(() => $s.getters["common/wallet/address"]);
 
     return {
-      address
-    }
-  }
-}
+      address,
+    };
+  },
+};
 </script>
 
 <style scoped>
