@@ -11,6 +11,7 @@ import (
 const (
 	apiFile   = "/static/openapi.yml"
 	indexFile = "template/index.tpl"
+	swaggerUI = "/client/docs/swagger-ui"
 )
 
 //go:embed static

@@ -1,9 +1,9 @@
 import { TokenboundClient, TBAccountParams } from "@tokenbound/sdk";
 import { JsonRpcProvider, Wallet, formatEther } from "ethers";
 import dotenv from "dotenv";
-dotenv.config()
+dotenv.config();
 
-const RPC_URL = "http://localhost:8545"
+const RPC_URL = "http://localhost:8545";
 
 export const provider = new JsonRpcProvider(RPC_URL);
 
@@ -14,9 +14,8 @@ if (!process.env.TEST_ACCOUNT) {
 
 export const wallet = new Wallet(process.env.TEST_ACCOUNT, provider);
 
-
 export async function getConnectorConfig(
-  network: string,
+  network: string
 ): Promise<{ rpcUrl: string; apiUrl: string; mnemonic: string }> {
   switch (network) {
     case "local":

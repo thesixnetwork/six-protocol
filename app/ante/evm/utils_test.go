@@ -187,9 +187,8 @@ func (suite *AnteTestSuite) CreateTestEIP712MsgEditValidator(from sdk.AccAddress
 		stakingtypes.NewDescription("moniker", "identity", "website", "security_contract", "details"),
 		nil,
 		nil,
+		stakingtypes.ValidatorMode_MODE_NORMAL,
 		&sdkmath.Int{},
-		false,
-		false,
 	)
 	return suite.CreateTestEIP712SingleMessageTxBuilder(priv, chainID, gas, gasAmount, msgEdit)
 }
