@@ -125,9 +125,7 @@
       { "name": "tokenId", "type": "string", "internalType": "string" },
       { "name": "attributeName", "type": "string", "internalType": "string" }
     ],
-    "outputs": [
-      { "name": "value", "type": "string", "internalType": "string" }
-    ],
+    "outputs": [{ "name": "value", "type": "string", "internalType": "string" }],
     "stateMutability": "view"
   },
   {
@@ -137,9 +135,7 @@
       { "name": "nftSchemaCode", "type": "string", "internalType": "string" },
       { "name": "executor", "type": "address", "internalType": "address" }
     ],
-    "outputs": [
-      { "name": "isExecutor", "type": "bool", "internalType": "bool" }
-    ],
+    "outputs": [{ "name": "isExecutor", "type": "bool", "internalType": "bool" }],
     "stateMutability": "view"
   },
   {
@@ -149,9 +145,7 @@
       { "name": "nftSchemaCode", "type": "string", "internalType": "string" },
       { "name": "ownerAddress", "type": "address", "internalType": "address" }
     ],
-    "outputs": [
-      { "name": "isSchemaOwner", "type": "bool", "internalType": "bool" }
-    ],
+    "outputs": [{ "name": "isSchemaOwner", "type": "bool", "internalType": "bool" }],
     "stateMutability": "view"
   },
   {
@@ -324,9 +318,7 @@
         "internalType": "string"
       }
     ],
-    "outputs": [
-      { "name": "proposalId", "type": "uint64", "internalType": "uint64" }
-    ],
+    "outputs": [{ "name": "proposalId", "type": "uint64", "internalType": "uint64" }],
     "stateMutability": "nonpayable"
   },
   {
@@ -341,4 +333,3 @@
     "stateMutability": "nonpayable"
   }
 ]
-

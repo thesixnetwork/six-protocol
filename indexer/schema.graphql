@@ -1,0 +1,94 @@
+type AllAssetUpdatersRevoked @entity(immutable: true) {
+  id: Bytes!
+
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Approval @entity(immutable: true) {
+  id: Bytes!
+  owner: Bytes! # address
+  spender: Bytes! # address
+  value: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type AssetUpdaterAdded @entity(immutable: true) {
+  id: Bytes!
+  updater: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type AssetUpdaterRemoved @entity(immutable: true) {
+  id: Bytes!
+  updater: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type HolderAdded @entity(immutable: true) {
+  id: Bytes!
+  holder: String! # string
+  amount: BigInt! # uint256
+  externalId: String! # string
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type HolderUpdated @entity(immutable: true) {
+  id: Bytes!
+  holder: String! # string
+  previousAmount: BigInt! # uint256
+  amount: BigInt! # uint256
+  externalId: String! # string
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type MultipleHoldersAdded @entity(immutable: true) {
+  id: Bytes!
+  holders: [String!]! # string[]
+  amounts: [BigInt!]! # uint256[]
+  externalIds: [String!]! # string[]
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type MultipleHoldersUpdated @entity(immutable: true) {
+  id: Bytes!
+  holders: [String!]! # string[]
+  previousAmounts: [BigInt!]! # uint256[]
+  amounts: [BigInt!]! # uint256[]
+  holdersExternalIds: [String!]! # string[]
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type OwnershipTransferred @entity(immutable: true) {
+  id: Bytes!
+  previousOwner: Bytes! # address
+  newOwner: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Transfer @entity(immutable: true) {
+  id: Bytes!
+  from: Bytes! # address
+  to: Bytes! # address
+  value: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}

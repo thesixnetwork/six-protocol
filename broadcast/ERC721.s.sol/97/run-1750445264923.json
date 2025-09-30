@@ -6,11 +6,7 @@
       "contractName": "MyNFT",
       "contractAddress": "0x28fc5b77a06a8c5872724dac48f9d6286af35fa1",
       "function": null,
-      "arguments": [
-        "MEM",
-        "MEMBERSHIP",
-        "0xB62ef83643A2F8c95dF78F694C6Bf480f5b786f2"
-      ],
+      "arguments": ["MEM", "MEMBERSHIP", "0xB62ef83643A2F8c95dF78F694C6Bf480f5b786f2"],
       "transaction": {
         "from": "0xb62ef83643a2f8c95df78f694c6bf480f5b786f2",
         "gas": "0x202410",
@@ -28,9 +24,7 @@
       "contractName": "MyNFT",
       "contractAddress": "0x28fc5b77a06a8c5872724dac48f9d6286af35fa1",
       "function": "setPreMinteeAddress(address)",
-      "arguments": [
-        "0xB62ef83643A2F8c95dF78F694C6Bf480f5b786f2"
-      ],
+      "arguments": ["0xB62ef83643A2F8c95dF78F694C6Bf480f5b786f2"],
       "transaction": {
         "from": "0xb62ef83643a2f8c95df78f694c6bf480f5b786f2",
         "to": "0x28fc5b77a06a8c5872724dac48f9d6286af35fa1",
@@ -49,9 +43,7 @@
       "contractName": "MyNFT",
       "contractAddress": "0x28fc5b77a06a8c5872724dac48f9d6286af35fa1",
       "function": "setLimitedEditionSize(uint256)",
-      "arguments": [
-        "50"
-      ],
+      "arguments": ["50"],
       "transaction": {
         "from": "0xb62ef83643a2f8c95df78f694c6bf480f5b786f2",
         "to": "0x28fc5b77a06a8c5872724dac48f9d6286af35fa1",
@@ -70,9 +62,7 @@
       "contractName": "MyNFT",
       "contractAddress": "0x28fc5b77a06a8c5872724dac48f9d6286af35fa1",
       "function": "preMint(uint256)",
-      "arguments": [
-        "50"
-      ],
+      "arguments": ["50"],
       "transaction": {
         "from": "0xb62ef83643a2f8c95df78f694c6bf480f5b786f2",
         "to": "0x28fc5b77a06a8c5872724dac48f9d6286af35fa1",
@@ -91,11 +81,7 @@
       "contractName": "MyNFT",
       "contractAddress": "0x24452d433564def116dcb7352d4e35927f05b6ac",
       "function": null,
-      "arguments": [
-        "DIV",
-        "DIVINEELITE",
-        "0xB62ef83643A2F8c95dF78F694C6Bf480f5b786f2"
-      ],
+      "arguments": ["DIV", "DIVINEELITE", "0xB62ef83643A2F8c95dF78F694C6Bf480f5b786f2"],
       "transaction": {
         "from": "0xb62ef83643a2f8c95df78f694c6bf480f5b786f2",
         "gas": "0x202420",
@@ -113,9 +99,7 @@
       "contractName": "MyNFT",
       "contractAddress": "0x24452d433564def116dcb7352d4e35927f05b6ac",
       "function": "setPreMinteeAddress(address)",
-      "arguments": [
-        "0xB62ef83643A2F8c95dF78F694C6Bf480f5b786f2"
-      ],
+      "arguments": ["0xB62ef83643A2F8c95dF78F694C6Bf480f5b786f2"],
       "transaction": {
         "from": "0xb62ef83643a2f8c95df78f694c6bf480f5b786f2",
         "to": "0x24452d433564def116dcb7352d4e35927f05b6ac",
@@ -134,9 +118,7 @@
       "contractName": "MyNFT",
       "contractAddress": "0x24452d433564def116dcb7352d4e35927f05b6ac",
       "function": "setLimitedEditionSize(uint256)",
-      "arguments": [
-        "50"
-      ],
+      "arguments": ["50"],
       "transaction": {
         "from": "0xb62ef83643a2f8c95df78f694c6bf480f5b786f2",
         "to": "0x24452d433564def116dcb7352d4e35927f05b6ac",
@@ -155,9 +137,7 @@
       "contractName": "MyNFT",
       "contractAddress": "0x24452d433564def116dcb7352d4e35927f05b6ac",
       "function": "preMint(uint256)",
-      "arguments": [
-        "50"
-      ],
+      "arguments": ["50"],
       "transaction": {
         "from": "0xb62ef83643a2f8c95df78f694c6bf480f5b786f2",
         "to": "0x24452d433564def116dcb7352d4e35927f05b6ac",

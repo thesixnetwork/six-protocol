@@ -1,18 +1,18 @@
 {
-    "name": "new_attribute",
-    "default_mint_value": {
-        "boolean_attribute_value": {
-            "value": false
-        }
-    },
-    "data_type": "boolean",
-    "required": true,
-    "display_value_field": "value",
-    "display_option": {
-        "bool_true_value": "Yes",
-        "bool_false_value": "No",
-        "opensea": {
-            "trait_type": "New Attribute"
-        }
+  "name": "new_attribute",
+  "default_mint_value": {
+    "boolean_attribute_value": {
+      "value": false
     }
+  },
+  "data_type": "boolean",
+  "required": true,
+  "display_value_field": "value",
+  "display_option": {
+    "bool_true_value": "Yes",
+    "bool_false_value": "No",
+    "opensea": {
+      "trait_type": "New Attribute"
+    }
+  }
 }

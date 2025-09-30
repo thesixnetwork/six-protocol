@@ -3,7 +3,7 @@ In order to use script you need to have private key in .secret file
 
 ## For zsh users run shell command as below:
 
-> bash init_data.sh 
+> bash init_data.sh
 
 > bash menu.sh {schem_code} 
 

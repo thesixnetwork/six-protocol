@@ -10,11 +10,7 @@ async function main() {
   const toCheckAddress = "0xB62ef83643A2F8c95dF78F694C6Bf480f5b786f2";
   const evmDenom = "asix";
 
-  const bankContract = new ethers.Contract(
-    bankPrecompileContract,
-    IBankABI.abi,
-    provider,
-  );
+  const bankContract = new ethers.Contract(bankPrecompileContract, IBankABI.abi, provider);
 
   const balance = await bankContract.balance(toCheckAddress, evmDenom);
   console.log(`Balance for asix: ${balance.toString()}`);
@@ -44,4 +40,3 @@ main()
   .catch((err) => {
     console.log(err);
   });
-

@@ -1,12 +1,11 @@
 {
-    "image": "https://nft.sixnetwork.io/metadata/QmaBUdqTctVteajpoMVEpo55XAXe2YVwWDgeNi1UT47UKU/1.png",
-    "holder_address": "0xb7c2468b9481CbDfD029998d6bA98c55072d932e",
-    "traits": [
-      { "trait_type": "Background", "value": "Red" },
-      { "trait_type": "Moon", "value": "Moon 2" },
-      { "trait_type": "Plate", "value": "Plate 1" },
-      { "trait_type": "Tail", "value": "Tail 2" },
-      { "trait_type": "Whale", "value": "Whale 2" }
-    ]
-  }
-  
+  "image": "https://nft.sixnetwork.io/metadata/QmaBUdqTctVteajpoMVEpo55XAXe2YVwWDgeNi1UT47UKU/1.png",
+  "holder_address": "0xb7c2468b9481CbDfD029998d6bA98c55072d932e",
+  "traits": [
+    { "trait_type": "Background", "value": "Red" },
+    { "trait_type": "Moon", "value": "Moon 2" },
+    { "trait_type": "Plate", "value": "Plate 1" },
+    { "trait_type": "Tail", "value": "Tail 2" },
+    { "trait_type": "Whale", "value": "Whale 2" }
+  ]
+}

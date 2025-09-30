@@ -19,6 +19,9 @@ func init() {
 	config.SetBech32PrefixForAccount(AccountAddressPrefix, accountPubKeyPrefix)
 	config.SetBech32PrefixForValidator(validatorAddressPrefix, validatorPubKeyPrefix)
 	config.SetBech32PrefixForConsensusNode(consNodeAddressPrefix, consNodePubKeyPrefix)
+	config.SetCoinType(sdk.CoinType)
+	config.SetPurpose(sdk.Purpose)
+	config.SetFullFundraiserPath(sdk.FullFundraiserPath)
 	config.Seal()
 
 	RegisterDenoms()

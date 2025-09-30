@@ -33,10 +33,6 @@ accounts:
     coins:
       - 10000000000000000000000asix
     address: 6x1kch0sdjr5tuvjh0h3a55c6l5sr6m0phjeag9f2
-  - name: "gust"
-    coins:
-      - 10000000000000000000000asix
-    address: 6x1349mqzqcrlfju776c3txd4kjqencrwt5syuar5
   - name: ""
     coins:
       - 10000000000000000000asix
@@ -52,6 +48,10 @@ client:
     path: ts-client
   vuex:
     path: vue/src/store
+  composables:
+    path: vue/src/composables
+  hooks:
+    path: react/src/hooks
   openapi:
     path: docs/static/openapi.yml
 genesis:
@@ -107,8 +107,6 @@ genesis:
         base_fee_change_denominator: 8
         elasticity_multiplier: 4
         enable_height: "0"
-        # legacy_base_fee: "20000000000"
-        # legacy_min_gas_price: "20000000000.0"
         min_gas_multiplier: "0.5"
         min_gas_price: "5000000000.0"
         no_base_fee: false
