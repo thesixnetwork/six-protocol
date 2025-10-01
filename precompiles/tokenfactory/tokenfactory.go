@@ -26,7 +26,6 @@ const (
 	SendToCosmos           = "transferToCosmos"
 	UnwrapStakeToken       = "unwrapStakeToken"
 	ChangeDelegatorAddress = "changeDelegatorAddress"
-
 )
 
 const (
@@ -246,7 +245,6 @@ func (p PrecompileExecutor) changeDelegatorAddress(ctx sdk.Context, method *abi.
 
 	return method.Outputs.Pack(true)
 }
-
 
 func (p PrecompileExecutor) accAddressFromBech32(arg interface{}) (bec32Addr sdk.AccAddress, err error) {
 	addr := arg.(string)

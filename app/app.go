@@ -115,6 +115,7 @@ import (
 	servertypes "github.com/cosmos/cosmos-sdk/server/types"
 	"github.com/cosmos/cosmos-sdk/std"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/types/mempool"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	"github.com/cosmos/cosmos-sdk/types/msgservice"
 	sigtypes "github.com/cosmos/cosmos-sdk/types/tx/signing"
@@ -161,7 +162,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/staking"
 	stakingkeeper "github.com/cosmos/cosmos-sdk/x/staking/keeper"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-	"github.com/cosmos/cosmos-sdk/types/mempool"
 )
 
 const (
@@ -336,11 +336,11 @@ func New(
 
 	baseAppOptions = append(baseAppOptions, func(app *baseapp.BaseApp) {
 		maxTxs := cast.ToInt(appOpts.Get(server.FlagMempoolMaxTxs))
-			if maxTxs <= 0 {
+		if maxTxs <= 0 {
 			maxTxs = 3000
 		}
 		mempool := mempool.NewPriorityMempool(mempool.PriorityNonceMempoolConfig[int64]{
-			TxPriority: mempool.NewDefaultTxPriority(),
+			TxPriority:      mempool.NewDefaultTxPriority(),
 			SignerExtractor: NewEthSignerExtractionAdapter(mempool.NewDefaultSignerExtractionAdapter()),
 			MaxTx:           maxTxs,
 		})

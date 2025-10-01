@@ -210,7 +210,6 @@ func ProvideModule(in ModuleInputs) ModuleOutputs {
 		in.ProtocoladminKeeper,
 		in.EVMKeeper,
 		in.StakingKeeper,
-	
 	)
 	m := NewAppModule(
 		in.Cdc,

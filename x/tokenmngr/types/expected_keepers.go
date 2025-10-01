@@ -11,6 +11,7 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+
 	protocoladmintypes "github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
 )
 
