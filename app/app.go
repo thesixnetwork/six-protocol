@@ -301,6 +301,39 @@ func New(
 	std.RegisterInterfaces(interfaceRegistry)
 	evmostypes.RegisterInterfaces(interfaceRegistry)
 
+	// Below we could construct and set an application specific mempool and
+	// ABCI 1.0 PrepareProposal and ProcessProposal handlers. These defaults are
+	// already set in the SDK's BaseApp, this shows an example of how to override
+	// them.
+	//
+	// Example:
+	//
+	// bApp := baseapp.NewBaseApp(...)
+	// nonceMempool := mempool.NewSenderNonceMempool()
+	// abciPropHandler := NewDefaultProposalHandler(nonceMempool, bApp)
+	//
+	// bApp.SetMempool(nonceMempool)
+	// bApp.SetPrepareProposal(abciPropHandler.PrepareProposalHandler())
+	// bApp.SetProcessProposal(abciPropHandler.ProcessProposalHandler())
+	//
+	// Alternatively, you can construct BaseApp options, append those to
+	// baseAppOptions and pass them to NewBaseApp.
+	//
+	// Example:
+	//
+	// prepareOpt = func(app *baseapp.BaseApp) {
+	// 	abciPropHandler := baseapp.NewDefaultProposalHandler(nonceMempool, app)
+	// 	app.SetPrepareProposal(abciPropHandler.PrepareProposalHandler())
+	// }
+	// baseAppOptions = append(baseAppOptions, prepareOpt)
+
+	// create and set dummy vote extension handler
+	// voteExtOp := func(bApp *baseapp.BaseApp) {
+	//	voteExtHandler := NewVoteExtensionHandler()
+	//	voteExtHandler.SetHandlers(bApp)
+	// }
+	// baseAppOptions = append(baseAppOptions, voteExtOp)
+
 	baseAppOptions = append(baseAppOptions, func(app *baseapp.BaseApp) {
 		maxTxs := cast.ToInt(appOpts.Get(server.FlagMempoolMaxTxs))
 			if maxTxs <= 0 {
