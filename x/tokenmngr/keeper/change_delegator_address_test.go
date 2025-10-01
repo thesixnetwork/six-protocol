@@ -36,7 +36,6 @@ func TestChangeDelegatorAddressTestSuite(t *testing.T) {
 }
 
 func (suite *ChangeDelegatorAddressTestSuite) SetupTest() {
-
 	// Create individual keepers using the test helpers with dependencies
 	sk, ak, ctx := keeper.StakingKeeperWithDeps(suite.T())
 
