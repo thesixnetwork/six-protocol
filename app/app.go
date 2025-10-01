@@ -161,6 +161,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/staking"
 	stakingkeeper "github.com/cosmos/cosmos-sdk/x/staking/keeper"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
+	"github.com/cosmos/cosmos-sdk/types/mempool"
 )
 
 const (
@@ -300,7 +301,24 @@ func New(
 	std.RegisterInterfaces(interfaceRegistry)
 	evmostypes.RegisterInterfaces(interfaceRegistry)
 
-	baseAppOptions = append(baseAppOptions, baseapp.SetOptimisticExecution())
+	baseAppOptions = append(baseAppOptions, func(app *baseapp.BaseApp) {
+		maxTxs := cast.ToInt(appOpts.Get(server.FlagMempoolMaxTxs))
+			if maxTxs <= 0 {
+			maxTxs = 3000
+		}
+		mempool := mempool.NewPriorityMempool(mempool.PriorityNonceMempoolConfig[int64]{
+			TxPriority: mempool.NewDefaultTxPriority(),
+			SignerExtractor: NewEthSignerExtractionAdapter(mempool.NewDefaultSignerExtractionAdapter()),
+			MaxTx:           maxTxs,
+		})
+
+		handler := baseapp.NewDefaultProposalHandler(mempool, app)
+
+		app.SetMempool(mempool)
+		app.SetPrepareProposal(handler.PrepareProposalHandler())
+		app.SetProcessProposal(handler.ProcessProposalHandler())
+	})
+
 	bApp := baseapp.NewBaseApp(Name, logger, db, txConfig.TxDecoder(), baseAppOptions...)
 	bApp.SetCommitMultiStoreTracer(traceStore)
 	bApp.SetVersion(version.Version)
