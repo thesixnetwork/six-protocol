@@ -6,10 +6,12 @@ import (
 	"io"
 	"math/big"
 	"os"
+	"sync"
 
 	"google.golang.org/protobuf/reflect/protoreflect"
 
 	abci "github.com/cometbft/cometbft/abci/types"
+	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
 	dbm "github.com/cosmos/cosmos-db"
 	"github.com/cosmos/gogoproto/proto"
 	ratelimit "github.com/cosmos/ibc-apps/modules/rate-limiting/v8"
@@ -133,8 +135,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/bank"
 	bankkeeper "github.com/cosmos/cosmos-sdk/x/bank/keeper"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-	consensus "github.com/cosmos/cosmos-sdk/x/consensus"
+	"github.com/cosmos/cosmos-sdk/x/consensus"
 	consensusparamkeeper "github.com/cosmos/cosmos-sdk/x/consensus/keeper"
+	consensusparamtypes "github.com/cosmos/cosmos-sdk/x/consensus/types"
 	"github.com/cosmos/cosmos-sdk/x/crisis"
 	crisiskeeper "github.com/cosmos/cosmos-sdk/x/crisis/keeper"
 	crisistypes "github.com/cosmos/cosmos-sdk/x/crisis/types"
@@ -147,6 +150,7 @@ import (
 	govclient "github.com/cosmos/cosmos-sdk/x/gov/client"
 	govkeeper "github.com/cosmos/cosmos-sdk/x/gov/keeper"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
+	govv1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1"
 	govv1beta1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 	"github.com/cosmos/cosmos-sdk/x/mint"
 	mintkeeper "github.com/cosmos/cosmos-sdk/x/mint/keeper"
@@ -254,6 +258,8 @@ type App struct {
 
 	// module configurator
 	configurator module.Configurator
+
+	once sync.Once
 }
 
 func init() {
@@ -1039,6 +1045,27 @@ func New(
 
 func (app *App) Name() string { return app.BaseApp.Name() }
 
+func (app *App) FinalizeBlock(req *abci.RequestFinalizeBlock) (*abci.ResponseFinalizeBlock, error) {
+	// when skipping sdk 47 for sdk 50, the upgrade handler is called too late in BaseApp
+	// this is a hack to ensure that the migration is executed when needed and not panics
+	app.once.Do(func() {
+		ctx := app.NewUncachedContext(false, tmproto.Header{})
+		if _, err := app.ConsensusParamsKeeper.Params(ctx, &consensusparamtypes.QueryParamsRequest{}); err != nil {
+			// prevents panic: consensus key is nil: collections: not found: key 'no_key' of type github.com/cosmos/gogoproto/tendermint.types.ConsensusParams
+			// sdk 47:
+			// Migrate Tendermint consensus parameters from x/params module to a dedicated x/consensus module.
+			// see https://github.com/cosmos/cosmos-sdk/blob/v0.47.0/simapp/upgrades.go#L66
+			baseAppLegacySS := app.GetSubspace(baseapp.Paramspace)
+			err := baseapp.MigrateParams(sdk.UnwrapSDKContext(ctx), baseAppLegacySS, app.ConsensusParamsKeeper.ParamsStore)
+			if err != nil {
+				panic(err)
+			}
+		}
+	})
+
+	return app.BaseApp.FinalizeBlock(req)
+}
+
 func (app *App) setAnteHandler(txConfig client.TxConfig, maxGasWanted uint64, unsafeUnorderedTx bool) {
 	options := ante.HandlerOptions{
 		Cdc:                    app.appCodec,
@@ -1277,14 +1304,15 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	// required for testing finalized block migration
 	paramsKeeper.Subspace(baseapp.Paramspace)
 
-	paramsKeeper.Subspace(authtypes.ModuleName)
-	paramsKeeper.Subspace(banktypes.ModuleName)
-	paramsKeeper.Subspace(stakingtypes.ModuleName)
-	paramsKeeper.Subspace(minttypes.ModuleName)
-	paramsKeeper.Subspace(distrtypes.ModuleName)
-	paramsKeeper.Subspace(slashingtypes.ModuleName)
-	paramsKeeper.Subspace(govtypes.ModuleName)
-	paramsKeeper.Subspace(crisistypes.ModuleName)
+	paramsKeeper.Subspace(authtypes.ModuleName).WithKeyTable(authtypes.ParamKeyTable())
+	paramsKeeper.Subspace(banktypes.ModuleName).WithKeyTable(banktypes.ParamKeyTable())
+	paramsKeeper.Subspace(stakingtypes.ModuleName).WithKeyTable(stakingtypes.ParamKeyTable())
+	paramsKeeper.Subspace(minttypes.ModuleName).WithKeyTable(minttypes.ParamKeyTable())
+	paramsKeeper.Subspace(distrtypes.ModuleName).WithKeyTable(distrtypes.ParamKeyTable())
+	paramsKeeper.Subspace(slashingtypes.ModuleName).WithKeyTable(slashingtypes.ParamKeyTable())
+	paramsKeeper.Subspace(govtypes.ModuleName).WithKeyTable(govv1.ParamKeyTable())
+	paramsKeeper.Subspace(crisistypes.ModuleName).WithKeyTable(crisistypes.ParamKeyTable())
+	// paramsKeeper.Subspace(consensusparamtypes.ModuleName).WithKeyTable(paramstypes.ConsensusParamsKeyTable())
 	// register the IBC key tables for legacy param subspaces
 	keyTable := ibcclienttypes.ParamKeyTable()
 	keyTable.RegisterParamSet(&ibcconnectiontypes.Params{})
@@ -1302,8 +1330,8 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(nftoraclemoduletypes.ModuleName)
 	// this line is used by starport scaffolding # stargate/app/paramSubspace
 	// ethermint subspaces
-	paramsKeeper.Subspace(evmtypes.ModuleName)
-	paramsKeeper.Subspace(feemarkettypes.ModuleName)
+	paramsKeeper.Subspace(evmtypes.ModuleName).WithKeyTable(evmtypes.ParamKeyTable())
+	paramsKeeper.Subspace(feemarkettypes.ModuleName).WithKeyTable(feemarkettypes.ParamKeyTable())
 
 	return paramsKeeper
 }
