@@ -6,17 +6,14 @@ import (
 
 	storetypes "cosmossdk.io/store/types"
 	circuittypes "cosmossdk.io/x/circuit/types"
-	// evidencetypes "cosmossdk.io/x/evidence/types"
 	upgradetypes "cosmossdk.io/x/upgrade/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
-	// authzkeeper "github.com/cosmos/cosmos-sdk/x/authz/keeper"
 	consensusparamkeeper "github.com/cosmos/cosmos-sdk/x/consensus/keeper"
 	crisistypes "github.com/cosmos/cosmos-sdk/x/crisis/types"
 	ratelimittypes "github.com/cosmos/ibc-apps/modules/rate-limiting/v8/types"
 	icacontrollertypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/controller/types"
 	icahosttypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/host/types"
 	ibcfeetypes "github.com/cosmos/ibc-go/v8/modules/apps/29-fee/types"
-	// ibcexported "github.com/cosmos/ibc-go/v8/modules/core/exported"
 )
 
 const UpgradeName = "v4.0.0"
@@ -36,10 +33,6 @@ func (app *App) RegisterUpgradeHandlers() {
 				crisistypes.StoreKey,
 				consensusparamkeeper.StoreKey,
 				circuittypes.StoreKey,
-				// evidencetypes.StoreKey,
-				// authzkeeper.StoreKey,
-
-				// ibcexported.StoreKey,
 				icahosttypes.StoreKey,
 				ibcfeetypes.StoreKey,
 				icacontrollertypes.StoreKey,
