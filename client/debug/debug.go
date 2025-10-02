@@ -79,8 +79,8 @@ func AddrCmd() *cobra.Command {
 		Short: "Convert an address between hex and bech32",
 		Long:  "Convert an address between hex encoding and bech32.",
 		Example: fmt.Sprintf(
-			`$ %s debug addr evmos1qqqqhe5pnaq5qq39wqkn957aydnrm45sdn8583
-$ %s debug addr 0x00000Be6819f41400225702D32d3dd23663Dd690 --prefix evmos`, version.AppName, version.AppName),
+			`$ %s debug addr 6x1qqqqhe5pnaq5qq39wqkn957aydnrm45sdn8583
+$ %s debug addr 0x00000Be6819f41400225702D32d3dd23663Dd690 --prefix 6x`, version.AppName, version.AppName),
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			addrString := args[0]
@@ -93,7 +93,7 @@ $ %s debug addr 0x00000Be6819f41400225702D32d3dd23663Dd690 --prefix evmos`, vers
 				if err != nil {
 					return err
 				}
-				if prefix == "" {
+				if prefix == "" || prefix =="6x" {
 					bech32AccAddress := sdk.AccAddress(addr)
 
 					bech32ValAddress := sdk.ValAddress(addr)
@@ -109,16 +109,29 @@ $ %s debug addr 0x00000Be6819f41400225702D32d3dd23663Dd690 --prefix evmos`, vers
 					cmd.Printf("Bech32 %s\n", bech32Address)
 				}
 			default:
+				preFlag, err := cmd.Flags().GetString(flagPrefix)
+				if err != nil {
+					return err
+				}
 				prefix := strings.SplitN(addrString, "1", 2)[0]
 				hexAddr, err := sdk.GetFromBech32(addrString, prefix)
 				if err != nil {
 					return err
 				}
 
-				hexAddrString := common.BytesToAddress(hexAddr).String()
+				if preFlag == "6x" {
+					hexAddrString := common.BytesToAddress(hexAddr).String()
+					bech32ValAddress := sdk.ValAddress(hexAddr)
 
-				cmd.Println("Address bytes:", hexAddr)
-				cmd.Printf("Address hex: %s\n", hexAddrString)
+					cmd.Println("Address bytes:", hexAddr)
+					cmd.Printf("Address hex: %s\n", hexAddrString)
+					cmd.Printf("Bech32 Val %s\n", bech32ValAddress)
+				} else {
+					hexAddrString := common.BytesToAddress(hexAddr).String()
+
+					cmd.Println("Address bytes:", hexAddr)
+					cmd.Printf("Address hex: %s\n", hexAddrString)
+				}
 			}
 			return nil
 		},
@@ -159,7 +172,7 @@ func LegacyEIP712Cmd() *cobra.Command {
 	return &cobra.Command{
 		Use:     "legacy-eip712 [file]",
 		Short:   "Output types of legacy eip712 typed data according to the given transaction",
-		Example: fmt.Sprintf(`$ %s debug legacy-eip712 tx.json --chain-id evmosd_9000-1`, version.AppName),
+		Example: fmt.Sprintf(`$ %s debug legacy-eip712 tx.json --chain-id sixnet`, version.AppName),
 		Args:    cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
