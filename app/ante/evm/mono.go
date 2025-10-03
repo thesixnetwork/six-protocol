@@ -3,6 +3,7 @@
 package evm
 
 import (
+	"log"
 	"math"
 	"math/big"
 
@@ -144,6 +145,8 @@ func (md MonoDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulate bool, ne
 	if msgs == nil {
 		return ctx, errorsmod.Wrap(errortypes.ErrUnknownRequest, "invalid transaction. Transaction without messages")
 	}
+
+
 
 	// Use the lowest priority of all the messages as the final one.
 	for i, msg := range msgs {
@@ -288,6 +291,7 @@ func (md MonoDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulate bool, ne
 		)
 		decUtils.GasWanted = gasWanted
 
+	
 		minPriority := GetMsgPriority(
 			txData,
 			decUtils.MinPriority,
@@ -318,14 +322,20 @@ func (md MonoDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulate bool, ne
 		EmitTxHashEvent(ctx, ethMsg, decUtils.BlockTxIndex, txIdx)
 	}
 
+
 	if err := CheckTxFee(txFeeInfo, decUtils.TxFee, decUtils.TxGasLimit); err != nil {
+		log.Printf("err CheckTxFee: %v", err)
 		return ctx, err
 	}
 
 	ctx, err = CheckBlockGasLimit(ctx, decUtils.GasWanted, decUtils.MinPriority)
 	if err != nil {
+		log.Printf("err CheckBlockGasLimit: %v", err)
 		return ctx, err
 	}
+
+
+	
 
 	return next(ctx, tx, simulate)
 }

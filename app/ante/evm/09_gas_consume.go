@@ -102,6 +102,7 @@ func GetMsgPriority(
 	if priority < minPriority {
 		minPriority = priority
 	}
+
 	return minPriority
 }
 

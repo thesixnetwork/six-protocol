@@ -327,9 +327,11 @@ replace (
 	cosmossdk.io/api => github.com/thesixnetwork/cosmos-sdk/api v0.7.6-six
 	cosmossdk.io/core => cosmossdk.io/core v0.11.0
 	cosmossdk.io/store => github.com/thesixnetwork/cosmos-sdk/store v1.1.1
-	github.com/cosmos/cosmos-sdk => github.com/thesixnetwork/cosmos-sdk v0.50.11-0.20250627052459-92b5d1477300
+	// github.com/cosmos/cosmos-sdk => github.com/thesixnetwork/cosmos-sdk v0.50.11-0.20250627052459-92b5d1477300
+	github.com/cosmos/cosmos-sdk => ../cosmos-sdk
 	github.com/ethereum/go-ethereum => github.com/thesixnetwork/go-ethereum v1.13.6-0.20250607133945-ba2bad3ed2da
-	github.com/evmos/evmos/v20 => github.com/thesixnetwork/evmos/v20 v20.0.1-0.20250630050649-0868367615fd
+	// github.com/evmos/evmos/v20 => github.com/thesixnetwork/evmos/v20 v20.0.1-0.20250922100514-8a4a0039e9d9
+	github.com/evmos/evmos/v20 => ../../six-evmos/evmos
 	// fix upstream GHSA-h395-qcrw-5vmq vulnerability.
 	github.com/gin-gonic/gin => github.com/gin-gonic/gin v1.7.0
 	// replace broken goleveldb
