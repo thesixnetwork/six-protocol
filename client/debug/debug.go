@@ -93,7 +93,7 @@ $ %s debug addr 0x00000Be6819f41400225702D32d3dd23663Dd690 --prefix 6x`, version
 				if err != nil {
 					return err
 				}
-				if prefix == "" || prefix =="6x" {
+				if prefix == "" || prefix == "6x" {
 					bech32AccAddress := sdk.AccAddress(addr)
 
 					bech32ValAddress := sdk.ValAddress(addr)
