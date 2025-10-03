@@ -1050,6 +1050,8 @@ func (app *App) FinalizeBlock(req *abci.RequestFinalizeBlock) (*abci.ResponseFin
 	app.once.Do(func() {
 		ctx := app.NewUncachedContext(false, tmproto.Header{})
 		if _, err := app.ConsensusParamsKeeper.Params(ctx, &consensusparamtypes.QueryParamsRequest{}); err != nil {
+			// Log the migration attempt
+			app.Logger().Info("Starting consensus parameter migration...")
 			// prevents panic: consensus key is nil: collections: not found: key 'no_key' of type github.com/cosmos/gogoproto/tendermint.types.ConsensusParams
 			// sdk 47:
 			// Migrate Tendermint consensus parameters from x/params module to a dedicated x/consensus module.
@@ -1057,8 +1059,10 @@ func (app *App) FinalizeBlock(req *abci.RequestFinalizeBlock) (*abci.ResponseFin
 			baseAppLegacySS := app.GetSubspace(baseapp.Paramspace)
 			err := baseapp.MigrateParams(sdk.UnwrapSDKContext(ctx), baseAppLegacySS, app.ConsensusParamsKeeper.ParamsStore)
 			if err != nil {
+				app.Logger().Error("Consensus parameter migration failed", "error", err)
 				panic(err)
 			}
+			app.Logger().Info("Consensus parameter migration completed successfully")
 		}
 	})
 
