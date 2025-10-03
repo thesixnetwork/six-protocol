@@ -125,6 +125,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/auth"
 	authcodec "github.com/cosmos/cosmos-sdk/x/auth/codec"
 	authkeeper "github.com/cosmos/cosmos-sdk/x/auth/keeper"
+	"github.com/cosmos/cosmos-sdk/x/auth/posthandler"
 	authsims "github.com/cosmos/cosmos-sdk/x/auth/simulation"
 	authtx "github.com/cosmos/cosmos-sdk/x/auth/tx"
 	txmodule "github.com/cosmos/cosmos-sdk/x/auth/tx/config"
@@ -1006,7 +1007,7 @@ func New(
 		upgrade.
 	*/
 
-	// app.setPostHandler()
+	app.setPostHandler()
 
 	// At startup, after all modules have been registered, check that all prot
 	// annotations are correct.
@@ -1030,18 +1031,16 @@ func New(
 	return app
 }
 
-// func (app *App) setPostHandler() {
-// 	options := post.HandlerOptions{
-// 		FeeCollectorName: authtypes.FeeCollectorName,
-// 		BankKeeper:       app.BankKeeper,
-// 	}
+func (app *App) setPostHandler() {
+	postHandler, err := posthandler.NewPostHandler(
+		posthandler.HandlerOptions{},
+	)
+	if err != nil {
+		panic(err)
+	}
 
-// 	if err := options.Validate(); err != nil {
-// 		panic(err)
-// 	}
-
-// 	app.SetPostHandler(post.NewPostHandler(options))
-// }
+	app.SetPostHandler(postHandler)
+}
 
 func (app *App) Name() string { return app.BaseApp.Name() }
 
