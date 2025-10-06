@@ -18,9 +18,7 @@ message Token {
   string base = 2;
   cosmos.base.v1beta1.Coin maxSupply = 3 [
     (gogoproto.nullable) = false,
-    (amino.dont_omitempty) = true,
-    (amino.encoding) = "legacy_coins",
-    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coins"
+    (amino.dont_omitempty) = true
   ];
   string mintee = 4;
   string creator = 5;
