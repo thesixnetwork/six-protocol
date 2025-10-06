@@ -17,7 +17,6 @@ option go_package = "github.com/thesixnetwork/six-protocol/x/tokenmngr/types";
 // Msg defines the Msg service.
 service Msg {
   option (cosmos.msg.v1.service) = true;
-
   // UpdateParams defines a (governance) operation for updating the module
   // parameters. The authority defaults to the x/gov module account.
   rpc UpdateParams(MsgUpdateParams) returns (MsgUpdateParamsResponse);
@@ -27,6 +26,7 @@ service Msg {
   rpc CreateMintperm(MsgCreateMintperm) returns (MsgCreateMintpermResponse);
   rpc UpdateMintperm(MsgUpdateMintperm) returns (MsgUpdateMintpermResponse);
   rpc DeleteMintperm(MsgDeleteMintperm) returns (MsgDeleteMintpermResponse);
+  rpc Mint(MsgMint) returns (MsgMintResponse);
   rpc CreateOptions(MsgCreateOptions) returns (MsgCreateOptionsResponse);
   rpc UpdateOptions(MsgUpdateOptions) returns (MsgUpdateOptionsResponse);
   rpc DeleteOptions(MsgDeleteOptions) returns (MsgDeleteOptionsResponse);
@@ -139,6 +139,16 @@ message MsgDeleteOptions {
 }
 
 message MsgDeleteOptionsResponse {}
+
+message MsgMint {
+  string creator = 1;
+  cosmos.base.v1beta1.Coin amount = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+  ];
+}
+
+message MsgMintResponse {}
 
 message MsgBurn {
   option (cosmos.msg.v1.signer) = "creator";
