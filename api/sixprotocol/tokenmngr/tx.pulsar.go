@@ -9410,14 +9410,12 @@ func (x *fastReflection_MsgBurn) ProtoMethods() *protoiface.Methods {
 }
 
 var (
-	md_MsgBurnResponse    protoreflect.MessageDescriptor
-	fd_MsgBurnResponse_id protoreflect.FieldDescriptor
+	md_MsgBurnResponse protoreflect.MessageDescriptor
 )
 
 func init() {
 	file_sixprotocol_tokenmngr_tx_proto_init()
 	md_MsgBurnResponse = File_sixprotocol_tokenmngr_tx_proto.Messages().ByName("MsgBurnResponse")
-	fd_MsgBurnResponse_id = md_MsgBurnResponse.Fields().ByName("id")
 }
 
 var _ protoreflect.Message = (*fastReflection_MsgBurnResponse)(nil)
@@ -9485,12 +9483,6 @@ func (x *fastReflection_MsgBurnResponse) Interface() protoreflect.ProtoMessage {
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
 func (x *fastReflection_MsgBurnResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
-	if x.Id != uint64(0) {
-		value := protoreflect.ValueOfUint64(x.Id)
-		if !f(fd_MsgBurnResponse_id, value) {
-			return
-		}
-	}
 }
 
 // Has reports whether a field is populated.
@@ -9506,8 +9498,6 @@ func (x *fastReflection_MsgBurnResponse) Range(f func(protoreflect.FieldDescript
 // a repeated field is populated if it is non-empty.
 func (x *fastReflection_MsgBurnResponse) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "sixprotocol.tokenmngr.MsgBurnResponse.id":
-		return x.Id != uint64(0)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: sixprotocol.tokenmngr.MsgBurnResponse"))
@@ -9524,8 +9514,6 @@ func (x *fastReflection_MsgBurnResponse) Has(fd protoreflect.FieldDescriptor) bo
 // Clear is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_MsgBurnResponse) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "sixprotocol.tokenmngr.MsgBurnResponse.id":
-		x.Id = uint64(0)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: sixprotocol.tokenmngr.MsgBurnResponse"))
@@ -9542,9 +9530,6 @@ func (x *fastReflection_MsgBurnResponse) Clear(fd protoreflect.FieldDescriptor) 
 // of the value; to obtain a mutable reference, use Mutable.
 func (x *fastReflection_MsgBurnResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "sixprotocol.tokenmngr.MsgBurnResponse.id":
-		value := x.Id
-		return protoreflect.ValueOfUint64(value)
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: sixprotocol.tokenmngr.MsgBurnResponse"))
@@ -9565,8 +9550,6 @@ func (x *fastReflection_MsgBurnResponse) Get(descriptor protoreflect.FieldDescri
 // Set is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_MsgBurnResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "sixprotocol.tokenmngr.MsgBurnResponse.id":
-		x.Id = value.Uint()
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: sixprotocol.tokenmngr.MsgBurnResponse"))
@@ -9587,8 +9570,6 @@ func (x *fastReflection_MsgBurnResponse) Set(fd protoreflect.FieldDescriptor, va
 // Mutable is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_MsgBurnResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "sixprotocol.tokenmngr.MsgBurnResponse.id":
-		panic(fmt.Errorf("field id of message sixprotocol.tokenmngr.MsgBurnResponse is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: sixprotocol.tokenmngr.MsgBurnResponse"))
@@ -9602,8 +9583,6 @@ func (x *fastReflection_MsgBurnResponse) Mutable(fd protoreflect.FieldDescriptor
 // For lists, maps, and messages, this returns a new, empty, mutable value.
 func (x *fastReflection_MsgBurnResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "sixprotocol.tokenmngr.MsgBurnResponse.id":
-		return protoreflect.ValueOfUint64(uint64(0))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: sixprotocol.tokenmngr.MsgBurnResponse"))
@@ -9673,9 +9652,6 @@ func (x *fastReflection_MsgBurnResponse) ProtoMethods() *protoiface.Methods {
 		var n int
 		var l int
 		_ = l
-		if x.Id != 0 {
-			n += 1 + runtime.Sov(uint64(x.Id))
-		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
 		}
@@ -9704,11 +9680,6 @@ func (x *fastReflection_MsgBurnResponse) ProtoMethods() *protoiface.Methods {
 		if x.unknownFields != nil {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
-		}
-		if x.Id != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.Id))
-			i--
-			dAtA[i] = 0x8
 		}
 		if input.Buf != nil {
 			input.Buf = append(input.Buf, dAtA...)
@@ -9759,25 +9730,6 @@ func (x *fastReflection_MsgBurnResponse) ProtoMethods() *protoiface.Methods {
 				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgBurnResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
-			case 1:
-				if wireType != 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
-				}
-				x.Id = 0
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					x.Id |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -13668,8 +13620,6 @@ type MsgBurnResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-
-	Id uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 }
 
 func (x *MsgBurnResponse) Reset() {
@@ -13690,13 +13640,6 @@ func (*MsgBurnResponse) ProtoMessage() {}
 // Deprecated: Use MsgBurnResponse.ProtoReflect.Descriptor instead.
 func (*MsgBurnResponse) Descriptor() ([]byte, []int) {
 	return file_sixprotocol_tokenmngr_tx_proto_rawDescGZIP(), []int{21}
-}
-
-func (x *MsgBurnResponse) GetId() uint64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
 }
 
 type MsgWrapToken struct {
@@ -14097,9 +14040,8 @@ var file_sixprotocol_tokenmngr_tx_proto_rawDesc = []byte{
 	0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2f, 0x63, 0x6f,
 	0x73, 0x6d, 0x6f, 0x73, 0x2d, 0x73, 0x64, 0x6b, 0x2f, 0x74, 0x79, 0x70, 0x65, 0x73, 0x2e, 0x43,
 	0x6f, 0x69, 0x6e, 0x52, 0x06, 0x61, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x3a, 0x0c, 0x82, 0xe7, 0xb0,
-	0x2a, 0x07, 0x63, 0x72, 0x65, 0x61, 0x74, 0x6f, 0x72, 0x22, 0x21, 0x0a, 0x0f, 0x4d, 0x73, 0x67,
-	0x42, 0x75, 0x72, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x0e, 0x0a, 0x02,
-	0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x02, 0x69, 0x64, 0x22, 0xb6, 0x01, 0x0a,
+	0x2a, 0x07, 0x63, 0x72, 0x65, 0x61, 0x74, 0x6f, 0x72, 0x22, 0x11, 0x0a, 0x0f, 0x4d, 0x73, 0x67,
+	0x42, 0x75, 0x72, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0xb6, 0x01, 0x0a,
 	0x0c, 0x4d, 0x73, 0x67, 0x57, 0x72, 0x61, 0x70, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x18, 0x0a,
 	0x07, 0x63, 0x72, 0x65, 0x61, 0x74, 0x6f, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07,
 	0x63, 0x72, 0x65, 0x61, 0x74, 0x6f, 0x72, 0x12, 0x62, 0x0a, 0x06, 0x61, 0x6d, 0x6f, 0x75, 0x6e,
