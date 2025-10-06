@@ -26,6 +26,7 @@ const (
 	Msg_CreateMintperm_FullMethodName = "/sixprotocol.tokenmngr.Msg/CreateMintperm"
 	Msg_UpdateMintperm_FullMethodName = "/sixprotocol.tokenmngr.Msg/UpdateMintperm"
 	Msg_DeleteMintperm_FullMethodName = "/sixprotocol.tokenmngr.Msg/DeleteMintperm"
+	Msg_Mint_FullMethodName           = "/sixprotocol.tokenmngr.Msg/Mint"
 	Msg_CreateOptions_FullMethodName  = "/sixprotocol.tokenmngr.Msg/CreateOptions"
 	Msg_UpdateOptions_FullMethodName  = "/sixprotocol.tokenmngr.Msg/UpdateOptions"
 	Msg_DeleteOptions_FullMethodName  = "/sixprotocol.tokenmngr.Msg/DeleteOptions"
@@ -48,6 +49,7 @@ type MsgClient interface {
 	CreateMintperm(ctx context.Context, in *MsgCreateMintperm, opts ...grpc.CallOption) (*MsgCreateMintpermResponse, error)
 	UpdateMintperm(ctx context.Context, in *MsgUpdateMintperm, opts ...grpc.CallOption) (*MsgUpdateMintpermResponse, error)
 	DeleteMintperm(ctx context.Context, in *MsgDeleteMintperm, opts ...grpc.CallOption) (*MsgDeleteMintpermResponse, error)
+	Mint(ctx context.Context, in *MsgMint, opts ...grpc.CallOption) (*MsgMintResponse, error)
 	CreateOptions(ctx context.Context, in *MsgCreateOptions, opts ...grpc.CallOption) (*MsgCreateOptionsResponse, error)
 	UpdateOptions(ctx context.Context, in *MsgUpdateOptions, opts ...grpc.CallOption) (*MsgUpdateOptionsResponse, error)
 	DeleteOptions(ctx context.Context, in *MsgDeleteOptions, opts ...grpc.CallOption) (*MsgDeleteOptionsResponse, error)
@@ -122,6 +124,15 @@ func (c *msgClient) UpdateMintperm(ctx context.Context, in *MsgUpdateMintperm, o
 func (c *msgClient) DeleteMintperm(ctx context.Context, in *MsgDeleteMintperm, opts ...grpc.CallOption) (*MsgDeleteMintpermResponse, error) {
 	out := new(MsgDeleteMintpermResponse)
 	err := c.cc.Invoke(ctx, Msg_DeleteMintperm_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *msgClient) Mint(ctx context.Context, in *MsgMint, opts ...grpc.CallOption) (*MsgMintResponse, error) {
+	out := new(MsgMintResponse)
+	err := c.cc.Invoke(ctx, Msg_Mint_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -204,6 +215,7 @@ type MsgServer interface {
 	CreateMintperm(context.Context, *MsgCreateMintperm) (*MsgCreateMintpermResponse, error)
 	UpdateMintperm(context.Context, *MsgUpdateMintperm) (*MsgUpdateMintpermResponse, error)
 	DeleteMintperm(context.Context, *MsgDeleteMintperm) (*MsgDeleteMintpermResponse, error)
+	Mint(context.Context, *MsgMint) (*MsgMintResponse, error)
 	CreateOptions(context.Context, *MsgCreateOptions) (*MsgCreateOptionsResponse, error)
 	UpdateOptions(context.Context, *MsgUpdateOptions) (*MsgUpdateOptionsResponse, error)
 	DeleteOptions(context.Context, *MsgDeleteOptions) (*MsgDeleteOptionsResponse, error)
@@ -238,6 +250,9 @@ func (UnimplementedMsgServer) UpdateMintperm(context.Context, *MsgUpdateMintperm
 }
 func (UnimplementedMsgServer) DeleteMintperm(context.Context, *MsgDeleteMintperm) (*MsgDeleteMintpermResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteMintperm not implemented")
+}
+func (UnimplementedMsgServer) Mint(context.Context, *MsgMint) (*MsgMintResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Mint not implemented")
 }
 func (UnimplementedMsgServer) CreateOptions(context.Context, *MsgCreateOptions) (*MsgCreateOptionsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateOptions not implemented")
@@ -395,6 +410,24 @@ func _Msg_DeleteMintperm_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MsgServer).DeleteMintperm(ctx, req.(*MsgDeleteMintperm))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Msg_Mint_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgMint)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).Mint(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_Mint_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).Mint(ctx, req.(*MsgMint))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -559,6 +592,10 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteMintperm",
 			Handler:    _Msg_DeleteMintperm_Handler,
+		},
+		{
+			MethodName: "Mint",
+			Handler:    _Msg_Mint_Handler,
 		},
 		{
 			MethodName: "CreateOptions",
