@@ -1,10 +1,19 @@
 package types
 
 import (
+	"github.com/cosmos/cosmos-sdk/codec"
 	cdctypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/msgservice"
 )
+
+func RegisterCodec(cdc *codec.LegacyAmino) {
+	cdc.RegisterConcrete(&MsgCreateGroup{}, "protocoladmin/CreateGroup", nil)
+	cdc.RegisterConcrete(&MsgUpdateGroup{}, "protocoladmin/UpdateGroup", nil)
+	cdc.RegisterConcrete(&MsgDeleteGroup{}, "protocoladmin/DeleteGroup", nil)
+	cdc.RegisterConcrete(&MsgAddAdminToGroup{}, "protocoladmin/AddAdminToGroup", nil)
+	cdc.RegisterConcrete(&MsgRemoveAdminFromGroup{}, "protocoladmin/RemoveAdminFromGroup", nil)
+}
 
 func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	registry.RegisterImplementations((*sdk.Msg)(nil),
@@ -25,3 +34,8 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	)
 	msgservice.RegisterMsgServiceDesc(registry, &_Msg_serviceDesc)
 }
+
+var (
+	Amino     = codec.NewLegacyAmino()
+	ModuleCdc = codec.NewProtoCodec(cdctypes.NewInterfaceRegistry())
+)

@@ -1,10 +1,29 @@
 package types
 
 import (
+	"github.com/cosmos/cosmos-sdk/codec"
 	cdctypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/msgservice"
 )
+
+func RegisterCodec(cdc *codec.LegacyAmino) {
+	cdc.RegisterConcrete(&MsgCreateToken{}, "tokenmngr/CreateToken", nil)
+	cdc.RegisterConcrete(&MsgUpdateToken{}, "tokenmngr/UpdateToken", nil)
+	cdc.RegisterConcrete(&MsgDeleteToken{}, "tokenmngr/DeleteToken", nil)
+	cdc.RegisterConcrete(&MsgCreateMintperm{}, "tokenmngr/CreateMintperm", nil)
+	cdc.RegisterConcrete(&MsgUpdateMintperm{}, "tokenmngr/UpdateMintperm", nil)
+	cdc.RegisterConcrete(&MsgDeleteMintperm{}, "tokenmngr/DeleteMintperm", nil)
+	cdc.RegisterConcrete(&MsgCreateOptions{}, "tokenmngr/CreateOptions", nil)
+	cdc.RegisterConcrete(&MsgUpdateOptions{}, "tokenmngr/UpdateOptions", nil)
+	cdc.RegisterConcrete(&MsgDeleteOptions{}, "tokenmngr/DeleteOptions", nil)
+	cdc.RegisterConcrete(&MsgMint{}, "tokenmngr/Mint", nil)
+	cdc.RegisterConcrete(&MsgBurn{}, "tokenmngr/Burn", nil)
+	cdc.RegisterConcrete(&MsgWrapToken{}, "tokenmngr/WrapToken", nil)
+	cdc.RegisterConcrete(&MsgUnwrapToken{}, "tokenmngr/UnwrapToken", nil)
+	cdc.RegisterConcrete(&MsgSendWrapToken{}, "tokenmngr/SendWrapToken", nil)
+	cdc.RegisterConcrete(&MsgUpdateParams{}, "tokenmngr/UpdateParams", nil)
+}
 
 func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	registry.RegisterImplementations((*sdk.Msg)(nil),
@@ -44,3 +63,8 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	)
 	msgservice.RegisterMsgServiceDesc(registry, &_Msg_serviceDesc)
 }
+
+var (
+	Amino     = codec.NewLegacyAmino()
+	ModuleCdc = codec.NewProtoCodec(cdctypes.NewInterfaceRegistry())
+)
