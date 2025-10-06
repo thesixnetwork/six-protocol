@@ -16,11 +16,6 @@ import (
 func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBurnResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	burn := types.Burn{
-		Creator: msg.Creator,
-		Amount:  msg.Amount,
-	}
-
 	// Check is token exist
 	// _, foundToken := k.GetToken(ctx, msg.Token)
 	// if !foundToken {
@@ -73,7 +68,7 @@ func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBu
 		return nil, err
 	}
 
-	// Get burning history
+	// Get burning history of this token
 	prev, found := k.GetTokenBurn(ctx, msg.Amount.Denom)
 	if !found {
 		tokenBurn := types.TokenBurn{
@@ -81,19 +76,16 @@ func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBu
 		}
 		k.SetTokenBurn(ctx, tokenBurn)
 	} else {
-		new_burn_amount := prev.Amount.Amount.Add(msg.Amount.Amount)
-		new_burn_coin := sdk.Coin{
+		newBurnAmount := prev.Amount.Amount.Add(msg.Amount.Amount)
+		newBurnCoin := sdk.Coin{
 			Denom:  msg.Amount.Denom,
-			Amount: new_burn_amount,
+			Amount: newBurnAmount,
 		}
 		tokenBurn := types.TokenBurn{
-			Amount: new_burn_coin,
+			Amount: newBurnCoin,
 		}
 		k.SetTokenBurn(ctx, tokenBurn)
 	}
 
-	// Update to history
-	id := k.UpdateBurn(ctx, burn)
-
-	return &types.MsgBurnResponse{Id: id}, nil
+	return &types.MsgBurnResponse{}, nil
 }

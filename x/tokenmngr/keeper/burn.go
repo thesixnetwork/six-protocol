@@ -1,3 +1,6 @@
+// Package keeper
+//
+//	deprecate
 package keeper
 
 import (
@@ -11,7 +14,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
-// History burn
+// UpdateBurn History burn
 func (k Keeper) UpdateBurn(ctx sdk.Context, burn types.Burn) uint64 {
 	count := k.GetBurnCount(ctx)
 	burn.Id = count
@@ -32,7 +35,7 @@ func GetBurnIDBytes(id uint64) []byte {
 	return bz
 }
 
-// SetBurn is a special function used by upgrade module to set burns after upgrade
+// SetBurns is a special function used by upgrade module to set burns after upgrade
 func (k Keeper) SetBurns(ctx sdk.Context, burns []types.Burn) {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.BurnKey))

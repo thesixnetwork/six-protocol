@@ -149,7 +149,7 @@ message MsgBurn {
   ];
 }
 
-message MsgBurnResponse { uint64 id = 1; }
+message MsgBurnResponse {}
 
 message MsgWrapToken {
   option (cosmos.msg.v1.signer) = "creator";
