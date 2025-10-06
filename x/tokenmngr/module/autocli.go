@@ -126,6 +126,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "amount"}},
 				},
 				{
+					RpcMethod:      "Mint",
+					Use:            "mint [amount]",
+					Short:          "Send a mint tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "amount"}},
+				},
+				{
 					RpcMethod:      "WrapToken",
 					Use:            "wrap-token [amount] [receiver]",
 					Short:          "Send a wrapToken tx",
