@@ -141,6 +141,7 @@ message MsgDeleteOptions {
 message MsgDeleteOptionsResponse {}
 
 message MsgMint {
+  option (cosmos.msg.v1.signer) = "creator";
   string creator = 1;
   cosmos.base.v1beta1.Coin amount = 2 [
     (gogoproto.nullable) = false,

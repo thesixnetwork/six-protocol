@@ -23,6 +23,9 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 		&MsgDeleteOptions{},
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgMint{},
+	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgBurn{},
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
