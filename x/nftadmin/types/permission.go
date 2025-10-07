@@ -1,6 +1,6 @@
 package types
 
-func (p *Permissions) GetPermissionAddressByKey(key string) *AddressList {
+func (p *Authorization) GetPermissionAddressByKey(key string) []string {
 	// loop over p.Permissions
 	for _, v := range p.Permissions {
 		if v.Name == key {

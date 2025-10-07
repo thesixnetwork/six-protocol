@@ -52,13 +52,13 @@ func (k Keeper) HasPermission(ctx context.Context, name string, addr sdk.AccAddr
 		return false
 	}
 
-	addressList := auth.Permissions.GetPermissionAddressByKey(name)
+	addressList := auth.GetPermissionAddressByKey(name)
 	if addressList == nil {
 		return false
 	}
 
 	mapAll := make(map[string]string)
-	for _, addr := range addressList.Addresses {
+	for _, addr := range addressList {
 		mapAll[addr] = addr
 	}
 

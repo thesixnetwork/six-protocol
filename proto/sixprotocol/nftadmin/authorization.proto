@@ -1,11 +1,14 @@
 syntax = "proto3";
 package sixprotocol.nftadmin;
 
-import "sixprotocol/nftadmin/permissions.proto";
-
 option go_package = "github.com/thesixnetwork/six-protocol/x/nftadmin/types";
+
+message Permission {
+  string name = 1;
+  repeated string addresses = 2;
+}
 
 message Authorization {
   string root_admin = 1;
-  Permissions permissions = 2;
+  repeated Permission permissions = 2;
 }
