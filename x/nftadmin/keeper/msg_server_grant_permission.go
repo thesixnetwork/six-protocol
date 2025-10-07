@@ -30,7 +30,7 @@ func (k msgServer) GrantPermission(goCtx context.Context, msg *types.MsgGrantPer
 
 	if auth.Permissions == nil {
 		auth.Permissions = []*types.Permission{
-			&types.Permission{
+			{
 				Name: msg.Name,
 				Addresses: []string{msg.Grantee},
 			},
