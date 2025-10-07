@@ -38,7 +38,7 @@ func (k Keeper) SetActionRequestCount(ctx context.Context, count uint64) {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	byteKey := types.KeyPrefix(types.ActionRequestCountKey)
 	store := prefix.NewStore(storeAdapter, byteKey)
-	bz := store.Get(byteKey)
+	bz := make([]byte, 8)
 	binary.BigEndian.PutUint64(bz, count)
 	store.Set(byteKey, bz)
 }
