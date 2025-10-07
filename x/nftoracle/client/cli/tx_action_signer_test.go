@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"testing"
 
+	sdkmath "cosmossdk.io/math"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	clitestutil "github.com/cosmos/cosmos-sdk/testutil/cli"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -82,7 +83,7 @@ func TestUpdateActionSigner(t *testing.T) {
 	}
 	args = append(args, fields...)
 	args = append(args, common...)
-	_, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdCreateActionSigner(), args)
+	_, err = clitestutil.ExecTestCLICmd(ctx, cli.CmdCreateActionSigner(), args)
 	require.NoError(t, err)
 
 	for _, tc := range []struct {
@@ -145,7 +146,7 @@ func TestDeleteActionSigner(t *testing.T) {
 	}
 	args = append(args, fields...)
 	args = append(args, common...)
-	_, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdCreateActionSigner(), args)
+	_, err = clitestutil.ExecTestCLICmd(ctx, cli.CmdCreateActionSigner(), args)
 	require.NoError(t, err)
 
 	for _, tc := range []struct {
