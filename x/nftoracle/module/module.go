@@ -9,7 +9,7 @@ import (
 	"github.com/spf13/cobra"
 
 	modulev1 "github.com/thesixnetwork/six-protocol/api/sixprotocol/nftoracle/module"
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/client/cli"
+	"github.com/thesixnetwork/six-protocol/x/nftoracle/client/cli"
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/keeper"
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 
