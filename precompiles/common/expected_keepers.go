@@ -31,7 +31,7 @@ type AccountKeeper interface {
 }
 
 type TokenmngrKeeper interface {
-	AttoCoinConverter(context.Context, sdk.AccAddress, sdk.AccAddress, sdkmath.Int) error
+	AttoCoinConverter(sdk.Context, sdk.AccAddress, sdk.AccAddress, sdkmath.Int) error
 	ChangeDelegatorAddress(ctx context.Context, oldDelAddr sdk.AccAddress, newDelAddr sdk.AccAddress) error
 }
 
@@ -78,7 +78,7 @@ type NftmngrKeeper interface {
 	ProposalVirtualSchemaKeeper(ctx context.Context, creator, virtualNftSchemaCode string, proposalType nftmngrtypes.ProposalType, registryReq []*nftmngrtypes.VirtualSchemaRegistryRequest, actions []*nftmngrtypes.Action, executors []string, enable bool) (string, error)
 }
 
-type StakingKeeper interface {
+type StakingMsgServer interface {
 	Delegate(goCtx context.Context, msg *stakingtypes.MsgDelegate) (*stakingtypes.MsgDelegateResponse, error)
 	BeginRedelegate(goCtx context.Context, msg *stakingtypes.MsgBeginRedelegate) (*stakingtypes.MsgBeginRedelegateResponse, error)
 	Undelegate(goCtx context.Context, msg *stakingtypes.MsgUndelegate) (*stakingtypes.MsgUndelegateResponse, error)
@@ -89,8 +89,10 @@ type StakingQuerier interface {
 }
 
 type DistributionKeeper interface {
-	DelegationRewards(c context.Context, req *disttypes.QueryDelegationRewardsRequest) (*disttypes.QueryDelegationRewardsResponse, error)
-	DelegationTotalRewards(c context.Context, req *disttypes.QueryDelegationTotalRewardsRequest) (*disttypes.QueryDelegationTotalRewardsResponse, error)
 	SetWithdrawAddr(ctx context.Context, delegatorAddr sdk.AccAddress, withdrawAddr sdk.AccAddress) error
 	WithdrawDelegationRewards(ctx context.Context, delAddr sdk.AccAddress, valAddr sdk.ValAddress) (sdk.Coins, error)
+}
+type DistributionQuerier interface {
+	DelegationRewards(c context.Context, req *disttypes.QueryDelegationRewardsRequest) (*disttypes.QueryDelegationRewardsResponse, error)
+	DelegationTotalRewards(c context.Context, req *disttypes.QueryDelegationTotalRewardsRequest) (*disttypes.QueryDelegationTotalRewardsResponse, error)
 }

@@ -19,18 +19,18 @@ import (
 
 	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
 	tokenmngr "github.com/thesixnetwork/six-protocol/x/tokenmngr/keeper"
-	tokenmngrtypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+	tokenmoduletypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
 const (
 	SendToCosmos           = "transferToCosmos"
+	SendToCrossChain       = "transferToCrossChain"
 	UnwrapStakeToken       = "unwrapStakeToken"
 	ChangeDelegatorAddress = "changeDelegatorAddress"
 )
 
 const (
 	BridgeAddress      = "0x0000000000000000000000000000000000001069"
-	bridgeDiffTreshold = 1
 )
 
 // Embed abi json file to the executable binary. Needed when importing as dependency.
@@ -84,7 +84,6 @@ func NewPrecompile(bankKeeper pcommon.BankKeeper, accountKeeper pcommon.AccountK
 	return pcommon.NewPrecompile(newAbi, p, p.address, "tokenfactory"), nil
 }
 
-// Address implements common.PrecompileExecutor.
 func (p *PrecompileExecutor) Address() common.Address {
 	return p.address
 }
@@ -98,6 +97,8 @@ func (p PrecompileExecutor) Execute(ctx sdk.Context, method *abi.Method, caller 
 	switch method.Name {
 	case SendToCosmos:
 		return p.sendToCosmos(ctx, caller, method, args, value, readOnly)
+	case SendToCrossChain:
+		return p.sendToCrossChain(ctx, caller, method, args, value, readOnly)
 	case UnwrapStakeToken:
 		return p.unwrapStakeToken(ctx, caller, method, args, value, readOnly)
 	case ChangeDelegatorAddress:
@@ -146,13 +147,9 @@ func (p PrecompileExecutor) sendToCosmos(ctx sdk.Context, caller common.Address,
 	// ------------------------------------
 
 	// check if balance and input are valid
-	if balance := p.bankKeeper.GetBalance(ctx, senderCosmoAddr, tokenmngr.DefaultAttoDenom); balance.Amount.LT(intAmount) {
-		// if current_balance + 1 >= inputAmount then convert all token of the account
-		tresshold_balance := balance.Amount.Add(sdkmath.NewInt(bridgeDiffTreshold))
-		if tresshold_balance.LT(intAmount) {
-			return nil, erromod.Wrap(sdkerrors.ErrInvalidRequest, "Amount of token is too high than current balance")
-		}
-		intAmount = balance.Amount
+	balance := p.bankKeeper.GetBalance(ctx, senderCosmoAddr, "asix")
+	if balance.Amount.LT(intAmount) {
+		return nil, erromod.Wrap(sdkerrors.ErrInvalidRequest, "Amount of token is too high than current balance")
 	}
 
 	// check total supply of evm denom
@@ -165,6 +162,102 @@ func (p PrecompileExecutor) sendToCosmos(ctx sdk.Context, caller common.Address,
 	if err != nil {
 		return nil, err
 	}
+
+	// emit events
+	ctx.EventManager().EmitEvents(sdk.Events{
+		sdk.NewEvent(
+			"precompile",
+			sdk.NewAttribute(sdk.AttributeKeyModule, tokenmoduletypes.ModuleName),
+			sdk.NewAttribute(sdk.AttributeKeyAction, tokenmoduletypes.EventTypesConvertCoinToMicro),
+			sdk.NewAttribute(tokenmoduletypes.AttributeKeyEvmSender, caller.Hex()),
+			sdk.NewAttribute(tokenmoduletypes.AttributeKeyDestAddress, receiverCosmoAddr.String()),
+			sdk.NewAttribute(tokenmoduletypes.AttributeKeyAmount, amount.String()),
+		),
+	})
+
+	return method.Outputs.Pack(true)
+}
+
+func (p PrecompileExecutor) sendToCrossChain(ctx sdk.Context, caller common.Address, method *abi.Method, args []interface{}, value *big.Int, readOnly bool) ([]byte, error) {
+	if readOnly {
+		return nil, errors.New("cannot call send from staticcall")
+	}
+
+	if err := pcommon.ValidateNonPayable(value); err != nil {
+		return nil, err
+	}
+
+	if err := pcommon.ValidateArgsLength(args, 4); err != nil {
+		return nil, err
+	}
+
+	amount := args[1].(*big.Int)
+	if amount.Cmp(utils.Big0) == 0 {
+		// short circuit
+		return method.Outputs.Pack(true)
+	}
+
+	memo, err := p.StringFromArg(args[2])
+	if err != nil {
+		return nil, err
+	}
+
+	chain, err := p.StringFromArg(args[3])
+	if err != nil {
+		return nil, err
+	}
+
+	senderCosmoAddr, err := p.accAddressFromArg(caller)
+	if err != nil {
+		return nil, err
+	}
+	receiverCosmoAddr, err := p.accAddressFromBech32(args[0])
+	if err != nil {
+		return nil, err
+	}
+
+	// check if amount is valid
+	intAmount := sdkmath.NewIntFromBigInt(amount)
+	if intAmount.IsZero() {
+		return nil, erromod.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is prohibit from module")
+	}
+
+	// ------------------------------------
+	// |                                  |
+	// |          CORE CONVERTOR          |
+	// |                                  |
+	// ------------------------------------
+
+	// check if balance and input are valid
+	balance := p.bankKeeper.GetBalance(ctx, senderCosmoAddr, "asix")
+	if balance.Amount.LT(intAmount) {
+		return nil, erromod.Wrap(sdkerrors.ErrInvalidRequest, "Amount of token is too high than current balance")
+	}
+
+	// check total supply of evm denom
+	supply := p.bankKeeper.GetSupply(ctx, "asix")
+	if supply.Amount.LT(intAmount) {
+		return nil, erromod.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is higher than current total supply")
+	}
+
+	err = p.tokenmngrKeeper.AttoCoinConverter(ctx, senderCosmoAddr, receiverCosmoAddr, intAmount)
+	if err != nil {
+		return nil, err
+	}
+
+	// emit events
+	ctx.EventManager().EmitEvents(sdk.Events{
+		sdk.NewEvent(
+			"precompile",
+			sdk.NewAttribute(sdk.AttributeKeyModule, tokenmoduletypes.ModuleName),
+			sdk.NewAttribute(sdk.AttributeKeyAction, tokenmoduletypes.EventTypesSentToCrossChain),
+			sdk.NewAttribute(tokenmoduletypes.AttributeKeyEvmSender, caller.Hex()),
+			sdk.NewAttribute(tokenmoduletypes.AttributeKeyDestChain, chain),
+			sdk.NewAttribute(tokenmoduletypes.AttributeKeyMemo, memo),
+			sdk.NewAttribute(tokenmoduletypes.AttributeKeyDestAddress, receiverCosmoAddr.String()),
+			sdk.NewAttribute(tokenmoduletypes.AttributeKeyAmount, amount.String()),
+		),
+	})
 
 	return method.Outputs.Pack(true)
 }
@@ -204,7 +297,7 @@ func (p PrecompileExecutor) unwrapStakeToken(ctx sdk.Context, caller common.Addr
 		return nil, err
 	}
 
-	msg := &tokenmngrtypes.MsgWrapToken{
+	msg := &tokenmoduletypes.MsgWrapToken{
 		Creator:  senderCosmoAddr.String(),
 		Receiver: senderCosmoAddr.String(),
 		Amount:   sdk.NewCoin(tokenmngr.DefaultMicroDenom, sdkmath.NewIntFromBigInt(amount)),

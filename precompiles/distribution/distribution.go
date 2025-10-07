@@ -51,6 +51,7 @@ func GetABI() abi.ABI {
 
 type PrecompileExecutor struct {
 	distrKeeper     pcommon.DistributionKeeper
+	distrQuerier     pcommon.DistributionQuerier
 	tokenmngrKeeper pcommon.TokenmngrKeeper
 	address         common.Address
 
@@ -247,7 +248,7 @@ func (p *PrecompileExecutor) rewards(ctx sdk.Context, method *abi.Method, args [
 		ValidatorAddress: validatorAddressBech32,
 	}
 
-	res, err := p.distrKeeper.DelegationRewards(sdk.WrapSDKContext(ctx), req)
+	res, err := p.distrQuerier.DelegationRewards(sdk.WrapSDKContext(ctx), req)
 	if err != nil {
 		return nil, err
 	}
@@ -295,7 +296,7 @@ func (p PrecompileExecutor) allRewards(ctx sdk.Context, method *abi.Method, args
 		DelegatorAddress: delegatorAddress.String(),
 	}
 
-	response, err := p.distrKeeper.DelegationTotalRewards(sdk.WrapSDKContext(ctx), req)
+	response, err := p.distrQuerier.DelegationTotalRewards(ctx, req)
 	if err != nil {
 		return nil, err
 	}

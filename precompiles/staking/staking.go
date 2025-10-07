@@ -52,7 +52,7 @@ func GetABI() abi.ABI {
 }
 
 type PrecompileExecutor struct {
-	stakingKeeper   pcommon.StakingKeeper
+	stakingKeeper   pcommon.StakingMsgServer
 	stakingQuerier  pcommon.StakingQuerier
 	bankKeeper      pcommon.BankKeeper
 	tokenmngrKeeper pcommon.TokenmngrKeeper
@@ -75,7 +75,7 @@ type PrecompileExecutor struct {
 	UndelegateID []byte
 }
 
-func NewExecutor(stakingKeeper pcommon.StakingKeeper, stakingQuerier pcommon.StakingQuerier, bankKeeper pcommon.BankKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper) *PrecompileExecutor {
+func NewExecutor(stakingKeeper pcommon.StakingMsgServer, stakingQuerier pcommon.StakingQuerier, bankKeeper pcommon.BankKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper) *PrecompileExecutor {
 	return &PrecompileExecutor{
 		stakingKeeper:   stakingKeeper,
 		stakingQuerier:  stakingQuerier,
@@ -85,7 +85,7 @@ func NewExecutor(stakingKeeper pcommon.StakingKeeper, stakingQuerier pcommon.Sta
 	}
 }
 
-func NewPrecompile(stakingKeeper pcommon.StakingKeeper, stakingQuerier pcommon.StakingQuerier, bankKeeper pcommon.BankKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper) (*pcommon.Precompile, error) {
+func NewPrecompile(stakingKeeper pcommon.StakingMsgServer, stakingQuerier pcommon.StakingQuerier, bankKeeper pcommon.BankKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper) (*pcommon.Precompile, error) {
 	newAbi := GetABI()
 
 	p := NewExecutor(stakingKeeper, stakingQuerier, bankKeeper, tokenmngrKeeper)
