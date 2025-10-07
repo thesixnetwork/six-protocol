@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	sdkerrors "cosmossdk.io/errors"
+	errormod "cosmossdk.io/errors"
 )
 
 type CrossSchemaMetadata struct {
@@ -147,7 +147,7 @@ func (c *CrossSchemaMetadata) GetChangeList(schemaCode string) ChangeList {
 
 func (c *CrossSchemaMetadata) validateSchemaName(schemaCode string) error {
 	if _, exists := c.nftSchemas[schemaCode]; !exists {
-		return sdkerrors.Wrap(ErrSchemaNotFound, schemaCode)
+		return errormod.Wrap(ErrSchemaNotFound, schemaCode)
 	}
 
 	return nil
@@ -156,21 +156,21 @@ func (c *CrossSchemaMetadata) validateSchemaName(schemaCode string) error {
 func (c *CrossSchemaMetadata) getAttribute(schemaCode, key string) (*MetadataAttribute, error) {
 	// Validate schema exists
 	if err := c.validateSchemaName(schemaCode); err != nil {
-		return nil, sdkerrors.Wrapf(err, "schema validation failed for %s", schemaCode)
+		return nil, errormod.Wrapf(err, "schema validation failed for %s", schemaCode)
 	}
 
 	schemaKey, exists := c.mapSchemaKey[schemaCode]
 	if !exists {
-		return nil, sdkerrors.Wrapf(ErrSchemaNotFound, "schema %s not found in mapSchemaKey", schemaCode)
+		return nil, errormod.Wrapf(ErrSchemaNotFound, "schema %s not found in mapSchemaKey", schemaCode)
 	}
 
 	attri, exists := schemaKey[key]
 	if !exists {
-		return nil, sdkerrors.Wrapf(ErrAttributeNotFoundForAction, "attribute %s not found in schema %s", key, schemaCode)
+		return nil, errormod.Wrapf(ErrAttributeNotFoundForAction, "attribute %s not found in schema %s", key, schemaCode)
 	}
 
 	if attri == nil {
-		return nil, sdkerrors.Wrapf(ErrInvalidOperation, "attribute %s is nil in schema %s", key, schemaCode)
+		return nil, errormod.Wrapf(ErrInvalidOperation, "attribute %s is nil in schema %s", key, schemaCode)
 	}
 
 	return attri, nil
@@ -190,12 +190,12 @@ func (c *CrossSchemaMetadata) MustGetNumber(schemaCode, key string) (int64, erro
 		return 0, err
 	}
 	if attri == nil {
-		return 0, sdkerrors.Wrap(ErrAttributeNotFoundForAction, key)
+		return 0, errormod.Wrap(ErrAttributeNotFoundForAction, key)
 	}
 	if _, ok := attri.AttributeValue.GetValue().(*NftAttributeValue_NumberAttributeValue); ok {
 		return int64(attri.AttributeValue.GetNumberAttributeValue().Value), nil
 	}
-	return 0, sdkerrors.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
+	return 0, errormod.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
 }
 
 func (c *CrossSchemaMetadata) GetString(schemaCode, key string) string {
@@ -209,7 +209,7 @@ func (c *CrossSchemaMetadata) GetString(schemaCode, key string) string {
 func (c *CrossSchemaMetadata) GetSubString(schemaCode, key string, start int64, end int64) string {
 	v, err := c.MustGetString(schemaCode, key)
 	if end > int64(len(v)) {
-		panic(sdkerrors.Wrap(ErrInvalidActionInput, "end can not be greater than string length"))
+		panic(errormod.Wrap(ErrInvalidActionInput, "end can not be greater than string length"))
 	}
 	if start == end {
 		return ""
@@ -221,7 +221,7 @@ func (c *CrossSchemaMetadata) GetSubString(schemaCode, key string, start int64, 
 		end = int64(len(v)) + (end + 1)
 	}
 	if start > end {
-		panic(sdkerrors.Wrap(ErrInvalidActionInput, "start can not be greater than end"))
+		panic(errormod.Wrap(ErrInvalidActionInput, "start can not be greater than end"))
 	}
 	if err != nil {
 		panic(err)
@@ -235,7 +235,7 @@ func (c *CrossSchemaMetadata) SetString(schemaCode, key, value string) error {
 		return err
 	}
 	if attri == nil {
-		panic(sdkerrors.Wrap(ErrAttributeNotFoundForAction, key))
+		panic(errormod.Wrap(ErrAttributeNotFoundForAction, key))
 	}
 	if _, ok := attri.AttributeValue.GetValue().(*NftAttributeValue_StringAttributeValue); ok {
 		// String
@@ -264,10 +264,10 @@ func (c *CrossSchemaMetadata) SetString(schemaCode, key, value string) error {
 			})
 			c.mapSchemaKey[schemaCode][key].AttributeValue = newAttributeValue
 		default:
-			return sdkerrors.Wrap(ErrAttributeOverriding, "can not override the origin attribute")
+			return errormod.Wrap(ErrAttributeOverriding, "can not override the origin attribute")
 		}
 	} else {
-		return sdkerrors.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
+		return errormod.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
 	}
 	return nil
 }
@@ -278,7 +278,7 @@ func (c *CrossSchemaMetadata) SetNumber(schemaCode, key string, value int64) err
 		return err
 	}
 	if attri == nil {
-		return sdkerrors.Wrap(ErrAttributeNotFoundForAction, key)
+		return errormod.Wrap(ErrAttributeNotFoundForAction, key)
 	}
 	if _, ok := attri.AttributeValue.GetValue().(*NftAttributeValue_NumberAttributeValue); ok {
 		// Number
@@ -307,10 +307,10 @@ func (c *CrossSchemaMetadata) SetNumber(schemaCode, key string, value int64) err
 			})
 			c.mapSchemaKey[schemaCode][key].AttributeValue = newAttributeValue
 		default:
-			return sdkerrors.Wrap(ErrAttributeOverriding, "can not override the origin attribute")
+			return errormod.Wrap(ErrAttributeOverriding, "can not override the origin attribute")
 		}
 	} else {
-		return sdkerrors.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
+		return errormod.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
 	}
 	return nil
 }
@@ -321,7 +321,7 @@ func (c *CrossSchemaMetadata) SetFloat(schemaCode, key string, value float64) er
 		return err
 	}
 	if attri == nil {
-		return sdkerrors.Wrap(ErrAttributeNotFoundForAction, key)
+		return errormod.Wrap(ErrAttributeNotFoundForAction, key)
 	}
 	if _, ok := attri.AttributeValue.GetValue().(*NftAttributeValue_FloatAttributeValue); ok {
 		// Float
@@ -350,10 +350,10 @@ func (c *CrossSchemaMetadata) SetFloat(schemaCode, key string, value float64) er
 			})
 			c.mapSchemaKey[schemaCode][key].AttributeValue = newAttributeValue
 		default:
-			return sdkerrors.Wrap(ErrAttributeOverriding, "can not override the origin attribute")
+			return errormod.Wrap(ErrAttributeOverriding, "can not override the origin attribute")
 		}
 	} else {
-		return sdkerrors.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
+		return errormod.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
 	}
 	return nil
 }
@@ -380,12 +380,12 @@ func (c *CrossSchemaMetadata) MustGetString(schemaCode, key string) (string, err
 		return "", err
 	}
 	if attri == nil {
-		return "", sdkerrors.Wrap(ErrAttributeNotFoundForAction, key)
+		return "", errormod.Wrap(ErrAttributeNotFoundForAction, key)
 	}
 	if _, ok := attri.AttributeValue.GetValue().(*NftAttributeValue_StringAttributeValue); ok {
 		return attri.AttributeValue.GetStringAttributeValue().Value, nil
 	}
-	return "", sdkerrors.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
+	return "", errormod.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
 }
 
 func (c *CrossSchemaMetadata) GetFloat(schemaCode, key string) float64 {
@@ -402,12 +402,12 @@ func (c *CrossSchemaMetadata) MustGetFloat(schemaCode, key string) (float64, err
 		return 0, err
 	}
 	if attri == nil {
-		return 0, sdkerrors.Wrap(ErrAttributeNotFoundForAction, key)
+		return 0, errormod.Wrap(ErrAttributeNotFoundForAction, key)
 	}
 	if _, ok := attri.AttributeValue.GetValue().(*NftAttributeValue_FloatAttributeValue); ok {
 		return attri.AttributeValue.GetFloatAttributeValue().Value, nil
 	}
-	return 0, sdkerrors.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
+	return 0, errormod.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
 }
 
 func (c *CrossSchemaMetadata) GetBoolean(schemaCode, key string) bool {
@@ -424,12 +424,12 @@ func (c *CrossSchemaMetadata) MustGetBool(schemaCode, key string) (bool, error) 
 		return false, err
 	}
 	if attri == nil {
-		return false, sdkerrors.Wrap(ErrAttributeNotFoundForAction, key)
+		return false, errormod.Wrap(ErrAttributeNotFoundForAction, key)
 	}
 	if _, ok := attri.AttributeValue.GetValue().(*NftAttributeValue_BooleanAttributeValue); ok {
 		return attri.AttributeValue.GetBooleanAttributeValue().Value, nil
 	}
-	return false, sdkerrors.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
+	return false, errormod.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
 }
 
 func (c *CrossSchemaMetadata) ReplaceAllString(input, regexpStr, replaceStr string) string {
