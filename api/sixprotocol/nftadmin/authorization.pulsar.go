@@ -12,6 +12,601 @@ import (
 	sync "sync"
 )
 
+var _ protoreflect.List = (*_Permission_2_list)(nil)
+
+type _Permission_2_list struct {
+	list *[]string
+}
+
+func (x *_Permission_2_list) Len() int {
+	if x.list == nil {
+		return 0
+	}
+	return len(*x.list)
+}
+
+func (x *_Permission_2_list) Get(i int) protoreflect.Value {
+	return protoreflect.ValueOfString((*x.list)[i])
+}
+
+func (x *_Permission_2_list) Set(i int, value protoreflect.Value) {
+	valueUnwrapped := value.String()
+	concreteValue := valueUnwrapped
+	(*x.list)[i] = concreteValue
+}
+
+func (x *_Permission_2_list) Append(value protoreflect.Value) {
+	valueUnwrapped := value.String()
+	concreteValue := valueUnwrapped
+	*x.list = append(*x.list, concreteValue)
+}
+
+func (x *_Permission_2_list) AppendMutable() protoreflect.Value {
+	panic(fmt.Errorf("AppendMutable can not be called on message Permission at list field Addresses as it is not of Message kind"))
+}
+
+func (x *_Permission_2_list) Truncate(n int) {
+	*x.list = (*x.list)[:n]
+}
+
+func (x *_Permission_2_list) NewElement() protoreflect.Value {
+	v := ""
+	return protoreflect.ValueOfString(v)
+}
+
+func (x *_Permission_2_list) IsValid() bool {
+	return x.list != nil
+}
+
+var (
+	md_Permission           protoreflect.MessageDescriptor
+	fd_Permission_name      protoreflect.FieldDescriptor
+	fd_Permission_addresses protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_sixprotocol_nftadmin_authorization_proto_init()
+	md_Permission = File_sixprotocol_nftadmin_authorization_proto.Messages().ByName("Permission")
+	fd_Permission_name = md_Permission.Fields().ByName("name")
+	fd_Permission_addresses = md_Permission.Fields().ByName("addresses")
+}
+
+var _ protoreflect.Message = (*fastReflection_Permission)(nil)
+
+type fastReflection_Permission Permission
+
+func (x *Permission) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_Permission)(x)
+}
+
+func (x *Permission) slowProtoReflect() protoreflect.Message {
+	mi := &file_sixprotocol_nftadmin_authorization_proto_msgTypes[0]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_Permission_messageType fastReflection_Permission_messageType
+var _ protoreflect.MessageType = fastReflection_Permission_messageType{}
+
+type fastReflection_Permission_messageType struct{}
+
+func (x fastReflection_Permission_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_Permission)(nil)
+}
+func (x fastReflection_Permission_messageType) New() protoreflect.Message {
+	return new(fastReflection_Permission)
+}
+func (x fastReflection_Permission_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_Permission
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_Permission) Descriptor() protoreflect.MessageDescriptor {
+	return md_Permission
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_Permission) Type() protoreflect.MessageType {
+	return _fastReflection_Permission_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_Permission) New() protoreflect.Message {
+	return new(fastReflection_Permission)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_Permission) Interface() protoreflect.ProtoMessage {
+	return (*Permission)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_Permission) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.Name != "" {
+		value := protoreflect.ValueOfString(x.Name)
+		if !f(fd_Permission_name, value) {
+			return
+		}
+	}
+	if len(x.Addresses) != 0 {
+		value := protoreflect.ValueOfList(&_Permission_2_list{list: &x.Addresses})
+		if !f(fd_Permission_addresses, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_Permission) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "sixprotocol.nftadmin.Permission.name":
+		return x.Name != ""
+	case "sixprotocol.nftadmin.Permission.addresses":
+		return len(x.Addresses) != 0
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: sixprotocol.nftadmin.Permission"))
+		}
+		panic(fmt.Errorf("message sixprotocol.nftadmin.Permission does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_Permission) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "sixprotocol.nftadmin.Permission.name":
+		x.Name = ""
+	case "sixprotocol.nftadmin.Permission.addresses":
+		x.Addresses = nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: sixprotocol.nftadmin.Permission"))
+		}
+		panic(fmt.Errorf("message sixprotocol.nftadmin.Permission does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_Permission) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "sixprotocol.nftadmin.Permission.name":
+		value := x.Name
+		return protoreflect.ValueOfString(value)
+	case "sixprotocol.nftadmin.Permission.addresses":
+		if len(x.Addresses) == 0 {
+			return protoreflect.ValueOfList(&_Permission_2_list{})
+		}
+		listValue := &_Permission_2_list{list: &x.Addresses}
+		return protoreflect.ValueOfList(listValue)
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: sixprotocol.nftadmin.Permission"))
+		}
+		panic(fmt.Errorf("message sixprotocol.nftadmin.Permission does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_Permission) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "sixprotocol.nftadmin.Permission.name":
+		x.Name = value.Interface().(string)
+	case "sixprotocol.nftadmin.Permission.addresses":
+		lv := value.List()
+		clv := lv.(*_Permission_2_list)
+		x.Addresses = *clv.list
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: sixprotocol.nftadmin.Permission"))
+		}
+		panic(fmt.Errorf("message sixprotocol.nftadmin.Permission does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_Permission) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "sixprotocol.nftadmin.Permission.addresses":
+		if x.Addresses == nil {
+			x.Addresses = []string{}
+		}
+		value := &_Permission_2_list{list: &x.Addresses}
+		return protoreflect.ValueOfList(value)
+	case "sixprotocol.nftadmin.Permission.name":
+		panic(fmt.Errorf("field name of message sixprotocol.nftadmin.Permission is not mutable"))
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: sixprotocol.nftadmin.Permission"))
+		}
+		panic(fmt.Errorf("message sixprotocol.nftadmin.Permission does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_Permission) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "sixprotocol.nftadmin.Permission.name":
+		return protoreflect.ValueOfString("")
+	case "sixprotocol.nftadmin.Permission.addresses":
+		list := []string{}
+		return protoreflect.ValueOfList(&_Permission_2_list{list: &list})
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: sixprotocol.nftadmin.Permission"))
+		}
+		panic(fmt.Errorf("message sixprotocol.nftadmin.Permission does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_Permission) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in sixprotocol.nftadmin.Permission", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_Permission) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_Permission) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_Permission) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_Permission) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*Permission)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		l = len(x.Name)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if len(x.Addresses) > 0 {
+			for _, s := range x.Addresses {
+				l = len(s)
+				n += 1 + l + runtime.Sov(uint64(l))
+			}
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*Permission)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if len(x.Addresses) > 0 {
+			for iNdEx := len(x.Addresses) - 1; iNdEx >= 0; iNdEx-- {
+				i -= len(x.Addresses[iNdEx])
+				copy(dAtA[i:], x.Addresses[iNdEx])
+				i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Addresses[iNdEx])))
+				i--
+				dAtA[i] = 0x12
+			}
+		}
+		if len(x.Name) > 0 {
+			i -= len(x.Name)
+			copy(dAtA[i:], x.Name)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Name)))
+			i--
+			dAtA[i] = 0xa
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*Permission)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: Permission: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: Permission: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Name", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Name = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 2:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Addresses", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Addresses = append(x.Addresses, string(dAtA[iNdEx:postIndex]))
+				iNdEx = postIndex
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
+var _ protoreflect.List = (*_Authorization_2_list)(nil)
+
+type _Authorization_2_list struct {
+	list *[]*Permission
+}
+
+func (x *_Authorization_2_list) Len() int {
+	if x.list == nil {
+		return 0
+	}
+	return len(*x.list)
+}
+
+func (x *_Authorization_2_list) Get(i int) protoreflect.Value {
+	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
+}
+
+func (x *_Authorization_2_list) Set(i int, value protoreflect.Value) {
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*Permission)
+	(*x.list)[i] = concreteValue
+}
+
+func (x *_Authorization_2_list) Append(value protoreflect.Value) {
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*Permission)
+	*x.list = append(*x.list, concreteValue)
+}
+
+func (x *_Authorization_2_list) AppendMutable() protoreflect.Value {
+	v := new(Permission)
+	*x.list = append(*x.list, v)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
+}
+
+func (x *_Authorization_2_list) Truncate(n int) {
+	for i := n; i < len(*x.list); i++ {
+		(*x.list)[i] = nil
+	}
+	*x.list = (*x.list)[:n]
+}
+
+func (x *_Authorization_2_list) NewElement() protoreflect.Value {
+	v := new(Permission)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
+}
+
+func (x *_Authorization_2_list) IsValid() bool {
+	return x.list != nil
+}
+
 var (
 	md_Authorization             protoreflect.MessageDescriptor
 	fd_Authorization_root_admin  protoreflect.FieldDescriptor
@@ -34,7 +629,7 @@ func (x *Authorization) ProtoReflect() protoreflect.Message {
 }
 
 func (x *Authorization) slowProtoReflect() protoreflect.Message {
-	mi := &file_sixprotocol_nftadmin_authorization_proto_msgTypes[0]
+	mi := &file_sixprotocol_nftadmin_authorization_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -96,8 +691,8 @@ func (x *fastReflection_Authorization) Range(f func(protoreflect.FieldDescriptor
 			return
 		}
 	}
-	if x.Permissions != nil {
-		value := protoreflect.ValueOfMessage(x.Permissions.ProtoReflect())
+	if len(x.Permissions) != 0 {
+		value := protoreflect.ValueOfList(&_Authorization_2_list{list: &x.Permissions})
 		if !f(fd_Authorization_permissions, value) {
 			return
 		}
@@ -120,7 +715,7 @@ func (x *fastReflection_Authorization) Has(fd protoreflect.FieldDescriptor) bool
 	case "sixprotocol.nftadmin.Authorization.root_admin":
 		return x.RootAdmin != ""
 	case "sixprotocol.nftadmin.Authorization.permissions":
-		return x.Permissions != nil
+		return len(x.Permissions) != 0
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: sixprotocol.nftadmin.Authorization"))
@@ -161,8 +756,11 @@ func (x *fastReflection_Authorization) Get(descriptor protoreflect.FieldDescript
 		value := x.RootAdmin
 		return protoreflect.ValueOfString(value)
 	case "sixprotocol.nftadmin.Authorization.permissions":
-		value := x.Permissions
-		return protoreflect.ValueOfMessage(value.ProtoReflect())
+		if len(x.Permissions) == 0 {
+			return protoreflect.ValueOfList(&_Authorization_2_list{})
+		}
+		listValue := &_Authorization_2_list{list: &x.Permissions}
+		return protoreflect.ValueOfList(listValue)
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: sixprotocol.nftadmin.Authorization"))
@@ -186,7 +784,9 @@ func (x *fastReflection_Authorization) Set(fd protoreflect.FieldDescriptor, valu
 	case "sixprotocol.nftadmin.Authorization.root_admin":
 		x.RootAdmin = value.Interface().(string)
 	case "sixprotocol.nftadmin.Authorization.permissions":
-		x.Permissions = value.Message().Interface().(*Permissions)
+		lv := value.List()
+		clv := lv.(*_Authorization_2_list)
+		x.Permissions = *clv.list
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: sixprotocol.nftadmin.Authorization"))
@@ -209,9 +809,10 @@ func (x *fastReflection_Authorization) Mutable(fd protoreflect.FieldDescriptor) 
 	switch fd.FullName() {
 	case "sixprotocol.nftadmin.Authorization.permissions":
 		if x.Permissions == nil {
-			x.Permissions = new(Permissions)
+			x.Permissions = []*Permission{}
 		}
-		return protoreflect.ValueOfMessage(x.Permissions.ProtoReflect())
+		value := &_Authorization_2_list{list: &x.Permissions}
+		return protoreflect.ValueOfList(value)
 	case "sixprotocol.nftadmin.Authorization.root_admin":
 		panic(fmt.Errorf("field root_admin of message sixprotocol.nftadmin.Authorization is not mutable"))
 	default:
@@ -230,8 +831,8 @@ func (x *fastReflection_Authorization) NewField(fd protoreflect.FieldDescriptor)
 	case "sixprotocol.nftadmin.Authorization.root_admin":
 		return protoreflect.ValueOfString("")
 	case "sixprotocol.nftadmin.Authorization.permissions":
-		m := new(Permissions)
-		return protoreflect.ValueOfMessage(m.ProtoReflect())
+		list := []*Permission{}
+		return protoreflect.ValueOfList(&_Authorization_2_list{list: &list})
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: sixprotocol.nftadmin.Authorization"))
@@ -305,9 +906,11 @@ func (x *fastReflection_Authorization) ProtoMethods() *protoiface.Methods {
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		if x.Permissions != nil {
-			l = options.Size(x.Permissions)
-			n += 1 + l + runtime.Sov(uint64(l))
+		if len(x.Permissions) > 0 {
+			for _, e := range x.Permissions {
+				l = options.Size(e)
+				n += 1 + l + runtime.Sov(uint64(l))
+			}
 		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
@@ -338,19 +941,21 @@ func (x *fastReflection_Authorization) ProtoMethods() *protoiface.Methods {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
 		}
-		if x.Permissions != nil {
-			encoded, err := options.Marshal(x.Permissions)
-			if err != nil {
-				return protoiface.MarshalOutput{
-					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
-					Buf:               input.Buf,
-				}, err
+		if len(x.Permissions) > 0 {
+			for iNdEx := len(x.Permissions) - 1; iNdEx >= 0; iNdEx-- {
+				encoded, err := options.Marshal(x.Permissions[iNdEx])
+				if err != nil {
+					return protoiface.MarshalOutput{
+						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+						Buf:               input.Buf,
+					}, err
+				}
+				i -= len(encoded)
+				copy(dAtA[i:], encoded)
+				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+				i--
+				dAtA[i] = 0x12
 			}
-			i -= len(encoded)
-			copy(dAtA[i:], encoded)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
-			i--
-			dAtA[i] = 0x12
 		}
 		if len(x.RootAdmin) > 0 {
 			i -= len(x.RootAdmin)
@@ -469,10 +1074,8 @@ func (x *fastReflection_Authorization) ProtoMethods() *protoiface.Methods {
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				if x.Permissions == nil {
-					x.Permissions = &Permissions{}
-				}
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Permissions); err != nil {
+				x.Permissions = append(x.Permissions, &Permission{})
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Permissions[len(x.Permissions)-1]); err != nil {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
@@ -524,19 +1127,62 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type Permission struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Name      string   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Addresses []string `protobuf:"bytes,2,rep,name=addresses,proto3" json:"addresses,omitempty"`
+}
+
+func (x *Permission) Reset() {
+	*x = Permission{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_sixprotocol_nftadmin_authorization_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Permission) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Permission) ProtoMessage() {}
+
+// Deprecated: Use Permission.ProtoReflect.Descriptor instead.
+func (*Permission) Descriptor() ([]byte, []int) {
+	return file_sixprotocol_nftadmin_authorization_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *Permission) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *Permission) GetAddresses() []string {
+	if x != nil {
+		return x.Addresses
+	}
+	return nil
+}
+
 type Authorization struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	RootAdmin   string       `protobuf:"bytes,1,opt,name=root_admin,json=rootAdmin,proto3" json:"root_admin,omitempty"`
-	Permissions *Permissions `protobuf:"bytes,2,opt,name=permissions,proto3" json:"permissions,omitempty"`
+	RootAdmin   string        `protobuf:"bytes,1,opt,name=root_admin,json=rootAdmin,proto3" json:"root_admin,omitempty"`
+	Permissions []*Permission `protobuf:"bytes,2,rep,name=permissions,proto3" json:"permissions,omitempty"`
 }
 
 func (x *Authorization) Reset() {
 	*x = Authorization{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_sixprotocol_nftadmin_authorization_proto_msgTypes[0]
+		mi := &file_sixprotocol_nftadmin_authorization_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -550,7 +1196,7 @@ func (*Authorization) ProtoMessage() {}
 
 // Deprecated: Use Authorization.ProtoReflect.Descriptor instead.
 func (*Authorization) Descriptor() ([]byte, []int) {
-	return file_sixprotocol_nftadmin_authorization_proto_rawDescGZIP(), []int{0}
+	return file_sixprotocol_nftadmin_authorization_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *Authorization) GetRootAdmin() string {
@@ -560,7 +1206,7 @@ func (x *Authorization) GetRootAdmin() string {
 	return ""
 }
 
-func (x *Authorization) GetPermissions() *Permissions {
+func (x *Authorization) GetPermissions() []*Permission {
 	if x != nil {
 		return x.Permissions
 	}
@@ -574,31 +1220,32 @@ var file_sixprotocol_nftadmin_authorization_proto_rawDesc = []byte{
 	0x74, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x2f, 0x61, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x69, 0x7a, 0x61,
 	0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x14, 0x73, 0x69, 0x78, 0x70,
 	0x72, 0x6f, 0x74, 0x6f, 0x63, 0x6f, 0x6c, 0x2e, 0x6e, 0x66, 0x74, 0x61, 0x64, 0x6d, 0x69, 0x6e,
-	0x1a, 0x26, 0x73, 0x69, 0x78, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x63, 0x6f, 0x6c, 0x2f, 0x6e, 0x66,
-	0x74, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x2f, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f,
-	0x6e, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x73, 0x0a, 0x0d, 0x41, 0x75, 0x74, 0x68,
-	0x6f, 0x72, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x1d, 0x0a, 0x0a, 0x72, 0x6f, 0x6f,
-	0x74, 0x5f, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x72,
-	0x6f, 0x6f, 0x74, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x12, 0x43, 0x0a, 0x0b, 0x70, 0x65, 0x72, 0x6d,
-	0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x21, 0x2e,
-	0x73, 0x69, 0x78, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x63, 0x6f, 0x6c, 0x2e, 0x6e, 0x66, 0x74, 0x61,
-	0x64, 0x6d, 0x69, 0x6e, 0x2e, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73,
-	0x52, 0x0b, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x42, 0xdf, 0x01,
-	0x0a, 0x18, 0x63, 0x6f, 0x6d, 0x2e, 0x73, 0x69, 0x78, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x63, 0x6f,
-	0x6c, 0x2e, 0x6e, 0x66, 0x74, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x42, 0x12, 0x41, 0x75, 0x74, 0x68,
-	0x6f, 0x72, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01,
-	0x5a, 0x3e, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x74, 0x68, 0x65,
-	0x73, 0x69, 0x78, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2f, 0x73, 0x69, 0x78, 0x2d, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x63, 0x6f, 0x6c, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x73, 0x69, 0x78, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x63, 0x6f, 0x6c, 0x2f, 0x6e, 0x66, 0x74, 0x61, 0x64, 0x6d, 0x69, 0x6e,
-	0xa2, 0x02, 0x03, 0x53, 0x4e, 0x58, 0xaa, 0x02, 0x14, 0x53, 0x69, 0x78, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x63, 0x6f, 0x6c, 0x2e, 0x4e, 0x66, 0x74, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0xca, 0x02, 0x14,
-	0x53, 0x69, 0x78, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x63, 0x6f, 0x6c, 0x5c, 0x4e, 0x66, 0x74, 0x61,
-	0x64, 0x6d, 0x69, 0x6e, 0xe2, 0x02, 0x20, 0x53, 0x69, 0x78, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x63,
-	0x6f, 0x6c, 0x5c, 0x4e, 0x66, 0x74, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x5c, 0x47, 0x50, 0x42, 0x4d,
-	0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x15, 0x53, 0x69, 0x78, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x63, 0x6f, 0x6c, 0x3a, 0x3a, 0x4e, 0x66, 0x74, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x62,
-	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x22, 0x3e, 0x0a, 0x0a, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x12, 0x12,
+	0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61,
+	0x6d, 0x65, 0x12, 0x1c, 0x0a, 0x09, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x65, 0x73, 0x18,
+	0x02, 0x20, 0x03, 0x28, 0x09, 0x52, 0x09, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x65, 0x73,
+	0x22, 0x72, 0x0a, 0x0d, 0x41, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x12, 0x1d, 0x0a, 0x0a, 0x72, 0x6f, 0x6f, 0x74, 0x5f, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x72, 0x6f, 0x6f, 0x74, 0x41, 0x64, 0x6d, 0x69, 0x6e,
+	0x12, 0x42, 0x0a, 0x0b, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x73, 0x18,
+	0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x20, 0x2e, 0x73, 0x69, 0x78, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x63, 0x6f, 0x6c, 0x2e, 0x6e, 0x66, 0x74, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x2e, 0x50, 0x65, 0x72,
+	0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x0b, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73,
+	0x69, 0x6f, 0x6e, 0x73, 0x42, 0xdf, 0x01, 0x0a, 0x18, 0x63, 0x6f, 0x6d, 0x2e, 0x73, 0x69, 0x78,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x63, 0x6f, 0x6c, 0x2e, 0x6e, 0x66, 0x74, 0x61, 0x64, 0x6d, 0x69,
+	0x6e, 0x42, 0x12, 0x41, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x3e, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e,
+	0x63, 0x6f, 0x6d, 0x2f, 0x74, 0x68, 0x65, 0x73, 0x69, 0x78, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72,
+	0x6b, 0x2f, 0x73, 0x69, 0x78, 0x2d, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x63, 0x6f, 0x6c, 0x2f, 0x61,
+	0x70, 0x69, 0x2f, 0x73, 0x69, 0x78, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x63, 0x6f, 0x6c, 0x2f, 0x6e,
+	0x66, 0x74, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0xa2, 0x02, 0x03, 0x53, 0x4e, 0x58, 0xaa, 0x02, 0x14,
+	0x53, 0x69, 0x78, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x63, 0x6f, 0x6c, 0x2e, 0x4e, 0x66, 0x74, 0x61,
+	0x64, 0x6d, 0x69, 0x6e, 0xca, 0x02, 0x14, 0x53, 0x69, 0x78, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x63,
+	0x6f, 0x6c, 0x5c, 0x4e, 0x66, 0x74, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0xe2, 0x02, 0x20, 0x53, 0x69,
+	0x78, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x63, 0x6f, 0x6c, 0x5c, 0x4e, 0x66, 0x74, 0x61, 0x64, 0x6d,
+	0x69, 0x6e, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02,
+	0x15, 0x53, 0x69, 0x78, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x63, 0x6f, 0x6c, 0x3a, 0x3a, 0x4e, 0x66,
+	0x74, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -613,13 +1260,13 @@ func file_sixprotocol_nftadmin_authorization_proto_rawDescGZIP() []byte {
 	return file_sixprotocol_nftadmin_authorization_proto_rawDescData
 }
 
-var file_sixprotocol_nftadmin_authorization_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_sixprotocol_nftadmin_authorization_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_sixprotocol_nftadmin_authorization_proto_goTypes = []interface{}{
-	(*Authorization)(nil), // 0: sixprotocol.nftadmin.Authorization
-	(*Permissions)(nil),   // 1: sixprotocol.nftadmin.Permissions
+	(*Permission)(nil),    // 0: sixprotocol.nftadmin.Permission
+	(*Authorization)(nil), // 1: sixprotocol.nftadmin.Authorization
 }
 var file_sixprotocol_nftadmin_authorization_proto_depIdxs = []int32{
-	1, // 0: sixprotocol.nftadmin.Authorization.permissions:type_name -> sixprotocol.nftadmin.Permissions
+	0, // 0: sixprotocol.nftadmin.Authorization.permissions:type_name -> sixprotocol.nftadmin.Permission
 	1, // [1:1] is the sub-list for method output_type
 	1, // [1:1] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
@@ -632,9 +1279,20 @@ func file_sixprotocol_nftadmin_authorization_proto_init() {
 	if File_sixprotocol_nftadmin_authorization_proto != nil {
 		return
 	}
-	file_sixprotocol_nftadmin_permissions_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_sixprotocol_nftadmin_authorization_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Permission); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_sixprotocol_nftadmin_authorization_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Authorization); i {
 			case 0:
 				return &v.state
@@ -653,7 +1311,7 @@ func file_sixprotocol_nftadmin_authorization_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_sixprotocol_nftadmin_authorization_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   1,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

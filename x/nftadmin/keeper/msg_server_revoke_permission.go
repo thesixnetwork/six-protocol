@@ -33,20 +33,20 @@ func (k msgServer) RevokePermission(goCtx context.Context, msg *types.MsgRevokeP
 		return nil, types.ErrInvalidGrantee
 	}
 
-	list := auth.Permissions.GetPermissionAddressByKey(msg.Name)
-	if list == nil {
+	listAddress := auth.GetPermissionAddressByKey(msg.Name)
+	if listAddress == nil {
 		return nil, errormod.Wrapf(types.ErrNoPermissionsForName, "no permissions for name %s", msg.Name)
 	}
 
-	if list.Addresses == nil || len(list.Addresses) == 0 {
+	if listAddress == nil || len(listAddress) == 0 {
 		return nil, errormod.Wrapf(types.ErrNoPermissionsForName, "no permissions for name %s", msg.Name)
 	}
 
 	removed := false
 
-	for i, addr := range list.Addresses {
+	for i, addr := range listAddress {
 		if addr == msg.Revokee {
-			list.Addresses = append(list.Addresses[:i], list.Addresses[i+1:]...)
+			listAddress = append(listAddress[:i], listAddress[i+1:]...)
 			removed = true
 			break
 		}
