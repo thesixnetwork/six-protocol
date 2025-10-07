@@ -123,11 +123,9 @@ genesis:
     nftadmin:
       authorization:
         permissions:
-          permissions:
-            - addresses:
-                addresses:
-                  - 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
-              name: nft_fee_admin
+          - name: nft_fee_admin
+            addresses:
+              - 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
         root_admin: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
     nftmngr:
       nft_fee_config:
