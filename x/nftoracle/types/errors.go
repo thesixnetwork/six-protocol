@@ -33,6 +33,7 @@ var (
 	ErrEcrecover                           = sdkerrors.Register(ModuleName, 19, "Cannot ecrecover pubkey")
 	ErrUnmarshalPubkey                     = sdkerrors.Register(ModuleName, 20, "Error Get address from pubkey")
 	ErrValidateSignature                   = sdkerrors.Register(ModuleName, 21, "Error To Validate Signature")
+	ErrInvalidExpireEpoch                  = sdkerrors.Register(ModuleName, 12, "Invalid base64")
 
 	// 100 - 199
 	ErrActionRequestNotFound                 = sdkerrors.Register(ModuleName, 100, "Action request not found")
