@@ -167,6 +167,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/staking"
 	stakingkeeper "github.com/cosmos/cosmos-sdk/x/staking/keeper"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
+	// this line is used by starport scaffolding # stargate/app/moduleImport
 )
 
 const (
@@ -274,6 +275,38 @@ func init() {
 	// manually update the power reduction based on the base denom unit (10^18 [evm] or 10^6 [cosmos])
 	sdk.DefaultPowerReduction = math.NewIntFromBigInt(new(big.Int).Exp(big.NewInt(10), big.NewInt(BaseDenomUnit), nil))
 }
+
+// getGovProposalHandlers return the chain proposal handlers.
+func getGovProposalHandlers() []govclient.ProposalHandler {
+	var govProposalHandlers []govclient.ProposalHandler
+	// this line is used by starport scaffolding # stargate/app/govProposalHandlers
+
+	govProposalHandlers = append(govProposalHandlers,
+		paramsclient.ProposalHandler,
+		// this line is used by starport scaffolding # stargate/app/govProposalHandler
+	)
+
+	return govProposalHandlers
+}
+
+/*
+// AppConfig returns the default app config.
+func AppConfig() depinject.Config {
+	return depinject.Configs(
+		appConfig,
+		// Alternatively, load the app config from a YAML file.
+		// appconfig.LoadYAML(AppConfigYAML),
+		depinject.Supply(
+			// supply custom module basics
+			map[string]module.AppModuleBasic{
+				genutiltypes.ModuleName: genutil.NewAppModuleBasic(genutiltypes.DefaultMessageValidator),
+				govtypes.ModuleName:     gov.NewAppModuleBasic(getGovProposalHandlers()),
+				// this line is used by starport scaffolding # stargate/appConfig/moduleBasic
+			},
+		),
+	)
+}
+*/
 
 // New returns a reference to an initialized App.
 func New(
@@ -400,7 +433,6 @@ func New(
 		nftadminmoduletypes.StoreKey,
 		nftmngrmoduletypes.StoreKey,
 		nftoraclemoduletypes.StoreKey,
-		// this line is used by starport scaffolding # stargate/app/storeKey
 	)
 
 	/*
@@ -1331,7 +1363,6 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(nftmngrmoduletypes.ModuleName)
 	paramsKeeper.Subspace(nftadminmoduletypes.ModuleName)
 	paramsKeeper.Subspace(nftoraclemoduletypes.ModuleName)
-	// this line is used by starport scaffolding # stargate/app/paramSubspace
 	// ethermint subspaces
 	paramsKeeper.Subspace(evmtypes.ModuleName).WithKeyTable(evmtypes.ParamKeyTable())
 	paramsKeeper.Subspace(feemarkettypes.ModuleName).WithKeyTable(feemarkettypes.ParamKeyTable())

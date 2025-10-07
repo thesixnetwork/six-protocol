@@ -61,7 +61,6 @@ func GetTxCmd() *cobra.Command {
 	cmd.AddCommand(CmdCreateVirtualSchema())
 	cmd.AddCommand(CmdPerformVirtualAction())
 	cmd.AddCommand(CmdVoteVirtualSchemaProposal())
-	// this line is used by starport scaffolding # 1
 
 	return cmd
 }
