@@ -14,7 +14,8 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/vm"
+	//"github.com/ethereum/go-ethereum/core/vm"
+	"github.com/evmos/evmos/v20/x/evm/core/vm"
 
 	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
 	"github.com/thesixnetwork/six-protocol/utils"
