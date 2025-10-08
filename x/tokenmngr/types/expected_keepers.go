@@ -53,6 +53,7 @@ type EVMKeeper interface {
 	GetParams(ctx sdk.Context) evmtypes.Params
 	SetParams(ctx sdk.Context, params evmtypes.Params) error
 	GetStaticPrecompileInstance(params *evmtypes.Params, address common.Address) (vm.PrecompiledContract, bool, error)
+	GetPrecompiles() map[common.Address]vm.PrecompiledContract
 }
 
 // ParamSubspace defines the expected Subspace interface for parameters.

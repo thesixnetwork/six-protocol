@@ -3,7 +3,6 @@ package keeper
 import (
 	"context"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -14,12 +13,13 @@ func (k Keeper) ListPrecompile(goCtx context.Context, req *types.QueryListPrecom
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
-	ctx := sdk.UnwrapSDKContext(goCtx)
+	map_precompiles := k.evmKeeper.GetPrecompiles()
 
-	// params := k.GetParams(ctx)
+	var precompiles []string
 
-	// TODO: Process the query
-	_ = ctx
+	for _, v := range map_precompiles {
+		precompiles = append(precompiles, v.Address().Hex())
+	}
 
-	return &types.QueryListPrecompileResponse{}, nil
+	return &types.QueryListPrecompileResponse{Precompiles: precompiles}, nil
 }
