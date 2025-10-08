@@ -14,7 +14,7 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
-	//"github.com/ethereum/go-ethereum/core/vm"
+
 	"github.com/evmos/evmos/v20/x/evm/core/vm"
 
 	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
@@ -73,8 +73,6 @@ type PrecompileExecutor struct {
 	DelegateID   []byte
 	RedelegateID []byte
 	UndelegateID []byte
-
-	Enable 		bool
 }
 
 func NewExecutor(stakingKeeper pcommon.StakingMsgServer, stakingQuerier pcommon.StakingQuerier, bankKeeper pcommon.BankKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper) *PrecompileExecutor {
@@ -84,11 +82,6 @@ func NewExecutor(stakingKeeper pcommon.StakingMsgServer, stakingQuerier pcommon.
 		bankKeeper:      bankKeeper,
 		tokenmngrKeeper: tokenmngrKeeper,
 		address:         common.HexToAddress(StakingAddress),
-
-	/*
-		NOTE: Will suppoort on next release (after 3.3.2)
-	*/
-		Enable:          false,
 	}
 }
 
@@ -119,11 +112,6 @@ func (p *PrecompileExecutor) Address() common.Address {
 }
 
 func (p *PrecompileExecutor) Execute(ctx sdk.Context, method *abi.Method, caller common.Address, callingContract common.Address, args []interface{}, value *big.Int, readOnly bool, evm *vm.EVM) ([]byte, error) {
-
-	if !p.Enable {
-		return nil, errors.New("THIS PRECOMPILE IS DISABLED")
-	}
-
 	switch method.Name {
 	case DelegateMethod:
 		return p.delegate(ctx, caller, method, args, value, readOnly)

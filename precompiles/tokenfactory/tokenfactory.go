@@ -13,7 +13,7 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
-	//"github.com/ethereum/go-ethereum/core/vm"
+
 	"github.com/evmos/evmos/v20/x/evm/core/vm"
 
 	"github.com/thesixnetwork/six-protocol/utils"
@@ -31,7 +31,7 @@ const (
 )
 
 const (
-	BridgeAddress      = "0x0000000000000000000000000000000000001069"
+	BridgeAddress = "0x0000000000000000000000000000000000001069"
 )
 
 // Embed abi json file to the executable binary. Needed when importing as dependency.

@@ -9,10 +9,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
-	//"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/evmos/evmos/v20/x/evm/statedb"
-	"github.com/evmos/evmos/v20/x/evm/core/vm"
 
+	"github.com/evmos/evmos/v20/x/evm/core/vm"
+	"github.com/evmos/evmos/v20/x/evm/statedb"
 )
 
 const UnknownMethodCallGas uint64 = 3000

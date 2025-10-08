@@ -200,7 +200,7 @@ func (k Keeper) FromOriginDataToNftOriginAttribute(ctx sdk.Context, schema *nftm
 		if err != nil {
 			return nil, err
 		}
-		
+
 		// Check if attribute already exists and update it, otherwise append
 		found := false
 		for i, existingAttr := range attributes {
@@ -213,7 +213,7 @@ func (k Keeper) FromOriginDataToNftOriginAttribute(ctx sdk.Context, schema *nftm
 		if !found {
 			attributes = append(attributes, attributeValue) // Append new attribute
 		}
-		
+
 		delete(attributeByTrait, trait.TraitType)
 	}
 	// Looking for _HIDDEN_ boolean attribute
