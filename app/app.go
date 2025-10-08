@@ -167,7 +167,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/staking"
 	stakingkeeper "github.com/cosmos/cosmos-sdk/x/staking/keeper"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-	// "github.com/thesixnetwork/six-protocol/precompiles"
+	"github.com/thesixnetwork/six-protocol/precompiles"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 )
 
@@ -895,21 +895,21 @@ func New(
 	ibcRouter.AddRoute(icahosttypes.SubModuleName, icaHostStack)
 	app.IBCKeeper.SetRouter(ibcRouter)
 
-	// if err := precompiles.InitializePrecompiles(
-	// 	false,
-	// 	appCodec,
-	// 	app.BankKeeper,
-	// 	app.AccountKeeper,
-	// 	app.TokenmngrKeeper,
-	// 	tokenmngrmodulekeeper.NewMsgServerImpl(app.TokenmngrKeeper),
-	// 	app.NftmngrKeeper,
-	// 	stakingkeeper.NewMsgServerImpl(app.StakingKeeper),
-	// 	stakingkeeper.NewQuerier(app.StakingKeeper),
-	// 	app.DistrKeeper,
-	// 	distrkeeper.NewQuerier(app.DistrKeeper),
-	// ); err != nil {
-	// 	panic(err)
-	// }
+	if err := precompiles.InitializePrecompiles(
+		false,
+		appCodec,
+		app.BankKeeper,
+		app.AccountKeeper,
+		app.TokenmngrKeeper,
+		tokenmngrmodulekeeper.NewMsgServerImpl(app.TokenmngrKeeper),
+		app.NftmngrKeeper,
+		stakingkeeper.NewMsgServerImpl(app.StakingKeeper),
+		stakingkeeper.NewQuerier(app.StakingKeeper),
+		app.DistrKeeper,
+		distrkeeper.NewQuerier(app.DistrKeeper),
+	); err != nil {
+		panic(err)
+	}
 
 	/****  Module Options ****/
 
