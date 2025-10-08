@@ -52,7 +52,7 @@ contract SendScript is Script {
                 ownerAddress,
                 0xd907f36f7D83344057a619b6D83A45B3288c3c21,
                 "asix",
-                2 * 1e18
+                1000 * 1e18
             )
         );
         require(success, "Transaction failed");

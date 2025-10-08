@@ -895,7 +895,7 @@ func New(
 	ibcRouter.AddRoute(icahosttypes.SubModuleName, icaHostStack)
 	app.IBCKeeper.SetRouter(ibcRouter)
 
-	if err := precompiles.InitializePrecompiles(
+	evmPrempiles, err := precompiles.InitializePrecompiles(
 		false,
 		appCodec,
 		app.BankKeeper,
@@ -907,9 +907,12 @@ func New(
 		stakingkeeper.NewQuerier(app.StakingKeeper),
 		app.DistrKeeper,
 		distrkeeper.NewQuerier(app.DistrKeeper),
-	); err != nil {
+	)
+	if err != nil {
 		panic(err)
 	}
+
+	app.EVMKeeper.WithStaticPrecompiles(evmPrempiles)
 
 	/****  Module Options ****/
 
