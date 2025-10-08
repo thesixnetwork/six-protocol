@@ -3,10 +3,12 @@ package keeper
 import (
 	"context"
 
+	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+
+	errorsmod "cosmossdk.io/errors"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-
-	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
 func (k msgServer) CreateOptions(goCtx context.Context, msg *types.MsgCreateOptions) (*types.MsgCreateOptionsResponse, error) {
@@ -14,13 +16,13 @@ func (k msgServer) CreateOptions(goCtx context.Context, msg *types.MsgCreateOpti
 
 	pass := k.protocoladminKeeper.Authenticate(ctx, TOKEN_ADMIN, msg.Creator)
 	if !pass {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "message creator is not token admin or super admin")
+		return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "message creator is not token admin or super admin")
 	}
 
 	// Check if the value already exists
 	_, isFound := k.GetOptions(ctx)
 	if isFound {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "already set")
+		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "already set")
 	}
 
 	options := types.Options{
@@ -39,13 +41,13 @@ func (k msgServer) UpdateOptions(goCtx context.Context, msg *types.MsgUpdateOpti
 
 	pass := k.protocoladminKeeper.Authenticate(ctx, TOKEN_ADMIN, msg.Creator)
 	if !pass {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "message creator is not token admin or super admin")
+		return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "message creator is not token admin or super admin")
 	}
 
 	// Check if the value exists
 	_, isFound := k.GetOptions(ctx)
 	if !isFound {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "not set")
+		return nil, errorsmod.Wrap(sdkerrors.ErrKeyNotFound, "not set")
 	}
 
 	options := types.Options{
@@ -62,13 +64,13 @@ func (k msgServer) DeleteOptions(goCtx context.Context, msg *types.MsgDeleteOpti
 
 	pass := k.protocoladminKeeper.Authenticate(ctx, TOKEN_ADMIN, msg.Creator)
 	if !pass {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "message creator is not token admin or super admin")
+		return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "message creator is not token admin or super admin")
 	}
 
 	// Check if the value exists
 	_, isFound := k.GetOptions(ctx)
 	if !isFound {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "not set")
+		return nil, errorsmod.Wrap(sdkerrors.ErrKeyNotFound, "not set")
 	}
 
 	k.RemoveOptions(ctx)

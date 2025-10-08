@@ -18,6 +18,8 @@ const (
 	EventTypeActionRequest          = "action_request"
 	AttributeKeyActionRequestStatus = "status"
 
+	EventTypeActionRequestConfirmed = "action_request_confirmed"
+
 	EventMessage                    = "action"
 	EventTypeRunAction              = "run_action"
 	AttributeKeyRunActionResult     = "run_action_result"

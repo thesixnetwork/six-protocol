@@ -1,79 +1,29 @@
 [
-    {
-        "type": "function",
-        "name": "transferToCosmos",
-        "inputs": [
-            {
-                "name": "dst",
-                "type": "string",
-                "internalType": "string"
-            },
-            {
-                "name": "amount",
-                "type": "uint256",
-                "internalType": "uint256"
-            }
-        ],
-        "outputs": [
-            {
-                "name": "success",
-                "type": "bool",
-                "internalType": "bool"
-            }
-        ],
-        "stateMutability": "nonpayable"
-    },
-    {
-        "type": "function",
-        "name": "transferToCrossChain",
-        "inputs": [
-            {
-                "name": "dst",
-                "type": "string",
-                "internalType": "string"
-            },
-            {
-                "name": "amount",
-                "type": "uint256",
-                "internalType": "uint256"
-            },
-            {
-                "name": "memo",
-                "type": "string",
-                "internalType": "string"
-            },
-            {
-                "name": "chain",
-                "type": "string",
-                "internalType": "string"
-            }
-        ],
-        "outputs": [
-            {
-                "name": "success",
-                "type": "bool",
-                "internalType": "bool"
-            }
-        ],
-        "stateMutability": "nonpayable"
-    },
-    {
-        "type": "function",
-        "name": "unwrapStakeToken",
-        "inputs": [
-            {
-                "name": "amount",
-                "type": "uint256",
-                "internalType": "uint256"
-            }
-        ],
-        "outputs": [
-            {
-                "name": "success",
-                "type": "bool",
-                "internalType": "bool"
-            }
-        ],
-        "stateMutability": "nonpayable"
-    }
+  {
+    "type": "function",
+    "name": "transferToCosmos",
+    "inputs": [
+      { "name": "dst", "type": "string", "internalType": "string" },
+      { "name": "amount", "type": "uint256", "internalType": "uint256" }
+    ],
+    "outputs": [{ "name": "success", "type": "bool", "internalType": "bool" }],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "unwrapStakeToken",
+    "inputs": [{ "name": "amount", "type": "uint256", "internalType": "uint256" }],
+    "outputs": [{ "name": "success", "type": "bool", "internalType": "bool" }],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "changeDelegatorAddress",
+    "inputs": [
+      { "name": "oldAddr", "type": "address", "internalType": "address" },
+      { "name": "newAddr", "type": "address", "internalType": "address" }
+    ],
+    "outputs": [{ "name": "success", "type": "bool", "internalType": "bool" }],
+    "stateMutability": "nonpayable"
+  }
 ]

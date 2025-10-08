@@ -1,13 +1,17 @@
 package keeper
 
 import (
+	"context"
 	"fmt"
+
+	abci "github.com/cometbft/cometbft/abci/types"
+
+	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+
+	sdkmath "cosmossdk.io/math"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	distribtype "github.com/cosmos/cosmos-sdk/x/distribution/types"
-	abci "github.com/tendermint/tendermint/abci/types"
-
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
 func (k Keeper) ProcessFeeAmount(ctx sdk.Context, bondedVotes []abci.VoteInfo) error {
@@ -23,12 +27,13 @@ func (k Keeper) ProcessFeeAmount(ctx sdk.Context, bondedVotes []abci.VoteInfo) e
 	if err != nil {
 		return err
 	}
-	if currentCreateSchemaFeeBalance.Amount.GT(sdk.NewInt(0)) {
+
+	if currentCreateSchemaFeeBalance.Amount.GT(sdkmath.NewInt(0)) {
 		// Loop over feeConfig.SchemaFee.FeeDistributions
 		for _, feeDistribution := range feeConfig.SchemaFee.FeeDistributions {
 			switch feeDistribution.Method {
 			case types.FeeDistributionMethod_BURN:
-				burnBalance := currentCreateSchemaFeeBalance.Amount.ToDec().Mul(sdk.NewDecWithPrec(int64(feeDistribution.Portion*100), 2)).TruncateInt()
+				burnBalance := currentCreateSchemaFeeBalance.Amount.ToLegacyDec().Mul(sdkmath.LegacyNewDecWithPrec(int64(feeDistribution.Portion*100), 2)).TruncateInt()
 				err = k.bankKeeper.BurnCoins(ctx, types.ModuleName, sdk.NewCoins(sdk.NewCoin(currentCreateSchemaFeeBalance.Denom, burnBalance)))
 				if err != nil {
 					return err
@@ -42,7 +47,7 @@ func (k Keeper) ProcessFeeAmount(ctx sdk.Context, bondedVotes []abci.VoteInfo) e
 					totalPreviousPower += vote.Validator.Power
 				}
 
-				rewardBalance := currentCreateSchemaFeeBalance.Amount.ToDec().Mul(sdk.NewDecWithPrec(int64(feeDistribution.Portion*100), 2)).TruncateInt()
+				rewardBalance := currentCreateSchemaFeeBalance.Amount.ToLegacyDec().Mul(sdkmath.LegacyNewDecWithPrec(int64(feeDistribution.Portion*100), 2)).TruncateInt()
 				reward := sdk.NewDecCoins(sdk.NewDecCoin(currentCreateSchemaFeeBalance.Denom, rewardBalance))
 
 				err := k.bankKeeper.SendCoinsFromModuleToModule(
@@ -54,9 +59,12 @@ func (k Keeper) ProcessFeeAmount(ctx sdk.Context, bondedVotes []abci.VoteInfo) e
 
 				remaining := reward
 				for i, vote := range bondedVotes {
-					validator := k.stakingKeeper.ValidatorByConsAddr(ctx, vote.Validator.Address)
+					validator, err := k.stakingKeeper.ValidatorByConsAddr(ctx, vote.Validator.Address)
+					if err != nil {
+						panic(err)
+					}
 
-					powerFraction := sdk.NewDec(vote.Validator.Power).QuoTruncate(sdk.NewDec(totalPreviousPower))
+					powerFraction := sdkmath.LegacyNewDec(vote.Validator.Power).QuoTruncate(sdkmath.LegacyNewDec(totalPreviousPower))
 					toAllocate := reward.MulDecTruncate(powerFraction)
 					if i == len(bondedVotes)-1 {
 						// last validator, allocate the remaining coins
@@ -64,7 +72,7 @@ func (k Keeper) ProcessFeeAmount(ctx sdk.Context, bondedVotes []abci.VoteInfo) e
 					} else {
 						remaining = remaining.Sub(toAllocate)
 					}
-					k.distributionKeeper.AllocateTokensToValidator(ctx, validator, reward.MulDecTruncate(powerFraction))
+					k.distrKeeper.AllocateTokensToValidator(ctx, validator, reward.MulDecTruncate(powerFraction))
 
 				}
 			}
@@ -83,12 +91,12 @@ func (k Keeper) ProcessFeeAmount(ctx sdk.Context, bondedVotes []abci.VoteInfo) e
 func (k Keeper) VirtualSchemaHook(ctx sdk.Context, virtualSchemaProposal types.VirtualSchemaProposal) bool {
 	// Validate input
 	if virtualSchemaProposal.VirtualSchema.VirtualNftSchemaCode == "" {
-		k.Logger(ctx).Error("empty virtual schema code")
+		k.Logger().Error("empty virtual schema code")
 		return false
 	}
 
 	if len(virtualSchemaProposal.VirtualSchema.Registry) == 0 {
-		k.Logger(ctx).Error("empty registry")
+		k.Logger().Error("empty registry")
 		return false
 	}
 
@@ -96,7 +104,7 @@ func (k Keeper) VirtualSchemaHook(ctx sdk.Context, virtualSchemaProposal types.V
 	acceptCount, totalVotes := countProposalVotes(virtualSchemaProposal.VirtualSchema.Registry)
 	voteThreshold := len(virtualSchemaProposal.VirtualSchema.Registry)
 
-	k.Logger(ctx).Info("Processing virtual schema proposal",
+	k.Logger().Info("Processing virtual schema proposal",
 		"id", virtualSchemaProposal.Id,
 		"type", virtualSchemaProposal.ProposalType,
 		"accept_count", acceptCount,
@@ -105,17 +113,17 @@ func (k Keeper) VirtualSchemaHook(ctx sdk.Context, virtualSchemaProposal types.V
 	)
 
 	if totalVotes != voteThreshold {
-		k.Logger(ctx).Info("Not all votes received yet")
+		k.Logger().Info("Not all votes received yet")
 		return false
 	}
 
 	if acceptCount < voteThreshold {
-		k.Logger(ctx).Info("Proposal rejected")
+		k.Logger().Info("Proposal rejected")
 		k.RemoveActiveVirtualSchemaProposal(ctx, virtualSchemaProposal.Id)
 		k.SetInactiveVirtualSchemaProposal(ctx, types.InactiveVirtualSchemaProposal{Id: virtualSchemaProposal.Id})
 		// **** SCHEMA FEE ****
 		if err := k.processSchemaFee(ctx, virtualSchemaProposal, false); err != nil {
-			k.Logger(ctx).Error("failed to process schema fee", "error", err)
+			k.Logger().Error("failed to process schema fee", "error", err)
 			return false
 		}
 		return false
@@ -127,7 +135,7 @@ func (k Keeper) VirtualSchemaHook(ctx sdk.Context, virtualSchemaProposal types.V
 			Enable:               virtualSchemaProposal.VirtualSchema.Enable,
 		}
 
-		k.Logger(ctx).Info("Updating virtual schema", "code", virtualSchema.VirtualNftSchemaCode, "enabled", virtualSchema.Enable)
+		k.Logger().Info("Updating virtual schema", "code", virtualSchema.VirtualNftSchemaCode, "enabled", virtualSchema.Enable)
 		k.SetVirtualSchema(ctx, virtualSchema)
 
 		if virtualSchemaProposal.ProposalType == types.ProposalType_EDIT {
@@ -146,7 +154,7 @@ func (k Keeper) VirtualSchemaHook(ctx sdk.Context, virtualSchemaProposal types.V
 		}
 
 		if err := k.processSchemaFee(ctx, virtualSchemaProposal, true); err != nil {
-			k.Logger(ctx).Error("failed to process schema fee", "error", err)
+			k.Logger().Error("failed to process schema fee", "error", err)
 			return false
 		}
 
@@ -187,7 +195,7 @@ func (k Keeper) VirtualSchemaHook(ctx sdk.Context, virtualSchemaProposal types.V
 		k.RemoveActiveVirtualSchemaProposal(ctx, virtualSchemaProposal.Id)
 		k.SetInactiveVirtualSchemaProposal(ctx, types.InactiveVirtualSchemaProposal{Id: virtualSchemaProposal.Id})
 
-		k.Logger(ctx).Info("Virtual schema proposal processed successfully", "id", virtualSchemaProposal.Id)
+		k.Logger().Info("Virtual schema proposal processed successfully", "id", virtualSchemaProposal.Id)
 		return true
 	}
 }
@@ -209,7 +217,7 @@ func countProposalVotes(registry []*types.VirtualSchemaRegistry) (acceptCount, t
 	return
 }
 
-func (k Keeper) processSchemaFee(ctx sdk.Context, virtualSchemaProposal types.VirtualSchemaProposal, isAccepted bool) error {
+func (k Keeper) processSchemaFee(ctx context.Context, virtualSchemaProposal types.VirtualSchemaProposal, isAccepted bool) error {
 	if virtualSchemaProposal.ProposalType == types.ProposalType_EDIT {
 		return nil
 	}
@@ -221,7 +229,7 @@ func (k Keeper) processSchemaFee(ctx sdk.Context, virtualSchemaProposal types.Vi
 
 	amount, err := sdk.ParseCoinNormalized(feeConfig.SchemaFee.FeeAmount)
 	if err != nil {
-		k.Logger(ctx).Error("failed to parse fee amount", "error", err)
+		k.Logger().Error("failed to parse fee amount", "error", err)
 		return fmt.Errorf("failed to parse fee amount: %w", err)
 	}
 
@@ -240,7 +248,7 @@ func (k Keeper) processSchemaFee(ctx sdk.Context, virtualSchemaProposal types.Vi
 
 	err = k.VirtualSchemaProcessFee(ctx, &feeConfig, &feeBalances, types.FeeSubject_CREATE_NFT_SCHEMA, isAccepted, virtualSchemaProposal.Id)
 	if err != nil {
-		k.Logger(ctx).Error("failed to process fee", "error", err)
+		k.Logger().Error("failed to process fee", "error", err)
 		return fmt.Errorf("failed to process fee: %w", err)
 	}
 

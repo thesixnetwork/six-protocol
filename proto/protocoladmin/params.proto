@@ -1,9 +1,0 @@
-syntax = "proto3";
-package thesixnetwork.sixprotocol.protocoladmin;
-
-import "gogoproto/gogo.proto";
-
-option go_package = "github.com/thesixnetwork/six-protocol/x/protocoladmin/types";
-
-// Params defines the parameters for the module.
-message Params { option (gogoproto.goproto_stringer) = false; }

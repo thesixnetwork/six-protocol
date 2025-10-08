@@ -348,7 +348,6 @@
             "data_type": "number",
             "required": true,
             "default_value": ""
-            
           },
           {
             "name": "expire_date",
@@ -374,7 +373,7 @@
           "meta.SetNumber('service_10', meta.GetNumber('service_10') + group_three)",
           "meta.SetNumber('service_11', meta.GetNumber('service_11') + group_three)"
         ]
-      },      
+      },
       {
         "name": "update_tier_name",
         "desc": "Use for update tier of user",
@@ -427,7 +426,6 @@
       }
     ]
   },
-  "system_actioners": [
-  ],
+  "system_actioners": [],
   "mint_authorization": "system"
 }

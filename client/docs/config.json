@@ -1,0 +1,55 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "SIX Chain - gRPC Gateway docs",
+    "description": "A REST interface for state queries and transactions",
+    "version": "1.0.0"
+  },
+  "securityDefinitions": {
+    "default": {
+      "type": "basic"
+    }
+  },
+  "apis": [
+    {
+      "url": "./proto/sixprotocol/nftadmin/query.swagger.json",
+      "operationIds": {
+        "rename": {
+          "Params": "NFTAdminParams"
+        }
+      }
+    },
+    {
+      "url": "./proto/sixprotocol/nftmngr/query.swagger.json",
+      "operationIds": {
+        "rename": {
+          "Params": "NFTMNGRParams"
+        }
+      }
+    },
+    {
+      "url": "./proto/sixprotocol/nftoracle/query.swagger.json",
+      "operationIds": {
+        "rename": {
+          "Params": "NFTOraclePamras"
+        }
+      }
+    },
+    {
+      "url": "./proto/sixprotocol/tokenmngr/query.swagger.json",
+      "operationIds": {
+        "rename": {
+          "Params": "TokenmngrPrams"
+        }
+      }
+    },
+    {
+      "url": "./proto/sixprotocol/protocoladmin/query.swagger.json",
+      "operationIds": {
+        "rename": {
+          "Params": "ProtocoladminParams"
+        }
+      }
+    }
+  ]
+}

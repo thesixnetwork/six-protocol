@@ -1,31 +1,29 @@
+// Package keeper
+//
+//	deprecate
 package keeper
 
 import (
 	"encoding/binary"
 
-	"github.com/cosmos/cosmos-sdk/store/prefix"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+
+	"cosmossdk.io/store/prefix"
+
+	"github.com/cosmos/cosmos-sdk/runtime"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
-// History burn
+// UpdateBurn History burn
 func (k Keeper) UpdateBurn(ctx sdk.Context, burn types.Burn) uint64 {
-	// Get the current number of burns in the store
 	count := k.GetBurnCount(ctx)
-	// Assign an ID to the burn based on the number of burns in the store
 	burn.Id = count
-	// Get the store
-	// store := prefix.NewStore(ctx.KVStore(k.storeKey), []byte(types.BurnKey))
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.BurnKey))
-	// Convert the burn ID into bytes
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.BurnKey))
 	byteKey := make([]byte, 8)
 	binary.BigEndian.PutUint64(byteKey, burn.Id)
-	// Marshal the burn into bytes
 	appendedValue := k.cdc.MustMarshal(&burn)
-	// Insert the burn bytes using burn ID as a key
 	store.Set(byteKey, appendedValue)
-	// Update the burn count
 	k.SetBurnCount(ctx, count+1)
 	return count
 }
@@ -37,9 +35,10 @@ func GetBurnIDBytes(id uint64) []byte {
 	return bz
 }
 
-// SetBurn is a special function used by upgrade module to set burns after upgrade
+// SetBurns is a special function used by upgrade module to set burns after upgrade
 func (k Keeper) SetBurns(ctx sdk.Context, burns []types.Burn) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.BurnKey))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.BurnKey))
 	for _, burn := range burns {
 		b := k.cdc.MustMarshal(&burn)
 		store.Set(GetBurnIDBytes(burn.Id), b)
@@ -47,11 +46,9 @@ func (k Keeper) SetBurns(ctx sdk.Context, burns []types.Burn) {
 }
 
 func (k Keeper) GetBurnCount(ctx sdk.Context) uint64 {
-	// Get the store using storeKey (which is "blog") and BurnCountKey (which is "Burn-count-")
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), []byte(types.BurnCountKey))
-	// Convert the BurnCountKey to bytes
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.BurnKey))
 	byteKey := []byte(types.BurnCountKey)
-	// Get the value of the count
 	bz := store.Get(byteKey)
 	// Return zero if the count value is not found (for example, it's the first burn)
 	if bz == nil {
@@ -62,13 +59,10 @@ func (k Keeper) GetBurnCount(ctx sdk.Context) uint64 {
 }
 
 func (k Keeper) SetBurnCount(ctx sdk.Context, count uint64) {
-	// Get the store using storeKey (which is "burn") and BurnCountKey (which is "Burn-count-")
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), []byte(types.BurnCountKey))
-	// Convert the BurnCountKey to bytes
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.BurnKey))
 	byteKey := []byte(types.BurnCountKey)
-	// Convert count from uint64 to string and get bytes
 	bz := make([]byte, 8)
 	binary.BigEndian.PutUint64(bz, count)
-	// Set the value of Burn-count- to count
 	store.Set(byteKey, bz)
 }

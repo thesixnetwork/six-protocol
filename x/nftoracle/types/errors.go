@@ -3,11 +3,14 @@ package types
 // DONTCOVER
 
 import (
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	sdkerrors "cosmossdk.io/errors"
 )
 
 // x/nftoracle module sentinel errors
 var (
+	ErrInvalidSigner = sdkerrors.Register(ModuleName, 1100, "expected gov account as only signer for proposal message")
+	ErrSample        = sdkerrors.Register(ModuleName, 1101, "sample error")
+
 	// 1 - 99
 	ErrNFTSchemaNotFound                   = sdkerrors.Register(ModuleName, 1, "NFTSchema not found")
 	ErrMetadataAlreadyExists               = sdkerrors.Register(ModuleName, 2, "Metadata already exists")
@@ -30,6 +33,7 @@ var (
 	ErrEcrecover                           = sdkerrors.Register(ModuleName, 19, "Cannot ecrecover pubkey")
 	ErrUnmarshalPubkey                     = sdkerrors.Register(ModuleName, 20, "Error Get address from pubkey")
 	ErrValidateSignature                   = sdkerrors.Register(ModuleName, 21, "Error To Validate Signature")
+	ErrInvalidExpireEpoch                  = sdkerrors.Register(ModuleName, 22, "Invalid Expire Epoch Input")
 
 	// 100 - 199
 	ErrActionRequestNotFound                 = sdkerrors.Register(ModuleName, 100, "Action request not found")

@@ -3,6 +3,8 @@ package types
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	errormod "cosmossdk.io/errors"
+
 )
 
 const TypeMsgCreateMintRequest = "create_mint_request"
@@ -42,7 +44,7 @@ func (msg *MsgCreateMintRequest) GetSignBytes() []byte {
 func (msg *MsgCreateMintRequest) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s) ,the address is %v", err, msg.Creator)
+		return errormod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s) ,the address is %v", err, msg.Creator)
 	}
 	return nil
 }

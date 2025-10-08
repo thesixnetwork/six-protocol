@@ -1,0 +1,11 @@
+syntax = "proto3";
+package sixprotocol.nftoracle;
+// import "google/protobuf/any.proto";
+option go_package = "github.com/thesixnetwork/six-protocol/x/nftoracle/types";
+
+message Trait {
+  string trait_type = 1;
+  string value = 2;
+  string display_type = 3;
+  string max_value = 4;
+}

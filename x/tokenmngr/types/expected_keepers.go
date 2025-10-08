@@ -1,46 +1,76 @@
 package types
 
 import (
-	protocoladminTypes "github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
+	"context"
+	"time"
+
+	addresscodec "cosmossdk.io/core/address"
+	"cosmossdk.io/math"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-	evmtypes "github.com/evmos/ethermint/x/evm/types"
+	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
+	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+
+	protocoladmintypes "github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
 )
 
 type ProtocoladminKeeper interface {
-	// Methods imported from protocoladmin should be defined here
-	GetAdmin(ctx sdk.Context, group string, admin string) (val protocoladminTypes.Admin, found bool)
-	GetAllAdmin(ctx sdk.Context) (list []protocoladminTypes.Admin)
-	Authenticate(ctx sdk.Context, group string, address string) bool
-	GetGroup(ctx sdk.Context, group string) (val protocoladminTypes.Group, found bool)
+	GetAdmin(ctx context.Context, group string, admin string) (val protocoladmintypes.Admin, found bool)
+	GetAllAdmin(ctx context.Context) (list []protocoladmintypes.Admin)
+	Authenticate(ctx context.Context, group string, address string) bool
+	GetGroup(ctx context.Context, group string) (val protocoladmintypes.Group, found bool)
 }
 
-// AccountKeeper defines the expected account keeper used for simulations (noalias)
+// AccountKeeper defines the expected interface for the Account module.
 type AccountKeeper interface {
-	GetAccount(ctx sdk.Context, addr sdk.AccAddress) types.AccountI
+	GetAccount(context.Context, sdk.AccAddress) sdk.AccountI // only used for simulation
 	GetModuleAddress(moduleName string) sdk.AccAddress
+	AddressCodec() addresscodec.Codec
 	// Methods imported from account should be defined here
 }
 
-// BankKeeper defines the expected interface needed to retrieve account balances.
+// BankKeeper defines the expected interface for the Bank module.
 type BankKeeper interface {
-	GetBalance(ctx sdk.Context, addr sdk.AccAddress, denom string) sdk.Coin
-	SpendableCoins(ctx sdk.Context, addr sdk.AccAddress) sdk.Coins
-	MintCoins(ctx sdk.Context, moduleName string, amt sdk.Coins) error
+	GetBalance(ctx context.Context, addr sdk.AccAddress, denom string) sdk.Coin
+	SpendableCoins(ctx context.Context, addr sdk.AccAddress) sdk.Coins
+	MintCoins(ctx context.Context, moduleName string, amt sdk.Coins) error
 
-	BurnCoins(ctx sdk.Context, moduleName string, amt sdk.Coins) error
-	GetSupply(ctx sdk.Context, denom string) sdk.Coin
-	GetDenomMetaData(ctx sdk.Context, denom string) (banktypes.Metadata, bool)
-	SetDenomMetaData(ctx sdk.Context, denomMetaData banktypes.Metadata)
-	SendCoinsFromModuleToAccount(ctx sdk.Context, senderModule string, recipientAddr sdk.AccAddress, amt sdk.Coins) error
-	SendCoinsFromAccountToModule(ctx sdk.Context, senderAddr sdk.AccAddress, recipientModule string, amt sdk.Coins) error
-	SendCoins(ctx sdk.Context, fromAddr sdk.AccAddress, toAddr sdk.AccAddress, amt sdk.Coins) error
+	BurnCoins(ctx context.Context, moduleName string, amt sdk.Coins) error
+	GetSupply(ctx context.Context, denom string) sdk.Coin
+	GetDenomMetaData(ctx context.Context, denom string) (banktypes.Metadata, bool)
+	SetDenomMetaData(ctx context.Context, denomMetaData banktypes.Metadata)
+	SendCoinsFromModuleToAccount(ctx context.Context, senderModule string, recipientAddr sdk.AccAddress, amt sdk.Coins) error
+	SendCoinsFromAccountToModule(ctx context.Context, senderAddr sdk.AccAddress, recipientModule string, amt sdk.Coins) error
+	SendCoins(ctx context.Context, fromAddr sdk.AccAddress, toAddr sdk.AccAddress, amt sdk.Coins) error
 	// Methods imported from bank should be defined here
 }
 
 type EVMKeeper interface {
 	GetParams(ctx sdk.Context) evmtypes.Params
-	SetParams(ctx sdk.Context, params evmtypes.Params)
+	SetParams(ctx sdk.Context, params evmtypes.Params) error
+}
+
+// ParamSubspace defines the expected Subspace interface for parameters.
+type ParamSubspace interface {
+	Get(context.Context, []byte, interface{})
+	Set(context.Context, []byte, interface{})
+}
+
+// StakingKeeper defines the expected staking keeper methods
+type StakingKeeper interface {
+	ValidatorByConsAddr(context.Context, sdk.ConsAddress) (stakingtypes.ValidatorI, error)
+
+	// Delegation methods
+	GetDelegatorDelegations(ctx context.Context, delegator sdk.AccAddress, maxRetrieve uint16) ([]stakingtypes.Delegation, error)
+	SetDelegation(ctx context.Context, delegation stakingtypes.Delegation) error
+	RemoveDelegation(ctx context.Context, delegation stakingtypes.Delegation) error
+	GetDelegatorBonded(ctx context.Context, delegator sdk.AccAddress) (math.Int, error)
+
+	// Unbonding delegation methods
+	GetUnbondingDelegations(ctx context.Context, delegator sdk.AccAddress, maxRetrieve uint16) ([]stakingtypes.UnbondingDelegation, error)
+	SetUnbondingDelegation(ctx context.Context, ubd stakingtypes.UnbondingDelegation) error
+	RemoveUnbondingDelegation(ctx context.Context, ubd stakingtypes.UnbondingDelegation) error
+	InsertUBDQueue(ctx context.Context, ubd stakingtypes.UnbondingDelegation, completionTime time.Time) error
+	GetDelegatorUnbonding(ctx context.Context, delegator sdk.AccAddress) (math.Int, error)
 }

@@ -1,52 +1,75 @@
-# sixprotocol
-**sixprotocol** is a blockchain built using Cosmos SDK and Tendermint and created with [Starport](https://starport.com).
+# SIX Protocol Chain
 
-## Get started
+SIX Protocol is a blockchain infrastructure built on Cosmos SDK with Ethereum Virtual Machine (EVM) support, designed for real-world business applications and decentralized application (dApp) development.
 
-```
-starport chain serve
-```
+## What is SIX Protocol?
 
-`serve` command installs dependencies, builds, initializes, and starts your blockchain in development.
+SIX Protocol combines the power of Cosmos SDK with EVM compatibility, offering:
 
-### Configure
+- **Fast transactions** with low fees
+- **Decentralized architecture** ensuring transparency and security
+- **Developer-friendly** environment with access to builder tools
+- **Dual-chain functionality** supporting both Cosmos and EVM ecosystems
 
-Your blockchain in development can be configured with `config.yml`. To learn more, see the [Starport docs](https://docs.starport.com).
+## Network Configuration
 
-### Web Frontend
+### Mainnet
 
-Starport has scaffolded a Vue.js-based web app in the `vue` directory. Run the following commands to install dependencies and start the app:
+#### EVM Integration (Metamask)
 
-```
-cd vue
-npm install
-npm run serve
-```
+| Parameter       | Value                                  |
+| --------------- | -------------------------------------- |
+| Network name    | SIX Protocol                           |
+| RPC URL         | https://sixnet-rpc-evm.sixprotocol.net |
+| Chain ID        | 98                                     |
+| Currency symbol | SIX                                    |
+| Block explorer  | https://evm.sixscan.io/                |
 
-The frontend app is built using the `@starport/vue` and `@starport/vuex` packages. For details, see the [monorepo for Starport front-end development](https://github.com/tendermint/vue).
+> Quick setup via [Chainlist](https://chainlist.org/?testnets=false&search=Six+Protocol)
 
-## Release
-To release a new version of your blockchain, create and push a new tag with `v` prefix. A new draft release with the configured targets will be created.
+#### Cosmos Integration (Keplr)
 
-```
-git tag v0.1
-git push origin v0.1
-```
+| Parameter       | Value                              |
+| --------------- | ---------------------------------- |
+| Network name    | SIX Protocol                       |
+| RPC URL         | https://sixnet-rpc.sixprotocol.net |
+| Chain ID        | sixnet                             |
+| Currency symbol | SIX                                |
+| Block explorer  | https://sixscan.io/                |
 
-After a draft release is created, make your final changes from the release page and publish it.
+> Available on [Keplr Chain Registry](https://chains.keplr.app/)
 
-### Install
-To install the latest version of your blockchain node's binary, execute the following command on your machine:
+### Testnet
 
-```
-curl https://get.starport.com/thesixnetwork/six-protocol@latest! | sudo bash
-```
-`thesixnetwork/six-protocol` should match the `username` and `repo_name` of the Github repository to which the source code was pushed. Learn more about [the install process](https://github.com/allinbits/starport-installer).
+#### EVM Integration (Metamask)
 
-## Learn more
+| Parameter       | Value                                   |
+| --------------- | --------------------------------------- |
+| Network name    | SIX Protocol Testnet                    |
+| RPC URL         | https://rpc-evm.fivenet.sixprotocol.net |
+| Chain ID        | 150                                     |
+| Currency symbol | tSIX                                    |
+| Block explorer  | https://fivenet.evm.sixscan.io/         |
 
-- [Starport](https://starport.com)
-- [Tutorials](https://docs.starport.com/guide)
-- [Starport docs](https://docs.starport.com)
-- [Cosmos SDK docs](https://docs.cosmos.network)
-- [Developer Chat](https://discord.gg/H6wGTY8sxw)
+#### Cosmos Integration (Keplr)
+
+| Parameter       | Value                                |
+| --------------- | ------------------------------------ |
+| Network name    | SIX Protocol Testnet                 |
+| RPC URL         | https://rpc1.fivenet.sixprotocol.net |
+| Chain ID        | fivenet                              |
+| Currency symbol | tSIX                                 |
+| Block explorer  | https://sixscan.io/fivenet           |
+
+## Why SIX Protocol?
+
+- **Versatility**: Develop on both Cosmos and EVM ecosystems
+- **Security**: Robust validation and consensus mechanisms
+- **Scalability**: High throughput with optimized performance
+- **Community**: Active ecosystem of developers and businesses
+
+## Getting Started
+
+1. Configure your wallet using the network settings above
+2. Acquire SIX tokens (or testnet tSIX)
+3. Start building your dApp or integrate with existing SIX infrastructure

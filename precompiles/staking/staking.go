@@ -6,16 +6,18 @@ import (
 	"errors"
 	"math/big"
 
+	erromod "cosmossdk.io/errors"
+	"cosmossdk.io/log"
+	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/tendermint/tendermint/libs/log"
 
-	"github.com/evmos/ethermint/utils"
 	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
+	"github.com/thesixnetwork/six-protocol/utils"
 )
 
 const (
@@ -49,9 +51,7 @@ func GetABI() abi.ABI {
 }
 
 type PrecompileExecutor struct {
-	Enable          bool
-
-	stakingKeeper   pcommon.StakingKeeper
+	stakingKeeper   pcommon.StakingMsgServer
 	stakingQuerier  pcommon.StakingQuerier
 	bankKeeper      pcommon.BankKeeper
 	tokenmngrKeeper pcommon.TokenmngrKeeper
@@ -72,12 +72,12 @@ type PrecompileExecutor struct {
 	DelegateID   []byte
 	RedelegateID []byte
 	UndelegateID []byte
+
+	Enable 		bool
 }
 
-func NewPrecompile(stakingKeeper pcommon.StakingKeeper, stakingQuerier pcommon.StakingQuerier, bankKeeper pcommon.BankKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper) (*pcommon.Precompile, error) {
-	newAbi := GetABI()
-
-	p := &PrecompileExecutor{
+func NewExecutor(stakingKeeper pcommon.StakingMsgServer, stakingQuerier pcommon.StakingQuerier, bankKeeper pcommon.BankKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper) *PrecompileExecutor {
+	return &PrecompileExecutor{
 		stakingKeeper:   stakingKeeper,
 		stakingQuerier:  stakingQuerier,
 		bankKeeper:      bankKeeper,
@@ -89,6 +89,12 @@ func NewPrecompile(stakingKeeper pcommon.StakingKeeper, stakingQuerier pcommon.S
 	*/
 		Enable:          false,
 	}
+}
+
+func NewPrecompile(stakingKeeper pcommon.StakingMsgServer, stakingQuerier pcommon.StakingQuerier, bankKeeper pcommon.BankKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper) (*pcommon.Precompile, error) {
+	newAbi := GetABI()
+
+	p := NewExecutor(stakingKeeper, stakingQuerier, bankKeeper, tokenmngrKeeper)
 
 	for name, m := range newAbi.Methods {
 		switch name {
@@ -104,6 +110,11 @@ func NewPrecompile(stakingKeeper pcommon.StakingKeeper, stakingQuerier pcommon.S
 	}
 
 	return pcommon.NewPrecompile(newAbi, p, p.address, "staking"), nil
+}
+
+// Address implements common.PrecompileExecutor.
+func (p *PrecompileExecutor) Address() common.Address {
+	return p.address
 }
 
 func (p *PrecompileExecutor) Execute(ctx sdk.Context, method *abi.Method, caller common.Address, callingContract common.Address, args []interface{}, value *big.Int, readOnly bool, evm *vm.EVM) ([]byte, error) {
@@ -167,7 +178,7 @@ func (p *PrecompileExecutor) delegate(ctx sdk.Context, caller common.Address, me
 		return nil, err
 	}
 
-	_, err = p.stakingKeeper.Delegate(sdk.WrapSDKContext(ctx), &stakingtypes.MsgDelegate{
+	_, err = p.stakingKeeper.Delegate(ctx, &stakingtypes.MsgDelegate{
 		DelegatorAddress: senderCosmoAddr.String(),
 		ValidatorAddress: validatorBech32,
 		Amount:           delegateAmount,
@@ -215,7 +226,7 @@ func (p *PrecompileExecutor) undelegate(ctx sdk.Context, caller common.Address, 
 		return nil, err
 	}
 
-	_, err = p.stakingKeeper.Undelegate(sdk.WrapSDKContext(ctx), &stakingtypes.MsgUndelegate{
+	_, err = p.stakingKeeper.Undelegate(ctx, &stakingtypes.MsgUndelegate{
 		DelegatorAddress: senderCosmoAddr.String(),
 		ValidatorAddress: validatorBech32,
 		Amount:           delegateAmount,
@@ -267,7 +278,7 @@ func (p *PrecompileExecutor) redelegate(ctx sdk.Context, caller common.Address, 
 		return nil, err
 	}
 
-	_, err = p.stakingKeeper.BeginRedelegate(sdk.WrapSDKContext(ctx), &stakingtypes.MsgBeginRedelegate{
+	_, err = p.stakingKeeper.BeginRedelegate(ctx, &stakingtypes.MsgBeginRedelegate{
 		DelegatorAddress:    senderCosmoAddr.String(),
 		ValidatorSrcAddress: srcValidatorBech32,
 		ValidatorDstAddress: dstValidatorBech32,
@@ -322,7 +333,7 @@ func (p PrecompileExecutor) delegation(ctx sdk.Context, method *abi.Method, args
 	}
 
 	var delegationResponse *stakingtypes.QueryDelegationResponse
-	delegationResponse, err = p.stakingQuerier.Delegation(sdk.WrapSDKContext(ctx), delegationRequest)
+	delegationResponse, err = p.stakingQuerier.Delegation(ctx, delegationRequest)
 	if err != nil {
 		return nil, err
 	}
@@ -335,7 +346,7 @@ func (p PrecompileExecutor) delegation(ctx sdk.Context, method *abi.Method, args
 		Delegation: DelegationDetails{
 			DelegatorAddress: delegationResponse.GetDelegationResponse().GetDelegation().DelegatorAddress,
 			Shares:           delegationResponse.GetDelegationResponse().GetDelegation().Shares.BigInt(),
-			Decimals:         big.NewInt(sdk.Precision),
+			Decimals:         big.NewInt(sdkmath.LegacyPrecision),
 			ValidatorAddress: delegationResponse.GetDelegationResponse().GetDelegation().ValidatorAddress,
 		},
 	}
@@ -371,9 +382,9 @@ func (p *PrecompileExecutor) convertCoinFromArg(amount *big.Int) (sdk.Coin, erro
 		return sdk.Coin{}, errors.New("invalid amount value")
 	}
 
-	intAmount := sdk.NewIntFromBigInt(amount)
+	intAmount := sdkmath.NewIntFromBigInt(amount)
 	if intAmount.IsZero() {
-		return sdk.Coin{}, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is prohibit from module")
+		return sdk.Coin{}, erromod.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is prohibit from module")
 	}
 
 	microSix := sdk.NewCoin("usix", intAmount.QuoRaw(int64(defaultAttoToMicroDiff)))
@@ -383,20 +394,20 @@ func (p *PrecompileExecutor) convertCoinFromArg(amount *big.Int) (sdk.Coin, erro
 
 func (p *PrecompileExecutor) convertWeiToStakingCoin(ctx sdk.Context, weiAmount *big.Int, bech32Address sdk.AccAddress) error {
 	// check if amount is valid
-	intAmount := sdk.NewIntFromBigInt(weiAmount)
+	intAmount := sdkmath.NewIntFromBigInt(weiAmount)
 	if intAmount.IsZero() {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is prohibit from module")
+		return erromod.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is prohibit from module")
 	}
 
 	// check if balance and input are valid
 	if balance := p.bankKeeper.GetBalance(ctx, bech32Address, "asix"); balance.Amount.LT(intAmount) {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Amount of token is too high than current balance")
+		return erromod.Wrap(sdkerrors.ErrInvalidRequest, "Amount of token is too high than current balance")
 	}
 
 	// check total supply of evm denom
 	supply := p.bankKeeper.GetSupply(ctx, "asix")
 	if supply.Amount.LT(intAmount) {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is higher than current total supply")
+		return erromod.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is higher than current total supply")
 	}
 
 	// send convert coin to itself

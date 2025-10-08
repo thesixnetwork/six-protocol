@@ -7,6 +7,8 @@ import (
 
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 
+	errormod "cosmossdk.io/errors"
+
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -26,13 +28,13 @@ func (k msgServer) AddAction(goCtx context.Context, msg *types.MsgAddAction) (*t
 	// decode base64 string to bytes
 	input_action, err := base64.StdEncoding.DecodeString(msg.Base64NewAction)
 	if err != nil {
-		return nil, sdkerrors.Wrap(types.ErrParsingBase64, err.Error())
+		return nil, errormod.Wrap(types.ErrParsingBase64, err.Error())
 	}
 
 	// unmarshal bytes to Action structure
 	err = k.cdc.(*codec.ProtoCodec).UnmarshalJSON(input_action, &new_action)
 	if err != nil {
-		return nil, sdkerrors.Wrap(types.ErrParsingMetadataMessage, err.Error())
+		return nil, errormod.Wrap(types.ErrParsingMetadataMessage, err.Error())
 	}
 
 	err = k.AddActionKeeper(ctx, msg.Creator, msg.Code, new_action)
@@ -86,18 +88,18 @@ func (k msgServer) UpdateAction(goCtx context.Context, msg *types.MsgUpdateActio
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, msg.Creator)
+		return nil, errormod.Wrap(sdkerrors.ErrInvalidAddress, msg.Creator)
 	}
 
 	_updateAction, err := base64.StdEncoding.DecodeString(msg.Base64UpdateAction)
 	if err != nil {
-		return nil, sdkerrors.Wrap(types.ErrParsingBase64, err.Error())
+		return nil, errormod.Wrap(types.ErrParsingBase64, err.Error())
 	}
 
 	updateAction := types.Action{}
 	err = k.cdc.(*codec.ProtoCodec).UnmarshalJSON(_updateAction, &updateAction)
 	if err != nil {
-		return nil, sdkerrors.Wrap(types.ErrParsingMetadataMessage, err.Error())
+		return nil, errormod.Wrap(types.ErrParsingMetadataMessage, err.Error())
 	}
 
 	err = k.UpdateActionKeeper(ctx, msg.Creator, msg.NftSchemaCode, updateAction)
@@ -125,7 +127,7 @@ func (k msgServer) ToggleAction(goCtx context.Context, msg *types.MsgToggleActio
 
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, msg.Creator)
+		return nil, errormod.Wrap(sdkerrors.ErrInvalidAddress, msg.Creator)
 	}
 
 	err = k.ToggleActionKeeper(ctx, msg.Creator, msg.Code, msg.Action, msg.Status)

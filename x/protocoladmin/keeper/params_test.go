@@ -5,15 +5,14 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	testkeeper "github.com/thesixnetwork/six-protocol/testutil/keeper"
+	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
 	"github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
 )
 
 func TestGetParams(t *testing.T) {
-	k, ctx := testkeeper.ProtocoladminKeeper(t)
+	k, ctx := keepertest.ProtocoladminKeeper(t)
 	params := types.DefaultParams()
 
-	k.SetParams(ctx, params)
-
+	require.NoError(t, k.SetParams(ctx, params))
 	require.EqualValues(t, params, k.GetParams(ctx))
 }

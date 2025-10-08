@@ -1,0 +1,103 @@
+syntax = "proto3";
+
+package sixprotocol.protocoladmin;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "sixprotocol/protocoladmin/params.proto";
+import "sixprotocol/protocoladmin/admin.proto";
+import "sixprotocol/protocoladmin/group.proto";
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/protocoladmin/types";
+
+// Query defines the gRPC querier service.
+service Query {
+
+  // Parameters queries the parameters of the module.
+  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/six-protocol/protocoladmin/params";
+  }
+
+  // Queries a list of Admin items.
+  rpc Admin(QueryGetAdminRequest) returns (QueryGetAdminResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/six-protocol/protocoladmin/admin/{group}/{admin}";
+  }
+  rpc AdminAll(QueryAllAdminRequest) returns (QueryAllAdminResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/six-protocol/protocoladmin/admin";
+  }
+
+  // Queries a list of Group items.
+  rpc Group(QueryGetGroupRequest) returns (QueryGetGroupResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/six-protocol/protocoladmin/group/{name}";
+  }
+  rpc GroupAll(QueryAllGroupRequest) returns (QueryAllGroupResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/six-protocol/protocoladmin/group";
+  }
+
+  // Queries a list of ListAdminOfGroup items.
+  rpc ListAdminOfGroup(QueryListAdminOfGroupRequest)
+      returns (QueryListAdminOfGroupResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/six-protocol/protocoladmin/list_admin_of_group/{group}";
+  }
+}
+// QueryParamsRequest is request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is response type for the Query/Params RPC method.
+message QueryParamsResponse {
+
+  // params holds all the parameters of this module.
+  Params params = 1
+      [ (gogoproto.nullable) = false, (amino.dont_omitempty) = true ];
+}
+
+message QueryGetAdminRequest {
+  string group = 1;
+  string admin = 2;
+}
+
+message QueryGetAdminResponse {
+  Admin admin = 1 [ (gogoproto.nullable) = false ];
+}
+
+message QueryAllAdminRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllAdminResponse {
+  repeated Admin admin = 1 [ (gogoproto.nullable) = false ];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetGroupRequest { string name = 1; }
+
+message QueryGetGroupResponse {
+  Group group = 1 [ (gogoproto.nullable) = false ];
+}
+
+message QueryAllGroupRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllGroupResponse {
+  repeated Group group = 1 [ (gogoproto.nullable) = false ];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryListAdminOfGroupRequest {
+  string group = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
+}
+
+message QueryListAdminOfGroupResponse {
+  repeated string admin = 1 [ (gogoproto.nullable) = false ];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}

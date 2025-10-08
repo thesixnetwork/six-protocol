@@ -1,0 +1,39 @@
+syntax = "proto3";
+package sixprotocol.nftoracle;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "google/protobuf/duration.proto";
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/nftoracle/types";
+
+// Params defines the parameters for the module.
+message Params {
+  option (amino.name) = "sixprotocol/x/nftoracle/Params";
+  option (gogoproto.equal) = true;
+  google.protobuf.Duration mint_request_active_duration = 1 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdduration) = true,
+    (gogoproto.moretags) = "yaml:\"mint_request_active_duration\""
+  ];
+  google.protobuf.Duration action_request_active_duration = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdduration) = true,
+    (gogoproto.moretags) = "yaml:\"action_request_active_duration\""
+  ];
+  google.protobuf.Duration verify_request_active_duration = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdduration) = true,
+    (gogoproto.moretags) = "yaml:\"verify_request_active_duration\""
+  ];
+  google.protobuf.Duration action_signer_active_duration = 4 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdduration) = true,
+    (gogoproto.moretags) = "yaml:\"action_signer_active_duration\""
+  ];
+  google.protobuf.Duration sync_action_signer_active_duration = 5 [
+    (gogoproto.nullable) = false,
+    (gogoproto.stdduration) = true,
+    (gogoproto.moretags) = "yaml:\"sync_action_signer_active_duration\""
+  ];
+}

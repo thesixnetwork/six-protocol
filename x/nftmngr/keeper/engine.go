@@ -3,12 +3,12 @@ package keeper
 import (
 	"errors"
 
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
-
 	"github.com/hyperjumptech/grule-rule-engine/ast"
 	"github.com/hyperjumptech/grule-rule-engine/builder"
 	"github.com/hyperjumptech/grule-rule-engine/engine"
 	"github.com/hyperjumptech/grule-rule-engine/pkg"
+
+	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
 
 type RuleAction struct {

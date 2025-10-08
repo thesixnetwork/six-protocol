@@ -3,10 +3,11 @@ package keeper
 import (
 	"context"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+
+	errormod "cosmossdk.io/errors"
+
+	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 // deprecated
@@ -101,14 +102,14 @@ func (k msgServer) DeleteVirtualAction(goCtx context.Context, msg *types.MsgDele
 
 	virtualSchema, found := k.GetVirtualSchema(ctx, msg.NftSchemaCode)
 	if !found {
-		return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, msg.NftSchemaCode)
+		return nil, errormod.Wrap(types.ErrSchemaDoesNotExists, msg.NftSchemaCode)
 	}
 
 	isOwner := false
 	for _, schemaRegistry := range virtualSchema.Registry {
 		srcSchema, found := k.GetNFTSchema(ctx, schemaRegistry.NftSchemaCode)
 		if !found {
-			return nil, sdkerrors.Wrap(types.ErrSchemaDoesNotExists, schemaRegistry.NftSchemaCode)
+			return nil, errormod.Wrap(types.ErrSchemaDoesNotExists, schemaRegistry.NftSchemaCode)
 		}
 		if msg.Creator == srcSchema.Owner {
 			isOwner = true
@@ -116,7 +117,7 @@ func (k msgServer) DeleteVirtualAction(goCtx context.Context, msg *types.MsgDele
 	}
 
 	if !isOwner {
-		return nil, sdkerrors.Wrap(types.ErrUnauthorized, msg.Creator)
+		return nil, errormod.Wrap(types.ErrUnauthorized, msg.Creator)
 	}
 
 	// Check if the virtual action already exists
@@ -127,7 +128,7 @@ func (k msgServer) DeleteVirtualAction(goCtx context.Context, msg *types.MsgDele
 	)
 
 	if !found {
-		return nil, sdkerrors.Wrap(types.ErrActionDoesNotExists, msg.Name)
+		return nil, errormod.Wrap(types.ErrActionDoesNotExists, msg.Name)
 	}
 
 	k.RemoveVirtualAction(

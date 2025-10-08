@@ -3,11 +3,14 @@ package types
 // DONTCOVER
 
 import (
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	sdkerrors "cosmossdk.io/errors"
 )
 
 // x/nftadmin module sentinel errors
 var (
+	ErrInvalidSigner = sdkerrors.Register(ModuleName, 1100, "expected gov account as only signer for proposal message")
+	ErrSample        = sdkerrors.Register(ModuleName, 1101, "sample error")
+
 	ErrAuthorizationNotFound  = sdkerrors.Register(ModuleName, 1, "authorization not found")
 	ErrUnauthorized           = sdkerrors.Register(ModuleName, 2, "unauthorized")
 	ErrNoPermissions          = sdkerrors.Register(ModuleName, 3, "no permissions")

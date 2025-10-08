@@ -22,16 +22,11 @@ interface Delegation {
 }
 
 async function main() {
-  const stakingPrecompileContract =
-    "0x0000000000000000000000000000000000001005";
+  const stakingPrecompileContract = "0x0000000000000000000000000000000000001005";
   const delegator = "6x1kch0sdjr5tuvjh0h3a55c6l5sr6m0phjeag9f2";
-  const validator = "6xvaloper13g50hqdqsjk85fmgqz2h5xdxq49lsmjdz3mr76";
+  const validator = "6xvaloper1t3p2vzd7w036ahxf4kefsc9sn24pvlqpmk79jh";
 
-  const stakingContract = new ethers.Contract(
-    stakingPrecompileContract,
-    IStakingABI.abi,
-    provider,
-  );
+  const stakingContract = new ethers.Contract(stakingPrecompileContract, IStakingABI.abi, provider);
 
   try {
     const delegation = await stakingContract.delegation(delegator, validator);
@@ -42,9 +37,7 @@ async function main() {
     // Format the output nicely
     console.log("Delegation Details:");
     console.log("-----------------");
-    console.log(
-      `Amount: ${typedDelegation.balance.amount} (${typedDelegation.balance.denom})`,
-    );
+    console.log(`Amount: ${typedDelegation.balance.amount} (${typedDelegation.balance.denom})`);
     console.log(`Delegator: ${typedDelegation.delegation.delegator_address}`);
     console.log(`Validator: ${typedDelegation.delegation.validator_address}`);
     console.log(`Shares: ${typedDelegation.delegation.shares}`);

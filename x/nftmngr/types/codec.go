@@ -5,6 +5,7 @@ import (
 	cdctypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/msgservice"
+	// this line is used by starport scaffolding # 1
 )
 
 func RegisterCodec(cdc *codec.LegacyAmino) {
@@ -45,7 +46,6 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 	// proposal
 	cdc.RegisterConcrete(&MsgProposalVirtualSchema{}, "nftmngr/ProposalVirtualSchema", nil)
 	cdc.RegisterConcrete(&MsgVoteVirtualSchemaProposal{}, "nftmngr/VoteVirtualSchemaProposal", nil)
-	// this line is used by starport scaffolding # 2
 }
 
 func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {

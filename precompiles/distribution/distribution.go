@@ -7,14 +7,16 @@ import (
 	"fmt"
 	"math/big"
 
+	"cosmossdk.io/log"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/evmos/ethermint/utils"
-	"github.com/tendermint/tendermint/libs/log"
+
+	"github.com/thesixnetwork/six-protocol/utils"
 
 	distrtypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
+
 	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
 )
 
@@ -49,6 +51,7 @@ func GetABI() abi.ABI {
 
 type PrecompileExecutor struct {
 	distrKeeper     pcommon.DistributionKeeper
+	distrQuerier     pcommon.DistributionQuerier
 	tokenmngrKeeper pcommon.TokenmngrKeeper
 	address         common.Address
 
@@ -68,15 +71,17 @@ type PrecompileExecutor struct {
 	WithdrawRewardsMethodID    []byte
 }
 
-func NewPrecompile(distKeeper pcommon.DistributionKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper) (*pcommon.Precompile, error) {
-	newAbi := GetABI()
-
-	p := &PrecompileExecutor{
+func NewExecutor(distKeeper pcommon.DistributionKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper) *PrecompileExecutor {
+	return &PrecompileExecutor{
 		distrKeeper:     distKeeper,
 		tokenmngrKeeper: tokenmngrKeeper,
 		address:         common.HexToAddress(DistrAddress),
 	}
+}
 
+func NewPrecompile(distKeeper pcommon.DistributionKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper) (*pcommon.Precompile, error) {
+	newAbi := GetABI()
+	p := NewExecutor(distKeeper, tokenmngrKeeper)
 	for name, m := range newAbi.Methods {
 		switch name {
 		case SetWithdrawAddressMethod:
@@ -91,6 +96,11 @@ func NewPrecompile(distKeeper pcommon.DistributionKeeper, tokenmngrKeeper pcommo
 	}
 
 	return pcommon.NewPrecompile(newAbi, p, p.address, "distribution"), nil
+}
+
+// Address implements common.PrecompileExecutor.
+func (p *PrecompileExecutor) Address() common.Address {
+	return p.address
 }
 
 func (p *PrecompileExecutor) Execute(ctx sdk.Context, method *abi.Method, caller common.Address, callingContract common.Address, args []interface{}, value *big.Int, readOnly bool, evm *vm.EVM) ([]byte, error) {
@@ -238,7 +248,7 @@ func (p *PrecompileExecutor) rewards(ctx sdk.Context, method *abi.Method, args [
 		ValidatorAddress: validatorAddressBech32,
 	}
 
-	res, err := p.distrKeeper.DelegationRewards(sdk.WrapSDKContext(ctx), req)
+	res, err := p.distrQuerier.DelegationRewards(sdk.WrapSDKContext(ctx), req)
 	if err != nil {
 		return nil, err
 	}
@@ -286,7 +296,7 @@ func (p PrecompileExecutor) allRewards(ctx sdk.Context, method *abi.Method, args
 		DelegatorAddress: delegatorAddress.String(),
 	}
 
-	response, err := p.distrKeeper.DelegationTotalRewards(sdk.WrapSDKContext(ctx), req)
+	response, err := p.distrQuerier.DelegationTotalRewards(ctx, req)
 	if err != nil {
 		return nil, err
 	}

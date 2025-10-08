@@ -44,15 +44,16 @@ func InitializePrecompiles(
 	tokenmngrKeeper common.TokenmngrKeeper,
 	tokenmngrMsgServer common.TokenmngrMsgServer,
 	nftmngrKeeper common.NftmngrKeeper,
-	stakingKeeper common.StakingKeeper,
+	stakingKeeper common.StakingMsgServer,
 	stakingQuerier common.StakingQuerier,
 	distrKeeper common.DistributionKeeper,
+	distrQuerier common.DistributionQuerier,
 ) error {
 	SetupMtx.Lock()
 	defer SetupMtx.Unlock()
-	if Initialized {
-		panic("precompiles already initialized")
-	}
+	// if Initialized {
+	// 	panic("precompiles already initialized")
+	// }
 	bankp, err := bank.NewPrecompile(bankKeeper)
 	if err != nil {
 		return err
@@ -98,7 +99,7 @@ func InitializePrecompiles(
 func GetPrecompileInfo(name string) PrecompileInfo {
 	if !Initialized {
 		// Precompile Info does not require any keeper state
-		_ = InitializePrecompiles(true, nil, nil, nil, nil, nil, nil, nil, nil, nil)
+		_ = InitializePrecompiles(true, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil)
 	}
 	i, ok := PrecompileNamesToInfo[name]
 	if !ok {

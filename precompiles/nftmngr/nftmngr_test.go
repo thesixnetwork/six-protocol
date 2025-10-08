@@ -38,13 +38,12 @@ func (suite *NftmngrPrecompileTestSuite) SetupTest() {
 
 	// Setup keeper and context
 	keeper, ctx := testkeeper.NftmngrKeeper(suite.T())
-	suite.nftmngrKeeper = keeper
+	suite.nftmngrKeeper = &keeper
 	suite.ctx = ctx
 
 	// Create precompile
 	// precompile, err := prenftmgr.NewPrecompile(suite.nftmngrKeeper, suite.bankKeeper)
-	precompile, err := prenftmgr.NewExecutor(suite.nftmngrKeeper, suite.accountKeeper, suite.bankKeeper)
-	suite.Require().NoError(err)
+	precompile := prenftmgr.NewExecutor(suite.nftmngrKeeper, suite.accountKeeper, suite.bankKeeper)
 	suite.nftprecompile = precompile
 }
 

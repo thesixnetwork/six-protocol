@@ -3,14 +3,17 @@ package types_test
 import (
 	"testing"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
 
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+
+	sdkmath "cosmossdk.io/math"
+
+	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 func TestGenesisState_Validate(t *testing.T) {
-	for _, tc := range []struct {
+	tests := []struct {
 		desc     string
 		genState *types.GenesisState
 		valid    bool
@@ -23,7 +26,6 @@ func TestGenesisState_Validate(t *testing.T) {
 		{
 			desc: "valid genesis state",
 			genState: &types.GenesisState{
-				PortId: types.PortID,
 				TokenList: []types.Token{
 					{
 						Name: "0",
@@ -42,16 +44,16 @@ func TestGenesisState_Validate(t *testing.T) {
 						Address: "1",
 					},
 				},
-				Options: &types.Options{
-					DefaultMintee: "39",
-				},
 				TokenBurnList: []types.TokenBurn{
 					{
-						Amount: sdk.NewCoin("test", sdk.NewInt(int64(1))),
+						Amount: sdk.NewCoin("0", sdkmath.NewInt(0)),
 					},
 					{
-						Amount: sdk.NewCoin("test", sdk.NewInt(int64(1))),
+						Amount: sdk.NewCoin("0", sdkmath.NewInt(0)),
 					},
+				},
+				Options: &types.Options{
+					DefaultMintee: "77",
 				},
 				// this line is used by starport scaffolding # types/genesis/validField
 			},
@@ -92,17 +94,18 @@ func TestGenesisState_Validate(t *testing.T) {
 			genState: &types.GenesisState{
 				TokenBurnList: []types.TokenBurn{
 					{
-						Amount: sdk.NewCoin("test", sdk.NewInt(int64(1))),
+						Amount: sdk.NewCoin("0", sdkmath.NewInt(0)),
 					},
 					{
-						Amount: sdk.NewCoin("test", sdk.NewInt(int64(1))),
+						Amount: sdk.NewCoin("1", sdkmath.NewInt(1)),
 					},
 				},
 			},
 			valid: false,
 		},
 		// this line is used by starport scaffolding # types/genesis/testcase
-	} {
+	}
+	for _, tc := range tests {
 		t.Run(tc.desc, func(t *testing.T) {
 			err := tc.genState.Validate()
 			if tc.valid {

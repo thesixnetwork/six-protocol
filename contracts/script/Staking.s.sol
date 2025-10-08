@@ -20,8 +20,8 @@ contract delegateScript is Script {
         (bool success, bytes memory result) = contractAddress.call(
             abi.encodeWithSignature(
                 "delegate(string,uint256)",
-                "6xvaloper13g50hqdqsjk85fmgqz2h5xdxq49lsmjdz3mr76",
-                1000 * 1e18
+                "6xvaloper1t3p2vzd7w036ahxf4kefsc9sn24pvlqpmk79jh",
+                20 * 1e18
             )
         );
         require(success, "Transaction failed");

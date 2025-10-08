@@ -6,8 +6,9 @@ import (
 
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 
+	errormod "cosmossdk.io/errors"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
 // create mint request
@@ -17,12 +18,12 @@ func (k msgServer) CreateMintRequest(goCtx context.Context, msg *types.MsgCreate
 	// Check if nft_schema_code exists
 	_, found := k.nftmngrKeeper.GetNFTSchema(ctx, msg.NftSchemaCode)
 	if !found {
-		return nil, sdkerrors.Wrap(types.ErrNFTSchemaNotFound, msg.NftSchemaCode)
+		return nil, errormod.Wrap(types.ErrNFTSchemaNotFound, msg.NftSchemaCode)
 	}
 	// Check if the token is already minted
 	_, found = k.nftmngrKeeper.GetNftData(ctx, msg.NftSchemaCode, msg.TokenId)
 	if found {
-		return nil, sdkerrors.Wrap(types.ErrMetadataAlreadyExists, msg.NftSchemaCode)
+		return nil, errormod.Wrap(types.ErrMetadataAlreadyExists, msg.NftSchemaCode)
 	}
 
 	createdAt := ctx.BlockTime()
@@ -31,12 +32,12 @@ func (k msgServer) CreateMintRequest(goCtx context.Context, msg *types.MsgCreate
 	// Get Oracle Config
 	oracleConfig, found := k.GetOracleConfig(ctx)
 	if !found {
-		return nil, sdkerrors.Wrap(types.ErrOracleConfigNotFound, "no oracle config found")
+		return nil, errormod.Wrap(types.ErrOracleConfigNotFound, "no oracle config found")
 	}
 
 	// Verify msg.RequiredConfirmations is less than or equal to oracleConfig.MinimumConfirmation
 	if int32(msg.RequiredConfirm) < oracleConfig.MinimumConfirmation {
-		return nil, sdkerrors.Wrap(types.ErrRequiredConfirmTooLess, strconv.Itoa(int(oracleConfig.MinimumConfirmation)))
+		return nil, errormod.Wrap(types.ErrRequiredConfirmTooLess, strconv.Itoa(int(oracleConfig.MinimumConfirmation)))
 	}
 
 	id_ := k.Keeper.AppendMintRequest(ctx, types.MintRequest{

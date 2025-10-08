@@ -10,6 +10,8 @@ release/
 ts-client/
 build/
 vue/src/store/generated/
+vue/src/composables/
+react/
 .env
 
 /**/wasmvm/
@@ -29,7 +31,7 @@ out/
 /broadcast/**/9000/
 /broadcast/**/713715/
 
-/contracts/lib/
+contracts/lib/*
 /logs/
 *.log
 

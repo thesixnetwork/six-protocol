@@ -2,12 +2,12 @@ package keeper
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+
+	sdkerrors "cosmossdk.io/errors"
 )
 
 // validate Action data
@@ -74,7 +74,7 @@ func NewNFTAttributeValueFromDefaultValue(name string, defaultValue *types.Defau
 }
 
 // validate AttributeDefinition data
-func (k Keeper) ValidateAttributeDefinition(ctx sdk.Context, attribute *types.AttributeDefinition, schema *types.NFTSchema) error {
+func (k Keeper) ValidateAttributeDefinition(ctx context.Context, attribute *types.AttributeDefinition, schema *types.NFTSchema) error {
 	valFound, found := k.GetSchemaAttribute(ctx, schema.Code, attribute.Name)
 	if found {
 		return sdkerrors.Wrap(types.ErrAttributeAlreadyExists, valFound.Name)

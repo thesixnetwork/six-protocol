@@ -1,15 +1,20 @@
 package keeper
 
 import (
-	"github.com/cosmos/cosmos-sdk/store/prefix"
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	"context"
 
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+
+	"cosmossdk.io/store/prefix"
+	storetypes "cosmossdk.io/store/types"
+
+	"github.com/cosmos/cosmos-sdk/runtime"
 )
 
 // SetVirtualSchema set a specific virSchema in the store from its index
-func (k Keeper) SetVirtualSchema(ctx sdk.Context, virSchema types.VirtualSchema) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.VirtualSchemaKeyPrefix))
+func (k Keeper) SetVirtualSchema(ctx context.Context, virSchema types.VirtualSchema) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.VirtualSchemaKeyPrefix))
 	b := k.cdc.MustMarshal(&virSchema)
 	store.Set(types.VirtualSchemaKey(
 		virSchema.VirtualNftSchemaCode,
@@ -18,10 +23,11 @@ func (k Keeper) SetVirtualSchema(ctx sdk.Context, virSchema types.VirtualSchema)
 
 // GetVirtualSchema returns a virSchema from its index
 func (k Keeper) GetVirtualSchema(
-	ctx sdk.Context,
+	ctx context.Context,
 	schemaCode string,
 ) (val types.VirtualSchema, found bool) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.VirtualSchemaKeyPrefix))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.VirtualSchemaKeyPrefix))
 
 	b := store.Get(types.VirtualSchemaKey(
 		schemaCode,
@@ -36,19 +42,21 @@ func (k Keeper) GetVirtualSchema(
 
 // RemoveVirtualSchema removes a virSchema from the store
 func (k Keeper) RemoveVirtualSchema(
-	ctx sdk.Context,
+	ctx context.Context,
 	schemaCode string,
 ) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.VirtualSchemaKeyPrefix))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.VirtualSchemaKeyPrefix))
 	store.Delete(types.VirtualSchemaKey(
 		schemaCode,
 	))
 }
 
 // GetAllVirtualSchema returns all virSchema
-func (k Keeper) GetAllVirtualSchema(ctx sdk.Context) (list []types.VirtualSchema) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.VirtualSchemaKeyPrefix))
-	iterator := sdk.KVStorePrefixIterator(store, []byte{})
+func (k Keeper) GetAllVirtualSchema(ctx context.Context) (list []types.VirtualSchema) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.VirtualSchemaKeyPrefix))
+	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
 
 	defer iterator.Close()
 

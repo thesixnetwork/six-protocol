@@ -2,19 +2,20 @@ package keeper
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
+	v1 "github.com/thesixnetwork/six-protocol/x/tokenmngr/migrations/v1"
 )
 
-// Migrator is a struct for handling in-place store migrations.
 type Migrator struct {
 	keeper Keeper
 }
 
-// NewMigrator returns a new Migrator.
 func NewMigrator(keeper Keeper) Migrator {
-	return Migrator{keeper: keeper}
+	return Migrator{
+		keeper: keeper,
+	}
 }
 
-// NoOpStoreMigrate means no migration is needed
-func (m Migrator) NoOpStoreMigrate(ctx sdk.Context) error {
-	return nil
+func (m Migrator) Migrate1to2(ctx sdk.Context) error {
+	return v1.MigrateStore(ctx, m.keeper.storeService)
 }

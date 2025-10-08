@@ -13,10 +13,11 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "workspaces":[
+  "workspaces": [
     "vue/",
     "contracts/",
     "ts-client/",
-    "typescript/"
+    "typescript/",
+    "indexer/"
   ]
 }

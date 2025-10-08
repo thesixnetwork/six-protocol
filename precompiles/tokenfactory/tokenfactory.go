@@ -6,13 +6,16 @@ import (
 	"errors"
 	"math/big"
 
+	erromod "cosmossdk.io/errors"
+	"cosmossdk.io/log"
+	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/evmos/ethermint/utils"
-	"github.com/tendermint/tendermint/libs/log"
+
+	"github.com/thesixnetwork/six-protocol/utils"
 
 	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
 	tokenmngr "github.com/thesixnetwork/six-protocol/x/tokenmngr/keeper"
@@ -20,13 +23,14 @@ import (
 )
 
 const (
-	SendToCosmos     = "transferToCosmos"
-	SendToCrossChain = "transferToCrossChain"
-	UnwrapStakeToken = "unwrapStakeToken"
+	SendToCosmos           = "transferToCosmos"
+	SendToCrossChain       = "transferToCrossChain"
+	UnwrapStakeToken       = "unwrapStakeToken"
+	ChangeDelegatorAddress = "changeDelegatorAddress"
 )
 
 const (
-	BridgeAddress = "0x0000000000000000000000000000000000001069"
+	BridgeAddress      = "0x0000000000000000000000000000000000001069"
 )
 
 // Embed abi json file to the executable binary. Needed when importing as dependency.
@@ -56,15 +60,19 @@ type PrecompileExecutor struct {
 	address            common.Address
 }
 
-func NewPrecompile(bankKeeper pcommon.BankKeeper, accountKeeper pcommon.AccountKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper, tokennmngrMsgServer pcommon.TokenmngrMsgServer) (*pcommon.Precompile, error) {
-	newAbi := GetABI()
-	p := &PrecompileExecutor{
+func NewExecutor(bankKeeper pcommon.BankKeeper, accountKeeper pcommon.AccountKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper, tokennmngrMsgServer pcommon.TokenmngrMsgServer) *PrecompileExecutor {
+	return &PrecompileExecutor{
 		bankKeeper:         bankKeeper,
 		accountKeeper:      accountKeeper,
 		tokenmngrKeeper:    tokenmngrKeeper,
 		tokenmngrMsgServer: tokennmngrMsgServer,
 		address:            common.HexToAddress(BridgeAddress),
 	}
+}
+
+func NewPrecompile(bankKeeper pcommon.BankKeeper, accountKeeper pcommon.AccountKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper, tokennmngrMsgServer pcommon.TokenmngrMsgServer) (*pcommon.Precompile, error) {
+	newAbi := GetABI()
+	p := NewExecutor(bankKeeper, accountKeeper, tokenmngrKeeper, tokennmngrMsgServer)
 
 	for name, m := range newAbi.Methods {
 		switch name {
@@ -74,6 +82,10 @@ func NewPrecompile(bankKeeper pcommon.BankKeeper, accountKeeper pcommon.AccountK
 	}
 
 	return pcommon.NewPrecompile(newAbi, p, p.address, "tokenfactory"), nil
+}
+
+func (p *PrecompileExecutor) Address() common.Address {
+	return p.address
 }
 
 // RequiredGas returns the required bare minimum gas to execute the precompile.
@@ -89,6 +101,8 @@ func (p PrecompileExecutor) Execute(ctx sdk.Context, method *abi.Method, caller 
 		return p.sendToCrossChain(ctx, caller, method, args, value, readOnly)
 	case UnwrapStakeToken:
 		return p.unwrapStakeToken(ctx, caller, method, args, value, readOnly)
+	case ChangeDelegatorAddress:
+		return p.changeDelegatorAddress(ctx, method, args, readOnly)
 	}
 	return
 }
@@ -121,9 +135,9 @@ func (p PrecompileExecutor) sendToCosmos(ctx sdk.Context, caller common.Address,
 	}
 
 	// check if amount is valid
-	intAmount := sdk.NewIntFromBigInt(amount)
+	intAmount := sdkmath.NewIntFromBigInt(amount)
 	if intAmount.IsZero() {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is prohibit from module")
+		return nil, erromod.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is prohibit from module")
 	}
 
 	// ------------------------------------
@@ -135,13 +149,13 @@ func (p PrecompileExecutor) sendToCosmos(ctx sdk.Context, caller common.Address,
 	// check if balance and input are valid
 	balance := p.bankKeeper.GetBalance(ctx, senderCosmoAddr, "asix")
 	if balance.Amount.LT(intAmount) {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Amount of token is too high than current balance")
+		return nil, erromod.Wrap(sdkerrors.ErrInvalidRequest, "Amount of token is too high than current balance")
 	}
 
 	// check total supply of evm denom
 	supply := p.bankKeeper.GetSupply(ctx, tokenmngr.DefaultAttoDenom)
 	if supply.Amount.LT(intAmount) {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is higher than current total supply")
+		return nil, erromod.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is higher than current total supply")
 	}
 
 	err = p.tokenmngrKeeper.AttoCoinConverter(ctx, senderCosmoAddr, receiverCosmoAddr, intAmount)
@@ -183,12 +197,12 @@ func (p PrecompileExecutor) sendToCrossChain(ctx sdk.Context, caller common.Addr
 		return method.Outputs.Pack(true)
 	}
 
-	memo, err := pcommon.StringFromArg(args[2])
+	memo, err := p.StringFromArg(args[2])
 	if err != nil {
 		return nil, err
 	}
 
-	chain, err := pcommon.StringFromArg(args[3])
+	chain, err := p.StringFromArg(args[3])
 	if err != nil {
 		return nil, err
 	}
@@ -203,9 +217,9 @@ func (p PrecompileExecutor) sendToCrossChain(ctx sdk.Context, caller common.Addr
 	}
 
 	// check if amount is valid
-	intAmount := sdk.NewIntFromBigInt(amount)
+	intAmount := sdkmath.NewIntFromBigInt(amount)
 	if intAmount.IsZero() {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is prohibit from module")
+		return nil, erromod.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is prohibit from module")
 	}
 
 	// ------------------------------------
@@ -217,13 +231,13 @@ func (p PrecompileExecutor) sendToCrossChain(ctx sdk.Context, caller common.Addr
 	// check if balance and input are valid
 	balance := p.bankKeeper.GetBalance(ctx, senderCosmoAddr, "asix")
 	if balance.Amount.LT(intAmount) {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Amount of token is too high than current balance")
+		return nil, erromod.Wrap(sdkerrors.ErrInvalidRequest, "Amount of token is too high than current balance")
 	}
 
 	// check total supply of evm denom
 	supply := p.bankKeeper.GetSupply(ctx, "asix")
 	if supply.Amount.LT(intAmount) {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is higher than current total supply")
+		return nil, erromod.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is higher than current total supply")
 	}
 
 	err = p.tokenmngrKeeper.AttoCoinConverter(ctx, senderCosmoAddr, receiverCosmoAddr, intAmount)
@@ -286,11 +300,39 @@ func (p PrecompileExecutor) unwrapStakeToken(ctx sdk.Context, caller common.Addr
 	msg := &tokenmoduletypes.MsgWrapToken{
 		Creator:  senderCosmoAddr.String(),
 		Receiver: senderCosmoAddr.String(),
-		Amount:   sdk.NewCoin(tokenmngr.DefaultMicroDenom, sdk.NewIntFromBigInt(amount)),
+		Amount:   sdk.NewCoin(tokenmngr.DefaultMicroDenom, sdkmath.NewIntFromBigInt(amount)),
 	}
 
 	_, err = p.tokenmngrMsgServer.WrapToken(sdk.WrapSDKContext(ctx), msg)
 	if err != nil {
+		return nil, err
+	}
+
+	return method.Outputs.Pack(true)
+}
+
+func (p PrecompileExecutor) changeDelegatorAddress(ctx sdk.Context, method *abi.Method, args []interface{}, readOnly bool) ([]byte, error) {
+	if readOnly {
+		return nil, errors.New("cannot call changeDelegatorAddress from a staticcall")
+	}
+
+	if err := pcommon.ValidateArgsLength(args, 2); err != nil {
+		return nil, err
+	}
+
+	// Convert EVM addresses to Cosmos SDK addresses using helper function
+	oldAddrSDK, err := p.accAddressFromArg(args[0])
+	if err != nil {
+		return nil, err
+	}
+
+	newAddrSDK, err := p.accAddressFromArg(args[1])
+	if err != nil {
+		return nil, err
+	}
+
+	// Call the keeper method
+	if err = p.tokenmngrKeeper.ChangeDelegatorAddress(ctx, oldAddrSDK, newAddrSDK); err != nil {
 		return nil, err
 	}
 

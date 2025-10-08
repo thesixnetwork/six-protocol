@@ -1,55 +1,63 @@
 package types
 
 import (
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/x/auth/types"
+	"context"
 
 	nftadmintypes "github.com/thesixnetwork/six-protocol/x/nftadmin/types"
 	nftmngrtypes "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+
+	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 // AccountKeeper defines the expected account keeper used for simulations (noalias)
 type AccountKeeper interface {
-	GetAccount(ctx sdk.Context, addr sdk.AccAddress) types.AccountI
+	GetAccount(ctx context.Context, addr sdk.AccAddress) sdk.AccountI
 	// Methods imported from account should be defined here
 }
 
 // BankKeeper defines the expected interface needed to retrieve account balances.
 type BankKeeper interface {
-	SpendableCoins(ctx sdk.Context, addr sdk.AccAddress) sdk.Coins
+	SpendableCoins(ctx context.Context, addr sdk.AccAddress) sdk.Coins
 	// Methods imported from bank should be defined here
 }
 
+// StakingKeeper defines the expected interface for the Staking module.
 type NftmngrKeeper interface {
 	GetNFTSchema(
-		ctx sdk.Context,
+		context context.Context,
 		code string,
 	) (val nftmngrtypes.NFTSchema, found bool)
-	GetAllSchemaAttribute(ctx sdk.Context) (list []nftmngrtypes.SchemaAttribute)
+	GetAllSchemaAttribute(context context.Context) (list []nftmngrtypes.SchemaAttribute)
 
-	SetNFTSchema(ctx sdk.Context, nFTSchema nftmngrtypes.NFTSchema)
+	SetNFTSchema(ctx context.Context, nFTSchema nftmngrtypes.NFTSchema)
 
 	GetNftData(
-		ctx sdk.Context,
+		ctx context.Context,
 		nftSchemaCode string,
 		tokenId string,
 	) (val nftmngrtypes.NftData, found bool)
 
 	// ValidateNFTData(data *nftmngrtypes.NftData, schema *nftmngrtypes.NFTSchema) (bool, error)
-	SetNftData(ctx sdk.Context, nftData nftmngrtypes.NftData)
+	SetNftData(ctx context.Context, nftData nftmngrtypes.NftData)
 	GetActionByRefId(
-		ctx sdk.Context,
+		ctx context.Context,
 		refId string,
 	) (val nftmngrtypes.ActionByRefId, found bool)
-	SetActionByRefId(ctx sdk.Context, actionByRefId nftmngrtypes.ActionByRefId)
+	SetActionByRefId(ctx context.Context, actionByRefId nftmngrtypes.ActionByRefId)
 
-	GetSchemaAttribute(ctx sdk.Context, nftSchemaCode string, name string) (val nftmngrtypes.SchemaAttribute, found bool)
-	SetSchemaAttribute(ctx sdk.Context, schemaAttribute nftmngrtypes.SchemaAttribute)
+	GetSchemaAttribute(ctx context.Context, nftSchemaCode string, name string) (val nftmngrtypes.SchemaAttribute, found bool)
+	SetSchemaAttribute(ctx context.Context, schemaAttribute nftmngrtypes.SchemaAttribute)
 
-	GetActionOfSchema(tx sdk.Context, nftSchemaCode string, name string) (val nftmngrtypes.ActionOfSchema, found bool)
+	GetActionOfSchema(tx context.Context, nftSchemaCode string, name string) (val nftmngrtypes.ActionOfSchema, found bool)
 }
 
 type NftadminKeeper interface {
-	GetAuthorization(ctx sdk.Context) (val nftadmintypes.Authorization, found bool)
-	HasPermission(ctx sdk.Context, name string, addr sdk.AccAddress) bool
+	GetAuthorization(ctx context.Context) (val nftadmintypes.Authorization, found bool)
+	HasPermission(ctx context.Context, name string, addr sdk.AccAddress) bool
+}
+
+// ParamSubspace defines the expected Subspace interface for parameters.
+type ParamSubspace interface {
+	Get(context.Context, []byte, interface{})
+	Set(context.Context, []byte, interface{})
 }

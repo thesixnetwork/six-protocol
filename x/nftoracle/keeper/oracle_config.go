@@ -1,22 +1,27 @@
 package keeper
 
 import (
-	"github.com/cosmos/cosmos-sdk/store/prefix"
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	"context"
 
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+
+	"cosmossdk.io/store/prefix"
+
+	"github.com/cosmos/cosmos-sdk/runtime"
 )
 
 // SetOracleConfig set oracleConfig in the store
-func (k Keeper) SetOracleConfig(ctx sdk.Context, oracleConfig types.OracleConfig) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.OracleConfigKey))
+func (k Keeper) SetOracleConfig(ctx context.Context, oracleConfig types.OracleConfig) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.OracleConfigKey))
 	b := k.cdc.MustMarshal(&oracleConfig)
 	store.Set([]byte{0}, b)
 }
 
 // GetOracleConfig returns oracleConfig
-func (k Keeper) GetOracleConfig(ctx sdk.Context) (val types.OracleConfig, found bool) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.OracleConfigKey))
+func (k Keeper) GetOracleConfig(ctx context.Context) (val types.OracleConfig, found bool) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.OracleConfigKey))
 
 	b := store.Get([]byte{0})
 	if b == nil {
@@ -28,7 +33,8 @@ func (k Keeper) GetOracleConfig(ctx sdk.Context) (val types.OracleConfig, found 
 }
 
 // RemoveOracleConfig removes oracleConfig from the store
-func (k Keeper) RemoveOracleConfig(ctx sdk.Context) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.OracleConfigKey))
+func (k Keeper) RemoveOracleConfig(ctx context.Context) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.OracleConfigKey))
 	store.Delete([]byte{0})
 }

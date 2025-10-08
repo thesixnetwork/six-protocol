@@ -9,11 +9,13 @@ import (
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/crypto"
 
+	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+
+	errormod "cosmossdk.io/errors"
+
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-
-	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
 )
 
 func (k msgServer) CreateActionSigner(goCtx context.Context, msg *types.MsgCreateActionSigner) (*types.MsgCreateActionSignerResponse, error) {
@@ -21,17 +23,17 @@ func (k msgServer) CreateActionSigner(goCtx context.Context, msg *types.MsgCreat
 
 	signerActionBz, err := base64.StdEncoding.DecodeString(msg.Base64EncodedSetSignerAction)
 	if err != nil {
-		return nil, sdkerrors.Wrap(types.ErrInvalidBase64, msg.Base64EncodedSetSignerAction)
+		return nil, errormod.Wrap(types.ErrInvalidBase64, msg.Base64EncodedSetSignerAction)
 	}
 
 	data := types.SetSignerSignature{}
 	err = k.cdc.(*codec.ProtoCodec).UnmarshalJSON(signerActionBz, &data)
 	if err != nil {
-		return nil, sdkerrors.Wrap(types.ErrParsingBase64, err.Error())
+		return nil, errormod.Wrap(types.ErrParsingBase64, err.Error())
 	}
 	_signerParams, signer, err := k.ValidatesetSignernature(data)
 	if err != nil {
-		return nil, sdkerrors.Wrap(types.ErrVerifyingSignature, err.Error())
+		return nil, errormod.Wrap(types.ErrVerifyingSignature, err.Error())
 	}
 
 	// Check if the value already exists
@@ -48,7 +50,7 @@ func (k msgServer) CreateActionSigner(goCtx context.Context, msg *types.MsgCreat
 			// check if the expired time is same as the given time
 			// prevent replay attack
 			if binded.ExpiredAt.Equal(_signerParams.ExpiredAt) {
-				return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Action signer message already sent should change the expired time")
+				return nil, errormod.Wrap(sdkerrors.ErrInvalidRequest, "Action signer message already sent should change the expired time")
 			}
 
 			// update the action signer
@@ -82,14 +84,11 @@ func (k msgServer) CreateActionSigner(goCtx context.Context, msg *types.MsgCreat
 			}
 
 			// set the binded signer
-			k.SetBindedSigner(ctx, types.BindedSigner{
-				OwnerAddress: *signer,
-				Signers:      bindedList.Signers,
-				ActorCount:   uint64(len(bindedList.Signers)),
-			})
+			bindedList.ActorCount = uint64(len(bindedList.Signers))
+			k.SetBindedSigner(ctx, bindedList)
 
 		} else {
-			return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Action signer already bined and not expired")
+			return nil, errormod.Wrap(sdkerrors.ErrInvalidRequest, "Action signer already bined and not expired")
 		}
 	case false:
 		// create the action signer
@@ -116,22 +115,19 @@ func (k msgServer) CreateActionSigner(goCtx context.Context, msg *types.MsgCreat
 		if !found {
 			bindedList = types.BindedSigner{
 				OwnerAddress: *signer,
-				Signers:      make([]*types.XSetSignerParams, 0),
+				Signers:      make([]*types.BindedSignerParams, 0),
 			}
 		}
 
 		// add the binded signer to the list
-		bindedList.Signers = append(bindedList.Signers, &types.XSetSignerParams{
+		bindedList.Signers = append(bindedList.Signers, &types.BindedSignerParams{
 			ActorAddress: _signerParams.ActorAddress,
 			ExpiredAt:    _signerParams.ExpiredAt,
 		})
 
 		// set the binded signer
-		k.SetBindedSigner(ctx, types.BindedSigner{
-			OwnerAddress: *signer,
-			Signers:      bindedList.Signers,
-			ActorCount:   uint64(len(bindedList.Signers)),
-		})
+		bindedList.ActorCount = uint64(len(bindedList.Signers))
+		k.SetBindedSigner(ctx, bindedList)
 
 		k.SetActionSigner(
 			ctx,
@@ -161,13 +157,13 @@ func (k msgServer) UpdateActionSigner(goCtx context.Context, msg *types.MsgUpdat
 
 	signerActionBz, err := base64.StdEncoding.DecodeString(msg.Base64EncodedSetSignerAction)
 	if err != nil {
-		return nil, sdkerrors.Wrap(types.ErrInvalidBase64, msg.Base64EncodedSetSignerAction)
+		return nil, errormod.Wrap(types.ErrInvalidBase64, msg.Base64EncodedSetSignerAction)
 	}
 
 	data := types.SetSignerSignature{}
 	err = k.cdc.(*codec.ProtoCodec).UnmarshalJSON(signerActionBz, &data)
 	if err != nil {
-		return nil, sdkerrors.Wrap(types.ErrParsingSetSignerSignature, err.Error())
+		return nil, errormod.Wrap(types.ErrParsingSetSignerSignature, err.Error())
 	}
 	_signerParams, signer, err := k.ValidatesetSignernature(data)
 	if err != nil {
@@ -181,12 +177,12 @@ func (k msgServer) UpdateActionSigner(goCtx context.Context, msg *types.MsgUpdat
 		*signer,
 	)
 	if !isFound {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
+		return nil, errormod.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
 	}
 
 	// prevent replay attack
 	if isSigner.ExpiredAt.Equal(_signerParams.ExpiredAt) {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Action signer message already sent should change the expired time")
+		return nil, errormod.Wrap(sdkerrors.ErrInvalidRequest, "Action signer message already sent should change the expired time")
 	}
 
 	// update the action signer
@@ -204,17 +200,17 @@ func (k msgServer) UpdateActionSigner(goCtx context.Context, msg *types.MsgUpdat
 	// if *signer != isSigner.Creator{
 	// 	oracleAddress, err := sdk.AccAddressFromBech32(isSigner.Creator)
 	// 	if err != nil {
-	// 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, isSigner.Creator)
+	// 		return nil, errormod.Wrap(sdkerrors.ErrInvalidAddress, isSigner.Creator)
 	// 	}
 	// 	// get permission of the creator
 	// 	granted := k.nftadminKeeper.HasPermission(ctx, types.KeyPermissionOracle, oracleAddress)
 	// 	if !granted {
-	// 		return nil, sdkerrors.Wrap(types.ErrNoOraclePermission, isSigner.Creator)
+	// 		return nil, errormod.Wrap(types.ErrNoOraclePermission, isSigner.Creator)
 	// 	}
 	// }
 
 	if *signer != isSigner.Creator {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "incorrect creator")
+		return nil, errormod.Wrap(sdkerrors.ErrUnauthorized, "incorrect creator")
 	}
 
 	actionSigner := types.ActionSigner{
@@ -236,13 +232,13 @@ func (k msgServer) DeleteActionSigner(goCtx context.Context, msg *types.MsgDelet
 
 	signerActionBz, err := base64.StdEncoding.DecodeString(msg.Base64EncodedSetSignerAction)
 	if err != nil {
-		return nil, sdkerrors.Wrap(types.ErrInvalidBase64, msg.Base64EncodedSetSignerAction)
+		return nil, errormod.Wrap(types.ErrInvalidBase64, msg.Base64EncodedSetSignerAction)
 	}
 
 	data := types.SetSignerSignature{}
 	err = k.cdc.(*codec.ProtoCodec).UnmarshalJSON(signerActionBz, &data)
 	if err != nil {
-		return nil, sdkerrors.Wrap(types.ErrParsingSetSignerSignature, err.Error())
+		return nil, errormod.Wrap(types.ErrParsingSetSignerSignature, err.Error())
 	}
 	_signerParams, signer, err := k.ValidatesetSignernature(data)
 	if err != nil {
@@ -257,11 +253,11 @@ func (k msgServer) DeleteActionSigner(goCtx context.Context, msg *types.MsgDelet
 	)
 
 	if !isFound {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
+		return nil, errormod.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
 	}
 
 	if msg.Creator != isSigner.Creator {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "incorrect creator")
+		return nil, errormod.Wrap(sdkerrors.ErrUnauthorized, "incorrect creator")
 	}
 
 	k.RemoveActionSigner(
@@ -287,32 +283,32 @@ func (k msgServer) ValidatesetSignernature(setSigner types.SetSignerSignature) (
 	}
 	err = k.cdc.(*codec.ProtoCodec).UnmarshalJSON(setSignerTypeBz, setSignerParams)
 	if err != nil {
-		return nil, nil, sdkerrors.Wrap(types.ErrParsingSetSignerSignature, err.Error())
+		return nil, nil, errormod.Wrap(types.ErrParsingSetSignerSignature, err.Error())
 	}
 
 	// validate signature format
 	decode_signature, err := hexutil.Decode(setSigner.Signature)
 	if err != nil {
 		// log.Fatalf("Failed to decode signature: %v", msg.Signature)
-		return nil, nil, sdkerrors.Wrap(types.ErrHexDecode, "invalid signature")
+		return nil, nil, errormod.Wrap(types.ErrHexDecode, "invalid signature")
 	}
 	signature_with_revocery_id := decode_signature
 
 	// get pulic key from signature
 	sigPublicKey, err := crypto.Ecrecover(hash_bytes, decode_signature) // recover publickey from signature and hash
 	if err != nil {
-		return nil, nil, sdkerrors.Wrap(types.ErrEcrecover, "invalid signature or message")
+		return nil, nil, errormod.Wrap(types.ErrEcrecover, "invalid signature or message")
 	}
 	// get address from public key
 	pubEDCA, err := crypto.UnmarshalPubkey(sigPublicKey)
 	if err != nil {
-		return nil, nil, sdkerrors.Wrap(types.ErrUnmarshalPubkey, "faild to unmarshal public key")
+		return nil, nil, errormod.Wrap(types.ErrUnmarshalPubkey, "faild to unmarshal public key")
 	}
 	eth_address_from_pubkey := crypto.PubkeyToAddress(*pubEDCA)
 
 	signatureNoRecoverID := signature_with_revocery_id[:len(signature_with_revocery_id)-1] // remove recovery id
 	if verified := crypto.VerifySignature(sigPublicKey, hash.Bytes(), signatureNoRecoverID); !verified {
-		return nil, nil, sdkerrors.Wrap(types.ErrVerifyingSignature, "invalid signature")
+		return nil, nil, errormod.Wrap(types.ErrVerifyingSignature, "invalid signature")
 	}
 	signer := eth_address_from_pubkey.Hex()
 	return setSignerParams, &signer, nil

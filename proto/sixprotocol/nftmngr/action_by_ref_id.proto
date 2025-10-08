@@ -1,0 +1,12 @@
+syntax = "proto3";
+package sixprotocol.nftmngr;
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
+
+message ActionByRefId {
+  string refId = 1;
+  string creator = 2;
+  string nftSchemaCode = 3;
+  string tokenId = 4;
+  string action = 5;
+}

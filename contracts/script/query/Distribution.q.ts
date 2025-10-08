@@ -28,11 +28,7 @@ async function main() {
     }
   }
 
-  const distributionContract = new ethers.Contract(
-    distributionPrecompileContract,
-    IDistABI.abi,
-    provider
-  );
+  const distributionContract = new ethers.Contract(distributionPrecompileContract, IDistABI.abi, provider);
 
   try {
     console.log("\n=== VALIDATOR SPECIFIC REWARDS ===");
@@ -59,7 +55,6 @@ async function main() {
       console.log("-----------------");
       console.log("Validator Address:", validatorRewards[1]);
       console.log("Total after conversion:", totalConvertedValue.toFixed(6), "tokens");
-
     } catch (error) {
       console.error("Error querying validator rewards:", error);
     }
