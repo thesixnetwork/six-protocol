@@ -213,7 +213,7 @@ validators:
         ws-address: 0.0.0.0:8546
         api: eth,txpool,personal,net,debug,web3
         enable: true
-        # enable-indexer: true // disable this coz cannot stop server
+        enable-indexer: false # disable this coz cannot stop server
       log_level: info
       minimum-gas-prices: 1.25usix
     config:
