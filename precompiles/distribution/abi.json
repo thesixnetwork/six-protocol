@@ -2,13 +2,7 @@
   {
     "type": "function",
     "name": "allRewards",
-    "inputs": [
-      {
-        "name": "delegatorAddress",
-        "type": "string",
-        "internalType": "string"
-      }
-    ],
+    "inputs": [{ "name": "delegatorAddress", "type": "string", "internalType": "string" }],
     "outputs": [
       {
         "name": "rewards",
@@ -25,23 +19,11 @@
                 "type": "tuple[]",
                 "internalType": "struct IDistr.Coin[]",
                 "components": [
-                  {
-                    "name": "amount",
-                    "type": "uint256",
-                    "internalType": "uint256"
-                  },
-                  {
-                    "name": "denom",
-                    "type": "string",
-                    "internalType": "string"
-                  }
+                  { "name": "amount", "type": "uint256", "internalType": "uint256" },
+                  { "name": "denom", "type": "string", "internalType": "string" }
                 ]
               },
-              {
-                "name": "validatorAddress",
-                "type": "string",
-                "internalType": "string"
-              }
+              { "name": "validatorAddress", "type": "string", "internalType": "string" }
             ]
           },
           {
@@ -49,16 +31,8 @@
             "type": "tuple[]",
             "internalType": "struct IDistr.Coin[]",
             "components": [
-              {
-                "name": "amount",
-                "type": "uint256",
-                "internalType": "uint256"
-              },
-              {
-                "name": "denom",
-                "type": "string",
-                "internalType": "string"
-              }
+              { "name": "amount", "type": "uint256", "internalType": "uint256" },
+              { "name": "denom", "type": "string", "internalType": "string" }
             ]
           }
         ]
@@ -70,16 +44,8 @@
     "type": "function",
     "name": "rewards",
     "inputs": [
-      {
-        "name": "validatorAddress",
-        "type": "string",
-        "internalType": "string"
-      },
-      {
-        "name": "delegatorAddress",
-        "type": "string",
-        "internalType": "string"
-      }
+      { "name": "validatorAddress", "type": "string", "internalType": "string" },
+      { "name": "delegatorAddress", "type": "string", "internalType": "string" }
     ],
     "outputs": [
       {
@@ -92,23 +58,11 @@
             "type": "tuple[]",
             "internalType": "struct IDistr.Coin[]",
             "components": [
-              {
-                "name": "amount",
-                "type": "uint256",
-                "internalType": "uint256"
-              },
-              {
-                "name": "denom",
-                "type": "string",
-                "internalType": "string"
-              }
+              { "name": "amount", "type": "uint256", "internalType": "uint256" },
+              { "name": "denom", "type": "string", "internalType": "string" }
             ]
           },
-          {
-            "name": "validatorAddress",
-            "type": "string",
-            "internalType": "string"
-          }
+          { "name": "validatorAddress", "type": "string", "internalType": "string" }
         ]
       }
     ],
@@ -117,39 +71,15 @@
   {
     "type": "function",
     "name": "setWithdrawAddress",
-    "inputs": [
-      {
-        "name": "withdrawAddress",
-        "type": "string",
-        "internalType": "string"
-      }
-    ],
-    "outputs": [
-      {
-        "name": "success",
-        "type": "bool",
-        "internalType": "bool"
-      }
-    ],
+    "inputs": [{ "name": "withdrawAddress", "type": "string", "internalType": "string" }],
+    "outputs": [{ "name": "success", "type": "bool", "internalType": "bool" }],
     "stateMutability": "view"
   },
   {
     "type": "function",
     "name": "withdrawRewards",
-    "inputs": [
-      {
-        "name": "validatorAddress",
-        "type": "string",
-        "internalType": "string"
-      }
-    ],
-    "outputs": [
-      {
-        "name": "success",
-        "type": "bool",
-        "internalType": "bool"
-      }
-    ],
+    "inputs": [{ "name": "validatorAddress", "type": "string", "internalType": "string" }],
+    "outputs": [{ "name": "success", "type": "bool", "internalType": "bool" }],
     "stateMutability": "view"
   }
 ]

@@ -61,8 +61,8 @@ type PrecompileExecutor struct {
 	   #### GETTER #####
 	   #################
 	*/
-	RewardsMethodId    []byte
-	AllRewardsMethodId []byte
+	RewardsMethodID    []byte
+	AllRewardsMethodID []byte
 	/*
 	   #################
 	   #### SETTER #####
@@ -72,17 +72,18 @@ type PrecompileExecutor struct {
 	WithdrawRewardsMethodID    []byte
 }
 
-func NewExecutor(distKeeper pcommon.DistributionKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper) *PrecompileExecutor {
+func NewExecutor(distKeeper pcommon.DistributionKeeper, distQuerier pcommon.DistributionQuerier, tokenmngrKeeper pcommon.TokenmngrKeeper) *PrecompileExecutor {
 	return &PrecompileExecutor{
 		distrKeeper:     distKeeper,
+		distrQuerier:    distQuerier,
 		tokenmngrKeeper: tokenmngrKeeper,
 		address:         common.HexToAddress(DistrAddress),
 	}
 }
 
-func NewPrecompile(distKeeper pcommon.DistributionKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper) (*pcommon.Precompile, error) {
+func NewPrecompile(distKeeper pcommon.DistributionKeeper, distQuerier pcommon.DistributionQuerier, tokenmngrKeeper pcommon.TokenmngrKeeper) (*pcommon.Precompile, error) {
 	newAbi := GetABI()
-	p := NewExecutor(distKeeper, tokenmngrKeeper)
+	p := NewExecutor(distKeeper, distQuerier, tokenmngrKeeper)
 	for name, m := range newAbi.Methods {
 		switch name {
 		case SetWithdrawAddressMethod:
@@ -90,9 +91,9 @@ func NewPrecompile(distKeeper pcommon.DistributionKeeper, tokenmngrKeeper pcommo
 		case WithdrawRewardsMethod:
 			p.WithdrawRewardsMethodID = m.ID
 		case RewardsMethod:
-			p.RewardsMethodId = m.ID
+			p.RewardsMethodID = m.ID
 		case AllRewardMethod:
-			p.AllRewardsMethodId = m.ID
+			p.AllRewardsMethodID = m.ID
 		}
 	}
 

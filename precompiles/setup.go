@@ -76,7 +76,7 @@ func InitializePrecompiles(
 		return nil, err
 	}
 
-	distributionp, err := distribution.NewPrecompile(distrKeeper, tokenmngrKeeper)
+	distributionp, err := distribution.NewPrecompile(distrKeeper, distrQuerier, tokenmngrKeeper)
 	if err != nil {
 		return nil, err
 	}
