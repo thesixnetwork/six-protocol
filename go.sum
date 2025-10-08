@@ -1249,8 +1249,8 @@ github.com/thesixnetwork/cosmos-sdk/api v0.7.6-six-1 h1:0cjtpRTyeE/WnsHVgCHV6TTp
 github.com/thesixnetwork/cosmos-sdk/api v0.7.6-six-1/go.mod h1:HEICW35zV1sJdGRkn0KwnhHAuYDfY54Y1LsM9ih46qU=
 github.com/thesixnetwork/cosmos-sdk/store v1.1.1 h1:BeCcB2FnUwtVs3VwBVnfiENqz7vD8OpY2zKx9SXFkg0=
 github.com/thesixnetwork/cosmos-sdk/store v1.1.1/go.mod h1:8DwVTz83/2PSI366FERGbWSH7hL6sB7HbYp8bqksNwM=
-github.com/thesixnetwork/evmos/v20 v20.0.1-0.20251008044137-a7aaf67652af h1:HEAIPNo3FQlanng0KgoKqaCRE//ReulZe7D+30/6Wt8=
-github.com/thesixnetwork/evmos/v20 v20.0.1-0.20251008044137-a7aaf67652af/go.mod h1:NOXazUaDSmET/E8cBKGqXmVHQ0hVNpZ17jA7UiPMk3c=
+github.com/thesixnetwork/evmos/v20 v20.0.1-0.20251008055642-b797fd497eba h1:000i14R/y3jKKGInCdQ8lc7OhUfM4Xo8j1WAvKe8l6g=
+github.com/thesixnetwork/evmos/v20 v20.0.1-0.20251008055642-b797fd497eba/go.mod h1:NOXazUaDSmET/E8cBKGqXmVHQ0hVNpZ17jA7UiPMk3c=
 github.com/thesixnetwork/go-ethereum v1.13.6-0.20250607133945-ba2bad3ed2da h1:67d3GAjlFgAISSaWKepF3TZCVShpApUNtkSGHrSjpRk=
 github.com/thesixnetwork/go-ethereum v1.13.6-0.20250607133945-ba2bad3ed2da/go.mod h1:0NZ9oFK+iUgZtgUs5ro+re3VG/446p0upk2SOeuonDw=
 github.com/tidwall/btree v1.7.0 h1:L1fkJH/AuEh5zBnnBbmTwQ5Lt+bRJ5A8EWecslvo9iI=
