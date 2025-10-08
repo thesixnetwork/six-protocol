@@ -19,14 +19,15 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Query_Params_FullMethodName       = "/sixprotocol.tokenmngr.Query/Params"
-	Query_Token_FullMethodName        = "/sixprotocol.tokenmngr.Query/Token"
-	Query_TokenAll_FullMethodName     = "/sixprotocol.tokenmngr.Query/TokenAll"
-	Query_Mintperm_FullMethodName     = "/sixprotocol.tokenmngr.Query/Mintperm"
-	Query_MintpermAll_FullMethodName  = "/sixprotocol.tokenmngr.Query/MintpermAll"
-	Query_TokenBurn_FullMethodName    = "/sixprotocol.tokenmngr.Query/TokenBurn"
-	Query_TokenBurnAll_FullMethodName = "/sixprotocol.tokenmngr.Query/TokenBurnAll"
-	Query_Options_FullMethodName      = "/sixprotocol.tokenmngr.Query/Options"
+	Query_Params_FullMethodName         = "/sixprotocol.tokenmngr.Query/Params"
+	Query_Token_FullMethodName          = "/sixprotocol.tokenmngr.Query/Token"
+	Query_TokenAll_FullMethodName       = "/sixprotocol.tokenmngr.Query/TokenAll"
+	Query_Mintperm_FullMethodName       = "/sixprotocol.tokenmngr.Query/Mintperm"
+	Query_MintpermAll_FullMethodName    = "/sixprotocol.tokenmngr.Query/MintpermAll"
+	Query_TokenBurn_FullMethodName      = "/sixprotocol.tokenmngr.Query/TokenBurn"
+	Query_TokenBurnAll_FullMethodName   = "/sixprotocol.tokenmngr.Query/TokenBurnAll"
+	Query_Options_FullMethodName        = "/sixprotocol.tokenmngr.Query/Options"
+	Query_ListPrecompile_FullMethodName = "/sixprotocol.tokenmngr.Query/ListPrecompile"
 )
 
 // QueryClient is the client API for Query service.
@@ -46,6 +47,8 @@ type QueryClient interface {
 	TokenBurnAll(ctx context.Context, in *QueryAllTokenBurnRequest, opts ...grpc.CallOption) (*QueryAllTokenBurnResponse, error)
 	// Queries a Options by index.
 	Options(ctx context.Context, in *QueryGetOptionsRequest, opts ...grpc.CallOption) (*QueryGetOptionsResponse, error)
+	// Queries a list of ListPrecompile items.
+	ListPrecompile(ctx context.Context, in *QueryListPrecompileRequest, opts ...grpc.CallOption) (*QueryListPrecompileResponse, error)
 }
 
 type queryClient struct {
@@ -128,6 +131,15 @@ func (c *queryClient) Options(ctx context.Context, in *QueryGetOptionsRequest, o
 	return out, nil
 }
 
+func (c *queryClient) ListPrecompile(ctx context.Context, in *QueryListPrecompileRequest, opts ...grpc.CallOption) (*QueryListPrecompileResponse, error) {
+	out := new(QueryListPrecompileResponse)
+	err := c.cc.Invoke(ctx, Query_ListPrecompile_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -145,6 +157,8 @@ type QueryServer interface {
 	TokenBurnAll(context.Context, *QueryAllTokenBurnRequest) (*QueryAllTokenBurnResponse, error)
 	// Queries a Options by index.
 	Options(context.Context, *QueryGetOptionsRequest) (*QueryGetOptionsResponse, error)
+	// Queries a list of ListPrecompile items.
+	ListPrecompile(context.Context, *QueryListPrecompileRequest) (*QueryListPrecompileResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -175,6 +189,9 @@ func (UnimplementedQueryServer) TokenBurnAll(context.Context, *QueryAllTokenBurn
 }
 func (UnimplementedQueryServer) Options(context.Context, *QueryGetOptionsRequest) (*QueryGetOptionsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Options not implemented")
+}
+func (UnimplementedQueryServer) ListPrecompile(context.Context, *QueryListPrecompileRequest) (*QueryListPrecompileResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListPrecompile not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -333,6 +350,24 @@ func _Query_Options_Handler(srv interface{}, ctx context.Context, dec func(inter
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_ListPrecompile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryListPrecompileRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).ListPrecompile(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_ListPrecompile_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).ListPrecompile(ctx, req.(*QueryListPrecompileRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -371,6 +406,10 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Options",
 			Handler:    _Query_Options_Handler,
+		},
+		{
+			MethodName: "ListPrecompile",
+			Handler:    _Query_ListPrecompile_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

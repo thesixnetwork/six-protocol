@@ -55,6 +55,13 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Use:       "show-options",
 					Short:     "show options",
 				},
+				{
+					RpcMethod:      "ListPrecompile",
+					Use:            "precompiles",
+					Short:          "Query Precompile",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{},
+				},
+
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},
