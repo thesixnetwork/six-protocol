@@ -84,6 +84,7 @@ contract DeployScript is Script {
 
         // MEMBERSHIP
         MyNFT membershipNFT = new MyNFT("MEM", "MEMBERSHIP", ownerAddress);
+        console.log("membershipt address: ", address(membershipNFT));
         nonceUp(ownerAddress);
         address membershipNFTAddress = address(membershipNFT);
 
@@ -113,6 +114,7 @@ contract DeployScript is Script {
 
         // DIVINE
         MyNFT divineNFT = new MyNFT("DIV", "DIVINEELITE", ownerAddress);
+        console.log("devine elite address: ", address(divineNFT));
         nonceUp(ownerAddress);
         address divineNFTAddress = address(divineNFT);
 
