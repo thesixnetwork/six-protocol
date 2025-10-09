@@ -74,7 +74,7 @@ func (suite *EVMIntegrationTestSuite) TestEVMPerformance() {
 
 	results := make(chan error, numTxs)
 
-	for i := 0; i < numTxs; i++ {
+	for i := range numTxs {
 		go func(index int) {
 			// Create recipient for this transaction
 			recipientKey, err := crypto.GenerateKey()
@@ -120,7 +120,7 @@ func (suite *EVMIntegrationTestSuite) TestEVMPerformance() {
 
 	// Collect results
 	successCount := 0
-	for i := 0; i < numTxs; i++ {
+	for i := range numTxs {
 		err := <-results
 		if err == nil {
 			successCount++

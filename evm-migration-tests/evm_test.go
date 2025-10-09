@@ -4,6 +4,8 @@ import (
 	"context"
 	"crypto/ecdsa"
 	"math/big"
+	"os"
+	"strings"
 	"testing"
 	"time"
 
@@ -34,7 +36,9 @@ func (suite *EVMTestSuite) SetupSuite() {
 	suite.client = client
 
 	// Setup private key (from .env)
-	privateKey, err := crypto.HexToECDSA("dc20cdedd241645658f707504fa7f56e3fed6b8a665e3e37758db2f3200ca554")
+	userPK := os.Getenv("PRIVATE_KEY")
+	userPK = strings.TrimPrefix(userPK, "0x")
+	privateKey, err := crypto.HexToECDSA(userPK)
 	suite.Require().NoError(err)
 	suite.privateKey = privateKey
 
