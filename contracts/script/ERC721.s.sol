@@ -84,9 +84,9 @@ contract DeployScript is Script {
 
         // MEMBERSHIP
         MyNFT membershipNFT = new MyNFT("MEM", "MEMBERSHIP", ownerAddress);
-        console.log("membershipt address: ", address(membershipNFT));
         nonceUp(ownerAddress);
         address membershipNFTAddress = address(membershipNFT);
+        console.log("membershipt address: ", membershipNFTAddress);
 
         membershipNFT.setPreMinteeAddress(ownerAddress);
         nonceUp(ownerAddress);
@@ -110,13 +110,12 @@ contract DeployScript is Script {
             minted += remain;
             nonceUp(ownerAddress);
         }
-        console.log(address(membershipNFTAddress));
 
         // DIVINE
         MyNFT divineNFT = new MyNFT("DIV", "DIVINEELITE", ownerAddress);
-        console.log("devine elite address: ", address(divineNFT));
         nonceUp(ownerAddress);
         address divineNFTAddress = address(divineNFT);
+        console.log("devine elite address : ", divineNFTAddress);
 
         divineNFT.setPreMinteeAddress(ownerAddress);
         nonceUp(ownerAddress);
@@ -140,7 +139,6 @@ contract DeployScript is Script {
             minted += remain;
             nonceUp(ownerAddress);
         }
-        console.log(address(divineNFTAddress));
         vm.stopBroadcast();
     }
 
