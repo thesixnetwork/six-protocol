@@ -6,6 +6,7 @@ import (
 	"io"
 	"math/big"
 	"os"
+	"sort"
 	"sync"
 
 	"google.golang.org/protobuf/reflect/protoreflect"
@@ -169,6 +170,8 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
 	"github.com/thesixnetwork/six-protocol/precompiles"
+	"github.com/evmos/evmos/v20/x/evm/core/vm"
+	sixutils "github.com/thesixnetwork/six-protocol/utils"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 )
 
@@ -1232,7 +1235,19 @@ func (app *App) AutoCliOpts() autocli.AppOptions {
 
 // DefaultGenesis returns a default genesis from the registered AppModuleBasic's.
 func (a *App) DefaultGenesis() map[string]json.RawMessage {
-	return a.BasicModuleManager.DefaultGenesis(a.appCodec)
+	genesis := a.BasicModuleManager.DefaultGenesis(a.appCodec)
+	/*
+		NOTE:: Using config.yml instead
+		mintGenState := minttypes.DefaultGenesisState()
+		mintGenState.Params.MintDenom = BaseDenom
+		genesis[minttypes.ModuleName] = a.appCodec.MustMarshalJSON(mintGenState)
+
+		evmGenState := evmtypes.DefaultGenesisState()
+		evmGenState.Params.ActiveStaticPrecompiles = evmtypes.AvailableStaticPrecompiles
+		genesis[evmtypes.ModuleName] = a.appCodec.MustMarshalJSON(evmGenState)
+	*/
+
+	return genesis
 }
 
 // GetKey returns the KVStoreKey for the provided store key.
@@ -1247,6 +1262,9 @@ func (app *App) GetStoreKeys() []storetypes.StoreKey {
 	for _, key := range app.keys {
 		keys = append(keys, key)
 	}
+	sort.Slice(keys, func(i, j int) bool {
+		return keys[i].Name() < keys[j].Name()
+	})
 
 	return keys
 }
@@ -1314,6 +1332,21 @@ func (app *App) RegisterTxService(clientCtx client.Context) {
 	authtx.RegisterTxService(app.BaseApp.GRPCQueryRouter(), clientCtx, app.BaseApp.Simulate, app.interfaceRegistry)
 }
 
+// RegisterTendermintService implements the Application.RegisterTendermintService method.
+func (app *App) RegisterTendermintService(clientCtx client.Context) {
+	cmtApp := server.NewCometABCIWrapper(app)
+	cmtservice.RegisterTendermintService(
+		clientCtx,
+		app.BaseApp.GRPCQueryRouter(),
+		app.interfaceRegistry,
+		cmtApp.Query,
+	)
+}
+
+func (app *App) RegisterNodeService(clientCtx client.Context, cfg config.Config) {
+	nodeservice.RegisterNodeService(clientCtx, app.GRPCQueryRouter(), cfg)
+}
+
 // GetMaccPerms returns a copy of the module account permissions
 //
 // NOTE: This is solely to be used for testing purposes.
@@ -1325,32 +1358,26 @@ func GetMaccPerms() map[string][]string {
 	return dup
 }
 
-// RegisterTendermintService implements the Application.RegisterTendermintService method.
-func (app *App) RegisterTendermintService(clientCtx client.Context) {
-	// cmtApp := server.NewCometABCIWrapper(app)
-	cmtservice.RegisterTendermintService(
-		clientCtx,
-		app.BaseApp.GRPCQueryRouter(),
-		app.interfaceRegistry,
-		app.Query,
-	)
-}
-
-func (app *App) RegisterNodeService(clientCtx client.Context, cfg config.Config) {
-	nodeservice.RegisterNodeService(clientCtx, app.GRPCQueryRouter(), cfg)
-}
-
 // BlockedAddresses returns all the app's blocked account addresses.
 func BlockedAddresses() map[string]bool {
-	modAccAddrs := make(map[string]bool)
+	blockedAddrs := make(map[string]bool)
 	for acc := range GetMaccPerms() {
-		modAccAddrs[authtypes.NewModuleAddress(acc).String()] = true
+		blockedAddrs[authtypes.NewModuleAddress(acc).String()] = true
+	}
+
+	blockedPrecompilesHex := evmtypes.AvailableStaticPrecompiles
+	for _, addr := range vm.PrecompiledAddressesBerlin {
+		blockedPrecompilesHex = append(blockedPrecompilesHex, addr.Hex())
+	}
+
+	for _, precompile := range blockedPrecompilesHex {
+		blockedAddrs[sixutils.EthHexToCosmosAddr(precompile).String()] = true
 	}
 
 	// allow the following addresses to receive funds
-	delete(modAccAddrs, authtypes.NewModuleAddress(govtypes.ModuleName).String())
+	delete(blockedAddrs, authtypes.NewModuleAddress(govtypes.ModuleName).String())
 
-	return modAccAddrs
+	return blockedAddrs
 }
 
 // initParamsKeeper init params keeper and its subspaces

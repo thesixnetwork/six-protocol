@@ -63,14 +63,17 @@ func initRootCmd(
 		addModuleInitFlags,
 	)
 
+	// add EVM key commands
+	rootCmd.AddCommand(
+		sixclient.KeyCommands(app.DefaultNodeHome),
+	)
+
 	// add keybase, auxiliary RPC, query, genesis, and tx child commands
 	rootCmd.AddCommand(
 		sdkserver.StatusCommand(),
-		// genesisCommand(txConfig, basicManager),
+
 		queryCommand(),
 		txCommand(),
-		// add EVM key commands
-		sixclient.KeyCommands(app.DefaultNodeHome),
 	)
 }
 
@@ -101,10 +104,10 @@ func queryCommand() *cobra.Command {
 	cmd.AddCommand(
 		rpc.QueryEventForTxCmd(),
 		rpc.ValidatorCommand(),
-		sdkserver.QueryBlockCmd(),
 		authcmd.QueryTxsByEventsCmd(),
-		sdkserver.QueryBlocksCmd(),
 		authcmd.QueryTxCmd(),
+		sdkserver.QueryBlockCmd(),
+		sdkserver.QueryBlocksCmd(),
 		sdkserver.QueryBlockResultsCmd(),
 	)
 
