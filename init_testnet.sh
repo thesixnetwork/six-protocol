@@ -295,7 +295,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     
     # gRPC configuration
     sed -i '' 's/enable = false/enable = true/g' ${SIX_HOME}/config/app.toml
-    sed -i '' 's/address = "0.0.0.0:9090"/address = "0.0.0.0:9090"/g' ${SIX_HOME}/config/app.toml
+    sed -i '' 's/address = "localhost:9090"/address = "0.0.0.0:9090"/g' ${SIX_HOME}/config/app.toml
     sed -i '' 's/address = "0.0.0.0:9091"/address = "0.0.0.0:9091"/g' ${SIX_HOME}/config/app.toml
     sed -i '' 's/enable = false/enable = true/g' ${SIX_HOME}/config/app.toml
     
@@ -317,7 +317,7 @@ else
     
     # gRPC configuration
     sed -i 's/enable = false/enable = true/g' ${SIX_HOME}/config/app.toml
-    sed -i 's/address = "0.0.0.0:9090"/address = "0.0.0.0:9090"/g' ${SIX_HOME}/config/app.toml
+    sed -i 's/address = "localhost:9090"/address = "0.0.0.0:9090"/g' ${SIX_HOME}/config/app.toml
     sed -i 's/address = "0.0.0.0:9091"/address = "0.0.0.0:9091"/g' ${SIX_HOME}/config/app.toml
     sed -i 's/enable = false/enable = true/g' ${SIX_HOME}/config/app.toml
     
