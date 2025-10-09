@@ -9,7 +9,6 @@ import (
 	// cmtcfg "github.com/cometbft/cometbft/config"
 	dbm "github.com/cosmos/cosmos-db"
 	evmosserver "github.com/evmos/evmos/v20/server"
-	srvflags "github.com/evmos/evmos/v20/server/flags"
 	"github.com/spf13/cast"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -73,13 +72,6 @@ func initRootCmd(
 		// add EVM key commands
 		sixclient.KeyCommands(app.DefaultNodeHome),
 	)
-
-	var err error
-	// add general tx flags to the root command
-	rootCmd, err = srvflags.AddTxFlags(rootCmd)
-	if err != nil {
-		panic(err)
-	}
 }
 
 func addModuleInitFlags(startCmd *cobra.Command) {
