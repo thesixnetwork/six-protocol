@@ -14,9 +14,10 @@ import (
 	ethlog "github.com/ethereum/go-ethereum/log"
 	ethrpc "github.com/ethereum/go-ethereum/rpc"
 	"github.com/evmos/evmos/v20/rpc"
+	evmosconfig "github.com/evmos/evmos/v20/server/config"
 
-	svrconfig "github.com/evmos/evmos/v20/server/config"
 	evmostypes "github.com/evmos/evmos/v20/types"
+	svrconfig "github.com/thesixnetwork/six-protocol/server/config"
 )
 
 // StartJSONRPC starts the JSON-RPC server
@@ -108,7 +109,15 @@ func StartJSONRPC(ctx *server.Context,
 
 	// allocate separate WS connection to Tendermint
 	tmWsClient = ConnectTmWS(tmRPCAddr, tmEndpoint, ctx.Logger)
-	wsSrv := rpc.NewWebsocketsServer(clientCtx, ctx.Logger, tmWsClient, config)
+
+	evmconfig := &evmosconfig.Config{
+		Config:  config.Config,
+		EVM:     evmosconfig.EVMConfig(config.EVM),
+		JSONRPC: evmosconfig.JSONRPCConfig(config.JSONRPC),
+		TLS:     evmosconfig.TLSConfig(config.TLS),
+	}
+
+	wsSrv := rpc.NewWebsocketsServer(clientCtx, ctx.Logger, tmWsClient, evmconfig)
 	wsSrv.Start()
 	return httpSrv, httpSrvDone, nil
 }

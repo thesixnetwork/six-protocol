@@ -52,9 +52,9 @@ import (
 
 	"github.com/thesixnetwork/six-protocol/app"
 
-	"github.com/evmos/evmos/v20/server/config"
 	evmostypes "github.com/evmos/evmos/v20/types"
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+	"github.com/thesixnetwork/six-protocol/server/config"
 )
 
 // package-wide network lock to only allow one test network at a time

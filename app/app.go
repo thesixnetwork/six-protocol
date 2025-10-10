@@ -45,7 +45,6 @@ import (
 	// EVM
 	// "github.com/evmos/evmos/v20/app/post"
 	"github.com/evmos/evmos/v20/ethereum/eip712"
-	srvflags "github.com/evmos/evmos/v20/server/flags"
 	evmostypes "github.com/evmos/evmos/v20/types"
 	evmmodule "github.com/evmos/evmos/v20/x/evm"
 	_ "github.com/evmos/evmos/v20/x/evm/core/tracers/js"
@@ -55,6 +54,7 @@ import (
 	"github.com/evmos/evmos/v20/x/feemarket"
 	feemarketkeeper "github.com/evmos/evmos/v20/x/feemarket/keeper"
 	feemarkettypes "github.com/evmos/evmos/v20/x/feemarket/types"
+	srvflags "github.com/thesixnetwork/six-protocol/server/flags"
 
 	ethante "github.com/thesixnetwork/six-protocol/app/ante/evm"
 
@@ -169,8 +169,8 @@ import (
 	stakingkeeper "github.com/cosmos/cosmos-sdk/x/staking/keeper"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/thesixnetwork/six-protocol/precompiles"
 	"github.com/evmos/evmos/v20/x/evm/core/vm"
+	"github.com/thesixnetwork/six-protocol/precompiles"
 	sixutils "github.com/thesixnetwork/six-protocol/utils"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 )

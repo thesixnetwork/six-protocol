@@ -52,9 +52,9 @@ import (
 	"github.com/evmos/evmos/v20/cmd/evmosd/opendb"
 	"github.com/evmos/evmos/v20/indexer"
 	ethdebug "github.com/evmos/evmos/v20/rpc/namespaces/ethereum/debug"
-	"github.com/evmos/evmos/v20/server/config"
-	srvflags "github.com/evmos/evmos/v20/server/flags"
 	evmostypes "github.com/evmos/evmos/v20/types"
+	"github.com/thesixnetwork/six-protocol/server/config"
+	srvflags "github.com/thesixnetwork/six-protocol/server/flags"
 )
 
 // DBOpener is a function to open `application.db`, potentially with customized options.
@@ -187,7 +187,7 @@ which accepts a path for the resulting pprof file.
 	cmd.Flags().StringSlice(srvflags.JSONRPCAPI, config.GetDefaultAPINamespaces(), "Defines a list of JSON-RPC namespaces that should be enabled")
 	cmd.Flags().String(srvflags.JSONRPCAddress, config.DefaultJSONRPCAddress, "the JSON-RPC server address to listen on")
 	cmd.Flags().String(srvflags.JSONWsAddress, config.DefaultJSONRPCWsAddress, "the JSON-RPC WS server address to listen on")
-	cmd.Flags().Uint64(srvflags.JSONRPCGasCap, config.DefaultGasCap, "Sets a cap on gas that can be used in eth_call/estimateGas unit is asix (0=infinite)")                        //nolint:lll
+	cmd.Flags().Uint64(srvflags.JSONRPCGasCap, config.DefaultGasCap, "Sets a cap on gas that can be used in eth_call/estimateGas unit is asix (0=infinite)")                          //nolint:lll
 	cmd.Flags().Bool(srvflags.JSONRPCAllowInsecureUnlock, config.DefaultJSONRPCAllowInsecureUnlock, "Allow insecure account unlocking when account-related RPCs are exposed by http") //nolint:lll
 	cmd.Flags().Float64(srvflags.JSONRPCTxFeeCap, config.DefaultTxFeeCap, "Sets a cap on transaction fee that can be sent via the RPC APIs (1 = default 1 evmos)")                    //nolint:lll
 	cmd.Flags().Int32(srvflags.JSONRPCFilterCap, config.DefaultFilterCap, "Sets the global cap for total number of filters that can be created")

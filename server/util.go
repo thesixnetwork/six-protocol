@@ -8,10 +8,10 @@ import (
 	"time"
 
 	// TODO update import to local pkg when rpc pkg is migrated
-	"github.com/evmos/evmos/v20/server/config"
 	"github.com/gorilla/mux"
 	"github.com/improbable-eng/grpc-web/go/grpcweb"
 	"github.com/spf13/cobra"
+	"github.com/thesixnetwork/six-protocol/server/config"
 	"golang.org/x/net/netutil"
 
 	sdkserver "github.com/cosmos/cosmos-sdk/server"
