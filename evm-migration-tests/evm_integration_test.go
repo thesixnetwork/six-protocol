@@ -41,8 +41,8 @@ func (suite *EVMIntegrationTestSuite) TestNFTContractIntegration() {
 	ctx := context.Background()
 
 	// Test interaction with the deployed NFT contracts
-	membershipAddr := "0xDE9131e4Fd8156DDc968B7e80C680F5a3017b998" // From deployment
-	divineAddr := "0xDf4675884F2a450FDD32AC7C19023d2c8C979849"     // From deployment
+	membershipAddr := "0xd4F85C343ddF1ea62C0c56918e15117A371E4038" // From deployment
+	divineAddr := "0x2872503a18137c9BdCdCbDa5e6dC9364dbAC7D8a"     // From deployment
 
 	// Test contract existence
 	membershipCode, err := suite.client.CodeAt(ctx, common.HexToAddress(membershipAddr), nil)

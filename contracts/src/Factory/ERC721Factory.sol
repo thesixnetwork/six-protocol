@@ -6,15 +6,15 @@ import "../MyNFT.sol";
 contract ERC721Factory {
     event Deployed(address addr, uint256 salt, address initialOwner);
 
-    function deployERC721(uint256 salt) public returns (address) {
+    function deployERC721(uint256 salt, string memory cname, string memory csymbol) public returns (address) {
         bytes32 saltBytes = bytes32(salt);
-        MyNFT token = new MyNFT{salt: saltBytes}("MyNFT", "NFT", msg.sender);
+        MyNFT token = new MyNFT{salt: saltBytes}(cname, csymbol, msg.sender);
         emit Deployed(address(token), salt, msg.sender);
         return address(token);
     }
 
-    function getDeploymentAddress(uint256 salt) public view returns (address addr) {
-        bytes memory bytecode = abi.encodePacked(type(MyNFT).creationCode, abi.encode("MyNFT", "NFT", msg.sender));
+    function getDeploymentAddress(uint256 salt, string memory cname, string memory csymbol) public view returns (address addr) {
+        bytes memory bytecode = abi.encodePacked(type(MyNFT).creationCode, abi.encode(cname, csymbol, msg.sender));
         bytes32 saltBytes = bytes32(salt);
         bytes32 bytecodeHash;
         assembly {
