@@ -36,9 +36,6 @@ const (
 	// DefaultJSONRPCEnable is the default value for the parameter that defines if the JSON-RPC server is enabled
 	DefaultJSONRPCEnable = false
 
-	// DefaultRosettaEnable is the default value for the parameter that defines if the Rosetta API server is enabled
-	DefaultRosettaEnable = false
-
 	// DefaultTelemetryEnable is the default value for the parameter that defines if the telemetry is enabled
 	DefaultTelemetryEnable = false
 
