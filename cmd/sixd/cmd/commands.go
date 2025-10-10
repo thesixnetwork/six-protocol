@@ -8,7 +8,7 @@ import (
 	cmtcli "github.com/cometbft/cometbft/libs/cli"
 	// cmtcfg "github.com/cometbft/cometbft/config"
 	dbm "github.com/cosmos/cosmos-db"
-	evmosserver "github.com/evmos/evmos/v20/server"
+	evmosserver "github.com/thesixnetwork/six-protocol/server"
 	"github.com/spf13/cast"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
