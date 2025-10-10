@@ -26,40 +26,40 @@ check_evm_node() {
 # Run basic connectivity tests
 run_basic_tests() {
     echo "🔗 Running basic connectivity tests..."
-    go test -v -timeout 60s ./evm-migration-tests -run TestEVMTestSuite/TestEVMConnection
-    go test -v -timeout 60s ./evm-migration-tests -run TestEVMTestSuite/TestAccountState
-    go test -v -timeout 60s ./evm-migration-tests -run TestEVMTestSuite/TestNetworkState
+    go test -v -timeout 60s  -run TestEVMTestSuite/TestEVMConnection
+    go test -v -timeout 60s  -run TestEVMTestSuite/TestAccountState
+    go test -v -timeout 60s  -run TestEVMTestSuite/TestNetworkState
     echo "✅ Basic tests completed"
 }
 
 # Run transaction tests
 run_transaction_tests() {
     echo "💸 Running transaction tests..."
-    go test -v -timeout 120s ./evm-migration-tests -run TestEVMTestSuite/TestETHTransfer
-    go test -v -timeout 120s ./evm-migration-tests -run TestEVMTestSuite/TestGasEstimation
+    go test -v -timeout 120s  -run TestEVMTestSuite/TestETHTransfer
+    go test -v -timeout 120s  -run TestEVMTestSuite/TestGasEstimation
     echo "✅ Transaction tests completed"
 }
 
 # Run contract tests
 run_contract_tests() {
     echo "📄 Running smart contract tests..."
-    go test -v -timeout 180s ./evm-migration-tests -run TestEVMTestSuite/TestContractDeployment
-    go test -v -timeout 120s ./evm-migration-tests -run TestEVMIntegrationTestSuite/TestNFTContractIntegration
+    go test -v -timeout 180s  -run TestEVMTestSuite/TestContractDeployment
+    go test -v -timeout 120s  -run TestEVMIntegrationTestSuite/TestNFTContractIntegration
     echo "✅ Contract tests completed"
 }
 
 # Run JSON-RPC tests
 run_jsonrpc_tests() {
     echo "🔌 Running JSON-RPC API tests..."
-    go test -v -timeout 60s ./evm-migration-tests -run TestEVMTestSuite/TestJSONRPCMethods
-    go test -v -timeout 60s ./evm-migration-tests -run TestEVMTestSuite/TestEventLogs
+    go test -v -timeout 60s  -run TestEVMTestSuite/TestJSONRPCMethods
+    go test -v -timeout 60s  -run TestEVMTestSuite/TestEventLogs
     echo "✅ JSON-RPC tests completed"
 }
 
 # Run performance tests
 run_performance_tests() {
     echo "⚡ Running performance tests..."
-    go test -v -timeout 300s ./evm-migration-tests -run TestEVMIntegrationTestSuite/TestEVMPerformance
+    go test -v -timeout 300s  -run TestEVMIntegrationTestSuite/TestEVMPerformance
     echo "✅ Performance tests completed"
 }
 

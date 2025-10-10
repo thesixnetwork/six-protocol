@@ -221,6 +221,9 @@ validators:
       #   timeout_propose: "3s"
       #   timeout_commit: "5s"
       moniker: mychain
+      #tx_index:
+      #  indexer: "kv" # "kv" or "psql"
+      #  psql-conn: "postgresql://sixchain:let-me-in@localhost:5432/sixchain?sslmode=disable"
     client:
       broadcast-mode: sync
       chain-id: testnet
