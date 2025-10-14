@@ -225,8 +225,6 @@ func hasOracleAlreadyVoted(confirmers []string, oracleAddr string) bool {
 
 // checkAndSetSpamPreventionCounter prevents multiple oracle submissions in the same block
 func checkAndSetSpamPreventionCounter(ctx sdk.Context, oracle sdk.AccAddress, oracleKeeper nftoraclekeeper.Keeper) error {
-	// This could be implemented using transient store or in-memory tracking
-	// For now, we'll use a simple block height check stored in the oracle keeper
 
 	// Get the last block height this oracle submitted a vote
 	lastVoteHeight := oracleKeeper.GetOracleLastVoteHeight(ctx, oracle)

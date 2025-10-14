@@ -48,7 +48,7 @@ func (k Keeper) DeleteOracleLastVoteHeight(ctx context.Context, oracle sdk.AccAd
 
 // IsOracleGaslessEnabled returns true if gasless oracle voting is enabled
 func (k Keeper) IsOracleGaslessEnabled(ctx context.Context) bool {
-	// This could be configurable via params, for now always enabled
+
 	return true
 }
 
