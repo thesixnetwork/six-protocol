@@ -11,8 +11,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/runtime"
 )
 
-const SUPER_ADMIN = "super.admin"
-
 // SetGroup set a specific group in the store from its index
 func (k Keeper) SetGroup(ctx context.Context, group types.Group) {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))

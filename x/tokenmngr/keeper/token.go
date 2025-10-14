@@ -11,8 +11,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/runtime"
 )
 
-const TOKEN_ADMIN = "token.admin"
-
 // SetToken set a specific token in the store from its index
 func (k Keeper) SetToken(ctx context.Context, token types.Token) {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))

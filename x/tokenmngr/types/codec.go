@@ -22,6 +22,7 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgWrapToken{}, "tokenmngr/WrapToken", nil)
 	cdc.RegisterConcrete(&MsgUnwrapToken{}, "tokenmngr/UnwrapToken", nil)
 	cdc.RegisterConcrete(&MsgSendWrapToken{}, "tokenmngr/SendWrapToken", nil)
+	cdc.RegisterConcrete(&MsgMigrateDelegation{}, "tokenmngr/MigrateDelegation", nil)
 	cdc.RegisterConcrete(&MsgUpdateParams{}, "tokenmngr/UpdateParams", nil)
 }
 
@@ -55,6 +56,10 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgSendWrapToken{},
+	)
+
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgMigrateDelegation{},
 	)
 	// this line is used by starport scaffolding # 3
 

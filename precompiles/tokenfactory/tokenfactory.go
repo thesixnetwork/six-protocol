@@ -27,7 +27,6 @@ const (
 	SendToCosmos           = "transferToCosmos"
 	SendToCrossChain       = "transferToCrossChain"
 	UnwrapStakeToken       = "unwrapStakeToken"
-	ChangeDelegatorAddress = "changeDelegatorAddress"
 )
 
 const (
@@ -102,8 +101,6 @@ func (p PrecompileExecutor) Execute(ctx sdk.Context, method *abi.Method, caller 
 		return p.sendToCrossChain(ctx, caller, method, args, value, readOnly)
 	case UnwrapStakeToken:
 		return p.unwrapStakeToken(ctx, caller, method, args, value, readOnly)
-	case ChangeDelegatorAddress:
-		return p.changeDelegatorAddress(ctx, method, args, readOnly)
 	}
 	return
 }
@@ -306,34 +303,6 @@ func (p PrecompileExecutor) unwrapStakeToken(ctx sdk.Context, caller common.Addr
 
 	_, err = p.tokenmngrMsgServer.WrapToken(sdk.WrapSDKContext(ctx), msg)
 	if err != nil {
-		return nil, err
-	}
-
-	return method.Outputs.Pack(true)
-}
-
-func (p PrecompileExecutor) changeDelegatorAddress(ctx sdk.Context, method *abi.Method, args []interface{}, readOnly bool) ([]byte, error) {
-	if readOnly {
-		return nil, errors.New("cannot call changeDelegatorAddress from a staticcall")
-	}
-
-	if err := pcommon.ValidateArgsLength(args, 2); err != nil {
-		return nil, err
-	}
-
-	// Convert EVM addresses to Cosmos SDK addresses using helper function
-	oldAddrSDK, err := p.accAddressFromArg(args[0])
-	if err != nil {
-		return nil, err
-	}
-
-	newAddrSDK, err := p.accAddressFromArg(args[1])
-	if err != nil {
-		return nil, err
-	}
-
-	// Call the keeper method
-	if err = p.tokenmngrKeeper.ChangeDelegatorAddress(ctx, oldAddrSDK, newAddrSDK); err != nil {
 		return nil, err
 	}
 

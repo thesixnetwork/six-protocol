@@ -21,7 +21,7 @@ func (k msgServer) SendWrapToken(goCtx context.Context, msg *types.MsgSendWrapTo
 	var addr []byte
 	var receiver sdk.AccAddress
 	if err := evmostypes.ValidateAddress(msg.EthAddress); err != nil {
-		return nil, errormod.Wrap(sdkerrors.ErrInvalidAddress, "receiver address is not ethereum address")
+		return nil, errormod.Wrap(sdkerrors.ErrInvalidAddress, "receiver address must be ethereum address")
 	}
 	if common.IsHexAddress(msg.EthAddress) {
 		addr = common.HexToAddress(msg.EthAddress).Bytes()
@@ -65,5 +65,8 @@ func (k msgServer) SendWrapToken(goCtx context.Context, msg *types.MsgSendWrapTo
 		return nil, err
 	}
 
-	return &types.MsgSendWrapTokenResponse{}, nil
+	return &types.MsgSendWrapTokenResponse{
+		Receiver: receiver.String(),
+		Amount: msg.Amount,
+	}, nil
 }

@@ -32,7 +32,6 @@ type AccountKeeper interface {
 
 type TokenmngrKeeper interface {
 	AttoCoinConverter(sdk.Context, sdk.AccAddress, sdk.AccAddress, sdkmath.Int) error
-	ChangeDelegatorAddress(ctx context.Context, oldDelAddr sdk.AccAddress, newDelAddr sdk.AccAddress) error
 }
 
 type TokenmngrMsgServer interface {

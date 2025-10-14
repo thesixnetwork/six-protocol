@@ -156,6 +156,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Send a sendWrapToken tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "ethAddress"}, {ProtoField: "amount"}},
 				},
+				{
+					RpcMethod:      "MigrateDelegation",
+					Use:            "migrate-delegation [eth-address]",
+					Short:          "Migrate Delegation to evm address tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "evmAddress"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},
