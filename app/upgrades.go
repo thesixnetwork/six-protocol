@@ -102,22 +102,15 @@ func (app *App) migrateAppConfig() error {
 		return nil
 	}
 
-	// Read current app.toml to check if already migrated
-	configBytes, err := os.ReadFile(configPath)
-	if err != nil {
-		return fmt.Errorf("failed to read config: %w", err)
-	}
-
-	// If file already has v0.50 sections, it's already migrated
-	configContent := string(configBytes)
-	if strings.Contains(configContent, "[mempool]") && strings.Contains(configContent, "[streaming.abci]") {
-		app.Logger().Info("App config already appears to be migrated (contains v0.50 sections)")
-		return nil
-	}
-
 	// Create backup of ORIGINAL file before migration
 	if err := copyFile(configPath, backupPath); err != nil {
 		return fmt.Errorf("failed to create backup: %w", err)
+	}
+
+	// Read current app.toml
+	configBytes, err := os.ReadFile(configPath)
+	if err != nil {
+		return fmt.Errorf("failed to read config: %w", err)
 	}
 
 	// Parse current config
