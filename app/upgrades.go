@@ -68,8 +68,7 @@ func (app *App) RegisterUpgradeHandlers() {
 func (app *App) migrateAppConfig() error {
 	// Use DefaultNodeHome as base, but also try common locations
 	homeDirs := []string{
-		DefaultNodeHome,
-		os.Getenv("HOME") + "/.six",
+		os.Getenv("DAEMON_HOME"),
 		"/root/.six", // for docker environments
 	}
 
