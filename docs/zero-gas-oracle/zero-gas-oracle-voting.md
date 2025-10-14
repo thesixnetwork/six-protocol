@@ -2,7 +2,7 @@
 
 ## Overview
 
-This implementation brings **Zero-Gas Oracle Voting** functionality to Six Protocol, inspired by Sei Protocol's gasless oracle system. Oracle validators can now submit votes without paying gas fees, encouraging participation and maintaining a reliable oracle network while preventing spam and abuse.
+This implementation brings **Zero-Gas Oracle Voting** functionality to Six Protocol,Oracle validators can now submit votes without paying gas fees, encouraging participation and maintaining a reliable oracle network while preventing spam and abuse.
 
 ## Key Features
 
