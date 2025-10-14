@@ -1,8 +1,13 @@
 package app
 
 import (
+	"bytes"
 	"context"
 	"fmt"
+	"io"
+	"os"
+	"path/filepath"
+	"strings"
 
 	storetypes "cosmossdk.io/store/types"
 	circuittypes "cosmossdk.io/x/circuit/types"
@@ -14,6 +19,9 @@ import (
 	icacontrollertypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/controller/types"
 	icahosttypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/host/types"
 	ibcfeetypes "github.com/cosmos/ibc-go/v8/modules/apps/29-fee/types"
+
+	"github.com/creachadair/tomledit"
+	srvmig "github.com/thesixnetwork/six-protocol/server/config/migration"
 )
 
 const UpgradeName = "v4.0.0"
@@ -44,4 +52,103 @@ func (app *App) RegisterUpgradeHandlers() {
 		// configure store loader that checks if version == upgradeHeight and applies store upgrades
 		app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
 	}
+
+	// app.config migration
+	// Migrate app.toml configuration to v0.50 format during upgrade
+	// This ensures all nodes get the updated configuration automatically
+	if err := app.migrateAppConfig(); err != nil {
+		app.Logger().Error("Failed to migrate app.toml config", "error", err)
+		// Log error but don't fail upgrade - operators can migrate manually if needed
+	} else {
+		app.Logger().Info("Successfully migrated app.toml to v0.50 format")
+	}
+}
+
+// migrateAppConfig migrates the app.toml configuration file to v0.50 format
+func (app *App) migrateAppConfig() error {
+	// Use DefaultNodeHome as base, but also try common locations
+	homeDirs := []string{
+		DefaultNodeHome,
+		os.Getenv("HOME") + "/.six",
+		"/root/.six", // for docker environments
+	}
+
+	var configPath string
+
+	// Find the config file in possible locations
+	for _, dir := range homeDirs {
+		if dir == "" {
+			continue
+		}
+		testPath := filepath.Join(dir, "config", "app.toml")
+		if _, err := os.Stat(testPath); err == nil {
+			configPath = testPath
+			break
+		}
+	}
+
+	if configPath == "" {
+		return fmt.Errorf("app.toml not found in any of the expected locations: %v", homeDirs)
+	}
+
+	// Create backup
+	backupPath := configPath + ".pre-v4.0.0"
+	if err := copyFile(configPath, backupPath); err != nil {
+		return fmt.Errorf("failed to create backup: %w", err)
+	}
+
+	// Read current app.toml
+	configBytes, err := os.ReadFile(configPath)
+	if err != nil {
+		return fmt.Errorf("failed to read config: %w", err)
+	}
+
+	// Parse current config
+	doc, err := tomledit.Parse(strings.NewReader(string(configBytes)))
+	if err != nil {
+		return fmt.Errorf("failed to parse current config: %w", err)
+	}
+
+	// Apply migration using the existing migration logic
+	plan := srvmig.PlanBuilder(doc, "")
+
+	// Execute the migration plan
+	ctx := context.Background()
+	for _, step := range plan {
+		if err := step.T.Apply(ctx, doc); err != nil {
+			return fmt.Errorf("failed to apply migration step '%s': %w", step.Desc, err)
+		}
+	}
+
+	// Write the migrated config back to file
+	var buf bytes.Buffer
+	if err := tomledit.Format(&buf, doc); err != nil {
+		return fmt.Errorf("failed to format migrated config: %w", err)
+	}
+
+	// Write to file with proper permissions
+	if err := os.WriteFile(configPath, buf.Bytes(), 0644); err != nil {
+		return fmt.Errorf("failed to write migrated config: %w", err)
+	}
+
+	app.Logger().Info("App config migrated successfully", "path", configPath, "backup", backupPath)
+	return nil
+} 
+
+// copyFile creates a copy of the source file at the destination
+func copyFile(src, dst string) error {
+	sourceFile, err := os.Open(src)
+	if err != nil {
+		return err
+	}
+	defer sourceFile.Close()
+
+	destFile, err := os.Create(dst)
+	if err != nil {
+		return err
+	}
+	defer destFile.Close()
+
+	_, err = io.Copy(destFile, sourceFile)
+	return err
 }
