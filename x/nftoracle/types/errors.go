@@ -72,6 +72,13 @@ var (
 	ErrGetQueryActionSigner                            = sdkerrors.Register(ModuleName, 503, "Cannot query action signer")
 	ErrActionSignerConfigNotFound                      = sdkerrors.Register(ModuleName, 504, "Action signer config not found")
 
+	// 600 - 699 Gasless Oracle Voting errors
+	ErrOracleAlreadyVoted               = sdkerrors.Register(ModuleName, 600, "Oracle already voted")
+	ErrOracleSpamPrevention             = sdkerrors.Register(ModuleName, 601, "Oracle spam prevention triggered")
+	ErrCollectionOwnerRequestNotFound   = sdkerrors.Register(ModuleName, 602, "Collection owner request not found")
+	ErrCollectionOwnerRequestNotPending = sdkerrors.Register(ModuleName, 603, "Collection owner request not pending")
+	ErrInvalidGaslessTransaction        = sdkerrors.Register(ModuleName, 604, "Invalid gasless transaction")
+
 	// 1000 - 1099 The error code is reserved for SIXLINK
 	ErrDialToEndpoint    = sdkerrors.Register(ModuleName, 1000, "Dial with endpoint")
 	ErrParseAbi          = sdkerrors.Register(ModuleName, 1001, "Parse abi")
