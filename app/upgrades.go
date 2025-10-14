@@ -28,7 +28,22 @@ const UpgradeName = "v4.0.0"
 
 func (app *App) RegisterUpgradeHandlers() {
 	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx context.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
-		return app.ModuleManager.RunMigrations(ctx, app.configurator, vm)
+		// First run the standard module migrations
+		newVM, err := app.ModuleManager.RunMigrations(ctx, app.configurator, vm)
+		if err != nil {
+			return newVM, err
+		}
+
+		// ONLY during upgrade execution: migrate app.toml configuration to v0.50 format
+		// This ensures all nodes get the updated configuration automatically
+		if err := app.migrateAppConfig(); err != nil {
+			app.Logger().Error("Failed to migrate app.toml config", "error", err)
+			// Log error but don't fail upgrade - operators can migrate manually if needed
+		} else {
+			app.Logger().Info("Successfully migrated app.toml to v0.50 format")
+		}
+
+		return newVM, nil
 	})
 
 	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
@@ -51,16 +66,6 @@ func (app *App) RegisterUpgradeHandlers() {
 		}
 		// configure store loader that checks if version == upgradeHeight and applies store upgrades
 		app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
-	}
-
-	// app.config migration
-	// Migrate app.toml configuration to v0.50 format during upgrade
-	// This ensures all nodes get the updated configuration automatically
-	if err := app.migrateAppConfig(); err != nil {
-		app.Logger().Error("Failed to migrate app.toml config", "error", err)
-		// Log error but don't fail upgrade - operators can migrate manually if needed
-	} else {
-		app.Logger().Info("Successfully migrated app.toml to v0.50 format")
 	}
 }
 
@@ -90,16 +95,29 @@ func (app *App) migrateAppConfig() error {
 		return fmt.Errorf("app.toml not found in any of the expected locations: %v", homeDirs)
 	}
 
-	// Create backup
+	// Check if backup already exists (migration already done)
 	backupPath := configPath + ".pre-v4.0.0"
-	if err := copyFile(configPath, backupPath); err != nil {
-		return fmt.Errorf("failed to create backup: %w", err)
+	if _, err := os.Stat(backupPath); err == nil {
+		app.Logger().Info("App config migration already completed, backup exists", "backup", backupPath)
+		return nil
 	}
 
-	// Read current app.toml
+	// Read current app.toml to check if already migrated
 	configBytes, err := os.ReadFile(configPath)
 	if err != nil {
 		return fmt.Errorf("failed to read config: %w", err)
+	}
+
+	// If file already has v0.50 sections, it's already migrated
+	configContent := string(configBytes)
+	if strings.Contains(configContent, "[mempool]") && strings.Contains(configContent, "[streaming.abci]") {
+		app.Logger().Info("App config already appears to be migrated (contains v0.50 sections)")
+		return nil
+	}
+
+	// Create backup of ORIGINAL file before migration
+	if err := copyFile(configPath, backupPath); err != nil {
+		return fmt.Errorf("failed to create backup: %w", err)
 	}
 
 	// Parse current config
@@ -132,22 +150,39 @@ func (app *App) migrateAppConfig() error {
 
 	app.Logger().Info("App config migrated successfully", "path", configPath, "backup", backupPath)
 	return nil
-} 
+}
 
 // copyFile creates a copy of the source file at the destination
 func copyFile(src, dst string) error {
+	sourceFileStat, err := os.Stat(src)
+	if err != nil {
+		return err
+	}
+
+	if !sourceFileStat.Mode().IsRegular() {
+		return fmt.Errorf("%s is not a regular file", src)
+	}
+
 	sourceFile, err := os.Open(src)
 	if err != nil {
 		return err
 	}
+	// Close the source file immediately after opening it.
+	// We will handle closing the destination file explicitly.
 	defer sourceFile.Close()
 
 	destFile, err := os.Create(dst)
 	if err != nil {
 		return err
 	}
+	// Ensure destFile is closed if anything goes wrong before the explicit close.
 	defer destFile.Close()
 
 	_, err = io.Copy(destFile, sourceFile)
-	return err
+	if err != nil {
+		return err
+	}
+
+	// Close the destination file and sync its contents to disk.
+	return destFile.Close()
 }
