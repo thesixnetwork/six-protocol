@@ -160,7 +160,7 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					RpcMethod:      "MigrateDelegation",
 					Use:            "migrate-delegation [eth-address]",
 					Short:          "Migrate Delegation to evm address tx",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "evmAddress"}},
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "ethAddress"}},
 				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
