@@ -54,6 +54,7 @@ import (
 
 	evmostypes "github.com/evmos/evmos/v20/types"
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+
 	"github.com/thesixnetwork/six-protocol/server/config"
 )
 

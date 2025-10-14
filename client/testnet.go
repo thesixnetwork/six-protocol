@@ -22,6 +22,7 @@ import (
 	evmostypes "github.com/evmos/evmos/v20/types"
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
 	"github.com/spf13/cobra"
+
 	"github.com/thesixnetwork/six-protocol/server/config"
 	srvflags "github.com/thesixnetwork/six-protocol/server/flags"
 

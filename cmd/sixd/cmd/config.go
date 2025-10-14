@@ -2,6 +2,7 @@ package cmd
 
 import (
 	cmtcfg "github.com/cometbft/cometbft/config"
+
 	evmosserverconfig "github.com/thesixnetwork/six-protocol/server/config"
 
 	serverconfig "github.com/cosmos/cosmos-sdk/server/config"

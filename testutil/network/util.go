@@ -39,6 +39,7 @@ import (
 	inflationtypes "github.com/evmos/evmos/v20/x/inflation/v1/types"
 
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+
 	"github.com/thesixnetwork/six-protocol/server"
 )
 

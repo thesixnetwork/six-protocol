@@ -54,6 +54,7 @@ import (
 	"github.com/evmos/evmos/v20/x/feemarket"
 	feemarketkeeper "github.com/evmos/evmos/v20/x/feemarket/keeper"
 	feemarkettypes "github.com/evmos/evmos/v20/x/feemarket/types"
+
 	srvflags "github.com/thesixnetwork/six-protocol/server/flags"
 
 	ethante "github.com/thesixnetwork/six-protocol/app/ante/evm"
@@ -170,6 +171,7 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
 	"github.com/evmos/evmos/v20/x/evm/core/vm"
+
 	"github.com/thesixnetwork/six-protocol/precompiles"
 	sixutils "github.com/thesixnetwork/six-protocol/utils"
 	// this line is used by starport scaffolding # stargate/app/moduleImport

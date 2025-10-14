@@ -11,8 +11,9 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/improbable-eng/grpc-web/go/grpcweb"
 	"github.com/spf13/cobra"
-	"github.com/thesixnetwork/six-protocol/server/config"
 	"golang.org/x/net/netutil"
+
+	"github.com/thesixnetwork/six-protocol/server/config"
 
 	sdkserver "github.com/cosmos/cosmos-sdk/server"
 	"github.com/cosmos/cosmos-sdk/server/types"

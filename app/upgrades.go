@@ -21,6 +21,7 @@ import (
 	ibcfeetypes "github.com/cosmos/ibc-go/v8/modules/apps/29-fee/types"
 
 	"github.com/creachadair/tomledit"
+
 	srvmig "github.com/thesixnetwork/six-protocol/server/config/migration"
 )
 
@@ -71,10 +72,12 @@ func (app *App) RegisterUpgradeHandlers() {
 
 // migrateAppConfig migrates the app.toml configuration file to v0.50 format
 func (app *App) migrateAppConfig() error {
-	// Use DefaultNodeHome as base, but also try common locations
+	// NOTE:: use DAEMONE_HOME because some node might has different path of home such as /dev/ssd2/chaindata/.six/data
 	homeDirs := []string{
 		os.Getenv("DAEMON_HOME"),
-		"/root/.six", // for docker environments
+
+		// NOTE:: might be use on local development
+		"/root/.six",
 	}
 
 	var configPath string
@@ -95,25 +98,21 @@ func (app *App) migrateAppConfig() error {
 		return fmt.Errorf("app.toml not found in any of the expected locations: %v", homeDirs)
 	}
 
-	// Check if backup already exists (migration already done)
 	backupPath := configPath + ".pre-v4.0.0"
 	if _, err := os.Stat(backupPath); err == nil {
 		app.Logger().Info("App config migration already completed, backup exists", "backup", backupPath)
 		return nil
 	}
 
-	// Create backup of ORIGINAL file before migration
 	if err := copyFile(configPath, backupPath); err != nil {
 		return fmt.Errorf("failed to create backup: %w", err)
 	}
 
-	// Read current app.toml
 	configBytes, err := os.ReadFile(configPath)
 	if err != nil {
 		return fmt.Errorf("failed to read config: %w", err)
 	}
 
-	// Parse current config
 	doc, err := tomledit.Parse(strings.NewReader(string(configBytes)))
 	if err != nil {
 		return fmt.Errorf("failed to parse current config: %w", err)
@@ -122,7 +121,6 @@ func (app *App) migrateAppConfig() error {
 	// Apply migration using the existing migration logic
 	plan := srvmig.PlanBuilder(doc, "")
 
-	// Execute the migration plan
 	ctx := context.Background()
 	for _, step := range plan {
 		if err := step.T.Apply(ctx, doc); err != nil {
@@ -130,14 +128,13 @@ func (app *App) migrateAppConfig() error {
 		}
 	}
 
-	// Write the migrated config back to file
 	var buf bytes.Buffer
 	if err := tomledit.Format(&buf, doc); err != nil {
 		return fmt.Errorf("failed to format migrated config: %w", err)
 	}
 
 	// Write to file with proper permissions
-	if err := os.WriteFile(configPath, buf.Bytes(), 0644); err != nil {
+	if err := os.WriteFile(configPath, buf.Bytes(), 0o644); err != nil {
 		return fmt.Errorf("failed to write migrated config: %w", err)
 	}
 
@@ -145,7 +142,6 @@ func (app *App) migrateAppConfig() error {
 	return nil
 }
 
-// copyFile creates a copy of the source file at the destination
 func copyFile(src, dst string) error {
 	sourceFileStat, err := os.Stat(src)
 	if err != nil {
@@ -160,15 +156,13 @@ func copyFile(src, dst string) error {
 	if err != nil {
 		return err
 	}
-	// Close the source file immediately after opening it.
-	// We will handle closing the destination file explicitly.
+
 	defer sourceFile.Close()
 
 	destFile, err := os.Create(dst)
 	if err != nil {
 		return err
 	}
-	// Ensure destFile is closed if anything goes wrong before the explicit close.
 	defer destFile.Close()
 
 	_, err = io.Copy(destFile, sourceFile)
@@ -176,6 +170,5 @@ func copyFile(src, dst string) error {
 		return err
 	}
 
-	// Close the destination file and sync its contents to disk.
 	return destFile.Close()
 }

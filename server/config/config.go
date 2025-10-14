@@ -355,7 +355,6 @@ func (c TLSConfig) Validate() error {
 	return nil
 }
 
-
 // GetConfig returns a fully parsed Config object.
 func GetConfig(v *viper.Viper) (Config, error) {
 	conf := DefaultConfig()

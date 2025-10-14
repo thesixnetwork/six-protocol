@@ -17,6 +17,7 @@ import (
 	evmosconfig "github.com/evmos/evmos/v20/server/config"
 
 	evmostypes "github.com/evmos/evmos/v20/types"
+
 	svrconfig "github.com/thesixnetwork/six-protocol/server/config"
 )
 

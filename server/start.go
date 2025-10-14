@@ -53,6 +53,7 @@ import (
 	"github.com/evmos/evmos/v20/indexer"
 	ethdebug "github.com/evmos/evmos/v20/rpc/namespaces/ethereum/debug"
 	evmostypes "github.com/evmos/evmos/v20/types"
+
 	"github.com/thesixnetwork/six-protocol/server/config"
 	srvflags "github.com/thesixnetwork/six-protocol/server/flags"
 )
