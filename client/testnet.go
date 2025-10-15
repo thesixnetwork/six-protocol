@@ -18,12 +18,13 @@ import (
 	cmttime "github.com/cometbft/cometbft/types/time"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/evmos/evmos/v20/crypto/hd"
-	"github.com/evmos/evmos/v20/server/config"
-	srvflags "github.com/evmos/evmos/v20/server/flags"
 	"github.com/evmos/evmos/v20/testutil/network"
 	evmostypes "github.com/evmos/evmos/v20/types"
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
 	"github.com/spf13/cobra"
+
+	"github.com/thesixnetwork/six-protocol/server/config"
+	srvflags "github.com/thesixnetwork/six-protocol/server/flags"
 
 	"cosmossdk.io/math"
 

@@ -55,6 +55,13 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Use:       "show-options",
 					Short:     "show options",
 				},
+				{
+					RpcMethod:      "ListPrecompile",
+					Use:            "precompiles",
+					Short:          "Query Precompile",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{},
+				},
+
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},
@@ -148,6 +155,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Use:            "send-wrap-token [eth-address] [amount]",
 					Short:          "Send a sendWrapToken tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "ethAddress"}, {ProtoField: "amount"}},
+				},
+				{
+					RpcMethod:      "MigrateDelegation",
+					Use:            "migrate-delegation [eth-address]",
+					Short:          "Migrate Delegation to evm address tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "ethAddress"}},
 				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},

@@ -54,7 +54,7 @@ func waitForEVMNode() error {
 	maxRetries := 30
 	retryDelay := 2 * time.Second
 
-	for i := 0; i < maxRetries; i++ {
+	for i := range maxRetries {
 		client, err := ethclient.Dial("http://localhost:8545")
 		if err == nil {
 			ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)

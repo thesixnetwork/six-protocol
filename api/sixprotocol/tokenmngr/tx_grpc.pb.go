@@ -19,21 +19,22 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Msg_UpdateParams_FullMethodName   = "/sixprotocol.tokenmngr.Msg/UpdateParams"
-	Msg_CreateToken_FullMethodName    = "/sixprotocol.tokenmngr.Msg/CreateToken"
-	Msg_UpdateToken_FullMethodName    = "/sixprotocol.tokenmngr.Msg/UpdateToken"
-	Msg_DeleteToken_FullMethodName    = "/sixprotocol.tokenmngr.Msg/DeleteToken"
-	Msg_CreateMintperm_FullMethodName = "/sixprotocol.tokenmngr.Msg/CreateMintperm"
-	Msg_UpdateMintperm_FullMethodName = "/sixprotocol.tokenmngr.Msg/UpdateMintperm"
-	Msg_DeleteMintperm_FullMethodName = "/sixprotocol.tokenmngr.Msg/DeleteMintperm"
-	Msg_Mint_FullMethodName           = "/sixprotocol.tokenmngr.Msg/Mint"
-	Msg_CreateOptions_FullMethodName  = "/sixprotocol.tokenmngr.Msg/CreateOptions"
-	Msg_UpdateOptions_FullMethodName  = "/sixprotocol.tokenmngr.Msg/UpdateOptions"
-	Msg_DeleteOptions_FullMethodName  = "/sixprotocol.tokenmngr.Msg/DeleteOptions"
-	Msg_Burn_FullMethodName           = "/sixprotocol.tokenmngr.Msg/Burn"
-	Msg_WrapToken_FullMethodName      = "/sixprotocol.tokenmngr.Msg/WrapToken"
-	Msg_UnwrapToken_FullMethodName    = "/sixprotocol.tokenmngr.Msg/UnwrapToken"
-	Msg_SendWrapToken_FullMethodName  = "/sixprotocol.tokenmngr.Msg/SendWrapToken"
+	Msg_UpdateParams_FullMethodName      = "/sixprotocol.tokenmngr.Msg/UpdateParams"
+	Msg_CreateToken_FullMethodName       = "/sixprotocol.tokenmngr.Msg/CreateToken"
+	Msg_UpdateToken_FullMethodName       = "/sixprotocol.tokenmngr.Msg/UpdateToken"
+	Msg_DeleteToken_FullMethodName       = "/sixprotocol.tokenmngr.Msg/DeleteToken"
+	Msg_CreateMintperm_FullMethodName    = "/sixprotocol.tokenmngr.Msg/CreateMintperm"
+	Msg_UpdateMintperm_FullMethodName    = "/sixprotocol.tokenmngr.Msg/UpdateMintperm"
+	Msg_DeleteMintperm_FullMethodName    = "/sixprotocol.tokenmngr.Msg/DeleteMintperm"
+	Msg_Mint_FullMethodName              = "/sixprotocol.tokenmngr.Msg/Mint"
+	Msg_CreateOptions_FullMethodName     = "/sixprotocol.tokenmngr.Msg/CreateOptions"
+	Msg_UpdateOptions_FullMethodName     = "/sixprotocol.tokenmngr.Msg/UpdateOptions"
+	Msg_DeleteOptions_FullMethodName     = "/sixprotocol.tokenmngr.Msg/DeleteOptions"
+	Msg_Burn_FullMethodName              = "/sixprotocol.tokenmngr.Msg/Burn"
+	Msg_WrapToken_FullMethodName         = "/sixprotocol.tokenmngr.Msg/WrapToken"
+	Msg_UnwrapToken_FullMethodName       = "/sixprotocol.tokenmngr.Msg/UnwrapToken"
+	Msg_SendWrapToken_FullMethodName     = "/sixprotocol.tokenmngr.Msg/SendWrapToken"
+	Msg_MigrateDelegation_FullMethodName = "/sixprotocol.tokenmngr.Msg/MigrateDelegation"
 )
 
 // MsgClient is the client API for Msg service.
@@ -57,6 +58,7 @@ type MsgClient interface {
 	WrapToken(ctx context.Context, in *MsgWrapToken, opts ...grpc.CallOption) (*MsgWrapTokenResponse, error)
 	UnwrapToken(ctx context.Context, in *MsgUnwrapToken, opts ...grpc.CallOption) (*MsgUnwrapTokenResponse, error)
 	SendWrapToken(ctx context.Context, in *MsgSendWrapToken, opts ...grpc.CallOption) (*MsgSendWrapTokenResponse, error)
+	MigrateDelegation(ctx context.Context, in *MsgMigrateDelegation, opts ...grpc.CallOption) (*MsgMigrateDelegationResponse, error)
 }
 
 type msgClient struct {
@@ -202,6 +204,15 @@ func (c *msgClient) SendWrapToken(ctx context.Context, in *MsgSendWrapToken, opt
 	return out, nil
 }
 
+func (c *msgClient) MigrateDelegation(ctx context.Context, in *MsgMigrateDelegation, opts ...grpc.CallOption) (*MsgMigrateDelegationResponse, error) {
+	out := new(MsgMigrateDelegationResponse)
+	err := c.cc.Invoke(ctx, Msg_MigrateDelegation_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
@@ -223,6 +234,7 @@ type MsgServer interface {
 	WrapToken(context.Context, *MsgWrapToken) (*MsgWrapTokenResponse, error)
 	UnwrapToken(context.Context, *MsgUnwrapToken) (*MsgUnwrapTokenResponse, error)
 	SendWrapToken(context.Context, *MsgSendWrapToken) (*MsgSendWrapTokenResponse, error)
+	MigrateDelegation(context.Context, *MsgMigrateDelegation) (*MsgMigrateDelegationResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -274,6 +286,9 @@ func (UnimplementedMsgServer) UnwrapToken(context.Context, *MsgUnwrapToken) (*Ms
 }
 func (UnimplementedMsgServer) SendWrapToken(context.Context, *MsgSendWrapToken) (*MsgSendWrapTokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendWrapToken not implemented")
+}
+func (UnimplementedMsgServer) MigrateDelegation(context.Context, *MsgMigrateDelegation) (*MsgMigrateDelegationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MigrateDelegation not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 
@@ -558,6 +573,24 @@ func _Msg_SendWrapToken_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_MigrateDelegation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgMigrateDelegation)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).MigrateDelegation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_MigrateDelegation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).MigrateDelegation(ctx, req.(*MsgMigrateDelegation))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -624,6 +657,10 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SendWrapToken",
 			Handler:    _Msg_SendWrapToken_Handler,
+		},
+		{
+			MethodName: "MigrateDelegation",
+			Handler:    _Msg_MigrateDelegation_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

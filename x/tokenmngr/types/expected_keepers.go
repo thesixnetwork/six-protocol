@@ -10,6 +10,9 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
+	"github.com/ethereum/go-ethereum/common"
+	"github.com/evmos/evmos/v20/x/evm/core/vm"
+
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
 
 	protocoladmintypes "github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
@@ -49,6 +52,8 @@ type BankKeeper interface {
 type EVMKeeper interface {
 	GetParams(ctx sdk.Context) evmtypes.Params
 	SetParams(ctx sdk.Context, params evmtypes.Params) error
+	GetStaticPrecompileInstance(params *evmtypes.Params, address common.Address) (vm.PrecompiledContract, bool, error)
+	GetPrecompiles() map[common.Address]vm.PrecompiledContract
 }
 
 // ParamSubspace defines the expected Subspace interface for parameters.

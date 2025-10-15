@@ -16,23 +16,39 @@ import (
 
 func MigrateStore(ctx sdk.Context, storeService store.KVStoreService, cdc codec.BinaryCodec) error {
 	store := runtime.KVStoreAdapter(storeService.OpenKVStore(ctx))
-	burnStore := prefix.NewStore(store, types.KeyPrefix(types.AuthorizationKey))
-	return restructAutorization(burnStore, cdc)
+	authStore := prefix.NewStore(store, types.KeyPrefix(types.AuthorizationKey))
+	return restructAuthorization(authStore, cdc)
 }
 
-// restruct authorization
-func restructAutorization(store storetypes.KVStore, cdc codec.BinaryCodec) error {
+// restructAuthorization migrates v1 Authorization structure to v2
+func restructAuthorization(store storetypes.KVStore, cdc codec.BinaryCodec) error {
 	var v1Auth v1.Authorization
 	b := store.Get([]byte{0})
 	if b == nil {
-		return errorsmod.Wrapf(types.ErrAuthorizationNotFound, "invalid key to query autorization")
+		return errorsmod.Wrapf(types.ErrAuthorizationNotFound, "invalid key to query authorization")
 	}
 
 	cdc.MustUnmarshal(b, &v1Auth)
 
-	var auth types.Authorization
+	var v2Auth types.Authorization
 
-	b = cdc.MustMarshal(&auth)
+	if v1Auth.Permissions != nil {
+		for _, perm := range v1Auth.Permissions.Permissions {
+			var addresses []string
+			if perm.Addresses != nil {
+				addresses = perm.Addresses.Addresses
+			}
+
+			v2Auth.Permissions = append(v2Auth.Permissions, &types.Permission{
+				Name:      perm.Name,
+				Addresses: addresses,
+			})
+		}
+	}
+
+	v2Auth.RootAdmin = v1Auth.RootAdmin
+
+	b = cdc.MustMarshal(&v2Auth)
 
 	store.Set([]byte{0}, b)
 

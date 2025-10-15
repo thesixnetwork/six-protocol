@@ -11,6 +11,7 @@ import (
 
 	erromod "cosmossdk.io/errors"
 	"github.com/cosmos/cosmos-sdk/crypto/keys/ed25519"
+	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
 	"github.com/cosmos/cosmos-sdk/crypto/types/multisig"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -36,8 +37,7 @@ const (
 	EvmDenom       = "asix"
 )
 
-// EthHexToCosmosAddr takes a given Hex string and derives a Cosmos SDK account address
-// from it.
+// EthHexToCosmosAddr takes a given Hex string and derives a Cosmos SDK account address from it.
 func EthHexToCosmosAddr(hexAddr string) sdk.AccAddress {
 	return EthToCosmosAddr(common.HexToAddress(hexAddr))
 }
@@ -58,8 +58,7 @@ func Bech32ToHexAddr(bech32Addr string) (common.Address, error) {
 	return CosmosToEthAddr(accAddr), nil
 }
 
-// CosmosToEthAddr converts a given SDK account address to
-// an Ethereum address.
+// CosmosToEthAddr converts a given SDK account address to an Ethereum address.
 func CosmosToEthAddr(accAddr sdk.AccAddress) common.Address {
 	return common.BytesToAddress(accAddr.Bytes())
 }
@@ -85,7 +84,7 @@ func IsTesting(chainID string) bool {
 // NOTE: Nested multisigs are not supported.
 func IsSupportedKey(pubkey cryptotypes.PubKey) bool {
 	switch pubkey := pubkey.(type) {
-	case *ethsecp256k1.PubKey, *ed25519.PubKey:
+	case *ethsecp256k1.PubKey, *secp256k1.PubKey, *ed25519.PubKey:
 		return true
 	case multisig.PubKey:
 		if len(pubkey.GetPubKeys()) == 0 {
@@ -94,7 +93,7 @@ func IsSupportedKey(pubkey cryptotypes.PubKey) bool {
 
 		for _, pk := range pubkey.GetPubKeys() {
 			switch pk.(type) {
-			case *ethsecp256k1.PubKey, *ed25519.PubKey:
+			case *ethsecp256k1.PubKey, *secp256k1.PubKey, *ed25519.PubKey:
 				continue
 			default:
 				// Nested multisigs are unsupported
@@ -108,11 +107,11 @@ func IsSupportedKey(pubkey cryptotypes.PubKey) bool {
 	}
 }
 
-// GetEvmosAddressFromBech32 returns the sdk.Account address of given address,
+// GetEVMAddressFromBech32 returns the sdk.Account address of given address,
 // while also changing bech32 human readable prefix (HRP) to the value set on
-// the global sdk.Config (eg: `evmos`).
+// the global sdk.Config (eg: `6x`).
 // The function fails if the provided bech32 address is invalid.
-func GetEvmosAddressFromBech32(address string) (sdk.AccAddress, error) {
+func GetEVMAddressFromBech32(address string) (sdk.AccAddress, error) {
 	bech32Prefix := strings.SplitN(address, "1", 2)[0]
 	if bech32Prefix == address {
 		return nil, erromod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid bech32 address: %s", address)

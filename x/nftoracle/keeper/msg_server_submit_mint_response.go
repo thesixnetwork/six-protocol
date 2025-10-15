@@ -40,7 +40,7 @@ func (k msgServer) SubmitMintResponse(goCtx context.Context, msg *types.MsgSubmi
 		return nil, errormod.Wrap(types.ErrMintRequestNotPending, strconv.FormatUint(msg.MintRequestID, 10))
 	}
 
-	// Check if currernt confirmation count is less than required confirmation count
+	// Check if current confirmation count is less than required confirmation count
 	if mintRequest.CurrentConfirm >= mintRequest.RequiredConfirm {
 		return nil, errormod.Wrap(types.ErrMintRequestConfirmedAlreadyComplete, strconv.FormatUint(msg.MintRequestID, 10))
 	}
@@ -63,7 +63,7 @@ func (k msgServer) SubmitMintResponse(goCtx context.Context, msg *types.MsgSubmi
 
 	// ! :: Check Deterministic Hash from concurrence response
 	if mintRequest.CurrentConfirm == 0 {
-		// Create sha512 hash of nftMetadata
+		// Create sha256 hash of nftMetadata
 		dataHash := sha256.Sum256(nftMetadata)
 		mintRequest.DataHashes = append(mintRequest.DataHashes, &types.DataHash{
 			OriginData: &nftOriginData,
@@ -179,6 +179,10 @@ func (k msgServer) CreateMetaDataFromOriginData(ctx sdk.Context, mintRequest typ
 func (k Keeper) FromOriginDataToNftOriginAttribute(ctx sdk.Context, schema *nftmngrtypes.NFTSchema, originData *types.NftOriginData) ([]*nftmngrtypes.NftAttributeValue, error) {
 	attributes := make([]*nftmngrtypes.NftAttributeValue, 0)
 
+	if schema.OriginData == nil {
+		return nil, errormod.Wrap(types.ErrParsingOriginData, "origin data is nil")
+	}
+
 	if schema.OriginData.MetadataFormat != "opensea" {
 		return nil, errormod.Wrap(types.ErrUnsupportedMetadataFormat, schema.OriginData.MetadataFormat)
 	}
@@ -196,28 +200,46 @@ func (k Keeper) FromOriginDataToNftOriginAttribute(ctx sdk.Context, schema *nftm
 		if err != nil {
 			return nil, err
 		}
-		attributes = append(attributes, attributeValue)
+
+		// Check if attribute already exists and update it, otherwise append
+		found := false
+		for i, existingAttr := range attributes {
+			if existingAttr.Name == attributeValue.Name {
+				attributes[i] = attributeValue // Update existing attribute
+				found = true
+				break
+			}
+		}
+		if !found {
+			attributes = append(attributes, attributeValue) // Append new attribute
+		}
+
 		delete(attributeByTrait, trait.TraitType)
 	}
 	// Looking for _HIDDEN_ boolean attribute
 	for _, attriDef := range attributeByTrait {
-		if attriDef.DataType == "boolean" {
+		if attriDef.DataType == "boolean" && attriDef.DisplayOption != nil {
+			var attributeValue *nftmngrtypes.NftAttributeValue
 			if attriDef.DisplayOption.BoolTrueValue == "_HIDDEN_" {
-				attributeValue := &nftmngrtypes.NftAttributeValue{}
-				attributeValue.Name = attriDef.Name
-				attributeValue.Value = &nftmngrtypes.NftAttributeValue_BooleanAttributeValue{
-					BooleanAttributeValue: &nftmngrtypes.BooleanAttributeValue{
-						Value: true,
+				attributeValue = &nftmngrtypes.NftAttributeValue{
+					Name: attriDef.Name,
+					Value: &nftmngrtypes.NftAttributeValue_BooleanAttributeValue{
+						BooleanAttributeValue: &nftmngrtypes.BooleanAttributeValue{
+							Value: true,
+						},
 					},
 				}
+				attributes = append(attributes, attributeValue)
 			} else if attriDef.DisplayOption.BoolFalseValue == "_HIDDEN_" {
-				attributeValue := &nftmngrtypes.NftAttributeValue{}
-				attributeValue.Name = attriDef.Name
-				attributeValue.Value = &nftmngrtypes.NftAttributeValue_BooleanAttributeValue{
-					BooleanAttributeValue: &nftmngrtypes.BooleanAttributeValue{
-						Value: false,
+				attributeValue = &nftmngrtypes.NftAttributeValue{
+					Name: attriDef.Name,
+					Value: &nftmngrtypes.NftAttributeValue_BooleanAttributeValue{
+						BooleanAttributeValue: &nftmngrtypes.BooleanAttributeValue{
+							Value: false,
+						},
 					},
 				}
+				attributes = append(attributes, attributeValue)
 			}
 		}
 	}
@@ -247,7 +269,7 @@ func TranslateToAttributeValue(attriDef *nftmngrtypes.AttributeDefinition, value
 		}
 	case "boolean":
 		booleanValue := false
-		if attriDef.DisplayOption.BoolTrueValue == value {
+		if attriDef.DisplayOption != nil && attriDef.DisplayOption.BoolTrueValue == value {
 			booleanValue = true
 		}
 		attributeValue.Value = &nftmngrtypes.NftAttributeValue_BooleanAttributeValue{
@@ -265,6 +287,8 @@ func TranslateToAttributeValue(attriDef *nftmngrtypes.AttributeDefinition, value
 				Value: floatValue,
 			},
 		}
+	default:
+		return nil, errormod.Wrap(types.ErrParsingOriginData, "unsupported data type: "+attriDef.DataType)
 	}
 	return attributeValue, nil
 }

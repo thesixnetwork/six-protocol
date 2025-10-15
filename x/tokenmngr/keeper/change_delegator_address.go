@@ -5,9 +5,9 @@ import (
 	"fmt"
 
 	errorsmod "cosmossdk.io/errors"
-	"cosmossdk.io/math"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 )
 
@@ -127,9 +127,9 @@ func (k Keeper) changeUnbondingDelegations(ctx sdk.Context, oldAddress, newAddre
 
 // GetDelegatorStakingInfo returns comprehensive staking information for a delegator
 // This is useful for verifying the state before and after address changes
-func (k Keeper) GetDelegatorStakingInfo(goCtx context.Context, delegatorAddr sdk.AccAddress) (*DelegatorStakingInfo, error) {
+func (k Keeper) GetDelegatorStakingInfo(goCtx context.Context, delegatorAddr sdk.AccAddress) (*types.DelegatorStakingInfo, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
-	info := &DelegatorStakingInfo{
+	info := &types.DelegatorStakingInfo{
 		DelegatorAddress: delegatorAddr.String(),
 	}
 
@@ -148,14 +148,4 @@ func (k Keeper) GetDelegatorStakingInfo(goCtx context.Context, delegatorAddr sdk
 	info.UnbondingDelegations = unbondingDelegations
 
 	return info, nil
-}
-
-// DelegatorStakingInfo contains comprehensive staking information for a delegator
-type DelegatorStakingInfo struct {
-	DelegatorAddress     string                             `json:"delegator_address"`
-	Delegations          []stakingtypes.Delegation          `json:"delegations"`
-	UnbondingDelegations []stakingtypes.UnbondingDelegation `json:"unbonding_delegations"`
-	Redelegations        []stakingtypes.Redelegation        `json:"redelegations"`
-	TotalBonded          math.Int                           `json:"total_bonded"`
-	TotalUnbonding       math.Int                           `json:"total_unbonding"`
 }

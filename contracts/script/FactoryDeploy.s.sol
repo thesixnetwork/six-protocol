@@ -2,7 +2,6 @@
 pragma solidity ^0.8.20;
 
 import {Script, console} from "forge-std/Script.sol";
-import {Factory} from "../src/Factory/Create2Factory.sol";
 
 import {ERC721Factory} from "../src/Factory/ERC721Factory.sol";
 import {RouterFactory} from "../src/Factory/ActionRouterFactory.sol";
@@ -25,16 +24,3 @@ contract DeployRouterFactory is Script {
     }
 }
 
-contract Create2FactoryScript is Script {
-    Factory public factory;
-
-    function setUp() public {}
-
-    function run() public {
-        vm.startBroadcast(vm.envUint("PRIVATE_KEY"));
-
-        factory = new Factory();
-
-        vm.stopBroadcast();
-    }
-}

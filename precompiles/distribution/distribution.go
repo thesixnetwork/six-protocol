@@ -11,7 +11,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/vm"
+
+	"github.com/evmos/evmos/v20/x/evm/core/vm"
 
 	"github.com/thesixnetwork/six-protocol/utils"
 
@@ -51,6 +52,7 @@ func GetABI() abi.ABI {
 
 type PrecompileExecutor struct {
 	distrKeeper     pcommon.DistributionKeeper
+	distrQuerier    pcommon.DistributionQuerier
 	tokenmngrKeeper pcommon.TokenmngrKeeper
 	address         common.Address
 
@@ -59,8 +61,8 @@ type PrecompileExecutor struct {
 	   #### GETTER #####
 	   #################
 	*/
-	RewardsMethodId    []byte
-	AllRewardsMethodId []byte
+	RewardsMethodID    []byte
+	AllRewardsMethodID []byte
 	/*
 	   #################
 	   #### SETTER #####
@@ -70,17 +72,18 @@ type PrecompileExecutor struct {
 	WithdrawRewardsMethodID    []byte
 }
 
-func NewExecutor(distKeeper pcommon.DistributionKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper) *PrecompileExecutor {
+func NewExecutor(distKeeper pcommon.DistributionKeeper, distQuerier pcommon.DistributionQuerier, tokenmngrKeeper pcommon.TokenmngrKeeper) *PrecompileExecutor {
 	return &PrecompileExecutor{
 		distrKeeper:     distKeeper,
+		distrQuerier:    distQuerier,
 		tokenmngrKeeper: tokenmngrKeeper,
 		address:         common.HexToAddress(DistrAddress),
 	}
 }
 
-func NewPrecompile(distKeeper pcommon.DistributionKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper) (*pcommon.Precompile, error) {
+func NewPrecompile(distKeeper pcommon.DistributionKeeper, distQuerier pcommon.DistributionQuerier, tokenmngrKeeper pcommon.TokenmngrKeeper) (*pcommon.Precompile, error) {
 	newAbi := GetABI()
-	p := NewExecutor(distKeeper, tokenmngrKeeper)
+	p := NewExecutor(distKeeper, distQuerier, tokenmngrKeeper)
 	for name, m := range newAbi.Methods {
 		switch name {
 		case SetWithdrawAddressMethod:
@@ -88,9 +91,9 @@ func NewPrecompile(distKeeper pcommon.DistributionKeeper, tokenmngrKeeper pcommo
 		case WithdrawRewardsMethod:
 			p.WithdrawRewardsMethodID = m.ID
 		case RewardsMethod:
-			p.RewardsMethodId = m.ID
+			p.RewardsMethodID = m.ID
 		case AllRewardMethod:
-			p.AllRewardsMethodId = m.ID
+			p.AllRewardsMethodID = m.ID
 		}
 	}
 
@@ -247,7 +250,7 @@ func (p *PrecompileExecutor) rewards(ctx sdk.Context, method *abi.Method, args [
 		ValidatorAddress: validatorAddressBech32,
 	}
 
-	res, err := p.distrKeeper.DelegationRewards(sdk.WrapSDKContext(ctx), req)
+	res, err := p.distrQuerier.DelegationRewards(sdk.WrapSDKContext(ctx), req)
 	if err != nil {
 		return nil, err
 	}
@@ -295,7 +298,7 @@ func (p PrecompileExecutor) allRewards(ctx sdk.Context, method *abi.Method, args
 		DelegatorAddress: delegatorAddress.String(),
 	}
 
-	response, err := p.distrKeeper.DelegationTotalRewards(sdk.WrapSDKContext(ctx), req)
+	response, err := p.distrQuerier.DelegationTotalRewards(ctx, req)
 	if err != nil {
 		return nil, err
 	}

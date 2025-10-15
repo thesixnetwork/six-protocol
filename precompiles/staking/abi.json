@@ -3,18 +3,40 @@
     "type": "function",
     "name": "delegate",
     "inputs": [
-      { "name": "valAddress", "type": "string", "internalType": "string" },
-      { "name": "amount", "type": "uint256", "internalType": "uint256" }
+      {
+        "name": "valAddress",
+        "type": "string",
+        "internalType": "string"
+      },
+      {
+        "name": "amount",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
     ],
-    "outputs": [{ "name": "success", "type": "bool", "internalType": "bool" }],
+    "outputs": [
+      {
+        "name": "success",
+        "type": "bool",
+        "internalType": "bool"
+      }
+    ],
     "stateMutability": "payable"
   },
   {
     "type": "function",
     "name": "delegation",
     "inputs": [
-      { "name": "delegator", "type": "string", "internalType": "string" },
-      { "name": "valAddress", "type": "string", "internalType": "string" }
+      {
+        "name": "delegator",
+        "type": "string",
+        "internalType": "string"
+      },
+      {
+        "name": "valAddress",
+        "type": "string",
+        "internalType": "string"
+      }
     ],
     "outputs": [
       {
@@ -32,7 +54,11 @@
                 "type": "uint256",
                 "internalType": "uint256"
               },
-              { "name": "denom", "type": "string", "internalType": "string" }
+              {
+                "name": "denom",
+                "type": "string",
+                "internalType": "string"
+              }
             ]
           },
           {
@@ -71,21 +97,53 @@
     "type": "function",
     "name": "redelegate",
     "inputs": [
-      { "name": "srcAddress", "type": "string", "internalType": "string" },
-      { "name": "dstAddress", "type": "string", "internalType": "string" },
-      { "name": "amount", "type": "uint256", "internalType": "uint256" }
+      {
+        "name": "srcAddress",
+        "type": "string",
+        "internalType": "string"
+      },
+      {
+        "name": "dstAddress",
+        "type": "string",
+        "internalType": "string"
+      },
+      {
+        "name": "amount",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
     ],
-    "outputs": [{ "name": "success", "type": "bool", "internalType": "bool" }],
+    "outputs": [
+      {
+        "name": "success",
+        "type": "bool",
+        "internalType": "bool"
+      }
+    ],
     "stateMutability": "nonpayable"
   },
   {
     "type": "function",
     "name": "undelegate",
     "inputs": [
-      { "name": "valAddress", "type": "string", "internalType": "string" },
-      { "name": "amount", "type": "uint256", "internalType": "uint256" }
+      {
+        "name": "valAddress",
+        "type": "string",
+        "internalType": "string"
+      },
+      {
+        "name": "amount",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
     ],
-    "outputs": [{ "name": "success", "type": "bool", "internalType": "bool" }],
+    "outputs": [
+      {
+        "name": "success",
+        "type": "bool",
+        "internalType": "bool"
+      }
+    ],
     "stateMutability": "nonpayable"
   }
 ]

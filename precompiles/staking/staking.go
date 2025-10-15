@@ -14,7 +14,8 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/vm"
+
+	"github.com/evmos/evmos/v20/x/evm/core/vm"
 
 	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
 	"github.com/thesixnetwork/six-protocol/utils"
@@ -29,7 +30,6 @@ const (
 
 const (
 	StakingAddress         = "0x0000000000000000000000000000000000001005"
-	bridgeDiffTreshold     = 1
 	defaultAttoToMicroDiff = 1_000_000_000_000
 )
 
@@ -52,7 +52,7 @@ func GetABI() abi.ABI {
 }
 
 type PrecompileExecutor struct {
-	stakingKeeper   pcommon.StakingKeeper
+	stakingKeeper   pcommon.StakingMsgServer
 	stakingQuerier  pcommon.StakingQuerier
 	bankKeeper      pcommon.BankKeeper
 	tokenmngrKeeper pcommon.TokenmngrKeeper
@@ -75,7 +75,7 @@ type PrecompileExecutor struct {
 	UndelegateID []byte
 }
 
-func NewExecutor(stakingKeeper pcommon.StakingKeeper, stakingQuerier pcommon.StakingQuerier, bankKeeper pcommon.BankKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper) *PrecompileExecutor {
+func NewExecutor(stakingKeeper pcommon.StakingMsgServer, stakingQuerier pcommon.StakingQuerier, bankKeeper pcommon.BankKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper) *PrecompileExecutor {
 	return &PrecompileExecutor{
 		stakingKeeper:   stakingKeeper,
 		stakingQuerier:  stakingQuerier,
@@ -85,7 +85,7 @@ func NewExecutor(stakingKeeper pcommon.StakingKeeper, stakingQuerier pcommon.Sta
 	}
 }
 
-func NewPrecompile(stakingKeeper pcommon.StakingKeeper, stakingQuerier pcommon.StakingQuerier, bankKeeper pcommon.BankKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper) (*pcommon.Precompile, error) {
+func NewPrecompile(stakingKeeper pcommon.StakingMsgServer, stakingQuerier pcommon.StakingQuerier, bankKeeper pcommon.BankKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper) (*pcommon.Precompile, error) {
 	newAbi := GetABI()
 
 	p := NewExecutor(stakingKeeper, stakingQuerier, bankKeeper, tokenmngrKeeper)
@@ -390,13 +390,7 @@ func (p *PrecompileExecutor) convertWeiToStakingCoin(ctx sdk.Context, weiAmount 
 
 	// check if balance and input are valid
 	if balance := p.bankKeeper.GetBalance(ctx, bech32Address, "asix"); balance.Amount.LT(intAmount) {
-		// if current_balance + 1 >= inputAmount then convert all token of the account
-
-		tresshold_balance := balance.Amount.Add(sdkmath.NewInt(bridgeDiffTreshold))
-		if tresshold_balance.LT(intAmount) {
-			return erromod.Wrap(sdkerrors.ErrInvalidRequest, "Amount of token is too high than current balance")
-		}
-		intAmount = balance.Amount
+		return erromod.Wrap(sdkerrors.ErrInvalidRequest, "Amount of token is too high than current balance")
 	}
 
 	// check total supply of evm denom

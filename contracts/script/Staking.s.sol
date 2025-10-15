@@ -49,7 +49,7 @@ contract undelegateScript is Script {
         (bool success, bytes memory result) = contractAddress.call(
             abi.encodeWithSignature(
                 "undelegate(string,uint256)",
-                "6xvaloper1t3p2vzd7w036ahxf4kefsc9sn24pvlqpmk79jh",
+                "6xvaloper13g50hqdqsjk85fmgqz2h5xdxq49lsmjdz3mr76",
                 10000 * 1e18
             )
         );

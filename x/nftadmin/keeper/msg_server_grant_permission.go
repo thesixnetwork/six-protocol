@@ -30,12 +30,12 @@ func (k msgServer) GrantPermission(goCtx context.Context, msg *types.MsgGrantPer
 
 	if auth.Permissions == nil {
 		auth.Permissions = []*types.Permission{
-			&types.Permission{
-				Name: msg.Name,
+			{
+				Name:      msg.Name,
 				Addresses: []string{msg.Grantee},
 			},
 		}
-	}else {
+	} else {
 		// check if the permission already exists
 		// if it does, append the address to the list
 		// if it doesn't, create a new permission
@@ -61,7 +61,7 @@ func (k msgServer) GrantPermission(goCtx context.Context, msg *types.MsgGrantPer
 
 		if !permissionExists {
 			auth.Permissions = append(auth.Permissions, &types.Permission{
-				Name: msg.Name,
+				Name:      msg.Name,
 				Addresses: []string{msg.Grantee},
 			})
 		}

@@ -34,11 +34,7 @@ func (k msgServer) RevokePermission(goCtx context.Context, msg *types.MsgRevokeP
 	}
 
 	listAddress := auth.GetPermissionAddressByKey(msg.Name)
-	if listAddress == nil {
-		return nil, errormod.Wrapf(types.ErrNoPermissionsForName, "no permissions for name %s", msg.Name)
-	}
-
-	if listAddress == nil || len(listAddress) == 0 {
+	if len(listAddress) == 0 {
 		return nil, errormod.Wrapf(types.ErrNoPermissionsForName, "no permissions for name %s", msg.Name)
 	}
 
@@ -55,6 +51,8 @@ func (k msgServer) RevokePermission(goCtx context.Context, msg *types.MsgRevokeP
 	if !removed {
 		return nil, errormod.Wrapf(types.ErrGranteeNotFoundForName, "grantee %s not found for name %s", msg.Revokee, msg.Name)
 	}
+
+	auth.SetPermissionAddressByKey(msg.Name, listAddress)
 
 	ctx.EventManager().EmitEvents(sdk.Events{
 		sdk.NewEvent(

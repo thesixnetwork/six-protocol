@@ -84,11 +84,8 @@ func (k msgServer) CreateActionSigner(goCtx context.Context, msg *types.MsgCreat
 			}
 
 			// set the binded signer
-			k.SetBindedSigner(ctx, types.BindedSigner{
-				OwnerAddress: *signer,
-				Signers:      bindedList.Signers,
-				ActorCount:   uint64(len(bindedList.Signers)),
-			})
+			bindedList.ActorCount = uint64(len(bindedList.Signers))
+			k.SetBindedSigner(ctx, bindedList)
 
 		} else {
 			return nil, errormod.Wrap(sdkerrors.ErrInvalidRequest, "Action signer already bined and not expired")
@@ -129,11 +126,8 @@ func (k msgServer) CreateActionSigner(goCtx context.Context, msg *types.MsgCreat
 		})
 
 		// set the binded signer
-		k.SetBindedSigner(ctx, types.BindedSigner{
-			OwnerAddress: *signer,
-			Signers:      bindedList.Signers,
-			ActorCount:   uint64(len(bindedList.Signers)),
-		})
+		bindedList.ActorCount = uint64(len(bindedList.Signers))
+		k.SetBindedSigner(ctx, bindedList)
 
 		k.SetActionSigner(
 			ctx,

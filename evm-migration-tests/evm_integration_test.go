@@ -41,8 +41,8 @@ func (suite *EVMIntegrationTestSuite) TestNFTContractIntegration() {
 	ctx := context.Background()
 
 	// Test interaction with the deployed NFT contracts
-	membershipAddr := "0xDE9131e4Fd8156DDc968B7e80C680F5a3017b998" // From deployment
-	divineAddr := "0xDf4675884F2a450FDD32AC7C19023d2c8C979849"     // From deployment
+	membershipAddr := "0xd4F85C343ddF1ea62C0c56918e15117A371E4038" // From deployment
+	divineAddr := "0x2872503a18137c9BdCdCbDa5e6dC9364dbAC7D8a"     // From deployment
 
 	// Test contract existence
 	membershipCode, err := suite.client.CodeAt(ctx, common.HexToAddress(membershipAddr), nil)
@@ -74,7 +74,7 @@ func (suite *EVMIntegrationTestSuite) TestEVMPerformance() {
 
 	results := make(chan error, numTxs)
 
-	for i := 0; i < numTxs; i++ {
+	for i := range numTxs {
 		go func(index int) {
 			// Create recipient for this transaction
 			recipientKey, err := crypto.GenerateKey()
@@ -120,7 +120,7 @@ func (suite *EVMIntegrationTestSuite) TestEVMPerformance() {
 
 	// Collect results
 	successCount := 0
-	for i := 0; i < numTxs; i++ {
+	for i := range numTxs {
 		err := <-results
 		if err == nil {
 			successCount++

@@ -12,7 +12,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/vm"
+	"github.com/evmos/evmos/v20/x/evm/core/vm"
 
 	"github.com/thesixnetwork/six-protocol/utils"
 
@@ -283,7 +283,7 @@ func (p PrecompileExecutor) accAddressFromArg(arg interface{}) (sdk.AccAddress, 
 	return bec32Addr, nil
 }
 
-func (PrecompileExecutor) IsTransaction(method string) bool {
+func (p PrecompileExecutor) IsTransaction(method string) bool {
 	switch method {
 	case SendMethod:
 		return true

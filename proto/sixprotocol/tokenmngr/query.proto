@@ -59,6 +59,12 @@ service Query {
     option (google.api.http).get =
         "/thesixnetwork/six-protocol/tokenmngr/options";
   }
+
+  // Queries a list of ListPrecompile items.
+  rpc ListPrecompile (QueryListPrecompileRequest) returns (QueryListPrecompileResponse) {
+    option (google.api.http).get = "/thesixnetwork/six-protocol/tokenmngr/list_precompile";
+  
+  }
 }
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
@@ -123,4 +129,11 @@ message QueryGetOptionsRequest {}
 
 message QueryGetOptionsResponse {
   Options Options = 1 [ (gogoproto.nullable) = false ];
+}
+
+message QueryListPrecompileRequest {}
+
+message QueryListPrecompileResponse {
+  repeated string precompiles = 1 [ (gogoproto.nullable) = false ];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }

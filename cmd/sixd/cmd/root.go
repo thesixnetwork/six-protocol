@@ -24,6 +24,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/auth/tx"
 	authtxconfig "github.com/cosmos/cosmos-sdk/x/auth/tx/config"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
+
+	srvflags "github.com/thesixnetwork/six-protocol/server/flags"
 )
 
 // NewRootCmd creates a new root command for six-protocold. It is called once in the main function.
@@ -103,6 +105,12 @@ func NewRootCmd() *cobra.Command {
 	}
 
 	initRootCmd(rootCmd, initClientCtx.TxConfig, tempApp.BasicModuleManager)
+
+	// add general tx flags to the root command
+	rootCmd, err := srvflags.AddTxFlags(rootCmd)
+	if err != nil {
+		panic(err)
+	}
 
 	// add keyring to autocli opts
 	autoCliOpts := tempApp.AutoCliOpts()

@@ -38,8 +38,9 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	inflationtypes "github.com/evmos/evmos/v20/x/inflation/v1/types"
 
-	"github.com/evmos/evmos/v20/server"
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+
+	"github.com/thesixnetwork/six-protocol/server"
 )
 
 func startInProcess(cfg Config, val *Validator) error {

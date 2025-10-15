@@ -101,6 +101,14 @@ genesis:
       params:
         allow_unprotected_txs: true
         evm_denom: asix
+        # active_static_precompiles:
+        # NOTE: six protocol precompile already set at evm param
+        # to servce evm migration
+        #   - "0x0000000000000000000000000000000000001001"
+        #   - "0x0000000000000000000000000000000000001005"
+        #   - "0x0000000000000000000000000000000000001007"
+        #   - "0x0000000000000000000000000000000000001055"
+        #   - "0x0000000000000000000000000000000000001069"
     feemarket:
       params:
         base_fee: "5000000000000"
@@ -205,7 +213,7 @@ validators:
         ws-address: 0.0.0.0:8546
         api: eth,txpool,personal,net,debug,web3
         enable: true
-        # enable-indexer: true // disable this coz cannot stop server
+        enable-indexer: false # disable this coz cannot stop server
       log_level: info
       minimum-gas-prices: 1.25usix
     config:
@@ -213,6 +221,9 @@ validators:
       #   timeout_propose: "3s"
       #   timeout_commit: "5s"
       moniker: mychain
+      #tx_index:
+      #  indexer: "kv" # "kv" or "psql"
+      #  psql-conn: "postgresql://sixchain:let-me-in@localhost:5432/sixchain?sslmode=disable"
     client:
       broadcast-mode: sync
       chain-id: testnet

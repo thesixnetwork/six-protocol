@@ -8,11 +8,11 @@ import (
 	cmtcli "github.com/cometbft/cometbft/libs/cli"
 	// cmtcfg "github.com/cometbft/cometbft/config"
 	dbm "github.com/cosmos/cosmos-db"
-	evmosserver "github.com/evmos/evmos/v20/server"
-	srvflags "github.com/evmos/evmos/v20/server/flags"
 	"github.com/spf13/cast"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+
+	evmosserver "github.com/thesixnetwork/six-protocol/server"
 
 	debug "github.com/thesixnetwork/six-protocol/client/debug"
 
@@ -64,22 +64,18 @@ func initRootCmd(
 		addModuleInitFlags,
 	)
 
-	// add keybase, auxiliary RPC, query, genesis, and tx child commands
+	// add EVM key commands
 	rootCmd.AddCommand(
-		sdkserver.StatusCommand(),
-		// genesisCommand(txConfig, basicManager),
-		queryCommand(),
-		txCommand(),
-		// add EVM key commands
 		sixclient.KeyCommands(app.DefaultNodeHome),
 	)
 
-	var err error
-	// add general tx flags to the root command
-	rootCmd, err = srvflags.AddTxFlags(rootCmd)
-	if err != nil {
-		panic(err)
-	}
+	// add keybase, auxiliary RPC, query, genesis, and tx child commands
+	rootCmd.AddCommand(
+		sdkserver.StatusCommand(),
+
+		queryCommand(),
+		txCommand(),
+	)
 }
 
 func addModuleInitFlags(startCmd *cobra.Command) {
@@ -109,10 +105,10 @@ func queryCommand() *cobra.Command {
 	cmd.AddCommand(
 		rpc.QueryEventForTxCmd(),
 		rpc.ValidatorCommand(),
-		sdkserver.QueryBlockCmd(),
 		authcmd.QueryTxsByEventsCmd(),
-		sdkserver.QueryBlocksCmd(),
 		authcmd.QueryTxCmd(),
+		sdkserver.QueryBlockCmd(),
+		sdkserver.QueryBlocksCmd(),
 		sdkserver.QueryBlockResultsCmd(),
 	)
 

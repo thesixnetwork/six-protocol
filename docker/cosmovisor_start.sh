@@ -1,4 +1,4 @@
 export DAEMON_NAME=sixd         
 export DAEMON_HOME=/opt/build/six_home
 export DAEMON_RESTART_AFTER_UPGRADE=true
-cosmovisor run start --home $DAEMON_HOME  --minimum-gas-prices 1.25usix
+cosmovisor run start --minimum-gas-prices=1.25usix,1250000000000asix --api.enable true --json-rpc.api eth,txpool,personal,net,debug,web3 --rpc.laddr tcp://0.0.0.0:26657  --log_level info --json-rpc.allow-unprotected-txs true --home $DAEMON_HOME

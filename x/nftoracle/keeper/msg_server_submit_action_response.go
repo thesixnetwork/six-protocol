@@ -41,7 +41,7 @@ func (k msgServer) SubmitActionResponse(goCtx context.Context, msg *types.MsgSub
 
 	actionRequest, found := k.GetActionRequest(ctx, msg.ActionRequestID)
 	if !found {
-		return nil, errormod.Wrap(types.ErrMintRequestNotFound, strconv.FormatUint(msg.ActionRequestID, 10))
+		return nil, errormod.Wrap(types.ErrActionRequestNotFound, strconv.FormatUint(msg.ActionRequestID, 10))
 	}
 
 	// Check if mint request is still pending
@@ -49,7 +49,7 @@ func (k msgServer) SubmitActionResponse(goCtx context.Context, msg *types.MsgSub
 		return nil, errormod.Wrap(types.ErrActionRequestNotPending, strconv.FormatUint(msg.ActionRequestID, 10))
 	}
 
-	// Check if currernt confirmation count is less than required confirmation count
+	// Check if current confirmation count is less than required confirmation count
 	if actionRequest.CurrentConfirm >= actionRequest.RequiredConfirm {
 		return nil, errormod.Wrap(types.ErrActionRequestConfirmedAlreadyComplete, strconv.FormatUint(msg.ActionRequestID, 10))
 	}
@@ -71,7 +71,7 @@ func (k msgServer) SubmitActionResponse(goCtx context.Context, msg *types.MsgSub
 	}
 
 	if actionRequest.CurrentConfirm == 0 {
-		// Create sha512 hash of nftMetadata
+		// Create sha256 hash of nftMetadata
 		dataHash := sha256.Sum256(nftMetadata)
 		actionRequest.DataHashes = append(actionRequest.DataHashes, &types.DataHash{
 			OriginData: &nftOriginData,
@@ -131,17 +131,21 @@ func (k msgServer) SubmitActionResponse(goCtx context.Context, msg *types.MsgSub
 		// Emit event a consensus result
 		ctx.EventManager().EmitEvent(
 			sdk.NewEvent(
-				types.EventTypeMintRequestConfirmed,
+				types.EventTypeActionRequestConfirmed,
 				sdk.NewAttribute(types.AttributeKeyActionRequestID, strconv.FormatUint(actionRequest.Id, 10)),
 				sdk.NewAttribute(types.AttributeKeyActionRequestStatus, actionRequest.Status.String()),
 			),
 		)
 		if actionRequest.Status == types.RequestStatus_SUCCESS_WITH_CONSENSUS {
 			err = nil
-			// Udpate NFT Data
+			// Update NFT Data
 			nftData, found := k.nftmngrKeeper.GetNftData(ctx, actionRequest.NftSchemaCode, actionRequest.TokenId)
 			if !found {
 				return nil, errormod.Wrap(types.ErrMetaDataNotFound, actionRequest.NftSchemaCode+":"+actionRequest.TokenId)
+			}
+			// Add nil check for origin data
+			if actionRequest.DataHashes[0].OriginData == nil {
+				return nil, errormod.Wrap(types.ErrParsingOriginData, "origin data is nil")
 			}
 			// ctx sdk.Context, nftData nftmngrtypes.NftData, originData *types.NftOriginData
 			err = k.UpdateMetaDataFromOriginData(ctx, &nftData, actionRequest.DataHashes[0].OriginData)
@@ -240,7 +244,6 @@ func (k msgServer) PerformAction(ctx sdk.Context, actionRequest *types.ActionOra
 		})
 	}
 
-	var list_schema_attributes_ []*nftmngrtypes.SchemaAttribute
 	var map_converted_schema_attributes []*nftmngrtypes.NftAttributeValue
 
 	// get schema attributes and convert to NFtAttributeValue
@@ -256,17 +259,21 @@ func (k msgServer) PerformAction(ctx sdk.Context, actionRequest *types.ActionOra
 		if attributeMap[schema_attribute.Name] {
 			continue
 		}
-		// Add the attribute to the list of schema attributes
-		list_schema_attributes_ = append(list_schema_attributes_, &schema_attribute)
+		// Create a copy to avoid loop variable reference issue
+		attr := schema_attribute
 
 		// Add the attribute to the map
 		attributeMap[schema_attribute.Name] = true
 
-		nftAttributeValue_ := nftmngrkeeper.ConverSchemaAttributeToNFTAttributeValue(&schema_attribute)
-		map_converted_schema_attributes = append(map_converted_schema_attributes, nftAttributeValue_)
+		nftAttributeValue := nftmngrkeeper.ConverSchemaAttributeToNFTAttributeValue(&attr)
+		map_converted_schema_attributes = append(map_converted_schema_attributes, nftAttributeValue)
 	}
 
-	meta := nftmngrtypes.NewMetadata(&schema, tokenData, schema.OriginData.AttributeOverriding, map_converted_schema_attributes)
+	var attributeOverriding nftmngrtypes.AttributeOverriding
+	if schema.OriginData != nil {
+		attributeOverriding = schema.OriginData.AttributeOverriding
+	}
+	meta := nftmngrtypes.NewMetadata(&schema, tokenData, attributeOverriding, map_converted_schema_attributes)
 	meta.SetGetNFTFunction(func(tokenId string) (*nftmngrtypes.NftData, error) {
 		tokenData, found := k.nftmngrKeeper.GetNftData(ctx, schema.Code, tokenId)
 		if !found {
@@ -443,6 +450,10 @@ func (k msgServer) UpdateMetaDataFromOriginData(ctx sdk.Context, nftData *nftmng
 	schema, found := k.nftmngrKeeper.GetNFTSchema(ctx, nftData.NftSchemaCode)
 	if !found {
 		return errormod.Wrap(types.ErrNFTSchemaNotFound, nftData.NftSchemaCode)
+	}
+
+	if originData == nil {
+		return errormod.Wrap(types.ErrParsingOriginData, "origin data is nil")
 	}
 
 	originAttributes, err := k.FromOriginDataToNftOriginAttribute(ctx, &schema, originData)

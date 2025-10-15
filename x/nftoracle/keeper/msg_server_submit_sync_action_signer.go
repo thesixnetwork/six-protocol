@@ -37,13 +37,16 @@ func (k msgServer) SubmitSyncActionSigner(goCtx context.Context, msg *types.MsgS
 		return nil, errormod.Wrap(types.ErrSyncActionSignerRequestNotPending, strconv.FormatUint(msg.SyncId, 10))
 	}
 
-	// Check if currernt confirmation count is less than required confirmation count
+	// Check if current confirmation count is less than required confirmation count
 	if SyncRequest.CurrentConfirm >= SyncRequest.RequiredConfirm {
 		return nil, errormod.Wrap(types.ErrSyncActionSignerRequestConfirmedAlreadyComplete, strconv.FormatUint(msg.SyncId, 10))
 	}
 	// paramExpire, err := time.Parse(time.RFC3339, msg.ExpireAt)
-	_ExpireEpoch, err := strconv.ParseInt(msg.ExpireEpoch, 10, 64)
-	paramExpire := time.Unix(_ExpireEpoch, 0)
+	expireEpoch, err := strconv.ParseInt(msg.ExpireEpoch, 10, 64)
+	if err != nil {
+		return nil, errormod.Wrap(types.ErrInvalidExpireEpoch, strconv.FormatUint(msg.SyncId, 10))
+	}
+	paramExpire := time.Unix(expireEpoch, 0)
 
 	param_info := types.ParameterSyncSignerByOracle{}
 	// set param_info
@@ -54,6 +57,9 @@ func (k msgServer) SubmitSyncActionSigner(goCtx context.Context, msg *types.MsgS
 
 	// byte of param_info
 	paramDataBytes, err := k.cdc.Marshal(&param_info)
+	if err != nil {
+		return nil, err
+	}
 
 	// ! :: Check Deterministic Hash from concurrence response
 	if SyncRequest.CurrentConfirm == 0 {
@@ -201,11 +207,8 @@ func (k msgServer) CreateSyncActionSignerByOracle(ctx sdk.Context, msg *types.Ms
 			})
 
 			// set the binded signer
-			k.SetBindedSigner(ctx, types.BindedSigner{
-				OwnerAddress: msg.OwnerAddress,
-				Signers:      bindedList.Signers,
-				ActorCount:   uint64(len(bindedList.Signers)),
-			})
+			bindedList.ActorCount = uint64(len(bindedList.Signers))
+			k.SetBindedSigner(ctx, bindedList)
 		} else {
 			// update action signer
 			actionSigner := types.ActionSigner{
@@ -224,11 +227,8 @@ func (k msgServer) CreateSyncActionSignerByOracle(ctx sdk.Context, msg *types.Ms
 					bindedIndex.ExpiredAt = paramExpire
 				}
 			}
-			k.SetBindedSigner(ctx, types.BindedSigner{
-				OwnerAddress: msg.OwnerAddress,
-				Signers:      bindedList.Signers,
-				ActorCount:   uint64(len(bindedList.Signers)),
-			})
+			bindedList.ActorCount = uint64(len(bindedList.Signers))
+			k.SetBindedSigner(ctx, bindedList)
 		}
 	}
 
