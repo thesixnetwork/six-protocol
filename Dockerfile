@@ -20,8 +20,14 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /go/src/github.com/thesixnetwork/six-protocol
 COPY . /go/src/github.com/thesixnetwork/six-protocol/
 
-# Install cosmovisor
-RUN go install github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@latest
+# Install cosmovisor - use local binary if exists, otherwise download
+RUN if [ -f "./build/bin/cosmovisor" ]; then \
+        echo "Using local cosmovisor binary"; \
+        cp ./build/bin/cosmovisor /go/bin/cosmovisor; \
+    else \
+        echo "Local cosmovisor not found, installing from source"; \
+        go install github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@latest; \
+    fi
 
 RUN LEDGER_ENABLED=false BUILD_TAGS=muslc make build
 
