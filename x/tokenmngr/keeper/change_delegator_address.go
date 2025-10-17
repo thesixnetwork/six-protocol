@@ -14,7 +14,7 @@ import (
 func (k Keeper) ChangeDelegatorAddress(goCtx context.Context, oldAddress, newAddress sdk.AccAddress) error {
 	fmt.Println("debug: ChangeDelegatorAddress called======")
 
-	// ctx := sdk.UnwrapSDKContext(goCtx)
+	ctx := sdk.UnwrapSDKContext(goCtx)
 	// Validate addresses
 	if oldAddress.Empty() || newAddress.Empty() {
 		return errorsmod.Wrap(stakingtypes.ErrEmptyDelegatorAddr, "addresses cannot be empty")
@@ -24,10 +24,10 @@ func (k Keeper) ChangeDelegatorAddress(goCtx context.Context, oldAddress, newAdd
 		return errorsmod.Wrap(stakingtypes.ErrBadDelegatorAddr, "old and new addresses are the same")
 	}
 
-	// err := k.withdrawAllRewards(ctx, oldAddress)
-	// if err != nil {
-	// 	return errorsmod.Wrap(err, "failed to withdraw all rewards")
-	// }
+	err := k.withdrawAllRewards(ctx, oldAddress)
+	if err != nil {
+		return errorsmod.Wrap(err, "failed to withdraw all rewards")
+	}
 
 	// err = k.distributionKeeper.SetWithdrawAddr(ctx, oldAddress, newAddress)
 	// if err != nil {
