@@ -12,6 +12,8 @@ import (
 )
 
 func (k Keeper) ChangeDelegatorAddress(goCtx context.Context, oldAddress, newAddress sdk.AccAddress) error {
+	fmt.Println("debug: ChangeDelegatorAddress called======")
+
 	// ctx := sdk.UnwrapSDKContext(goCtx)
 	// Validate addresses
 	if oldAddress.Empty() || newAddress.Empty() {
