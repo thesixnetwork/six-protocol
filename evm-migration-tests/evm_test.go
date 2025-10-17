@@ -38,10 +38,8 @@ func (suite *EVMTestSuite) SetupSuite() {
 	// Setup private key (from .env)
 	privateKeyHex := os.Getenv("PRIVATE_KEY")
 	suite.Require().NotEmpty(privateKeyHex, "PRIVATE_KEY environment variable must be set")
-
 	// Remove 0x prefix if present
 	privateKeyHex = strings.TrimPrefix(privateKeyHex, "0x")
-
 	privateKey, err := crypto.HexToECDSA(privateKeyHex)
 	suite.Require().NoError(err)
 	suite.privateKey = privateKey
