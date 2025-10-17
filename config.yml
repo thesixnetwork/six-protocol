@@ -103,6 +103,10 @@ genesis:
           permissions:
              level: "LEVEL_SUPER_ADMIN"
              limit_type_urls: []
+        - address: "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq"
+          permissions:
+             level: "LEVEL_SUPER_ADMIN"
+             limit_type_urls: []
     evm:
       params:
         allow_unprotected_txs: true
