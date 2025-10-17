@@ -97,6 +97,12 @@ genesis:
     crisis:
       constant_fee:
         denom: usix
+    circuit:
+      account_permissions:
+        - address: "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"
+          permissions:
+             level: "LEVEL_SUPER_ADMIN"
+             limit_type_urls: []
     evm:
       params:
         allow_unprotected_txs: true
@@ -119,12 +125,15 @@ genesis:
         min_gas_price: "5000000000000.0"
         no_base_fee: false
     gov:
-      deposit_params:
+      params:
+        voting_period: 300s
+        expedited_voting_period: 180s
+        expedited_min_deposit:
+          - amount: "50000000"
+            denom: usix
         min_deposit:
           - amount: "1000000"
             denom: usix
-      voting_params:
-        voting_period: 300s
     mint:
       params:
         mint_denom: usix
