@@ -24,16 +24,14 @@ func (k Keeper) ChangeDelegatorAddress(goCtx context.Context, oldAddress, newAdd
 		return errorsmod.Wrap(stakingtypes.ErrBadDelegatorAddr, "old and new addresses are the same")
 	}
 
-	
-
-	err := k.distributionKeeper.SetWithdrawAddr(ctx, oldAddress, newAddress)
-	if err != nil {
-		return errorsmod.Wrap(err, "failed to set delegator withdraw address")
-	}
-
-	err = k.withdrawAllRewards(ctx, oldAddress)
+	err := k.withdrawAllRewards(ctx, oldAddress)
 	if err != nil {
 		return errorsmod.Wrap(err, "failed to withdraw all rewards")
+	}
+
+	err = k.distributionKeeper.SetWithdrawAddr(ctx, oldAddress, newAddress)
+	if err != nil {
+		return errorsmod.Wrap(err, "failed to set delegator withdraw address")
 	}
 
 	// // Check if new address already has delegations to avoid conflicts
