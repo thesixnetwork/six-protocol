@@ -67,18 +67,6 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Send a createNFTSchema tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "nftSchemaBase64"}},
 				},
-				{
-					RpcMethod:      "CreateMetadata",
-					Use:            "create-metadata [nft-schema-code] [token-id] [base-64-nft-data]",
-					Short:          "Send a createMetadata tx",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "nftSchemaCode"}, {ProtoField: "tokenId"}, {ProtoField: "base64NFTData"}},
-				},
-				{
-					RpcMethod:      "PerformActionByAdmin",
-					Use:            "perform-action-by-admin [nft-schema-code] [token-id] [action]",
-					Short:          "Send a performActionByAdmin tx",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "nftSchemaCode"}, {ProtoField: "tokenId"}, {ProtoField: "action"}},
-				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},
