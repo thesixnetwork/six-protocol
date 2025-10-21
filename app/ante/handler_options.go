@@ -9,6 +9,8 @@ import (
 
 	evmante "github.com/thesixnetwork/six-protocol/app/ante/evm"
 	anteutils "github.com/thesixnetwork/six-protocol/app/ante/utils"
+	nftadminkeeper "github.com/thesixnetwork/six-protocol/x/nftadmin/keeper"
+	nftoraclekeeper "github.com/thesixnetwork/six-protocol/x/nftoracle/keeper"
 
 	errorsmod "cosmossdk.io/errors"
 	storetypes "cosmossdk.io/store/types"
@@ -41,6 +43,9 @@ type HandlerOptions struct {
 	TxFeeChecker           ante.TxFeeChecker
 	CircuitKeeper          *circuitkeeper.Keeper
 	AllowUnorderedTx       bool
+	// Zero-gas Oracle Voting keepers
+	NftOracleKeeper *nftoraclekeeper.Keeper
+	NftAdminKeeper  *nftadminkeeper.Keeper
 }
 
 // Validate checks if the keepers are defined
@@ -80,6 +85,12 @@ func (options HandlerOptions) Validate() error {
 	}
 	if options.CircuitKeeper == nil {
 		return errorsmod.Wrap(errortypes.ErrLogic, "tx CircuitKeeper is required for AnteHandler")
+	}
+	if options.NftOracleKeeper == nil {
+		return errorsmod.Wrap(errortypes.ErrLogic, "nft oracle keeper is required for AnteHandler")
+	}
+	if options.NftAdminKeeper == nil {
+		return errorsmod.Wrap(errortypes.ErrLogic, "nft admin keeper is required for AnteHandler")
 	}
 	return nil
 }

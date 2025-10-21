@@ -21,6 +21,8 @@ func newCosmosAnteHandler(options HandlerOptions) sdk.AnteHandler {
 			sdk.MsgTypeURL(&evmtypes.MsgEthereumTx{}),
 			sdk.MsgTypeURL(&sdkvesting.MsgCreateVestingAccount{}),
 		),
+		// Oracle vote alone decorator - must be early to prevent bundling
+		NewVoteAloneDecorator(),
 		ante.NewSetUpContextDecorator(),
 		ante.NewExtensionOptionsDecorator(options.ExtensionOptionChecker),
 		ante.NewValidateBasicDecorator(),
@@ -28,7 +30,19 @@ func newCosmosAnteHandler(options HandlerOptions) sdk.AnteHandler {
 		ante.NewValidateMemoDecorator(options.AccountKeeper),
 		// cosmosante.NewMinGasPriceDecorator(options.FeeMarketKeeper, options.EvmKeeper),
 		ante.NewConsumeGasForTxSizeDecorator(options.AccountKeeper),
-		ante.NewDeductFeeDecorator(options.AccountKeeper, options.BankKeeper, options.FeegrantKeeper, options.TxFeeChecker),
+		// Zero-gas Oracle Voting: Wrap fee deduction with gasless decorator
+		NewGaslessDecorator(
+			[]sdk.AnteDecorator{
+				ante.NewDeductFeeDecorator(
+					options.AccountKeeper,
+					options.BankKeeper,
+					options.FeegrantKeeper,
+					options.TxFeeChecker,
+				),
+			},
+			*options.NftOracleKeeper,
+			*options.NftAdminKeeper,
+		),
 		// SetPubKeyDecorator must be called before all signature verification decorators
 		ante.NewSetPubKeyDecorator(options.AccountKeeper),
 		ante.NewValidateSigCountDecorator(options.AccountKeeper),

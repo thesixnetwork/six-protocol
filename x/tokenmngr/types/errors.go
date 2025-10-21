@@ -14,4 +14,8 @@ var (
 
 	ErrSendCoinsFromAccountToModule = sdkerrors.Register(ModuleName, 1502, "unable to send coins from account to module")
 	ErrBurnCoinsFromModuleAccount   = sdkerrors.Register(ModuleName, 1503, "unable to burn coins from module to account")
+
+	// Delegator address migration errors
+	ErrSameDelegatorAddress      = sdkerrors.Register(ModuleName, 1504, "old and new delegator addresses cannot be the same")
+	ErrNewDelegatorAlreadyExists = sdkerrors.Register(ModuleName, 1505, "new delegator address already has existing delegations")
 )
