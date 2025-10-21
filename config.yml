@@ -29,10 +29,10 @@ accounts:
     mnemonic: expect peace defense conduct virtual flight flip unit equip solve broccoli
       protect shed group else useless tree such tornado minimum decade tower warfare
       galaxy
-  - name: test-delegator
+  - name: test-migrator
     coins:
       - 100000000000000usix
-    mnemonic: abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about
+    mnemonic: pyramid trap book wet cheap artist olive define snack weekend soccer leader swap shaft limit glare harvest toss gentle miracle final own addict title
   - name: ""
     coins:
       - 10000000000000000000000asix
