@@ -29,6 +29,10 @@ accounts:
     mnemonic: expect peace defense conduct virtual flight flip unit equip solve broccoli
       protect shed group else useless tree such tornado minimum decade tower warfare
       galaxy
+  - name: test-delegator
+    coins:
+      - 100000000000000usix
+    mnemonic: abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about
   - name: ""
     coins:
       - 10000000000000000000000asix
