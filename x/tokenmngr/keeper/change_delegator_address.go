@@ -16,8 +16,6 @@ import (
 func (k Keeper) ChangeDelegatorAddress(goCtx context.Context, oldAddress, newAddress sdk.AccAddress) error {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	fmt.Printf("Starting ChangeDelegatorAddress from %s to %s\n", oldAddress.String(), newAddress.String())
-
 	// 1. Validate addresses
 	if oldAddress.Empty() || newAddress.Empty() {
 		return errorsmod.Wrap(stakingtypes.ErrEmptyDelegatorAddr, "addresses cannot be empty")
