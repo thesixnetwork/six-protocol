@@ -12,20 +12,7 @@ import (
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
 )
 
-// This file implements delegator address migration following the improved MigrateDelegatorWithRewards pattern.
-//
-// Key improvements over the previous version:
-// 1. Proper Reward Tracking: Preserves reward calculation continuity with starting info
-// 2. Active Delegations Only: Only migrates active delegations, ignoring unbonding delegations
-// 3. Starting Info Preservation: Properly handles delegator starting info to avoid reward calculation bugs
-// 4. Validation: Ensures addresses are different and new address is clean
-// 5. Error Handling: Comprehensive error handling with specific error types
-//
-// The implementation focuses on two main operations:
-// 1. migrateRewardTrackingWithStartingInfo: Withdraws rewards and sets proper starting info
-// 2. migrateActiveDelegations: Migrates delegations without resetting starting info// ChangeDelegatorAddress migrates delegator address while preserving continuous reward tracking
-// This function follows the improved pattern that preserves reward calculation continuity
-// by transferring the exact starting info without disrupting reward calculations
+
 func (k Keeper) ChangeDelegatorAddress(goCtx context.Context, oldAddress, newAddress sdk.AccAddress) error {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
@@ -60,12 +47,12 @@ func (k Keeper) ChangeDelegatorAddress(goCtx context.Context, oldAddress, newAdd
 		return nil // Nothing to migrate
 	}
 
-	// 3. First migrate reward state to preserve continuity
+	// 3.	Migrate reward state to preserve continuity
 	if err := k.migrateRewardState(ctx, oldAddress, newAddress, delegations); err != nil {
 		return errorsmod.Wrap(err, "failed to migrate reward state")
 	}
 
-	// 4. Then migrate delegations without touching reward calculation
+	// 4.  Migrate delegations without touching reward calculation
 	if err := k.migrateDelegationsPreserveRewards(ctx, oldAddress, newAddress, delegations); err != nil {
 		return errorsmod.Wrap(err, "failed to migrate delegations")
 	}
@@ -116,7 +103,7 @@ func (k Keeper) migrateRewardState(
 			// Create new starting info with current state
 			// Use current period, not previous period to avoid negative values
 			newStartingInfo := distrtypes.NewDelegatorStartingInfo(
-				currentRewards.Period,     // Current period (not -1)
+				currentRewards.Period,     
 				stake,                     // Calculated stake from shares
 				uint64(ctx.BlockHeight()), // Current height
 			)
@@ -136,8 +123,6 @@ func (k Keeper) migrateRewardState(
 				"period", currentRewards.Period,
 				"stake", stake.String())
 		} else {
-			// PRESERVE EXACT STARTING INFO to maintain reward continuity
-			// This is the key to preserving accumulated rewards
 
 			// Check if old starting info has valid stake
 			if oldStartingInfo.Stake.IsNil() || oldStartingInfo.Stake.IsZero() {
@@ -161,7 +146,6 @@ func (k Keeper) migrateRewardState(
 			}
 
 			// Transfer the EXACT starting info to preserve reward continuity
-			// This maintains the exact same reward calculation basis
 			err = k.distributionKeeper.SetDelegatorStartingInfo(ctx, valAddr, newDelAddr, oldStartingInfo)
 			if err != nil {
 				return fmt.Errorf("failed to transfer starting info to new delegator: %w", err)
@@ -224,8 +208,6 @@ func (k Keeper) migrateDelegationsPreserveRewards(
 			return fmt.Errorf("failed to set new delegation: %w", err)
 		}
 
-		// Note: We intentionally avoid calling hooks here to prevent
-		// interference with reward calculation continuity
 
 		k.Logger().Info("Successfully migrated delegation",
 			"old_delegator", oldDelAddrStr,
@@ -237,131 +219,8 @@ func (k Keeper) migrateDelegationsPreserveRewards(
 	return nil
 }
 
-// GetDelegatorStakingInfo returns comprehensive staking information for a delegator
-// This is useful for verifying the state before and after address changes
-func (k Keeper) GetDelegatorStakingInfo(goCtx context.Context, delegatorAddr sdk.AccAddress) (*types.DelegatorStakingInfo, error) {
-	ctx := sdk.UnwrapSDKContext(goCtx)
-	info := &types.DelegatorStakingInfo{
-		DelegatorAddress: delegatorAddr.String(),
-	}
 
-	// Get delegations
-	delegations, err := k.stakingKeeper.GetDelegatorDelegations(ctx, delegatorAddr, 65535)
-	if err != nil {
-		return nil, fmt.Errorf("failed to get delegations: %w", err)
-	}
-	info.Delegations = delegations
 
-	// Get unbonding delegations
-	unbondingDelegations, err := k.stakingKeeper.GetUnbondingDelegations(ctx, delegatorAddr, 65535)
-	if err != nil {
-		return nil, fmt.Errorf("failed to get unbonding delegations: %w", err)
-	}
-	info.UnbondingDelegations = unbondingDelegations
 
-	return info, nil
-}
 
-// ValidateDelegatorMigration validates that the delegator migration was successful
-// This is useful for testing and verification purposes
-func (k Keeper) ValidateDelegatorMigration(goCtx context.Context, oldAddr, newAddr sdk.AccAddress) error {
-	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	// Check that old address has no more delegations
-	oldDelegations, err := k.stakingKeeper.GetDelegatorDelegations(ctx, oldAddr, 65535)
-	if err != nil {
-		return fmt.Errorf("failed to check old delegations: %w", err)
-	}
-	if len(oldDelegations) > 0 {
-		return fmt.Errorf("old address still has %d delegations after migration", len(oldDelegations))
-	}
-
-	// Check that new address has delegations
-	newDelegations, err := k.stakingKeeper.GetDelegatorDelegations(ctx, newAddr, 65535)
-	if err != nil {
-		return fmt.Errorf("failed to check new delegations: %w", err)
-	}
-	if len(newDelegations) == 0 {
-		return fmt.Errorf("new address has no delegations after migration")
-	}
-
-	// Validate distribution starting info exists for each delegation
-	for _, delegation := range newDelegations {
-		valAddr, err := sdk.ValAddressFromBech32(delegation.ValidatorAddress)
-		if err != nil {
-			return fmt.Errorf("failed to parse validator address: %w", err)
-		}
-
-		_, err = k.distributionKeeper.GetDelegatorStartingInfo(ctx, valAddr, newAddr)
-		if err != nil {
-			return fmt.Errorf("no starting info found for new delegator on validator %s: %w",
-				delegation.ValidatorAddress, err)
-		}
-	}
-
-	k.Logger().Info("Delegator migration validation successful",
-		"old_delegator", oldAddr.String(),
-		"new_delegator", newAddr.String(),
-		"delegations_migrated", len(newDelegations))
-
-	return nil
-}
-
-// initializeRewardTracking initializes clean reward tracking for a delegator
-func (k Keeper) initializeRewardTracking(
-	ctx sdk.Context,
-	delAddr sdk.AccAddress,
-	delegations []stakingtypes.Delegation,
-) error {
-	for _, delegation := range delegations {
-		valAddr, err := sdk.ValAddressFromBech32(delegation.ValidatorAddress)
-		if err != nil {
-			k.Logger().Error("Failed to parse validator address",
-				"validator", delegation.ValidatorAddress,
-				"error", err.Error())
-			continue
-		}
-
-		// Get validator for stake calculation
-		validator, err := k.stakingKeeper.GetValidator(ctx, valAddr)
-		if err != nil {
-			k.Logger().Error("Failed to get validator",
-				"validator", delegation.ValidatorAddress,
-				"error", err.Error())
-			continue
-		}
-
-		// Get current validator rewards
-		currentRewards, err := k.distributionKeeper.GetValidatorCurrentRewards(ctx, valAddr)
-		if err != nil {
-			k.Logger().Error("Failed to get validator current rewards",
-				"validator", delegation.ValidatorAddress,
-				"error", err.Error())
-			continue
-		}
-
-		// Calculate stake from delegation shares
-		stake := validator.TokensFromSharesTruncated(delegation.Shares)
-
-		// Create clean starting info
-		startingInfo := distrtypes.NewDelegatorStartingInfo(
-			currentRewards.Period,     // Current period
-			stake,                     // Current stake
-			uint64(ctx.BlockHeight()), // Current height
-		)
-
-		// Set starting info for delegator
-		err = k.distributionKeeper.SetDelegatorStartingInfo(ctx, valAddr, delAddr, startingInfo)
-		if err != nil {
-			return fmt.Errorf("failed to set starting info: %w", err)
-		}
-
-		k.Logger().Info("Initialized reward tracking",
-			"delegator", delAddr.String(),
-			"validator", delegation.ValidatorAddress,
-			"period", currentRewards.Period,
-			"stake", stake.String())
-	}
-
-	return nil
-}
