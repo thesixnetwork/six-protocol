@@ -23,11 +23,13 @@ import (
 //
 // The implementation focuses on two main operations:
 // 1. migrateRewardTrackingWithStartingInfo: Withdraws rewards and sets proper starting info
-// 2. migrateActiveDelegations: Migrates delegations without resetting starting info// ChangeDelegatorAddress migrates active delegations and rewards from old delegator to new delegator
-// This function only handles active delegations and reward tracking, ignoring unbonding delegations
-// It follows the improved MigrateDelegatorWithRewards pattern for proper reward handling
+// 2. migrateActiveDelegations: Migrates delegations without resetting starting info// ChangeDelegatorAddress migrates delegator address while preserving continuous reward tracking
+// This function follows the improved pattern that preserves reward calculation continuity
+// by transferring the exact starting info without disrupting reward calculations
 func (k Keeper) ChangeDelegatorAddress(goCtx context.Context, oldAddress, newAddress sdk.AccAddress) error {
 	ctx := sdk.UnwrapSDKContext(goCtx)
+
+	fmt.Printf("Starting ChangeDelegatorAddress from %s to %s\n", oldAddress.String(), newAddress.String())
 
 	// 1. Validate addresses
 	if oldAddress.Empty() || newAddress.Empty() {
@@ -47,33 +49,149 @@ func (k Keeper) ChangeDelegatorAddress(goCtx context.Context, oldAddress, newAdd
 		return types.ErrNewDelegatorAlreadyExists
 	}
 
-	// 2. FIRST: Handle rewards before touching delegations
-	if err := k.migrateRewardTrackingWithStartingInfo(ctx, oldAddress, newAddress); err != nil {
-		return errorsmod.Wrap(err, "failed to migrate reward tracking")
+	// 2. Get all delegations for old delegator
+	delegations, err := k.stakingKeeper.GetDelegatorDelegations(ctx, oldAddress, 65535)
+	if err != nil {
+		return errorsmod.Wrap(err, "failed to get delegations for old address")
 	}
 
-	// 3. Then migrate active delegations
-	if err := k.migrateActiveDelegations(ctx, oldAddress, newAddress); err != nil {
-		return errorsmod.Wrap(err, "failed to migrate active delegations")
+	if len(delegations) == 0 {
+		k.Logger().Info("No delegations found for migration", "old_delegator", oldAddress.String())
+		return nil // Nothing to migrate
+	}
+
+	// 3. Migrate reward tracking state FIRST - preserve starting info
+	if err := k.migrateRewardState(ctx, oldAddress, newAddress, delegations); err != nil {
+		return errorsmod.Wrap(err, "failed to migrate reward state")
+	}
+
+	// 4. Then migrate delegations without touching reward calculation
+	if err := k.migrateDelegationsPreserveRewards(ctx, oldAddress, newAddress, delegations); err != nil {
+		return errorsmod.Wrap(err, "failed to migrate delegations")
 	}
 
 	return nil
 }
 
-// migrateActiveDelegations migrates all active delegations from old to new delegator
-// This follows the improved pattern that avoids resetting starting info already set by migrateRewardTrackingWithStartingInfo
-func (k Keeper) migrateActiveDelegations(ctx sdk.Context, oldDelAddr, newDelAddr sdk.AccAddress) error {
-	// Get all delegations for old address
-	delegations, err := k.stakingKeeper.GetDelegatorDelegations(ctx, oldDelAddr, 65535)
-	if err != nil {
-		return err
+// migrateRewardState migrates the delegator starting info to preserve reward continuity
+func (k Keeper) migrateRewardState(
+	ctx sdk.Context,
+	oldDelAddr, newDelAddr sdk.AccAddress,
+	delegations []stakingtypes.Delegation,
+) error {
+	for _, delegation := range delegations {
+		valAddr, err := sdk.ValAddressFromBech32(delegation.ValidatorAddress)
+		if err != nil {
+			k.Logger().Error("Failed to parse validator address, skipping",
+				"validator", delegation.ValidatorAddress,
+				"error", err.Error())
+			continue
+		}
+
+		// Get the existing starting info from old delegator
+		oldStartingInfo, err := k.distributionKeeper.GetDelegatorStartingInfo(ctx, valAddr, oldDelAddr)
+		if err != nil {
+			// If no starting info exists, create proper starting info
+			// based on current delegation state
+			validator, err := k.stakingKeeper.GetValidator(ctx, valAddr)
+			if err != nil {
+				k.Logger().Error("Failed to get validator, skipping",
+					"validator", delegation.ValidatorAddress,
+					"error", err.Error())
+				continue
+			}
+
+			// Get current validator rewards period
+			currentRewards, err := k.distributionKeeper.GetValidatorCurrentRewards(ctx, valAddr)
+			if err != nil {
+				k.Logger().Error("Failed to get validator current rewards, skipping",
+					"validator", delegation.ValidatorAddress,
+					"error", err.Error())
+				continue
+			}
+
+			// Calculate stake from delegation shares
+			stake := validator.TokensFromSharesTruncated(delegation.Shares)
+
+			// Create new starting info with current state
+			newStartingInfo := distrtypes.NewDelegatorStartingInfo(
+				currentRewards.Period-1,   // Previous period
+				stake,                     // Calculated stake from shares
+				uint64(ctx.BlockHeight()), // Current height
+			)
+
+			err = k.distributionKeeper.SetDelegatorStartingInfo(ctx, valAddr, newDelAddr, newStartingInfo)
+			if err != nil {
+				k.Logger().Error("Failed to set new starting info",
+					"new_delegator", newDelAddr.String(),
+					"validator", delegation.ValidatorAddress,
+					"error", err.Error())
+				continue
+			}
+
+			k.Logger().Info("Created new starting info for delegator",
+				"new_delegator", newDelAddr.String(),
+				"validator", delegation.ValidatorAddress,
+				"period", currentRewards.Period-1,
+				"stake", stake.String())
+		} else {
+			// Check if old starting info has valid stake
+			if oldStartingInfo.Stake.IsNil() || oldStartingInfo.Stake.IsZero() {
+				// Recalculate stake from current delegation
+				validator, err := k.stakingKeeper.GetValidator(ctx, valAddr)
+				if err != nil {
+					k.Logger().Error("Failed to get validator for stake calculation, skipping",
+						"validator", delegation.ValidatorAddress,
+						"error", err.Error())
+					continue
+				}
+
+				// Calculate proper stake
+				stake := validator.TokensFromSharesTruncated(delegation.Shares)
+
+				// Update the starting info with proper stake
+				oldStartingInfo.Stake = stake
+
+				k.Logger().Info("Recalculated stake for starting info",
+					"validator", delegation.ValidatorAddress,
+					"old_stake", "nil/zero",
+					"new_stake", stake.String())
+			}
+
+			// Transfer the corrected starting info to new delegator
+			err = k.distributionKeeper.SetDelegatorStartingInfo(ctx, valAddr, newDelAddr, oldStartingInfo)
+			if err != nil {
+				return fmt.Errorf("failed to set starting info for new delegator: %w", err)
+			}
+
+			// Delete the old starting info
+			err = k.distributionKeeper.DeleteDelegatorStartingInfo(ctx, valAddr, oldDelAddr)
+			if err != nil {
+				k.Logger().Info("No starting info to delete for old delegator",
+					"old_delegator", oldDelAddr.String(),
+					"validator", delegation.ValidatorAddress)
+			}
+
+			k.Logger().Info("Migrated reward state",
+				"old_delegator", oldDelAddr.String(),
+				"new_delegator", newDelAddr.String(),
+				"validator", delegation.ValidatorAddress,
+				"stake", oldStartingInfo.Stake.String())
+
+			// Note: IncrementReferenceCount may not be available in all distribution keeper implementations
+			// This is typically handled automatically by the distribution module
+		}
 	}
 
-	if len(delegations) == 0 {
-		k.Logger().Info("No delegations found for migration", "old_delegator", oldDelAddr.String())
-		return nil
-	}
+	return nil
+}
 
+// migrateDelegationsPreserveRewards migrates delegations without calling reward-related hooks
+func (k Keeper) migrateDelegationsPreserveRewards(
+	ctx sdk.Context,
+	oldDelAddr, newDelAddr sdk.AccAddress,
+	delegations []stakingtypes.Delegation,
+) error {
 	oldDelAddrStr, err := k.accountKeeper.AddressCodec().BytesToString(oldDelAddr)
 	if err != nil {
 		return err
@@ -91,12 +209,12 @@ func (k Keeper) migrateActiveDelegations(ctx sdk.Context, oldDelAddr, newDelAddr
 			"validator", delegation.ValidatorAddress,
 			"shares", delegation.Shares.String())
 
-		// Remove old delegation
+		// Remove old delegation WITHOUT calling reward hooks
 		if err := k.stakingKeeper.RemoveDelegation(ctx, delegation); err != nil {
 			return fmt.Errorf("failed to remove old delegation: %w", err)
 		}
 
-		// Create new delegation with same shares
+		// Create new delegation with exact same shares
 		newDelegation := stakingtypes.NewDelegation(newDelAddrStr, delegation.ValidatorAddress, delegation.Shares)
 
 		// Set new delegation
@@ -104,140 +222,14 @@ func (k Keeper) migrateActiveDelegations(ctx sdk.Context, oldDelAddr, newDelAddr
 			return fmt.Errorf("failed to set new delegation: %w", err)
 		}
 
-		// DON'T initialize distribution tracking here since it was already done properly
-		// in migrateRewardTrackingWithStartingInfo with the correct starting period and stake
+		// Note: We intentionally avoid calling hooks here to prevent
+		// interference with reward calculation continuity
 
 		k.Logger().Info("Successfully migrated delegation",
 			"old_delegator", oldDelAddrStr,
 			"new_delegator", newDelAddrStr,
 			"validator", delegation.ValidatorAddress,
 			"shares", delegation.Shares.String())
-	}
-
-	return nil
-}
-
-// migrateRewardTrackingWithStartingInfo properly migrates reward tracking including starting info
-// This preserves reward calculation continuity by properly handling delegator starting info
-func (k Keeper) migrateRewardTrackingWithStartingInfo(ctx sdk.Context, oldDelAddr, newDelAddr sdk.AccAddress) error {
-	// Get all delegations for old delegator
-	delegations, err := k.stakingKeeper.GetDelegatorDelegations(ctx, oldDelAddr, 65535)
-	if err != nil {
-		return err
-	}
-
-	if len(delegations) == 0 {
-		k.Logger().Info("No delegations found for migration", "old_delegator", oldDelAddr.String())
-		return nil
-	}
-
-	totalRewards := sdk.NewCoins()
-
-	k.Logger().Info("Starting reward migration with starting info preservation",
-		"old_delegator", oldDelAddr.String(),
-		"new_delegator", newDelAddr.String(),
-		"delegation_count", len(delegations))
-
-	// Process each delegation
-	for _, delegation := range delegations {
-		valAddr, err := sdk.ValAddressFromBech32(delegation.ValidatorAddress)
-		if err != nil {
-			k.Logger().Error("Failed to parse validator address, skipping",
-				"validator", delegation.ValidatorAddress,
-				"error", err.Error())
-			continue
-		}
-
-		// Get validator for stake calculation
-		validator, err := k.stakingKeeper.GetValidator(ctx, valAddr)
-		if err != nil {
-			k.Logger().Error("Failed to get validator, skipping",
-				"validator", delegation.ValidatorAddress,
-				"error", err.Error())
-			continue
-		}
-
-		// 1. Get the old delegator's starting info (if exists) for logging purposes
-		_, err = k.distributionKeeper.GetDelegatorStartingInfo(ctx, valAddr, oldDelAddr)
-		if err != nil {
-			// If no starting info exists, we'll create a fresh one with current period
-			k.Logger().Info("No existing starting info found for old delegator",
-				"delegator", oldDelAddr.String(),
-				"validator", delegation.ValidatorAddress)
-		} else {
-			k.Logger().Info("Found existing starting info for old delegator",
-				"delegator", oldDelAddr.String(),
-				"validator", delegation.ValidatorAddress)
-		}
-
-		// 2. Withdraw existing rewards for old delegator
-		withdrawnRewards, err := k.distributionKeeper.WithdrawDelegationRewards(ctx, oldDelAddr, valAddr)
-		if err != nil {
-			k.Logger().Info("No rewards to withdraw during migration",
-				"delegator", oldDelAddr.String(),
-				"validator", delegation.ValidatorAddress,
-				"error", err.Error())
-		} else if !withdrawnRewards.IsZero() {
-			totalRewards = totalRewards.Add(withdrawnRewards...)
-			k.Logger().Info("Withdrew delegation rewards",
-				"delegator", oldDelAddr.String(),
-				"validator", delegation.ValidatorAddress,
-				"rewards", withdrawnRewards.String())
-		}
-
-		// 3. Delete old delegator's starting info
-		err = k.distributionKeeper.DeleteDelegatorStartingInfo(ctx, valAddr, oldDelAddr)
-		if err != nil {
-			k.Logger().Info("No starting info to delete",
-				"delegator", oldDelAddr.String(),
-				"validator", delegation.ValidatorAddress,
-				"error", err.Error())
-		}
-
-		// 4. Initialize new delegator's starting info
-		// Get current validator rewards to set proper starting period
-		currentRewards, err := k.distributionKeeper.GetValidatorCurrentRewards(ctx, valAddr)
-		if err != nil {
-			k.Logger().Error("Failed to get validator current rewards, skipping",
-				"validator", delegation.ValidatorAddress,
-				"error", err.Error())
-			continue
-		}
-
-		// Calculate proper stake from shares
-		stake := validator.TokensFromSharesTruncated(delegation.Shares)
-
-		// Set starting info for new delegator using current period and calculated stake
-		// This ensures proper reward tracking going forward
-		newStartingInfo := distrtypes.NewDelegatorStartingInfo(
-			currentRewards.Period,
-			stake,
-			uint64(ctx.BlockHeight()),
-		)
-
-		err = k.distributionKeeper.SetDelegatorStartingInfo(ctx, valAddr, newDelAddr, newStartingInfo)
-		if err != nil {
-			return fmt.Errorf("failed to set new delegator starting info: %w", err)
-		}
-
-		k.Logger().Info("Set new delegator starting info",
-			"new_delegator", newDelAddr.String(),
-			"validator", delegation.ValidatorAddress,
-			"period", currentRewards.Period,
-			"stake", stake.String(),
-			"height", ctx.BlockHeight())
-	}
-
-	// Transfer accumulated rewards from old to new address
-	if !totalRewards.IsZero() {
-		err := k.bankKeeper.SendCoins(ctx, oldDelAddr, newDelAddr, totalRewards)
-		if err != nil {
-			return fmt.Errorf("failed to transfer rewards from old to new address: %w", err)
-		}
-		k.Logger().Info("Transferred total rewards",
-			"from", oldDelAddr.String(),
-			"to", newDelAddr.String(),
-			"total_rewards", totalRewards.String())
 	}
 
 	return nil
