@@ -14,11 +14,6 @@ vue/src/composables/
 react/
 .env
 
-# Binary executables
-sixd
-*/sixd
-**/sixd
-
 /**/wasmvm/
 
 /scripts/secret/*
