@@ -43,14 +43,14 @@ end = 30000
 buckets = 10
 
 [[chains]]
-id = "pepe_555555-1"
+id = "chain-a"
 type = "CosmosSdk"
-rpc_addr = "http://0.0.0.0:26659/"
-grpc_addr = "http://0.0.0.0:9092/"
-rpc_timeout = "10s"
-trusted_node = false
-account_prefix = "lol"
-key_name = "alice"
+rpc_addr = "http://localhost:26647"
+grpc_addr = "http://localhost:9080"
+rpc_timeout = "15s"
+trusted_node = true
+account_prefix = "cosmos"
+key_name = "wallet"
 key_store_type = "Test"
 store_prefix = "ibc"
 default_gas = 100000
@@ -67,16 +67,16 @@ sequential_batch_tx = false
 
 [chains.event_source]
 mode = "push"
-url = "ws://0.0.0.0:26659/websocket"
-batch_delay = "500ms"
+url = "ws://localhost:26647/websocket"
+batch_delay = "200ms"
 
 [chains.trust_threshold]
 numerator = "1"
 denominator = "3"
 
 [chains.gas_price]
-price = 0.025
-denom = "apepe"
+price = 1.0
+denom = "stake"
 
 [chains.packet_filter]
 policy = "allowall"
@@ -142,37 +142,68 @@ port = 5555
 
 ```bash
 
-echo merit escape cherry vivid ask feed churn lyrics tomato shy rifle derive buzz symptom disorder net diary frequent few since develop movie scale raccoon > ~/.hermes/keys/pepe_key
-hermes keys add --chain pepe_555555-1 --mnemonic-file ~/.hermes/keys/pepe_key
-hermes keys list --chain pepe_555555-1
-echo first educate action fee physical seek recipe hub anxiety best mango measure chimney sphere once cabbage strike dizzy near knock correct answer skin inside > ~/.hermes/keys/testnet_key
-hermes keys add --chain testnet --mnemonic-file ~/.hermes/keys/testnet_key
-# hermes create client --host-chain pepe_555555-1 --reference-chain testnet
-# hermes create client --host-chain testnet --reference-chain pepe_555555-1
-# hermes create connection --a-chain pepe_555555-1 --b-chain testnet
-hermes create connection --a-chain testnet --b-chain pepe_555555-1
-# hermes create channel --order unordered --a-chain pepe_555555-1 --a-connection connection-0 --a-port transfer --b-port transfer
-hermes create channel --order unordered --a-chain testnet --a-connection connection-0 --a-port transfer --b-port transfer
-# hermes create channel --order unordered --a-chain testnet --b-chain pepe_555555-1 --a-port transfer --b-port transfer --a-connection connection-0
-# hermes create channel --order unordered --a-chain testnet --b-chain pepe_555555-1 --a-port transfer --b-port transfer --new-client-connection
+# Add Gaia chain-a key (replace with your actual mnemonic)
+echo "your_gaia_wallet_mnemonic_here" > ~/.hermes/keys/chain-a_key
+hermes keys add --chain chain-a --mnemonic-file ~/.hermes/keys/chain-a_key
+hermes --config hermes_config.toml keys list --chain chain-a
 
-hermes start
 
-hermes query channels --chain pepe_555555-1
-hermes query channels --show-counterparty --chain pepe_555555-1
-hermes query channels --show-counterparty --chain testnet
-hermes query connections --chain testnet
-hermes query connections --chain pepe_555555-1
-hermes query packet acks --chain pepe_555555-1 --port transfer --channel channel-0
+# Add SIX Protocol testnet key
+echo "first educate action fee physical seek recipe hub anxiety best mango measure chimney sphere once cabbage strike dizzy near knock correct answer skin inside" > ~/.hermes/keys/alice_key
+hermes --config hermes_config.toml keys add --chain testnet --mnemonic-file ~/.hermes/keys/alice_key
+hermes --config hermes_config.toml keys list --chain testnet
+
+# IMPORTANT: Fund the alice account on SIX Protocol testnet
+# Address: 6x1kj9tl6pavd4825atx0e959unjt7g2l35knjtkm
+sixd tx bank send alice 6x1kj9tl6pavd4825atx0e959unjt7g2l35knjtkm 10000000usix --keyring-backend test --chain-id testnet --gas 200000 --gas-prices 1.25usix --yes
+
+# Create IBC clients
+hermes --config hermes_config.toml create client --host-chain chain-a --reference-chain testnet
+hermes --config hermes_config.toml create client --host-chain testnet --reference-chain chain-a
+
+# Create IBC connection
+hermes --config hermes_config.toml create connection --a-chain chain-a --b-chain testnet
+# Result: chain-a connection-2 <-> testnet connection-0
+
+# Create IBC channel for transfers  
+hermes --config hermes_config.toml create channel --order unordered --a-chain chain-a --a-connection connection-2 --a-port transfer --b-port transfer
+# Result: chain-a channel-1 <-> testnet channel-0
+
+hermes --config hermes_config.toml start
+
+hermes --config hermes_config.toml query channels --chain chain-a
+hermes --config hermes_config.toml query channels --show-counterparty --chain chain-a
+hermes --config hermes_config.toml query channels --show-counterparty --chain testnet
+hermes --config hermes_config.toml query connections --chain testnet
+hermes --config hermes_config.toml query connections --chain chain-a
+hermes --config hermes_config.toml query packet acks --chain chain-a --port transfer --channel channel-1
 
 ## CHECK CHANNEL IS EXPIRE
-hermes query channel end --chain testnet --port transfer --channel channel-0
-hermes query connection end --chain testnet --connection connection-0
-hermes query client state --chain testnet --client 07-tendermint-1
-hermes query client status --chain testnet --client 07-tendermint-1
+hermes --config hermes_config.toml query channel end --chain testnet --port transfer --channel channel-0
+hermes --config hermes_config.toml query connection end --chain testnet --connection connection-0
+hermes --config hermes_config.toml query client state --chain testnet --client 07-tendermint-0
+hermes --config hermes_config.toml query client status --chain testnet --client 07-tendermint-0
 
-hermes query channel end --chain pepe_555555-1 --port transfer --channel channel-0
-hermes query connection end --chain pepe_555555-1 --connection connection-0
-hermes query client state --chain pepe_555555-1 --client 07-tendermint-1
-hermes query client status --chain pepe_555555-1 --client 07-tendermint-1
+hermes --config hermes_config.toml query channel end --chain chain-a --port transfer --channel channel-1
+hermes --config hermes_config.toml query connection end --chain chain-a --connection connection-2
+hermes --config hermes_config.toml query client state --chain chain-a --client 07-tendermint-5
+hermes --config hermes_config.toml query client status --chain chain-a --client 07-tendermint-5
+
+## IBC TRANSFERS (UPDATED - WORKING CHANNELS)
+
+# Current active connection and channels:
+# chain-a connection-3 <-> testnet connection-1
+# chain-a channel-2 <-> testnet channel-1
+
+# Send tokens from chain-a (Gaia) to testnet (SIX Protocol)
+hermes --config hermes_config.toml tx ft-transfer --dst-chain testnet --src-chain chain-a --src-port transfer --src-channel channel-2 --amount 1000000 --denom stake --timeout-height-offset 1000
+
+# Send tokens from testnet (SIX Protocol) to chain-a (Gaia)  
+hermes --config hermes_config.toml tx ft-transfer --dst-chain chain-a --src-chain testnet --src-port transfer --src-channel channel-1 --amount 1000000 --denom usix --timeout-height-offset 1000
+
+## CLIENT REFRESH (if clients expire)
+# If clients are too old, create new ones:
+hermes --config hermes_config.toml create client --host-chain chain-a --reference-chain testnet
+hermes --config hermes_config.toml create client --host-chain testnet --reference-chain chain-a
+# Then create new connection and channel with the new client IDs
 ```
