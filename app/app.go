@@ -757,6 +757,7 @@ func New(
 		app.ProtocoladminKeeper,
 		app.EVMKeeper,
 		app.StakingKeeper,
+		app.DistrKeeper,
 	)
 
 	app.NftmngrKeeper = nftmngrmodulekeeper.NewKeeper(

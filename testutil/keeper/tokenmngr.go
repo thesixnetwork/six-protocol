@@ -45,6 +45,7 @@ func TokenmngrKeeper(t testing.TB) (keeper.Keeper, sdk.Context) {
 		nil,
 		nil,
 		nil,
+		nil,
 	)
 
 	ctx := sdk.NewContext(stateStore, cmtproto.Header{}, false, log.NewNopLogger())
@@ -80,6 +81,7 @@ func TokenmngrKeeperWithDeps(t testing.TB, accountKeeper types.AccountKeeper, st
 		nil, // protocoladminKeeper - not needed for our test
 		nil, // evmKeeper - not needed for our test
 		stakingKeeper,
+		nil, // distributionKeeper - not needed for our test
 	)
 
 	ctx := sdk.NewContext(stateStore, cmtproto.Header{}, false, log.NewNopLogger())

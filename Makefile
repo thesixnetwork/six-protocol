@@ -213,7 +213,7 @@ update-module:
 start: remove-doc update-module
 	@ignite chain serve --config ./config.yml -r -f $(VERBOSE)
 
-continue: remove-doc update-module
+continue:
 	@ignite chain serve --config ./config.yml $(VERBOSE)
 
 ###############################################################################

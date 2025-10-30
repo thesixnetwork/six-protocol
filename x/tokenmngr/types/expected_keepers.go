@@ -9,6 +9,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+	distrtypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/evmos/evmos/v20/x/evm/core/vm"
@@ -65,6 +66,7 @@ type ParamSubspace interface {
 // StakingKeeper defines the expected staking keeper methods
 type StakingKeeper interface {
 	ValidatorByConsAddr(context.Context, sdk.ConsAddress) (stakingtypes.ValidatorI, error)
+	GetValidator(ctx context.Context, addr sdk.ValAddress) (stakingtypes.Validator, error)
 
 	// Delegation methods
 	GetDelegatorDelegations(ctx context.Context, delegator sdk.AccAddress, maxRetrieve uint16) ([]stakingtypes.Delegation, error)
@@ -78,4 +80,23 @@ type StakingKeeper interface {
 	RemoveUnbondingDelegation(ctx context.Context, ubd stakingtypes.UnbondingDelegation) error
 	InsertUBDQueue(ctx context.Context, ubd stakingtypes.UnbondingDelegation, completionTime time.Time) error
 	GetDelegatorUnbonding(ctx context.Context, delegator sdk.AccAddress) (math.Int, error)
+}
+
+// DistributionKeeper defines the expected distribution keeper methods
+type DistributionKeeper interface {
+	// Delegator reward methods
+	GetDelegatorStartingInfo(ctx context.Context, val sdk.ValAddress, del sdk.AccAddress) (distrtypes.DelegatorStartingInfo, error)
+	SetDelegatorStartingInfo(ctx context.Context, val sdk.ValAddress, del sdk.AccAddress, period distrtypes.DelegatorStartingInfo) error
+	DeleteDelegatorStartingInfo(ctx context.Context, val sdk.ValAddress, del sdk.AccAddress) error
+
+	// Reward withdrawal
+	WithdrawDelegationRewards(ctx context.Context, delAddr sdk.AccAddress, valAddr sdk.ValAddress) (sdk.Coins, error)
+
+	// Withdraw address management - key for address migration
+	SetWithdrawAddr(ctx context.Context, delegatorAddr sdk.AccAddress, withdrawAddr sdk.AccAddress) error
+
+	// Validator period methods needed for proper delegation initialization
+	GetValidatorCurrentRewards(ctx context.Context, val sdk.ValAddress) (distrtypes.ValidatorCurrentRewards, error)
+	GetValidatorHistoricalRewards(ctx context.Context, val sdk.ValAddress, period uint64) (distrtypes.ValidatorHistoricalRewards, error)
+	SetValidatorHistoricalRewards(ctx context.Context, val sdk.ValAddress, period uint64, rewards distrtypes.ValidatorHistoricalRewards) error
 }

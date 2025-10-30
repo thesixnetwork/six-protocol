@@ -27,6 +27,7 @@ type (
 		protocoladminKeeper types.ProtocoladminKeeper
 		evmKeeper           types.EVMKeeper
 		stakingKeeper       types.StakingKeeper
+		distributionKeeper  types.DistributionKeeper
 	}
 )
 
@@ -41,6 +42,7 @@ func NewKeeper(
 	protocoladminKeeper types.ProtocoladminKeeper,
 	evmKeeper types.EVMKeeper,
 	stakingKeeper types.StakingKeeper,
+	distributionKeeper types.DistributionKeeper,
 ) Keeper {
 	if _, err := sdk.AccAddressFromBech32(authority); err != nil {
 		panic(fmt.Sprintf("invalid authority address: %s", authority))
@@ -57,6 +59,7 @@ func NewKeeper(
 		protocoladminKeeper: protocoladminKeeper,
 		evmKeeper:           evmKeeper,
 		stakingKeeper:       stakingKeeper,
+		distributionKeeper:  distributionKeeper,
 	}
 }
 

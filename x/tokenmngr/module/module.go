@@ -193,6 +193,7 @@ type ModuleInputs struct {
 	ProtocoladminKeeper types.ProtocoladminKeeper
 	EVMKeeper           types.EVMKeeper
 	StakingKeeper       types.StakingKeeper
+	DistributionKeeper  types.DistributionKeeper
 }
 
 type ModuleOutputs struct {
@@ -218,6 +219,7 @@ func ProvideModule(in ModuleInputs) ModuleOutputs {
 		in.ProtocoladminKeeper,
 		in.EVMKeeper,
 		in.StakingKeeper,
+		in.DistributionKeeper,
 	)
 	m := NewAppModule(
 		in.Cdc,
