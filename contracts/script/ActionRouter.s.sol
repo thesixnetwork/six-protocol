@@ -17,9 +17,10 @@ contract DeployRouter is Script {
     function run() external {
         uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
         vm.startBroadcast(deployerPrivateKey);
-        new Router{
+        Router routerContract = new Router{
             salt: 0x0000000000000000000000000000000000000000000000000000000000000069
         }();
+        console.log("Router deployed at:", address(routerContract));
         vm.stopBroadcast();
     }
 }

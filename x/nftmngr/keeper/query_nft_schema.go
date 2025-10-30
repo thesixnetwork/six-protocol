@@ -19,7 +19,7 @@ func (k Keeper) NFTSchema(ctx context.Context, req *types.QueryGetNFTSchemaReque
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
-	val, found := k.GetNftschema(
+	val, found := k.GetNFTSchema(
 		ctx,
 		req.Code,
 	)
@@ -49,7 +49,7 @@ func (k Keeper) NFTSchemaAll(ctx context.Context, req *types.QueryAllNFTSchemaRe
 	var nftschemas []types.NFTSchemaQueryResult
 
 	store := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
-	nftschemaStore := prefix.NewStore(store, types.KeyPrefix(types.NftschemaKeyPrefix))
+	nftschemaStore := prefix.NewStore(store, types.KeyPrefix(types.NFTSchemaKeyPrefix))
 
 	pageRes, err := query.Paginate(nftschemaStore, req.Pagination, func(key []byte, value []byte) error {
 		var nftschema types.NFTSchema

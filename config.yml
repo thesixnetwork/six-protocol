@@ -121,12 +121,12 @@ genesis:
         #   - "0x0000000000000000000000000000000000001069"
     feemarket:
       params:
-        base_fee: "5000000000000"
+        base_fee: "100000000000"
         base_fee_change_denominator: 8
         elasticity_multiplier: 4
         enable_height: "0"
         min_gas_multiplier: "0.5"
-        min_gas_price: "5000000000000.0"
+        min_gas_price: "100000000000.0"
         no_base_fee: false
     gov:
       params:
