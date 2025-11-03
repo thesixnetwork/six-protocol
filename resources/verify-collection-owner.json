@@ -1,6 +1,6 @@
 {
-    "chain":"GOERLI",
-    "contract_address" : "0x9EC14dfF0049F8De41FE106f3221a50313F941aB",
-    "contract_owner" : "0xb7c2468b9481CbDfD029998d6bA98c55072d932e",
-    "request_expire" : "2022-10-20T03:44:00Z"
+  "chain": "GOERLI",
+  "contract_address": "0x9EC14dfF0049F8De41FE106f3221a50313F941aB",
+  "contract_owner": "0xb7c2468b9481CbDfD029998d6bA98c55072d932e",
+  "request_expire": "2022-10-20T03:44:00Z"
 }

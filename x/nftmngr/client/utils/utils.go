@@ -5,11 +5,12 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/cosmos/cosmos-sdk/codec"
-
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+
+	errormod "cosmossdk.io/errors"
+
+	"github.com/cosmos/cosmos-sdk/codec"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
 type (
@@ -17,14 +18,6 @@ type (
 
 	VirtualSchemaRegistryJSON struct {
 		VirtualSchemaCode string `json:"code"`
-	}
-
-	VirtualSchemaRequest struct {
-		VirtualSchemaCode     string         `json:"virtualSchemaCode"`
-		Actions               []types.Action `json:"actions"`
-		VirtualSchemaRegistry []string       `json:"virtualSchemaRegistry"`
-		Enable                bool           `json:"enable"`
-		Executors             []string       `json:"executors"`
 	}
 
 	ActionParameter struct {
@@ -55,8 +48,8 @@ type (
 	}
 )
 
-func ParseProposalFile(cdc *codec.LegacyAmino, proposalFile string) (VirtualSchemaRequest, error) {
-	request := VirtualSchemaRequest{}
+func ParseProposalFile(cdc *codec.LegacyAmino, proposalFile string) (types.VirtualSchemaProposalRequest, error) {
+	request := types.VirtualSchemaProposalRequest{}
 
 	contents, err := os.ReadFile(proposalFile)
 	if err != nil {
@@ -170,7 +163,7 @@ func ParseFeeConfigJSON(cdc *codec.LegacyAmino, newFeeConfigFile string) (*types
 				Portion: float32(portionFloat),
 			})
 		default:
-			return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid subject. Use burn, reward_pool, or transfer")
+			return nil, errormod.Wrap(sdkerrors.ErrInvalidRequest, "invalid subject. Use burn, reward_pool, or transfer")
 		}
 	}
 	return &newFeeConfig, nil

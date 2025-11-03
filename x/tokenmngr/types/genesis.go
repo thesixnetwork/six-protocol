@@ -2,21 +2,18 @@ package types
 
 import (
 	"fmt"
-
-	host "github.com/cosmos/ibc-go/v3/modules/core/24-host"
 )
 
-// DefaultIndex is the default capability global index
+// DefaultIndex is the default global index
 const DefaultIndex uint64 = 1
 
-// DefaultGenesis returns the default Capability genesis state
+// DefaultGenesis returns the default genesis state
 func DefaultGenesis() *GenesisState {
 	return &GenesisState{
-		PortId:        PortID,
 		TokenList:     []Token{},
 		MintpermList:  []Mintperm{},
-		Options:       nil,
 		TokenBurnList: []TokenBurn{},
+		Options:       nil,
 		// this line is used by starport scaffolding # genesis/types/default
 		Params: DefaultParams(),
 	}
@@ -25,9 +22,6 @@ func DefaultGenesis() *GenesisState {
 // Validate performs basic genesis state validation returning an error upon any
 // failure.
 func (gs GenesisState) Validate() error {
-	if err := host.PortIdentifierValidator(gs.PortId); err != nil {
-		return err
-	}
 	// Check for duplicated index in token
 	tokenIndexMap := make(map[string]struct{})
 

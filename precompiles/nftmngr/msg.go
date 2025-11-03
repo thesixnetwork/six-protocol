@@ -5,9 +5,9 @@ import (
 	"errors"
 	"math/big"
 
+	erromod "cosmossdk.io/errors"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 
@@ -48,18 +48,18 @@ func (p PrecompileExecutor) addAction(ctx sdk.Context, caller common.Address, me
 	// decode base64 string to bytes
 	input_action, err := base64.StdEncoding.DecodeString(base64NewAction)
 	if err != nil {
-		return nil, sdkerrors.Wrap(nftmngrtypes.ErrParsingBase64, err.Error())
+		return nil, erromod.Wrap(nftmngrtypes.ErrParsingBase64, err.Error())
 	}
 
 	// unmarshal bytes to Action structure
 	err = p.nftmngrKeeper.GetCodec().(*codec.ProtoCodec).UnmarshalJSON(input_action, &new_action)
 	if err != nil {
-		return nil, sdkerrors.Wrap(nftmngrtypes.ErrParsingMetadataMessage, err.Error())
+		return nil, erromod.Wrap(nftmngrtypes.ErrParsingMetadataMessage, err.Error())
 	}
 
 	err = p.nftmngrKeeper.AddActionKeeper(ctx, senderCosmoAddr.String(), nftschema, new_action)
 	if err != nil {
-		return nil, sdkerrors.Wrap(sdkerrors.Error{}, err.Error())
+		return nil, erromod.Wrap(erromod.Error{}, err.Error())
 	}
 
 	return method.Outputs.Pack(true)
@@ -94,7 +94,7 @@ func (p PrecompileExecutor) addActionExecutor(ctx sdk.Context, caller common.Add
 
 	err = p.nftmngrKeeper.AddActionExecutor(ctx, senderCosmoAddr.String(), nftSchema, newExecutor.String())
 	if err != nil {
-		return nil, sdkerrors.Wrap(sdkerrors.Error{}, err.Error())
+		return nil, erromod.Wrap(erromod.Error{}, err.Error())
 	}
 
 	return method.Outputs.Pack(true)
@@ -176,12 +176,12 @@ func (p PrecompileExecutor) addAttribute(ctx sdk.Context, caller common.Address,
 
 	input_addribute, err := base64.StdEncoding.DecodeString(newAttribute)
 	if err != nil {
-		return nil, sdkerrors.Wrap(nftmngrtypes.ErrParsingBase64, err.Error())
+		return nil, erromod.Wrap(nftmngrtypes.ErrParsingBase64, err.Error())
 	}
 
 	err = p.nftmngrKeeper.GetCodec().(*codec.ProtoCodec).UnmarshalJSON(input_addribute, &new_add_attribute)
 	if err != nil {
-		return nil, sdkerrors.Wrap(nftmngrtypes.ErrParsingMetadataMessage, err.Error())
+		return nil, erromod.Wrap(nftmngrtypes.ErrParsingMetadataMessage, err.Error())
 	}
 
 	err = p.nftmngrKeeper.AddAttributeKeeper(ctx, senderCosmoAddr.String(), nftschema, new_add_attribute, location)
@@ -294,13 +294,13 @@ func (p PrecompileExecutor) createMetadata(ctx sdk.Context, caller common.Addres
 
 	newMetadata, err := base64.StdEncoding.DecodeString(base64NewMetadata)
 	if err != nil {
-		return nil, sdkerrors.Wrap(nftmngrtypes.ErrParsingBase64, err.Error())
+		return nil, erromod.Wrap(nftmngrtypes.ErrParsingBase64, err.Error())
 	}
 
 	metadata := nftmngrtypes.NftData{}
 	err = p.nftmngrKeeper.GetCodec().(*codec.ProtoCodec).UnmarshalJSON(newMetadata, &metadata)
 	if err != nil {
-		return nil, sdkerrors.Wrap(nftmngrtypes.ErrParsingMetadataMessage, err.Error())
+		return nil, erromod.Wrap(nftmngrtypes.ErrParsingMetadataMessage, err.Error())
 	}
 
 	err = p.nftmngrKeeper.CreateNewMetadataKeeper(ctx, senderCosmoAddr.String(), nftschema, tokenId, metadata)
@@ -335,26 +335,26 @@ func (p PrecompileExecutor) createSchema(ctx sdk.Context, caller common.Address,
 
 	jsonSchema, err := base64.StdEncoding.DecodeString(base64NewSchema)
 	if err != nil {
-		return nil, sdkerrors.Wrap(nftmngrtypes.ErrParsingBase64, err.Error())
+		return nil, erromod.Wrap(nftmngrtypes.ErrParsingBase64, err.Error())
 	}
 
 	schema_input := nftmngrtypes.NFTSchemaINPUT{}
 	err = p.nftmngrKeeper.GetCodec().(*codec.ProtoCodec).UnmarshalJSON(jsonSchema, &schema_input)
 	if err != nil {
-		return nil, sdkerrors.Wrap(nftmngrtypes.ErrParsingSchemaMessage, err.Error())
+		return nil, erromod.Wrap(nftmngrtypes.ErrParsingSchemaMessage, err.Error())
 	}
 
 	// validate owner has using enough to pay schema fee
 	schema_fee, _ := p.nftmngrKeeper.GetNFTFeeConfig(ctx)
 	fee_amount, err := sdk.ParseCoinNormalized(schema_fee.SchemaFee.FeeAmount)
 	if err != nil {
-		return nil, sdkerrors.Wrap(nftmngrtypes.ErrInvalidFeeAmount, err.Error())
+		return nil, erromod.Wrap(nftmngrtypes.ErrInvalidFeeAmount, err.Error())
 	}
 
 	user_current_balance := p.bankKeeper.GetBalance(ctx, senderCosmoAddr, "usix")
 
 	if !user_current_balance.Amount.GTE(fee_amount.Amount) {
-		return nil, sdkerrors.Wrap(nftmngrtypes.ErrInvalidFeeAmount, "schema fee are not enough")
+		return nil, erromod.Wrap(nftmngrtypes.ErrInvalidFeeAmount, "schema fee are not enough")
 	}
 
 	err = p.nftmngrKeeper.CreateNftSchemaKeeper(ctx, senderCosmoAddr.String(), schema_input)
@@ -488,12 +488,12 @@ func (p PrecompileExecutor) updateAttribute(ctx sdk.Context, caller common.Addre
 
 	input_addribute, err := base64.StdEncoding.DecodeString(base64NewAttribute)
 	if err != nil {
-		return nil, sdkerrors.Wrap(nftmngrtypes.ErrParsingBase64, err.Error())
+		return nil, erromod.Wrap(nftmngrtypes.ErrParsingBase64, err.Error())
 	}
 
 	err = p.nftmngrKeeper.GetCodec().(*codec.ProtoCodec).UnmarshalJSON(input_addribute, &new_add_attribute)
 	if err != nil {
-		return nil, sdkerrors.Wrap(nftmngrtypes.ErrParsingMetadataMessage, err.Error())
+		return nil, erromod.Wrap(nftmngrtypes.ErrParsingMetadataMessage, err.Error())
 	}
 
 	err = p.nftmngrKeeper.UpdateAttributeKeeper(ctx, senderCosmoAddr.String(), nftschema, new_add_attribute)
@@ -868,13 +868,13 @@ func (p PrecompileExecutor) updateAction(ctx sdk.Context, caller common.Address,
 	// decode base64 string to bytes
 	input_action, err := base64.StdEncoding.DecodeString(base64NewAction)
 	if err != nil {
-		return nil, sdkerrors.Wrap(nftmngrtypes.ErrParsingBase64, err.Error())
+		return nil, erromod.Wrap(nftmngrtypes.ErrParsingBase64, err.Error())
 	}
 
 	// unmarshal bytes to Action structure
 	err = p.nftmngrKeeper.GetCodec().(*codec.ProtoCodec).UnmarshalJSON(input_action, &new_action)
 	if err != nil {
-		return nil, sdkerrors.Wrap(nftmngrtypes.ErrParsingMetadataMessage, err.Error())
+		return nil, erromod.Wrap(nftmngrtypes.ErrParsingMetadataMessage, err.Error())
 	}
 
 	err = p.nftmngrKeeper.UpdateActionKeeper(ctx, senderCosmoAddr.String(), nftschema, new_action)

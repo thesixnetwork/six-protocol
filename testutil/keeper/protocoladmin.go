@@ -3,100 +3,51 @@ package keeper
 import (
 	"testing"
 
-	"github.com/cosmos/cosmos-sdk/codec"
-	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
-	"github.com/cosmos/cosmos-sdk/store"
-	storetypes "github.com/cosmos/cosmos-sdk/store/types"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	capabilitykeeper "github.com/cosmos/cosmos-sdk/x/capability/keeper"
-	typesparams "github.com/cosmos/cosmos-sdk/x/params/types"
-	ibckeeper "github.com/cosmos/ibc-go/v3/modules/core/keeper"
+	cmtproto "github.com/cometbft/cometbft/proto/tendermint/types"
+	dbm "github.com/cosmos/cosmos-db"
 	"github.com/stretchr/testify/require"
-	"github.com/tendermint/tendermint/libs/log"
-	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
-	tmdb "github.com/tendermint/tm-db"
 
 	"github.com/thesixnetwork/six-protocol/x/protocoladmin/keeper"
 	"github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
+
+	"cosmossdk.io/log"
+	"cosmossdk.io/store"
+	"cosmossdk.io/store/metrics"
+	storetypes "cosmossdk.io/store/types"
+
+	"github.com/cosmos/cosmos-sdk/codec"
+	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
+	"github.com/cosmos/cosmos-sdk/runtime"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
+	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 )
 
-func ProtocoladminKeeper(t testing.TB) (*keeper.Keeper, sdk.Context) {
-	logger := log.NewNopLogger()
+func ProtocoladminKeeper(t testing.TB) (keeper.Keeper, sdk.Context) {
+	storeKey := storetypes.NewKVStoreKey(types.StoreKey)
 
-	storeKey := sdk.NewKVStoreKey(types.StoreKey)
-	memStoreKey := storetypes.NewMemoryStoreKey(types.MemStoreKey)
-
-	db := tmdb.NewMemDB()
-	stateStore := store.NewCommitMultiStore(db)
-	stateStore.MountStoreWithDB(storeKey, sdk.StoreTypeIAVL, db)
-	stateStore.MountStoreWithDB(memStoreKey, sdk.StoreTypeMemory, nil)
+	db := dbm.NewMemDB()
+	stateStore := store.NewCommitMultiStore(db, log.NewNopLogger(), metrics.NewNoOpMetrics())
+	stateStore.MountStoreWithDB(storeKey, storetypes.StoreTypeIAVL, db)
 	require.NoError(t, stateStore.LoadLatestVersion())
 
 	registry := codectypes.NewInterfaceRegistry()
-	appCodec := codec.NewProtoCodec(registry)
-	capabilityKeeper := capabilitykeeper.NewKeeper(appCodec, storeKey, memStoreKey)
+	cdc := codec.NewProtoCodec(registry)
+	authority := authtypes.NewModuleAddress(govtypes.ModuleName)
 
-	ss := typesparams.NewSubspace(appCodec,
-		types.Amino,
-		storeKey,
-		memStoreKey,
-		"ProtocoladminSubSpace",
-	)
-	IBCKeeper := ibckeeper.NewKeeper(
-		appCodec,
-		storeKey,
-		ss,
-		nil,
-		nil,
-		capabilityKeeper.ScopeToModule("ProtocoladminIBCKeeper"),
-	)
-
-	paramsSubspace := typesparams.NewSubspace(appCodec,
-		types.Amino,
-		storeKey,
-		memStoreKey,
-		"ProtocoladminParams",
-	)
 	k := keeper.NewKeeper(
-		appCodec,
-		storeKey,
-		memStoreKey,
-		paramsSubspace,
-		IBCKeeper.ChannelKeeper,
-		&IBCKeeper.PortKeeper,
-		capabilityKeeper.ScopeToModule("ProtocoladminScopedKeeper"),
+		cdc,
+		runtime.NewKVStoreService(storeKey),
+		log.NewNopLogger(),
+		authority.String(),
 		nil,
 	)
 
-	ctx := sdk.NewContext(stateStore, tmproto.Header{}, false, logger)
+	ctx := sdk.NewContext(stateStore, cmtproto.Header{}, false, log.NewNopLogger())
 
 	// Initialize params
-	k.SetParams(ctx, types.DefaultParams())
-
-	genesisState := types.GenesisState{
-		Params: types.DefaultParams(),
-		PortId: types.PortID,
-		GroupList: []types.Group{
-			{
-				Name:  "super.admin",
-				Owner: "genesis",
-			},
-		},
-		AdminList: []types.Admin{
-			{
-				Group: "super.admin",
-				Admin: "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv",
-			},
-		},
-	}
-
-	// Set all the group
-	for _, elem := range genesisState.GroupList {
-		k.SetGroup(ctx, elem)
-	}
-	// Set all the admin
-	for _, elem := range genesisState.AdminList {
-		k.SetAdmin(ctx, elem)
+	if err := k.SetParams(ctx, types.DefaultParams()); err != nil {
+		panic(err)
 	}
 
 	return k, ctx

@@ -5,8 +5,9 @@ import (
 
 	"github.com/thesixnetwork/six-protocol/x/nftadmin/types"
 
+	errormod "cosmossdk.io/errors"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
 // revoke permission
@@ -32,28 +33,26 @@ func (k msgServer) RevokePermission(goCtx context.Context, msg *types.MsgRevokeP
 		return nil, types.ErrInvalidGrantee
 	}
 
-	list := auth.Permissions.GetPermissionAddressByKey(msg.Name)
-	if list == nil {
-		return nil, sdkerrors.Wrapf(types.ErrNoPermissionsForName, "no permissions for name %s", msg.Name)
-	}
-
-	if list.Addresses == nil || len(list.Addresses) == 0 {
-		return nil, sdkerrors.Wrapf(types.ErrNoPermissionsForName, "no permissions for name %s", msg.Name)
+	listAddress := auth.GetPermissionAddressByKey(msg.Name)
+	if len(listAddress) == 0 {
+		return nil, errormod.Wrapf(types.ErrNoPermissionsForName, "no permissions for name %s", msg.Name)
 	}
 
 	removed := false
 
-	for i, addr := range list.Addresses {
+	for i, addr := range listAddress {
 		if addr == msg.Revokee {
-			list.Addresses = append(list.Addresses[:i], list.Addresses[i+1:]...)
+			listAddress = append(listAddress[:i], listAddress[i+1:]...)
 			removed = true
 			break
 		}
 	}
 
 	if !removed {
-		return nil, sdkerrors.Wrapf(types.ErrGranteeNotFoundForName, "grantee %s not found for name %s", msg.Revokee, msg.Name)
+		return nil, errormod.Wrapf(types.ErrGranteeNotFoundForName, "grantee %s not found for name %s", msg.Revokee, msg.Name)
 	}
+
+	auth.SetPermissionAddressByKey(msg.Name, listAddress)
 
 	ctx.EventManager().EmitEvents(sdk.Events{
 		sdk.NewEvent(

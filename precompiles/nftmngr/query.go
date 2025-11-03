@@ -1,15 +1,15 @@
 package nftmngr
 
 import (
+	"context"
 	"math/big"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 
 	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
 )
 
-func (p PrecompileExecutor) isActionExecutor(ctx sdk.Context, method *abi.Method, args []interface{}, value *big.Int) ([]byte, error) {
+func (p PrecompileExecutor) isActionExecutor(ctx context.Context, method *abi.Method, args []interface{}, value *big.Int) ([]byte, error) {
 	if err := pcommon.ValidateNonPayable(value); err != nil {
 		return nil, err
 	}
@@ -33,7 +33,7 @@ func (p PrecompileExecutor) isActionExecutor(ctx sdk.Context, method *abi.Method
 	return method.Outputs.Pack(found)
 }
 
-func (p PrecompileExecutor) isSchemaOwner(ctx sdk.Context, method *abi.Method, args []interface{}, value *big.Int) ([]byte, error) {
+func (p PrecompileExecutor) isSchemaOwner(ctx context.Context, method *abi.Method, args []interface{}, value *big.Int) ([]byte, error) {
 	if err := pcommon.ValidateNonPayable(value); err != nil {
 		return nil, err
 	}
@@ -60,7 +60,7 @@ func (p PrecompileExecutor) isSchemaOwner(ctx sdk.Context, method *abi.Method, a
 	return method.Outputs.Pack(found)
 }
 
-func (p PrecompileExecutor) getAttributeValue(ctx sdk.Context, method *abi.Method, args []interface{}, value *big.Int) ([]byte, error) {
+func (p PrecompileExecutor) getAttributeValue(ctx context.Context, method *abi.Method, args []interface{}, value *big.Int) ([]byte, error) {
 	if err := pcommon.ValidateNonPayable(value); err != nil {
 		return nil, err
 	}

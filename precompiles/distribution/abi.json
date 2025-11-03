@@ -1,0 +1,85 @@
+[
+  {
+    "type": "function",
+    "name": "allRewards",
+    "inputs": [{ "name": "delegatorAddress", "type": "string", "internalType": "string" }],
+    "outputs": [
+      {
+        "name": "rewards",
+        "type": "tuple",
+        "internalType": "struct IDistr.Rewards",
+        "components": [
+          {
+            "name": "reward",
+            "type": "tuple[]",
+            "internalType": "struct IDistr.Reward[]",
+            "components": [
+              {
+                "name": "coins",
+                "type": "tuple[]",
+                "internalType": "struct IDistr.Coin[]",
+                "components": [
+                  { "name": "amount", "type": "uint256", "internalType": "uint256" },
+                  { "name": "denom", "type": "string", "internalType": "string" }
+                ]
+              },
+              { "name": "validatorAddress", "type": "string", "internalType": "string" }
+            ]
+          },
+          {
+            "name": "total",
+            "type": "tuple[]",
+            "internalType": "struct IDistr.Coin[]",
+            "components": [
+              { "name": "amount", "type": "uint256", "internalType": "uint256" },
+              { "name": "denom", "type": "string", "internalType": "string" }
+            ]
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "rewards",
+    "inputs": [
+      { "name": "validatorAddress", "type": "string", "internalType": "string" },
+      { "name": "delegatorAddress", "type": "string", "internalType": "string" }
+    ],
+    "outputs": [
+      {
+        "name": "reward",
+        "type": "tuple",
+        "internalType": "struct IDistr.Reward",
+        "components": [
+          {
+            "name": "coins",
+            "type": "tuple[]",
+            "internalType": "struct IDistr.Coin[]",
+            "components": [
+              { "name": "amount", "type": "uint256", "internalType": "uint256" },
+              { "name": "denom", "type": "string", "internalType": "string" }
+            ]
+          },
+          { "name": "validatorAddress", "type": "string", "internalType": "string" }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "setWithdrawAddress",
+    "inputs": [{ "name": "withdrawAddress", "type": "string", "internalType": "string" }],
+    "outputs": [{ "name": "success", "type": "bool", "internalType": "bool" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "withdrawRewards",
+    "inputs": [{ "name": "validatorAddress", "type": "string", "internalType": "string" }],
+    "outputs": [{ "name": "success", "type": "bool", "internalType": "bool" }],
+    "stateMutability": "view"
+  }
+]

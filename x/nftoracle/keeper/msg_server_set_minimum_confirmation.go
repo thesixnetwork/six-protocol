@@ -4,10 +4,11 @@ import (
 	"context"
 	"strconv"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+
+	errormod "cosmossdk.io/errors"
+
+	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 func (k msgServer) SetMinimumConfirmation(goCtx context.Context, msg *types.MsgSetMinimumConfirmation) (*types.MsgSetMinimumConfirmationResponse, error) {
@@ -20,7 +21,7 @@ func (k msgServer) SetMinimumConfirmation(goCtx context.Context, msg *types.MsgS
 
 	granted := k.nftadminKeeper.HasPermission(ctx, types.KeyPermissionOracleAdmin, oracleAdmin)
 	if !granted {
-		return nil, sdkerrors.Wrap(types.ErrNoOraclePermission, msg.Creator)
+		return nil, errormod.Wrap(types.ErrNoOraclePermission, msg.Creator)
 	}
 
 	// convert msg.NewConfirmation into number

@@ -5,9 +5,9 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/cosmos/cosmos-sdk/client"
-
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+
+	"github.com/cosmos/cosmos-sdk/client"
 )
 
 // GetQueryCmd returns the cli query commands for this module
@@ -57,7 +57,6 @@ func GetQueryCmd(queryRoute string) *cobra.Command {
 
 	cmd.AddCommand(CmdListLockSchemaFee())
 	cmd.AddCommand(CmdShowLockSchemaFee())
-	// this line is used by starport scaffolding # 1
 
 	return cmd
 }

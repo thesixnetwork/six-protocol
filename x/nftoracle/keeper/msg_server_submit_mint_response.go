@@ -9,13 +9,12 @@ import (
 
 	nftmngrkeeper "github.com/thesixnetwork/six-protocol/x/nftmngr/keeper"
 	nftmngrtypes "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
-
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+
+	errormod "cosmossdk.io/errors"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	// structpb "google.golang.org/protobuf/types/known/structpb"
 )
 
 func (k msgServer) SubmitMintResponse(goCtx context.Context, msg *types.MsgSubmitMintResponse) (*types.MsgSubmitMintResponseResponse, error) {
@@ -28,43 +27,43 @@ func (k msgServer) SubmitMintResponse(goCtx context.Context, msg *types.MsgSubmi
 
 	granted := k.nftadminKeeper.HasPermission(ctx, types.KeyPermissionOracle, oracle)
 	if !granted {
-		return nil, sdkerrors.Wrap(types.ErrNoOraclePermission, msg.Creator)
+		return nil, errormod.Wrap(types.ErrNoOraclePermission, msg.Creator)
 	}
 
 	mintRequest, found := k.GetMintRequest(ctx, msg.MintRequestID)
 	if !found {
-		return nil, sdkerrors.Wrap(types.ErrMintRequestNotFound, strconv.FormatUint(msg.MintRequestID, 10))
+		return nil, errormod.Wrap(types.ErrMintRequestNotFound, strconv.FormatUint(msg.MintRequestID, 10))
 	}
 
 	// Check if mint request is still pending
 	if mintRequest.Status != types.RequestStatus_PENDING {
-		return nil, sdkerrors.Wrap(types.ErrMintRequestNotPending, strconv.FormatUint(msg.MintRequestID, 10))
+		return nil, errormod.Wrap(types.ErrMintRequestNotPending, strconv.FormatUint(msg.MintRequestID, 10))
 	}
 
-	// Check if currernt confirmation count is less than required confirmation count
+	// Check if current confirmation count is less than required confirmation count
 	if mintRequest.CurrentConfirm >= mintRequest.RequiredConfirm {
-		return nil, sdkerrors.Wrap(types.ErrMintRequestConfirmedAlreadyComplete, strconv.FormatUint(msg.MintRequestID, 10))
+		return nil, errormod.Wrap(types.ErrMintRequestConfirmedAlreadyComplete, strconv.FormatUint(msg.MintRequestID, 10))
 	}
 
 	// Convert msg.Base64NftMetadata to bytes
 	nftMetadata, err := base64.StdEncoding.DecodeString(msg.Base64NftData)
 	if err != nil {
-		return nil, sdkerrors.Wrap(types.ErrParsingBase64, err.Error())
+		return nil, errormod.Wrap(types.ErrParsingBase64, err.Error())
 	}
 
 	nftOriginData := types.NftOriginData{}
 	err = k.cdc.(*codec.ProtoCodec).UnmarshalJSON(nftMetadata, &nftOriginData)
 	if err != nil {
-		return nil, sdkerrors.Wrap(types.ErrParsingOriginData, err.Error())
+		return nil, errormod.Wrap(types.ErrParsingOriginData, err.Error())
 	}
 
 	if nftOriginData.HolderAddress == "" || nftOriginData.Image == "" || nftOriginData.Traits == nil || len(nftOriginData.Traits) == 0 {
-		return nil, sdkerrors.Wrap(types.ErrParsingOriginData, "missing required fields")
+		return nil, errormod.Wrap(types.ErrParsingOriginData, "missing required fields")
 	}
 
 	// ! :: Check Deterministic Hash from concurrence response
 	if mintRequest.CurrentConfirm == 0 {
-		// Create sha512 hash of nftMetadata
+		// Create sha256 hash of nftMetadata
 		dataHash := sha256.Sum256(nftMetadata)
 		mintRequest.DataHashes = append(mintRequest.DataHashes, &types.DataHash{
 			OriginData: &nftOriginData,
@@ -76,11 +75,11 @@ func (k msgServer) SubmitMintResponse(goCtx context.Context, msg *types.MsgSubmi
 		// fetch confirmed data
 		for _, confirmer := range mintRequest.Confirmers {
 			if confirmer == msg.Creator {
-				return nil, sdkerrors.Wrap(types.ErrOracleConfirmedAlready, strconv.FormatUint(msg.MintRequestID, 10))
+				return nil, errormod.Wrap(types.ErrOracleConfirmedAlready, strconv.FormatUint(msg.MintRequestID, 10))
 			}
 		}
 		// if _, ok := mintRequest.Confirmers[msg.Creator]; ok {
-		// 	return nil, sdkerrors.Wrap(types.ErrOracleConfirmedAlready, strconv.FormatUint(msg.MintRequestID, 10)+", "+msg.Creator)
+		// 	return nil, errormod.Wrap(types.ErrOracleConfirmedAlready, strconv.FormatUint(msg.MintRequestID, 10)+", "+msg.Creator)
 		// }
 		// Compare data hash with previous data hash
 		dataHash := sha256.Sum256(nftMetadata)
@@ -156,7 +155,7 @@ func (k msgServer) CreateMetaDataFromOriginData(ctx sdk.Context, mintRequest typ
 
 	schema, found := k.nftmngrKeeper.GetNFTSchema(ctx, mintRequest.NftSchemaCode)
 	if !found {
-		return nil, sdkerrors.Wrap(types.ErrNFTSchemaNotFound, mintRequest.NftSchemaCode)
+		return nil, errormod.Wrap(types.ErrNFTSchemaNotFound, mintRequest.NftSchemaCode)
 	}
 
 	originAttributes, err := k.FromOriginDataToNftOriginAttribute(ctx, &schema, originData)
@@ -180,8 +179,12 @@ func (k msgServer) CreateMetaDataFromOriginData(ctx sdk.Context, mintRequest typ
 func (k Keeper) FromOriginDataToNftOriginAttribute(ctx sdk.Context, schema *nftmngrtypes.NFTSchema, originData *types.NftOriginData) ([]*nftmngrtypes.NftAttributeValue, error) {
 	attributes := make([]*nftmngrtypes.NftAttributeValue, 0)
 
+	if schema.OriginData == nil {
+		return nil, errormod.Wrap(types.ErrParsingOriginData, "origin data is nil")
+	}
+
 	if schema.OriginData.MetadataFormat != "opensea" {
-		return nil, sdkerrors.Wrap(types.ErrUnsupportedMetadataFormat, schema.OriginData.MetadataFormat)
+		return nil, errormod.Wrap(types.ErrUnsupportedMetadataFormat, schema.OriginData.MetadataFormat)
 	}
 	// Create map of attribute definition by trait type
 	attributeByTrait := make(map[string]*nftmngrtypes.AttributeDefinition)
@@ -191,34 +194,52 @@ func (k Keeper) FromOriginDataToNftOriginAttribute(ctx sdk.Context, schema *nftm
 
 	for _, trait := range originData.Traits {
 		if attributeByTrait[trait.TraitType] == nil {
-			return nil, sdkerrors.Wrap(types.ErrNFTSchemaAttributeNotFound, trait.TraitType)
+			return nil, errormod.Wrap(types.ErrNFTSchemaAttributeNotFound, trait.TraitType)
 		}
 		attributeValue, err := TranslateToAttributeValue(attributeByTrait[trait.TraitType], trait.Value)
 		if err != nil {
 			return nil, err
 		}
-		attributes = append(attributes, attributeValue)
+
+		// Check if attribute already exists and update it, otherwise append
+		found := false
+		for i, existingAttr := range attributes {
+			if existingAttr.Name == attributeValue.Name {
+				attributes[i] = attributeValue // Update existing attribute
+				found = true
+				break
+			}
+		}
+		if !found {
+			attributes = append(attributes, attributeValue) // Append new attribute
+		}
+
 		delete(attributeByTrait, trait.TraitType)
 	}
 	// Looking for _HIDDEN_ boolean attribute
 	for _, attriDef := range attributeByTrait {
-		if attriDef.DataType == "boolean" {
+		if attriDef.DataType == "boolean" && attriDef.DisplayOption != nil {
+			var attributeValue *nftmngrtypes.NftAttributeValue
 			if attriDef.DisplayOption.BoolTrueValue == "_HIDDEN_" {
-				attributeValue := &nftmngrtypes.NftAttributeValue{}
-				attributeValue.Name = attriDef.Name
-				attributeValue.Value = &nftmngrtypes.NftAttributeValue_BooleanAttributeValue{
-					BooleanAttributeValue: &nftmngrtypes.BooleanAttributeValue{
-						Value: true,
+				attributeValue = &nftmngrtypes.NftAttributeValue{
+					Name: attriDef.Name,
+					Value: &nftmngrtypes.NftAttributeValue_BooleanAttributeValue{
+						BooleanAttributeValue: &nftmngrtypes.BooleanAttributeValue{
+							Value: true,
+						},
 					},
 				}
+				attributes = append(attributes, attributeValue)
 			} else if attriDef.DisplayOption.BoolFalseValue == "_HIDDEN_" {
-				attributeValue := &nftmngrtypes.NftAttributeValue{}
-				attributeValue.Name = attriDef.Name
-				attributeValue.Value = &nftmngrtypes.NftAttributeValue_BooleanAttributeValue{
-					BooleanAttributeValue: &nftmngrtypes.BooleanAttributeValue{
-						Value: false,
+				attributeValue = &nftmngrtypes.NftAttributeValue{
+					Name: attriDef.Name,
+					Value: &nftmngrtypes.NftAttributeValue_BooleanAttributeValue{
+						BooleanAttributeValue: &nftmngrtypes.BooleanAttributeValue{
+							Value: false,
+						},
 					},
 				}
+				attributes = append(attributes, attributeValue)
 			}
 		}
 	}
@@ -248,7 +269,7 @@ func TranslateToAttributeValue(attriDef *nftmngrtypes.AttributeDefinition, value
 		}
 	case "boolean":
 		booleanValue := false
-		if attriDef.DisplayOption.BoolTrueValue == value {
+		if attriDef.DisplayOption != nil && attriDef.DisplayOption.BoolTrueValue == value {
 			booleanValue = true
 		}
 		attributeValue.Value = &nftmngrtypes.NftAttributeValue_BooleanAttributeValue{
@@ -266,6 +287,8 @@ func TranslateToAttributeValue(attriDef *nftmngrtypes.AttributeDefinition, value
 				Value: floatValue,
 			},
 		}
+	default:
+		return nil, errormod.Wrap(types.ErrParsingOriginData, "unsupported data type: "+attriDef.DataType)
 	}
 	return attributeValue, nil
 }

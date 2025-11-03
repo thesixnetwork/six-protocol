@@ -3,11 +3,14 @@ package types
 // DONTCOVER
 
 import (
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	sdkerrors "cosmossdk.io/errors"
 )
 
 // x/nftmngr module sentinel errors
 var (
+	ErrInvalidSigner = sdkerrors.Register(ModuleName, 1100, "expected gov account as only signer for proposal message")
+	ErrSample        = sdkerrors.Register(ModuleName, 1101, "sample error")
+
 	// General (0-99)
 	ErrParsingBase64          = sdkerrors.Register(ModuleName, 1, "Error parsing base64")
 	ErrParsingSchemaMessage   = sdkerrors.Register(ModuleName, 2, "Error parsing schema")

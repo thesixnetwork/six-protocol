@@ -1,0 +1,139 @@
+syntax = "proto3";
+
+package sixprotocol.tokenmngr;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "sixprotocol/tokenmngr/params.proto";
+import "sixprotocol/tokenmngr/token.proto";
+import "sixprotocol/tokenmngr/mintperm.proto";
+import "sixprotocol/tokenmngr/token_burn.proto";
+import "sixprotocol/tokenmngr/options.proto";
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/tokenmngr/types";
+
+// Query defines the gRPC querier service.
+service Query {
+
+  // Parameters queries the parameters of the module.
+  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/six-protocol/tokenmngr/params";
+  }
+
+  // Queries a list of Token items.
+  rpc Token(QueryGetTokenRequest) returns (QueryGetTokenResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/six-protocol/tokenmngr/token/{name}";
+  }
+  rpc TokenAll(QueryAllTokenRequest) returns (QueryAllTokenResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/six-protocol/tokenmngr/token";
+  }
+
+  // Queries a list of Mintperm items.
+  rpc Mintperm(QueryGetMintpermRequest) returns (QueryGetMintpermResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/six-protocol/tokenmngr/mintperm/{token}/{address}";
+  }
+  rpc MintpermAll(QueryAllMintpermRequest) returns (QueryAllMintpermResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/six-protocol/tokenmngr/mintperm";
+  }
+
+  // Queries a list of TokenBurn items.
+  rpc TokenBurn(QueryGetTokenBurnRequest) returns (QueryGetTokenBurnResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/six-protocol/tokenmngr/token_burn/{index}";
+  }
+  rpc TokenBurnAll(QueryAllTokenBurnRequest)
+      returns (QueryAllTokenBurnResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/six-protocol/tokenmngr/token_burn";
+  }
+
+  // Queries a Options by index.
+  rpc Options(QueryGetOptionsRequest) returns (QueryGetOptionsResponse) {
+    option (google.api.http).get =
+        "/thesixnetwork/six-protocol/tokenmngr/options";
+  }
+
+  // Queries a list of ListPrecompile items.
+  rpc ListPrecompile (QueryListPrecompileRequest) returns (QueryListPrecompileResponse) {
+    option (google.api.http).get = "/thesixnetwork/six-protocol/tokenmngr/list_precompile";
+  
+  }
+}
+// QueryParamsRequest is request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is response type for the Query/Params RPC method.
+message QueryParamsResponse {
+
+  // params holds all the parameters of this module.
+  Params params = 1
+      [ (gogoproto.nullable) = false, (amino.dont_omitempty) = true ];
+}
+
+message QueryGetTokenRequest { string name = 1; }
+
+message QueryGetTokenResponse {
+  Token token = 1 [ (gogoproto.nullable) = false ];
+}
+
+message QueryAllTokenRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllTokenResponse {
+  repeated Token token = 1 [ (gogoproto.nullable) = false ];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetMintpermRequest {
+  string token = 1;
+  string address = 2;
+}
+
+message QueryGetMintpermResponse {
+  Mintperm mintperm = 1 [ (gogoproto.nullable) = false ];
+}
+
+message QueryAllMintpermRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllMintpermResponse {
+  repeated Mintperm mintperm = 1 [ (gogoproto.nullable) = false ];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetTokenBurnRequest { string index = 1; }
+
+message QueryGetTokenBurnResponse {
+  TokenBurn tokenBurn = 1 [ (gogoproto.nullable) = false ];
+}
+
+message QueryAllTokenBurnRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllTokenBurnResponse {
+  repeated TokenBurn tokenBurn = 1 [ (gogoproto.nullable) = false ];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetOptionsRequest {}
+
+message QueryGetOptionsResponse {
+  Options Options = 1 [ (gogoproto.nullable) = false ];
+}
+
+message QueryListPrecompileRequest {}
+
+message QueryListPrecompileResponse {
+  repeated string precompiles = 1 [ (gogoproto.nullable) = false ];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}

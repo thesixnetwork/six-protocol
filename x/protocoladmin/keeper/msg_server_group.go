@@ -3,10 +3,12 @@ package keeper
 import (
 	"context"
 
+	"github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
+
+	errorsmod "cosmossdk.io/errors"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-
-	"github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
 )
 
 func (k msgServer) CreateGroup(goCtx context.Context, msg *types.MsgCreateGroup) (*types.MsgCreateGroupResponse, error) {
@@ -14,7 +16,7 @@ func (k msgServer) CreateGroup(goCtx context.Context, msg *types.MsgCreateGroup)
 
 	_, foundAdmin := k.GetAdmin(ctx, SUPER_ADMIN, msg.Creator)
 	if !foundAdmin {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "message creator is not super admin")
+		return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "message creator is not super admin")
 	}
 
 	// Check if the value already exists
@@ -23,7 +25,7 @@ func (k msgServer) CreateGroup(goCtx context.Context, msg *types.MsgCreateGroup)
 		msg.Name,
 	)
 	if isFound {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "index already set")
+		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "index already set")
 	}
 
 	group := types.Group{
@@ -38,35 +40,36 @@ func (k msgServer) CreateGroup(goCtx context.Context, msg *types.MsgCreateGroup)
 	return &types.MsgCreateGroupResponse{}, nil
 }
 
-// ! Function will return error for there is no implementation at the moment.
-// ? Should there be update operation for group?
 func (k msgServer) UpdateGroup(goCtx context.Context, msg *types.MsgUpdateGroup) (*types.MsgUpdateGroupResponse, error) {
-	return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "operation not available")
-
+	return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "operation not available")
 	// ctx := sdk.UnwrapSDKContext(goCtx)
 
+	// _, foundAdmin := k.GetAdmin(ctx, SUPER_ADMIN, msg.Creator)
+	// if !foundAdmin {
+	// 	return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "message creator is not super admin")
+	// }
+
 	// // Check if the value exists
-	// group, isFound := k.GetGroup(
+	// valFound, isFound := k.GetGroup(
 	// 	ctx,
 	// 	msg.Name,
 	// )
+
 	// if !isFound {
-	// 	return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
+	// 	return nil, errorsmod.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
 	// }
 
-	// _, foundAdmin := k.GetAdmin(ctx, SUPER_ADMIN, msg.Creator)
-
-	// // Checks if the the msg owner is the same as the current owner or is super admin
-	// if msg.Creator != group.Owner && !foundAdmin {
-	// 	return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "message creator is not owner or super admin")
+	// // Checks if the msg owner is the same as the current owner
+	// if msg.Creator != valFound.Owner && !foundAdmin {
+	// 	return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
 	// }
 
-	// var newGroup = types.Group{
+	// var group = types.Group{
 	// 	Owner: msg.Creator,
 	// 	Name:  msg.Name,
 	// }
 
-	// k.SetGroup(ctx, newGroup)
+	// k.SetGroup(ctx, group)
 
 	// return &types.MsgUpdateGroupResponse{}, nil
 }
@@ -74,20 +77,23 @@ func (k msgServer) UpdateGroup(goCtx context.Context, msg *types.MsgUpdateGroup)
 func (k msgServer) DeleteGroup(goCtx context.Context, msg *types.MsgDeleteGroup) (*types.MsgDeleteGroupResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
+	_, foundAdmin := k.GetAdmin(ctx, SUPER_ADMIN, msg.Creator)
+	if !foundAdmin {
+		return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "message creator is not super admin")
+	}
+
 	// Check if the value exists
-	group, isFound := k.GetGroup(
+	valFound, isFound := k.GetGroup(
 		ctx,
 		msg.Name,
 	)
 	if !isFound {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
+		return nil, errorsmod.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
 	}
 
-	_, foundAdmin := k.GetAdmin(ctx, SUPER_ADMIN, msg.Creator)
-
-	// Checks if the the msg owner is the same as the current owner or is super admin
-	if msg.Creator != group.Owner && !foundAdmin {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "message creator is not owner or super admin")
+	// Checks if the msg owner is the same as the current owner
+	if msg.Creator != valFound.Owner && !foundAdmin {
+		return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
 	}
 
 	k.RemoveGroup(

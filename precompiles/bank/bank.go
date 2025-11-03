@@ -7,12 +7,14 @@ import (
 	"fmt"
 	"math/big"
 
+	"cosmossdk.io/log"
+	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/evmos/ethermint/utils"
-	"github.com/tendermint/tendermint/libs/log"
+	"github.com/evmos/evmos/v20/x/evm/core/vm"
+
+	"github.com/thesixnetwork/six-protocol/utils"
 
 	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
 )
@@ -61,17 +63,26 @@ type PrecompileExecutor struct {
 	address       common.Address
 }
 
+// Address implements common.PrecompileExecutor.
+func (p *PrecompileExecutor) Address() common.Address {
+	return p.address
+}
+
 type CoinBalance struct {
 	Amount *big.Int
 	Denom  string
 }
 
-func NewPrecompile(bankKeeper pcommon.BankKeeper) (*pcommon.Precompile, error) {
-	newAbi := GetABI()
-	p := &PrecompileExecutor{
+func NewExecutor(bankKeeper pcommon.BankKeeper) *PrecompileExecutor {
+	return &PrecompileExecutor{
 		bankKeeper: bankKeeper,
 		address:    common.HexToAddress(BankAddress),
 	}
+}
+
+func NewPrecompile(bankKeeper pcommon.BankKeeper) (*pcommon.Precompile, error) {
+	newAbi := GetABI()
+	p := NewExecutor(bankKeeper)
 
 	for name, m := range newAbi.Methods {
 		switch name {
@@ -149,7 +160,7 @@ func (p PrecompileExecutor) send(ctx sdk.Context, caller common.Address, method 
 		return nil, err
 	}
 
-	if err := p.bankKeeper.SendCoins(ctx, senderCosmoAddr, receiverCosmoAddr, sdk.NewCoins(sdk.NewCoin(denom, sdk.NewIntFromBigInt(amount)))); err != nil {
+	if err := p.bankKeeper.SendCoins(ctx, senderCosmoAddr, receiverCosmoAddr, sdk.NewCoins(sdk.NewCoin(denom, sdkmath.NewIntFromBigInt(amount)))); err != nil {
 		return nil, err
 	}
 
@@ -272,7 +283,7 @@ func (p PrecompileExecutor) accAddressFromArg(arg interface{}) (sdk.AccAddress, 
 	return bec32Addr, nil
 }
 
-func (PrecompileExecutor) IsTransaction(method string) bool {
+func (p PrecompileExecutor) IsTransaction(method string) bool {
 	switch method {
 	case SendMethod:
 		return true

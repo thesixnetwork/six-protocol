@@ -5,23 +5,25 @@ import (
 	"fmt"
 	"math/big"
 
-	storetypes "github.com/cosmos/cosmos-sdk/store/types"
+	storetypes "cosmossdk.io/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/evmos/ethermint/x/evm/statedb"
+
+	"github.com/evmos/evmos/v20/x/evm/core/vm"
+	"github.com/evmos/evmos/v20/x/evm/statedb"
 )
 
 const UnknownMethodCallGas uint64 = 3000
 
-type PrecompileExecutor interface {
+type Executor interface {
+	vm.ContractRef
 	RequiredGas([]byte, *abi.Method) uint64
 	Execute(ctx sdk.Context, method *abi.Method, caller common.Address, callingContract common.Address, args []interface{}, value *big.Int, readOnly bool, evm *vm.EVM) ([]byte, error)
 }
 
 type Precompile struct {
-	executor PrecompileExecutor
+	executor Executor
 	name     string
 	abi.ABI
 	address common.Address
@@ -29,7 +31,7 @@ type Precompile struct {
 
 var _ vm.PrecompiledContract = &Precompile{}
 
-func NewPrecompile(a abi.ABI, executor PrecompileExecutor, address common.Address, name string) *Precompile {
+func NewPrecompile(a abi.ABI, executor Executor, address common.Address, name string) *Precompile {
 	return &Precompile{ABI: a, executor: executor, address: address, name: name}
 }
 
@@ -105,7 +107,7 @@ func (p Precompile) GetName() string {
 	return p.name
 }
 
-func (p Precompile) GetExecutor() PrecompileExecutor {
+func (p Precompile) GetExecutor() Executor {
 	return p.executor
 }
 

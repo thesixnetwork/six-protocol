@@ -2,7 +2,7 @@
 pragma solidity ^0.8.20;
 
 import "forge-std/Script.sol";
-import {IBank, BANK_PRECOMPILE_ADDRESS} from "../src/IBank.sol";
+import {IBank, BANK_PRECOMPILE_ADDRESS} from "../src/precompiles/IBank.sol";
 
 contract BankScript is Script {
     address ownerAddress;
@@ -52,7 +52,7 @@ contract SendScript is Script {
                 ownerAddress,
                 0xd907f36f7D83344057a619b6D83A45B3288c3c21,
                 "asix",
-                2 * 1e18
+                1000 * 1e18
             )
         );
         require(success, "Transaction failed");

@@ -10,6 +10,9 @@ solc_version = "0.8.20"
 
 fs_permissions = [{access = "read-write", path = "./"}]
 
+[lint]
+exclude_lints = ["incorrect-shift", "mixed-case-function", "mixed-case-variable"]
+
 # See more config options https://github.com/foundry-rs/foundry/tree/master/config
 # [etherscan]
 # sixnet = {key = "your API key", chain = 98, url="https://evm.sixscan.io/api"}

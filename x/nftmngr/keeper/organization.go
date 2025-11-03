@@ -1,15 +1,20 @@
 package keeper
 
 import (
-	"github.com/cosmos/cosmos-sdk/store/prefix"
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	"context"
 
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+
+	"cosmossdk.io/store/prefix"
+	storetypes "cosmossdk.io/store/types"
+
+	"github.com/cosmos/cosmos-sdk/runtime"
 )
 
 // SetOrganization set a specific organization in the store from its index
-func (k Keeper) SetOrganization(ctx sdk.Context, organization types.Organization) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.OrganizationKeyPrefix))
+func (k Keeper) SetOrganization(ctx context.Context, organization types.Organization) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.OrganizationKeyPrefix))
 	b := k.cdc.MustMarshal(&organization)
 	store.Set(types.OrganizationKey(
 		organization.Name,
@@ -18,10 +23,11 @@ func (k Keeper) SetOrganization(ctx sdk.Context, organization types.Organization
 
 // GetOrganization returns a organization from its index
 func (k Keeper) GetOrganization(
-	ctx sdk.Context,
+	ctx context.Context,
 	name string,
 ) (val types.Organization, found bool) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.OrganizationKeyPrefix))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.OrganizationKeyPrefix))
 
 	b := store.Get(types.OrganizationKey(
 		name,
@@ -36,19 +42,21 @@ func (k Keeper) GetOrganization(
 
 // RemoveOrganization removes a organization from the store
 func (k Keeper) RemoveOrganization(
-	ctx sdk.Context,
+	ctx context.Context,
 	name string,
 ) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.OrganizationKeyPrefix))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.OrganizationKeyPrefix))
 	store.Delete(types.OrganizationKey(
 		name,
 	))
 }
 
 // GetAllOrganization returns all organization
-func (k Keeper) GetAllOrganization(ctx sdk.Context) (list []types.Organization) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.OrganizationKeyPrefix))
-	iterator := sdk.KVStorePrefixIterator(store, []byte{})
+func (k Keeper) GetAllOrganization(ctx context.Context) (list []types.Organization) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.OrganizationKeyPrefix))
+	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
 
 	defer iterator.Close()
 

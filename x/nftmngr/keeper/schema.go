@@ -1,16 +1,21 @@
 package keeper
 
 import (
-	"github.com/cosmos/cosmos-sdk/store/prefix"
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	"context"
 
-	v2types "github.com/thesixnetwork/six-protocol/x/nftmngr/migrations/v2/types"
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+
+	// v2types "github.com/thesixnetwork/six-protocol/x/nftmngr/migrations/v2/types"
+	"cosmossdk.io/store/prefix"
+	storetypes "cosmossdk.io/store/types"
+
+	"github.com/cosmos/cosmos-sdk/runtime"
 )
 
 // SetNFTSchema set a specific nFTSchema in the store from its index
-func (k Keeper) SetNFTSchema(ctx sdk.Context, nFTSchema types.NFTSchema) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.NFTSchemaKeyPrefix))
+func (k Keeper) SetNFTSchema(ctx context.Context, nFTSchema types.NFTSchema) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.NFTSchemaKeyPrefix))
 	b := k.cdc.MustMarshal(&nFTSchema)
 	store.Set(types.NFTSchemaKey(
 		nFTSchema.Code,
@@ -18,8 +23,9 @@ func (k Keeper) SetNFTSchema(ctx sdk.Context, nFTSchema types.NFTSchema) {
 }
 
 // GetNFTSchema returns a nFTSchema from its index
-func (k Keeper) GetNFTSchema(ctx sdk.Context, code string) (val types.NFTSchema, found bool) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.NFTSchemaKeyPrefix))
+func (k Keeper) GetNFTSchema(ctx context.Context, code string) (val types.NFTSchema, found bool) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.NFTSchemaKeyPrefix))
 
 	b := store.Get(types.NFTSchemaKey(
 		code,
@@ -33,17 +39,19 @@ func (k Keeper) GetNFTSchema(ctx sdk.Context, code string) (val types.NFTSchema,
 }
 
 // RemoveNFTSchema removes a nFTSchema from the store
-func (k Keeper) RemoveNFTSchema(ctx sdk.Context, code string) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.NFTSchemaKeyPrefix))
+func (k Keeper) RemoveNFTSchema(ctx context.Context, code string) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.NFTSchemaKeyPrefix))
 	store.Delete(types.NFTSchemaKey(
 		code,
 	))
 }
 
 // GetAllNFTSchema returns all nFTSchema
-func (k Keeper) GetAllNFTSchema(ctx sdk.Context) (list []types.NFTSchema) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.NFTSchemaKeyPrefix))
-	iterator := sdk.KVStorePrefixIterator(store, []byte{})
+func (k Keeper) GetAllNFTSchema(ctx context.Context) (list []types.NFTSchema) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.NFTSchemaKeyPrefix))
+	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
 
 	defer iterator.Close()
 
@@ -56,24 +64,10 @@ func (k Keeper) GetAllNFTSchema(ctx sdk.Context) (list []types.NFTSchema) {
 	return
 }
 
-func (k Keeper) GetAllNFTSchemaLegacy(ctx sdk.Context) (list []v2types.NFTSchema) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.NFTSchemaKeyPrefix))
-	iterator := sdk.KVStorePrefixIterator(store, []byte{})
-
-	defer iterator.Close()
-
-	for ; iterator.Valid(); iterator.Next() {
-		var val v2types.NFTSchema
-		k.cdc.MustUnmarshal(iterator.Value(), &val)
-		list = append(list, val)
-	}
-
-	return
-}
-
 // SetNFTSchemaByContract set a specific nFTSchemaByContract in the store from its index
-func (k Keeper) SetNFTSchemaByContract(ctx sdk.Context, nFTSchemaByContract types.NFTSchemaByContract) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.NFTSchemaByContractKeyPrefix))
+func (k Keeper) SetNFTSchemaByContract(ctx context.Context, nFTSchemaByContract types.NFTSchemaByContract) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.NFTSchemaByContractKeyPrefix))
 	b := k.cdc.MustMarshal(&nFTSchemaByContract)
 	store.Set(types.NFTSchemaByContractKey(
 		nFTSchemaByContract.OriginContractAddress,
@@ -82,10 +76,11 @@ func (k Keeper) SetNFTSchemaByContract(ctx sdk.Context, nFTSchemaByContract type
 
 // GetNFTSchemaByContract returns a nFTSchemaByContract from its index
 func (k Keeper) GetNFTSchemaByContract(
-	ctx sdk.Context,
+	ctx context.Context,
 	originContractAddress string,
 ) (val types.NFTSchemaByContract, found bool) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.NFTSchemaByContractKeyPrefix))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.NFTSchemaByContractKeyPrefix))
 
 	b := store.Get(types.NFTSchemaByContractKey(
 		originContractAddress,
@@ -100,19 +95,21 @@ func (k Keeper) GetNFTSchemaByContract(
 
 // RemoveNFTSchemaByContract removes a nFTSchemaByContract from the store
 func (k Keeper) RemoveNFTSchemaByContract(
-	ctx sdk.Context,
+	ctx context.Context,
 	originContractAddress string,
 ) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.NFTSchemaByContractKeyPrefix))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.NFTSchemaByContractKeyPrefix))
 	store.Delete(types.NFTSchemaByContractKey(
 		originContractAddress,
 	))
 }
 
 // GetAllNFTSchemaByContract returns all nFTSchemaByContract
-func (k Keeper) GetAllNFTSchemaByContract(ctx sdk.Context) (list []types.NFTSchemaByContract) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.NFTSchemaByContractKeyPrefix))
-	iterator := sdk.KVStorePrefixIterator(store, []byte{})
+func (k Keeper) GetAllNFTSchemaByContract(ctx context.Context) (list []types.NFTSchemaByContract) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.NFTSchemaByContractKeyPrefix))
+	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
 
 	defer iterator.Close()
 

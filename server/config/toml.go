@@ -1,7 +1,9 @@
+// Copyright Tharsis Labs Ltd.(Evmos)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
 package config
 
-// DefaultConfigTemplate defines the configuration template for the EVM RPC configuration
-const DefaultConfigTemplate = `
+// DefaultEVMConfigTemplate defines the configuration template for the EVM RPC configuration.
+const DefaultEVMConfigTemplate = `
 ###############################################################################
 ###                             EVM Configuration                           ###
 ###############################################################################
@@ -22,7 +24,7 @@ max-tx-gas-wanted = {{ .EVM.MaxTxGasWanted }}
 
 [json-rpc]
 
-# Enable defines if the gRPC server should be enabled.
+# Enable defines if the JSONRPC server should be enabled.
 enable = {{ .JSONRPC.Enable }}
 
 # Address defines the EVM RPC HTTP server address to bind to.
@@ -37,6 +39,9 @@ api = "{{range $index, $elmt := .JSONRPC.API}}{{if $index}},{{$elmt}}{{else}}{{$
 
 # GasCap sets a cap on gas that can be used in eth_call/estimateGas (0=infinite). Default: 25,000,000.
 gas-cap = {{ .JSONRPC.GasCap }}
+
+# Allow insecure account unlocking when account-related RPCs are exposed by http
+allow-insecure-unlock = {{ .JSONRPC.AllowInsecureUnlock }}
 
 # EVMTimeout is the global timeout for eth_call. Default: 5s.
 evm-timeout = "{{ .JSONRPC.EVMTimeout }}"
@@ -65,6 +70,20 @@ http-idle-timeout = "{{ .JSONRPC.HTTPIdleTimeout }}"
 # AllowUnprotectedTxs restricts unprotected (non EIP155 signed) transactions to be submitted via
 # the node's RPC when the global parameter is disabled.
 allow-unprotected-txs = {{ .JSONRPC.AllowUnprotectedTxs }}
+
+# MaxOpenConnections sets the maximum number of simultaneous connections
+# for the server listener.
+max-open-connections = {{ .JSONRPC.MaxOpenConnections }}
+
+# EnableIndexer enables the custom transaction indexer for the EVM (ethereum transactions).
+enable-indexer = {{ .JSONRPC.EnableIndexer }}
+
+# MetricsAddress defines the EVM Metrics server address to bind to. Pass --metrics in CLI to enable
+# Prometheus metrics path: /debug/metrics/prometheus
+metrics-address = "{{ .JSONRPC.MetricsAddress }}"
+
+# Upgrade height for fix of revert gas refund logic when transaction reverted.
+fix-revert-gas-refund-height = {{ .JSONRPC.FixRevertGasRefundHeight }}
 
 ###############################################################################
 ###                             TLS Configuration                           ###

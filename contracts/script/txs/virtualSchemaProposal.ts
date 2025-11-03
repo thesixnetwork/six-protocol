@@ -5,7 +5,6 @@ import proposal from "../../../resources/vitual_schema_prop.json";
 import dotenv from "dotenv";
 dotenv.config();
 
-
 const provider = new JsonRpcProvider("http://localhost:8545");
 
 if (!process.env.PRIVATE_KEY) {
@@ -17,11 +16,7 @@ export const wallet = new Wallet(process.env.PRIVATE_KEY, provider);
 
 async function main() {
   const precompileContract = "0x0000000000000000000000000000000000001055";
-  const nftmngr = new ethers.Contract(
-    precompileContract,
-    NFTMngrABI.abi,
-    provider,
-  );
+  const nftmngr = new ethers.Contract(precompileContract, NFTMngrABI.abi, provider);
 
   const base64VirtualSchema = Buffer.from(JSON.stringify(proposal)).toString("base64");
 

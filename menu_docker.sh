@@ -1,5 +1,5 @@
 default_six_home=six_home
-default_docker_tag="3.2.1"
+default_docker_tag="4.0.0"
 node_homes=(
     sixnode0
     sixnode1
@@ -202,38 +202,23 @@ case $choice in
         CHAIN_ID="testnet"
     fi
     i=1
-    amount=100000000
+    amount=100000000000
     # i=0
     # for val in ${validator_keys[@]}
     for val in ${validator_keys[@]:1:3}; do
-        # if i=3, echo "#######################################"
-        if [[ $i -eq 2 ]]; then
-            echo "#######################################"
+        echo "#######################################"
             (
                 echo "Creating validators ${val}"
                 echo ${node_homes[i]}
                 export DAEMON_HOME=./build/${node_homes[i]}
-                sixd tx staking create-validator --amount 1000000usix --license-mode=true --max-license=1 --pubkey $(sixd tendermint show-validator --home ./build/${node_homes[i]}) --home build/${node_homes[i]} \
-                    --min-delegation 1000000 --delegation-increment 1000000 --enable-redelegation=false --moniker ${node_homes[i]} --from=${val} \
-                    --commission-rate "0.1" --commission-max-rate "0.1" \
-                    --commission-max-change-rate "0.1" --chain-id $CHAIN_ID \
-                    --sign-mode amino-json --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix --min-self-delegation 1000000 --keyring-backend test -y
+                sixd tx staking create-validator-legacy --amount="${amount}usix" --moniker ${node_homes[i]} --pubkey $(sixd tendermint show-validator --home ./build/${node_homes[i]}) \
+                    --validator-mode="${i-1}" --max-license=100 --min-delegation 10000000000 --delegation-increment 10000000000 --enable-redelegation=false --min-self-delegation 10000000000 \
+                    --commission-rate "0.1" --commission-max-rate "0.1" --commission-max-change-rate "0.1" \
+                    --details "node_test_${i}" --security-contact "node_test_${i}" --website "www.idk_${i}.com" --identity "idk_${i}" \
+                    --sign-mode amino-json --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix \
+                    --keyring-backend test --chain-id $CHAIN_ID --from=${val} --home build/${node_homes[i]} -y --node http://0.0.0.0:26662
                 echo "Config Genesis at ${home} Success 🟢"
-            ) || exit 1
-        else
-            echo "#######################################"
-            (
-                echo "Creating validators ${val}"
-                echo ${node_homes[i]}
-                export DAEMON_HOME=./build/${node_homes[i]}
-                sixd tx staking create-validator --amount="${amount}usix" --from=${val} --moniker ${node_homes[i]} \
-                    --pubkey $(sixd tendermint show-validator --home ./build/${node_homes[i]}) --home build/${node_homes[i]} \
-                    --keyring-backend test --commission-rate 0.1 --commission-max-rate 0.5 --commission-max-change-rate 0.1 \
-                    --min-self-delegation 1000000 --node http://0.0.0.0:26662 -y --min-delegation 1000000 --delegation-increment 1000000 \
-                    --chain-id $CHAIN_ID --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y
-                echo "Config Genesis at ${home} Success 🟢"
-            ) || exit 1
-        fi
+        ) || exit 1
         i=$((i + 1))
     done
     ;;

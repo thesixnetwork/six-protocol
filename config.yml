@@ -3,139 +3,160 @@ build:
   main: cmd/sixd
   binary: sixd
   tags:
-  - netgo
-  - ledger
+    - netgo
+    - ledger
   ldflags:
-  - -X "github.com/cosmos/cosmos-sdk/version.BuildTags=netgo,ledger"
+    - -X "github.com/cosmos/cosmos-sdk/version.BuildTags=netgo,ledger"
   proto:
     path: proto
 accounts:
-- name: alice
-  coins:
-  - 100000000000000usix
-  mnemonic: history perfect across group seek acoustic delay captain sauce audit carpet tattoo exhaust green there giant cluster want pond bulk close screen scissors remind
-- name: bob
-  coins:
-  - 200000000000000usix
-  mnemonic: limb sister humor wisdom elephant weasel beyond must any desert glance
-    stem reform soccer include chest chef clerk call popular display nerve priority
-    venture
-- name: faucet
-  coins:
-  - 300000000000000usix
-- name: super-admin
-  coins:
-  - 300000000000000usix
-  mnemonic: expect peace defense conduct virtual flight flip unit equip solve broccoli
-    protect shed group else useless tree such tornado minimum decade tower warfare
-    galaxy
-# - name: ""
-#   coins:
-#   - 10000000000000000000000asix
-#   address: 6x1kch0sdjr5tuvjh0h3a55c6l5sr6m0phjeag9f2
-- name: ""
-  coins:
-  - 10000000000000000000asix
-  address: 6x18743s33zmsvmvyynfxu5sy2f80e2g5mz8dk65g
+  - name: alice
+    coins:
+      - 100000000000000usix
+    mnemonic: history perfect across group seek acoustic delay captain sauce audit carpet tattoo exhaust green there giant cluster want pond bulk close screen scissors remind
+  - name: bob
+    coins:
+      - 200000000000000usix
+    mnemonic: limb sister humor wisdom elephant weasel beyond must any desert glance
+      stem reform soccer include chest chef clerk call popular display nerve priority
+      venture
+  - name: faucet
+    coins:
+      - 300000000000000usix
+  - name: super-admin
+    coins:
+      - 300000000000000usix
+    mnemonic: expect peace defense conduct virtual flight flip unit equip solve broccoli
+      protect shed group else useless tree such tornado minimum decade tower warfare
+      galaxy
+  - name: ""
+    coins:
+      - 10000000000000000000000asix
+    address: 6x1kch0sdjr5tuvjh0h3a55c6l5sr6m0phjeag9f2
+  - name: ""
+    coins:
+      - 10000000000000000000asix
+    address: 6x18743s33zmsvmvyynfxu5sy2f80e2g5mz8dk65g
 faucet:
   name: faucet
   coins:
-  - 10000000000000000000asix
-  - 1000000000usix
+    - 10000000000000000000asix
+    - 1000000000usix
   host: 0.0.0.0:4500
 client:
   typescript:
     path: ts-client
   vuex:
     path: vue/src/store
+  composables:
+    path: vue/src/composables
+  hooks:
+    path: react/src/hooks
   openapi:
     path: docs/static/openapi.yml
 genesis:
   app_state:
     bank:
       denom_metadata:
-      - base: usix
-        denom_units:
-        - aliases:
-          - microsix
-          denom: usix
-          exponent: 0
-        - aliases:
-          - millisix
-          denom: msix
-          exponent: 3
-        - denom: six
-          exponent: 6
-        description: The native staking token of the SIX Protocol.
-        display: six
-        name: Six token
-        symbol: six
-      - base: asix
-        denom_units:
-        - aliases:
-          - attosix
-          denom: asix
-          exponent: 0
-        - aliases:
-          - microsix
-          denom: usix
-          exponent: 12
-        - aliases:
-          - millisix
-          denom: msix
-          exponent: 15
-        - denom: six
-          exponent: 18
-        description: The native evm token of the SIX Protocol.
-        display: six
-        name: eSix token
-        symbol: asix
+        - base: usix
+          denom_units:
+            - aliases:
+                - microsix
+              denom: usix
+              exponent: 0
+            - aliases:
+                - millisix
+              denom: msix
+              exponent: 3
+            - denom: six
+              exponent: 6
+          description: The native staking token of the SIX Protocol.
+          display: six
+          name: Six token
+          symbol: six
+        - base: asix
+          denom_units:
+            - aliases:
+                - attosix
+              denom: asix
+              exponent: 0
+            - aliases:
+                - microsix
+              denom: usix
+              exponent: 12
+            - aliases:
+                - millisix
+              denom: msix
+              exponent: 15
+            - denom: six
+              exponent: 18
+          description: The native evm token of the SIX Protocol.
+          display: six
+          name: eSix token
+          symbol: asix
     crisis:
       constant_fee:
         denom: usix
+    circuit:
+      account_permissions:
+        - address: "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"
+          permissions:
+             level: "LEVEL_SUPER_ADMIN"
+             limit_type_urls: []
+        - address: "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq"
+          permissions:
+             level: "LEVEL_SUPER_ADMIN"
+             limit_type_urls: []
     evm:
       params:
         allow_unprotected_txs: true
         evm_denom: asix
+        # active_static_precompiles:
+        # NOTE: six protocol precompile already set at evm param
+        # to servce evm migration
+        #   - "0x0000000000000000000000000000000000001001"
+        #   - "0x0000000000000000000000000000000000001005"
+        #   - "0x0000000000000000000000000000000000001007"
+        #   - "0x0000000000000000000000000000000000001055"
+        #   - "0x0000000000000000000000000000000000001069"
     feemarket:
       params:
-        base_fee: "5000000000000"
+        base_fee: "100000000000"
         base_fee_change_denominator: 8
         elasticity_multiplier: 4
         enable_height: "0"
         min_gas_multiplier: "0.5"
-        min_gas_price: "5000000000000.0"
+        min_gas_price: "100000000000.0"
         no_base_fee: false
-        legacy_base_fee: "20000000000"
-        legacy_min_gas_price: "20000000000.0"
     gov:
-      deposit_params:
-        min_deposit:
-        - amount: "1000000"
-          denom: usix
-      voting_params:
+      params:
         voting_period: 300s
+        expedited_voting_period: 180s
+        expedited_min_deposit:
+          - amount: "50000000"
+            denom: usix
+        min_deposit:
+          - amount: "1000000"
+            denom: usix
     mint:
       params:
         mint_denom: usix
     nftadmin:
       authorization:
         permissions:
-          permissions:
-          - addresses:
-              addresses:
+          - name: nft_fee_admin
+            addresses:
               - 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
-            name: nft_fee_admin
         root_admin: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
     nftmngr:
       nft_fee_config:
         schema_fee:
           fee_amount: 200000000usix
           fee_distributions:
-          - method: BURN
-            portion: 0.5
-          - method: REWARD_POOL
-            portion: 0.5
+            - method: BURN
+              portion: 0.5
+            - method: REWARD_POOL
+              portion: 0.5
     nftoracle:
       oracle_config:
         minimum_confirmation: 4
@@ -145,15 +166,15 @@ genesis:
         verify_request_active_duration: 120s
     protocoladmin:
       adminList:
-      - admin: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
-        group: super.admin
-      - admin: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
-        group: token.admin
+        - admin: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
+          group: super.admin
+        - admin: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
+          group: token.admin
       groupList:
-      - name: super.admin
-        owner: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
-      - name: token.admin
-        owner: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
+        - name: super.admin
+          owner: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
+        - name: token.admin
+          owner: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
     staking:
       params:
         bond_denom: usix
@@ -164,58 +185,61 @@ genesis:
         enabled: false
     tokenmngr:
       mintpermList:
-      - address: 6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq
-        creator: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
-        token: usix
-      - address: 6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq
-        creator: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
-        token: asix
+        - address: 6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq
+          creator: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
+          token: usix
+        - address: 6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq
+          creator: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
+          token: asix
       options:
         defaultMintee: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
       tokenList:
-      - base: usix
-        creator: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
-        maxSupply:
-          amount: "0"
-          denom: usix
-        mintee: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
-        name: usix
-      - base: asix
-        creator: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
-        maxSupply:
-          amount: "0"
-          denom: asix
-        mintee: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
-        name: asix
+        - base: usix
+          creator: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
+          maxSupply:
+            amount: "0"
+            denom: usix
+          mintee: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
+          name: usix
+        - base: asix
+          creator: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
+          maxSupply:
+            amount: "0"
+            denom: asix
+          mintee: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
+          name: asix
   chain_id: testnet
 validators:
-- name: bob
-  bonded: 1000000000000usix
-  app:
-    api:
-      swagger: true
-    evm-rpc:
-      address: 0.0.0.0:8545
-      ws-address: 0.0.0.0:8546
-    grpc-web:
-      enable: true
-    json-rpc:
-      address: 0.0.0.0:8545
-      allow-unprotected-txs: true
-      ws-address: 0.0.0.0:8546
-      api: eth,txpool,personal,net,debug,web3
-      enable: true
-      # enable-indexer: true // disable this coz cannot stop server
-    log_level: info
-    minimum-gas-prices: 1.25usix
-  config:
-    # consensus:
-      # timeout_propose: "3s"
-      # timeout_commit: "5s"
-    moniker: mychain
-  client:
-    broadcast-mode: block
-    chain-id: testnet
-    keyring-backend: test
-    node: tcp://localhost:26657
-  home: $HOME/.six
+  - name: bob
+    bonded: 1000000000000usix
+    app:
+      api:
+        swagger: true
+      evm-rpc:
+        address: 0.0.0.0:8545
+        ws-address: 0.0.0.0:8546
+      grpc-web:
+        enable: true
+      json-rpc:
+        address: 0.0.0.0:8545
+        allow-unprotected-txs: true
+        ws-address: 0.0.0.0:8546
+        api: eth,txpool,personal,net,debug,web3
+        enable: true
+        enable-indexer: false # disable this coz cannot stop server
+      log_level: info
+      minimum-gas-prices: 1.25usix
+    config:
+      # consensus:
+      #   timeout_propose: "3s"
+      #   timeout_commit: "5s"
+      moniker: mychain
+      #tx_index:
+      #  indexer: "kv" # "kv" or "psql"
+      #  psql-conn: "postgresql://sixchain:let-me-in@localhost:5432/sixchain?sslmode=disable"
+    client:
+      broadcast-mode: sync
+      chain-id: testnet
+      keyring-backend: test
+      node: tcp://localhost:26657
+    home: $HOME/.six

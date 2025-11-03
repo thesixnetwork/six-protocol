@@ -3,19 +3,20 @@ package cli
 import (
 	"strconv"
 
+	"github.com/spf13/cobra"
+
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
-	"github.com/spf13/cobra"
 )
 
 var _ = strconv.Itoa(0)
 
 func CmdPerformActionByAdmin() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "perform-action-by-nftadmin [nft-schema-code] [token-id] [action] [action-params]  [ref-id(optional)] ",
+		Use:   "perform-action-by-dmin [nft-schema-code] [token-id] [action] [action-params]  [ref-id(optional)] ",
 		Short: "To Perfrom action",
 		Args:  cobra.RangeArgs(4, 5),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {

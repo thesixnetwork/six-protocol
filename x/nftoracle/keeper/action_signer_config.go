@@ -1,15 +1,20 @@
 package keeper
 
 import (
-	"github.com/cosmos/cosmos-sdk/store/prefix"
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	"context"
 
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+
+	"cosmossdk.io/store/prefix"
+	storetypes "cosmossdk.io/store/types"
+
+	"github.com/cosmos/cosmos-sdk/runtime"
 )
 
 // SetActionSignerConfig set a specific actionSignerConfig in the store from its index
-func (k Keeper) SetActionSignerConfig(ctx sdk.Context, actionSignerConfig types.ActionSignerConfig) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActionSignerConfigKeyPrefix))
+func (k Keeper) SetActionSignerConfig(ctx context.Context, actionSignerConfig types.ActionSignerConfig) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ActionSignerConfigKeyPrefix))
 	b := k.cdc.MustMarshal(&actionSignerConfig)
 	store.Set(types.ActionSignerConfigKey(
 		actionSignerConfig.Chain,
@@ -18,10 +23,11 @@ func (k Keeper) SetActionSignerConfig(ctx sdk.Context, actionSignerConfig types.
 
 // GetActionSignerConfig returns a actionSignerConfig from its index
 func (k Keeper) GetActionSignerConfig(
-	ctx sdk.Context,
+	ctx context.Context,
 	chain string,
 ) (val types.ActionSignerConfig, found bool) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActionSignerConfigKeyPrefix))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ActionSignerConfigKeyPrefix))
 
 	b := store.Get(types.ActionSignerConfigKey(
 		chain,
@@ -36,19 +42,21 @@ func (k Keeper) GetActionSignerConfig(
 
 // RemoveActionSignerConfig removes a actionSignerConfig from the store
 func (k Keeper) RemoveActionSignerConfig(
-	ctx sdk.Context,
+	ctx context.Context,
 	chain string,
 ) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActionSignerConfigKeyPrefix))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ActionSignerConfigKeyPrefix))
 	store.Delete(types.ActionSignerConfigKey(
 		chain,
 	))
 }
 
 // GetAllActionSignerConfig returns all actionSignerConfig
-func (k Keeper) GetAllActionSignerConfig(ctx sdk.Context) (list []types.ActionSignerConfig) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ActionSignerConfigKeyPrefix))
-	iterator := sdk.KVStorePrefixIterator(store, []byte{})
+func (k Keeper) GetAllActionSignerConfig(ctx context.Context) (list []types.ActionSignerConfig) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ActionSignerConfigKeyPrefix))
+	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
 
 	defer iterator.Close()
 

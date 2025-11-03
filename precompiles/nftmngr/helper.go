@@ -5,9 +5,12 @@ import (
 	"errors"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
+	erromod "cosmossdk.io/errors"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/evmos/ethermint/utils"
+
+	"github.com/thesixnetwork/six-protocol/utils"
 
 	nftmngrtype "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 )
@@ -16,7 +19,7 @@ func (p PrecompileExecutor) AccAddressFromBech32(arg interface{}) (bec32Addr sdk
 	addr := arg.(string)
 	bec32Addr, err = sdk.AccAddressFromBech32(addr)
 	if err != nil {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "invalid bech32 address")
+		return nil, erromod.Wrap(sdkerrors.ErrInvalidAddress, "invalid bech32 address")
 	}
 	return bec32Addr, nil
 }
@@ -76,12 +79,12 @@ func (p PrecompileExecutor) Uint32FromArg(arg interface{}) (uint32, error) {
 func (p PrecompileExecutor) ParametersFromJSONString(arg interface{}) ([]*nftmngrtype.ActionParameter, error) {
 	jsonStr, ok := arg.(string)
 	if !ok {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid argument type, expected string")
+		return nil, erromod.Wrap(sdkerrors.ErrInvalidRequest, "invalid argument type, expected string")
 	}
 
 	var params []nftmngrtype.ActionParameter
 	if err := json.Unmarshal([]byte(jsonStr), &params); err != nil {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid JSON format")
+		return nil, erromod.Wrap(sdkerrors.ErrInvalidRequest, "invalid JSON format")
 	}
 
 	// Convert to slice of pointers to ActionParameter
@@ -100,19 +103,19 @@ func (p PrecompileExecutor) ParseVoteOption(option int32) (nftmngrtype.RegistryS
 	case 2:
 		return nftmngrtype.RegistryStatus_ACCEPT, nil
 	default:
-		return nftmngrtype.RegistryStatus_PENDING, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid vote option. Use 'YES' or 'NO'")
+		return nftmngrtype.RegistryStatus_PENDING, erromod.Wrap(sdkerrors.ErrInvalidRequest, "invalid vote option. Use 'YES' or 'NO'")
 	}
 }
 
 func (p PrecompileExecutor) TokenIdMapFromJSONString(arg interface{}) ([]*nftmngrtype.TokenIdMap, error) {
 	jsonStr, ok := arg.(string)
 	if !ok {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid argument type, expected string")
+		return nil, erromod.Wrap(sdkerrors.ErrInvalidRequest, "invalid argument type, expected string")
 	}
 
 	var tokenIdMap []nftmngrtype.TokenIdMap
 	if err := json.Unmarshal([]byte(jsonStr), &tokenIdMap); err != nil {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "invalid JSON format")
+		return nil, erromod.Wrap(sdkerrors.ErrInvalidRequest, "invalid JSON format")
 	}
 
 	// Convert to slice of pointers to ActionParameter
@@ -131,6 +134,6 @@ func (p PrecompileExecutor) parseProposalType(option int32) (nftmngrtype.Proposa
 	case 1:
 		return nftmngrtype.ProposalType_EDIT, nil
 	default:
-		return nftmngrtype.ProposalType_CREATE, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Invalid proposal type. Use 'create(0)/edit(1)'")
+		return nftmngrtype.ProposalType_CREATE, erromod.Wrap(sdkerrors.ErrInvalidRequest, "Invalid proposal type. Use 'create(0)/edit(1)'")
 	}
 }

@@ -7,10 +7,11 @@ import (
 	"strconv"
 	"time"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+
+	errormod "cosmossdk.io/errors"
+
+	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 func (k msgServer) SubmitSyncActionSigner(goCtx context.Context, msg *types.MsgSubmitSyncActionSigner) (*types.MsgSubmitSyncActionSignerResponse, error) {
@@ -23,26 +24,29 @@ func (k msgServer) SubmitSyncActionSigner(goCtx context.Context, msg *types.MsgS
 
 	granted := k.nftadminKeeper.HasPermission(ctx, types.KeyPermissionOracle, oracle)
 	if !granted {
-		return nil, sdkerrors.Wrap(types.ErrNoOraclePermission, msg.Creator)
+		return nil, errormod.Wrap(types.ErrNoOraclePermission, msg.Creator)
 	}
 
 	SyncRequest, found := k.GetSyncActionSigner(ctx, msg.SyncId)
 	if !found {
-		return nil, sdkerrors.Wrap(types.ErrSyncActionSignerRequestNotFound, strconv.FormatUint(msg.SyncId, 10))
+		return nil, errormod.Wrap(types.ErrSyncActionSignerRequestNotFound, strconv.FormatUint(msg.SyncId, 10))
 	}
 
 	// Check if requestId is still pending
 	if SyncRequest.Status != types.RequestStatus_PENDING {
-		return nil, sdkerrors.Wrap(types.ErrSyncActionSignerRequestNotPending, strconv.FormatUint(msg.SyncId, 10))
+		return nil, errormod.Wrap(types.ErrSyncActionSignerRequestNotPending, strconv.FormatUint(msg.SyncId, 10))
 	}
 
-	// Check if currernt confirmation count is less than required confirmation count
+	// Check if current confirmation count is less than required confirmation count
 	if SyncRequest.CurrentConfirm >= SyncRequest.RequiredConfirm {
-		return nil, sdkerrors.Wrap(types.ErrSyncActionSignerRequestConfirmedAlreadyComplete, strconv.FormatUint(msg.SyncId, 10))
+		return nil, errormod.Wrap(types.ErrSyncActionSignerRequestConfirmedAlreadyComplete, strconv.FormatUint(msg.SyncId, 10))
 	}
 	// paramExpire, err := time.Parse(time.RFC3339, msg.ExpireAt)
-	_ExpireEpoch, err := strconv.ParseInt(msg.ExpireEpoch, 10, 64)
-	paramExpire := time.Unix(_ExpireEpoch, 0)
+	expireEpoch, err := strconv.ParseInt(msg.ExpireEpoch, 10, 64)
+	if err != nil {
+		return nil, errormod.Wrap(types.ErrInvalidExpireEpoch, strconv.FormatUint(msg.SyncId, 10))
+	}
+	paramExpire := time.Unix(expireEpoch, 0)
 
 	param_info := types.ParameterSyncSignerByOracle{}
 	// set param_info
@@ -53,6 +57,9 @@ func (k msgServer) SubmitSyncActionSigner(goCtx context.Context, msg *types.MsgS
 
 	// byte of param_info
 	paramDataBytes, err := k.cdc.Marshal(&param_info)
+	if err != nil {
+		return nil, err
+	}
 
 	// ! :: Check Deterministic Hash from concurrence response
 	if SyncRequest.CurrentConfirm == 0 {
@@ -67,7 +74,7 @@ func (k msgServer) SubmitSyncActionSigner(goCtx context.Context, msg *types.MsgS
 		// fetch confirmed data
 		for _, confirmer := range SyncRequest.Confirmers {
 			if confirmer == msg.Creator {
-				return nil, sdkerrors.Wrap(types.ErrOracleConfirmedAlready, strconv.FormatUint(msg.SyncId, 10))
+				return nil, errormod.Wrap(types.ErrOracleConfirmedAlready, strconv.FormatUint(msg.SyncId, 10))
 			}
 		}
 		// Compare data hash with previous data hash
@@ -149,7 +156,7 @@ func (k msgServer) SubmitSyncActionSigner(goCtx context.Context, msg *types.MsgS
 func (k msgServer) CreateSyncActionSignerByOracle(ctx sdk.Context, msg *types.MsgSubmitSyncActionSigner) (*types.MsgSubmitSyncActionSignerResponse, error) {
 	SyncRequest, found := k.GetSyncActionSigner(ctx, msg.SyncId)
 	if !found {
-		return nil, sdkerrors.Wrap(types.ErrSyncActionSignerRequestNotFound, strconv.FormatUint(msg.SyncId, 10))
+		return nil, errormod.Wrap(types.ErrSyncActionSignerRequestNotFound, strconv.FormatUint(msg.SyncId, 10))
 	}
 
 	_ExpireEpoch, _ := strconv.ParseInt(msg.ExpireEpoch, 10, 64)
@@ -158,7 +165,7 @@ func (k msgServer) CreateSyncActionSignerByOracle(ctx sdk.Context, msg *types.Ms
 	if msg.ExpireEpoch == "" || msg.ExpireEpoch == "0" || msg.ExpireEpoch == " " {
 		_, found := k.GetActionSigner(ctx, msg.ActorAddress, msg.OwnerAddress)
 		if !found {
-			return nil, sdkerrors.Wrap(types.ErrActionSignerNotFound, msg.ActorAddress+","+msg.OwnerAddress)
+			return nil, errormod.Wrap(types.ErrActionSignerNotFound, msg.ActorAddress+","+msg.OwnerAddress)
 		}
 
 		k.RemoveActionSigner(ctx, msg.ActorAddress, msg.OwnerAddress)
@@ -189,22 +196,19 @@ func (k msgServer) CreateSyncActionSignerByOracle(ctx sdk.Context, msg *types.Ms
 			if !found {
 				bindedList = types.BindedSigner{
 					OwnerAddress: msg.OwnerAddress,
-					Signers:      make([]*types.XSetSignerParams, 0),
+					Signers:      make([]*types.BindedSignerParams, 0),
 				}
 			}
 
 			// add the binded signer to the list
-			bindedList.Signers = append(bindedList.Signers, &types.XSetSignerParams{
+			bindedList.Signers = append(bindedList.Signers, &types.BindedSignerParams{
 				ActorAddress: msg.ActorAddress,
 				ExpiredAt:    paramExpire,
 			})
 
 			// set the binded signer
-			k.SetBindedSigner(ctx, types.BindedSigner{
-				OwnerAddress: msg.OwnerAddress,
-				Signers:      bindedList.Signers,
-				ActorCount:   uint64(len(bindedList.Signers)),
-			})
+			bindedList.ActorCount = uint64(len(bindedList.Signers))
+			k.SetBindedSigner(ctx, bindedList)
 		} else {
 			// update action signer
 			actionSigner := types.ActionSigner{
@@ -223,11 +227,8 @@ func (k msgServer) CreateSyncActionSignerByOracle(ctx sdk.Context, msg *types.Ms
 					bindedIndex.ExpiredAt = paramExpire
 				}
 			}
-			k.SetBindedSigner(ctx, types.BindedSigner{
-				OwnerAddress: msg.OwnerAddress,
-				Signers:      bindedList.Signers,
-				ActorCount:   uint64(len(bindedList.Signers)),
-			})
+			bindedList.ActorCount = uint64(len(bindedList.Signers))
+			k.SetBindedSigner(ctx, bindedList)
 		}
 	}
 

@@ -9,7 +9,7 @@ import (
 )
 
 func TestGenesisState_Validate(t *testing.T) {
-	for _, tc := range []struct {
+	tests := []struct {
 		desc     string
 		genState *types.GenesisState
 		valid    bool
@@ -22,15 +22,6 @@ func TestGenesisState_Validate(t *testing.T) {
 		{
 			desc: "valid genesis state",
 			genState: &types.GenesisState{
-				PortId: types.PortID,
-				GroupList: []types.Group{
-					{
-						Name: "0",
-					},
-					{
-						Name: "1",
-					},
-				},
 				AdminList: []types.Admin{
 					{
 						Group: "0",
@@ -41,23 +32,17 @@ func TestGenesisState_Validate(t *testing.T) {
 						Admin: "1",
 					},
 				},
-				// this line is used by starport scaffolding # types/genesis/validField
-			},
-			valid: true,
-		},
-		{
-			desc: "duplicated group",
-			genState: &types.GenesisState{
 				GroupList: []types.Group{
 					{
 						Name: "0",
 					},
 					{
-						Name: "0",
+						Name: "1",
 					},
 				},
+				// this line is used by starport scaffolding # types/genesis/validField
 			},
-			valid: false,
+			valid: true,
 		},
 		{
 			desc: "duplicated admin",
@@ -75,8 +60,23 @@ func TestGenesisState_Validate(t *testing.T) {
 			},
 			valid: false,
 		},
+		{
+			desc: "duplicated group",
+			genState: &types.GenesisState{
+				GroupList: []types.Group{
+					{
+						Name: "0",
+					},
+					{
+						Name: "0",
+					},
+				},
+			},
+			valid: false,
+		},
 		// this line is used by starport scaffolding # types/genesis/testcase
-	} {
+	}
+	for _, tc := range tests {
 		t.Run(tc.desc, func(t *testing.T) {
 			err := tc.genState.Validate()
 			if tc.valid {

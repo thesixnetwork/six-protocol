@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"strings"
 
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	sdkerrors "cosmossdk.io/errors"
 )
 
 func (p *ActionParameter) MustGetNumber(key string) (uint64, error) {

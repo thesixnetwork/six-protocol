@@ -39,8 +39,21 @@ case $PLATFORM in
     ;;
 esac
 
-
 BASE64_SCHEMA=`cat ../resources/nft-schema.json | base64 | tr -d '\n'`
 
 sixd tx nftmngr create-nft-schema --from alice --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix -y --chain-id ${CHAIN_ID} \
     --node ${RPC_ENDPOINT} ${BASE64_SCHEMA}
+
+
+# sixd tx nftadmin grant-permission oracle_admin $(sixd keys show super-admin -a) --from super-admin -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix
+# sixd tx nftoracle set-minimum-confirmation 1 --from super-admin -y --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix
+# grantOracle $(sixd keys show oracle1 -a --keyring-backend test)
+# grantOracle $(sixd keys show oracle2 -a --keyring-backend test)
+# grantOracle $(sixd keys show oracle3 -a --keyring-backend test)
+# grantOracle $(sixd keys show oracle4 -a --keyring-backend test)
+
+# sixd tx nftadmin grant-permission binder $(sixd keys show super-admin -a) --from super-admin --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix \
+#     --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID} -y
+
+# sixd q nftadmin show-authorization \
+#     --node ${RPC_ENDPOINT} --chain-id ${CHAIN_ID}

@@ -270,7 +270,7 @@
           "meta.SetNumber('service_1', meta.GetNumber('service_1') + group_one)",
           "meta.SetNumber('service_2', meta.GetNumber('service_2') + group_two)"
         ]
-      },      
+      },
       {
         "name": "update_tier_name",
         "desc": "Use for update tier of user",
@@ -331,7 +331,6 @@
       }
     ]
   },
-  "system_actioners": [
-  ],
+  "system_actioners": [],
   "mint_authorization": "system"
 }

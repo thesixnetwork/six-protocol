@@ -3,10 +3,11 @@ package keeper
 import (
 	"context"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-
 	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+
+	errormod "cosmossdk.io/errors"
+
+	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 func (k msgServer) VoteVirtualSchemaProposal(goCtx context.Context, msg *types.MsgVoteVirtualSchemaProposal) (*types.MsgVoteVirtualSchemaProposalResponse, error) {
@@ -20,24 +21,24 @@ func (k msgServer) VoteVirtualSchemaProposal(goCtx context.Context, msg *types.M
 	return &types.MsgVoteVirtualSchemaProposalResponse{}, nil
 }
 
-func (k Keeper) VoteVirtualSchemaProposalKeeper(ctx sdk.Context, creator, proposalId, srcNftSchemaCode string, option types.RegistryStatus) error {
+func (k Keeper) VoteVirtualSchemaProposalKeeper(ctx context.Context, creator, proposalId, srcNftSchemaCode string, option types.RegistryStatus) error {
 	virtualSchemaProposal, found := k.GetVirtualSchemaProposal(ctx, proposalId)
 	if !found {
-		return sdkerrors.Wrap(types.ErrProposalIdDoesNotExists, proposalId)
+		return errormod.Wrap(types.ErrProposalIdDoesNotExists, proposalId)
 	}
 
 	// chck if proposal still active
 	if active := k.IsProposalActive(ctx, virtualSchemaProposal); !active {
-		return sdkerrors.Wrap(types.ErrProposalExpired, proposalId)
+		return errormod.Wrap(types.ErrProposalExpired, proposalId)
 	}
 
 	srcSchema, found := k.GetNFTSchema(ctx, srcNftSchemaCode)
 	if !found {
-		return sdkerrors.Wrap(types.ErrSchemaDoesNotExists, srcNftSchemaCode)
+		return errormod.Wrap(types.ErrSchemaDoesNotExists, srcNftSchemaCode)
 	}
 
 	if srcSchema.Owner != creator {
-		return sdkerrors.Wrap(types.ErrUnauthorized, creator)
+		return errormod.Wrap(types.ErrUnauthorized, creator)
 	}
 	registryIndex := -1
 	for i, registry := range virtualSchemaProposal.VirtualSchema.Registry {
@@ -45,14 +46,14 @@ func (k Keeper) VoteVirtualSchemaProposalKeeper(ctx sdk.Context, creator, propos
 			registryIndex = i
 			// Check if already voted
 			if registry.Decision != types.RegistryStatus_PENDING {
-				return sdkerrors.Wrapf(types.ErrAlreadyVote, "schema %s has already voted", srcNftSchemaCode)
+				return errormod.Wrapf(types.ErrAlreadyVote, "schema %s has already voted", srcNftSchemaCode)
 			}
 			break
 		}
 	}
 
 	if registryIndex == -1 {
-		return sdkerrors.Wrapf(types.ErrSchemaNotInRegistry, "schema %s not found in registry", srcNftSchemaCode)
+		return errormod.Wrapf(types.ErrSchemaNotInRegistry, "schema %s not found in registry", srcNftSchemaCode)
 	}
 
 	// Update vote

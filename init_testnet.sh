@@ -6,13 +6,20 @@ set -e # Exit on error
 # =====================================================
 
 # Chain configuration
+KEY="mykey"
 CHAINID="testnet"
 MONIKER="${1:-mynode}"
 KEYRING="test"
 KEYALGO="secp256k1"
 SIX_HOME=~/.six
 LOGLEVEL="info"
+VAL_MODE=$2
 TRACE="" # Set to "--trace" for tracing
+
+if [ -z "$VAL_MODE" ]; then
+  VAL_MODE=0
+fi
+
 
 # Token denominations
 STAKING_TOKEN="usix"
@@ -57,15 +64,15 @@ go mod tidy
 make install
 
 # Set client config
-sixd config keyring-backend $KEYRING --home ${SIX_HOME}
-sixd config chain-id $CHAINID --home ${SIX_HOME}
+sixd config set client chain-id $CHAINID --home ${SIX_HOME}
+sixd config set client keyring-backend $KEYRING --home ${SIX_HOME}
 
 # =====================================================
 # KEY MANAGEMENT SECTION
 # =====================================================
 echo "Importing keys from config.yml..."
 
-# Import keys from config.yml only
+# Import keys
 echo $ALICE_MNEMONIC | sixd keys add alice --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO}
 echo $BOB_MNEMONIC | sixd keys add bob --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO}
 echo $SUPER_ADMIN_MNEMONIC | sixd keys add super-admin --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO}
@@ -93,12 +100,11 @@ update_genesis '.app_state["crisis"]["constant_fee"]["amount"]="1000"'
 update_genesis '.app_state["gov"]["deposit_params"]["min_deposit"][0]["denom"]="'$STAKING_TOKEN'"'
 update_genesis '.app_state["gov"]["deposit_params"]["min_deposit"][0]["amount"]="1000000"'
 update_genesis '.app_state["evm"]["params"]["evm_denom"]="'$EVM_TOKEN'"'
-update_genesis '.app_state["evm"]["params"]["allow_unprotected_txs"]=true'  # Match working genesis
+update_genesis '.app_state["evm"]["params"]["allow_unprotected_txs"]=true'  # To deploy create2 contract
 update_genesis '.app_state["inflation"]["params"]["mint_denom"]="'$STAKING_TOKEN'"'
 update_genesis '.app_state["mint"]["params"]["mint_denom"]="'$STAKING_TOKEN'"'
 
-# Bank configuration from config.yml
-update_genesis '.app_state.bank.params.send_enabled = []'
+# Bank configuration
 update_genesis '.app_state.bank.params.default_send_enabled = true'
 
 # Token metadata - identical to working genesis
@@ -132,16 +138,12 @@ update_genesis '.app_state.bank.denom_metadata[1] = {
 # NFT Admin configuration
 update_genesis '.app_state.nftadmin.authorization = {
   "root_admin": "'$SUPER_ADMIN_ADDRESS'",
-  "permissions": {
-    "permissions": [
+  "permissions": [
       {
         "name": "nft_fee_admin",
-        "addresses": {
-          "addresses": ["'$SUPER_ADMIN_ADDRESS'"]
-        }
+        "addresses": ["'$SUPER_ADMIN_ADDRESS'"]
       }
     ]
-  }
 }'
 
 # NFT Manager configuration
@@ -202,13 +204,6 @@ update_genesis '.app_state.tokenmngr.mintpermList[0] |= . + {
   "creator": "'$SUPER_ADMIN_ADDRESS'",
   "token": "usix"
 }'
-
-update_genesis '.app_state.tokenmngr.mintpermList[1] |= . + {
-  "address": "'$ALICE_ADDRESS'",
-  "creator": "'$SUPER_ADMIN_ADDRESS'",
-  "token": "asix"
-}'
-
 update_genesis '.app_state.tokenmngr.options = {
   "defaultMintee": "'$SUPER_ADMIN_ADDRESS'"
 }'
@@ -219,14 +214,6 @@ update_genesis '.app_state.tokenmngr.tokenList[0] |= . + {
   "maxSupply": { "amount": "0", "denom": "usix" },
   "mintee": "'$SUPER_ADMIN_ADDRESS'",
   "name": "usix"
-}'
-
-update_genesis '.app_state.tokenmngr.tokenList[1] |= . + {
-  "base": "asix",
-  "creator": "'$SUPER_ADMIN_ADDRESS'",
-  "maxSupply": { "amount": "0", "denom": "asix" },
-  "mintee": "'$SUPER_ADMIN_ADDRESS'",
-  "name": "asix"
 }'
 
 # Governance configuration - Match working genesis
@@ -241,9 +228,7 @@ update_genesis '.app_state.feemarket.params = {
   "enable_height": "0",
   "min_gas_multiplier": "0.5",
   "min_gas_price": "5000000000000.0",
-  "no_base_fee": false,
-  "legacy_base_fee": "20000000000",
-  "legacy_min_gas_price": "20000000000.0"
+  "no_base_fee": false
 }'
 
 # =====================================================
@@ -260,7 +245,7 @@ fi
 # =====================================================
 # CONFIG.TOML CONFIGURATION - Match ignite settings
 # =====================================================
-echo "Configuring config.toml to match ignite settings..."
+echo "Configuring config.toml..."
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
     # RPC settings
@@ -276,15 +261,14 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     sed -i '' 's/timeout_commit = "5s"/timeout_commit = "1s"/g' ${SIX_HOME}/config/config.toml
     sed -i '' 's/timeout_broadcast_tx_commit = "10s"/timeout_broadcast_tx_commit = "10s"/g' ${SIX_HOME}/config/config.toml
     sed -i '' 's/create_empty_blocks_interval = "0s"/create_empty_blocks_interval = "30s"/g' ${SIX_HOME}/config/config.toml
-    # Critical: match the timeout settings from ignite
-    sed -i '' 's/timeout_broadcast_tx_commit = "10s"/timeout_broadcast_tx_commit = "2m30s"/g' ${SIX_HOME}/config/config.toml
 else
     # RPC settings
     sed -i 's/laddr = "tcp:\/\/127.0.0.1:26657"/laddr = "tcp:\/\/0.0.0.0:26657"/g' ${SIX_HOME}/config/config.toml
     sed -i 's/cors_allowed_origins = \[\]/cors_allowed_origins = \["*",\]/g' ${SIX_HOME}/config/config.toml
     # Consensus settings
-    sed -i 's/timeout_propose = "3s"/timeout_propose = "1s"/g' ${SIX_HOME}/config/config.toml
-    sed -i 's/timeout_propose_delta = "500ms"/timeout_propose_delta = "500ms"/g' ${SIX_HOME}/config/config.toml
+    sed -i 's/create_empty_blocks_interval = "0s"/create_empty_blocks_interval = "30s"/g' ${SIX_HOME}/config/config.toml
+    sed -i 's/timeout_propose = "3s"/timeout_propose = "30s"/g' ${SIX_HOME}/config/config.toml
+    sed -i 's/timeout_propose_delta = "500ms"/timeout_propose_delta = "5s"/g' ${SIX_HOME}/config/config.toml
     sed -i 's/timeout_prevote = "1s"/timeout_prevote = "1s"/g' ${SIX_HOME}/config/config.toml
     sed -i 's/timeout_prevote_delta = "500ms"/timeout_prevote_delta = "500ms"/g' ${SIX_HOME}/config/config.toml
     sed -i 's/timeout_precommit = "1s"/timeout_precommit = "1s"/g' ${SIX_HOME}/config/config.toml
@@ -292,8 +276,6 @@ else
     sed -i 's/timeout_commit = "5s"/timeout_commit = "1s"/g' ${SIX_HOME}/config/config.toml
     sed -i 's/timeout_broadcast_tx_commit = "10s"/timeout_broadcast_tx_commit = "10s"/g' ${SIX_HOME}/config/config.toml
     sed -i 's/create_empty_blocks_interval = "0s"/create_empty_blocks_interval = "30s"/g' ${SIX_HOME}/config/config.toml
-    # Critical: match the timeout settings from ignite
-    sed -i 's/timeout_broadcast_tx_commit = "10s"/timeout_broadcast_tx_commit = "2m30s"/g' ${SIX_HOME}/config/config.toml
 fi
 
 # =====================================================
@@ -303,7 +285,7 @@ echo "Configuring app.toml to match ignite settings..."
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
     # Minimum gas prices - CRITICAL
-    sed -i '' 's/minimum-gas-prices = "0stake"/minimum-gas-prices = "0usix"/g' ${SIX_HOME}/config/app.toml
+    sed -i '' 's/minimum-gas-prices = ""/minimum-gas-prices = "1.25usix,1250000000000asix"/g' ${SIX_HOME}/config/app.toml
 
     # API configuration
     sed -i '' 's/enable = false/enable = true/g' ${SIX_HOME}/config/app.toml
@@ -313,7 +295,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     
     # gRPC configuration
     sed -i '' 's/enable = false/enable = true/g' ${SIX_HOME}/config/app.toml
-    sed -i '' 's/address = "0.0.0.0:9090"/address = "0.0.0.0:9090"/g' ${SIX_HOME}/config/app.toml
+    sed -i '' 's/address = "localhost:9090"/address = "0.0.0.0:9090"/g' ${SIX_HOME}/config/app.toml
     sed -i '' 's/address = "0.0.0.0:9091"/address = "0.0.0.0:9091"/g' ${SIX_HOME}/config/app.toml
     sed -i '' 's/enable = false/enable = true/g' ${SIX_HOME}/config/app.toml
     
@@ -325,7 +307,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     sed -i '' 's/allow-unprotected-txs = false/allow-unprotected-txs = true/g' ${SIX_HOME}/config/app.toml
 else
     # Minimum gas prices - CRITICAL
-    sed -i 's/minimum-gas-prices = "0stake"/minimum-gas-prices = "0usix"/g' ${SIX_HOME}/config/app.toml
+    sed -i 's/minimum-gas-prices = ""/minimum-gas-prices = "1.25usix,1250000000000asix"/g' ${SIX_HOME}/config/app.toml
     
     # API configuration
     sed -i 's/enable = false/enable = true/g' ${SIX_HOME}/config/app.toml
@@ -335,7 +317,7 @@ else
     
     # gRPC configuration
     sed -i 's/enable = false/enable = true/g' ${SIX_HOME}/config/app.toml
-    sed -i 's/address = "0.0.0.0:9090"/address = "0.0.0.0:9090"/g' ${SIX_HOME}/config/app.toml
+    sed -i 's/address = "localhost:9090"/address = "0.0.0.0:9090"/g' ${SIX_HOME}/config/app.toml
     sed -i 's/address = "0.0.0.0:9091"/address = "0.0.0.0:9091"/g' ${SIX_HOME}/config/app.toml
     sed -i 's/enable = false/enable = true/g' ${SIX_HOME}/config/app.toml
     
@@ -361,42 +343,37 @@ echo "Allocating genesis accounts..."
 add_genesis_account() {
     local address=$1
     local amount=$2
-    sixd add-genesis-account $address $amount --home ${SIX_HOME}
+    sixd genesis add-genesis-account $address $amount --home ${SIX_HOME}
 }
-
-add_genesis_account "$ALICE_ADDRESS" "100000000000000${STAKING_TOKEN}"
-add_genesis_account "$BOB_ADDRESS" "200000000000000${STAKING_TOKEN}"
-add_genesis_account "$SUPER_ADMIN_ADDRESS" "300000000000000${STAKING_TOKEN}"
-add_genesis_account "$SPECIAL_EVM_ADDRESS" "100000000000000000${EVM_TOKEN}"
-
+add_genesis_account "$ALICE_ADDRESS" "1000000000000${STAKING_TOKEN}"
+add_genesis_account "$BOB_ADDRESS" "11000000000000${STAKING_TOKEN}"
+add_genesis_account "$SUPER_ADMIN_ADDRESS" "1000000000000${STAKING_TOKEN}"
 # =====================================================
 # GENTX SECTION
 # =====================================================
 echo "Creating and collecting gentxs with bob as validator..."
 
-sixd gentx bob 1000000000000${STAKING_TOKEN} --chain-id ${CHAINID} --home ${SIX_HOME} --keyring-backend ${KEYRING}
-
-# Collect genesis txs
-sixd collect-gentxs --home ${SIX_HOME}
-
-# =====================================================
-# VALIDATION AND START SECTION
-# =====================================================
-echo "Validating genesis..."
-sixd validate-genesis --home ${SIX_HOME}
-
-echo "====================================================="
-echo "Initialization complete!"
-echo "Chain ID: $CHAINID"
-echo "Moniker: $MONIKER"
-echo "Home: $SIX_HOME"
-echo ""
-echo "To start your node, run:"
-echo "sixd start --json-rpc.enable --json-rpc.api eth,txpool,personal,net,debug,web3 --json-rpc.address 0.0.0.0:8545 --json-rpc.ws-address 0.0.0.0:8546 --api.enable --rpc.laddr tcp://0.0.0.0:26657 --home ${SIX_HOME}"
-echo "====================================================="
-
-# Start the node if requested
-if [ "$2" == "start" ]; then
-    echo "Starting node..."
-    sixd start --minimum-gas-prices=1.25usix,1250000000000asix --json-rpc.api eth,txpool,personal,net,debug,web3 --rpc.laddr tcp://0.0.0.0:26657 --api.enable true --log_level info --json-rpc.allow-unprotected-txs true --home ${SIX_HOME}
+if [ "$VAL_MODE" = "0" ]; then
+  sixd genesis gentx bob 1000000000000usix --min-self-delegation="10000000000" --validator-mode=0 --min-delegation="10000000000" --enable-redelegation=false --keyring-backend $KEYRING --chain-id $CHAINID
+elif [ "$VAL_MODE" = "1" ]; then
+  sixd genesis gentx bob 1500000000000usix --min-self-delegation="10000000000" --validator-mode=1 --min-delegation="10000000000" --delegation-increment="10000000000" --max-license=1000 --enable-redelegation=false --keyring-backend $KEYRING --chain-id $CHAINID --home ${SIX_HOME}
+elif [ "$VAL_MODE" = "2" ]; then
+  sixd genesis gentx bob 1000000000000usix --min-self-delegation="10000000000" --validator-mode=2 --min-delegation="10000000000" --enable-redelegation=false --keyring-backend $KEYRING --chain-id $CHAINID
+else
+  echo "Invalid validator mode: $VAL_MODE. Using default mode 0."
+  sixd genesis gentx bob 1000000000000usix --min-self-delegation="10000000000" --validator-mode=0 --min-delegation="10000000000" --enable-redelegation=false --keyring-backend $KEYRING --chain-id $CHAINID
 fi
+
+# Collect genesis tx
+sixd genesis collect-gentxs --home ${SIX_HOME}
+
+# Run this to ensure everything worked and that the genesis file is setup correctly
+sixd genesis validate-genesis --home ${SIX_HOME}
+
+if [[ $1 == "pending" ]]; then
+  echo "pending mode is on, please wait for the first block committed."
+fi
+
+# Start the node (remove the --pruning=nothing flag if historical queries are not needed)
+sixd start --minimum-gas-prices=1.25usix,1250000000000asix --json-rpc.api eth,txpool,personal,net,debug,web3 --rpc.laddr "tcp://0.0.0.0:26657" --api.enable true $TRACE --log_level ${LOGLEVEL} --home ${SIX_HOME}
+

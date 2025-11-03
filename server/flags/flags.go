@@ -1,23 +1,30 @@
+// Copyright Tharsis Labs Ltd.(Evmos)
+// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
 package flags
 
 import (
+	"fmt"
+
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
-// Tendermint full-node start flags
+// Tendermint/cosmos-sdk full-node start flags
 const (
-	WithTendermint = "with-tendermint"
-	Address        = "address"
-	Transport      = "transport"
-	TraceStore     = "trace-store"
-	CPUProfile     = "cpu-profile"
+	WithCometBFT = "with-cometbft"
+	Address      = "address"
+	Transport    = "transport"
+	TraceStore   = "trace-store"
+	CPUProfile   = "cpu-profile"
+	// The type of database for application and snapshots databases
+	AppDBBackend = "app-db-backend"
 )
 
 // GRPC-related flags.
 const (
+	GRPCOnly       = "grpc-only"
 	GRPCEnable     = "grpc.enable"
 	GRPCAddress    = "grpc.address"
 	GRPCWebEnable  = "grpc-web.enable"
@@ -37,6 +44,7 @@ const (
 	JSONRPCAddress             = "json-rpc.address"
 	JSONWsAddress              = "json-rpc.ws-address"
 	JSONRPCGasCap              = "json-rpc.gas-cap"
+	JSONRPCAllowInsecureUnlock = "json-rpc.allow-insecure-unlock"
 	JSONRPCEVMTimeout          = "json-rpc.evm-timeout"
 	JSONRPCTxFeeCap            = "json-rpc.txfee-cap"
 	JSONRPCFilterCap           = "json-rpc.filter-cap"
@@ -45,12 +53,20 @@ const (
 	JSONRPCHTTPTimeout         = "json-rpc.http-timeout"
 	JSONRPCHTTPIdleTimeout     = "json-rpc.http-idle-timeout"
 	JSONRPCAllowUnprotectedTxs = "json-rpc.allow-unprotected-txs"
+	JSONRPCMaxOpenConnections  = "json-rpc.max-open-connections"
+	JSONRPCEnableIndexer       = "json-rpc.enable-indexer"
+	// JSONRPCEnableMetrics enables EVM RPC metrics server.
+	// Set to `metrics` which is hardcoded flag from go-ethereum.
+	// https://github.com/ethereum/go-ethereum/blob/master/metrics/metrics.go#L35-L55
+	JSONRPCEnableMetrics            = "metrics"
+	JSONRPCFixRevertGasRefundHeight = "json-rpc.fix-revert-gas-refund-height"
 )
 
 // EVM flags
 const (
-	EVMTracer         = "evm.tracer"
-	EVMMaxTxGasWanted = "evm.max-tx-gas-wanted"
+	EVMTracer          = "evm.tracer"
+	EVMMaxTxGasWanted  = "evm.max-tx-gas-wanted"
+	EVMUnsafeOrderedTx = "evm.unsafe-unordered-tx"
 )
 
 // TLS flags
@@ -61,13 +77,15 @@ const (
 
 // AddTxFlags adds common flags for commands to post tx
 func AddTxFlags(cmd *cobra.Command) (*cobra.Command, error) {
-	cmd.PersistentFlags().String(flags.FlagChainID, "testnet", "Specify Chain ID for sending Tx")
+	cmd.PersistentFlags().String(flags.FlagChainID, "", "Specify Chain ID for sending Tx (e.g. testnet")
 	cmd.PersistentFlags().String(flags.FlagFrom, "", "Name or address of private key with which to sign")
-	cmd.PersistentFlags().String(flags.FlagFees, "", "Fees to pay along with transaction; eg: 10aphoton")
-	cmd.PersistentFlags().String(flags.FlagGasPrices, "", "Gas prices to determine the transaction fee (e.g. 10aphoton)")
-	cmd.PersistentFlags().String(flags.FlagNode, "tcp://localhost:26657", "<host>:<port> to tendermint rpc interface for this chain")
-	cmd.PersistentFlags().Float64(flags.FlagGasAdjustment, flags.DefaultGasAdjustment, "adjustment factor to be multiplied against the estimate returned by the tx simulation; if the gas limit is set manually this flag is ignored ")
-	cmd.PersistentFlags().StringP(flags.FlagBroadcastMode, "b", flags.BroadcastSync, "Transaction broadcasting mode (sync|async|block)")
+	cmd.PersistentFlags().String(flags.FlagFees, "", "Fees to pay along with transaction; eg: 1.25usix")
+	cmd.PersistentFlags().String(flags.FlagGasPrices, "", "Gas prices to determine the transaction fee (e.g. 1.25usix)")
+	cmd.PersistentFlags().String(flags.FlagGas, "", fmt.Sprintf("gas limit to set per-transaction; set to %q to calculate sufficient gas automatically. Note: %q option doesn't always report accurate results. Set a valid coin value to adjust the result. Can be used instead of %q. (default %d)",
+		flags.GasFlagAuto, flags.GasFlagAuto, flags.FlagFees, flags.DefaultGasLimit))
+	cmd.PersistentFlags().String(flags.FlagNode, "tcp://localhost:26657", "<host>:<port> to tendermint rpc interface for this chain")                                                                                                              //nolint:lll
+	cmd.PersistentFlags().Float64(flags.FlagGasAdjustment, flags.DefaultGasAdjustment, "adjustment factor to be multiplied against the estimate returned by the tx simulation; if the gas limit is set manually this flag is ignored (e.g. 1.5) ") //nolint:lll
+	cmd.PersistentFlags().StringP(flags.FlagBroadcastMode, "b", flags.BroadcastSync, "Transaction broadcasting mode (sync|async)")
 	cmd.PersistentFlags().String(flags.FlagKeyringBackend, keyring.BackendOS, "Select keyring's backend")
 
 	// --gas can accept integers and "simulate"

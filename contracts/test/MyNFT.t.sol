@@ -9,7 +9,7 @@ contract MyNFTTest is Test {
     MyNFT public myNFT;
 
     function setUp() public {
-        myNFT = new MyNFT("TEST","TEST");
+        myNFT = new MyNFT("TEST","TEST", address(0xDEE));
         myNFT.setPreMinteeAddress(address(0xDEE));
         myNFT.setLimitedEditionSize(260);
         myNFT.preMint(260);

@@ -3,15 +3,19 @@ package types
 // DONTCOVER
 
 import (
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	sdkerrors "cosmossdk.io/errors"
 )
 
 // x/tokenmngr module sentinel errors
 var (
-	ErrSample               = sdkerrors.Register(ModuleName, 1100, "sample error")
-	ErrInvalidPacketTimeout = sdkerrors.Register(ModuleName, 1500, "invalid packet timeout")
-	ErrInvalidVersion       = sdkerrors.Register(ModuleName, 1501, "invalid version")
+	ErrInvalidSigner  = sdkerrors.Register(ModuleName, 1100, "expected gov account as only signer for proposal message")
+	ErrSample         = sdkerrors.Register(ModuleName, 1101, "sample error")
+	ErrInvalidVersion = sdkerrors.Register(ModuleName, 1501, "invalid version")
 
 	ErrSendCoinsFromAccountToModule = sdkerrors.Register(ModuleName, 1502, "unable to send coins from account to module")
 	ErrBurnCoinsFromModuleAccount   = sdkerrors.Register(ModuleName, 1503, "unable to burn coins from module to account")
+
+	// Delegator address migration errors
+	ErrSameDelegatorAddress      = sdkerrors.Register(ModuleName, 1504, "old and new delegator addresses cannot be the same")
+	ErrNewDelegatorAlreadyExists = sdkerrors.Register(ModuleName, 1505, "new delegator address already has existing delegations")
 )

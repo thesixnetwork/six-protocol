@@ -11,10 +11,8 @@ build/sixnode*
 */node_module/**
 node_module/
 
-/contracts/*
+contracts/
+broadcast/
 cache/
-
-*.log
-
-.env
-.env.*
+indexer/
+logs/

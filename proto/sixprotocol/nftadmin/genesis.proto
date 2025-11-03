@@ -1,0 +1,17 @@
+syntax = "proto3";
+package sixprotocol.nftadmin;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "sixprotocol/nftadmin/params.proto";
+import "sixprotocol/nftadmin/authorization.proto";
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/nftadmin/types";
+
+// GenesisState defines the nftadmin module's genesis state.
+message GenesisState {
+  // params defines all the parameters of the module.
+  Params params = 1
+      [ (gogoproto.nullable) = false, (amino.dont_omitempty) = true ];
+  Authorization authorization = 2;
+}

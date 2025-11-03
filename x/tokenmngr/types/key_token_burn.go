@@ -11,12 +11,12 @@ const (
 
 // TokenBurnKey returns the store key to retrieve a TokenBurn from the index fields
 func TokenBurnKey(
-	token string,
+	index string,
 ) []byte {
 	var key []byte
 
-	tokenBytes := []byte(token)
-	key = append(key, tokenBytes...)
+	indexBytes := []byte(index)
+	key = append(key, indexBytes...)
 	key = append(key, []byte("/")...)
 
 	return key

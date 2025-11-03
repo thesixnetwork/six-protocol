@@ -4,10 +4,11 @@ import (
 	"context"
 	"strconv"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-
 	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+
+	errormod "cosmossdk.io/errors"
+
+	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 func (k msgServer) CreateSyncActionSigner(goCtx context.Context, msg *types.MsgCreateSyncActionSigner) (*types.MsgCreateSyncActionSignerResponse, error) {
@@ -15,18 +16,18 @@ func (k msgServer) CreateSyncActionSigner(goCtx context.Context, msg *types.MsgC
 
 	oracleConfig, found := k.GetOracleConfig(ctx)
 	if !found {
-		return nil, sdkerrors.Wrap(types.ErrOracleConfigNotFound, "")
+		return nil, errormod.Wrap(types.ErrOracleConfigNotFound, "")
 	}
 
 	// Verify msg.RequiredConfirmations is less than or equal to oracleConfig.MinimumConfirmation
 	if int32(msg.RequiredConfirm) < oracleConfig.MinimumConfirmation {
-		return nil, sdkerrors.Wrap(types.ErrRequiredConfirmTooLess, strconv.Itoa(int(oracleConfig.MinimumConfirmation)))
+		return nil, errormod.Wrap(types.ErrRequiredConfirmTooLess, strconv.Itoa(int(oracleConfig.MinimumConfirmation)))
 	}
 
 	// check that chain is supported
 	_, found = k.GetActionSignerConfig(ctx, msg.Chain)
 	if !found {
-		return nil, sdkerrors.Wrap(types.ErrActionSignerConfigNotFound, msg.Chain)
+		return nil, errormod.Wrap(types.ErrActionSignerConfigNotFound, msg.Chain)
 	}
 
 	createdAt := ctx.BlockTime()

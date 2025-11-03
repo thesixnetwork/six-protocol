@@ -1,16 +1,20 @@
 package precompiles
 
 import (
+	"maps"
 	"sync"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	ecommon "github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/vm"
+
+	"github.com/evmos/evmos/v20/x/evm/core/vm"
 
 	"github.com/thesixnetwork/six-protocol/precompiles/bank"
 	"github.com/thesixnetwork/six-protocol/precompiles/common"
+	"github.com/thesixnetwork/six-protocol/precompiles/distribution"
 	"github.com/thesixnetwork/six-protocol/precompiles/nftmngr"
+	"github.com/thesixnetwork/six-protocol/precompiles/staking"
 	"github.com/thesixnetwork/six-protocol/precompiles/tokenfactory"
 )
 
@@ -42,44 +46,72 @@ func InitializePrecompiles(
 	tokenmngrKeeper common.TokenmngrKeeper,
 	tokenmngrMsgServer common.TokenmngrMsgServer,
 	nftmngrKeeper common.NftmngrKeeper,
-) error {
+	stakingKeeper common.StakingMsgServer,
+	stakingQuerier common.StakingQuerier,
+	distrKeeper common.DistributionKeeper,
+	distrQuerier common.DistributionQuerier,
+) (precompiles map[ecommon.Address]vm.PrecompiledContract, err error) {
 	SetupMtx.Lock()
 	defer SetupMtx.Unlock()
-	if Initialized {
-		panic("precompiles already initialized")
-	}
+	precompiles = maps.Clone(vm.PrecompiledContractsBerlin)
+	// if Initialized {
+	// 	panic("precompiles already initialized")
+	// }
 	bankp, err := bank.NewPrecompile(bankKeeper)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	bridgep, err := tokenfactory.NewPrecompile(bankKeeper, accountKeeper, tokenmngrKeeper, tokenmngrMsgServer)
+	tokenfactoryp, err := tokenfactory.NewPrecompile(bankKeeper, accountKeeper, tokenmngrKeeper, tokenmngrMsgServer)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	nftmngrp, err := nftmngr.NewPrecompile(nftmngrKeeper, accountKeeper, bankKeeper)
 	if err != nil {
-		return err
+		return nil, err
+	}
+
+	stakingp, err := staking.NewPrecompile(stakingKeeper, stakingQuerier, bankKeeper, tokenmngrKeeper)
+	if err != nil {
+		return nil, err
+	}
+
+	distributionp, err := distribution.NewPrecompile(distrKeeper, distrQuerier, tokenmngrKeeper)
+	if err != nil {
+		return nil, err
 	}
 
 	PrecompileNamesToInfo[bankp.GetName()] = PrecompileInfo{ABI: bankp.GetABI(), Address: bankp.Address()}
-	PrecompileNamesToInfo[bridgep.GetName()] = PrecompileInfo{ABI: bridgep.GetABI(), Address: bridgep.Address()}
+	precompiles[bankp.Address()] = bankp
+
+	PrecompileNamesToInfo[tokenfactoryp.GetName()] = PrecompileInfo{ABI: tokenfactoryp.GetABI(), Address: tokenfactoryp.Address()}
+	precompiles[tokenfactoryp.Address()] = tokenfactoryp
+
 	PrecompileNamesToInfo[nftmngrp.GetName()] = PrecompileInfo{ABI: nftmngrp.GetABI(), Address: nftmngrp.Address()}
+	precompiles[nftmngrp.Address()] = nftmngrp
+
+	PrecompileNamesToInfo[stakingp.GetName()] = PrecompileInfo{ABI: stakingp.GetABI(), Address: stakingp.Address()}
+	precompiles[stakingp.Address()] = stakingp
+
+	PrecompileNamesToInfo[distributionp.GetName()] = PrecompileInfo{ABI: distributionp.GetABI(), Address: distributionp.Address()}
+	precompiles[distributionp.Address()] = distributionp
 
 	if !dryRun {
 		addPrecompileToVM(bankp)
-		addPrecompileToVM(bridgep)
+		addPrecompileToVM(tokenfactoryp)
 		addPrecompileToVM(nftmngrp)
+		addPrecompileToVM(stakingp)
+		addPrecompileToVM(distributionp)
 		Initialized = true
 	}
 
-	return nil
+	return precompiles, nil
 }
 
 func GetPrecompileInfo(name string) PrecompileInfo {
 	if !Initialized {
 		// Precompile Info does not require any keeper state
-		_ = InitializePrecompiles(true, nil, nil, nil, nil, nil, nil)
+		_, _ = InitializePrecompiles(true, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil)
 	}
 	i, ok := PrecompileNamesToInfo[name]
 	if !ok {

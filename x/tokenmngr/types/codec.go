@@ -14,15 +14,16 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgCreateMintperm{}, "tokenmngr/CreateMintperm", nil)
 	cdc.RegisterConcrete(&MsgUpdateMintperm{}, "tokenmngr/UpdateMintperm", nil)
 	cdc.RegisterConcrete(&MsgDeleteMintperm{}, "tokenmngr/DeleteMintperm", nil)
-	cdc.RegisterConcrete(&MsgMint{}, "tokenmngr/Mint", nil)
 	cdc.RegisterConcrete(&MsgCreateOptions{}, "tokenmngr/CreateOptions", nil)
 	cdc.RegisterConcrete(&MsgUpdateOptions{}, "tokenmngr/UpdateOptions", nil)
 	cdc.RegisterConcrete(&MsgDeleteOptions{}, "tokenmngr/DeleteOptions", nil)
+	cdc.RegisterConcrete(&MsgMint{}, "tokenmngr/Mint", nil)
 	cdc.RegisterConcrete(&MsgBurn{}, "tokenmngr/Burn", nil)
 	cdc.RegisterConcrete(&MsgWrapToken{}, "tokenmngr/WrapToken", nil)
 	cdc.RegisterConcrete(&MsgUnwrapToken{}, "tokenmngr/UnwrapToken", nil)
 	cdc.RegisterConcrete(&MsgSendWrapToken{}, "tokenmngr/SendWrapToken", nil)
-	// this line is used by starport scaffolding # 2
+	cdc.RegisterConcrete(&MsgMigrateDelegation{}, "tokenmngr/MigrateDelegation", nil)
+	cdc.RegisterConcrete(&MsgUpdateParams{}, "tokenmngr/UpdateParams", nil)
 }
 
 func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
@@ -37,12 +38,12 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 		&MsgDeleteMintperm{},
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
-		&MsgMint{},
-	)
-	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgCreateOptions{},
 		&MsgUpdateOptions{},
 		&MsgDeleteOptions{},
+	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgMint{},
 	)
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgBurn{},
@@ -56,8 +57,15 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgSendWrapToken{},
 	)
+
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgMigrateDelegation{},
+	)
 	// this line is used by starport scaffolding # 3
 
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgUpdateParams{},
+	)
 	msgservice.RegisterMsgServiceDesc(registry, &_Msg_serviceDesc)
 }
 

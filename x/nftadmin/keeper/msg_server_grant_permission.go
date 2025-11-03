@@ -29,32 +29,27 @@ func (k msgServer) GrantPermission(goCtx context.Context, msg *types.MsgGrantPer
 	}
 
 	if auth.Permissions == nil {
-		auth.Permissions = &types.Permissions{
-			Permissions: []*types.Permission{
-				{
-					Name: msg.Name,
-					Addresses: &types.AddressList{
-						Addresses: []string{msg.Grantee},
-					},
-				},
+		auth.Permissions = []*types.Permission{
+			{
+				Name:      msg.Name,
+				Addresses: []string{msg.Grantee},
 			},
 		}
 	} else {
-
 		// check if the permission already exists
 		// if it does, append the address to the list
 		// if it doesn't, create a new permission
 		permissionExists := false
-		for _, v := range auth.Permissions.Permissions {
+		for _, v := range auth.Permissions {
 			if v.Name == msg.Name {
 				// check if msg.Grantee already exists in the list
 				mapAll := make(map[string]string)
-				for _, addr := range v.Addresses.Addresses {
+				for _, addr := range v.Addresses {
 					mapAll[addr] = addr
 				}
 				_, found := mapAll[msg.Grantee]
 				if !found {
-					v.Addresses.Addresses = append(v.Addresses.Addresses, msg.Grantee)
+					v.Addresses = append(v.Addresses, msg.Grantee)
 				} else {
 					return nil, types.ErrGranteeAlreadyExists
 				}
@@ -65,11 +60,9 @@ func (k msgServer) GrantPermission(goCtx context.Context, msg *types.MsgGrantPer
 		}
 
 		if !permissionExists {
-			auth.Permissions.Permissions = append(auth.Permissions.Permissions, &types.Permission{
-				Name: msg.Name,
-				Addresses: &types.AddressList{
-					Addresses: []string{msg.Grantee},
-				},
+			auth.Permissions = append(auth.Permissions, &types.Permission{
+				Name:      msg.Name,
+				Addresses: []string{msg.Grantee},
 			})
 		}
 	}

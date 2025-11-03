@@ -1,6 +1,8 @@
 package keeper
 
 import (
+	errormod "cosmossdk.io/errors"
+	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
@@ -13,12 +15,7 @@ var (
 	DefaultAttoToMicroDiff = 1_000_000_000_000
 )
 
-func (k Keeper) AttoCoinConverter(ctx sdk.Context, sender sdk.AccAddress, receiver sdk.AccAddress, amount sdk.Int) error {
-
-	if !amount.ModRaw(int64(DefaultAttoToMicroDiff)).IsZero() {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount must be a multiple of 1e12 (atto to micro conversion factor)")
-	}
-
+func (k Keeper) AttoCoinConverter(ctx sdk.Context, sender sdk.AccAddress, receiver sdk.AccAddress, amount sdkmath.Int) error {
 	attoCoin := sdk.Coin{
 		Denom:  DefaultAttoDenom,
 		Amount: amount,
@@ -28,30 +25,30 @@ func (k Keeper) AttoCoinConverter(ctx sdk.Context, sender sdk.AccAddress, receiv
 
 	token, foundToken := k.GetToken(ctx, DefaultAttoDenom)
 	if !foundToken {
-		return sdkerrors.Wrap(sdkerrors.ErrKeyNotFound, "token does not exist")
+		return errormod.Wrap(sdkerrors.ErrKeyNotFound, "token does not exist")
 	}
 
 	// unnecessary
 	if token.Base != DefaultAttoDenom {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "token is not asix")
+		return errormod.Wrap(sdkerrors.ErrInvalidRequest, "token is not asix")
 	}
 
 	if amount.IsZero() {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount must be more than zero")
+		return errormod.Wrap(sdkerrors.ErrInvalidRequest, "amount must be more than zero")
 	}
 
 	if balance := k.bankKeeper.GetBalance(ctx, sender, DefaultAttoDenom); balance.Amount.LT(amount) {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Amount of token is too high than current balance")
+		return errormod.Wrap(sdkerrors.ErrInvalidRequest, "Amount of token is too high than current balance")
 	}
 
 	supply := k.bankKeeper.GetSupply(ctx, DefaultAttoDenom)
 	if supply.Amount.LT(amount) {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is higher than current total supply")
+		return errormod.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is higher than current total supply")
 	}
 
 	// send to module
 	if err := k.bankKeeper.SendCoinsFromAccountToModule(ctx, sender, types.ModuleName, convertAmount); err != nil {
-		return sdkerrors.Wrap(types.ErrSendCoinsFromAccountToModule, "Amount of token is too high than current balance due"+err.Error())
+		return errormod.Wrap(types.ErrSendCoinsFromAccountToModule, "Amount of token is too high than current balance due"+err.Error())
 	}
 
 	// module burn atto coin
@@ -67,14 +64,14 @@ func (k Keeper) AttoCoinConverter(ctx sdk.Context, sender sdk.AccAddress, receiv
 
 	// check if module account balance is enough to send
 	if moduleBalance.Amount.LT(microSix.Amount) {
-		return sdkerrors.Wrap(sdkerrors.ErrInsufficientFunds, "module account balance is not enough to send")
+		return errormod.Wrap(sdkerrors.ErrInsufficientFunds, "module account balance is not enough to send")
 	}
 
 	// send back locked micro coin
 	if err := k.bankKeeper.SendCoinsFromModuleToAccount(
 		ctx, types.ModuleName, receiver, sdk.NewCoins(microSix),
 	); err != nil {
-		return sdkerrors.Wrap(types.ErrSendCoinsFromAccountToModule, "unable to send msg.Amounts from module to account despite previously minting msg.Amounts to module account: "+err.Error())
+		return errormod.Wrap(types.ErrSendCoinsFromAccountToModule, "unable to send msg.Amounts from module to account despite previously minting msg.Amounts to module account: "+err.Error())
 	}
 
 	return nil

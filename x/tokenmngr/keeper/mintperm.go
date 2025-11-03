@@ -1,15 +1,20 @@
 package keeper
 
 import (
-	"github.com/cosmos/cosmos-sdk/store/prefix"
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	"context"
 
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+
+	"cosmossdk.io/store/prefix"
+	storetypes "cosmossdk.io/store/types"
+
+	"github.com/cosmos/cosmos-sdk/runtime"
 )
 
 // SetMintperm set a specific mintperm in the store from its index
-func (k Keeper) SetMintperm(ctx sdk.Context, mintperm types.Mintperm) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.MintpermKeyPrefix))
+func (k Keeper) SetMintperm(ctx context.Context, mintperm types.Mintperm) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.MintpermKeyPrefix))
 	b := k.cdc.MustMarshal(&mintperm)
 	store.Set(types.MintpermKey(
 		mintperm.Token,
@@ -19,11 +24,12 @@ func (k Keeper) SetMintperm(ctx sdk.Context, mintperm types.Mintperm) {
 
 // GetMintperm returns a mintperm from its index
 func (k Keeper) GetMintperm(
-	ctx sdk.Context,
+	ctx context.Context,
 	token string,
 	address string,
 ) (val types.Mintperm, found bool) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.MintpermKeyPrefix))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.MintpermKeyPrefix))
 
 	b := store.Get(types.MintpermKey(
 		token,
@@ -39,11 +45,12 @@ func (k Keeper) GetMintperm(
 
 // RemoveMintperm removes a mintperm from the store
 func (k Keeper) RemoveMintperm(
-	ctx sdk.Context,
+	ctx context.Context,
 	token string,
 	address string,
 ) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.MintpermKeyPrefix))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.MintpermKeyPrefix))
 	store.Delete(types.MintpermKey(
 		token,
 		address,
@@ -51,9 +58,10 @@ func (k Keeper) RemoveMintperm(
 }
 
 // GetAllMintperm returns all mintperm
-func (k Keeper) GetAllMintperm(ctx sdk.Context) (list []types.Mintperm) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.MintpermKeyPrefix))
-	iterator := sdk.KVStorePrefixIterator(store, []byte{})
+func (k Keeper) GetAllMintperm(ctx context.Context) (list []types.Mintperm) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.MintpermKeyPrefix))
+	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
 
 	defer iterator.Close()
 

@@ -1,17 +1,20 @@
 package keeper
 
 import (
-	"github.com/cosmos/cosmos-sdk/store/prefix"
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	"context"
 
 	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+
+	"cosmossdk.io/store/prefix"
+	storetypes "cosmossdk.io/store/types"
+
+	"github.com/cosmos/cosmos-sdk/runtime"
 )
 
-const TOKEN_ADMIN = "token.admin"
-
 // SetToken set a specific token in the store from its index
-func (k Keeper) SetToken(ctx sdk.Context, token types.Token) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.TokenKeyPrefix))
+func (k Keeper) SetToken(ctx context.Context, token types.Token) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.TokenKeyPrefix))
 	b := k.cdc.MustMarshal(&token)
 	store.Set(types.TokenKey(
 		token.Name,
@@ -20,10 +23,11 @@ func (k Keeper) SetToken(ctx sdk.Context, token types.Token) {
 
 // GetToken returns a token from its index
 func (k Keeper) GetToken(
-	ctx sdk.Context,
+	ctx context.Context,
 	name string,
 ) (val types.Token, found bool) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.TokenKeyPrefix))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.TokenKeyPrefix))
 
 	b := store.Get(types.TokenKey(
 		name,
@@ -38,19 +42,21 @@ func (k Keeper) GetToken(
 
 // RemoveToken removes a token from the store
 func (k Keeper) RemoveToken(
-	ctx sdk.Context,
+	ctx context.Context,
 	name string,
 ) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.TokenKeyPrefix))
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.TokenKeyPrefix))
 	store.Delete(types.TokenKey(
 		name,
 	))
 }
 
 // GetAllToken returns all token
-func (k Keeper) GetAllToken(ctx sdk.Context) (list []types.Token) {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.TokenKeyPrefix))
-	iterator := sdk.KVStorePrefixIterator(store, []byte{})
+func (k Keeper) GetAllToken(ctx context.Context) (list []types.Token) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.TokenKeyPrefix))
+	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
 
 	defer iterator.Close()
 

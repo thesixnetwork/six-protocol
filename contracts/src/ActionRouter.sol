@@ -2,8 +2,7 @@
 pragma solidity ^0.8.20;
 
 import {IERC721} from "openzeppelin-contracts/token/ERC721/IERC721.sol";
-import {INFTMNGR, NFTMNGR_PRECOMPILE_ADDRESS} from "./INFTManager.sol";
-
+import {INFTMNGR, NFTMNGR_PRECOMPILE_ADDRESS} from "./precompiles/INFTManager.sol";
 
 struct TokenIdMap {
     string nftSchemaName;

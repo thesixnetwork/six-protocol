@@ -1,13 +1,12 @@
 {
-    "title": "Parameter changes for unbonding_time",
-    "description": "If passed, unbonding_time will be change",
-    "changes": [
-      {
-        "subspace": "staking",
-        "key": "UnbondingTime",
-        "value": "300000000000"
-      }
-    ],
-    "deposit": "100000000usix"
-  }
-  
+  "title": "Parameter changes for unbonding_time",
+  "description": "If passed, unbonding_time will be change",
+  "changes": [
+    {
+      "subspace": "staking",
+      "key": "UnbondingTime",
+      "value": "300000000000"
+    }
+  ],
+  "deposit": "100000000usix"
+}
