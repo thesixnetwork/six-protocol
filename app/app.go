@@ -45,6 +45,7 @@ import (
 	// EVM
 	// "github.com/evmos/evmos/v20/app/post"
 	"github.com/evmos/evmos/v20/ethereum/eip712"
+	enccodec "github.com/evmos/evmos/v20/encoding/codec"
 	evmostypes "github.com/evmos/evmos/v20/types"
 	evmmodule "github.com/evmos/evmos/v20/x/evm"
 	_ "github.com/evmos/evmos/v20/x/evm/core/tracers/js"
@@ -117,7 +118,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/server/api"
 	"github.com/cosmos/cosmos-sdk/server/config"
 	servertypes "github.com/cosmos/cosmos-sdk/server/types"
-	"github.com/cosmos/cosmos-sdk/std"
+	// "github.com/cosmos/cosmos-sdk/std"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/mempool"
 	"github.com/cosmos/cosmos-sdk/types/module"
@@ -344,8 +345,10 @@ func New(
 	txConfig := authtx.NewTxConfig(appCodec, authtx.DefaultSignModes)
 
 	eip712.SetEncodingConfig(legacyAmino, interfaceRegistry)
-	std.RegisterLegacyAminoCodec(legacyAmino)
-	std.RegisterInterfaces(interfaceRegistry)
+	// std.RegisterLegacyAminoCodec(legacyAmino)
+	// std.RegisterInterfaces(interfaceRegistry)
+	enccodec.RegisterInterfaces(interfaceRegistry)
+	enccodec.RegisterLegacyAminoCodec(legacyAmino)
 	evmostypes.RegisterInterfaces(interfaceRegistry)
 
 	// Below we could construct and set an application specific mempool and
