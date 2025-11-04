@@ -29,6 +29,7 @@ out/
 /broadcast/**/666/
 /broadcast/**/9000/
 /broadcast/**/713715/
+/broadcast/**/150/
 
 contracts/lib/*
 /logs/
