@@ -28,6 +28,10 @@ import (
 	srvflags "github.com/thesixnetwork/six-protocol/server/flags"
 )
 
+const (
+	EnvPrefix = "SIX"
+)
+
 // NewRootCmd creates a new root command for six-protocold. It is called once in the main function.
 func NewRootCmd() *cobra.Command {
 	// we "pre"-instantiate the application for getting the injected/configured encoding configuration
@@ -51,7 +55,7 @@ func NewRootCmd() *cobra.Command {
 		WithBroadcastMode(flags.FlagBroadcastMode).
 		WithKeyringOptions(sixkey.Option()).
 		WithLedgerHasProtobuf(true).
-		WithViper("")
+		WithViper(EnvPrefix)
 
 	rootCmd := &cobra.Command{
 		Use:           app.Name + "d",
