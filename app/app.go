@@ -9,8 +9,6 @@ import (
 	"sort"
 	"sync"
 
-	"google.golang.org/protobuf/reflect/protoreflect"
-
 	abci "github.com/cometbft/cometbft/abci/types"
 	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
 	dbm "github.com/cosmos/cosmos-db"
@@ -44,8 +42,7 @@ import (
 
 	// EVM
 	// "github.com/evmos/evmos/v20/app/post"
-	"github.com/evmos/evmos/v20/ethereum/eip712"
-	enccodec "github.com/evmos/evmos/v20/encoding/codec"
+
 	evmostypes "github.com/evmos/evmos/v20/types"
 	evmmodule "github.com/evmos/evmos/v20/x/evm"
 	_ "github.com/evmos/evmos/v20/x/evm/core/tracers/js"
@@ -98,7 +95,6 @@ import (
 	"cosmossdk.io/x/feegrant"
 	feegrantkeeper "cosmossdk.io/x/feegrant/keeper"
 	feegrantmodule "cosmossdk.io/x/feegrant/module"
-	"cosmossdk.io/x/tx/signing"
 	"cosmossdk.io/x/upgrade"
 	upgradekeeper "cosmossdk.io/x/upgrade/keeper"
 	upgradetypes "cosmossdk.io/x/upgrade/types"
@@ -110,7 +106,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/grpc/cmtservice"
 	nodeservice "github.com/cosmos/cosmos-sdk/client/grpc/node"
 	"github.com/cosmos/cosmos-sdk/codec"
-	"github.com/cosmos/cosmos-sdk/codec/address"
 	"github.com/cosmos/cosmos-sdk/codec/types"
 	"github.com/cosmos/cosmos-sdk/runtime"
 	runtimeservices "github.com/cosmos/cosmos-sdk/runtime/services"
@@ -118,6 +113,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/server/api"
 	"github.com/cosmos/cosmos-sdk/server/config"
 	servertypes "github.com/cosmos/cosmos-sdk/server/types"
+
 	// "github.com/cosmos/cosmos-sdk/std"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/mempool"
@@ -173,6 +169,7 @@ import (
 
 	"github.com/evmos/evmos/v20/x/evm/core/vm"
 
+	"github.com/thesixnetwork/six-protocol/encoding"
 	"github.com/thesixnetwork/six-protocol/precompiles"
 	sixutils "github.com/thesixnetwork/six-protocol/utils"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
@@ -325,31 +322,11 @@ func New(
 	appOpts servertypes.AppOptions,
 	baseAppOptions ...func(*baseapp.BaseApp),
 ) *App {
-	interfaceRegistry, _ := types.NewInterfaceRegistryWithOptions(types.InterfaceRegistryOptions{
-		ProtoFiles: proto.HybridResolver,
-		SigningOptions: signing.Options{
-			AddressCodec: address.Bech32Codec{
-				Bech32Prefix: sdk.GetConfig().GetBech32AccountAddrPrefix(),
-			},
-			ValidatorAddressCodec: address.Bech32Codec{
-				Bech32Prefix: sdk.GetConfig().GetBech32ValidatorAddrPrefix(),
-			},
-			CustomGetSigners: map[protoreflect.FullName]signing.GetSignersFunc{
-				evmtypes.MsgEthereumTxCustomGetSigner.MsgType: evmtypes.MsgEthereumTxCustomGetSigner.Fn,
-			},
-		},
-	})
 
-	appCodec := codec.NewProtoCodec(interfaceRegistry)
-	legacyAmino := codec.NewLegacyAmino()
-	txConfig := authtx.NewTxConfig(appCodec, authtx.DefaultSignModes)
-
-	eip712.SetEncodingConfig(legacyAmino, interfaceRegistry)
-	// std.RegisterLegacyAminoCodec(legacyAmino)
-	// std.RegisterInterfaces(interfaceRegistry)
-	enccodec.RegisterInterfaces(interfaceRegistry)
-	enccodec.RegisterLegacyAminoCodec(legacyAmino)
-	evmostypes.RegisterInterfaces(interfaceRegistry)
+	encodingConfig := encoding.MakeConfig()
+	appCodec := encodingConfig.Codec
+	cdc := encodingConfig.Amino
+	interfaceRegistry := encodingConfig.InterfaceRegistry
 
 	// Below we could construct and set an application specific mempool and
 	// ABCI 1.0 PrepareProposal and ProcessProposal handlers. These defaults are
@@ -402,11 +379,11 @@ func New(
 		app.SetProcessProposal(handler.ProcessProposalHandler())
 	})
 
-	bApp := baseapp.NewBaseApp(Name, logger, db, txConfig.TxDecoder(), baseAppOptions...)
+	bApp := baseapp.NewBaseApp(Name, logger, db, encodingConfig.TxConfig.TxDecoder(), baseAppOptions...)
 	bApp.SetCommitMultiStoreTracer(traceStore)
 	bApp.SetVersion(version.Version)
 	bApp.SetInterfaceRegistry(interfaceRegistry)
-	bApp.SetTxEncoder(txConfig.TxEncoder())
+	bApp.SetTxEncoder(encodingConfig.TxConfig.TxEncoder())
 
 	keys := storetypes.NewKVStoreKeys(
 		authtypes.StoreKey, banktypes.StoreKey,
@@ -482,9 +459,9 @@ func New(
 
 	app := &App{
 		BaseApp:           bApp,
-		legacyAmino:       legacyAmino,
+		legacyAmino:       cdc,
 		appCodec:          appCodec,
-		txConfig:          txConfig,
+		// txConfig:          txConfig,
 		interfaceRegistry: interfaceRegistry,
 		keys:              keys,
 		tkeys:             tkeys,
@@ -493,7 +470,7 @@ func New(
 
 	app.ParamsKeeper = initParamsKeeper(
 		appCodec,
-		legacyAmino,
+		cdc,
 		keys[paramstypes.StoreKey],
 		tkeys[paramstypes.TStoreKey],
 	)
@@ -598,7 +575,7 @@ func New(
 
 	app.SlashingKeeper = slashingkeeper.NewKeeper(
 		appCodec,
-		legacyAmino,
+		cdc,
 		runtime.NewKVStoreService(keys[slashingtypes.StoreKey]),
 		app.StakingKeeper,
 		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
@@ -988,7 +965,7 @@ func New(
 				},
 			),
 		})
-	app.BasicModuleManager.RegisterLegacyAminoCodec(legacyAmino)
+	app.BasicModuleManager.RegisterLegacyAminoCodec(cdc)
 	app.BasicModuleManager.RegisterInterfaces(interfaceRegistry)
 
 	// NOTE: upgrade module is required to be prioritized
