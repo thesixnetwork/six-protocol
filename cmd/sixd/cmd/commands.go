@@ -3,7 +3,6 @@ package cmd
 import (
 	"errors"
 	"io"
-	"os"
 
 	cmtcli "github.com/cometbft/cometbft/libs/cli"
 	// cmtcfg "github.com/cometbft/cometbft/config"
@@ -208,12 +207,12 @@ func appExport(
 	return chainApp.ExportAppStateAndValidators(forZeroHeight, jailAllowedAddrs, modulesToExport)
 }
 
-var tempDir = func() string {
-	dir, err := os.MkdirTemp("", "simd")
-	if err != nil {
-		panic("failed to create temp dir: " + err.Error())
-	}
-	defer os.RemoveAll(dir)
+// var tempDir = func() string {
+// 	dir, err := os.MkdirTemp("", "simd")
+// 	if err != nil {
+// 		panic("failed to create temp dir: " + err.Error())
+// 	}
+// 	defer os.RemoveAll(dir)
 
-	return dir
-}
+// 	return dir
+// }
