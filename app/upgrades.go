@@ -8,6 +8,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	
+	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	storetypes "cosmossdk.io/store/types"
 	circuittypes "cosmossdk.io/x/circuit/types"
@@ -23,9 +25,11 @@ import (
 	"github.com/creachadair/tomledit"
 
 	srvmig "github.com/thesixnetwork/six-protocol/server/config/migration"
+	nftmngrkeeper "github.com/thesixnetwork/six-protocol/x/nftadmin/keeper"
 )
 
 const UpgradeName = "v4.0.0"
+const UpgradeNameHotfix = "v4.0.0-hotfix"
 
 func (app *App) RegisterUpgradeHandlers() {
 	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx context.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
@@ -66,6 +70,25 @@ func (app *App) RegisterUpgradeHandlers() {
 			Deleted: []string{},
 		}
 		// configure store loader that checks if version == upgradeHeight and applies store upgrades
+		app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
+	}
+
+
+	// hot fix for fivenet
+	app.UpgradeKeeper.SetUpgradeHandler(UpgradeNameHotfix, func(ctx context.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
+		nftmngrkeeper.NewMigrator(app.NftadminKeeper).Migrate2to3(sdk.UnwrapSDKContext(ctx))
+		newVM, err := app.ModuleManager.RunMigrations(ctx, app.configurator, vm)
+		if err != nil {
+			return newVM, err
+		}
+		return newVM, nil
+	})
+
+	if upgradeInfo.Name == UpgradeNameHotfix && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
+		storeUpgrades := storetypes.StoreUpgrades{
+			Added: []string{},
+			Deleted: []string{},
+		}
 		app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
 	}
 }
