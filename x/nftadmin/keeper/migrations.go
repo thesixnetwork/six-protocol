@@ -17,5 +17,9 @@ func NewMigrator(keeper Keeper) Migrator {
 }
 
 func (m Migrator) Migrate2to3(ctx sdk.Context) error {
+	if ctx.ChainID() == "testnet" || ctx.ChainID() == "fivenet"{
+		return nil
+	}
+
 	return v1.MigrateStore(ctx, m.keeper.storeService, m.keeper.cdc)
 }
