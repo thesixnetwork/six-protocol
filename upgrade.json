@@ -1,0 +1,139 @@
+{
+  "module_versions": [
+    {
+      "name": "07-tendermint"
+    },
+    {
+      "name": "auth",
+      "version": "5"
+    },
+    {
+      "name": "authz",
+      "version": "2"
+    },
+    {
+      "name": "bank",
+      "version": "4"
+    },
+    {
+      "name": "capability",
+      "version": "1"
+    },
+    {
+      "name": "circuit",
+      "version": "1"
+    },
+    {
+      "name": "consensus",
+      "version": "1"
+    },
+    {
+      "name": "crisis",
+      "version": "2"
+    },
+    {
+      "name": "distribution",
+      "version": "3"
+    },
+    {
+      "name": "erc20",
+      "version": "2"
+    },
+    {
+      "name": "evidence",
+      "version": "1"
+    },
+    {
+      "name": "evm",
+      "version": "7"
+    },
+    {
+      "name": "evmsupport",
+      "version": "2"
+    },
+    {
+      "name": "feegrant",
+      "version": "2"
+    },
+    {
+      "name": "feeibc",
+      "version": "2"
+    },
+    {
+      "name": "feemarket",
+      "version": "4"
+    },
+    {
+      "name": "genutil",
+      "version": "1"
+    },
+    {
+      "name": "gov",
+      "version": "5"
+    },
+    {
+      "name": "ibc",
+      "version": "6"
+    },
+    {
+      "name": "interchainaccounts",
+      "version": "3"
+    },
+    {
+      "name": "mint",
+      "version": "2"
+    },
+    {
+      "name": "nftadmin",
+      "version": "2"
+    },
+    {
+      "name": "nftmngr",
+      "version": "1"
+    },
+    {
+      "name": "nftoracle",
+      "version": "1"
+    },
+    {
+      "name": "params",
+      "version": "1"
+    },
+    {
+      "name": "protocoladmin",
+      "version": "1"
+    },
+    {
+      "name": "ratelimit",
+      "version": "1"
+    },
+    {
+      "name": "slashing",
+      "version": "4"
+    },
+    {
+      "name": "staking",
+      "version": "5"
+    },
+    {
+      "name": "tokenmngr",
+      "version": "2"
+    },
+    {
+      "name": "transfer",
+      "version": "5"
+    },
+    {
+      "name": "upgrade",
+      "version": "2"
+    },
+    {
+      "name": "vesting",
+      "version": "1"
+    },
+    {
+      "name": "wasm",
+      "version": "1"
+    }
+  ]
+}
