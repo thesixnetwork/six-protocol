@@ -282,7 +282,8 @@ func init() {
 }
 
 // getGovProposalHandlers return the chain proposal handlers.
-func getGovProposalHandlers() []govclient.ProposalHandler {
+// func getGovProposalHandlers() []govclient.ProposalHandler {
+func _() []govclient.ProposalHandler {
 	var govProposalHandlers []govclient.ProposalHandler
 	// this line is used by starport scaffolding # stargate/app/govProposalHandlers
 
