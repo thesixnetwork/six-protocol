@@ -133,7 +133,7 @@ func (am AppModule) RegisterServices(cfg module.Configurator) {
 
 	m := keeper.NewMigrator(am.keeper)
 
-	if err := cfg.RegisterMigration(types.ModuleName, 2, m.Migrate1to2); err != nil {
+	if err := cfg.RegisterMigration(types.ModuleName, 1, m.Migrate1to2); err != nil {
 		panic(err)
 	}
 }
