@@ -9,7 +9,7 @@ import (
 
 	"github.com/thesixnetwork/six-protocol/app"
 	"github.com/thesixnetwork/six-protocol/app/params"
-	sixkey "github.com/thesixnetwork/six-protocol/crypto/keyring"
+	// sixkey "github.com/thesixnetwork/six-protocol/crypto/keyring"
 
 	"cosmossdk.io/log"
 
@@ -26,6 +26,10 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 
 	srvflags "github.com/thesixnetwork/six-protocol/server/flags"
+)
+
+const (
+	EnvPrefix = "SIX"
 )
 
 // NewRootCmd creates a new root command for six-protocold. It is called once in the main function.
@@ -49,9 +53,9 @@ func NewRootCmd() *cobra.Command {
 		WithAccountRetriever(authtypes.AccountRetriever{}).
 		WithHomeDir(app.DefaultNodeHome).
 		WithBroadcastMode(flags.FlagBroadcastMode).
-		WithKeyringOptions(sixkey.Option()).
-		WithLedgerHasProtobuf(true).
-		WithViper("")
+		// WithKeyringOptions(sixkey.Option()).
+		// WithLedgerHasProtobuf(true).
+		WithViper(EnvPrefix)
 
 	rootCmd := &cobra.Command{
 		Use:           app.Name + "d",

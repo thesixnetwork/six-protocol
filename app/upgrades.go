@@ -26,6 +26,7 @@ import (
 )
 
 const UpgradeName = "v4.0.0"
+const UpgradeNameHotfix = "v4.0.0-hotfix" // HOTFIX ONLY ON FIVENET
 
 func (app *App) RegisterUpgradeHandlers() {
 	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx context.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
@@ -66,6 +67,23 @@ func (app *App) RegisterUpgradeHandlers() {
 			Deleted: []string{},
 		}
 		// configure store loader that checks if version == upgradeHeight and applies store upgrades
+		app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
+	}
+
+	// hot fix for fivenet
+	app.UpgradeKeeper.SetUpgradeHandler(UpgradeNameHotfix, func(ctx context.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
+		newVM, err := app.ModuleManager.RunMigrations(ctx, app.configurator, vm)
+		if err != nil {
+			return newVM, err
+		}
+		return newVM, nil
+	})
+
+	if upgradeInfo.Name == UpgradeNameHotfix && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
+		storeUpgrades := storetypes.StoreUpgrades{
+			Added:   []string{},
+			Deleted: []string{},
+		}
 		app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
 	}
 }

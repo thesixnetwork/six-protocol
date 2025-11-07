@@ -29,6 +29,7 @@ var (
 	_ module.AppModuleBasic      = (*AppModule)(nil)
 	_ module.AppModuleSimulation = (*AppModule)(nil)
 	_ module.HasGenesis          = (*AppModule)(nil)
+	_ module.HasServices         = (*AppModule)(nil)
 	_ module.HasInvariants       = (*AppModule)(nil)
 	_ module.HasConsensusVersion = (*AppModule)(nil)
 
@@ -123,8 +124,12 @@ func (am AppModule) RegisterServices(cfg module.Configurator) {
 
 	m := keeper.NewMigrator(am.keeper)
 
-	if err := cfg.RegisterMigration(types.ModuleName, 2, m.Migrate1to2); err != nil {
-		panic(err)
+	if err := cfg.RegisterMigration(types.ModuleName, 2, m.NoMigration); err != nil {
+		panic(fmt.Sprintf("failed to migrate x/nftadmin from version 2 to 3: %v", err))
+	}
+
+	if err := cfg.RegisterMigration(types.ModuleName, 3, m.Migrate3to4); err != nil {
+		panic(fmt.Sprintf("failed to migrate x/nftadmin from version 3 to 4: %v", err))
 	}
 }
 
@@ -149,7 +154,7 @@ func (am AppModule) ExportGenesis(ctx sdk.Context, cdc codec.JSONCodec) json.Raw
 // ConsensusVersion is a sequence number for state-breaking change of the module.
 // It should be incremented on each consensus-breaking change introduced by the module.
 // To avoid wrong/empty versions, the initial version should be set to 1.
-func (AppModule) ConsensusVersion() uint64 { return 2 }
+func (AppModule) ConsensusVersion() uint64 { return 4 }
 
 // BeginBlock contains the logic that is automatically triggered at the beginning of each block.
 // The begin block implementation is optional.

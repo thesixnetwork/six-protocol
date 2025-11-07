@@ -16,6 +16,10 @@ func NewMigrator(keeper Keeper) Migrator {
 	}
 }
 
-func (m Migrator) Migrate1to2(ctx sdk.Context) error {
+func (m Migrator) Migrate3to4(ctx sdk.Context) error {
 	return v1.MigrateStore(ctx, m.keeper.storeService)
+}
+
+func (m Migrator) NoMigration(ctx sdk.Context) error {
+	return nil
 }
