@@ -124,8 +124,12 @@ func (am AppModule) RegisterServices(cfg module.Configurator) {
 
 	m := keeper.NewMigrator(am.keeper)
 
-	if err := cfg.RegisterMigration(types.ModuleName, 3, m.Migrate3to4); err != nil {
+	if err := cfg.RegisterMigration(types.ModuleName, 2, m.NoMigration); err != nil {
 		panic(fmt.Sprintf("failed to migrate x/nftadmin from version 2 to 3: %v", err))
+	}
+
+	if err := cfg.RegisterMigration(types.ModuleName, 3, m.Migrate3to4); err != nil {
+		panic(fmt.Sprintf("failed to migrate x/nftadmin from version 3 to 4: %v", err))
 	}
 }
 

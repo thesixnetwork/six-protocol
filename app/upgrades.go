@@ -23,13 +23,10 @@ import (
 	"github.com/creachadair/tomledit"
 
 	srvmig "github.com/thesixnetwork/six-protocol/server/config/migration"
-	nftmngrtypes "github.com/thesixnetwork/six-protocol/x/nftadmin/types"
 )
 
 const UpgradeName = "v4.0.0"
 const UpgradeNameHotfix = "v4.0.0-hotfix"
-
-const FIVENT_ROOT_ADMIN = "6x1w4h88d93rqezzyqpvdhfe08xp6732m5f3e9evf"
 
 func (app *App) RegisterUpgradeHandlers() {
 	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx context.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
@@ -73,19 +70,8 @@ func (app *App) RegisterUpgradeHandlers() {
 		app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
 	}
 
-
 	// hot fix for fivenet
 	app.UpgradeKeeper.SetUpgradeHandler(UpgradeNameHotfix, func(ctx context.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
-		app.NftadminKeeper.SetAuthorization(ctx, nftmngrtypes.Authorization{
-			RootAdmin: FIVENT_ROOT_ADMIN,
-			Permissions: []*nftmngrtypes.Permission{
-				{
-					Name: "nft_fee_admin",
-					Addresses: []string{FIVENT_ROOT_ADMIN},
-				},
-			},
-		})
-
 		newVM, err := app.ModuleManager.RunMigrations(ctx, app.configurator, vm)
 		if err != nil {
 			return newVM, err
@@ -95,7 +81,7 @@ func (app *App) RegisterUpgradeHandlers() {
 
 	if upgradeInfo.Name == UpgradeNameHotfix && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
 		storeUpgrades := storetypes.StoreUpgrades{
-			Added: []string{},
+			Added:   []string{},
 			Deleted: []string{},
 		}
 		app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
