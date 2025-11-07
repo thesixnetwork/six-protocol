@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 
 PACKAGES_SIMTEST=$(shell go list ./... | grep '/simulation')
-VERSION := $(shell echo $(shell git describe --tags) | sed 's/^v//')
+VERSION ?= $(shell echo $(shell git describe --tags) | sed 's/^v//')
 COMMIT := $(shell git log -1 --format='%H')
 TMVERSION := $(shell go list -m github.com/cometbft/cometbft | sed 's:.* ::')
 LEDGER_ENABLED ?= true
