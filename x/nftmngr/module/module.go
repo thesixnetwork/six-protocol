@@ -142,7 +142,7 @@ func (am AppModule) RegisterServices(cfg module.Configurator) {
 		panic(fmt.Sprintf("failed to migrate x/nftmngr from version 2 to 3: %v", err))
 	}
 
-	if err := cfg.RegisterMigration(types.ModuleName, 3, m.NoMigration); err != nil {
+	if err := cfg.RegisterMigration(types.ModuleName, 3, m.MigrateStore); err != nil {
 		panic(fmt.Sprintf("failed to migrate x/nftmngr from version 3 to 4: %v", err))
 	}
 }

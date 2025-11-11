@@ -19,6 +19,7 @@ import (
 	icacontrollertypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/controller/types"
 	icahosttypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/host/types"
 	ibcfeetypes "github.com/cosmos/ibc-go/v8/modules/apps/29-fee/types"
+	nftmngrtypes "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
 
 	"github.com/creachadair/tomledit"
 
@@ -26,7 +27,7 @@ import (
 )
 
 const UpgradeName = "v4.0.0"
-const UpgradeNameHotfix = "v4.0.0-hotfix" // HOTFIX ONLY ON FIVENET
+const UpgradeNameHotfix = "v4.0.0-hotfix-2" // HOTFIX ONLY ON FIVENET
 
 func (app *App) RegisterUpgradeHandlers() {
 	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx context.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
@@ -35,6 +36,9 @@ func (app *App) RegisterUpgradeHandlers() {
 		if err != nil {
 			return newVM, err
 		}
+
+		// setup nftmngr params
+		app.NftmngrKeeper.SetParams(ctx, nftmngrtypes.DefaultParams())
 
 		// ONLY during upgrade execution: migrate app.toml configuration to v0.50 format
 		// This ensures all nodes get the updated configuration automatically
@@ -76,6 +80,10 @@ func (app *App) RegisterUpgradeHandlers() {
 		if err != nil {
 			return newVM, err
 		}
+
+		// setup nftmngr params
+		app.NftmngrKeeper.SetParams(ctx, nftmngrtypes.DefaultParams())
+
 		return newVM, nil
 	})
 

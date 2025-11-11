@@ -563,7 +563,7 @@ func (k Keeper) PerformVirtualActionKeeper(ctx context.Context, creator, virtual
 		return nil, errormod.Wrap(types.ErrEmptyChangeList, actionName)
 	}
 
-	for i, schemaRegistry := range virtualSchema.Registry {
+	for _, schemaRegistry := range virtualSchema.Registry {
 		k.SetNftData(ctx, *crossMetadata.GetNftData(schemaRegistry.NftSchemaCode))
 
 		for _, change := range crossMetadata.GetChangeList(schemaRegistry.NftSchemaCode) {
@@ -615,7 +615,7 @@ func (k Keeper) PerformVirtualActionKeeper(ctx context.Context, creator, virtual
 		}
 
 		individualChangeList, _ := json.Marshal(crossMetadata.GetChangeList(schemaRegistry.NftSchemaCode))
-		changeList = append(changeList, individualChangeList[i])
+		changeList = append(changeList, individualChangeList...)
 	}
 
 	// Check action with reference exists
