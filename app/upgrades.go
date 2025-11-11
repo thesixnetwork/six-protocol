@@ -37,6 +37,9 @@ func (app *App) RegisterUpgradeHandlers() {
 			return newVM, err
 		}
 
+		// setup nftmngr params
+		app.NftmngrKeeper.SetParams(ctx, nftmngrtypes.DefaultParams())
+
 		// ONLY during upgrade execution: migrate app.toml configuration to v0.50 format
 		// This ensures all nodes get the updated configuration automatically
 		if err := app.migrateAppConfig(); err != nil {
