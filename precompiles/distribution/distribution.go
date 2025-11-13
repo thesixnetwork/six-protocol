@@ -14,11 +14,11 @@ import (
 
 	"github.com/evmos/evmos/v20/x/evm/core/vm"
 
-	"github.com/thesixnetwork/six-protocol/utils"
+	"github.com/thesixnetwork/six-protocol/v4/utils"
 
 	distrtypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 
-	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
+	pcommon "github.com/thesixnetwork/six-protocol/v4/precompiles/common"
 )
 
 const (

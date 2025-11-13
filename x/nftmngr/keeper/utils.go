@@ -5,7 +5,7 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftmngr/types"
 
 	sdkerrors "cosmossdk.io/errors"
 )

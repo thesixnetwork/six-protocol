@@ -3,7 +3,7 @@ package keeper
 import (
 	"fmt"
 
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftmngr/types"
 
 	"cosmossdk.io/core/store"
 	"cosmossdk.io/log"

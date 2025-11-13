@@ -40,7 +40,7 @@ import (
 
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
 
-	"github.com/thesixnetwork/six-protocol/server"
+	"github.com/thesixnetwork/six-protocol/v4/server"
 )
 
 func startInProcess(cfg Config, val *Validator) error {

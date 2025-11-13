@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftmngr/types"
 )
 
 func TestGenesisState_Validate(t *testing.T) {

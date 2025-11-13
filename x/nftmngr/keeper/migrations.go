@@ -2,7 +2,7 @@ package keeper
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftmngr/types"
 )
 
 // Migrator is a struct for handling in-place store migrations.

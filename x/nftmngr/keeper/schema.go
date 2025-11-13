@@ -3,9 +3,9 @@ package keeper
 import (
 	"context"
 
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftmngr/types"
 
-	// v2types "github.com/thesixnetwork/six-protocol/x/nftmngr/migrations/v2/types"
+	// v2types "github.com/thesixnetwork/six-protocol/v4/x/nftmngr/migrations/v2/types"
 	"cosmossdk.io/store/prefix"
 	storetypes "cosmossdk.io/store/types"
 

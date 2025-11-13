@@ -17,7 +17,7 @@ import (
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/require"
 
-	"github.com/thesixnetwork/six-protocol/app"
+	"github.com/thesixnetwork/six-protocol/v4/app"
 
 	"cosmossdk.io/log"
 	"cosmossdk.io/store"

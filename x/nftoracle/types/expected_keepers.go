@@ -3,8 +3,8 @@ package types
 import (
 	"context"
 
-	nftadmintypes "github.com/thesixnetwork/six-protocol/x/nftadmin/types"
-	nftmngrtypes "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+	nftadmintypes "github.com/thesixnetwork/six-protocol/v4/x/nftadmin/types"
+	nftmngrtypes "github.com/thesixnetwork/six-protocol/v4/x/nftmngr/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )

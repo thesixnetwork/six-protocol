@@ -7,9 +7,9 @@ import (
 	"encoding/base64"
 	"strconv"
 
-	nftmngrkeeper "github.com/thesixnetwork/six-protocol/x/nftmngr/keeper"
-	nftmngrtypes "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
-	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+	nftmngrkeeper "github.com/thesixnetwork/six-protocol/v4/x/nftmngr/keeper"
+	nftmngrtypes "github.com/thesixnetwork/six-protocol/v4/x/nftmngr/types"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftoracle/types"
 
 	errormod "cosmossdk.io/errors"
 

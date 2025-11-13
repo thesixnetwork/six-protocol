@@ -7,9 +7,9 @@ import (
 
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 
-	modulev1 "github.com/thesixnetwork/six-protocol/api/sixprotocol/tokenmngr/module"
-	"github.com/thesixnetwork/six-protocol/x/tokenmngr/keeper"
-	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+	modulev1 "github.com/thesixnetwork/six-protocol/v4/api/sixprotocol/tokenmngr/module"
+	"github.com/thesixnetwork/six-protocol/v4/x/tokenmngr/keeper"
+	"github.com/thesixnetwork/six-protocol/v4/x/tokenmngr/types"
 
 	"cosmossdk.io/core/appmodule"
 	"cosmossdk.io/core/store"

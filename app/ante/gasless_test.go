@@ -10,11 +10,11 @@ import (
 	"github.com/stretchr/testify/suite"
 	"google.golang.org/protobuf/proto"
 
-	"github.com/thesixnetwork/six-protocol/app/ante"
-	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
-	nftadminkeeper "github.com/thesixnetwork/six-protocol/x/nftadmin/keeper"
-	nftoraclekeeper "github.com/thesixnetwork/six-protocol/x/nftoracle/keeper"
-	nftoracletypes "github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+	"github.com/thesixnetwork/six-protocol/v4/app/ante"
+	keepertest "github.com/thesixnetwork/six-protocol/v4/testutil/keeper"
+	nftadminkeeper "github.com/thesixnetwork/six-protocol/v4/x/nftadmin/keeper"
+	nftoraclekeeper "github.com/thesixnetwork/six-protocol/v4/x/nftoracle/keeper"
+	nftoracletypes "github.com/thesixnetwork/six-protocol/v4/x/nftoracle/types"
 )
 
 type GaslessTestSuite struct {

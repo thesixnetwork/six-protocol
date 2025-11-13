@@ -10,12 +10,12 @@ import (
 
 	"github.com/evmos/evmos/v20/x/evm/core/vm"
 
-	"github.com/thesixnetwork/six-protocol/precompiles/bank"
-	"github.com/thesixnetwork/six-protocol/precompiles/common"
-	"github.com/thesixnetwork/six-protocol/precompiles/distribution"
-	"github.com/thesixnetwork/six-protocol/precompiles/nftmngr"
-	"github.com/thesixnetwork/six-protocol/precompiles/staking"
-	"github.com/thesixnetwork/six-protocol/precompiles/tokenfactory"
+	"github.com/thesixnetwork/six-protocol/v4/precompiles/bank"
+	"github.com/thesixnetwork/six-protocol/v4/precompiles/common"
+	"github.com/thesixnetwork/six-protocol/v4/precompiles/distribution"
+	"github.com/thesixnetwork/six-protocol/v4/precompiles/nftmngr"
+	"github.com/thesixnetwork/six-protocol/v4/precompiles/staking"
+	"github.com/thesixnetwork/six-protocol/v4/precompiles/tokenfactory"
 )
 
 var (

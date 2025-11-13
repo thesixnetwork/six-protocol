@@ -8,10 +8,10 @@ import (
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/spf13/cobra"
 
-	modulev1 "github.com/thesixnetwork/six-protocol/api/sixprotocol/nftmngr/module"
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/client/cli"
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/keeper"
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+	modulev1 "github.com/thesixnetwork/six-protocol/v4/api/sixprotocol/nftmngr/module"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftmngr/client/cli"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftmngr/keeper"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftmngr/types"
 
 	"cosmossdk.io/core/appmodule"
 	"cosmossdk.io/core/store"

@@ -5,7 +5,7 @@ import (
 
 	"github.com/evmos/evmos/v20/testutil"
 
-	evmante "github.com/thesixnetwork/six-protocol/app/ante/evm"
+	evmante "github.com/thesixnetwork/six-protocol/v4/app/ante/evm"
 
 	storetypes "cosmossdk.io/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"

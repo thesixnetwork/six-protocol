@@ -9,7 +9,7 @@ import (
 	testutiltx "github.com/evmos/evmos/v20/testutil/tx"
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
 
-	ethante "github.com/thesixnetwork/six-protocol/app/ante/evm"
+	ethante "github.com/thesixnetwork/six-protocol/v4/app/ante/evm"
 )
 
 func (suite *AnteTestSuite) TestEthSigVerificationDecorator() {

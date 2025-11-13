@@ -13,19 +13,19 @@ import (
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
 	feemarkettypes "github.com/evmos/evmos/v20/x/feemarket/types"
 
-	nftadminmodulev1 "github.com/thesixnetwork/six-protocol/api/sixprotocol/nftadmin/module"
-	nftoraclemodulev1 "github.com/thesixnetwork/six-protocol/api/sixprotocol/nftoracle/module"
-	protocoladminmodulev1 "github.com/thesixnetwork/six-protocol/api/sixprotocol/protocoladmin/module"
-	tokenmngrmodulev1 "github.com/thesixnetwork/six-protocol/api/sixprotocol/tokenmngr/module"
-	_ "github.com/thesixnetwork/six-protocol/x/nftadmin/module" // import for side-effects
-	nftadminmoduletypes "github.com/thesixnetwork/six-protocol/x/nftadmin/types"
-	nftmngrmoduletypes "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
-	_ "github.com/thesixnetwork/six-protocol/x/nftoracle/module" // import for side-effects
-	nftoraclemoduletypes "github.com/thesixnetwork/six-protocol/x/nftoracle/types"
-	_ "github.com/thesixnetwork/six-protocol/x/protocoladmin/module" // import for side-effects
-	protocoladminmoduletypes "github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
-	_ "github.com/thesixnetwork/six-protocol/x/tokenmngr/module" // import for side-effects
-	tokenmngrmoduletypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+	nftadminmodulev1 "github.com/thesixnetwork/six-protocol/v4/api/sixprotocol/nftadmin/module"
+	nftoraclemodulev1 "github.com/thesixnetwork/six-protocol/v4/api/sixprotocol/nftoracle/module"
+	protocoladminmodulev1 "github.com/thesixnetwork/six-protocol/v4/api/sixprotocol/protocoladmin/module"
+	tokenmngrmodulev1 "github.com/thesixnetwork/six-protocol/v4/api/sixprotocol/tokenmngr/module"
+	_ "github.com/thesixnetwork/six-protocol/v4/x/nftadmin/module" // import for side-effects
+	nftadminmoduletypes "github.com/thesixnetwork/six-protocol/v4/x/nftadmin/types"
+	nftmngrmoduletypes "github.com/thesixnetwork/six-protocol/v4/x/nftmngr/types"
+	_ "github.com/thesixnetwork/six-protocol/v4/x/nftoracle/module" // import for side-effects
+	nftoraclemoduletypes "github.com/thesixnetwork/six-protocol/v4/x/nftoracle/types"
+	_ "github.com/thesixnetwork/six-protocol/v4/x/protocoladmin/module" // import for side-effects
+	protocoladminmoduletypes "github.com/thesixnetwork/six-protocol/v4/x/protocoladmin/types"
+	_ "github.com/thesixnetwork/six-protocol/v4/x/tokenmngr/module" // import for side-effects
+	tokenmngrmoduletypes "github.com/thesixnetwork/six-protocol/v4/x/tokenmngr/types"
 
 	runtimev1alpha1 "cosmossdk.io/api/cosmos/app/runtime/v1alpha1"
 	appv1alpha1 "cosmossdk.io/api/cosmos/app/v1alpha1"

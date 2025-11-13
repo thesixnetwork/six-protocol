@@ -10,8 +10,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/runtime"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/thesixnetwork/six-protocol/x/nftadmin/types"
-	v1 "github.com/thesixnetwork/six-protocol/x/nftadmin/types/v1"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftadmin/types"
+	v1 "github.com/thesixnetwork/six-protocol/v4/x/nftadmin/types/v1"
 )
 
 const FIVENT_ROOT_ADMIN = "6x1w4h88d93rqezzyqpvdhfe08xp6732m5f3e9evf"

@@ -17,7 +17,7 @@ import (
 	evmkeeper "github.com/evmos/evmos/v20/x/evm/keeper"
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
 
-	anteutils "github.com/thesixnetwork/six-protocol/app/ante/utils"
+	anteutils "github.com/thesixnetwork/six-protocol/v4/app/ante/utils"
 )
 
 var _ sdk.AnteDecorator = &EthSetupContextDecorator{}

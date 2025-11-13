@@ -18,7 +18,7 @@ import (
 
 	evmostypes "github.com/evmos/evmos/v20/types"
 
-	svrconfig "github.com/thesixnetwork/six-protocol/server/config"
+	svrconfig "github.com/thesixnetwork/six-protocol/v4/server/config"
 )
 
 // StartJSONRPC starts the JSON-RPC server

@@ -11,12 +11,12 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	evmosserver "github.com/thesixnetwork/six-protocol/server"
+	evmosserver "github.com/thesixnetwork/six-protocol/v4/server"
 
-	debug "github.com/thesixnetwork/six-protocol/client/debug"
+	debug "github.com/thesixnetwork/six-protocol/v4/client/debug"
 
-	"github.com/thesixnetwork/six-protocol/app"
-	sixclient "github.com/thesixnetwork/six-protocol/client"
+	"github.com/thesixnetwork/six-protocol/v4/app"
+	sixclient "github.com/thesixnetwork/six-protocol/v4/client"
 
 	"cosmossdk.io/log"
 	confixcmd "cosmossdk.io/tools/confix/cmd"

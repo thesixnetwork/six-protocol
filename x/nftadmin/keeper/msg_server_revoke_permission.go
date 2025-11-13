@@ -3,7 +3,7 @@ package keeper
 import (
 	"context"
 
-	"github.com/thesixnetwork/six-protocol/x/nftadmin/types"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftadmin/types"
 
 	errormod "cosmossdk.io/errors"
 

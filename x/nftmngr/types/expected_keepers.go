@@ -3,7 +3,7 @@ package types
 import (
 	"context"
 
-	nftadmintypes "github.com/thesixnetwork/six-protocol/x/nftadmin/types"
+	nftadmintypes "github.com/thesixnetwork/six-protocol/v4/x/nftadmin/types"
 
 	"cosmossdk.io/core/address"
 

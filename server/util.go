@@ -13,7 +13,7 @@ import (
 	"github.com/spf13/cobra"
 	"golang.org/x/net/netutil"
 
-	"github.com/thesixnetwork/six-protocol/server/config"
+	"github.com/thesixnetwork/six-protocol/v4/server/config"
 
 	sdkserver "github.com/cosmos/cosmos-sdk/server"
 	"github.com/cosmos/cosmos-sdk/server/types"

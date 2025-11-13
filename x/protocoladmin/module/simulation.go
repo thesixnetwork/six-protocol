@@ -3,9 +3,9 @@ package protocoladmin
 import (
 	"math/rand"
 
-	"github.com/thesixnetwork/six-protocol/testutil/sample"
-	protocoladminsimulation "github.com/thesixnetwork/six-protocol/x/protocoladmin/simulation"
-	"github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
+	"github.com/thesixnetwork/six-protocol/v4/testutil/sample"
+	protocoladminsimulation "github.com/thesixnetwork/six-protocol/v4/x/protocoladmin/simulation"
+	"github.com/thesixnetwork/six-protocol/v4/x/protocoladmin/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"

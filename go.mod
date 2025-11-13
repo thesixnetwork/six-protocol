@@ -1,4 +1,4 @@
-module github.com/thesixnetwork/six-protocol
+module github.com/thesixnetwork/six-protocol/v4
 
 go 1.24.0
 

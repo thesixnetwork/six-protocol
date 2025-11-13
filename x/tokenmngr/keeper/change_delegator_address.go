@@ -9,9 +9,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	distrtypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+	"github.com/thesixnetwork/six-protocol/v4/x/tokenmngr/types"
 )
-
 
 func (k Keeper) ChangeDelegatorAddress(goCtx context.Context, oldAddress, newAddress sdk.AccAddress) error {
 	ctx := sdk.UnwrapSDKContext(goCtx)
@@ -101,7 +100,7 @@ func (k Keeper) migrateRewardState(
 			// Create new starting info with current state
 			// Use current period, not previous period to avoid negative values
 			newStartingInfo := distrtypes.NewDelegatorStartingInfo(
-				currentRewards.Period,     
+				currentRewards.Period,
 				stake,                     // Calculated stake from shares
 				uint64(ctx.BlockHeight()), // Current height
 			)
@@ -206,7 +205,6 @@ func (k Keeper) migrateDelegationsPreserveRewards(
 			return fmt.Errorf("failed to set new delegation: %w", err)
 		}
 
-
 		k.Logger().Info("Successfully migrated delegation",
 			"old_delegator", oldDelAddrStr,
 			"new_delegator", newDelAddrStr,
@@ -216,9 +214,3 @@ func (k Keeper) migrateDelegationsPreserveRewards(
 
 	return nil
 }
-
-
-
-
-
-

@@ -5,10 +5,10 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
-	"github.com/thesixnetwork/six-protocol/testutil/nullify"
-	nftoracle "github.com/thesixnetwork/six-protocol/x/nftoracle/module"
-	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+	keepertest "github.com/thesixnetwork/six-protocol/v4/testutil/keeper"
+	"github.com/thesixnetwork/six-protocol/v4/testutil/nullify"
+	nftoracle "github.com/thesixnetwork/six-protocol/v4/x/nftoracle/module"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftoracle/types"
 )
 
 func TestGenesis(t *testing.T) {

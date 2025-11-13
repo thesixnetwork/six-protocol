@@ -50,12 +50,12 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/genutil"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/thesixnetwork/six-protocol/app"
+	"github.com/thesixnetwork/six-protocol/v4/app"
 
 	evmostypes "github.com/evmos/evmos/v20/types"
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
 
-	"github.com/thesixnetwork/six-protocol/server/config"
+	"github.com/thesixnetwork/six-protocol/v4/server/config"
 )
 
 // package-wide network lock to only allow one test network at a time

@@ -16,7 +16,7 @@ import (
 
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
 
-	protocoladmintypes "github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
+	protocoladmintypes "github.com/thesixnetwork/six-protocol/v4/x/protocoladmin/types"
 )
 
 type ProtocoladminKeeper interface {

@@ -3,9 +3,9 @@ package tokenmngr
 import (
 	"math/rand"
 
-	"github.com/thesixnetwork/six-protocol/testutil/sample"
-	tokenmngrsimulation "github.com/thesixnetwork/six-protocol/x/tokenmngr/simulation"
-	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+	"github.com/thesixnetwork/six-protocol/v4/testutil/sample"
+	tokenmngrsimulation "github.com/thesixnetwork/six-protocol/v4/x/tokenmngr/simulation"
+	"github.com/thesixnetwork/six-protocol/v4/x/tokenmngr/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"

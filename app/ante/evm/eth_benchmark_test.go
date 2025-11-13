@@ -14,9 +14,9 @@ import (
 	"github.com/evmos/evmos/v20/x/evm/statedb"
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
 
-	ethante "github.com/thesixnetwork/six-protocol/app/ante/evm"
+	ethante "github.com/thesixnetwork/six-protocol/v4/app/ante/evm"
 
-	"github.com/thesixnetwork/six-protocol/app/ante/testutils"
+	"github.com/thesixnetwork/six-protocol/v4/app/ante/testutils"
 )
 
 func BenchmarkEthGasConsumeDecorator(b *testing.B) {

@@ -6,7 +6,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/thesixnetwork/six-protocol/x/nftadmin/types"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftadmin/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )

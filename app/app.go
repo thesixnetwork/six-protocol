@@ -53,30 +53,30 @@ import (
 	feemarketkeeper "github.com/evmos/evmos/v20/x/feemarket/keeper"
 	feemarkettypes "github.com/evmos/evmos/v20/x/feemarket/types"
 
-	srvflags "github.com/thesixnetwork/six-protocol/server/flags"
+	srvflags "github.com/thesixnetwork/six-protocol/v4/server/flags"
 
-	ethante "github.com/thesixnetwork/six-protocol/app/ante/evm"
+	ethante "github.com/thesixnetwork/six-protocol/v4/app/ante/evm"
 
 	"github.com/spf13/cast"
 
-	"github.com/thesixnetwork/six-protocol/app/ante"
-	swagger "github.com/thesixnetwork/six-protocol/client/docs"
-	"github.com/thesixnetwork/six-protocol/docs"
-	nftadminmodulekeeper "github.com/thesixnetwork/six-protocol/x/nftadmin/keeper"
-	nftadminmodule "github.com/thesixnetwork/six-protocol/x/nftadmin/module"
-	nftadminmoduletypes "github.com/thesixnetwork/six-protocol/x/nftadmin/types"
-	nftmngrmodulekeeper "github.com/thesixnetwork/six-protocol/x/nftmngr/keeper"
-	nftmngrmodule "github.com/thesixnetwork/six-protocol/x/nftmngr/module"
-	nftmngrmoduletypes "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
-	nftoraclemodulekeeper "github.com/thesixnetwork/six-protocol/x/nftoracle/keeper"
-	nftoraclemodule "github.com/thesixnetwork/six-protocol/x/nftoracle/module"
-	nftoraclemoduletypes "github.com/thesixnetwork/six-protocol/x/nftoracle/types"
-	protocoladminmodulekeeper "github.com/thesixnetwork/six-protocol/x/protocoladmin/keeper"
-	protocoladminmodule "github.com/thesixnetwork/six-protocol/x/protocoladmin/module"
-	protocoladminmoduletypes "github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
-	tokenmngrmodulekeeper "github.com/thesixnetwork/six-protocol/x/tokenmngr/keeper"
-	tokenmngrmodule "github.com/thesixnetwork/six-protocol/x/tokenmngr/module"
-	tokenmngrmoduletypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+	"github.com/thesixnetwork/six-protocol/v4/app/ante"
+	swagger "github.com/thesixnetwork/six-protocol/v4/client/docs"
+	"github.com/thesixnetwork/six-protocol/v4/docs"
+	nftadminmodulekeeper "github.com/thesixnetwork/six-protocol/v4/x/nftadmin/keeper"
+	nftadminmodule "github.com/thesixnetwork/six-protocol/v4/x/nftadmin/module"
+	nftadminmoduletypes "github.com/thesixnetwork/six-protocol/v4/x/nftadmin/types"
+	nftmngrmodulekeeper "github.com/thesixnetwork/six-protocol/v4/x/nftmngr/keeper"
+	nftmngrmodule "github.com/thesixnetwork/six-protocol/v4/x/nftmngr/module"
+	nftmngrmoduletypes "github.com/thesixnetwork/six-protocol/v4/x/nftmngr/types"
+	nftoraclemodulekeeper "github.com/thesixnetwork/six-protocol/v4/x/nftoracle/keeper"
+	nftoraclemodule "github.com/thesixnetwork/six-protocol/v4/x/nftoracle/module"
+	nftoraclemoduletypes "github.com/thesixnetwork/six-protocol/v4/x/nftoracle/types"
+	protocoladminmodulekeeper "github.com/thesixnetwork/six-protocol/v4/x/protocoladmin/keeper"
+	protocoladminmodule "github.com/thesixnetwork/six-protocol/v4/x/protocoladmin/module"
+	protocoladminmoduletypes "github.com/thesixnetwork/six-protocol/v4/x/protocoladmin/types"
+	tokenmngrmodulekeeper "github.com/thesixnetwork/six-protocol/v4/x/tokenmngr/keeper"
+	tokenmngrmodule "github.com/thesixnetwork/six-protocol/v4/x/tokenmngr/module"
+	tokenmngrmoduletypes "github.com/thesixnetwork/six-protocol/v4/x/tokenmngr/types"
 
 	autocliv1 "cosmossdk.io/api/cosmos/autocli/v1"
 	reflectionv1 "cosmossdk.io/api/cosmos/reflection/v1"
@@ -169,9 +169,9 @@ import (
 
 	"github.com/evmos/evmos/v20/x/evm/core/vm"
 
-	"github.com/thesixnetwork/six-protocol/encoding"
-	"github.com/thesixnetwork/six-protocol/precompiles"
-	sixutils "github.com/thesixnetwork/six-protocol/utils"
+	"github.com/thesixnetwork/six-protocol/v4/encoding"
+	"github.com/thesixnetwork/six-protocol/v4/precompiles"
+	sixutils "github.com/thesixnetwork/six-protocol/v4/utils"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 )
 
@@ -459,9 +459,9 @@ func New(
 	memKeys := storetypes.NewMemoryStoreKeys(capabilitytypes.MemStoreKey)
 
 	app := &App{
-		BaseApp:           bApp,
-		legacyAmino:       cdc,
-		appCodec:          appCodec,
+		BaseApp:     bApp,
+		legacyAmino: cdc,
+		appCodec:    appCodec,
 		// txConfig:          txConfig,
 		interfaceRegistry: interfaceRegistry,
 		keys:              keys,

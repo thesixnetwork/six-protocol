@@ -23,8 +23,8 @@ import (
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
 	"github.com/spf13/cobra"
 
-	"github.com/thesixnetwork/six-protocol/server/config"
-	srvflags "github.com/thesixnetwork/six-protocol/server/flags"
+	"github.com/thesixnetwork/six-protocol/v4/server/config"
+	srvflags "github.com/thesixnetwork/six-protocol/v4/server/flags"
 
 	"cosmossdk.io/math"
 

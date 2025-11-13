@@ -7,9 +7,10 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 
-	"github.com/thesixnetwork/six-protocol/app"
-	"github.com/thesixnetwork/six-protocol/app/params"
-	// sixkey "github.com/thesixnetwork/six-protocol/crypto/keyring"
+	"github.com/thesixnetwork/six-protocol/v4/app"
+	"github.com/thesixnetwork/six-protocol/v4/app/params"
+
+	// sixkey "github.com/thesixnetwork/six-protocol/v4/crypto/keyring"
 
 	"cosmossdk.io/log"
 
@@ -25,7 +26,7 @@ import (
 	authtxconfig "github.com/cosmos/cosmos-sdk/x/auth/tx/config"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 
-	srvflags "github.com/thesixnetwork/six-protocol/server/flags"
+	srvflags "github.com/thesixnetwork/six-protocol/v4/server/flags"
 )
 
 const (

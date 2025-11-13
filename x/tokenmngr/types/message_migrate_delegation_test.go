@@ -5,7 +5,7 @@ import (
 
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/stretchr/testify/require"
-	"github.com/thesixnetwork/six-protocol/testutil/sample"
+	"github.com/thesixnetwork/six-protocol/v4/testutil/sample"
 )
 
 func TestMsgMigrateDelegation_ValidateBasic(t *testing.T) {

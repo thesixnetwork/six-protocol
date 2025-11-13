@@ -16,17 +16,17 @@ import (
 
 	"github.com/evmos/evmos/v20/x/evm/core/vm"
 
-	"github.com/thesixnetwork/six-protocol/utils"
+	"github.com/thesixnetwork/six-protocol/v4/utils"
 
-	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
-	tokenmngr "github.com/thesixnetwork/six-protocol/x/tokenmngr/keeper"
-	tokenmoduletypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+	pcommon "github.com/thesixnetwork/six-protocol/v4/precompiles/common"
+	tokenmngr "github.com/thesixnetwork/six-protocol/v4/x/tokenmngr/keeper"
+	tokenmoduletypes "github.com/thesixnetwork/six-protocol/v4/x/tokenmngr/types"
 )
 
 const (
-	SendToCosmos           = "transferToCosmos"
-	SendToCrossChain       = "transferToCrossChain"
-	UnwrapStakeToken       = "unwrapStakeToken"
+	SendToCosmos     = "transferToCosmos"
+	SendToCrossChain = "transferToCrossChain"
+	UnwrapStakeToken = "unwrapStakeToken"
 )
 
 const (

@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
+	"github.com/thesixnetwork/six-protocol/v4/x/protocoladmin/types"
 )
 
 func TestGenesisState_Validate(t *testing.T) {

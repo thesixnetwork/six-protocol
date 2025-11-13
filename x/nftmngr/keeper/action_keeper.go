@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftmngr/types"
 
 	errormod "cosmossdk.io/errors"
 

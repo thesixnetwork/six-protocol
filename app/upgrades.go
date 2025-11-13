@@ -19,11 +19,11 @@ import (
 	icacontrollertypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/controller/types"
 	icahosttypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/host/types"
 	ibcfeetypes "github.com/cosmos/ibc-go/v8/modules/apps/29-fee/types"
-	nftmngrtypes "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+	nftmngrtypes "github.com/thesixnetwork/six-protocol/v4/x/nftmngr/types"
 
 	"github.com/creachadair/tomledit"
 
-	srvmig "github.com/thesixnetwork/six-protocol/server/config/migration"
+	srvmig "github.com/thesixnetwork/six-protocol/v4/server/config/migration"
 )
 
 const UpgradeName = "v4.0.0"

@@ -3,8 +3,8 @@ package cli
 import (
 	"github.com/spf13/cobra"
 
-	nftmngrutils "github.com/thesixnetwork/six-protocol/x/nftmngr/client/utils"
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+	nftmngrutils "github.com/thesixnetwork/six-protocol/v4/x/nftmngr/client/utils"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftmngr/types"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"

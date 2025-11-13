@@ -3,7 +3,7 @@ package cli
 import (
 	"strconv"
 
-	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftoracle/types"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"

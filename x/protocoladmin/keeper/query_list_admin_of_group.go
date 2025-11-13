@@ -6,7 +6,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
+	"github.com/thesixnetwork/six-protocol/v4/x/protocoladmin/types"
 
 	"cosmossdk.io/store/prefix"
 

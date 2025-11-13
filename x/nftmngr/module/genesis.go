@@ -3,8 +3,8 @@ package nftmngr
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/keeper"
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftmngr/keeper"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftmngr/types"
 )
 
 // InitGenesis initializes the capability module's state from a provided genesis

@@ -3,7 +3,7 @@ package keeper
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	v1 "github.com/thesixnetwork/six-protocol/x/nftadmin/migrations/v1"
+	v1 "github.com/thesixnetwork/six-protocol/v4/x/nftadmin/migrations/v1"
 )
 
 type Migrator struct {

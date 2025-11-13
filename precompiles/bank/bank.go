@@ -14,9 +14,9 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/evmos/evmos/v20/x/evm/core/vm"
 
-	"github.com/thesixnetwork/six-protocol/utils"
+	"github.com/thesixnetwork/six-protocol/v4/utils"
 
-	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
+	pcommon "github.com/thesixnetwork/six-protocol/v4/precompiles/common"
 )
 
 const (

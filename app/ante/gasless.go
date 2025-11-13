@@ -10,9 +10,9 @@ import (
 	storetypes "cosmossdk.io/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
-	nftadminkeeper "github.com/thesixnetwork/six-protocol/x/nftadmin/keeper"
-	nftoraclekeeper "github.com/thesixnetwork/six-protocol/x/nftoracle/keeper"
-	nftoracletypes "github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+	nftadminkeeper "github.com/thesixnetwork/six-protocol/v4/x/nftadmin/keeper"
+	nftoraclekeeper "github.com/thesixnetwork/six-protocol/v4/x/nftoracle/keeper"
+	nftoracletypes "github.com/thesixnetwork/six-protocol/v4/x/nftoracle/types"
 )
 
 const (

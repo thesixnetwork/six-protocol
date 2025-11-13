@@ -3,9 +3,9 @@ package nftadmin
 import (
 	"math/rand"
 
-	"github.com/thesixnetwork/six-protocol/testutil/sample"
-	nftadminsimulation "github.com/thesixnetwork/six-protocol/x/nftadmin/simulation"
-	"github.com/thesixnetwork/six-protocol/x/nftadmin/types"
+	"github.com/thesixnetwork/six-protocol/v4/testutil/sample"
+	nftadminsimulation "github.com/thesixnetwork/six-protocol/v4/x/nftadmin/simulation"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftadmin/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"

@@ -7,9 +7,9 @@ import (
 
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 
-	modulev1 "github.com/thesixnetwork/six-protocol/api/sixprotocol/protocoladmin/module"
-	"github.com/thesixnetwork/six-protocol/x/protocoladmin/keeper"
-	"github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
+	modulev1 "github.com/thesixnetwork/six-protocol/v4/api/sixprotocol/protocoladmin/module"
+	"github.com/thesixnetwork/six-protocol/v4/x/protocoladmin/keeper"
+	"github.com/thesixnetwork/six-protocol/v4/x/protocoladmin/types"
 
 	"cosmossdk.io/core/appmodule"
 	"cosmossdk.io/core/store"

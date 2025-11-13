@@ -9,7 +9,7 @@ import (
 	testkeyring "github.com/evmos/evmos/v20/testutil/integration/evmos/keyring"
 	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
 
-	evmante "github.com/thesixnetwork/six-protocol/app/ante/evm"
+	evmante "github.com/thesixnetwork/six-protocol/v4/app/ante/evm"
 )
 
 func (suite *EvmAnteTestSuite) TestUpdateCumulativeGasWanted() {

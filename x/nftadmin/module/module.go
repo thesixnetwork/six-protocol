@@ -8,10 +8,10 @@ import (
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/spf13/cobra"
 
-	modulev1 "github.com/thesixnetwork/six-protocol/api/sixprotocol/nftadmin/module"
-	"github.com/thesixnetwork/six-protocol/x/nftadmin/client/cli"
-	"github.com/thesixnetwork/six-protocol/x/nftadmin/keeper"
-	"github.com/thesixnetwork/six-protocol/x/nftadmin/types"
+	modulev1 "github.com/thesixnetwork/six-protocol/v4/api/sixprotocol/nftadmin/module"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftadmin/client/cli"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftadmin/keeper"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftadmin/types"
 
 	"cosmossdk.io/core/appmodule"
 	"cosmossdk.io/core/store"

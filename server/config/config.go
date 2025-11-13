@@ -16,7 +16,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/server/config"
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
 
-	_ "github.com/thesixnetwork/six-protocol/server/config/migration" // Add this import to set up the proper app.toml migration logic for sdk v0.50
+	_ "github.com/thesixnetwork/six-protocol/v4/server/config/migration" // Add this import to set up the proper app.toml migration logic for sdk v0.50
 )
 
 const (

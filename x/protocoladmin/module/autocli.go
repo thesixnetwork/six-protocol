@@ -1,7 +1,7 @@
 package protocoladmin
 
 import (
-	modulev1 "github.com/thesixnetwork/six-protocol/api/sixprotocol/protocoladmin"
+	modulev1 "github.com/thesixnetwork/six-protocol/v4/api/sixprotocol/protocoladmin"
 
 	autocliv1 "cosmossdk.io/api/cosmos/autocli/v1"
 )

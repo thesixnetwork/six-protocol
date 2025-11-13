@@ -7,12 +7,12 @@ import (
 	ibckeeper "github.com/cosmos/ibc-go/v8/modules/core/keeper"
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
 
-	evmante "github.com/thesixnetwork/six-protocol/app/ante/evm"
-	anteutils "github.com/thesixnetwork/six-protocol/app/ante/utils"
+	evmante "github.com/thesixnetwork/six-protocol/v4/app/ante/evm"
+	anteutils "github.com/thesixnetwork/six-protocol/v4/app/ante/utils"
 
 	// Gasless feature imports (build tag: gasless)
-	// nftadminkeeper "github.com/thesixnetwork/six-protocol/x/nftadmin/keeper"
-	// nftoraclekeeper "github.com/thesixnetwork/six-protocol/x/nftoracle/keeper"
+	// nftadminkeeper "github.com/thesixnetwork/six-protocol/v4/x/nftadmin/keeper"
+	// nftoraclekeeper "github.com/thesixnetwork/six-protocol/v4/x/nftoracle/keeper"
 
 	errorsmod "cosmossdk.io/errors"
 	storetypes "cosmossdk.io/store/types"

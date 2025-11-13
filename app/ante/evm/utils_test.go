@@ -33,7 +33,7 @@ import (
 	ibcclienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
 	"github.com/evmos/evmos/v20/crypto/ethsecp256k1"
 
-	"github.com/thesixnetwork/six-protocol/app/ante/testutils"
+	"github.com/thesixnetwork/six-protocol/v4/app/ante/testutils"
 
 	evtypes "cosmossdk.io/x/evidence/types"
 	"cosmossdk.io/x/feegrant"

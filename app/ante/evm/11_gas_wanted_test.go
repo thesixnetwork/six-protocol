@@ -13,7 +13,7 @@ import (
 	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
 	integrationutils "github.com/evmos/evmos/v20/testutil/integration/evmos/utils"
 
-	"github.com/thesixnetwork/six-protocol/app/ante/evm"
+	"github.com/thesixnetwork/six-protocol/v4/app/ante/evm"
 )
 
 func (suite *EvmAnteTestSuite) TestCheckGasWanted() {

@@ -10,8 +10,8 @@ import (
 	disttypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	nftmngrtypes "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
-	tokenmngrtypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+	nftmngrtypes "github.com/thesixnetwork/six-protocol/v4/x/nftmngr/types"
+	tokenmngrtypes "github.com/thesixnetwork/six-protocol/v4/x/tokenmngr/types"
 )
 
 type BankKeeper interface {

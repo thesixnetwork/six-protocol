@@ -11,7 +11,7 @@ import (
 	testutiltx "github.com/evmos/evmos/v20/testutil/tx"
 	"github.com/evmos/evmos/v20/utils"
 
-	cosmosante "github.com/thesixnetwork/six-protocol/app/ante/cosmos"
+	cosmosante "github.com/thesixnetwork/six-protocol/v4/app/ante/cosmos"
 )
 
 var execTypes = []struct {

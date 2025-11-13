@@ -3,8 +3,8 @@ package simulation
 import (
 	"math/rand"
 
-	"github.com/thesixnetwork/six-protocol/x/protocoladmin/keeper"
-	"github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
+	"github.com/thesixnetwork/six-protocol/v4/x/protocoladmin/keeper"
+	"github.com/thesixnetwork/six-protocol/v4/x/protocoladmin/types"
 
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"

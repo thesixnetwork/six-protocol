@@ -6,8 +6,7 @@ import (
 	// errormod "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	// sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
-
+	"github.com/thesixnetwork/six-protocol/v4/x/tokenmngr/types"
 	// "github.com/ethereum/go-ethereum/common"
 	// evmostypes "github.com/evmos/evmos/v20/types"
 )

@@ -8,7 +8,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/spf13/cobra"
 
-	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftoracle/types"
 )
 
 func CmdListSyncActionSigner() *cobra.Command {

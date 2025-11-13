@@ -7,8 +7,8 @@ import (
 	dbm "github.com/cosmos/cosmos-db"
 	"github.com/stretchr/testify/require"
 
-	"github.com/thesixnetwork/six-protocol/x/nftadmin/keeper"
-	"github.com/thesixnetwork/six-protocol/x/nftadmin/types"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftadmin/keeper"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftadmin/types"
 
 	"cosmossdk.io/log"
 	"cosmossdk.io/store"
