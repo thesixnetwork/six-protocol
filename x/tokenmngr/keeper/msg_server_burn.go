@@ -31,7 +31,7 @@ func (k msgServer) Burn(goCtx context.Context, msg *types.MsgBurn) (*types.MsgBu
 	if msg.Amount.Amount.IsZero() {
 		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is prohibit from module")
 	}
-	// TODO:: Make sure MaxSupply and totalSupply is Dupplicate or not
+	// TODO: (@ddeedev) Make sure MaxSupply and totalSupply is Dupplicate or not
 	// if uint64(token.MaxSupply) < msg.Amount{
 	// 	return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is higher than maximum supply")
 	// }
