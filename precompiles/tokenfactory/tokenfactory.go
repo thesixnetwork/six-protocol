@@ -60,6 +60,7 @@ type PrecompileExecutor struct {
 	SendToCrossChainID []byte
 	UnwrapStakeTokenID []byte
 	address            common.Address
+	precompile         *pcommon.Precompile
 }
 
 func NewExecutor(bankKeeper pcommon.BankKeeper, accountKeeper pcommon.AccountKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper, tokennmngrMsgServer pcommon.TokenmngrMsgServer) *PrecompileExecutor {
@@ -87,7 +88,9 @@ func NewPrecompile(bankKeeper pcommon.BankKeeper, accountKeeper pcommon.AccountK
 		}
 	}
 
-	return pcommon.NewPrecompile(newAbi, p, p.address, "tokenfactory"), nil
+	precompile := pcommon.NewPrecompile(newAbi, p, p.address, "tokenfactory")
+	p.precompile = precompile
+	return precompile, nil
 }
 
 func (p *PrecompileExecutor) Address() common.Address {
@@ -165,6 +168,16 @@ func (p PrecompileExecutor) sendToCosmos(ctx sdk.Context, caller common.Address,
 	err = p.tokenmngrKeeper.AttoCoinConverter(ctx, senderCosmoAddr, receiverCosmoAddr, intAmount)
 	if err != nil {
 		return nil, err
+	}
+
+	// Track balance changes for EVM token conversion (asix -> usix)
+	if pcommon.IsEvmDenom("asix") {
+		tracker := pcommon.NewBalanceTracker(p.precompile)
+		senderEthAddr := utils.CosmosToEthAddr(senderCosmoAddr)
+
+		// Track asix being consumed in conversion
+		tracker.TrackBalanceChange(senderEthAddr, amount, pcommon.Sub)
+
 	}
 
 	// emit events
@@ -247,6 +260,16 @@ func (p PrecompileExecutor) sendToCrossChain(ctx sdk.Context, caller common.Addr
 	err = p.tokenmngrKeeper.AttoCoinConverter(ctx, senderCosmoAddr, receiverCosmoAddr, intAmount)
 	if err != nil {
 		return nil, err
+	}
+
+	// Track balance changes for EVM token conversion (asix -> usix)
+	if pcommon.IsEvmDenom("asix") {
+		tracker := pcommon.NewBalanceTracker(p.precompile)
+		senderEthAddr := utils.CosmosToEthAddr(senderCosmoAddr)
+
+		// Track asix being consumed in conversion
+		tracker.TrackBalanceChange(senderEthAddr, amount, pcommon.Sub)
+
 	}
 
 	// emit events

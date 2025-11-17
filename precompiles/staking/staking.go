@@ -57,6 +57,7 @@ type PrecompileExecutor struct {
 	bankKeeper      pcommon.BankKeeper
 	tokenmngrKeeper pcommon.TokenmngrKeeper
 	address         common.Address
+	precompile      *pcommon.Precompile
 
 	/*
 	   #################
@@ -103,7 +104,9 @@ func NewPrecompile(stakingKeeper pcommon.StakingMsgServer, stakingQuerier pcommo
 		}
 	}
 
-	return pcommon.NewPrecompile(newAbi, p, p.address, "staking"), nil
+	precompile := pcommon.NewPrecompile(newAbi, p, p.address, "staking")
+	p.precompile = precompile
+	return precompile, nil
 }
 
 // Address implements common.PrecompileExecutor.
@@ -403,6 +406,15 @@ func (p *PrecompileExecutor) convertWeiToStakingCoin(ctx sdk.Context, weiAmount 
 	err := p.tokenmngrKeeper.AttoCoinConverter(ctx, bech32Address, bech32Address, intAmount)
 	if err != nil {
 		return err
+	}
+
+	// Track balance changes for EVM token conversion (asix -> usix)
+	if pcommon.IsEvmDenom("asix") {
+		tracker := pcommon.NewBalanceTracker(p.precompile)
+		userEthAddr := utils.CosmosToEthAddr(bech32Address)
+
+		// Track asix being consumed for staking
+		tracker.TrackBalanceChange(userEthAddr, weiAmount, pcommon.Sub)
 	}
 
 	return nil

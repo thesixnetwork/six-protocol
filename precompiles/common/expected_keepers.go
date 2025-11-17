@@ -90,6 +90,7 @@ type StakingQuerier interface {
 type DistributionKeeper interface {
 	SetWithdrawAddr(ctx context.Context, delegatorAddr sdk.AccAddress, withdrawAddr sdk.AccAddress) error
 	WithdrawDelegationRewards(ctx context.Context, delAddr sdk.AccAddress, valAddr sdk.ValAddress) (sdk.Coins, error)
+	GetDelegatorWithdrawAddr(ctx context.Context, delegatorAddr sdk.AccAddress) (sdk.AccAddress, error)
 }
 type DistributionQuerier interface {
 	DelegationRewards(c context.Context, req *disttypes.QueryDelegationRewardsRequest) (*disttypes.QueryDelegationRewardsResponse, error)

@@ -55,6 +55,7 @@ type PrecompileExecutor struct {
 	distrQuerier    pcommon.DistributionQuerier
 	tokenmngrKeeper pcommon.TokenmngrKeeper
 	address         common.Address
+	precompile      *pcommon.Precompile
 
 	/*
 	   #################
@@ -97,7 +98,9 @@ func NewPrecompile(distKeeper pcommon.DistributionKeeper, distQuerier pcommon.Di
 		}
 	}
 
-	return pcommon.NewPrecompile(newAbi, p, p.address, "distribution"), nil
+	precompile := pcommon.NewPrecompile(newAbi, p, p.address, "distribution")
+	p.precompile = precompile
+	return precompile, nil
 }
 
 // Address implements common.PrecompileExecutor.
@@ -195,9 +198,24 @@ func (p *PrecompileExecutor) withdrawRewards(ctx sdk.Context, caller common.Addr
 		return nil, err
 	}
 
-	_, err = p.distrKeeper.WithdrawDelegationRewards(ctx, senderCosmoAddr, valAddress)
+	coins, err := p.distrKeeper.WithdrawDelegationRewards(ctx, senderCosmoAddr, valAddress)
 	if err != nil {
 		return nil, err
+	}
+
+	// NOTE: This ensures that the changes in the bank keeper are correctly mirrored to the EVM stateDB.
+	// This prevents the stateDB from overwriting the changed balance in the bank keeper when committing the EVM state.
+	// This happens when the precompile is called from a smart contract
+	if pcommon.ShouldTrackFromContract(caller, senderCosmoAddr) {
+		tracker := pcommon.NewBalanceTracker(p.precompile)
+
+		withdrawerHexAddr, err := p.getWithdrawerHexAddr(ctx, senderCosmoAddr)
+		if err != nil {
+			return nil, err
+		}
+
+		baseDenomAmount := pcommon.GetBaseDenomAmount(coins)
+		tracker.TrackRewardWithdrawal(withdrawerHexAddr, baseDenomAmount, pcommon.BaseDenom)
 	}
 
 	return method.Outputs.Pack(true)
@@ -385,4 +403,17 @@ func (PrecompileExecutor) IsTransaction(method string) bool {
 
 func (p PrecompileExecutor) Logger(ctx sdk.Context) log.Logger {
 	return ctx.Logger().With("precompile", "distribution")
+}
+
+// getWithdrawerHexAddr is a helper function to get the hex address
+// of the withdrawer for the specified account address
+func (p PrecompileExecutor) getWithdrawerHexAddr(ctx sdk.Context, delegatorAddr sdk.AccAddress) (common.Address, error) {
+	// Try to get the delegator's withdraw address
+	withdrawerAccAddr, err := p.distrKeeper.GetDelegatorWithdrawAddr(ctx, delegatorAddr)
+	if err != nil {
+		// If GetDelegatorWithdrawAddr is not implemented or fails,
+		// return the delegator address as the default withdrawer
+		return utils.CosmosToEthAddr(delegatorAddr), nil
+	}
+	return utils.CosmosToEthAddr(withdrawerAccAddr), nil
 }

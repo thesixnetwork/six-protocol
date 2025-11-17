@@ -61,6 +61,7 @@ type PrecompileExecutor struct {
 	DecimalsID    []byte
 	SupplyID      []byte
 	address       common.Address
+	precompile    *pcommon.Precompile
 }
 
 // Address implements common.PrecompileExecutor.
@@ -103,7 +104,10 @@ func NewPrecompile(bankKeeper pcommon.BankKeeper) (*pcommon.Precompile, error) {
 		}
 	}
 
-	return pcommon.NewPrecompile(newAbi, p, p.address, "bank"), nil
+	precompile := pcommon.NewPrecompile(newAbi, p, p.address, "bank")
+	p.precompile = precompile
+	return precompile, nil
+
 }
 
 // RequiredGas returns the required bare minimum gas to execute the precompile.
@@ -142,15 +146,7 @@ func (p PrecompileExecutor) send(ctx sdk.Context, caller common.Address, method 
 	if err := pcommon.ValidateArgsLength(args, 4); err != nil {
 		return nil, err
 	}
-	denom := args[2].(string)
-	if denom == "" {
-		return nil, errors.New("invalid denom")
-	}
-	amount := args[3].(*big.Int)
-	if amount.Cmp(utils.Big0) == 0 {
-		// short circuit
-		return method.Outputs.Pack(true)
-	}
+
 	senderCosmoAddr, err := p.accAddressFromArg(caller)
 	if err != nil {
 		return nil, err
@@ -160,8 +156,27 @@ func (p PrecompileExecutor) send(ctx sdk.Context, caller common.Address, method 
 		return nil, err
 	}
 
+	denom := args[2].(string)
+	if denom == "" {
+		return nil, errors.New("invalid denom")
+	}
+	amount := args[3].(*big.Int)
+	if amount.Cmp(utils.Big0) == 0 {
+		// short circuit
+		return method.Outputs.Pack(true)
+	}
+
 	if err := p.bankKeeper.SendCoins(ctx, senderCosmoAddr, receiverCosmoAddr, sdk.NewCoins(sdk.NewCoin(denom, sdkmath.NewIntFromBigInt(amount)))); err != nil {
 		return nil, err
+	}
+
+	// For EVM-compatible tokens, sync EVM stateDB to match bank state
+	// This prevents EVM stateDB from overwriting bank changes during commit
+	if pcommon.IsEvmDenom(denom) {
+		// Sync EVM stateDB to match the bank state changes
+		tracker := pcommon.NewBalanceTracker(p.precompile)
+		senderEthAddr := utils.CosmosToEthAddr(senderCosmoAddr)
+		tracker.TrackBalanceChange(senderEthAddr, amount, pcommon.Sub)
 	}
 
 	return method.Outputs.Pack(true)
