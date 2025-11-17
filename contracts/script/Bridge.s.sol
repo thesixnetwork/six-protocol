@@ -20,7 +20,7 @@ contract SendToCosmosScript is Script {
     // Initialize variables
     address contractAddress = TOKENFACTORY_PRECOMPILE_ADDRESS;
     string memory destinationAddress = "6x1kch0sdjr5tuvjh0h3a55c6l5sr6m0phjeag9f2";
-    uint256 amount = 1999 * 1e18;
+    uint256 amount = 990 * 1e18;
 
     // Execute the transaction
     (bool success, ) = contractAddress.call(
