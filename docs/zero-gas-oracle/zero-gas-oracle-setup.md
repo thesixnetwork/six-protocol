@@ -3,17 +3,19 @@
 ## Prerequisites
 
 1. **Running Six Protocol Node**
+
    ```bash
    # Start your local testnet
    sixd start --minimum-gas-prices="0usix"
    ```
 
 2. **Required Accounts**
+
    ```bash
    # Create/import these accounts in your keyring
    sixd keys add super-admin    # Admin account
    sixd keys add alice         # Oracle admin
-   sixd keys add oracle1       # Oracle validator 1  
+   sixd keys add oracle1       # Oracle validator 1
    sixd keys add oracle2       # Oracle validator 2
    sixd keys add oracle3       # Oracle validator 3
    ```
@@ -29,6 +31,7 @@
 ## Oracle Setup
 
 ### 1. Grant Oracle Permissions
+
 ```bash
 # Grant oracle admin permission to alice
 sixd tx nftadmin grant-permission oracle_admin $(sixd keys show alice -a) \
@@ -46,6 +49,7 @@ sixd tx nftadmin grant-permission oracle $(sixd keys show oracle3 -a) \
 ```
 
 ### 2. Configure Oracle Settings
+
 ```bash
 # Set minimum confirmation (number of oracle votes needed)
 sixd tx nftoracle set-minimum-confirmation 2 \
@@ -61,6 +65,7 @@ sixd tx nftmngr create-nft-schema \
 ## Testing Zero-Gas Oracle Voting
 
 ### 1. Create Mint Request
+
 ```bash
 # Create a mint request (this uses normal gas)
 sixd tx nftoracle create-mint-request \
@@ -73,6 +78,7 @@ sixd tx nftoracle create-mint-request \
 ```
 
 ### 2. Check Oracle Balance (Before)
+
 ```bash
 # Record oracle balance before voting
 ORACLE1_ADDR=$(sixd keys show oracle1 -a)
@@ -83,6 +89,7 @@ echo "Oracle1 balance before: $BEFORE_BALANCE usix"
 ```
 
 ### 3. Submit Zero-Gas Oracle Vote
+
 ```bash
 # Get the mint request ID
 REQUEST_ID=$(sixd query nftoracle list-mint-request --output json | \
@@ -90,7 +97,7 @@ REQUEST_ID=$(sixd query nftoracle list-mint-request --output json | \
 
 # Create NFT metadata
 NFT_DATA='{
-    "image": "https://example.com/nft.png", 
+    "image": "https://example.com/nft.png",
     "holder_address": "'$(sixd keys show alice -a)'",
     "traits": [{"trait_type": "Test", "value": "Zero-Gas"}]
 }'
@@ -107,6 +114,7 @@ sixd tx nftoracle submit-mint-response \
 ```
 
 ### 4. Verify Zero-Gas Operation
+
 ```bash
 # Check oracle balance after voting
 AFTER_BALANCE=$(sixd query bank balances "$ORACLE1_ADDR" --output json | \
@@ -124,6 +132,7 @@ fi
 ```
 
 ### 5. Complete Oracle Consensus
+
 ```bash
 # Submit second oracle vote to reach consensus
 sixd tx nftoracle submit-mint-response \
@@ -140,6 +149,7 @@ sixd query nftoracle show-mint-request "$REQUEST_ID"
 ## Test Script
 
 Use the enhanced test script:
+
 ```bash
 # Make executable
 chmod +x scripts/tests/test_oracle_voting_detailed.sh
@@ -153,6 +163,7 @@ chmod +x scripts/tests/test_oracle_voting_detailed.sh
 ### Common Issues
 
 1. **"No oracle permission" Error**
+
    ```bash
    # Verify oracle permission
    sixd query nftadmin show-authorization
@@ -160,12 +171,14 @@ chmod +x scripts/tests/test_oracle_voting_detailed.sh
    ```
 
 2. **"Oracle already voted" Error**
+
    ```bash
    # This is expected - each oracle can only vote once per request
    # Use a different oracle account
    ```
 
 3. **"Request not found" Error**
+
    ```bash
    # Check if request exists
    sixd query nftoracle list-mint-request
@@ -185,7 +198,7 @@ chmod +x scripts/tests/test_oracle_voting_detailed.sh
 # Check oracle permissions
 sixd query nftadmin show-authorization
 
-# List all mint requests  
+# List all mint requests
 sixd query nftoracle list-mint-request
 
 # Check oracle configuration
@@ -200,7 +213,7 @@ sixd query tx <TX_HASH>
 When zero-gas oracle voting is working correctly:
 
 1. **Oracle votes cost 0 gas** - Balance unchanged after voting
-2. **High priority processing** - Votes confirmed quickly  
+2. **High priority processing** - Votes confirmed quickly
 3. **Spam prevention works** - Duplicate votes rejected
 4. **Regular transactions still use gas** - Only oracle votes are free
 5. **Transaction isolation** - Oracle votes cannot be bundled

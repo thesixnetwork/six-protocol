@@ -101,12 +101,12 @@ genesis:
       account_permissions:
         - address: "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"
           permissions:
-             level: "LEVEL_SUPER_ADMIN"
-             limit_type_urls: []
+            level: "LEVEL_SUPER_ADMIN"
+            limit_type_urls: []
         - address: "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq"
           permissions:
-             level: "LEVEL_SUPER_ADMIN"
-             limit_type_urls: []
+            level: "LEVEL_SUPER_ADMIN"
+            limit_type_urls: []
     evm:
       params:
         allow_unprotected_txs: true

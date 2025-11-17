@@ -7,17 +7,20 @@ This implementation brings **Zero-Gas Oracle Voting** functionality to Six Proto
 ## Key Features
 
 ### 1. **Gasless Oracle Transactions**
+
 - Oracle votes for mint requests, action requests, and collection verification are **completely free**
 - No gas fees charged for legitimate oracle operations
 - Maintains high priority in mempool for reliable processing
 
 ### 2. **Comprehensive Spam Prevention**
+
 - **One vote per oracle per request** - prevents duplicate voting
 - **Block-level spam prevention** - prevents multiple submissions in same block
 - **Oracle permission validation** - only authorized oracles can vote
 - **Transaction isolation** - oracle votes cannot be bundled with other messages
 
 ### 3. **Security & Validation**
+
 - Validates oracle permissions through nftadmin module
 - Ensures requests are in pending state before allowing votes
 - Maintains all existing oracle slashing and reward mechanisms
@@ -28,6 +31,7 @@ This implementation brings **Zero-Gas Oracle Voting** functionality to Six Proto
 ### Core Components
 
 #### 1. **GaslessDecorator** (`app/ante/gasless.go`)
+
 The main component that determines if transactions should be gas-free:
 
 ```go
@@ -39,23 +43,28 @@ type GaslessDecorator struct {
 ```
 
 **Key Functions:**
+
 - `IsTxGasless()` - Determines if a transaction is eligible for zero-gas
 - `AnteHandle()` - Applies infinite gas meter for gasless transactions
 - Provides highest priority (`math.MaxInt64 - 100`) for oracle transactions
 
 #### 2. **Oracle Vote Validation Functions**
+
 - `oracleVoteIsGasless()` - Validates mint response votes
-- `oracleActionResponseIsGasless()` - Validates action response votes  
+- `oracleActionResponseIsGasless()` - Validates action response votes
 - `oracleCollectionVerifyIsGasless()` - Validates collection verification votes
 
 #### 3. **VoteAloneDecorator**
+
 Prevents oracle votes from being bundled with other transactions:
+
 ```go
 // Oracle votes must be submitted alone to prevent abuse
 type VoteAloneDecorator struct{}
 ```
 
 #### 4. **Spam Prevention System** (`x/nftoracle/keeper/gasless_voting.go`)
+
 - Tracks last vote height per oracle
 - Prevents multiple votes in same block
 - Automatic cleanup of old records
@@ -65,7 +74,7 @@ type VoteAloneDecorator struct{}
 The following message types are eligible for zero-gas voting:
 
 1. **`MsgSubmitMintResponse`** - Oracle responses for NFT mint requests
-2. **`MsgSubmitActionResponse`** - Oracle responses for action requests  
+2. **`MsgSubmitActionResponse`** - Oracle responses for action requests
 3. **`MsgSubmitVerifyCollectionOwner`** - Oracle responses for collection verification
 
 ### Validation Criteria
@@ -133,7 +142,7 @@ New error types for gasless voting:
 ```go
 // In x/nftoracle/types/errors.go
 ErrOracleAlreadyVoted                = "Oracle already voted"
-ErrOracleSpamPrevention              = "Oracle spam prevention triggered"  
+ErrOracleSpamPrevention              = "Oracle spam prevention triggered"
 ErrCollectionOwnerRequestNotFound    = "Collection owner request not found"
 ErrCollectionOwnerRequestNotPending  = "Collection owner request not pending"
 ErrInvalidGaslessTransaction         = "Invalid gasless transaction"
@@ -154,6 +163,7 @@ The implementation includes comprehensive test scripts:
 ### Test Scenarios
 
 #### Zero-Gas Voting Test
+
 ```bash
 # Test oracle vote without gas fees
 sixd tx nftoracle submit-mint-response "$request_id" "$base64_data" \
@@ -163,11 +173,12 @@ sixd tx nftoracle submit-mint-response "$request_id" "$base64_data" \
 ```
 
 #### Spam Prevention Test
+
 ```bash
 # First vote should succeed
 oracle1 vote -> ✅ SUCCESS (gasless)
 
-# Duplicate vote should fail  
+# Duplicate vote should fail
 oracle1 vote again -> ❌ REJECTED (duplicate)
 
 # Different oracle should work
@@ -177,50 +188,57 @@ oracle2 vote -> ✅ SUCCESS (gasless)
 ## Benefits
 
 ### 1. **Cost Efficiency**
+
 - **Zero operational costs** for oracle validators
 - Eliminates barrier to entry for smaller validators
 - Reduces oracle infrastructure costs
 
-### 2. **Reliability**  
+### 2. **Reliability**
+
 - **Highest priority** processing ensures votes aren't delayed
 - **No gas estimation issues** - votes always process
 - Improved oracle uptime and participation
 
 ### 3. **Security**
+
 - **Robust spam prevention** without compromising functionality
 - **Permission-based access** maintains security model
 - **Transaction isolation** prevents bundling attacks
 
 ### 4. **Scalability**
+
 - Supports high-frequency oracle operations
-- No gas market congestion for oracle votes  
+- No gas market congestion for oracle votes
 - Predictable oracle response times
 
 ## Comparison with Sei Protocol
 
-| Feature | Sei Protocol | Six Protocol |
-|---------|--------------|--------------|
-| **Gasless Voting** | ✅ Exchange rate votes | ✅ NFT oracle votes |
-| **Spam Prevention** | ✅ Block-level + Vote period | ✅ Block-level + Duplicate detection |
-| **Priority System** | ✅ Highest priority | ✅ Highest priority |
-| **Vote Isolation** | ✅ No bundling | ✅ No bundling |
-| **Permission System** | ✅ Validator-based | ✅ nftadmin permission-based |
-| **DoS Protection** | ✅ One vote per period | ✅ One vote per request |
+| Feature               | Sei Protocol                 | Six Protocol                         |
+| --------------------- | ---------------------------- | ------------------------------------ |
+| **Gasless Voting**    | ✅ Exchange rate votes       | ✅ NFT oracle votes                  |
+| **Spam Prevention**   | ✅ Block-level + Vote period | ✅ Block-level + Duplicate detection |
+| **Priority System**   | ✅ Highest priority          | ✅ Highest priority                  |
+| **Vote Isolation**    | ✅ No bundling               | ✅ No bundling                       |
+| **Permission System** | ✅ Validator-based           | ✅ nftadmin permission-based         |
+| **DoS Protection**    | ✅ One vote per period       | ✅ One vote per request              |
 
 ## Security Considerations
 
 ### DoS Protection
+
 - **Oracle Permission Required** - Only authorized addresses can submit gasless votes
 - **Request Validation** - Votes only accepted for valid, pending requests
 - **Duplicate Prevention** - Each oracle can vote once per request
 - **Block-level Rate Limiting** - Prevents spam within single block
 
 ### Economic Security
+
 - **Slashing Still Active** - Bad oracles can still be penalized
 - **Reward Mechanisms Preserved** - Incentive structures remain intact
 - **Gas for Non-Oracle Transactions** - Only oracle votes are gasless
 
 ### Attack Prevention
+
 - **Transaction Bundling Blocked** - Oracle votes must be submitted alone
 - **Invalid Vote Rejection** - Comprehensive validation before gasless approval
 - **Cleanup Mechanisms** - Prevents storage bloat from tracking data
@@ -228,6 +246,7 @@ oracle2 vote -> ✅ SUCCESS (gasless)
 ## Usage Examples
 
 ### Oracle Voting (Zero Gas)
+
 ```bash
 # Oracle submits mint response with zero gas
 sixd tx nftoracle submit-mint-response \
@@ -241,6 +260,7 @@ sixd tx nftoracle submit-mint-response \
 ```
 
 ### Regular Transaction (Normal Gas)
+
 ```bash
 # Regular transfer still uses gas
 sixd tx bank send alice bob 100usix \
@@ -253,12 +273,14 @@ sixd tx bank send alice bob 100usix \
 ## Future Enhancements
 
 ### Potential Improvements
+
 1. **Configurable Gasless Types** - Admin control over which message types are gasless
 2. **Oracle Reputation System** - Different gas policies based on oracle performance
 3. **Dynamic Rate Limiting** - Adjust spam prevention based on network conditions
 4. **Analytics Dashboard** - Monitor gasless transaction volume and patterns
 
 ### Monitoring & Metrics
+
 - Track gasless transaction volume
 - Monitor oracle participation rates
 - Analyze spam prevention effectiveness
