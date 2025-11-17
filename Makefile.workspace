@@ -1,0 +1,243 @@
+#!/usr/bin/make -f
+
+# Go Workspace Makefile for SIX Protocol
+# This Makefile helps manage the Go workspace with multiple modules
+
+.PHONY: help workspace-init workspace-sync workspace-test workspace-build workspace-clean
+.PHONY: sixclient-test sixclient-build sixclient-example main-test main-build
+.PHONY: deps-update deps-verify workspace-status
+
+# Default target
+help:
+	@echo "Go Workspace Management for SIX Protocol"
+	@echo ""
+	@echo "Available commands:"
+	@echo "  workspace-init    - Initialize Go workspace"
+	@echo "  workspace-sync    - Sync all module dependencies"
+	@echo "  workspace-test    - Run tests for all modules"
+	@echo "  workspace-build   - Build all modules"
+	@echo "  workspace-clean   - Clean all build artifacts"
+	@echo "  workspace-status  - Show workspace status"
+	@echo ""
+	@echo "SixClient commands:"
+	@echo "  sixclient-test    - Test sixclient module"
+	@echo "  sixclient-build   - Build sixclient module"
+	@echo "  sixclient-example - Run sixclient examples"
+	@echo ""
+	@echo "Main module commands:"
+	@echo "  main-test         - Test main six-protocol module"
+	@echo "  main-build        - Build main six-protocol module"
+	@echo ""
+	@echo "Dependency commands:"
+	@echo "  deps-update       - Update all dependencies"
+	@echo "  deps-verify       - Verify all dependencies"
+	@echo ""
+	@echo "Test commands:"
+	@echo "  test-workspace    - Test workspace setup"
+	@echo ""
+	@echo "Environment variables:"
+	@echo "  MNEMONIC          - Wallet mnemonic for testing"
+
+# Initialize Go workspace
+workspace-init:
+	@echo "🔧 Initializing Go workspace..."
+	@if [ ! -f go.work ]; then \
+		echo "Creating go.work file..."; \
+		go work init . ./sixclient; \
+	else \
+		echo "go.work already exists"; \
+	fi
+	@echo "✅ Workspace initialized"
+
+# Sync all module dependencies
+workspace-sync:
+	@echo "🔄 Syncing workspace dependencies..."
+	go work sync
+	@echo "✅ Dependencies synchronized"
+
+# Test all modules in workspace
+workspace-test:
+	@echo "🧪 Running tests for all modules..."
+	go test ./...
+	go test ./sixclient/...
+	@echo "✅ All tests completed"
+
+# Build all modules
+workspace-build: main-build sixclient-build
+	@echo "✅ All modules built successfully"
+
+# Clean all build artifacts
+workspace-clean:
+	@echo "🧹 Cleaning workspace..."
+	go clean ./...
+	go clean ./sixclient/...
+	rm -f test_workspace
+	rm -f sixclient/examples/basic_usage
+	@echo "✅ Workspace cleaned"
+
+# Show workspace status
+workspace-status:
+	@echo "📊 Go Workspace Status"
+	@echo "======================"
+	@echo "Go version: $(shell go version)"
+	@echo ""
+	@echo "Workspace modules:"
+	@go list -m -f '{{.Path}} {{.Dir}}' all | head -10
+	@echo ""
+	@echo "Active go.work file:"
+	@if [ -f go.work ]; then \
+		cat go.work; \
+	else \
+		echo "No go.work file found"; \
+	fi
+
+# Test sixclient module specifically
+sixclient-test:
+	@echo "🧪 Testing sixclient module..."
+	cd sixclient && go test -v ./...
+	@echo "✅ SixClient tests completed"
+
+# Build sixclient module
+sixclient-build:
+	@echo "🔨 Building sixclient module..."
+	cd sixclient && go build ./...
+	@echo "✅ SixClient built successfully"
+
+# Run sixclient examples
+sixclient-example:
+	@echo "🚀 Running sixclient examples..."
+	@if [ -z "$(MNEMONIC)" ]; then \
+		echo "⚠️  MNEMONIC environment variable not set"; \
+		echo "   Using test mnemonic for demonstration"; \
+		cd sixclient/examples && go run basic_usage.go; \
+	else \
+		echo "✅ Using provided MNEMONIC"; \
+		cd sixclient/examples && MNEMONIC="$(MNEMONIC)" go run basic_usage.go; \
+	fi
+
+# Test main six-protocol module
+main-test:
+	@echo "🧪 Testing main six-protocol module..."
+	go test ./x/... ./app/...
+	@echo "✅ Main module tests completed"
+
+# Build main six-protocol module
+main-build:
+	@echo "🔨 Building main six-protocol module..."
+	go build ./cmd/sixd
+	@echo "✅ Main module built successfully"
+
+# Update all dependencies
+deps-update:
+	@echo "⬆️  Updating dependencies..."
+	go get -u ./...
+	cd sixclient && go get -u ./...
+	go mod tidy
+	cd sixclient && go mod tidy
+	go work sync
+	@echo "✅ All dependencies updated"
+
+# Verify all dependencies
+deps-verify:
+	@echo "🔍 Verifying dependencies..."
+	go mod verify
+	cd sixclient && go mod verify
+	@echo "✅ All dependencies verified"
+
+# Test workspace setup
+test-workspace:
+	@echo "🧪 Testing workspace setup..."
+	@if [ ! -f test_workspace.go ]; then \
+		echo "❌ test_workspace.go not found"; \
+		exit 1; \
+	fi
+	go run test_workspace.go
+	@echo "✅ Workspace test completed"
+
+# Format all Go code
+format:
+	@echo "🎨 Formatting Go code..."
+	go fmt ./...
+	cd sixclient && go fmt ./...
+	@echo "✅ Code formatted"
+
+# Run linters
+lint:
+	@echo "🔍 Running linters..."
+	@if command -v golangci-lint >/dev/null 2>&1; then \
+		golangci-lint run ./...; \
+		cd sixclient && golangci-lint run ./...; \
+	else \
+		echo "golangci-lint not installed, running go vet instead"; \
+		go vet ./...; \
+		cd sixclient && go vet ./...; \
+	fi
+	@echo "✅ Linting completed"
+
+# Install development tools
+install-tools:
+	@echo "🛠️  Installing development tools..."
+	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+	@echo "✅ Development tools installed"
+
+# Generate documentation
+docs:
+	@echo "📚 Generating documentation..."
+	go doc -all ./sixclient > docs/sixclient-api.md
+	@echo "✅ Documentation generated"
+
+# Create release build
+release: workspace-clean workspace-test workspace-build
+	@echo "🚀 Creating release build..."
+	@echo "✅ Release build completed"
+
+# Development setup
+dev-setup: workspace-init workspace-sync install-tools
+	@echo "🔧 Setting up development environment..."
+	@echo ""
+	@echo "✅ Development environment ready!"
+	@echo ""
+	@echo "Next steps:"
+	@echo "  1. Set your MNEMONIC environment variable"
+	@echo "  2. Run: make test-workspace"
+	@echo "  3. Run: make sixclient-example"
+	@echo ""
+	@echo "Example:"
+	@echo "  export MNEMONIC='your twelve word mnemonic here'"
+	@echo "  make test-workspace"
+
+# Quick test with sample data
+quick-test:
+	@echo "⚡ Running quick tests..."
+	@echo "Testing workspace setup..."
+	@$(MAKE) test-workspace
+	@echo ""
+	@echo "Testing sixclient build..."
+	@$(MAKE) sixclient-build
+	@echo ""
+	@echo "✅ Quick test completed"
+
+# Show workspace info
+info:
+	@echo "ℹ️  SIX Protocol Go Workspace Information"
+	@echo "========================================"
+	@echo ""
+	@echo "Project structure:"
+	@echo "  📁 six-protocol/           - Main blockchain module"
+	@echo "  📁 sixclient/             - Go SDK for SIX Protocol"
+	@echo "  📁 sixclient/examples/    - Usage examples"
+	@echo "  📄 go.work                - Workspace configuration"
+	@echo "  📄 Makefile.workspace     - This makefile"
+	@echo ""
+	@echo "Key files:"
+	@echo "  🔧 go.mod                 - Main module dependencies"
+	@echo "  🔧 sixclient/go.mod       - SixClient dependencies"
+	@echo "  📝 test_workspace.go      - Workspace test script"
+	@echo ""
+	@echo "Usage:"
+	@echo "  make help                 - Show all commands"
+	@echo "  make dev-setup            - Setup development environment"
+	@echo "  make workspace-test       - Test all modules"
+	@echo "  make sixclient-example    - Run SDK examples"
+	@echo ""
+	@echo "🔗 Documentation: sixclient/README.md"

@@ -10,6 +10,10 @@ interface ITokenFactory {
 
   function unwrapStakeToken(uint256 amount) external returns (bool success);
 
-  function changeDelegatorAddress(address oldAddr, address newAddr) external returns (bool success);
-
+  function transferToCrossChain(
+    string memory dst,
+    uint256 amount,
+    string memory memo,
+    string memory chain
+  ) external returns (bool success);
 }
