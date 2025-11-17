@@ -57,6 +57,8 @@ type PrecompileExecutor struct {
 	tokenmngrKeeper    pcommon.TokenmngrKeeper
 	tokenmngrMsgServer pcommon.TokenmngrMsgServer
 	SendToCosmosID     []byte
+	SendToCrossChainID []byte
+	UnwrapStakeTokenID []byte
 	address            common.Address
 }
 
@@ -78,6 +80,10 @@ func NewPrecompile(bankKeeper pcommon.BankKeeper, accountKeeper pcommon.AccountK
 		switch name {
 		case SendToCosmos:
 			p.SendToCosmosID = m.ID
+		case SendToCrossChain:
+			p.SendToCrossChainID = m.ID
+		case UnwrapStakeToken:
+			p.UnwrapStakeTokenID = m.ID
 		}
 	}
 
