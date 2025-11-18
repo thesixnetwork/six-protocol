@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"embed"
 	"errors"
-	"fmt"
 	"math/big"
 
 	"cosmossdk.io/log"
@@ -290,8 +289,6 @@ func (p *PrecompileExecutor) rewards(ctx sdk.Context, method *abi.Method, args [
 		ValidatorAddress: validatorAddressBech32,
 	}
 
-	fmt.Printf("\n RETURN :%v \n", reward)
-
 	return method.Outputs.Pack(reward)
 }
 
@@ -324,8 +321,6 @@ func (p PrecompileExecutor) allRewards(ctx sdk.Context, method *abi.Method, args
 	if err != nil {
 		return nil, err
 	}
-
-	fmt.Printf("\n RETURN :%v \n", response)
 
 	rewardsOutput := getResponseOutput(response)
 	return method.Outputs.Pack(rewardsOutput)
