@@ -1,3 +1,4 @@
+// Package common contains shared types and utilities for EVM precompiled contracts.
 package common
 
 import (

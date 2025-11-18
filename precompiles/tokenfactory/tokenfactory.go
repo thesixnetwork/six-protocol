@@ -330,7 +330,7 @@ func (p PrecompileExecutor) unwrapStakeToken(ctx sdk.Context, caller common.Addr
 		Amount:   sdk.NewCoin(tokenmngr.DefaultMicroDenom, sdkmath.NewIntFromBigInt(amount)),
 	}
 
-	_, err = p.tokenmngrMsgServer.WrapToken(sdk.WrapSDKContext(ctx), msg)
+	_, err = p.tokenmngrMsgServer.WrapToken(ctx, msg)
 	if err != nil {
 		return nil, err
 	}

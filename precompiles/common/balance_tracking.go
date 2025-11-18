@@ -43,6 +43,18 @@ func (bt *BalanceTracker) TrackBalanceChanges(entries ...BalanceChangeEntry) {
 // TrackTransfer records balance changes for a transfer operation
 // This is a convenience function for the common case of moving tokens between accounts
 func (bt *BalanceTracker) TrackTransfer(sender, receiver common.Address, amount *big.Int, denom string) {
+	if amount.Sign() == 0 {
+		return
+	}
+
+	if denom != "" && !IsTrackableDenom(denom) {
+		return
+	}
+
+	if denom != EvmDenom {
+		return
+	}
+
 	bt.TrackBalanceChanges(
 		NewBalanceChangeEntry(sender, amount, Sub),
 		NewBalanceChangeEntry(receiver, amount, Add),

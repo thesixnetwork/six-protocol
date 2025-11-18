@@ -51,7 +51,7 @@ contract UnwrapStakeScript is Script {
 
     // Initialize variables
     address contractAddress = TOKENFACTORY_PRECOMPILE_ADDRESS;
-    uint256 amount = 1999 * 1e6;
+    uint256 amount = 990 * 1e6;
 
     // Execute the transaction
     (bool success, ) = contractAddress.call(abi.encodeWithSignature("unwrapStakeToken(uint256)", amount));
