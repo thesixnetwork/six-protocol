@@ -117,8 +117,12 @@ func (p PrecompileExecutor) RequiredGas(input []byte, method *abi.Method) uint64
 
 func (p PrecompileExecutor) Execute(ctx sdk.Context, method *abi.Method, caller common.Address, callingContract common.Address, args []interface{}, value *big.Int, readOnly bool, evm *vm.EVM) (bz []byte, err error) {
 	switch method.Name {
-	case SendMethod:
+	/*
+		TODO: (@ddeedev): add balance state tracking
+		NOTE: disable function relate with bank module on v4.0.0
+		case SendMethod:
 		return p.send(ctx, caller, method, args, value, readOnly)
+	*/
 	case BalanceMethod:
 		return p.balance(ctx, method, args, value)
 	case AllBalancesMethod:

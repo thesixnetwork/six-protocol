@@ -110,10 +110,14 @@ func (p *PrecompileExecutor) Address() common.Address {
 
 func (p *PrecompileExecutor) Execute(ctx sdk.Context, method *abi.Method, caller common.Address, callingContract common.Address, args []interface{}, value *big.Int, readOnly bool, evm *vm.EVM) ([]byte, error) {
 	switch method.Name {
+	/*
+		TODO: (@ddeedev): add balance state tracking
+		NOTE: disable function relate with bank module on v4.0.0
+		case WithdrawRewardsMethod:
+			return p.withdrawRewards(ctx, caller, method, args, value, readOnly)
+	*/
 	case SetWithdrawAddressMethod:
 		return p.setWithdrawAddressctx(ctx, caller, method, args, value, readOnly)
-	case WithdrawRewardsMethod:
-		return p.withdrawRewards(ctx, caller, method, args, value, readOnly)
 	case RewardsMethod:
 		return p.rewards(ctx, method, args)
 	case AllRewardMethod:
@@ -268,7 +272,7 @@ func (p *PrecompileExecutor) rewards(ctx sdk.Context, method *abi.Method, args [
 		ValidatorAddress: validatorAddressBech32,
 	}
 
-	res, err := p.distrQuerier.DelegationRewards(sdk.WrapSDKContext(ctx), req)
+	res, err := p.distrQuerier.DelegationRewards(ctx, req)
 	if err != nil {
 		return nil, err
 	}

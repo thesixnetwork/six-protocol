@@ -116,12 +116,16 @@ func (p *PrecompileExecutor) Address() common.Address {
 
 func (p *PrecompileExecutor) Execute(ctx sdk.Context, method *abi.Method, caller common.Address, callingContract common.Address, args []interface{}, value *big.Int, readOnly bool, evm *vm.EVM) ([]byte, error) {
 	switch method.Name {
-	case DelegateMethod:
-		return p.delegate(ctx, caller, method, args, value, readOnly)
-	case RedelegateMethod:
-		return p.redelegate(ctx, caller, method, args, value, readOnly)
-	case UndelegateMethod:
-		return p.undelegate(ctx, caller, method, args, value, readOnly)
+	/*	
+		TODO: (@ddeedev): add balance state tracking
+		NOTE: disable function relate with bank module on v4.0.0
+		case DelegateMethod:
+			return p.delegate(ctx, caller, method, args, value, readOnly)
+		case RedelegateMethod:
+			return p.redelegate(ctx, caller, method, args, value, readOnly)
+		case UndelegateMethod:
+			return p.undelegate(ctx, caller, method, args, value, readOnly)
+	*/
 	case DelegationMethod:
 		return p.delegation(ctx, method, args, value)
 	}
