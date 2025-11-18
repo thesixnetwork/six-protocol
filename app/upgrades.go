@@ -27,7 +27,7 @@ import (
 )
 
 const UpgradeName = "v4.0.0"
-const UpgradeNameHotfix = "v4.0.0-hotfix-2" // HOTFIX ONLY ON FIVENET
+const UpgradeNameHotfix = "v4.0.0-hotfix-3" // HOTFIX ONLY ON FIVENET
 
 func (app *App) RegisterUpgradeHandlers() {
 	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx context.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
