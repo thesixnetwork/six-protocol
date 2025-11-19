@@ -1,0 +1,20 @@
+{
+  "messages": [
+    {
+      "@type": "/cosmos.upgrade.v1beta1.MsgSoftwareUpgrade",
+      "authority": "6x10d07y265gmmuvt4z0w9aw880jnsr700j4vyszp",
+      "plan": {
+        "name": "v4.0.0-hotfix-3",
+        "time": "0001-01-01T00:00:00Z",
+        "height": "16014200",
+        "info": "v4.0.0-hotfix-3",
+        "upgraded_client_state": null
+      }
+    }
+  ],
+  "metadata": "ipfs://CID",
+  "deposit": "50000000000usix",
+  "title": "v4.0.0-hotfix-3",
+  "summary": "v4.0.0-hotfix-3",
+  "expedited": false
+}
