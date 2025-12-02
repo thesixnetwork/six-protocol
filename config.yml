@@ -143,7 +143,7 @@ genesis:
     nftmngr:
       nft_fee_config:
         schema_fee:
-          fee_amount: 200000000usix
+          fee_amount: 5000000usix
           fee_distributions:
             - method: BURN
               portion: 0.5
