@@ -8,9 +8,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
-var (
-	OracleLastVoteHeightPrefix = []byte{0x20} // Prefix for oracle last vote height tracking
-)
+var OracleLastVoteHeightPrefix = []byte{0x20} // Prefix for oracle last vote height tracking
 
 // SetOracleLastVoteHeight sets the last block height when an oracle voted
 func (k Keeper) SetOracleLastVoteHeight(ctx context.Context, oracle sdk.AccAddress, height int64) {
@@ -48,7 +46,6 @@ func (k Keeper) DeleteOracleLastVoteHeight(ctx context.Context, oracle sdk.AccAd
 
 // IsOracleGaslessEnabled returns true if gasless oracle voting is enabled
 func (k Keeper) IsOracleGaslessEnabled(ctx context.Context) bool {
-
 	return true
 }
 

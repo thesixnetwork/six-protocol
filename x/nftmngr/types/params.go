@@ -11,9 +11,7 @@ const (
 	DefaultPeriod time.Duration = time.Hour * 24 * 2 // 2 days
 )
 
-var (
-	ParamsStoreKeyVotingPeriod = []byte("VotingPeriod")
-)
+var ParamsStoreKeyVotingPeriod = []byte("VotingPeriod")
 
 var _ paramtypes.ParamSet = (*Params)(nil)
 

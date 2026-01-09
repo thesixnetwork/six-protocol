@@ -19,6 +19,7 @@ import (
 	icacontrollertypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/controller/types"
 	icahosttypes "github.com/cosmos/ibc-go/v8/modules/apps/27-interchain-accounts/host/types"
 	ibcfeetypes "github.com/cosmos/ibc-go/v8/modules/apps/29-fee/types"
+
 	nftmngrtypes "github.com/thesixnetwork/six-protocol/v4/x/nftmngr/types"
 
 	"github.com/creachadair/tomledit"
@@ -26,8 +27,10 @@ import (
 	srvmig "github.com/thesixnetwork/six-protocol/v4/server/config/migration"
 )
 
-const UpgradeName = "v4.0.0"
-const UpgradeNameHotfix = "v4.0.0-hotfix-3" // HOTFIX ONLY ON FIVENET
+const (
+	UpgradeName       = "v4.0.0"
+	UpgradeNameHotfix = "v4.0.0-hotfix-3" // HOTFIX ONLY ON FIVENET
+)
 
 func (app *App) RegisterUpgradeHandlers() {
 	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx context.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
