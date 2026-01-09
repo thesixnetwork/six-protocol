@@ -10,6 +10,7 @@ import (
 	storetypes "cosmossdk.io/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
+
 	nftadminkeeper "github.com/thesixnetwork/six-protocol/v4/x/nftadmin/keeper"
 	nftoraclekeeper "github.com/thesixnetwork/six-protocol/v4/x/nftoracle/keeper"
 	nftoracletypes "github.com/thesixnetwork/six-protocol/v4/x/nftoracle/types"
@@ -225,7 +226,6 @@ func hasOracleAlreadyVoted(confirmers []string, oracleAddr string) bool {
 
 // checkAndSetSpamPreventionCounter prevents multiple oracle submissions in the same block
 func checkAndSetSpamPreventionCounter(ctx sdk.Context, oracle sdk.AccAddress, oracleKeeper nftoraclekeeper.Keeper) error {
-
 	// Get the last block height this oracle submitted a vote
 	lastVoteHeight := oracleKeeper.GetOracleLastVoteHeight(ctx, oracle)
 	currentHeight := ctx.BlockHeight()

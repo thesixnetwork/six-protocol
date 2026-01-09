@@ -3,7 +3,7 @@ version: "3"
 services:
   sixnode0:
     container_name: sixnode0
-    image: "asia-southeast1-docker.pkg.dev/six-protocol/six-node-docker-repo/sixnode:${DOCKER_TAG:-v4.0.0}"
+    image: "asia-southeast1-docker.pkg.dev/six-protocol/six-node-docker-repo/sixnode:${DOCKER_TAG:-4.0.0}"
     ports:
       - "26656-26657:26656-26657"
       - "1317:1317"
@@ -20,7 +20,7 @@ services:
 
   sixnode1:
     container_name: sixnode1
-    image: "asia-southeast1-docker.pkg.dev/six-protocol/six-node-docker-repo/sixnode:${DOCKER_TAG:-v4.0.0}"
+    image: "asia-southeast1-docker.pkg.dev/six-protocol/six-node-docker-repo/sixnode:${DOCKER_TAG:-4.0.0}"
     ports:
       - "26665-26666:26656-26657"
       - "8553-8554:8545-8546"
@@ -36,7 +36,7 @@ services:
 
   sixnode2:
     container_name: sixnode2
-    image: "asia-southeast1-docker.pkg.dev/six-protocol/six-node-docker-repo/sixnode:${DOCKER_TAG:-v4.0.0}"
+    image: "asia-southeast1-docker.pkg.dev/six-protocol/six-node-docker-repo/sixnode:${DOCKER_TAG:-4.0.0}"
     ports:
       - "26661-26662:26656-26657"
       - "9096-9097:9090-9091"
@@ -51,7 +51,7 @@ services:
 
   sixnode3:
     container_name: sixnode3
-    image: "asia-southeast1-docker.pkg.dev/six-protocol/six-node-docker-repo/sixnode:${DOCKER_TAG:-v4.0.0}"
+    image: "asia-southeast1-docker.pkg.dev/six-protocol/six-node-docker-repo/sixnode:${DOCKER_TAG:-4.0.0}"
     ports:
       - "26663-26664:26656-26657"
       - "9098-9099:9090-9091"

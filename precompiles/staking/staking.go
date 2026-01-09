@@ -116,7 +116,7 @@ func (p *PrecompileExecutor) Address() common.Address {
 
 func (p *PrecompileExecutor) Execute(ctx sdk.Context, method *abi.Method, caller common.Address, callingContract common.Address, args []interface{}, value *big.Int, readOnly bool, evm *vm.EVM) ([]byte, error) {
 	switch method.Name {
-	/*	
+	/*
 		TODO: (@ddeedev): add balance state tracking
 		NOTE: disable function relate with bank module on v4.0.0
 		case DelegateMethod:

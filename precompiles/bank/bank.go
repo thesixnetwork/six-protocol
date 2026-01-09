@@ -107,7 +107,6 @@ func NewPrecompile(bankKeeper pcommon.BankKeeper) (*pcommon.Precompile, error) {
 	precompile := pcommon.NewPrecompile(newAbi, p, p.address, "bank")
 	p.precompile = precompile
 	return precompile, nil
-
 }
 
 // RequiredGas returns the required bare minimum gas to execute the precompile.

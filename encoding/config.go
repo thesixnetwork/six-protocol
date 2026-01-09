@@ -30,7 +30,7 @@ func MakeConfig() sdktestutil.TestEncodingConfig {
 			Bech32Prefix: sdk.GetConfig().GetBech32ValidatorAddrPrefix(),
 		},
 		CustomGetSigners: map[protoreflect.FullName]signing.GetSignersFunc{
-			evmtypes.MsgEthereumTxCustomGetSigner.MsgType:     evmtypes.MsgEthereumTxCustomGetSigner.Fn,
+			evmtypes.MsgEthereumTxCustomGetSigner.MsgType: evmtypes.MsgEthereumTxCustomGetSigner.Fn,
 		},
 	}
 
