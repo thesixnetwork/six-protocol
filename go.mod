@@ -1,6 +1,6 @@
 module github.com/thesixnetwork/six-protocol/v4
 
-go 1.25.5
+go 1.25.7
 
 require (
 	cosmossdk.io/api v0.7.5
