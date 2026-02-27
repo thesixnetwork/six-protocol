@@ -52,7 +52,7 @@ jobs:
         uses: aquasecurity/trivy-action@0.28.0
         continue-on-error: true
         with:
-          image-ref: ${{ env.CONTAINER_REGISTRY }}/${{ env.CLOUD_RUN_PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          image-ref: ${{ env.IMAGE_NAME }}:${{ github.sha }}
           format: "table"
           severity: "CRITICAL,HIGH,MEDIUM"
           vuln-type: "os,library"
@@ -138,4 +138,4 @@ jobs:
           }"
 
           curl -X POST -H "Content-Type: application/json" -d "$MESSAGE" \
-          "https://chat.googleapis.com/v1/spaces/AAQAMqqW9VM/messages?key=${{ secrets.GCHAT_KEY }}&token=${{ secrets.GCHAT_TOKEN }}"
+          "https://chat.googleapis.com/v1/spaces/AAQAMqqW9VM/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=DBNWlBNnSoA9OrU4d7hUc4Ul5kCo9LbhXDst2swGO2A"
