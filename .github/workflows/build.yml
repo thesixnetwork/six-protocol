@@ -63,7 +63,7 @@ jobs:
         uses: aquasecurity/trivy-action@0.28.0
         continue-on-error: true
         with:
-          image-ref: ${{ env.CONTAINER_REGISTRY }}/${{ env.CLOUD_RUN_PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          image-ref: ${{ env.IMAGE_NAME }}:${{ github.sha }}
           format: "json"
           output: "trivy-results.json"
           severity: "CRITICAL,HIGH,MEDIUM"
