@@ -1,10 +1,5 @@
-# docker build . -t six-protocol/sixd:latest
-# docker run --rm -it cosmoscontracts/sixd:latest /bin/sh
-FROM golang:1.24-bookworm AS go-builder
+FROM golang:1.25.7-bookworm AS go-builder
 
-# Install build dependencies using apt-get for a Debian-based system.
-# build-essential includes gcc, make, and other core build tools.
-# libudev-dev is the Debian equivalent of eudev-dev for Cgo and Ledger.
 RUN apt-get update && apt-get install -y \
   ca-certificates \
   build-essential \
