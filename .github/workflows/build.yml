@@ -49,7 +49,7 @@ jobs:
 
       - name: Run Trivy vulnerability scanner (Table)
         id: trivy-scan
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@0.29.0
         continue-on-error: true
         with:
           image-ref: ${{ env.IMAGE_NAME }}:${{ github.sha }}
@@ -57,10 +57,11 @@ jobs:
           severity: "CRITICAL,HIGH,MEDIUM"
           vuln-type: "os,library"
           scanners: "vuln,secret,misconfig"
+          trivy-version: "0.55.2"
 
       - name: Run Trivy vulnerability scanner (JSON)
         id: trivy-json
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@0.29.0
         continue-on-error: true
         with:
           image-ref: ${{ env.IMAGE_NAME }}:${{ github.sha }}
@@ -69,6 +70,7 @@ jobs:
           severity: "CRITICAL,HIGH,MEDIUM"
           vuln-type: "os,library"
           scanners: "vuln,secret,misconfig"
+          trivy-version: "0.55.2"
 
       - name: Parse Trivy results and send to Google Chat
         if: always()
