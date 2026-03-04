@@ -34,7 +34,7 @@ jobs:
     name: Comprehensive Security Scan
     environment: FIVENET
     runs-on: ubuntu-latest
-    needs: build-and-deploy
+    needs: release-linux-amd64-to-bucket
     permissions:
       contents: read
       security-events: write
@@ -44,15 +44,15 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build an image (for scanning)
-        run: docker build . --tag $CONTAINER_REGISTRY/$CLOUD_RUN_PROJECT_ID/$REPO_NAME/$IMAGE_NAME:$GITHUB_SHA
+        run: |
+          docker build . --tag ${{ env.IMAGE_NAME }}:${{ github.sha }}
 
-      # Trivy scan with table output for logs
       - name: Run Trivy vulnerability scanner (Table)
         id: trivy-scan
         uses: aquasecurity/trivy-action@master
         continue-on-error: true
         with:
-          image-ref: ${{ env.CONTAINER_REGISTRY }}/${{ env.CLOUD_RUN_PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          image-ref: ${{ env.IMAGE_NAME }}:${{ github.sha }}
           format: "table"
           severity: "CRITICAL,HIGH,MEDIUM"
           vuln-type: "os,library"
@@ -64,7 +64,7 @@ jobs:
         uses: aquasecurity/trivy-action@master
         continue-on-error: true
         with:
-          image-ref: ${{ env.CONTAINER_REGISTRY }}/${{ env.CLOUD_RUN_PROJECT_ID }}/${{ env.REPO_NAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          image-ref: ${{ env.IMAGE_NAME }}:${{ github.sha }}
           format: "json"
           output: "trivy-results.json"
           severity: "CRITICAL,HIGH,MEDIUM"
