@@ -1,0 +1,6 @@
+# Explicitly tell GitHub to treat certain files as Go
+*.go linguist-language=Go
+
+# Ignore specific folders that might contain old JS artifacts or dependencies
+node_modules/* linguist-vendored
+dist/* linguist-vendored
