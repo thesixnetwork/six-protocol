@@ -1,0 +1,19 @@
+syntax = "proto3";
+package sixprotocol.nftmngr;
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
+
+import "sixprotocol/nftmngr/action.proto";
+import "gogoproto/gogo.proto";
+
+message VirtualAction {
+  string virtualNftSchemaCode = 1;
+  string name = 2;
+  string desc = 3;
+  bool disable = 4;
+  string when = 5;
+  repeated string then = 6;
+  // NOTE: Policy of virtual action
+  AllowedActioner allowed_actioner = 7 [ (gogoproto.nullable) = true ];
+  repeated ActionParams params = 8 [ (gogoproto.nullable) = true ];
+}

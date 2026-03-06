@@ -1,0 +1,462 @@
+syntax = "proto3";
+package sixprotocol.nftmngr;
+
+import "amino/amino.proto";
+import "cosmos/msg/v1/msg.proto";
+import "cosmos_proto/cosmos.proto";
+import "gogoproto/gogo.proto";
+import "google/protobuf/any.proto";
+import "google/api/annotations.proto";
+import "sixprotocol/nftmngr/action_executor.proto";
+import "sixprotocol/nftmngr/schema_attribute.proto";
+import "sixprotocol/nftmngr/virtual_action.proto";
+import "sixprotocol/nftmngr/on_chain_data.proto";
+import "sixprotocol/nftmngr/attribute_definition.proto";
+import "sixprotocol/nftmngr/nft_attribute_value.proto";
+import "sixprotocol/nftmngr/virtual_schema.proto";
+import "sixprotocol/nftmngr/action.proto";
+import "sixprotocol/nftmngr/nft_fee_config.proto";
+import "sixprotocol/nftmngr/params.proto";
+// this line is used by starport scaffolding # proto/tx/import
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
+
+// Msg defines the Msg service.
+service Msg {
+  option (cosmos.msg.v1.service) = true;
+
+  // UpdateParams defines a (governance) operation for updating the module
+  // parameters. The authority defaults to the x/gov module account.
+  rpc UpdateParams(MsgUpdateParams) returns (MsgUpdateParamsResponse);
+  rpc CreateNFTSchema(MsgCreateNFTSchema) returns (MsgCreateNFTSchemaResponse);
+  rpc CreateMetadata(MsgCreateMetadata) returns (MsgCreateMetadataResponse);
+  rpc PerformActionByAdmin(MsgPerformActionByAdmin)
+      returns (MsgPerformActionByAdminResponse);
+  rpc AddAttribute(MsgAddAttribute) returns (MsgAddAttributeResponse);
+  rpc AddAction(MsgAddAction) returns (MsgAddActionResponse);
+  rpc SetBaseUri(MsgSetBaseUri) returns (MsgSetBaseUriResponse);
+  rpc ToggleAction(MsgToggleAction) returns (MsgToggleActionResponse);
+  rpc ChangeSchemaOwner(MsgChangeSchemaOwner)
+      returns (MsgChangeSchemaOwnerResponse);
+  rpc ResyncAttributes(MsgResyncAttributes)
+      returns (MsgResyncAttributesResponse);
+  rpc ShowAttributes(MsgShowAttributes) returns (MsgShowAttributesResponse);
+  rpc SetFeeConfig(MsgSetFeeConfig) returns (MsgSetFeeConfigResponse);
+  rpc SetMintauth(MsgSetMintauth) returns (MsgSetMintauthResponse);
+  rpc ChangeOrgOwner(MsgChangeOrgOwner) returns (MsgChangeOrgOwnerResponse);
+  rpc SetUriRetrievalMethod(MsgSetUriRetrievalMethod)
+      returns (MsgSetUriRetrievalMethodResponse);
+  rpc SetOriginChain(MsgSetOriginChain) returns (MsgSetOriginChainResponse);
+  rpc SetOriginContract(MsgSetOriginContract)
+      returns (MsgSetOriginContractResponse);
+  rpc SetAttributeOveriding(MsgSetAttributeOveriding)
+      returns (MsgSetAttributeOveridingResponse);
+  rpc SetMetadataFormat(MsgSetMetadataFormat)
+      returns (MsgSetMetadataFormatResponse);
+  rpc CreateActionExecutor(MsgCreateActionExecutor)
+      returns (MsgCreateActionExecutorResponse);
+  rpc DeleteActionExecutor(MsgDeleteActionExecutor)
+      returns (MsgDeleteActionExecutorResponse);
+  rpc UpdateSchemaAttribute(MsgUpdateSchemaAttribute)
+      returns (MsgUpdateSchemaAttributeResponse);
+  rpc UpdateAction(MsgUpdateAction) returns (MsgUpdateActionResponse);
+  rpc ProposalVirtualSchema(MsgProposalVirtualSchema)
+      returns (MsgProposalVirtualSchemaResponse);
+  rpc PerformVirtualAction(MsgPerformVirtualAction)
+      returns (MsgPerformVirtualActionResponse);
+  rpc VoteVirtualSchemaProposal(MsgVoteVirtualSchemaProposal)
+      returns (MsgVoteVirtualSchemaProposalResponse);
+}
+
+// MsgUpdateParams is the Msg/UpdateParams request type.
+message MsgUpdateParams {
+  option (cosmos.msg.v1.signer) = "authority";
+  option (amino.name) = "sixprotocol/x/nftmngr/MsgUpdateParams";
+
+  // authority is the address that controls the module (defaults to x/gov unless
+  // overwritten).
+  string authority = 1 [ (cosmos_proto.scalar) = "cosmos.AddressString" ];
+
+  // params defines the module parameters to update.
+
+  Params params = 2
+      [ (gogoproto.nullable) = false, (amino.dont_omitempty) = true ];
+}
+
+// MsgUpdateParamsResponse defines the response structure for executing a
+// MsgUpdateParams message.
+message MsgUpdateParamsResponse {}
+
+enum AttributeLocation {
+  NFT_ATTRIBUTE = 0;
+  TOKEN_ATTRIBUTE = 1;
+}
+
+enum AuthorizeTo {
+  SYSTEM = 0;
+  ALL = 1;
+}
+
+message MsgCreateNFTSchema {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string nftSchemaBase64 = 2;
+}
+
+message MsgCreateNFTSchemaResponse { string code = 1; }
+
+message MsgCreateMetadata {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string nftSchemaCode = 2;
+  string tokenId = 3;
+  string base64NFTData = 4;
+}
+
+message MsgCreateMetadataResponse {
+  string nftSchemaCode = 1;
+  string tokenId = 2;
+}
+
+message OpenseaAttribute {
+  string trait_type = 1;
+  google.protobuf.Any value = 2;
+}
+
+message UpdatedOpenseaAttributes { repeated OpenseaAttribute attributes = 1; }
+
+message UpdatedOriginData {
+  oneof updated_origin_data { UpdatedOpenseaAttributes opensea = 1; }
+}
+
+// ActionParameter
+message ActionParameter {
+  string name = 1;
+  string value = 2;
+}
+
+message MsgPerformActionByAdmin {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string nftSchemaCode = 2;
+  string tokenId = 3;
+  string action = 4;
+  string refId = 5;
+  repeated ActionParameter parameters = 6;
+}
+
+message MsgPerformActionByAdminResponse {
+  string nftSchemaCode = 1;
+  string tokenId = 2;
+}
+
+message MsgAddAttribute {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string code = 2;
+  AttributeLocation location = 3;
+  string base64NewAttriuteDefenition = 4;
+}
+
+message MsgAddAttributeResponse {
+  string code = 1;
+  string name = 2;
+}
+
+message MsgAddAction {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string code = 2;
+  string base64NewAction = 3;
+}
+
+message MsgAddActionResponse {
+  string code = 1;
+  string name = 2;
+}
+
+message MsgSetBaseUri {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string code = 2;
+  string newBaseUri = 3;
+}
+
+message MsgSetBaseUriResponse {
+  string code = 1;
+  string uri = 2;
+}
+
+message MsgToggleAction {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string code = 2;
+  string action = 3;
+  bool status = 4;
+}
+
+message MsgToggleActionResponse {
+  string code = 1;
+  string name = 2;
+  bool status = 3;
+}
+
+message MsgChangeSchemaOwner {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string nftSchemaCode = 2;
+  string newOwner = 3;
+}
+
+message MsgChangeSchemaOwnerResponse {
+  string nftSchemaCode = 1;
+  string newOwner = 2;
+}
+
+message MsgResyncAttributesResponse {
+  string nftSchemaCode = 1;
+  string tokenId = 2;
+}
+
+message MsgShowAttributes {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string nftSchemaCode = 2;
+  bool show = 3;
+  repeated string attributeNames = 4;
+}
+
+message MsgShowAttributesResponse { string nftSchema = 1; }
+message MsgResyncAttributes {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string nftSchemaCode = 2;
+  string tokenId = 3;
+}
+
+message MsgSetFeeConfig {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  FeeConfig feeConfig = 2;
+}
+
+message MsgSetFeeConfigResponse {}
+
+message MsgSetMintauth {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string nftSchemaCode = 2;
+  AuthorizeTo authorizeTo = 3;
+}
+
+message MsgSetMintauthResponse { string nftSchemaCode = 1; }
+
+message MsgChangeOrgOwner {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string orgName = 2;
+  string toNewOwner = 3;
+}
+
+message MsgChangeOrgOwnerResponse {
+  string orgName = 1;
+  string oldOwner = 2;
+  string newOwner = 3;
+}
+
+message MsgSetUriRetrievalMethod {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string schemaCode = 2;
+  int32 newMethod = 3;
+}
+
+message MsgSetUriRetrievalMethodResponse {
+  string schemaCode = 1;
+  string newMethod = 2;
+}
+
+message MsgSetOriginChain {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string schemaCode = 2;
+  string newOriginChain = 3;
+}
+
+message MsgSetOriginChainResponse {
+  string schemaCode = 1;
+  string newOriginChain = 2;
+}
+
+message MsgSetOriginContract {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string schemaCode = 2;
+  string newContractAddress = 3;
+}
+
+message MsgSetOriginContractResponse {
+  string schemaCode = 1;
+  string newContractAddress = 2;
+}
+
+message MsgSetAttributeOveriding {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string schemaCode = 2;
+  int32 newOveridingType = 3;
+}
+
+message MsgSetAttributeOveridingResponse {
+  string schemaCode = 1;
+  string newOveriding = 2;
+}
+
+message MsgSetMetadataFormat {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string schemaCode = 2;
+  string newFormat = 3;
+}
+
+message MsgSetMetadataFormatResponse {
+  string schemaCode = 1;
+  string newFormat = 2;
+}
+
+message MsgCreateActionExecutor {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string nftSchemaCode = 2;
+  string executorAddress = 3;
+}
+message MsgCreateActionExecutorResponse {
+  string nftSchemaCode = 1;
+  string executorAddress = 2;
+}
+
+message MsgUpdateActionExecutor {
+  string creator = 1;
+  string nftSchemaCode = 2;
+  string executorAddress = 3;
+}
+message MsgUpdateActionExecutorResponse {
+  string nftSchemaCode = 1;
+  string executorAddress = 2;
+}
+
+message MsgDeleteActionExecutor {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string nftSchemaCode = 2;
+  string executorAddress = 3;
+}
+message MsgDeleteActionExecutorResponse {
+  string nftSchemaCode = 1;
+  string executorAddress = 2;
+}
+
+message MsgUpdateSchemaAttribute {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string nftSchemaCode = 2;
+  string Base64UpdateAttriuteDefenition = 3;
+}
+
+message MsgUpdateSchemaAttributeResponse {
+  option (cosmos.msg.v1.signer) = "creator";
+  string nftSchemaCode = 1;
+  string name = 2;
+}
+
+message MsgUpdateAction {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string nftSchemaCode = 2;
+  string base64UpdateAction = 3;
+}
+
+message MsgUpdateActionResponse {
+  string nftSchemaCode = 1;
+  string name = 2;
+}
+
+message MsgCreateVirtualAction {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string nftSchemaCode = 2;
+  repeated Action newActions = 3;
+}
+
+message MsgCreateVirtualActionResponse {
+  string nftSchemaCode = 1;
+  repeated VirtualAction virtualAction = 2;
+}
+
+message MsgUpdateVirtualAction {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string nftSchemaCode = 2;
+  repeated Action newActions = 3;
+}
+
+message MsgUpdateVirtualActionResponse {
+  string nftSchemaCode = 1;
+  repeated VirtualAction virtualAction = 2;
+}
+
+message MsgDeleteVirtualAction {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string nftSchemaCode = 2;
+  string name = 3;
+}
+
+message MsgDeleteVirtualActionResponse {
+  string creator = 1;
+  string status = 2;
+}
+
+message MsgPerformVirtualAction {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string nftSchemaName = 2;
+  repeated TokenIdMap tokenIdMap = 3;
+  string action = 4;
+  string refId = 5;
+  repeated ActionParameter parameters = 6;
+}
+
+message MsgPerformVirtualActionResponse { string nftSchemaName = 2; }
+
+message TokenIdMap {
+  string nftSchemaName = 1;
+  string tokenId = 2;
+}
+
+message MsgProposalVirtualSchema {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string virtualNftSchemaCode = 2;
+  ProposalType proposalType = 3;
+  repeated VirtualSchemaRegistryRequest registry = 4;
+  repeated Action actions = 5;
+  repeated string executors = 6;
+  bool enable = 7;
+}
+
+message MsgProposalVirtualSchemaResponse {
+  string id = 1;
+  string virtualNftSchemaCode = 2;
+  ProposalType proposalType = 3;
+}
+
+message MsgVoteVirtualSchemaProposal {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1;
+  string id = 2;
+  string nftSchemaCode = 3;
+  RegistryStatus option = 4;
+}
+
+message MsgVoteVirtualSchemaProposalResponse {}

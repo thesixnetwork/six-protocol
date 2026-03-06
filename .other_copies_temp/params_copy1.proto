@@ -1,0 +1,17 @@
+syntax = "proto3";
+package sixprotocol.nftmngr;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "google/protobuf/duration.proto";
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
+
+// Params defines the parameters for the module.
+message Params {
+  option (amino.name) = "sixprotocol/x/nftmngr/Params";
+  option (gogoproto.equal) = true;
+
+  // Duration of the voting period.
+  google.protobuf.Duration voting_period = 1 [ (gogoproto.stdduration) = true ];
+}

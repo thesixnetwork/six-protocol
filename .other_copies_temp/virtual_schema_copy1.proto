@@ -1,0 +1,59 @@
+syntax = "proto3";
+package sixprotocol.nftmngr;
+
+import "gogoproto/gogo.proto";
+import "google/protobuf/timestamp.proto";
+import "sixprotocol/nftmngr/action.proto";
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
+
+message VirtualSchemaProposal {
+  string id = 1;
+  ProposalType proposalType = 2;
+  VirtualSchema virtualSchema = 3;
+  repeated Action actions = 4;
+  repeated string executors = 5;
+  google.protobuf.Timestamp submitTime = 6
+      [ (gogoproto.stdtime) = true, (gogoproto.nullable) = false ];
+  google.protobuf.Timestamp votingStartTime = 7
+      [ (gogoproto.stdtime) = true, (gogoproto.nullable) = false ];
+  google.protobuf.Timestamp votingEndTime = 8
+      [ (gogoproto.stdtime) = true, (gogoproto.nullable) = false ];
+}
+
+message VirtualSchemaProposalRequest {
+  string virtualSchemaCode = 1;
+  repeated string virtualSchemaRegistry = 2;
+  repeated Action actions = 3;
+  repeated string executors = 4;
+  bool enable = 5;
+}
+
+message VirtualSchema {
+  string virtualNftSchemaCode = 1;
+  repeated VirtualSchemaRegistry registry = 2;
+  bool enable = 3;
+  // link wih virtual action. We will not put in here to reduce redundance info
+}
+
+message VirtualSchemaRegistry {
+  string nftSchemaCode = 1;
+  RegistryStatus decision = 2;
+}
+
+message VirtualSchemaRegistryRequest { string nftSchemaCode = 1; }
+
+message ActiveVirtualSchemaProposal { string id = 1; }
+
+message InactiveVirtualSchemaProposal { string id = 1; }
+
+enum RegistryStatus {
+  PENDING = 0;
+  REJECT = 1;
+  ACCEPT = 2;
+}
+
+enum ProposalType {
+  CREATE = 0;
+  EDIT = 1;
+}
