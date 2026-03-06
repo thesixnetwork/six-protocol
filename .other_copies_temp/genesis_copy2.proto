@@ -1,0 +1,62 @@
+syntax = "proto3";
+package sixprotocol.nftmngr;
+
+import "gogoproto/gogo.proto";
+import "sixprotocol/nftmngr/params.proto";
+import "sixprotocol/nftmngr/nft_schema.proto";
+import "sixprotocol/nftmngr/nft_data.proto";
+import "sixprotocol/nftmngr/action_by_ref_id.proto";
+import "sixprotocol/nftmngr/organization.proto";
+import "sixprotocol/nftmngr/nft_schema_by_contract.proto";
+import "sixprotocol/nftmngr/nft_fee_config.proto";
+import "sixprotocol/nftmngr/nft_fee_balance.proto";
+import "sixprotocol/nftmngr/metadata_creator.proto";
+import "sixprotocol/nftmngr/nft_collection.proto";
+import "sixprotocol/nftmngr/action_executor.proto";
+import "sixprotocol/nftmngr/schema_attribute.proto";
+import "sixprotocol/nftmngr/action_of_schema.proto";
+import "sixprotocol/nftmngr/executor_of_schema.proto";
+import "sixprotocol/nftmngr/virtual_action.proto";
+import "sixprotocol/nftmngr/virtual_schema.proto";
+import "sixprotocol/nftmngr/lock_schema_fee.proto";
+// this line is used by starport scaffolding # genesis/proto/import
+
+option go_package = "github.com/thesixnetwork/six-protocol/x/nftmngr/types";
+
+// GenesisState defines the nftmngr module's genesis state.
+message GenesisState {
+  Params params = 1 [ (gogoproto.nullable) = false ];
+  repeated NFTSchema nFTSchemaList = 2 [ (gogoproto.nullable) = false ];
+  repeated NftData nftDataList = 3 [ (gogoproto.nullable) = false ];
+  repeated ActionByRefId actionByRefIdList = 4 [ (gogoproto.nullable) = false ];
+  repeated Organization organizationList = 5 [ (gogoproto.nullable) = false ];
+  repeated NFTSchemaByContract nFTSchemaByContractList = 7
+      [ (gogoproto.nullable) = false ];
+  NFTFeeConfig nft_fee_config = 8;
+  NFTFeeBalance nFTFeeBalance = 9;
+  repeated MetadataCreator metadataCreatorList = 10
+      [ (gogoproto.nullable) = false ];
+  repeated NftCollection nftCollectionList = 11
+      [ (gogoproto.nullable) = false ];
+  repeated ActionExecutor actionExecutorList = 12
+      [ (gogoproto.nullable) = false ];
+  repeated SchemaAttribute schemaAttributeList = 13
+      [ (gogoproto.nullable) = false ];
+  repeated ActionOfSchema actionOfSchemaList = 14
+      [ (gogoproto.nullable) = false ];
+  repeated ExecutorOfSchema executorOfSchemaList = 15
+      [ (gogoproto.nullable) = false ];
+  repeated VirtualAction virtualActionList = 16
+      [ (gogoproto.nullable) = false ];
+  repeated VirtualSchema virtualSchemaList = 17
+      [ (gogoproto.nullable) = false ];
+  repeated VirtualSchemaProposal virtualSchemaProposalList = 19
+      [ (gogoproto.nullable) = false ];
+  repeated ActiveVirtualSchemaProposal activeVirtualSchemaProposalList = 20
+      [ (gogoproto.nullable) = false ];
+  repeated InactiveVirtualSchemaProposal inactiveVirtualSchemaProposalList = 21
+      [ (gogoproto.nullable) = false ];
+  repeated LockSchemaFee lockSchemaFeeList = 22
+      [ (gogoproto.nullable) = false ];
+  // this line is used by starport scaffolding # genesis/proto/state
+}
