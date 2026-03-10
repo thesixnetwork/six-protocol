@@ -4,3 +4,16 @@
 # Ignore specific folders that might contain old JS artifacts or dependencies
 node_modules/* linguist-vendored
 dist/* linguist-vendored
+
+# Exclude vendor libraries (Solidity dependencies with JS tests)
+contracts/lib/** linguist-vendored
+
+# Exclude generated Swagger UI files
+client/docs/swagger-ui/** linguist-generated
+
+# Exclude forge build outputs
+contracts/out/** linguist-generated
+broadcast/** linguist-generated
+
+vue/** linguist-generated
+ts-client/** linguist-generated
