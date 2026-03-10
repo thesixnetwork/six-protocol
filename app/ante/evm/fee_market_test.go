@@ -14,8 +14,8 @@ import (
 	"github.com/evmos/evmos/v20/utils"
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
 
-	"github.com/thesixnetwork/six-protocol/app/ante/evm"
-	"github.com/thesixnetwork/six-protocol/app/ante/testutils"
+	"github.com/thesixnetwork/six-protocol/v4/app/ante/evm"
+	"github.com/thesixnetwork/six-protocol/v4/app/ante/testutils"
 )
 
 func (suite *AnteTestSuite) TestGasWantedDecorator() {

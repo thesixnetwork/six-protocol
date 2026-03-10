@@ -1,7 +1,7 @@
 package keeper
 
 import (
-	"github.com/thesixnetwork/six-protocol/x/nftadmin/types"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftadmin/types"
 )
 
 type msgServer struct {

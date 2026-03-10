@@ -9,7 +9,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	evmostype "github.com/evmos/evmos/v20/types"
 
-	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+	"github.com/thesixnetwork/six-protocol/v4/x/tokenmngr/types"
 )
 
 func (k msgServer) WrapToken(goCtx context.Context, msg *types.MsgWrapToken) (*types.MsgWrapTokenResponse, error) {

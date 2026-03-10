@@ -3,7 +3,7 @@ package keeper
 import (
 	"context"
 
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftmngr/types"
 
 	errormod "cosmossdk.io/errors"
 
@@ -12,7 +12,7 @@ import (
 )
 
 func (k Keeper) AddActionExecutor(ctx context.Context, creator, nftSchemaName, executorAddress string) error {
-	schema, foundNftSchema := k.GetNftschema(ctx, nftSchemaName)
+	schema, foundNftSchema := k.GetNFTSchema(ctx, nftSchemaName)
 	_, foundVirtualSchema := k.GetVirtualSchema(ctx, nftSchemaName)
 
 	if !foundNftSchema && !foundVirtualSchema {
@@ -68,7 +68,7 @@ func (k Keeper) AddActionExecutor(ctx context.Context, creator, nftSchemaName, e
 // RemoveActionExecutor removes a actionExecutor from the store
 func (k Keeper) DelActionExecutor(ctx context.Context, creator, nftSchemaName, executorAddress string) error {
 	// Retrieve the schema
-	schema, foundNftSchema := k.GetNftschema(ctx, nftSchemaName)
+	schema, foundNftSchema := k.GetNFTSchema(ctx, nftSchemaName)
 	_, foundVirtualSchema := k.GetVirtualSchema(ctx, nftSchemaName)
 
 	if !foundNftSchema && !foundVirtualSchema {

@@ -13,7 +13,7 @@ import (
 	"github.com/evmos/evmos/v20/types"
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
 
-	anteutils "github.com/thesixnetwork/six-protocol/app/ante/utils"
+	anteutils "github.com/thesixnetwork/six-protocol/v4/app/ante/utils"
 )
 
 // UpdateCumulativeGasWanted updates the cumulative gas wanted

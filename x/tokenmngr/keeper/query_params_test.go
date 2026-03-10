@@ -5,8 +5,8 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
-	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+	keepertest "github.com/thesixnetwork/six-protocol/v4/testutil/keeper"
+	"github.com/thesixnetwork/six-protocol/v4/x/tokenmngr/types"
 )
 
 func TestParamsQuery(t *testing.T) {

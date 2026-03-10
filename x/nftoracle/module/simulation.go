@@ -3,9 +3,9 @@ package nftoracle
 import (
 	"math/rand"
 
-	"github.com/thesixnetwork/six-protocol/testutil/sample"
-	nftoraclesimulation "github.com/thesixnetwork/six-protocol/x/nftoracle/simulation"
-	"github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+	"github.com/thesixnetwork/six-protocol/v4/testutil/sample"
+	nftoraclesimulation "github.com/thesixnetwork/six-protocol/v4/x/nftoracle/simulation"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftoracle/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"

@@ -3,7 +3,7 @@ package keeper
 import (
 	"fmt"
 
-	"github.com/thesixnetwork/six-protocol/x/nftadmin/types"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftadmin/types"
 
 	"cosmossdk.io/core/store"
 	"cosmossdk.io/log"
@@ -56,4 +56,8 @@ func (k Keeper) GetAuthority() string {
 // Logger returns a module-specific logger.
 func (k Keeper) Logger() log.Logger {
 	return k.logger.With("module", fmt.Sprintf("x/%s", types.ModuleName))
+}
+
+func (k Keeper) GetStoreService() store.KVStoreService {
+	return k.storeService
 }

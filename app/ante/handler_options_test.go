@@ -7,9 +7,9 @@ import (
 	"github.com/evmos/evmos/v20/types"
 	"github.com/stretchr/testify/require"
 
-	ethante "github.com/thesixnetwork/six-protocol/app/ante/evm"
+	ethante "github.com/thesixnetwork/six-protocol/v4/app/ante/evm"
 
-	"github.com/thesixnetwork/six-protocol/app/ante"
+	"github.com/thesixnetwork/six-protocol/v4/app/ante"
 )
 
 func TestValidateHandlerOptions(t *testing.T) {

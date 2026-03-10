@@ -11,8 +11,8 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 
-	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
-	nftmngrtypes "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+	pcommon "github.com/thesixnetwork/six-protocol/v4/precompiles/common"
+	nftmngrtypes "github.com/thesixnetwork/six-protocol/v4/x/nftmngr/types"
 )
 
 func (p PrecompileExecutor) addAction(ctx sdk.Context, caller common.Address, method *abi.Method, args []interface{}, value *big.Int, readOnly bool) ([]byte, error) {

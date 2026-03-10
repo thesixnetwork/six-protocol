@@ -8,7 +8,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/runtime"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+	"github.com/thesixnetwork/six-protocol/v4/x/tokenmngr/types"
 )
 
 func MigrateStore(ctx sdk.Context, storeService store.KVStoreService) error {

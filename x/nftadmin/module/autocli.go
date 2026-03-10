@@ -1,7 +1,7 @@
 package nftadmin
 
 import (
-	modulev1 "github.com/thesixnetwork/six-protocol/api/sixprotocol/nftadmin"
+	modulev1 "github.com/thesixnetwork/six-protocol/v4/api/sixprotocol/nftadmin"
 
 	autocliv1 "cosmossdk.io/api/cosmos/autocli/v1"
 )

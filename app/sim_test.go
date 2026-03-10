@@ -17,7 +17,7 @@ import (
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/require"
 
-	"github.com/thesixnetwork/six-protocol/app"
+	"github.com/thesixnetwork/six-protocol/v4/app"
 
 	"cosmossdk.io/log"
 	"cosmossdk.io/store"
@@ -187,7 +187,6 @@ func TestAppImportExport(t *testing.T) {
 	ctxA := bApp.NewContextLegacy(true, cmtproto.Header{Height: bApp.LastBlockHeight()})
 	ctxB := newApp.NewContextLegacy(true, cmtproto.Header{Height: bApp.LastBlockHeight()})
 	_, err = newApp.ModuleManager.InitGenesis(ctxB, bApp.AppCodec(), genesisState)
-
 	if err != nil {
 		if strings.Contains(err.Error(), "validator set is empty after InitGenesis") {
 			logger.Info("Skipping simulation as all validators have been unbonded")

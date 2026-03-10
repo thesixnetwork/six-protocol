@@ -9,7 +9,7 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 
-	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
+	pcommon "github.com/thesixnetwork/six-protocol/v4/precompiles/common"
 )
 
 const (

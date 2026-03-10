@@ -29,14 +29,6 @@ accounts:
     mnemonic: expect peace defense conduct virtual flight flip unit equip solve broccoli
       protect shed group else useless tree such tornado minimum decade tower warfare
       galaxy
-  - name: ""
-    coins:
-      - 10000000000000000000000asix
-    address: 6x1kch0sdjr5tuvjh0h3a55c6l5sr6m0phjeag9f2
-  - name: ""
-    coins:
-      - 10000000000000000000asix
-    address: 6x18743s33zmsvmvyynfxu5sy2f80e2g5mz8dk65g
 faucet:
   name: faucet
   coins:
@@ -101,12 +93,12 @@ genesis:
       account_permissions:
         - address: "6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"
           permissions:
-             level: "LEVEL_SUPER_ADMIN"
-             limit_type_urls: []
+            level: "LEVEL_SUPER_ADMIN"
+            limit_type_urls: []
         - address: "6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq"
           permissions:
-             level: "LEVEL_SUPER_ADMIN"
-             limit_type_urls: []
+            level: "LEVEL_SUPER_ADMIN"
+            limit_type_urls: []
     evm:
       params:
         allow_unprotected_txs: true
@@ -121,12 +113,12 @@ genesis:
         #   - "0x0000000000000000000000000000000000001069"
     feemarket:
       params:
-        base_fee: "5000000000000"
+        base_fee: "100000000000"
         base_fee_change_denominator: 8
         elasticity_multiplier: 4
         enable_height: "0"
         min_gas_multiplier: "0.5"
-        min_gas_price: "5000000000000.0"
+        min_gas_price: "100000000000.0"
         no_base_fee: false
     gov:
       params:
@@ -151,7 +143,7 @@ genesis:
     nftmngr:
       nft_fee_config:
         schema_fee:
-          fee_amount: 200000000usix
+          fee_amount: 5000000usix
           fee_distributions:
             - method: BURN
               portion: 0.5

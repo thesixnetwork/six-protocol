@@ -17,7 +17,7 @@ import (
 	"github.com/evmos/evmos/v20/types"
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
 
-	"github.com/thesixnetwork/six-protocol/app/ante/evm"
+	"github.com/thesixnetwork/six-protocol/v4/app/ante/evm"
 )
 
 var _ evm.DynamicFeeEVMKeeper = MockEVMKeeper{}

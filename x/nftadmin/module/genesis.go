@@ -3,8 +3,8 @@ package nftadmin
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/thesixnetwork/six-protocol/x/nftadmin/keeper"
-	"github.com/thesixnetwork/six-protocol/x/nftadmin/types"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftadmin/keeper"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftadmin/types"
 )
 
 // InitGenesis initializes the capability module's state from a provided genesis

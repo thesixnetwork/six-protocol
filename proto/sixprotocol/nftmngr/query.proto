@@ -240,6 +240,8 @@ service Query {
       returns (QueryListActiveProposalResponse) {
     option (google.api.http).get =
         "/thesixnetwork/six-protocol/nftmngr/list_active_proposal";
+        // TODO:: CHANGE TO BELOW PATH AFTER PROPOSAL v4.0.0+
+        // "/thesixnetwork/sixnft/nftmngr/list_active_proposal";
   }
 
   // Queries a LockSchemaFee by index.
@@ -247,6 +249,8 @@ service Query {
       returns (QueryGetLockSchemaFeeResponse) {
     option (google.api.http).get =
         "/thesixnetwork/six-protocol/nftmngr/lock_schema_fee/{index}";
+        // TODO:: CHANGE TO BELOW PATH AFTER PROPOSAL v4.0.0+
+        // "/thesixnetwork/sixnft/nftmngr/lock_schema_fee/{index}";
   }
 
   // Queries a list of LockSchemaFee items.
@@ -254,6 +258,8 @@ service Query {
       returns (QueryAllLockSchemaFeeResponse) {
     option (google.api.http).get =
         "/thesixnetwork/six-protocol/nftmngr/lock_schema_fee";
+        // TODO:: CHANGE TO BELOW PATH AFTER PROPOSAL v4.0.0+
+        // "/thesixnetwork/sixnft/nftmngr/lock_schema_fee";
   }
 
   // this line is used by starport scaffolding # 2

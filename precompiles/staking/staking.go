@@ -17,8 +17,8 @@ import (
 
 	"github.com/evmos/evmos/v20/x/evm/core/vm"
 
-	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
-	"github.com/thesixnetwork/six-protocol/utils"
+	pcommon "github.com/thesixnetwork/six-protocol/v4/precompiles/common"
+	"github.com/thesixnetwork/six-protocol/v4/utils"
 )
 
 const (
@@ -57,6 +57,7 @@ type PrecompileExecutor struct {
 	bankKeeper      pcommon.BankKeeper
 	tokenmngrKeeper pcommon.TokenmngrKeeper
 	address         common.Address
+	precompile      *pcommon.Precompile
 
 	/*
 	   #################
@@ -103,7 +104,9 @@ func NewPrecompile(stakingKeeper pcommon.StakingMsgServer, stakingQuerier pcommo
 		}
 	}
 
-	return pcommon.NewPrecompile(newAbi, p, p.address, "staking"), nil
+	precompile := pcommon.NewPrecompile(newAbi, p, p.address, "staking")
+	p.precompile = precompile
+	return precompile, nil
 }
 
 // Address implements common.PrecompileExecutor.
@@ -113,12 +116,16 @@ func (p *PrecompileExecutor) Address() common.Address {
 
 func (p *PrecompileExecutor) Execute(ctx sdk.Context, method *abi.Method, caller common.Address, callingContract common.Address, args []interface{}, value *big.Int, readOnly bool, evm *vm.EVM) ([]byte, error) {
 	switch method.Name {
-	case DelegateMethod:
-		return p.delegate(ctx, caller, method, args, value, readOnly)
-	case RedelegateMethod:
-		return p.redelegate(ctx, caller, method, args, value, readOnly)
-	case UndelegateMethod:
-		return p.undelegate(ctx, caller, method, args, value, readOnly)
+	/*
+		TODO: (@ddeedev): add balance state tracking
+		NOTE: disable function relate with bank module on v4.0.0
+		case DelegateMethod:
+			return p.delegate(ctx, caller, method, args, value, readOnly)
+		case RedelegateMethod:
+			return p.redelegate(ctx, caller, method, args, value, readOnly)
+		case UndelegateMethod:
+			return p.undelegate(ctx, caller, method, args, value, readOnly)
+	*/
 	case DelegationMethod:
 		return p.delegation(ctx, method, args, value)
 	}
@@ -403,6 +410,15 @@ func (p *PrecompileExecutor) convertWeiToStakingCoin(ctx sdk.Context, weiAmount 
 	err := p.tokenmngrKeeper.AttoCoinConverter(ctx, bech32Address, bech32Address, intAmount)
 	if err != nil {
 		return err
+	}
+
+	// Track balance changes for EVM token conversion (asix -> usix)
+	if pcommon.IsEvmDenom("asix") {
+		tracker := pcommon.NewBalanceTracker(p.precompile)
+		userEthAddr := utils.CosmosToEthAddr(bech32Address)
+
+		// Track asix being consumed for staking
+		tracker.TrackBalanceChange(userEthAddr, weiAmount, pcommon.Sub)
 	}
 
 	return nil

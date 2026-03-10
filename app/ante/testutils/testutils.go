@@ -21,8 +21,8 @@ import (
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
 	feemarkettypes "github.com/evmos/evmos/v20/x/feemarket/types"
 
-	ante "github.com/thesixnetwork/six-protocol/app/ante"
-	evmante "github.com/thesixnetwork/six-protocol/app/ante/evm"
+	ante "github.com/thesixnetwork/six-protocol/v4/app/ante"
+	evmante "github.com/thesixnetwork/six-protocol/v4/app/ante/evm"
 )
 
 type AnteTestSuite struct {

@@ -25,7 +25,7 @@ func (gs GenesisState) Validate() error {
 	nftschemaIndexMap := make(map[string]struct{})
 
 	for _, elem := range gs.NFTSchemaList {
-		index := string(NftschemaKey(elem.Code))
+		index := string(NFTSchemaKey(elem.Code))
 		if _, ok := nftschemaIndexMap[index]; ok {
 			return fmt.Errorf("duplicated index for nftschema")
 		}

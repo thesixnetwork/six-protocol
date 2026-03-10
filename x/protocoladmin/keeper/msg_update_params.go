@@ -3,7 +3,7 @@ package keeper
 import (
 	"context"
 
-	"github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
+	"github.com/thesixnetwork/six-protocol/v4/x/protocoladmin/types"
 
 	errorsmod "cosmossdk.io/errors"
 

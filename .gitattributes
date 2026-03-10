@@ -1,0 +1,26 @@
+# Explicitly tell GitHub to treat certain files as Go
+*.go linguist-language=Go
+
+# Ignore specific folders that might contain old JS artifacts or dependencies
+node_modules/* linguist-vendored
+dist/* linguist-vendored
+
+# Exclude vendor libraries (Solidity dependencies with JS tests)
+contracts/lib/** linguist-vendored
+
+# Exclude generated Swagger UI files
+client/docs/swagger-ui/** linguist-generated
+
+# Exclude forge build outputs
+contracts/out/** linguist-generated
+broadcast/** linguist-generated
+
+vue/** linguist-generated
+ts-client/** linguist-generated
+
+# Catch any JS/TS files regardless of depth in these folders
+**/node_modules/** linguist-vendored
+**/vendor/** linguist-vendored
+
+# If your Solidity tests use Hardhat/Javascript
+contracts/tests/**/*.js linguist-vendored

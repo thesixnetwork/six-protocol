@@ -16,7 +16,7 @@ import (
 	"github.com/evmos/evmos/v20/testutil/integration/evmos/network"
 	vestingtypes "github.com/evmos/evmos/v20/x/vesting/types"
 
-	"github.com/thesixnetwork/six-protocol/app/ante/evm"
+	"github.com/thesixnetwork/six-protocol/v4/app/ante/evm"
 )
 
 type AccountExpenses = map[string]*evm.EthVestingExpenseTracker

@@ -3,9 +3,9 @@ package nftmngr
 import (
 	"math/rand"
 
-	"github.com/thesixnetwork/six-protocol/testutil/sample"
-	nftmngrsimulation "github.com/thesixnetwork/six-protocol/x/nftmngr/simulation"
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+	"github.com/thesixnetwork/six-protocol/v4/testutil/sample"
+	nftmngrsimulation "github.com/thesixnetwork/six-protocol/v4/x/nftmngr/simulation"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftmngr/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"

@@ -9,8 +9,6 @@ import (
 	"sort"
 	"sync"
 
-	"google.golang.org/protobuf/reflect/protoreflect"
-
 	abci "github.com/cometbft/cometbft/abci/types"
 	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
 	dbm "github.com/cosmos/cosmos-db"
@@ -44,7 +42,7 @@ import (
 
 	// EVM
 	// "github.com/evmos/evmos/v20/app/post"
-	"github.com/evmos/evmos/v20/ethereum/eip712"
+
 	evmostypes "github.com/evmos/evmos/v20/types"
 	evmmodule "github.com/evmos/evmos/v20/x/evm"
 	_ "github.com/evmos/evmos/v20/x/evm/core/tracers/js"
@@ -55,30 +53,30 @@ import (
 	feemarketkeeper "github.com/evmos/evmos/v20/x/feemarket/keeper"
 	feemarkettypes "github.com/evmos/evmos/v20/x/feemarket/types"
 
-	srvflags "github.com/thesixnetwork/six-protocol/server/flags"
+	srvflags "github.com/thesixnetwork/six-protocol/v4/server/flags"
 
-	ethante "github.com/thesixnetwork/six-protocol/app/ante/evm"
+	ethante "github.com/thesixnetwork/six-protocol/v4/app/ante/evm"
 
 	"github.com/spf13/cast"
 
-	"github.com/thesixnetwork/six-protocol/app/ante"
-	swagger "github.com/thesixnetwork/six-protocol/client/docs"
-	"github.com/thesixnetwork/six-protocol/docs"
-	nftadminmodulekeeper "github.com/thesixnetwork/six-protocol/x/nftadmin/keeper"
-	nftadminmodule "github.com/thesixnetwork/six-protocol/x/nftadmin/module"
-	nftadminmoduletypes "github.com/thesixnetwork/six-protocol/x/nftadmin/types"
-	nftmngrmodulekeeper "github.com/thesixnetwork/six-protocol/x/nftmngr/keeper"
-	nftmngrmodule "github.com/thesixnetwork/six-protocol/x/nftmngr/module"
-	nftmngrmoduletypes "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
-	nftoraclemodulekeeper "github.com/thesixnetwork/six-protocol/x/nftoracle/keeper"
-	nftoraclemodule "github.com/thesixnetwork/six-protocol/x/nftoracle/module"
-	nftoraclemoduletypes "github.com/thesixnetwork/six-protocol/x/nftoracle/types"
-	protocoladminmodulekeeper "github.com/thesixnetwork/six-protocol/x/protocoladmin/keeper"
-	protocoladminmodule "github.com/thesixnetwork/six-protocol/x/protocoladmin/module"
-	protocoladminmoduletypes "github.com/thesixnetwork/six-protocol/x/protocoladmin/types"
-	tokenmngrmodulekeeper "github.com/thesixnetwork/six-protocol/x/tokenmngr/keeper"
-	tokenmngrmodule "github.com/thesixnetwork/six-protocol/x/tokenmngr/module"
-	tokenmngrmoduletypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+	"github.com/thesixnetwork/six-protocol/v4/app/ante"
+	swagger "github.com/thesixnetwork/six-protocol/v4/client/docs"
+	"github.com/thesixnetwork/six-protocol/v4/docs"
+	nftadminmodulekeeper "github.com/thesixnetwork/six-protocol/v4/x/nftadmin/keeper"
+	nftadminmodule "github.com/thesixnetwork/six-protocol/v4/x/nftadmin/module"
+	nftadminmoduletypes "github.com/thesixnetwork/six-protocol/v4/x/nftadmin/types"
+	nftmngrmodulekeeper "github.com/thesixnetwork/six-protocol/v4/x/nftmngr/keeper"
+	nftmngrmodule "github.com/thesixnetwork/six-protocol/v4/x/nftmngr/module"
+	nftmngrmoduletypes "github.com/thesixnetwork/six-protocol/v4/x/nftmngr/types"
+	nftoraclemodulekeeper "github.com/thesixnetwork/six-protocol/v4/x/nftoracle/keeper"
+	nftoraclemodule "github.com/thesixnetwork/six-protocol/v4/x/nftoracle/module"
+	nftoraclemoduletypes "github.com/thesixnetwork/six-protocol/v4/x/nftoracle/types"
+	protocoladminmodulekeeper "github.com/thesixnetwork/six-protocol/v4/x/protocoladmin/keeper"
+	protocoladminmodule "github.com/thesixnetwork/six-protocol/v4/x/protocoladmin/module"
+	protocoladminmoduletypes "github.com/thesixnetwork/six-protocol/v4/x/protocoladmin/types"
+	tokenmngrmodulekeeper "github.com/thesixnetwork/six-protocol/v4/x/tokenmngr/keeper"
+	tokenmngrmodule "github.com/thesixnetwork/six-protocol/v4/x/tokenmngr/module"
+	tokenmngrmoduletypes "github.com/thesixnetwork/six-protocol/v4/x/tokenmngr/types"
 
 	autocliv1 "cosmossdk.io/api/cosmos/autocli/v1"
 	reflectionv1 "cosmossdk.io/api/cosmos/reflection/v1"
@@ -97,7 +95,6 @@ import (
 	"cosmossdk.io/x/feegrant"
 	feegrantkeeper "cosmossdk.io/x/feegrant/keeper"
 	feegrantmodule "cosmossdk.io/x/feegrant/module"
-	"cosmossdk.io/x/tx/signing"
 	"cosmossdk.io/x/upgrade"
 	upgradekeeper "cosmossdk.io/x/upgrade/keeper"
 	upgradetypes "cosmossdk.io/x/upgrade/types"
@@ -109,7 +106,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/grpc/cmtservice"
 	nodeservice "github.com/cosmos/cosmos-sdk/client/grpc/node"
 	"github.com/cosmos/cosmos-sdk/codec"
-	"github.com/cosmos/cosmos-sdk/codec/address"
 	"github.com/cosmos/cosmos-sdk/codec/types"
 	"github.com/cosmos/cosmos-sdk/runtime"
 	runtimeservices "github.com/cosmos/cosmos-sdk/runtime/services"
@@ -117,7 +113,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/server/api"
 	"github.com/cosmos/cosmos-sdk/server/config"
 	servertypes "github.com/cosmos/cosmos-sdk/server/types"
-	"github.com/cosmos/cosmos-sdk/std"
+
+	// "github.com/cosmos/cosmos-sdk/std"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/mempool"
 	"github.com/cosmos/cosmos-sdk/types/module"
@@ -172,8 +169,9 @@ import (
 
 	"github.com/evmos/evmos/v20/x/evm/core/vm"
 
-	"github.com/thesixnetwork/six-protocol/precompiles"
-	sixutils "github.com/thesixnetwork/six-protocol/utils"
+	"github.com/thesixnetwork/six-protocol/v4/encoding"
+	"github.com/thesixnetwork/six-protocol/v4/precompiles"
+	sixutils "github.com/thesixnetwork/six-protocol/v4/utils"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 )
 
@@ -210,7 +208,6 @@ type App struct {
 
 	// keepers
 	AccountKeeper         authkeeper.AccountKeeper
-	EVMAccountKeeper      authkeeper.AccountKeeper
 	BankKeeper            bankkeeper.Keeper
 	CapabilityKeeper      *capabilitykeeper.Keeper
 	StakingKeeper         *stakingkeeper.Keeper
@@ -284,7 +281,8 @@ func init() {
 }
 
 // getGovProposalHandlers return the chain proposal handlers.
-func getGovProposalHandlers() []govclient.ProposalHandler {
+// func getGovProposalHandlers() []govclient.ProposalHandler {
+func _() []govclient.ProposalHandler {
 	var govProposalHandlers []govclient.ProposalHandler
 	// this line is used by starport scaffolding # stargate/app/govProposalHandlers
 
@@ -324,29 +322,10 @@ func New(
 	appOpts servertypes.AppOptions,
 	baseAppOptions ...func(*baseapp.BaseApp),
 ) *App {
-	interfaceRegistry, _ := types.NewInterfaceRegistryWithOptions(types.InterfaceRegistryOptions{
-		ProtoFiles: proto.HybridResolver,
-		SigningOptions: signing.Options{
-			AddressCodec: address.Bech32Codec{
-				Bech32Prefix: sdk.GetConfig().GetBech32AccountAddrPrefix(),
-			},
-			ValidatorAddressCodec: address.Bech32Codec{
-				Bech32Prefix: sdk.GetConfig().GetBech32ValidatorAddrPrefix(),
-			},
-			CustomGetSigners: map[protoreflect.FullName]signing.GetSignersFunc{
-				evmtypes.MsgEthereumTxCustomGetSigner.MsgType: evmtypes.MsgEthereumTxCustomGetSigner.Fn,
-			},
-		},
-	})
-
-	appCodec := codec.NewProtoCodec(interfaceRegistry)
-	legacyAmino := codec.NewLegacyAmino()
-	txConfig := authtx.NewTxConfig(appCodec, authtx.DefaultSignModes)
-
-	eip712.SetEncodingConfig(legacyAmino, interfaceRegistry)
-	std.RegisterLegacyAminoCodec(legacyAmino)
-	std.RegisterInterfaces(interfaceRegistry)
-	evmostypes.RegisterInterfaces(interfaceRegistry)
+	encodingConfig := encoding.MakeConfig()
+	appCodec := encodingConfig.Codec
+	cdc := encodingConfig.Amino
+	interfaceRegistry := encodingConfig.InterfaceRegistry
 
 	// Below we could construct and set an application specific mempool and
 	// ABCI 1.0 PrepareProposal and ProcessProposal handlers. These defaults are
@@ -399,11 +378,11 @@ func New(
 		app.SetProcessProposal(handler.ProcessProposalHandler())
 	})
 
-	bApp := baseapp.NewBaseApp(Name, logger, db, txConfig.TxDecoder(), baseAppOptions...)
+	bApp := baseapp.NewBaseApp(Name, logger, db, encodingConfig.TxConfig.TxDecoder(), baseAppOptions...)
 	bApp.SetCommitMultiStoreTracer(traceStore)
 	bApp.SetVersion(version.Version)
 	bApp.SetInterfaceRegistry(interfaceRegistry)
-	bApp.SetTxEncoder(txConfig.TxEncoder())
+	bApp.SetTxEncoder(encodingConfig.TxConfig.TxEncoder())
 
 	keys := storetypes.NewKVStoreKeys(
 		authtypes.StoreKey, banktypes.StoreKey,
@@ -478,10 +457,10 @@ func New(
 	memKeys := storetypes.NewMemoryStoreKeys(capabilitytypes.MemStoreKey)
 
 	app := &App{
-		BaseApp:           bApp,
-		legacyAmino:       legacyAmino,
-		appCodec:          appCodec,
-		txConfig:          txConfig,
+		BaseApp:     bApp,
+		legacyAmino: cdc,
+		appCodec:    appCodec,
+		// txConfig:          txConfig,
 		interfaceRegistry: interfaceRegistry,
 		keys:              keys,
 		tkeys:             tkeys,
@@ -490,7 +469,7 @@ func New(
 
 	app.ParamsKeeper = initParamsKeeper(
 		appCodec,
-		legacyAmino,
+		cdc,
 		keys[paramstypes.StoreKey],
 		tkeys[paramstypes.TStoreKey],
 	)
@@ -595,7 +574,7 @@ func New(
 
 	app.SlashingKeeper = slashingkeeper.NewKeeper(
 		appCodec,
-		legacyAmino,
+		cdc,
 		runtime.NewKVStoreService(keys[slashingtypes.StoreKey]),
 		app.StakingKeeper,
 		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
@@ -985,7 +964,7 @@ func New(
 				},
 			),
 		})
-	app.BasicModuleManager.RegisterLegacyAminoCodec(legacyAmino)
+	app.BasicModuleManager.RegisterLegacyAminoCodec(cdc)
 	app.BasicModuleManager.RegisterInterfaces(interfaceRegistry)
 
 	// NOTE: upgrade module is required to be prioritized
@@ -1413,7 +1392,7 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	// CHAIN MODULE
 	paramsKeeper.Subspace(protocoladminmoduletypes.ModuleName)
 	paramsKeeper.Subspace(tokenmngrmoduletypes.ModuleName)
-	paramsKeeper.Subspace(nftmngrmoduletypes.ModuleName)
+	paramsKeeper.Subspace(nftmngrmoduletypes.ModuleName).WithKeyTable(nftmngrmoduletypes.ParamKeyTable())
 	paramsKeeper.Subspace(nftadminmoduletypes.ModuleName)
 	paramsKeeper.Subspace(nftoraclemoduletypes.ModuleName)
 	// ethermint subspaces

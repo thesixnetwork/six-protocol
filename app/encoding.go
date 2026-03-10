@@ -1,7 +1,7 @@
 package app
 
 import (
-	"github.com/thesixnetwork/six-protocol/app/params"
+	"github.com/thesixnetwork/six-protocol/v4/app/params"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	"github.com/cosmos/cosmos-sdk/codec/types"

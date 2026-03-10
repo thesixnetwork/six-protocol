@@ -16,6 +16,8 @@ service Query {
   rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get =
         "/thesixnetwork/six-protocol/nftadmin/params";
+        // TODO:: CHANGE TO BELOW PATH AFTER PROPOSAL v4.0.0+
+        // "/thesixnetwork/sixnft/nftadmin/params";
   }
   // Queries a Authorization by index.
   rpc Authorization(QueryGetAuthorizationRequest)

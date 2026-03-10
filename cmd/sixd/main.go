@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/thesixnetwork/six-protocol/app"
-	"github.com/thesixnetwork/six-protocol/cmd/sixd/cmd"
+	"github.com/thesixnetwork/six-protocol/v4/app"
+	"github.com/thesixnetwork/six-protocol/v4/cmd/sixd/cmd"
 
 	clienthelpers "cosmossdk.io/client/v2/helpers"
 

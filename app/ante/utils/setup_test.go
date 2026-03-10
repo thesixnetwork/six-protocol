@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/suite"
 
-	"github.com/thesixnetwork/six-protocol/app/ante/testutils"
+	"github.com/thesixnetwork/six-protocol/v4/app/ante/testutils"
 )
 
 type AnteTestSuite struct {

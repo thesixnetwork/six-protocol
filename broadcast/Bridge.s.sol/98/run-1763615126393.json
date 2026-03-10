@@ -1,0 +1,33 @@
+{
+  "transactions": [
+    {
+      "hash": "0xb8c1b123db06204a75f8fd300b540e148b8faaf75fb482a37e4d3e693f4f56a0",
+      "transactionType": "CALL",
+      "contractName": null,
+      "contractAddress": "0x0000000000000000000000000000000000001069",
+      "function": "transferToCosmos(string,uint256)",
+      "arguments": [
+        "6x1kch0sdjr5tuvjh0h3a55c6l5sr6m0phjeag9f2",
+        "990000000000000000000"
+      ],
+      "transaction": {
+        "from": "0xb62ef83643a2f8c95df78f694c6bf480f5b786f2",
+        "to": "0x0000000000000000000000000000000000001069",
+        "gas": "0x7857",
+        "value": "0x0",
+        "input": "0x42cd26d30000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000035ab028ac154b8000000000000000000000000000000000000000000000000000000000000000000293678316b63683073646a72357475766a6830683361353563366c357372366d3070686a6561673966320000000000000000000000000000000000000000000000",
+        "nonce": "0xa",
+        "chainId": "0x62"
+      },
+      "additionalContracts": [],
+      "isFixedGasLimit": false
+    }
+  ],
+  "receipts": [],
+  "libraries": [],
+  "pending": [],
+  "returns": {},
+  "timestamp": 1763615126393,
+  "chain": 98,
+  "commit": "cf6e9dfb"
+}

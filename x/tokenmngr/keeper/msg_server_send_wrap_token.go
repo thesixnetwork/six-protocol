@@ -10,7 +10,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	evmostypes "github.com/evmos/evmos/v20/types"
 
-	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+	"github.com/thesixnetwork/six-protocol/v4/x/tokenmngr/types"
 )
 
 func (k msgServer) SendWrapToken(goCtx context.Context, msg *types.MsgSendWrapToken) (*types.MsgSendWrapTokenResponse, error) {
@@ -67,6 +67,6 @@ func (k msgServer) SendWrapToken(goCtx context.Context, msg *types.MsgSendWrapTo
 
 	return &types.MsgSendWrapTokenResponse{
 		Receiver: receiver.String(),
-		Amount: msg.Amount,
+		Amount:   msg.Amount,
 	}, nil
 }

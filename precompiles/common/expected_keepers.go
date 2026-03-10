@@ -10,8 +10,8 @@ import (
 	disttypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	nftmngrtypes "github.com/thesixnetwork/six-protocol/x/nftmngr/types"
-	tokenmngrtypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+	nftmngrtypes "github.com/thesixnetwork/six-protocol/v4/x/nftmngr/types"
+	tokenmngrtypes "github.com/thesixnetwork/six-protocol/v4/x/tokenmngr/types"
 )
 
 type BankKeeper interface {
@@ -90,6 +90,7 @@ type StakingQuerier interface {
 type DistributionKeeper interface {
 	SetWithdrawAddr(ctx context.Context, delegatorAddr sdk.AccAddress, withdrawAddr sdk.AccAddress) error
 	WithdrawDelegationRewards(ctx context.Context, delAddr sdk.AccAddress, valAddr sdk.ValAddress) (sdk.Coins, error)
+	GetDelegatorWithdrawAddr(ctx context.Context, delegatorAddr sdk.AccAddress) (sdk.AccAddress, error)
 }
 type DistributionQuerier interface {
 	DelegationRewards(c context.Context, req *disttypes.QueryDelegationRewardsRequest) (*disttypes.QueryDelegationRewardsResponse, error)

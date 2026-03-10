@@ -16,17 +16,17 @@ import (
 
 	"github.com/evmos/evmos/v20/x/evm/core/vm"
 
-	"github.com/thesixnetwork/six-protocol/utils"
+	"github.com/thesixnetwork/six-protocol/v4/utils"
 
-	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
-	tokenmngr "github.com/thesixnetwork/six-protocol/x/tokenmngr/keeper"
-	tokenmoduletypes "github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+	pcommon "github.com/thesixnetwork/six-protocol/v4/precompiles/common"
+	tokenmngr "github.com/thesixnetwork/six-protocol/v4/x/tokenmngr/keeper"
+	tokenmoduletypes "github.com/thesixnetwork/six-protocol/v4/x/tokenmngr/types"
 )
 
 const (
-	SendToCosmos           = "transferToCosmos"
-	SendToCrossChain       = "transferToCrossChain"
-	UnwrapStakeToken       = "unwrapStakeToken"
+	SendToCosmos     = "transferToCosmos"
+	SendToCrossChain = "transferToCrossChain"
+	UnwrapStakeToken = "unwrapStakeToken"
 )
 
 const (
@@ -57,7 +57,10 @@ type PrecompileExecutor struct {
 	tokenmngrKeeper    pcommon.TokenmngrKeeper
 	tokenmngrMsgServer pcommon.TokenmngrMsgServer
 	SendToCosmosID     []byte
+	SendToCrossChainID []byte
+	UnwrapStakeTokenID []byte
 	address            common.Address
+	precompile         *pcommon.Precompile
 }
 
 func NewExecutor(bankKeeper pcommon.BankKeeper, accountKeeper pcommon.AccountKeeper, tokenmngrKeeper pcommon.TokenmngrKeeper, tokennmngrMsgServer pcommon.TokenmngrMsgServer) *PrecompileExecutor {
@@ -78,10 +81,16 @@ func NewPrecompile(bankKeeper pcommon.BankKeeper, accountKeeper pcommon.AccountK
 		switch name {
 		case SendToCosmos:
 			p.SendToCosmosID = m.ID
+		case SendToCrossChain:
+			p.SendToCrossChainID = m.ID
+		case UnwrapStakeToken:
+			p.UnwrapStakeTokenID = m.ID
 		}
 	}
 
-	return pcommon.NewPrecompile(newAbi, p, p.address, "tokenfactory"), nil
+	precompile := pcommon.NewPrecompile(newAbi, p, p.address, "tokenfactory")
+	p.precompile = precompile
+	return precompile, nil
 }
 
 func (p *PrecompileExecutor) Address() common.Address {
@@ -159,6 +168,16 @@ func (p PrecompileExecutor) sendToCosmos(ctx sdk.Context, caller common.Address,
 	err = p.tokenmngrKeeper.AttoCoinConverter(ctx, senderCosmoAddr, receiverCosmoAddr, intAmount)
 	if err != nil {
 		return nil, err
+	}
+
+	// Track balance changes for EVM token conversion (asix -> usix)
+	if pcommon.IsEvmDenom("asix") {
+		tracker := pcommon.NewBalanceTracker(p.precompile)
+		senderEthAddr := utils.CosmosToEthAddr(senderCosmoAddr)
+
+		// Track asix being consumed in conversion
+		tracker.TrackBalanceChange(senderEthAddr, amount, pcommon.Sub)
+
 	}
 
 	// emit events
@@ -243,6 +262,16 @@ func (p PrecompileExecutor) sendToCrossChain(ctx sdk.Context, caller common.Addr
 		return nil, err
 	}
 
+	// Track balance changes for EVM token conversion (asix -> usix)
+	if pcommon.IsEvmDenom("asix") {
+		tracker := pcommon.NewBalanceTracker(p.precompile)
+		senderEthAddr := utils.CosmosToEthAddr(senderCosmoAddr)
+
+		// Track asix being consumed in conversion
+		tracker.TrackBalanceChange(senderEthAddr, amount, pcommon.Sub)
+
+	}
+
 	// emit events
 	ctx.EventManager().EmitEvents(sdk.Events{
 		sdk.NewEvent(
@@ -301,7 +330,7 @@ func (p PrecompileExecutor) unwrapStakeToken(ctx sdk.Context, caller common.Addr
 		Amount:   sdk.NewCoin(tokenmngr.DefaultMicroDenom, sdkmath.NewIntFromBigInt(amount)),
 	}
 
-	_, err = p.tokenmngrMsgServer.WrapToken(sdk.WrapSDKContext(ctx), msg)
+	_, err = p.tokenmngrMsgServer.WrapToken(ctx, msg)
 	if err != nil {
 		return nil, err
 	}

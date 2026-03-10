@@ -7,8 +7,8 @@ import (
 	dbm "github.com/cosmos/cosmos-db"
 	"github.com/stretchr/testify/require"
 
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/keeper"
-	"github.com/thesixnetwork/six-protocol/x/nftmngr/types"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftmngr/keeper"
+	"github.com/thesixnetwork/six-protocol/v4/x/nftmngr/types"
 
 	"cosmossdk.io/log"
 	"cosmossdk.io/store"

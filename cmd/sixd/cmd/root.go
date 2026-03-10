@@ -7,9 +7,10 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 
-	"github.com/thesixnetwork/six-protocol/app"
-	"github.com/thesixnetwork/six-protocol/app/params"
-	sixkey "github.com/thesixnetwork/six-protocol/crypto/keyring"
+	"github.com/thesixnetwork/six-protocol/v4/app"
+	"github.com/thesixnetwork/six-protocol/v4/app/params"
+
+	// sixkey "github.com/thesixnetwork/six-protocol/v4/crypto/keyring"
 
 	"cosmossdk.io/log"
 
@@ -25,7 +26,11 @@ import (
 	authtxconfig "github.com/cosmos/cosmos-sdk/x/auth/tx/config"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 
-	srvflags "github.com/thesixnetwork/six-protocol/server/flags"
+	srvflags "github.com/thesixnetwork/six-protocol/v4/server/flags"
+)
+
+const (
+	EnvPrefix = "SIX"
 )
 
 // NewRootCmd creates a new root command for six-protocold. It is called once in the main function.
@@ -49,9 +54,9 @@ func NewRootCmd() *cobra.Command {
 		WithAccountRetriever(authtypes.AccountRetriever{}).
 		WithHomeDir(app.DefaultNodeHome).
 		WithBroadcastMode(flags.FlagBroadcastMode).
-		WithKeyringOptions(sixkey.Option()).
-		WithLedgerHasProtobuf(true).
-		WithViper("")
+		// WithKeyringOptions(sixkey.Option()).
+		// WithLedgerHasProtobuf(true).
+		WithViper(EnvPrefix)
 
 	rootCmd := &cobra.Command{
 		Use:           app.Name + "d",

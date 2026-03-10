@@ -6,7 +6,7 @@ package ante
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	evmante "github.com/thesixnetwork/six-protocol/app/ante/evm"
+	evmante "github.com/thesixnetwork/six-protocol/v4/app/ante/evm"
 )
 
 func newMonoEVMAnteHandler(options HandlerOptions) sdk.AnteHandler {

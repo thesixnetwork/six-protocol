@@ -1,7 +1,7 @@
 package nftmngr
 
 import (
-	modulev1 "github.com/thesixnetwork/six-protocol/api/sixprotocol/nftmngr"
+	modulev1 "github.com/thesixnetwork/six-protocol/v4/api/sixprotocol/nftmngr"
 
 	autocliv1 "cosmossdk.io/api/cosmos/autocli/v1"
 )

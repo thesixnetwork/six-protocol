@@ -6,7 +6,7 @@ import (
 
 	"github.com/ethereum/go-ethereum/accounts/abi"
 
-	pcommon "github.com/thesixnetwork/six-protocol/precompiles/common"
+	pcommon "github.com/thesixnetwork/six-protocol/v4/precompiles/common"
 )
 
 func (p PrecompileExecutor) isActionExecutor(ctx context.Context, method *abi.Method, args []interface{}, value *big.Int) ([]byte, error) {

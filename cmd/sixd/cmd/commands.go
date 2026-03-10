@@ -3,7 +3,6 @@ package cmd
 import (
 	"errors"
 	"io"
-	"os"
 
 	cmtcli "github.com/cometbft/cometbft/libs/cli"
 	// cmtcfg "github.com/cometbft/cometbft/config"
@@ -12,12 +11,12 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	evmosserver "github.com/thesixnetwork/six-protocol/server"
+	evmosserver "github.com/thesixnetwork/six-protocol/v4/server"
 
-	debug "github.com/thesixnetwork/six-protocol/client/debug"
+	debug "github.com/thesixnetwork/six-protocol/v4/client/debug"
 
-	"github.com/thesixnetwork/six-protocol/app"
-	sixclient "github.com/thesixnetwork/six-protocol/client"
+	"github.com/thesixnetwork/six-protocol/v4/app"
+	sixclient "github.com/thesixnetwork/six-protocol/v4/client"
 
 	"cosmossdk.io/log"
 	confixcmd "cosmossdk.io/tools/confix/cmd"
@@ -208,12 +207,12 @@ func appExport(
 	return chainApp.ExportAppStateAndValidators(forZeroHeight, jailAllowedAddrs, modulesToExport)
 }
 
-var tempDir = func() string {
-	dir, err := os.MkdirTemp("", "simd")
-	if err != nil {
-		panic("failed to create temp dir: " + err.Error())
-	}
-	defer os.RemoveAll(dir)
+// var tempDir = func() string {
+// 	dir, err := os.MkdirTemp("", "simd")
+// 	if err != nil {
+// 		panic("failed to create temp dir: " + err.Error())
+// 	}
+// 	defer os.RemoveAll(dir)
 
-	return dir
-}
+// 	return dir
+// }

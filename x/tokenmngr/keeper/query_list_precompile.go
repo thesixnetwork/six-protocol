@@ -6,7 +6,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/thesixnetwork/six-protocol/x/tokenmngr/types"
+	"github.com/thesixnetwork/six-protocol/v4/x/tokenmngr/types"
 )
 
 func (k Keeper) ListPrecompile(goCtx context.Context, req *types.QueryListPrecompileRequest) (*types.QueryListPrecompileResponse, error) {

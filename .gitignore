@@ -7,10 +7,7 @@ release/
 .vscode/
 .DS_Store
 
-ts-client/
 build/
-vue/src/store/generated/
-vue/src/composables/
 react/
 .env
 
@@ -29,7 +26,9 @@ out/
 /broadcast/**/338/
 /broadcast/**/666/
 /broadcast/**/9000/
+/broadcast/**/150/
 /broadcast/**/713715/
+/broadcast/**/150/
 
 contracts/lib/*
 /logs/

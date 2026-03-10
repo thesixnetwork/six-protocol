@@ -19,7 +19,7 @@ import (
 	"github.com/evmos/evmos/v20/crypto/ethsecp256k1"
 	"github.com/evmos/evmos/v20/encoding"
 
-	"github.com/thesixnetwork/six-protocol/app/ante"
+	"github.com/thesixnetwork/six-protocol/v4/app/ante"
 )
 
 func TestConsumeSignatureVerificationGas(t *testing.T) {

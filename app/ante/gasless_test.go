@@ -12,10 +12,10 @@ import (
 	"github.com/stretchr/testify/suite"
 	"google.golang.org/protobuf/proto"
 
-	"github.com/thesixnetwork/six-protocol/app/ante"
-	keepertest "github.com/thesixnetwork/six-protocol/testutil/keeper"
-	nftadmintypes "github.com/thesixnetwork/six-protocol/x/nftadmin/types"
-	nftoracletypes "github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+	"github.com/thesixnetwork/six-protocol/v4/app/ante"
+	keepertest "github.com/thesixnetwork/six-protocol/v4/testutil/keeper"
+	nftadmintypes "github.com/thesixnetwork/six-protocol/v4/x/nftadmin/types"
+	nftoracletypes "github.com/thesixnetwork/six-protocol/v4/x/nftoracle/types"
 )
 
 // ─────────────────────────────────────────────────────────────────────────────

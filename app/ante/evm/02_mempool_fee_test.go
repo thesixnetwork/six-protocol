@@ -6,7 +6,7 @@ import (
 	sdkmath "cosmossdk.io/math"
 	errortypes "github.com/cosmos/cosmos-sdk/types/errors"
 
-	"github.com/thesixnetwork/six-protocol/app/ante/evm"
+	"github.com/thesixnetwork/six-protocol/v4/app/ante/evm"
 )
 
 func (suite *EvmAnteTestSuite) TestMempoolFee() {
