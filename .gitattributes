@@ -17,3 +17,10 @@ broadcast/** linguist-generated
 
 vue/** linguist-generated
 ts-client/** linguist-generated
+
+# Catch any JS/TS files regardless of depth in these folders
+**/node_modules/** linguist-vendored
+**/vendor/** linguist-vendored
+
+# If your Solidity tests use Hardhat/Javascript
+contracts/tests/**/*.js linguist-vendored
