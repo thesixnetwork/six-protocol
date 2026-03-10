@@ -46,12 +46,6 @@ func (k Keeper) DeleteOracleLastVoteHeight(ctx context.Context, oracle sdk.AccAd
 	store.Delete(key)
 }
 
-// IsOracleGaslessEnabled returns true if gasless oracle voting is enabled
-func (k Keeper) IsOracleGaslessEnabled(ctx context.Context) bool {
-
-	return true
-}
-
 // CleanupOldVoteHeights removes old vote height records to prevent store bloat
 // Should be called periodically (e.g., in EndBlocker or BeginBlocker)
 func (k Keeper) CleanupOldVoteHeights(ctx context.Context, maxAge int64) {

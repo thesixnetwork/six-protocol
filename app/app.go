@@ -760,6 +760,14 @@ func New(
 		app.DistrKeeper,
 	)
 
+	app.NftadminKeeper = nftadminmodulekeeper.NewKeeper(
+		appCodec,
+		runtime.NewKVStoreService(keys[nftadminmoduletypes.StoreKey]),
+		logger,
+		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
+		app.BankKeeper,
+	)
+
 	app.NftmngrKeeper = nftmngrmodulekeeper.NewKeeper(
 		appCodec,
 		runtime.NewKVStoreService(keys[nftmngrmoduletypes.StoreKey]),
@@ -770,14 +778,6 @@ func New(
 		app.BankKeeper,
 		app.StakingKeeper,
 		app.DistrKeeper,
-	)
-
-	app.NftadminKeeper = nftadminmodulekeeper.NewKeeper(
-		appCodec,
-		runtime.NewKVStoreService(keys[nftadminmoduletypes.StoreKey]),
-		logger,
-		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
-		app.BankKeeper,
 	)
 
 	app.NftoracleKeeper = nftoraclemodulekeeper.NewKeeper(
@@ -1146,6 +1146,8 @@ func (app *App) setAnteHandler(txConfig client.TxConfig, maxGasWanted uint64, un
 		TxFeeChecker:           ethante.NewDynamicFeeChecker(app.EVMKeeper),
 		CircuitKeeper:          &app.CircuitBreakerKeeper,
 		AllowUnorderedTx:       unsafeUnorderedTx,
+		NftOracleKeeper:        &app.NftoracleKeeper,
+		NftAdminKeeper:         &app.NftadminKeeper,
 	}
 
 	if err := options.Validate(); err != nil {
