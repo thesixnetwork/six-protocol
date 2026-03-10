@@ -136,11 +136,6 @@ func oracleVoteIsGasless(msg *nftoracletypes.MsgSubmitMintResponse, ctx sdk.Cont
 		return false, errorsmod.Wrap(nftoracletypes.ErrOracleAlreadyVoted, "oracle already voted")
 	}
 
-	// 4. Check spam prevention counter
-	if err := checkAndSetSpamPreventionCounter(ctx, oracle, oracleKeeper); err != nil {
-		return false, err
-	}
-
 	return true, nil
 }
 
@@ -171,11 +166,6 @@ func oracleActionResponseIsGasless(msg *nftoracletypes.MsgSubmitActionResponse, 
 		return false, errorsmod.Wrap(nftoracletypes.ErrOracleAlreadyVoted, "oracle already voted")
 	}
 
-	// 4. Check spam prevention counter
-	if err := checkAndSetSpamPreventionCounter(ctx, oracle, oracleKeeper); err != nil {
-		return false, err
-	}
-
 	return true, nil
 }
 
@@ -194,21 +184,16 @@ func oracleCollectionVerifyIsGasless(msg *nftoracletypes.MsgSubmitVerifyCollecti
 	// 2. Validate collection owner request exists and is pending
 	collectionRequest, found := oracleKeeper.GetCollectionOwnerRequest(ctx, msg.VerifyRequestID)
 	if !found {
-		return false, errorsmod.Wrap(nftoracletypes.ErrCollectionOwnerRequestNotFound, "collection owner request not found")
+		return false, errorsmod.Wrap(nftoracletypes.ErrVerifyRequestNotFound, "collection owner request not found")
 	}
 
 	if collectionRequest.Status != nftoracletypes.RequestStatus_PENDING {
-		return false, errorsmod.Wrap(nftoracletypes.ErrCollectionOwnerRequestNotPending, "collection owner request not pending")
+		return false, errorsmod.Wrap(nftoracletypes.ErrVerifyRequestNotPending, "collection owner request not pending")
 	}
 
 	// 3. Check for duplicate vote
 	if hasOracleAlreadyVoted(collectionRequest.Confirmers, oracle.String()) {
 		return false, errorsmod.Wrap(nftoracletypes.ErrOracleAlreadyVoted, "oracle already voted")
-	}
-
-	// 4. Check spam prevention counter
-	if err := checkAndSetSpamPreventionCounter(ctx, oracle, oracleKeeper); err != nil {
-		return false, err
 	}
 
 	return true, nil
@@ -222,23 +207,6 @@ func hasOracleAlreadyVoted(confirmers []string, oracleAddr string) bool {
 		}
 	}
 	return false
-}
-
-// checkAndSetSpamPreventionCounter prevents multiple oracle submissions in the same block
-func checkAndSetSpamPreventionCounter(ctx sdk.Context, oracle sdk.AccAddress, oracleKeeper nftoraclekeeper.Keeper) error {
-	// Get the last block height this oracle submitted a vote
-	lastVoteHeight := oracleKeeper.GetOracleLastVoteHeight(ctx, oracle)
-	currentHeight := ctx.BlockHeight()
-
-	// Prevent multiple votes in the same block
-	if lastVoteHeight == currentHeight {
-		return errorsmod.Wrap(nftoracletypes.ErrOracleSpamPrevention, "oracle already voted in this block")
-	}
-
-	// Update the last vote height
-	oracleKeeper.SetOracleLastVoteHeight(ctx, oracle, currentHeight)
-
-	return nil
 }
 
 // VoteAloneDecorator ensures oracle votes cannot be bundled with other messages

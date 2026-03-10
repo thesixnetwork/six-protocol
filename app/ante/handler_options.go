@@ -11,8 +11,8 @@ import (
 	anteutils "github.com/thesixnetwork/six-protocol/v4/app/ante/utils"
 
 	// Gasless feature imports (build tag: gasless)
-	// nftadminkeeper "github.com/thesixnetwork/six-protocol/v4/x/nftadmin/keeper"
-	// nftoraclekeeper "github.com/thesixnetwork/six-protocol/v4/x/nftoracle/keeper"
+	nftadminkeeper "github.com/thesixnetwork/six-protocol/v4/x/nftadmin/keeper"
+	nftoraclekeeper "github.com/thesixnetwork/six-protocol/v4/x/nftoracle/keeper"
 
 	errorsmod "cosmossdk.io/errors"
 	storetypes "cosmossdk.io/store/types"
@@ -48,8 +48,8 @@ type HandlerOptions struct {
 
 	// Zero-gas Oracle Voting keepers (EXPERIMENTAL)
 	// Only used when EnableGaslessFeature is true
-	// NftOracleKeeper *nftoraclekeeper.Keeper
-	// NftAdminKeeper  *nftadminkeeper.Keeper
+	NftOracleKeeper *nftoraclekeeper.Keeper
+	NftAdminKeeper  *nftadminkeeper.Keeper
 }
 
 // Validate checks if the keepers are defined

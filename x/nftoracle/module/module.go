@@ -170,7 +170,10 @@ func (am AppModule) BeginBlock(_ context.Context) error {
 
 // EndBlock contains the logic that is automatically triggered at the end of each block.
 // The end block implementation is optional.
-func (am AppModule) EndBlock(_ context.Context) error {
+func (am AppModule) EndBlock(ctx context.Context) error {
+	// Clean up old oracle vote height records to prevent store bloat.
+	// Records older than 100 blocks are removed.
+	am.keeper.CleanupOldVoteHeights(ctx, 100)
 	return nil
 }
 
