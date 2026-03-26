@@ -71,6 +71,9 @@ import (
 	nftoraclemodulekeeper "github.com/thesixnetwork/six-protocol/v4/x/nftoracle/keeper"
 	nftoraclemodule "github.com/thesixnetwork/six-protocol/v4/x/nftoracle/module"
 	nftoraclemoduletypes "github.com/thesixnetwork/six-protocol/v4/x/nftoracle/types"
+	precisebank "github.com/thesixnetwork/six-protocol/v4/x/precisebank"
+	precisebankkeeper "github.com/thesixnetwork/six-protocol/v4/x/precisebank/keeper"
+	precisebanktypes "github.com/thesixnetwork/six-protocol/v4/x/precisebank/types"
 	protocoladminmodulekeeper "github.com/thesixnetwork/six-protocol/v4/x/protocoladmin/keeper"
 	protocoladminmodule "github.com/thesixnetwork/six-protocol/v4/x/protocoladmin/module"
 	protocoladminmoduletypes "github.com/thesixnetwork/six-protocol/v4/x/protocoladmin/types"
@@ -253,6 +256,7 @@ type App struct {
 	NftadminKeeper      nftadminmodulekeeper.Keeper
 	NftmngrKeeper       nftmngrmodulekeeper.Keeper
 	NftoracleKeeper     nftoraclemodulekeeper.Keeper
+	PreciseBankKeeper   precisebankkeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// the module manager
@@ -419,6 +423,7 @@ func New(
 		nftadminmoduletypes.StoreKey,
 		nftmngrmoduletypes.StoreKey,
 		nftoraclemoduletypes.StoreKey,
+		precisebanktypes.StoreKey,
 	)
 
 	/*
@@ -768,6 +773,14 @@ func New(
 		app.NftmngrKeeper,
 	)
 
+	app.PreciseBankKeeper = precisebankkeeper.NewKeeper(
+		appCodec,
+		runtime.NewKVStoreService(keys[precisebanktypes.StoreKey]),
+		logger,
+		app.BankKeeper,
+		app.AccountKeeper,
+	)
+
 	// IBC Fee Module keeper
 	app.IBCFeeKeeper = ibcfeekeeper.NewKeeper(
 		appCodec, keys[ibcfeetypes.StoreKey],
@@ -948,6 +961,7 @@ func New(
 		nftmngrmodule.NewAppModule(appCodec, app.NftmngrKeeper, app.AccountKeeper, app.BankKeeper),
 		nftadminmodule.NewAppModule(appCodec, app.NftadminKeeper, app.AccountKeeper, app.BankKeeper),
 		nftoraclemodule.NewAppModule(appCodec, app.NftoracleKeeper, app.AccountKeeper, app.BankKeeper),
+		precisebank.NewAppModule(appCodec, app.PreciseBankKeeper, app.AccountKeeper, app.BankKeeper),
 	)
 
 	// BasicModuleManager defines the module BasicManager is in charge of setting up basic,
@@ -1395,6 +1409,7 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(nftmngrmoduletypes.ModuleName).WithKeyTable(nftmngrmoduletypes.ParamKeyTable())
 	paramsKeeper.Subspace(nftadminmoduletypes.ModuleName)
 	paramsKeeper.Subspace(nftoraclemoduletypes.ModuleName)
+	paramsKeeper.Subspace(precisebanktypes.ModuleName)
 	// ethermint subspaces
 	paramsKeeper.Subspace(evmtypes.ModuleName).WithKeyTable(evmtypes.ParamKeyTable())
 	paramsKeeper.Subspace(feemarkettypes.ModuleName).WithKeyTable(feemarkettypes.ParamKeyTable())
