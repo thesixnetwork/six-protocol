@@ -233,7 +233,6 @@ func (vad VoteAloneDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulate bo
 			*nftoracletypes.MsgSubmitActionResponse,
 			*nftoracletypes.MsgSubmitVerifyCollectionOwner:
 			hasOracleVote = true
-			break
 		}
 	}
 

@@ -7,10 +7,10 @@ import (
 	dbm "github.com/cosmos/cosmos-db"
 	"github.com/stretchr/testify/require"
 
-	nftadminkeeper "github.com/thesixnetwork/six-protocol/x/nftadmin/keeper"
-	nftadmintypes "github.com/thesixnetwork/six-protocol/x/nftadmin/types"
-	nftoraclekeeper "github.com/thesixnetwork/six-protocol/x/nftoracle/keeper"
-	nftoracletypes "github.com/thesixnetwork/six-protocol/x/nftoracle/types"
+	nftadminkeeper "github.com/thesixnetwork/six-protocol/v4/x/nftadmin/keeper"
+	nftadmintypes "github.com/thesixnetwork/six-protocol/v4/x/nftadmin/types"
+	nftoraclekeeper "github.com/thesixnetwork/six-protocol/v4/x/nftoracle/keeper"
+	nftoracletypes "github.com/thesixnetwork/six-protocol/v4/x/nftoracle/types"
 
 	"cosmossdk.io/log"
 	"cosmossdk.io/store"
