@@ -26,6 +26,7 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 type NftAttributeValue struct {
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// Types that are valid to be assigned to Value:
+	//
 	//	*NftAttributeValue_NumberAttributeValue
 	//	*NftAttributeValue_StringAttributeValue
 	//	*NftAttributeValue_BooleanAttributeValue

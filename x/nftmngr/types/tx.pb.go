@@ -490,6 +490,7 @@ func (m *UpdatedOpenseaAttributes) GetAttributes() []*OpenseaAttribute {
 
 type UpdatedOriginData struct {
 	// Types that are valid to be assigned to UpdatedOriginData:
+	//
 	//	*UpdatedOriginData_Opensea
 	UpdatedOriginData isUpdatedOriginData_UpdatedOriginData `protobuf_oneof:"updated_origin_data"`
 }
