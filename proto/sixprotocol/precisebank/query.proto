@@ -1,0 +1,76 @@
+syntax = "proto3";
+package sixprotocol.precisebank;
+
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+
+option go_package = "github.com/thesixnetwork/six-protocol/v4/x/precisebank/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  // Remainder returns the global remainder amount used to track sub-integer
+  // rounding dust from mint/burn operations.
+  rpc Remainder(QueryRemainderRequest) returns (QueryRemainderResponse) {
+    option (google.api.http).get = "/thesixnetwork/six-protocol/precisebank/remainder";
+  }
+
+  // FractionalBalance returns the fractional (sub-integer) asix balance for a
+  // given account address.
+  rpc FractionalBalance(QueryFractionalBalanceRequest) returns (QueryFractionalBalanceResponse) {
+    option (google.api.http).get = "/thesixnetwork/six-protocol/precisebank/fractional_balance/{address}";
+  }
+
+  // FractionalBalances returns a paginated list of all accounts that have a
+  // non-zero fractional balance.
+  rpc FractionalBalances(QueryFractionalBalancesRequest) returns (QueryFractionalBalancesResponse) {
+    option (google.api.http).get = "/thesixnetwork/six-protocol/precisebank/fractional_balances";
+  }
+}
+
+// QueryRemainderRequest is the request type for the Query/Remainder RPC method.
+message QueryRemainderRequest {}
+
+// QueryRemainderResponse is the response type for the Query/Remainder RPC method.
+message QueryRemainderResponse {
+  // remainder is the global remainder amount as a decimal string.
+  string remainder = 1 [(gogoproto.moretags) = "yaml:\"remainder\""];
+}
+
+// QueryFractionalBalanceRequest is the request type for the
+// Query/FractionalBalance RPC method.
+message QueryFractionalBalanceRequest {
+  // address is the bech32 account address to query.
+  string address = 1;
+}
+
+// QueryFractionalBalanceResponse is the response type for the
+// Query/FractionalBalance RPC method.
+message QueryFractionalBalanceResponse {
+  // fractional_balance is the sub-integer asix balance for the account.
+  string fractional_balance = 1 [(gogoproto.moretags) = "yaml:\"fractional_balance\""];
+}
+
+// QueryFractionalBalancesRequest is the request type for the
+// Query/FractionalBalances RPC method.
+message QueryFractionalBalancesRequest {
+  // pagination defines optional pagination for the request.
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+// QueryFractionalBalancesResponse is the response type for the
+// Query/FractionalBalances RPC method.
+message QueryFractionalBalancesResponse {
+  // fractional_balances is the list of accounts with non-zero fractional balances.
+  repeated FractionalBalanceEntry fractional_balances = 1 [(gogoproto.nullable) = false];
+  // pagination defines the pagination in the response.
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// FractionalBalanceEntry represents a single account's fractional balance.
+message FractionalBalanceEntry {
+  // address is the bech32 account address.
+  string address = 1;
+  // fractional_balance is the sub-integer asix balance as a decimal string.
+  string fractional_balance = 2 [(gogoproto.moretags) = "yaml:\"fractional_balance\""];
+}

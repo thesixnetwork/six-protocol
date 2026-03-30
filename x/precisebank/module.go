@@ -84,7 +84,9 @@ func (AppModuleBasic) ValidateGenesis(cdc codec.JSONCodec, config client.TxEncod
 
 // RegisterGRPCGatewayRoutes registers the gRPC Gateway routes for the module.
 func (AppModuleBasic) RegisterGRPCGatewayRoutes(clientCtx client.Context, mux *runtime.ServeMux) {
-	// precisebank has no messages, so no gRPC gateway routes
+	if err := types.RegisterQueryHandlerClient(context.Background(), mux, types.NewQueryClient(clientCtx)); err != nil {
+		panic(err)
+	}
 }
 
 // GetTxCmd returns precisebank module's root tx command.
@@ -132,7 +134,7 @@ func (am AppModule) Name() string {
 
 // RegisterServices registers a GRPC query service to respond to module-specific GRPC queries.
 func (am AppModule) RegisterServices(cfg module.Configurator) {
-	// precisebank has no messages or queries registered through gRPC in this implementation
+	types.RegisterQueryServer(cfg.QueryServer(), am.keeper)
 }
 
 // RegisterInvariants registers precisebank module's invariants.
