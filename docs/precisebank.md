@@ -122,6 +122,42 @@ The module is registered in the `ModuleManager` and participates in:
 | `ValidRemainderAmount` | Remainder is in valid range [0, 10^12) |
 | `FractionalDenomNotInBank` | No `asix` balances exist in `x/bank` (all `asix` tracked by this module) |
 
+## gRPC Queries
+
+The module exposes three query RPC methods defined in `proto/sixprotocol/precisebank/query.proto` and implemented in `keeper/grpc_query.go`.
+
+| RPC | REST path | Description |
+|---|---|---|
+| `Remainder` | `GET /thesixnetwork/six-protocol/precisebank/remainder` | Returns the global remainder amount |
+| `FractionalBalance` | `GET /thesixnetwork/six-protocol/precisebank/fractional_balance/{address}` | Returns fractional `asix` balance for one account |
+| `FractionalBalances` | `GET /thesixnetwork/six-protocol/precisebank/fractional_balances` | Paginated list of all accounts with non-zero fractional balances |
+
+### Remainder
+
+```go
+res, err := queryClient.Remainder(ctx, &types.QueryRemainderRequest{})
+// res.Remainder — decimal string, e.g. "500000000000"
+```
+
+### FractionalBalance
+
+```go
+res, err := queryClient.FractionalBalance(ctx, &types.QueryFractionalBalanceRequest{
+    Address: "6x1...",
+})
+// res.FractionalBalance — decimal string of the sub-integer asix amount
+```
+
+### FractionalBalances
+
+```go
+res, err := queryClient.FractionalBalances(ctx, &types.QueryFractionalBalancesRequest{
+    Pagination: &query.PageRequest{Limit: 100},
+})
+// res.FractionalBalances — []FractionalBalanceEntry{Address, FractionalBalance}
+// res.Pagination        — standard cosmos page response
+```
+
 ## Genesis
 
 ### State
@@ -157,17 +193,23 @@ x/precisebank/
 │   ├── send.go                    # SendCoins, SendCoinsFromAccountToModule, etc.
 │   ├── mint.go                    # MintCoins
 │   ├── burn.go                    # BurnCoins
-│   └── invariants.go              # RegisterInvariants, AllInvariants
-└── types/
-    ├── keys.go                    # ModuleName, StoreKey, key prefixes
-    ├── constants.go               # IntegerCoinDenom, ExtendedCoinDenom
-    ├── fractional_balance.go      # FractionalBalance struct, ConversionFactor
-    ├── fractional_balances.go     # FractionalBalances slice type
-    ├── extended_balance.go        # SumExtendedCoin helper
-    ├── expected_keepers.go        # AccountKeeper, BankKeeper interfaces
-    ├── genesis.go                 # GenesisState struct and validation
-    ├── codec.go                   # Codec registration
-    └── errors.go                  # Sentinel errors
+│   ├── invariants.go              # RegisterInvariants, AllInvariants
+│   ├── query.go                   # var _ types.QueryServer = Keeper{}
+│   └── grpc_query.go              # Remainder, FractionalBalance, FractionalBalances handlers
+├── types/
+│   ├── keys.go                    # ModuleName, StoreKey, key prefixes
+│   ├── constants.go               # IntegerCoinDenom, ExtendedCoinDenom
+│   ├── fractional_balance.go      # FractionalBalance struct, ConversionFactor
+│   ├── fractional_balances.go     # FractionalBalances slice type
+│   ├── extended_balance.go        # SumExtendedCoin helper
+│   ├── expected_keepers.go        # AccountKeeper, BankKeeper interfaces
+│   ├── genesis.go                 # GenesisState struct and validation
+│   ├── codec.go                   # Codec registration
+│   ├── errors.go                  # Sentinel errors
+│   ├── query.pb.go                # Generated: QueryServer interface, request/response types
+│   └── query.pb.gw.go             # Generated: REST gateway handlers
+proto/sixprotocol/precisebank/
+└── query.proto                    # gRPC Query service definition
 ```
 
 ## Differences from Kava's Implementation
@@ -180,7 +222,7 @@ x/precisebank/
 | Store access | `storetypes.StoreKey` | `store.KVStoreService` (SDK v0.50) |
 | Module pattern | Legacy `AppModule` | SDK v0.50 `appmodule` interfaces |
 | Genesis codec | Protobuf | JSON (no proto codegen) |
-| gRPC queries | Yes | Not yet implemented |
+| gRPC queries | Yes | Implemented (Remainder, FractionalBalance, FractionalBalances) |
 
 ## Usage
 
