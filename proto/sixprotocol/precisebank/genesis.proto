@@ -1,0 +1,30 @@
+syntax = "proto3";
+package sixprotocol.precisebank;
+
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/thesixnetwork/six-protocol/v4/x/precisebank/types";
+
+// GenesisState defines the precisebank module's genesis state.
+message GenesisState {
+  // balances is the list of all accounts that have non-zero fractional balances.
+  repeated FractionalBalance balances = 1 [(gogoproto.nullable) = false];
+  // remainder is the global remainder amount used to track sub-integer rounding
+  // dust from mint/burn operations, stored as a decimal string.
+  string remainder = 2 [
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false
+  ];
+}
+
+// FractionalBalance represents a single account's fractional (sub-integer)
+// asix balance.
+message FractionalBalance {
+  // address is the bech32-encoded account address.
+  string address = 1;
+  // amount is the fractional balance amount, stored as a decimal string.
+  string amount = 2 [
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable) = false
+  ];
+}

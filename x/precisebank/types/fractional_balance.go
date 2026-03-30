@@ -7,12 +7,6 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
-// FractionalBalance represents a fractional balance for an account address.
-type FractionalBalance struct {
-	Address string      `json:"address"`
-	Amount  sdkmath.Int `json:"amount"`
-}
-
 // conversionFactor is used to convert the fractional balance to integer
 // balances. 10^12, since usix is 10^6 and asix is 10^18.
 var conversionFactor = sdkmath.NewInt(1_000_000_000_000)

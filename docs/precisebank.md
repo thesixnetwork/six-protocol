@@ -199,16 +199,18 @@ x/precisebank/
 ├── types/
 │   ├── keys.go                    # ModuleName, StoreKey, key prefixes
 │   ├── constants.go               # IntegerCoinDenom, ExtendedCoinDenom
-│   ├── fractional_balance.go      # FractionalBalance struct, ConversionFactor
+│   ├── fractional_balance.go      # FractionalBalance helpers, ConversionFactor
 │   ├── fractional_balances.go     # FractionalBalances slice type
 │   ├── extended_balance.go        # SumExtendedCoin helper
 │   ├── expected_keepers.go        # AccountKeeper, BankKeeper interfaces
-│   ├── genesis.go                 # GenesisState struct and validation
+│   ├── genesis.go                 # GenesisState helpers (NewGenesisState, Validate, etc.)
+│   ├── genesis.pb.go              # Generated: GenesisState, FractionalBalance protobuf types
 │   ├── codec.go                   # Codec registration
 │   ├── errors.go                  # Sentinel errors
 │   ├── query.pb.go                # Generated: QueryServer interface, request/response types
 │   └── query.pb.gw.go             # Generated: REST gateway handlers
 proto/sixprotocol/precisebank/
+├── genesis.proto                  # GenesisState and FractionalBalance message definitions
 └── query.proto                    # gRPC Query service definition
 ```
 
@@ -221,7 +223,7 @@ proto/sixprotocol/precisebank/
 | Conversion factor | 10^12 | 10^12 (same) |
 | Store access | `storetypes.StoreKey` | `store.KVStoreService` (SDK v0.50) |
 | Module pattern | Legacy `AppModule` | SDK v0.50 `appmodule` interfaces |
-| Genesis codec | Protobuf | JSON (no proto codegen) |
+| Genesis codec | Protobuf | Protobuf (`genesis.proto` with `gogoproto.customtype` for `cosmossdk.io/math.Int`) |
 | gRPC queries | Yes | Implemented (Remainder, FractionalBalance, FractionalBalances) |
 
 ## Usage
@@ -251,3 +253,127 @@ err := app.PreciseBankKeeper.MintCoins(ctx, "evm", sdk.NewCoins(
     sdk.NewCoin("asix", sdkmath.NewInt(500_000_000_000)), // 0.5 usix
 ))
 ```
+
+## Module Workflow
+
+This section describes how the precisebank module integrates into the Cosmos SDK chain lifecycle.
+
+### 1. Chain Startup (InitGenesis)
+
+```
+app.go creates Keeper
+    │
+    ▼
+InitGenesis(ctx, keeper, ak, bk, genesisState)
+    │
+    ├── Validate genesis state
+    ├── Verify module account exists
+    ├── Verify module usix balance matches sum of fractional balances + remainder
+    ├── Store each FractionalBalance in KV store
+    └── Store remainder in KV store
+```
+
+### 2. Runtime — EVM Transfer Flow
+
+When an EVM transfer of `asix` occurs (e.g., a Solidity `transfer()`):
+
+```
+EVM calls precisebank.SendCoins(from, to, asix_amount)
+    │
+    ├── Split amount into integer_part (usix) + fractional_part
+    │
+    ├── Update sender's fractional balance
+    │   └── If insufficient → borrow 1 usix from x/bank, convert to 10^12 fractional
+    │
+    ├── Update recipient's fractional balance
+    │   └── If overflow ≥ 10^12 → carry 1 usix to x/bank
+    │
+    └── Transfer integer usix via x/bank.SendCoins()
+```
+
+### 3. Runtime — Mint Flow
+
+```
+Module calls precisebank.MintCoins(moduleName, asix_amount)
+    │
+    ├── Split into integer + fractional
+    ├── Add fractional to target module's balance (handle carry)
+    ├── Mint integer usix to precisebank reserve
+    ├── Transfer from reserve to target module
+    └── Update remainder for rounding
+```
+
+### 4. Runtime — Burn Flow
+
+```
+Module calls precisebank.BurnCoins(moduleName, asix_amount)
+    │
+    ├── Split into integer + fractional
+    ├── Subtract fractional from target module's balance (handle borrow)
+    ├── Transfer integer usix from target module to reserve
+    ├── Burn from reserve
+    └── Update remainder for rounding
+```
+
+### 5. Query Flow
+
+```
+Client → gRPC/REST request
+    │
+    ▼
+module.RegisterServices() → types.RegisterQueryServer()
+    │
+    ▼
+keeper.Remainder()            → reads remainder from KV store
+keeper.FractionalBalance()    → reads one account's fractional balance
+keeper.FractionalBalances()   → iterates all fractional balances (paginated)
+```
+
+### 6. Chain Export (ExportGenesis)
+
+```
+ExportGenesis(ctx, keeper)
+    │
+    ├── Iterate all fractional balances from KV store
+    ├── Read remainder from KV store
+    └── Return GenesisState{Balances, Remainder}
+```
+
+### 7. Invariant Checks
+
+Invariants run periodically (or on demand) to verify:
+
+```
+RegisterInvariants()
+    │
+    ├── ReserveBacksFractions:     reserve usix == (sum + remainder) / 10^12
+    ├── BalancedFractionalTotal:   (sum + remainder) % 10^12 == 0
+    ├── ValidFractionalAmounts:    all balances in (0, 10^12)
+    ├── ValidRemainderAmount:      remainder in [0, 10^12)
+    └── FractionalDenomNotInBank:  x/bank has zero asix supply
+```
+
+## Proto Generation
+
+The protobuf types are generated using the standard project pipeline:
+
+```bash
+# From the project root:
+cd proto
+buf generate --template buf.gen.gogo-nonignite.yaml sixprotocol/precisebank/genesis.proto
+buf generate --template buf.gen.gogo-nonignite.yaml sixprotocol/precisebank/query.proto
+cd ..
+cp -r github.com/thesixnetwork/six-protocol/v4/* ./
+rm -rf github.com
+```
+
+Or use the project's full generation script:
+
+```bash
+scripts/protocgen.sh
+```
+
+Generated files:
+- `x/precisebank/types/genesis.pb.go` — from `genesis.proto`
+- `x/precisebank/types/query.pb.go` — from `query.proto`
+- `x/precisebank/types/query.pb.gw.go` — REST gateway from `query.proto`

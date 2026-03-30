@@ -6,19 +6,13 @@ import (
 	sdkmath "cosmossdk.io/math"
 )
 
-// GenesisState defines the precisebank module's genesis state.
-type GenesisState struct {
-	Balances  FractionalBalances `json:"balances"`
-	Remainder sdkmath.Int        `json:"remainder"`
-}
-
 // NewGenesisState creates a new genesis state.
 func NewGenesisState(
 	balances FractionalBalances,
 	remainder sdkmath.Int,
 ) *GenesisState {
 	return &GenesisState{
-		Balances:  balances,
+		Balances:  []FractionalBalance(balances),
 		Remainder: remainder,
 	}
 }
@@ -35,7 +29,7 @@ func DefaultGenesis() *GenesisState {
 
 // Validate performs basic validation of genesis data.
 func (gs *GenesisState) Validate() error {
-	if err := gs.Balances.Validate(); err != nil {
+	if err := FractionalBalances(gs.Balances).Validate(); err != nil {
 		return fmt.Errorf("invalid balances: %w", err)
 	}
 
@@ -52,7 +46,7 @@ func (gs *GenesisState) Validate() error {
 	}
 
 	// Sum(fractionalBalances) + remainder must be a whole integer value
-	sum := gs.Balances.SumAmount()
+	sum := FractionalBalances(gs.Balances).SumAmount()
 	sumWithRemainder := sum.Add(gs.Remainder)
 
 	offBy := sumWithRemainder.Mod(conversionFactor)
@@ -72,5 +66,5 @@ func (gs *GenesisState) Validate() error {
 // TotalAmountWithRemainder returns the total amount of all balances in the
 // genesis state, including both fractional balances and the remainder.
 func (gs *GenesisState) TotalAmountWithRemainder() sdkmath.Int {
-	return gs.Balances.SumAmount().Add(gs.Remainder)
+	return FractionalBalances(gs.Balances).SumAmount().Add(gs.Remainder)
 }

@@ -65,18 +65,13 @@ func (a AppModuleBasic) RegisterInterfaces(reg cdctypes.InterfaceRegistry) {
 
 // DefaultGenesis returns a default GenesisState for the module.
 func (AppModuleBasic) DefaultGenesis(cdc codec.JSONCodec) json.RawMessage {
-	gs := types.DefaultGenesisState()
-	bz, err := json.Marshal(gs)
-	if err != nil {
-		panic(err)
-	}
-	return bz
+	return cdc.MustMarshalJSON(types.DefaultGenesisState())
 }
 
 // ValidateGenesis validates the GenesisState given in its json.RawMessage form.
 func (AppModuleBasic) ValidateGenesis(cdc codec.JSONCodec, config client.TxEncodingConfig, bz json.RawMessage) error {
 	var gs types.GenesisState
-	if err := json.Unmarshal(bz, &gs); err != nil {
+	if err := cdc.UnmarshalJSON(bz, &gs); err != nil {
 		return fmt.Errorf("failed to unmarshal %s genesis state: %w", types.ModuleName, err)
 	}
 	return gs.Validate()
@@ -145,9 +140,7 @@ func (am AppModule) RegisterInvariants(ir sdk.InvariantRegistry) {
 // InitGenesis performs precisebank module's genesis initialization.
 func (am AppModule) InitGenesis(ctx sdk.Context, cdc codec.JSONCodec, gs json.RawMessage) {
 	var genState types.GenesisState
-	if err := json.Unmarshal(gs, &genState); err != nil {
-		panic(fmt.Sprintf("failed to unmarshal %s genesis state: %v", types.ModuleName, err))
-	}
+	cdc.MustUnmarshalJSON(gs, &genState)
 
 	InitGenesis(ctx, am.keeper, am.accountKeeper, am.bankKeeper, genState)
 }
@@ -155,11 +148,7 @@ func (am AppModule) InitGenesis(ctx sdk.Context, cdc codec.JSONCodec, gs json.Ra
 // ExportGenesis returns precisebank module's exported genesis state.
 func (am AppModule) ExportGenesis(ctx sdk.Context, cdc codec.JSONCodec) json.RawMessage {
 	gs := ExportGenesis(ctx, am.keeper)
-	bz, err := json.Marshal(gs)
-	if err != nil {
-		panic(err)
-	}
-	return bz
+	return cdc.MustMarshalJSON(gs)
 }
 
 // ConsensusVersion implements ConsensusVersion.
