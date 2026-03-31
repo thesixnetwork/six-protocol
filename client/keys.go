@@ -6,9 +6,9 @@ import (
 	"bufio"
 
 	"github.com/cometbft/cometbft/libs/cli"
-	clientkeys "github.com/thesixnetwork/six-protocol/v4/client/keys"
 	"github.com/evmos/evmos/v20/crypto/hd"
 	"github.com/spf13/cobra"
+	clientkeys "github.com/thesixnetwork/six-protocol/v4/client/keys"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
