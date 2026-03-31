@@ -625,6 +625,17 @@ func New(
 		app.GetSubspace(feemarkettypes.ModuleName),
 	)
 
+	// PreciseBankKeeper wraps x/bank to handle fractional asix balances.
+	// Must be initialized before EVM keeper so EVM uses precisebank for
+	// mint/burn/send operations with extended (asix) coin denomination.
+	app.PreciseBankKeeper = precisebankkeeper.NewKeeper(
+		appCodec,
+		runtime.NewKVStoreService(keys[precisebanktypes.StoreKey]),
+		logger,
+		app.BankKeeper,
+		app.AccountKeeper,
+	)
+
 	tracer := cast.ToString(appOpts.Get(srvflags.EVMTracer))
 
 	// NOTE: it's required to set up the EVM keeper before the ERC-20 keeper, because it is used in its instantiation.
@@ -634,7 +645,7 @@ func New(
 		tkeys[evmtypes.TransientKey],
 		authtypes.NewModuleAddress(govtypes.ModuleName),
 		evmAccount,
-		app.BankKeeper,
+		app.PreciseBankKeeper,
 		app.StakingKeeper,
 		app.FeeMarketKeeper,
 		tracer, app.GetSubspace(evmtypes.ModuleName),
@@ -771,14 +782,6 @@ func New(
 		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 		app.NftadminKeeper,
 		app.NftmngrKeeper,
-	)
-
-	app.PreciseBankKeeper = precisebankkeeper.NewKeeper(
-		appCodec,
-		runtime.NewKVStoreService(keys[precisebanktypes.StoreKey]),
-		logger,
-		app.BankKeeper,
-		app.AccountKeeper,
 	)
 
 	// IBC Fee Module keeper
