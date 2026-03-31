@@ -1142,8 +1142,6 @@ func (app *App) setAnteHandler(txConfig client.TxConfig, maxGasWanted uint64, un
 		TxFeeChecker:           ethante.NewDynamicFeeChecker(app.EVMKeeper),
 		CircuitKeeper:          &app.CircuitBreakerKeeper,
 		AllowUnorderedTx:       unsafeUnorderedTx,
-		// NftOracleKeeper:        &app.NftoracleKeeper,
-		// NftAdminKeeper:         &app.NftadminKeeper,
 	}
 
 	if err := options.Validate(); err != nil {
