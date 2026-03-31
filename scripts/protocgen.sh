@@ -24,7 +24,3 @@ cp -r $GO_MOD_PACKAGE/* ./
 rm -rf github.com
 
 go mod tidy
-
-# TODO: Uncomment once ORM/Pulsar support is needed.
-#
-# Ref: https://github.com/osmosis-labs/osmosis/pull/1589
