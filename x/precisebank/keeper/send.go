@@ -216,8 +216,8 @@ func (k Keeper) SendCoinsFromModuleToAccount(
 	recipientAddr sdk.AccAddress,
 	amt sdk.Coins,
 ) error {
-	senderAddr := k.ak.GetModuleAddress(senderModule)
-	if senderAddr == nil {
+	senderAcc := k.ak.GetModuleAccount(ctx, senderModule)
+	if senderAcc == nil {
 		panic(errorsmod.Wrapf(sdkerrors.ErrUnknownAddress, "module account %s does not exist", senderModule))
 	}
 
@@ -229,7 +229,7 @@ func (k Keeper) SendCoinsFromModuleToAccount(
 		return errorsmod.Wrapf(sdkerrors.ErrUnauthorized, "%s is not allowed to receive funds", recipientAddr)
 	}
 
-	return k.SendCoins(ctx, senderAddr, recipientAddr, amt)
+	return k.SendCoins(ctx, senderAcc.GetAddress(), recipientAddr, amt)
 }
 
 // updateInsufficientFundsError returns a modified ErrInsufficientFunds with

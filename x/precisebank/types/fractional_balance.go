@@ -2,6 +2,7 @@ package types
 
 import (
 	"fmt"
+	"math/big"
 
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -11,12 +12,12 @@ import (
 // balances. 10^12, since usix is 10^6 and asix is 10^18.
 var conversionFactor = sdkmath.NewInt(1_000_000_000_000)
 
-// ConversionFactor returns a copy of the conversionFactor used to convert the
-// fractional balance to integer balances. This is also 1 greater than the max
-// valid fractional amount (999_999_999_999):
+// ConversionFactor returns a safe deep copy of the conversionFactor used to
+// convert the fractional balance to integer balances. This is also 1 greater
+// than the max valid fractional amount (999_999_999_999):
 // 0 < FractionalBalance < conversionFactor
 func ConversionFactor() sdkmath.Int {
-	return sdkmath.NewIntFromBigIntMut(conversionFactor.BigInt())
+	return sdkmath.NewIntFromBigInt(new(big.Int).Set(conversionFactor.BigInt()))
 }
 
 // NewFractionalBalance returns a new FractionalBalance with the given address and amount.

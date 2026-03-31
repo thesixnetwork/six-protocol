@@ -10,7 +10,7 @@ import (
 	"github.com/thesixnetwork/six-protocol/v4/app"
 	"github.com/thesixnetwork/six-protocol/v4/app/params"
 
-	// sixkey "github.com/thesixnetwork/six-protocol/v4/crypto/keyring"
+	sixkey "github.com/thesixnetwork/six-protocol/v4/crypto/keyring"
 
 	"cosmossdk.io/log"
 
@@ -54,8 +54,7 @@ func NewRootCmd() *cobra.Command {
 		WithAccountRetriever(authtypes.AccountRetriever{}).
 		WithHomeDir(app.DefaultNodeHome).
 		WithBroadcastMode(flags.FlagBroadcastMode).
-		// WithKeyringOptions(sixkey.Option()).
-		// WithLedgerHasProtobuf(true).
+		WithKeyringOptions(sixkey.Option()).
 		WithViper(EnvPrefix)
 
 	rootCmd := &cobra.Command{

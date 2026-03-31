@@ -14,7 +14,7 @@ import (
 )
 
 // GetFractionalBalance returns the fractional balance for an address.
-func (k *Keeper) GetFractionalBalance(ctx context.Context, address sdk.AccAddress) sdkmath.Int {
+func (k Keeper) GetFractionalBalance(ctx context.Context, address sdk.AccAddress) sdkmath.Int {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	store := prefix.NewStore(storeAdapter, types.FractionalBalancePrefix)
 
@@ -32,7 +32,7 @@ func (k *Keeper) GetFractionalBalance(ctx context.Context, address sdk.AccAddres
 }
 
 // SetFractionalBalance sets the fractional balance for an address.
-func (k *Keeper) SetFractionalBalance(ctx context.Context, address sdk.AccAddress, amount sdkmath.Int) {
+func (k Keeper) SetFractionalBalance(ctx context.Context, address sdk.AccAddress, amount sdkmath.Int) {
 	if address.Empty() {
 		panic(errors.New("address cannot be empty"))
 	}
@@ -58,14 +58,14 @@ func (k *Keeper) SetFractionalBalance(ctx context.Context, address sdk.AccAddres
 }
 
 // DeleteFractionalBalance deletes the fractional balance for an address.
-func (k *Keeper) DeleteFractionalBalance(ctx context.Context, address sdk.AccAddress) {
+func (k Keeper) DeleteFractionalBalance(ctx context.Context, address sdk.AccAddress) {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	store := prefix.NewStore(storeAdapter, types.FractionalBalancePrefix)
 	store.Delete(types.FractionalBalanceKey(address))
 }
 
 // IterateFractionalBalances iterates over all fractional balances in the store.
-func (k *Keeper) IterateFractionalBalances(
+func (k Keeper) IterateFractionalBalances(
 	ctx context.Context,
 	cb func(address sdk.AccAddress, amount sdkmath.Int) (stop bool),
 ) {
@@ -90,7 +90,7 @@ func (k *Keeper) IterateFractionalBalances(
 }
 
 // GetTotalSumFractionalBalances returns the sum of all fractional balances.
-func (k *Keeper) GetTotalSumFractionalBalances(ctx context.Context) sdkmath.Int {
+func (k Keeper) GetTotalSumFractionalBalances(ctx context.Context) sdkmath.Int {
 	sum := sdkmath.ZeroInt()
 
 	k.IterateFractionalBalances(ctx, func(_ sdk.AccAddress, amount sdkmath.Int) bool {
@@ -102,7 +102,7 @@ func (k *Keeper) GetTotalSumFractionalBalances(ctx context.Context) sdkmath.Int 
 }
 
 // GetRemainderAmount returns the remainder amount from the store.
-func (k *Keeper) GetRemainderAmount(ctx context.Context) sdkmath.Int {
+func (k Keeper) GetRemainderAmount(ctx context.Context) sdkmath.Int {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 
 	bz := storeAdapter.Get(types.RemainderBalanceKey)
@@ -119,7 +119,7 @@ func (k *Keeper) GetRemainderAmount(ctx context.Context) sdkmath.Int {
 }
 
 // SetRemainderAmount sets the remainder amount in the store.
-func (k *Keeper) SetRemainderAmount(ctx context.Context, remainder sdkmath.Int) {
+func (k Keeper) SetRemainderAmount(ctx context.Context, remainder sdkmath.Int) {
 	if remainder.IsZero() {
 		k.DeleteRemainderAmount(ctx)
 		return
@@ -136,7 +136,7 @@ func (k *Keeper) SetRemainderAmount(ctx context.Context, remainder sdkmath.Int) 
 }
 
 // DeleteRemainderAmount deletes the remainder amount from the store.
-func (k *Keeper) DeleteRemainderAmount(ctx context.Context) {
+func (k Keeper) DeleteRemainderAmount(ctx context.Context) {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	storeAdapter.Delete(types.RemainderBalanceKey)
 }

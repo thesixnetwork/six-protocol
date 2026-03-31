@@ -10,7 +10,7 @@ KEY="mykey"
 CHAINID="testnet"
 MONIKER="${1:-mynode}"
 KEYRING="test"
-KEYALGO="secp256k1"
+KEYALGO="eth_secp256k1"
 SIX_HOME=~/.six
 LOGLEVEL="info"
 VAL_MODE=$2
@@ -26,14 +26,13 @@ STAKING_TOKEN="usix"
 EVM_TOKEN="asix"
 
 # =====================================================
-# KEY ADDRESS MAPPING - Important for matching config.yml
+# KEY ADDRESS MAPPING - Derived dynamically after key import
 # =====================================================
-
-# These are the key addresses from the working genesis
-ALICE_ADDRESS="6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq"
-BOB_ADDRESS="6x13g50hqdqsjk85fmgqz2h5xdxq49lsmjdwlemsp"
-SUPER_ADMIN_ADDRESS="6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"
-SPECIAL_EVM_ADDRESS="6x18743s33zmsvmvyynfxu5sy2f80e2g5mz8dk65g"
+# Addresses are populated after key import below (see KEY MANAGEMENT SECTION).
+# With eth_secp256k1, Cosmos and EVM addresses share the same Keccak256 derivation.
+ALICE_ADDRESS=""
+BOB_ADDRESS=""
+SUPER_ADMIN_ADDRESS=""
 
 # =====================================================
 # MNEMONICS SECTION - From config.yml only
@@ -72,10 +71,19 @@ sixd config set client keyring-backend $KEYRING --home ${SIX_HOME}
 # =====================================================
 echo "Importing keys from config.yml..."
 
-# Import keys
-echo $ALICE_MNEMONIC | sixd keys add alice --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO}
-echo $BOB_MNEMONIC | sixd keys add bob --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO}
-echo $SUPER_ADMIN_MNEMONIC | sixd keys add super-admin --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --algo ${KEYALGO}
+# Import keys (using --key-type for eth_secp256k1 EVM-compatible key derivation)
+echo $ALICE_MNEMONIC | sixd keys add alice --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --key-type ${KEYALGO}
+echo $BOB_MNEMONIC | sixd keys add bob --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --key-type ${KEYALGO}
+echo $SUPER_ADMIN_MNEMONIC | sixd keys add super-admin --recover --home ${SIX_HOME} --keyring-backend ${KEYRING} --key-type ${KEYALGO}
+
+# Derive addresses dynamically from imported keys
+ALICE_ADDRESS=$(sixd keys show alice -a --home ${SIX_HOME} --keyring-backend ${KEYRING})
+BOB_ADDRESS=$(sixd keys show bob -a --home ${SIX_HOME} --keyring-backend ${KEYRING})
+SUPER_ADMIN_ADDRESS=$(sixd keys show super-admin -a --home ${SIX_HOME} --keyring-backend ${KEYRING})
+
+echo "Alice address:       $ALICE_ADDRESS"
+echo "Bob address:         $BOB_ADDRESS"
+echo "Super-admin address: $SUPER_ADMIN_ADDRESS"
 
 # =====================================================
 # CHAIN INITIALIZATION SECTION

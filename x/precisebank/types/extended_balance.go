@@ -8,7 +8,7 @@ import (
 // with all integer and fractional amounts combined.
 func SumExtendedCoin(amt sdk.Coins) sdk.Coin {
 	// usix converted to asix
-	integerAmount := amt.AmountOf(IntegerCoinDenom).Mul(conversionFactor)
+	integerAmount := amt.AmountOf(IntegerCoinDenom).Mul(ConversionFactor())
 	// asix as is
 	extendedAmount := amt.AmountOf(ExtendedCoinDenom)
 
