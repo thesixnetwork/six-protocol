@@ -10,7 +10,7 @@ import (
 	"github.com/thesixnetwork/six-protocol/v4/app"
 	"github.com/thesixnetwork/six-protocol/v4/app/params"
 
-	sixkey "github.com/thesixnetwork/six-protocol/v4/crypto/keyring"
+	// sixkey "github.com/thesixnetwork/six-protocol/v4/crypto/keyring"
 
 	"cosmossdk.io/log"
 
