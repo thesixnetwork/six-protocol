@@ -1128,7 +1128,7 @@ func (app *App) setAnteHandler(txConfig client.TxConfig, maxGasWanted uint64, un
 	options := ante.HandlerOptions{
 		Cdc:                    app.appCodec,
 		AccountKeeper:          app.AccountKeeper,
-		BankKeeper:             app.PreciseBankKeeper,
+		BankKeeper:             app.BankKeeper,
 		DistributionKeeper:     app.DistrKeeper,
 		IBCKeeper:              app.IBCKeeper,
 		StakingKeeper:          app.StakingKeeper,

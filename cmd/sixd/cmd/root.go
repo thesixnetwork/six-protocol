@@ -54,7 +54,8 @@ func NewRootCmd() *cobra.Command {
 		WithAccountRetriever(authtypes.AccountRetriever{}).
 		WithHomeDir(app.DefaultNodeHome).
 		WithBroadcastMode(flags.FlagBroadcastMode).
-		WithKeyringOptions(sixkey.Option()).
+		// WithKeyringOptions(sixkey.Option()).
+		// WithLedgerHasProtobuf(true).
 		WithViper(EnvPrefix)
 
 	rootCmd := &cobra.Command{

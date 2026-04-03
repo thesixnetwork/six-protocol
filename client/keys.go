@@ -3,14 +3,14 @@
 package client
 
 import (
-	"bufio"
+	// "bufio"
 
 	"github.com/cometbft/cometbft/libs/cli"
-	"github.com/evmos/evmos/v20/crypto/hd"
+	// clientkeys "github.com/evmos/evmos/v20/client/keys"
+	// "github.com/evmos/evmos/v20/crypto/hd"
 	"github.com/spf13/cobra"
-	clientkeys "github.com/thesixnetwork/six-protocol/v4/client/keys"
 
-	"github.com/cosmos/cosmos-sdk/client"
+	// "github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/keys"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
@@ -46,22 +46,23 @@ The pass backend requires GnuPG: https://gnupg.org/
 `,
 	}
 
-	// support adding Ethereum supported keys
-	addCmd := keys.AddKeyCommand()
+	// // support adding Ethereum supported keys
+	// addCmd := keys.AddKeyCommand()
 
-	// update the default signing algorithm value to "eth_secp256k1"
-	algoFlag := addCmd.Flag(flags.FlagKeyType)
-	algoFlag.DefValue = string(hd.EthSecp256k1Type)
-	err := algoFlag.Value.Set(string(hd.EthSecp256k1Type))
-	if err != nil {
-		panic(err)
-	}
+	// // update the default signing algorithm value to "eth_secp256k1"
+	// algoFlag := addCmd.Flag(flags.FlagKeyType)
+	// algoFlag.DefValue = string(hd.EthSecp256k1Type)
+	// err := algoFlag.Value.Set(string(hd.EthSecp256k1Type))
+	// if err != nil {
+	// 	panic(err)
+	// }
 
-	addCmd.RunE = runAddCmd
+	// addCmd.RunE = runAddCmd
 
 	cmd.AddCommand(
 		keys.MnemonicKeyCommand(),
-		addCmd,
+		keys.AddKeyCommand(),
+		// addCmd,
 		keys.ExportKeyCommand(),
 		keys.ImportKeyCommand(),
 		keys.ListKeysCmd(),
@@ -82,12 +83,12 @@ The pass backend requires GnuPG: https://gnupg.org/
 	return cmd
 }
 
-func runAddCmd(cmd *cobra.Command, args []string) error {
-	clientCtx := client.GetClientContextFromCmd(cmd).WithKeyringOptions(hd.EthSecp256k1Option())
-	clientCtx, err := client.ReadPersistentCommandFlags(clientCtx, cmd.Flags())
-	if err != nil {
-		return err
-	}
-	buf := bufio.NewReader(clientCtx.Input)
-	return clientkeys.RunAddCmd(clientCtx, cmd, args, buf)
-}
+// func runAddCmd(cmd *cobra.Command, args []string) error {
+// 	clientCtx := client.GetClientContextFromCmd(cmd).WithKeyringOptions(hd.EthSecp256k1Option())
+// 	clientCtx, err := client.ReadPersistentCommandFlags(clientCtx, cmd.Flags())
+// 	if err != nil {
+// 		return err
+// 	}
+// 	buf := bufio.NewReader(clientCtx.Input)
+// 	return clientkeys.RunAddCmd(clientCtx, cmd, args, buf)
+// }
