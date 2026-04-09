@@ -29,8 +29,6 @@ import (
 	ibcfee "github.com/cosmos/ibc-go/v8/modules/apps/29-fee"
 	ibcfeekeeper "github.com/cosmos/ibc-go/v8/modules/apps/29-fee/keeper"
 	ibcfeetypes "github.com/cosmos/ibc-go/v8/modules/apps/29-fee/types"
-	"github.com/cosmos/ibc-go/v8/modules/apps/transfer"
-	ibctransferkeeper "github.com/cosmos/ibc-go/v8/modules/apps/transfer/keeper"
 	ibctransfertypes "github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
 	ibc "github.com/cosmos/ibc-go/v8/modules/core"
 	ibcclienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types" //nolint:staticcheck
@@ -49,9 +47,14 @@ import (
 	_ "github.com/evmos/evmos/v20/x/evm/core/tracers/native"
 	evmkeeper "github.com/evmos/evmos/v20/x/evm/keeper"
 	evmtypes "github.com/evmos/evmos/v20/x/evm/types"
+	"github.com/evmos/evmos/v20/x/erc20"
+	erc20keeper "github.com/evmos/evmos/v20/x/erc20/keeper"
+	erc20types "github.com/evmos/evmos/v20/x/erc20/types"
 	"github.com/evmos/evmos/v20/x/feemarket"
 	feemarketkeeper "github.com/evmos/evmos/v20/x/feemarket/keeper"
 	feemarkettypes "github.com/evmos/evmos/v20/x/feemarket/types"
+	evmostransfer "github.com/evmos/evmos/v20/x/ibc/transfer"
+	transferkeeper "github.com/evmos/evmos/v20/x/ibc/transfer/keeper"
 
 	srvflags "github.com/thesixnetwork/six-protocol/v4/server/flags"
 
@@ -232,7 +235,10 @@ type App struct {
 	IBCFeeKeeper        ibcfeekeeper.Keeper
 	ICAControllerKeeper icacontrollerkeeper.Keeper
 	ICAHostKeeper       icahostkeeper.Keeper
-	TransferKeeper      ibctransferkeeper.Keeper
+	TransferKeeper      transferkeeper.Keeper
+
+	// ERC20
+	Erc20Keeper erc20keeper.Keeper
 
 	// Custom
 	/*
@@ -416,6 +422,9 @@ func New(
 		// EVM
 		evmtypes.StoreKey,
 		feemarkettypes.StoreKey,
+
+		// ERC20
+		erc20types.StoreKey,
 
 		// SIX
 		protocoladminmoduletypes.StoreKey,
@@ -651,6 +660,21 @@ func New(
 		tracer, app.GetSubspace(evmtypes.ModuleName),
 	)
 
+	// ERC20 keeper must be initialized after EVM keeper.
+	// It is initialized before TransferKeeper and receives a pointer to TransferKeeper,
+	// which will be set after the TransferKeeper is initialized (resolves the circular dependency).
+	app.Erc20Keeper = erc20keeper.NewKeeper(
+		keys[erc20types.StoreKey],
+		appCodec,
+		authtypes.NewModuleAddress(govtypes.ModuleName),
+		app.AccountKeeper,
+		app.BankKeeper,
+		app.EVMKeeper,
+		app.StakingKeeper,
+		app.AuthzKeeper,
+		&app.TransferKeeper,
+	)
+
 	// get skipUpgradeHeights from the app options
 	skipUpgradeHeights := map[int64]bool{}
 	for _, h := range cast.ToIntSlice(appOpts.Get(server.FlagUnsafeSkipUpgrades)) {
@@ -805,7 +829,9 @@ func New(
 	)
 
 	// Create Transfer Keepers
-	app.TransferKeeper = ibctransferkeeper.NewKeeper(
+	// NOTE: Use evmos custom transfer keeper that supports ERC20 token transfers via IBC.
+	// The Erc20Keeper is set after it is initialized below (circular dependency resolved via pointer).
+	app.TransferKeeper = transferkeeper.NewKeeper(
 		appCodec,
 		keys[ibctransfertypes.StoreKey],
 		app.GetSubspace(ibctransfertypes.ModuleName),
@@ -815,6 +841,7 @@ func New(
 		app.AccountKeeper,
 		app.BankKeeper,
 		scopedTransferKeeper,
+		app.Erc20Keeper, // NOTE: Erc20Keeper is zero-value here; it is set after initialization below
 		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 	)
 
@@ -861,8 +888,9 @@ func New(
 
 	// Create Transfer Stack
 	var transferStack porttypes.IBCModule
-	transferStack = transfer.NewIBCModule(app.TransferKeeper)
+	transferStack = evmostransfer.NewIBCModule(app.TransferKeeper)
 	transferStack = ibcfee.NewIBCMiddleware(transferStack, app.IBCFeeKeeper)
+	transferStack = erc20.NewIBCMiddleware(app.Erc20Keeper, transferStack)
 	/*
 		 NOTE: disable packetforward and ratelimit in developtment process coz it will break buf update
 			transferStack = ratelimit.NewIBCMiddleware(app.RatelimitKeeper, transferStack)
@@ -945,7 +973,7 @@ func New(
 		circuit.NewAppModule(appCodec, app.CircuitBreakerKeeper),
 		// non sdk modules
 		ibc.NewAppModule(app.IBCKeeper),
-		transfer.NewAppModule(app.TransferKeeper),
+		evmostransfer.NewAppModule(app.TransferKeeper),
 		ibcfee.NewAppModule(app.IBCFeeKeeper),
 		ica.NewAppModule(&app.ICAControllerKeeper, &app.ICAHostKeeper),
 		ibctm.NewAppModule(),
@@ -965,6 +993,9 @@ func New(
 		nftadminmodule.NewAppModule(appCodec, app.NftadminKeeper, app.AccountKeeper, app.BankKeeper),
 		nftoraclemodule.NewAppModule(appCodec, app.NftoracleKeeper, app.AccountKeeper, app.BankKeeper),
 		precisebank.NewAppModule(appCodec, app.PreciseBankKeeper, app.AccountKeeper, app.BankKeeper),
+
+		// ERC20
+		erc20.NewAppModule(app.Erc20Keeper, app.AccountKeeper, app.GetSubspace(erc20types.ModuleName)),
 	)
 
 	// BasicModuleManager defines the module BasicManager is in charge of setting up basic,
