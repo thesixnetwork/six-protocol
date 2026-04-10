@@ -17,13 +17,13 @@ import (
 	nftoraclemodulev1 "github.com/thesixnetwork/six-protocol/v4/api/sixprotocol/nftoracle/module"
 	protocoladminmodulev1 "github.com/thesixnetwork/six-protocol/v4/api/sixprotocol/protocoladmin/module"
 	tokenmngrmodulev1 "github.com/thesixnetwork/six-protocol/v4/api/sixprotocol/tokenmngr/module"
+	sixerc20types "github.com/thesixnetwork/six-protocol/v4/x/erc20/types"
 	_ "github.com/thesixnetwork/six-protocol/v4/x/nftadmin/module" // import for side-effects
 	nftadminmoduletypes "github.com/thesixnetwork/six-protocol/v4/x/nftadmin/types"
 	nftmngrmoduletypes "github.com/thesixnetwork/six-protocol/v4/x/nftmngr/types"
 	_ "github.com/thesixnetwork/six-protocol/v4/x/nftoracle/module" // import for side-effects
 	nftoraclemoduletypes "github.com/thesixnetwork/six-protocol/v4/x/nftoracle/types"
 	precisebanktypes "github.com/thesixnetwork/six-protocol/v4/x/precisebank/types"
-	sixerc20types "github.com/thesixnetwork/six-protocol/v4/x/erc20/types"
 	_ "github.com/thesixnetwork/six-protocol/v4/x/protocoladmin/module" // import for side-effects
 	protocoladminmoduletypes "github.com/thesixnetwork/six-protocol/v4/x/protocoladmin/types"
 	_ "github.com/thesixnetwork/six-protocol/v4/x/tokenmngr/module" // import for side-effects

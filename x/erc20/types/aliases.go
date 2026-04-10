@@ -90,27 +90,27 @@ const (
 
 // Re-export functions from evmos erc20 types
 var (
-	NewTokenPair       = evmostypes.NewTokenPair
-	NewTokenPairSTRv2  = evmostypes.NewTokenPairSTRv2
-	NewGenesisState    = evmostypes.NewGenesisState
-	DefaultGenesisState = evmostypes.DefaultGenesisState
-	NewParams          = evmostypes.NewParams
-	DefaultParams      = evmostypes.DefaultParams
-	ValidatePrecompiles = evmostypes.ValidatePrecompiles
-	SanitizeERC20Name  = evmostypes.SanitizeERC20Name
-	EqualMetadata      = evmostypes.EqualMetadata
-	IsModuleAccount    = evmostypes.IsModuleAccount
+	NewTokenPair                     = evmostypes.NewTokenPair
+	NewTokenPairSTRv2                = evmostypes.NewTokenPairSTRv2
+	NewGenesisState                  = evmostypes.NewGenesisState
+	DefaultGenesisState              = evmostypes.DefaultGenesisState
+	NewParams                        = evmostypes.NewParams
+	DefaultParams                    = evmostypes.DefaultParams
+	ValidatePrecompiles              = evmostypes.ValidatePrecompiles
+	SanitizeERC20Name                = evmostypes.SanitizeERC20Name
+	EqualMetadata                    = evmostypes.EqualMetadata
+	IsModuleAccount                  = evmostypes.IsModuleAccount
 	GetDisabledAndEnabledPrecompiles = evmostypes.GetDisabledAndEnabledPrecompiles
-	CreateDenom        = evmostypes.CreateDenom
-	CreateDenomDescription = evmostypes.CreateDenomDescription
+	CreateDenom                      = evmostypes.CreateDenom
+	CreateDenomDescription           = evmostypes.CreateDenomDescription
 
 	RegisterMsgServer          = evmostypes.RegisterMsgServer
 	RegisterQueryServer        = evmostypes.RegisterQueryServer
 	RegisterQueryHandlerClient = evmostypes.RegisterQueryHandlerClient
 	NewQueryClient             = evmostypes.NewQueryClient
 
-	RegisterInterfaces         = evmostypes.RegisterInterfaces
-	RegisterLegacyAminoCodec   = evmostypes.RegisterLegacyAminoCodec
+	RegisterInterfaces       = evmostypes.RegisterInterfaces
+	RegisterLegacyAminoCodec = evmostypes.RegisterLegacyAminoCodec
 
 	// ParamStoreKeys
 	ParamStoreKeyEnableErc20        = evmostypes.ParamStoreKeyEnableErc20

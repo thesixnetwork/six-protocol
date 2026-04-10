@@ -1,63 +1,60 @@
 package keeper
-package keeper
 
 import (
-	"fmt"
+"fmt"
 
+"cosmossdk.io/log"
+storetypes "cosmossdk.io/store/types"
+"github.com/cosmos/cosmos-sdk/codec"
+sdk "github.com/cosmos/cosmos-sdk/types"
+authzkeeper "github.com/cosmos/cosmos-sdk/x/authz/keeper"
+bankkeeper "github.com/cosmos/cosmos-sdk/x/bank/keeper"
 
+"github.com/thesixnetwork/six-protocol/v4/x/erc20/types"
+)
 
+// Keeper of this module maintains collections of erc20.
+type Keeper struct {
+	storeKey storetypes.StoreKey
+	cdc      codec.BinaryCodec
+	// the address capable of executing a MsgUpdateParams message. Typically, this should be the x/gov module account.
+	authority     sdk.AccAddress
+	accountKeeper types.AccountKeeper
+	bankKeeper    bankkeeper.Keeper
+	evmKeeper     types.EVMKeeper
+	stakingKeeper types.StakingKeeper
+	authzKeeper   authzkeeper.Keeper
+}
 
+// NewKeeper creates new instances of the erc20 Keeper
+func NewKeeper(
+storeKey storetypes.StoreKey,
+cdc codec.BinaryCodec,
+authority sdk.AccAddress,
+ak types.AccountKeeper,
+bk bankkeeper.Keeper,
+evmKeeper types.EVMKeeper,
+sk types.StakingKeeper,
+authzKeeper authzkeeper.Keeper,
+) Keeper {
+	// ensure gov module account is set and is not nil
+	if err := sdk.VerifyAddressFormat(authority); err != nil {
+		panic(err)
+	}
 
+	return Keeper{
+		storeKey:      storeKey,
+		cdc:           cdc,
+		authority:     authority,
+		accountKeeper: ak,
+		bankKeeper:    bk,
+		evmKeeper:     evmKeeper,
+		stakingKeeper: sk,
+		authzKeeper:   authzKeeper,
+	}
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}	return ctx.Logger().With("module", fmt.Sprintf("x/%s", types.ModuleName))func (k Keeper) Logger(ctx sdk.Context) log.Logger {// Logger returns a module-specific logger.}	}		authzKeeper:   authzKeeper,		stakingKeeper: sk,		evmKeeper:     evmKeeper,		bankKeeper:    bk,		accountKeeper: ak,		cdc:           cdc,		storeKey:      storeKey,		authority:     authority,	return Keeper{	}		panic(err)	if err := sdk.VerifyAddressFormat(authority); err != nil {	// ensure gov module account is set and is not nil) Keeper {	authzKeeper authzkeeper.Keeper,	sk types.StakingKeeper,	evmKeeper types.EVMKeeper,	bk bankkeeper.Keeper,	ak types.AccountKeeper,	authority sdk.AccAddress,	cdc codec.BinaryCodec,	storeKey storetypes.StoreKey,func NewKeeper(// NewKeeper creates new instances of the erc20 Keeper}	authzKeeper   authzkeeper.Keeper	stakingKeeper types.StakingKeeper	evmKeeper     types.EVMKeeper	bankKeeper    bankkeeper.Keeper	accountKeeper types.AccountKeeper	authority sdk.AccAddress	// the address capable of executing a MsgUpdateParams message. Typically, this should be the x/gov module account.	cdc      codec.BinaryCodec	storeKey storetypes.StoreKeytype Keeper struct {// Keeper of this module maintains collections of erc20.)	"github.com/thesixnetwork/six-protocol/v4/x/erc20/types"	bankkeeper "github.com/cosmos/cosmos-sdk/x/bank/keeper"	authzkeeper "github.com/cosmos/cosmos-sdk/x/authz/keeper"	sdk "github.com/cosmos/cosmos-sdk/types"	"github.com/cosmos/cosmos-sdk/codec"	storetypes "cosmossdk.io/store/types"	"cosmossdk.io/log"
+// Logger returns a module-specific logger.
+func (k Keeper) Logger(ctx sdk.Context) log.Logger {
+	return ctx.Logger().With("module", fmt.Sprintf("x/%s", types.ModuleName))
+}

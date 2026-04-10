@@ -1,24 +1,25 @@
 package types
 
 import (
-	errorsmod "cosmossdk.io/errors"
+	evmostypes "github.com/evmos/evmos/v20/x/erc20/types"
 )
 
-// errors
+// Re-export errors from evmos erc20 types to avoid double registration.
+// These are already registered by the evmos types package init().
 var (
-	ErrERC20Disabled            = errorsmod.Register(ModuleName, 2, "erc20 module is disabled")
-	ErrInternalTokenPair        = errorsmod.Register(ModuleName, 3, "internal ethereum token mapping error")
-	ErrTokenPairNotFound        = errorsmod.Register(ModuleName, 4, "token pair not found")
-	ErrTokenPairAlreadyExists   = errorsmod.Register(ModuleName, 5, "token pair already exists")
-	ErrUndefinedOwner           = errorsmod.Register(ModuleName, 6, "undefined owner of contract pair")
-	ErrBalanceInvariance        = errorsmod.Register(ModuleName, 7, "post transfer balance invariant failed")
-	ErrUnexpectedEvent          = errorsmod.Register(ModuleName, 8, "unexpected event")
-	ErrABIPack                  = errorsmod.Register(ModuleName, 9, "contract ABI pack failed")
-	ErrABIUnpack                = errorsmod.Register(ModuleName, 10, "contract ABI unpack failed")
-	ErrEVMDenom                 = errorsmod.Register(ModuleName, 11, "EVM denomination registration")
-	ErrEVMCall                  = errorsmod.Register(ModuleName, 12, "EVM call unexpected error")
-	ErrERC20TokenPairDisabled   = errorsmod.Register(ModuleName, 13, "erc20 token pair is disabled")
-	ErrInvalidIBC               = errorsmod.Register(ModuleName, 14, "invalid IBC transaction")
-	ErrTokenPairOwnedByModule   = errorsmod.Register(ModuleName, 15, "token pair owned by module")
-	ErrNativeConversionDisabled = errorsmod.Register(ModuleName, 16, "native coins manual conversion is disabled")
+	ErrERC20Disabled            = evmostypes.ErrERC20Disabled
+	ErrInternalTokenPair        = evmostypes.ErrInternalTokenPair
+	ErrTokenPairNotFound        = evmostypes.ErrTokenPairNotFound
+	ErrTokenPairAlreadyExists   = evmostypes.ErrTokenPairAlreadyExists
+	ErrUndefinedOwner           = evmostypes.ErrUndefinedOwner
+	ErrBalanceInvariance        = evmostypes.ErrBalanceInvariance
+	ErrUnexpectedEvent          = evmostypes.ErrUnexpectedEvent
+	ErrABIPack                  = evmostypes.ErrABIPack
+	ErrABIUnpack                = evmostypes.ErrABIUnpack
+	ErrEVMDenom                 = evmostypes.ErrEVMDenom
+	ErrEVMCall                  = evmostypes.ErrEVMCall
+	ErrERC20TokenPairDisabled   = evmostypes.ErrERC20TokenPairDisabled
+	ErrInvalidIBC               = evmostypes.ErrInvalidIBC
+	ErrTokenPairOwnedByModule   = evmostypes.ErrTokenPairOwnedByModule
+	ErrNativeConversionDisabled = evmostypes.ErrNativeConversionDisabled
 )
