@@ -23,6 +23,7 @@ import (
 	_ "github.com/thesixnetwork/six-protocol/v4/x/nftoracle/module" // import for side-effects
 	nftoraclemoduletypes "github.com/thesixnetwork/six-protocol/v4/x/nftoracle/types"
 	precisebanktypes "github.com/thesixnetwork/six-protocol/v4/x/precisebank/types"
+	sixerc20types "github.com/thesixnetwork/six-protocol/v4/x/erc20/types"
 	_ "github.com/thesixnetwork/six-protocol/v4/x/protocoladmin/module" // import for side-effects
 	protocoladminmoduletypes "github.com/thesixnetwork/six-protocol/v4/x/protocoladmin/types"
 	_ "github.com/thesixnetwork/six-protocol/v4/x/tokenmngr/module" // import for side-effects
@@ -118,6 +119,7 @@ var (
 		nftmngrmoduletypes.ModuleName,
 		nftoraclemoduletypes.ModuleName,
 		precisebanktypes.ModuleName,
+		sixerc20types.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	}
 	/*
@@ -155,6 +157,7 @@ var (
 		nftmngrmoduletypes.ModuleName,
 		nftoraclemoduletypes.ModuleName,
 		precisebanktypes.ModuleName,
+		sixerc20types.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/beginBlockers
 	}
 
@@ -185,6 +188,7 @@ var (
 		nftmngrmoduletypes.ModuleName,
 		nftoraclemoduletypes.ModuleName,
 		precisebanktypes.ModuleName,
+		sixerc20types.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/endBlockers
 	}
 
@@ -211,6 +215,7 @@ var (
 		{Account: nftadminmoduletypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner, authtypes.Staking}},
 		{Account: nftoraclemoduletypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner, authtypes.Staking}},
 		{Account: precisebanktypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner}},
+		{Account: sixerc20types.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner}},
 		// this line is used by starport scaffolding # stargate/app/maccPerms
 	}
 
