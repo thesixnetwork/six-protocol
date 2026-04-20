@@ -16,6 +16,7 @@ import (
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/spf13/cobra"
 
+	"github.com/thesixnetwork/six-protocol/v4/x/erc20/client/cli"
 	"github.com/thesixnetwork/six-protocol/v4/x/erc20/keeper"
 	"github.com/thesixnetwork/six-protocol/v4/x/erc20/types"
 )
@@ -81,14 +82,14 @@ func (AppModuleBasic) RegisterGRPCGatewayRoutes(c client.Context, serveMux *runt
 	}
 }
 
-// GetTxCmd returns the root tx command for the module (no CLI commands for now).
+// GetTxCmd returns the root tx command for the erc20 module.
 func (b AppModuleBasic) GetTxCmd() *cobra.Command {
-	return nil
+	return cli.NewTxCmd()
 }
 
-// GetQueryCmd returns the root query command for the module (no CLI commands for now).
+// GetQueryCmd returns the root query command for the erc20 module.
 func (AppModuleBasic) GetQueryCmd() *cobra.Command {
-	return nil
+	return cli.GetQueryCmd()
 }
 
 // ----------------------------------------------------------------------------
