@@ -1,16 +1,16 @@
 package keeper
 
 import (
-"fmt"
+	"fmt"
 
-"cosmossdk.io/log"
-storetypes "cosmossdk.io/store/types"
-"github.com/cosmos/cosmos-sdk/codec"
-sdk "github.com/cosmos/cosmos-sdk/types"
-authzkeeper "github.com/cosmos/cosmos-sdk/x/authz/keeper"
-bankkeeper "github.com/cosmos/cosmos-sdk/x/bank/keeper"
+	"cosmossdk.io/log"
+	storetypes "cosmossdk.io/store/types"
+	"github.com/cosmos/cosmos-sdk/codec"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	authzkeeper "github.com/cosmos/cosmos-sdk/x/authz/keeper"
+	bankkeeper "github.com/cosmos/cosmos-sdk/x/bank/keeper"
 
-"github.com/thesixnetwork/six-protocol/v4/x/erc20/types"
+	"github.com/thesixnetwork/six-protocol/v4/x/erc20/types"
 )
 
 // Keeper of this module maintains collections of erc20.
@@ -28,14 +28,14 @@ type Keeper struct {
 
 // NewKeeper creates new instances of the erc20 Keeper
 func NewKeeper(
-storeKey storetypes.StoreKey,
-cdc codec.BinaryCodec,
-authority sdk.AccAddress,
-ak types.AccountKeeper,
-bk bankkeeper.Keeper,
-evmKeeper types.EVMKeeper,
-sk types.StakingKeeper,
-authzKeeper authzkeeper.Keeper,
+	storeKey storetypes.StoreKey,
+	cdc codec.BinaryCodec,
+	authority sdk.AccAddress,
+	ak types.AccountKeeper,
+	bk bankkeeper.Keeper,
+	evmKeeper types.EVMKeeper,
+	sk types.StakingKeeper,
+	authzKeeper authzkeeper.Keeper,
 ) Keeper {
 	// ensure gov module account is set and is not nil
 	if err := sdk.VerifyAddressFormat(authority); err != nil {

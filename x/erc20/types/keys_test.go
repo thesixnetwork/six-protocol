@@ -1,11 +1,11 @@
 package types_test
 
 import (
-"testing"
+	"testing"
 
-"github.com/stretchr/testify/require"
+	"github.com/stretchr/testify/require"
 
-"github.com/thesixnetwork/six-protocol/v4/x/erc20/types"
+	"github.com/thesixnetwork/six-protocol/v4/x/erc20/types"
 )
 
 func TestModuleName(t *testing.T) {

@@ -1,12 +1,12 @@
 package keeper_test
 
 import (
-"testing"
+	"testing"
 
-"github.com/stretchr/testify/require"
+	"github.com/stretchr/testify/require"
 
-keepertest "github.com/thesixnetwork/six-protocol/v4/testutil/keeper"
-"github.com/thesixnetwork/six-protocol/v4/x/erc20/types"
+	keepertest "github.com/thesixnetwork/six-protocol/v4/testutil/keeper"
+	"github.com/thesixnetwork/six-protocol/v4/x/erc20/types"
 )
 
 func TestGetSetParams(t *testing.T) {
