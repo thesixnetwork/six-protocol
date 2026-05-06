@@ -51,7 +51,7 @@ jobs:
 
       - name: Run Trivy vulnerability scanner (Table)
         id: trivy-scan
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@master
         with:
           image-ref: ${{ env.IMAGE_NAME }}:${{ github.sha }}
           format: "table"
@@ -62,7 +62,7 @@ jobs:
       # Trivy scan with JSON output for parsing
       - name: Run Trivy vulnerability scanner (JSON)
         id: trivy-json
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@master
         continue-on-error: true
         with:
           image-ref: ${{ env.IMAGE_NAME }}:${{ github.sha }}
