@@ -17,6 +17,7 @@ COPY . /go/src/github.com/thesixnetwork/six-protocol/
 
 RUN LEDGER_ENABLED=false BUILD_TAGS=muslc make build
 
+# TODO: Pin to a specific digest for reproducibility, e.g. cgr.dev/chainguard/wolfi-base@sha256:<digest>
 FROM cgr.dev/chainguard/wolfi-base
 
 WORKDIR /root

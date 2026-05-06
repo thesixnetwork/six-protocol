@@ -21,11 +21,12 @@ RUN if [ -f "./build/bin/cosmovisor" ]; then \
   cp ./build/bin/cosmovisor /go/bin/cosmovisor; \
   else \
   echo "Local cosmovisor not found, installing from source"; \
-  go install github.com/cosmos/cosmos-sdk/cosmovisor/cmd/cosmovisor@latest; \
+  go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.7.0;
   fi
 
-RUN LEDGER_ENABLED=false BUILD_TAGS=muslc make build
+RUN LEDGER_ENABLED=false make build
 
+# TODO: Pin to a specific digest for reproducibility, e.g. cgr.dev/chainguard/wolfi-base@sha256:<digest>
 FROM cgr.dev/chainguard/wolfi-base
 
 WORKDIR /root
@@ -53,4 +54,4 @@ EXPOSE 26656
 EXPOSE 26657
 
 
-CMD ["sixd"]
+CMD ["cosmovisor", "run", "start"]

@@ -18,6 +18,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup - golang
         uses: actions/setup-go@v4
@@ -49,8 +51,7 @@ jobs:
 
       - name: Run Trivy vulnerability scanner (Table)
         id: trivy-scan
-        uses: aquasecurity/trivy-action@master
-        continue-on-error: true
+        uses: aquasecurity/trivy-action@0.28.0
         with:
           image-ref: ${{ env.IMAGE_NAME }}:${{ github.sha }}
           format: "table"
@@ -61,7 +62,7 @@ jobs:
       # Trivy scan with JSON output for parsing
       - name: Run Trivy vulnerability scanner (JSON)
         id: trivy-json
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@0.28.0
         continue-on-error: true
         with:
           image-ref: ${{ env.IMAGE_NAME }}:${{ github.sha }}
@@ -109,8 +110,8 @@ jobs:
           WORKFLOW_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           COMMIT_URL="https://github.com/${{ github.repository }}/commit/${{ github.sha }}"
 
-          # Escape special characters for JSON
-          VULN_DETAILS_ESCAPED=$(echo "$VULN_DETAILS" | sed 's/"/\\"/g' | sed ':a;N;$!ba;s/\n/\\n/g')
+          # Escape special characters for JSON using jq for reliable encoding
+          VULN_DETAILS_ESCAPED=$(printf '%s' "$VULN_DETAILS" | jq -Rs .)
 
           MESSAGE="{
             \"cards\": [{
@@ -175,7 +176,7 @@ jobs:
                 \"widgets\": [
                   {
                     \"textParagraph\": {
-                      \"text\": \"${VULN_DETAILS_ESCAPED}\"
+                      \"text\": ${VULN_DETAILS_ESCAPED}
                     }
                   },
                   {
@@ -200,4 +201,4 @@ jobs:
           curl -X POST \
             -H "Content-Type: application/json" \
             -d "$MESSAGE" \
-            "https://chat.googleapis.com/v1/spaces/AAQAMqqW9VM/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=DBNWlBNnSoA9OrU4d7hUc4Ul5kCo9LbhXDst2swGO2A"
+            "${{ secrets.GOOGLE_CHAT_WEBHOOK_URL }}"

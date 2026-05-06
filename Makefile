@@ -107,7 +107,7 @@ go.sum: go.mod
 
 draw-deps:
 	@# requires brew install graphviz or apt-get install graphviz
-	go get github.com/RobotsAndPencils/goviz
+	go install github.com/RobotsAndPencils/goviz@latest
 	@goviz -i ./cmd/sixd -d 2 | dot -Tpng -o dependency-graph.png
 
 clean:
@@ -186,7 +186,7 @@ proto-lint:
 	@$(DOCKER_BUF) lint --error-format=json
 
 proto-check-breaking:
-	@$(DOCKER_BUF) breaking --against-input $(HTTPS_GIT)#branch=master
+	@$(DOCKER_BUF) breaking --against-input $(HTTPS_GIT)#branch=main
 
 proto-go:
 	@ignite g proto-go -y
@@ -241,4 +241,4 @@ update-wiki:
 	cd docs/wiki && \
 	git add . && \
 	git commit -am "update wiki" && \
-	git push origin master
+	git push origin main
