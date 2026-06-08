@@ -1,5 +1,5 @@
 default_six_home=six_home
-default_docker_tag="4.0.0"
+default_docker_tag="4.0.3"
 node_homes=(
     sixnode0
     sixnode1
@@ -142,7 +142,7 @@ case $choice in
     if [ -z "$docker_tag" ]; then
         docker_tag=$default_docker_tag
     fi
-    docker build . -t gcr.io/six-protocol/sixnode:${docker_tag}
+    docker build . -t asia-southeast1-docker.pkg.dev/six-protocol/six-node-docker-repo/sixnode:${docker_tag}
     ;;
 2)
     echo "Run init Chain validator"
