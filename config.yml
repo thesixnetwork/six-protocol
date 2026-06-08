@@ -17,18 +17,14 @@ accounts:
   - name: bob
     coins:
       - 200000000000000usix
-    mnemonic: limb sister humor wisdom elephant weasel beyond must any desert glance
-      stem reform soccer include chest chef clerk call popular display nerve priority
-      venture
+    mnemonic: limb sister humor wisdom elephant weasel beyond must any desert glance stem reform soccer include chest chef clerk call popular display nerve priority venture
   - name: faucet
     coins:
       - 300000000000000usix
   - name: super-admin
     coins:
       - 300000000000000usix
-    mnemonic: expect peace defense conduct virtual flight flip unit equip solve broccoli
-      protect shed group else useless tree such tornado minimum decade tower warfare
-      galaxy
+    mnemonic: expect peace defense conduct virtual flight flip unit equip solve broccoli protect shed group else useless tree such tornado minimum decade tower warfare galaxy
 faucet:
   name: faucet
   coins:
