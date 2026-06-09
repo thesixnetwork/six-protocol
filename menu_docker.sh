@@ -13,6 +13,8 @@ validator_keys=(
     val4
 )
 
+SUPER_ADMIN_ADDRESS="6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"
+
 function setUpGenesis() {
     ## config genesis.json
     jq '.app_state.bank.params.send_enabled[0] = {"denom": "usix","enabled": true}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
@@ -216,6 +218,7 @@ case $choice in
                     --commission-rate "0.1" --commission-max-rate "0.1" --commission-max-change-rate "0.1" \
                     --details "node_test_${i}" --security-contact "node_test_${i}" --website "www.idk_${i}.com" --identity "idk_${i}" \
                     --sign-mode amino-json --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix \
+                    --approver "$SUPER_ADMIN_ADDRESS" \
                     --keyring-backend test --chain-id $CHAIN_ID --from=${val} --home build/${node_homes[i]} -y --node http://0.0.0.0:26662
                 echo "Config Genesis at ${home} Success 🟢"
         ) || exit 1

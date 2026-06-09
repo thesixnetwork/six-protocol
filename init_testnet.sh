@@ -6,7 +6,6 @@ set -e # Exit on error
 # =====================================================
 
 # Chain configuration
-KEY="mykey"
 CHAINID="testnet"
 MONIKER="${1:-mynode}"
 KEYRING="test"
@@ -33,7 +32,6 @@ EVM_TOKEN="asix"
 ALICE_ADDRESS="6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq"
 BOB_ADDRESS="6x13g50hqdqsjk85fmgqz2h5xdxq49lsmjdwlemsp"
 SUPER_ADMIN_ADDRESS="6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"
-SPECIAL_EVM_ADDRESS="6x18743s33zmsvmvyynfxu5sy2f80e2g5mz8dk65g"
 
 # =====================================================
 # MNEMONICS SECTION - From config.yml only
@@ -130,7 +128,7 @@ update_genesis '.app_state.bank.denom_metadata[1] = {
     {"denom": "six","exponent": 18,"aliases": []}
   ],
   "base": "asix",
-  "display": "six",  
+  "display": "six",
   "name": "eSix token",
   "symbol": "asix"
 }'
@@ -161,7 +159,7 @@ update_genesis '.app_state.nftmngr.nft_fee_config = {
 update_genesis '.app_state.nftoracle.params = {
   "action_request_active_duration": "120s",
   "mint_request_active_duration": "120s",
-  "verify_request_active_duration": "120s", 
+  "verify_request_active_duration": "120s",
   "action_signer_active_duration": "2592000s",
   "sync_action_signer_active_duration": "300s"
 }'
@@ -292,13 +290,13 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     sed -i '' 's/swagger = false/swagger = true/g' ${SIX_HOME}/config/app.toml
     sed -i '' 's/enabled-unsafe-cors = false/enabled-unsafe-cors = true/g' ${SIX_HOME}/config/app.toml
     sed -i '' 's/address = "tcp:\/\/localhost:1317"/address = "tcp:\/\/0.0.0.0:1317"/g' ${SIX_HOME}/config/app.toml
-    
+
     # gRPC configuration
     sed -i '' 's/enable = false/enable = true/g' ${SIX_HOME}/config/app.toml
     sed -i '' 's/address = "localhost:9090"/address = "0.0.0.0:9090"/g' ${SIX_HOME}/config/app.toml
     sed -i '' 's/address = "0.0.0.0:9091"/address = "0.0.0.0:9091"/g' ${SIX_HOME}/config/app.toml
     sed -i '' 's/enable = false/enable = true/g' ${SIX_HOME}/config/app.toml
-    
+
     # JSON-RPC configuration - CRITICAL for immediate startup
     sed -i '' 's/enable = false/enable = true/g' ${SIX_HOME}/config/app.toml
     sed -i '' 's/api = "eth,net,web3"/api = "eth,txpool,personal,net,debug,web3"/g' ${SIX_HOME}/config/app.toml
@@ -308,19 +306,19 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 else
     # Minimum gas prices - CRITICAL
     sed -i 's/minimum-gas-prices = ""/minimum-gas-prices = "1.25usix,1250000000000asix"/g' ${SIX_HOME}/config/app.toml
-    
+
     # API configuration
     sed -i 's/enable = false/enable = true/g' ${SIX_HOME}/config/app.toml
     sed -i 's/swagger = false/swagger = true/g' ${SIX_HOME}/config/app.toml
     sed -i 's/enabled-unsafe-cors = false/enabled-unsafe-cors = true/g' ${SIX_HOME}/config/app.toml
     sed -i 's/address = "tcp:\/\/localhost:1317"/address = "tcp:\/\/0.0.0.0:1317"/g' ${SIX_HOME}/config/app.toml
-    
+
     # gRPC configuration
     sed -i 's/enable = false/enable = true/g' ${SIX_HOME}/config/app.toml
     sed -i 's/address = "localhost:9090"/address = "0.0.0.0:9090"/g' ${SIX_HOME}/config/app.toml
     sed -i 's/address = "0.0.0.0:9091"/address = "0.0.0.0:9091"/g' ${SIX_HOME}/config/app.toml
     sed -i 's/enable = false/enable = true/g' ${SIX_HOME}/config/app.toml
-    
+
     # JSON-RPC configuration - CRITICAL for immediate startup
     sed -i 's/enable = false/enable = true/g' ${SIX_HOME}/config/app.toml
     sed -i 's/api = "eth,net,web3"/api = "eth,txpool,personal,net,debug,web3"/g' ${SIX_HOME}/config/app.toml
@@ -376,4 +374,3 @@ fi
 
 # Start the node (remove the --pruning=nothing flag if historical queries are not needed)
 sixd start --minimum-gas-prices=1.25usix,1250000000000asix --json-rpc.api eth,txpool,personal,net,debug,web3 --rpc.laddr "tcp://0.0.0.0:26657" --api.enable true $TRACE --log_level ${LOGLEVEL} --home ${SIX_HOME}
-
