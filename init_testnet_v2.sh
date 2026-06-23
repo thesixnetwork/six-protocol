@@ -52,7 +52,7 @@ VAL4_MNEMONIC="grant raw marine drink text dove flat waste wish buzz output hand
 ALICE_BALANCE="1000000000000${STAKING_TOKEN}"
 BOB_BALANCE="11000000000000${STAKING_TOKEN}"
 SUPER_ADMIN_BALANCE="11000000000000${STAKING_TOKEN}"
-VAL1_BALANCE="100000000000000${STAKING_TOKEN}"
+VAL1_BALANCE="11000000000000${STAKING_TOKEN}"
 VAL2_BALANCE="11000000000000${STAKING_TOKEN}"
 VAL3_BALANCE="11000000000000${STAKING_TOKEN}"
 VAL4_BALANCE="11000000000000${STAKING_TOKEN}"
@@ -140,7 +140,7 @@ GENESIS_FILE="$SIX_HOME/config/genesis.json"
 
 # Update staking params
 jq '.app_state.staking.params.bond_denom = "usix"' $GENESIS_FILE > tmp.json && mv tmp.json $GENESIS_FILE
-jq '.app_state.staking.params.max_validators = 3' $GENESIS_FILE > tmp.json && mv tmp.json $GENESIS_FILE
+jq '.app_state.staking.params.max_validators = 100' $GENESIS_FILE > tmp.json && mv tmp.json $GENESIS_FILE
 jq '.app_state.staking.params.unbonding_time = "300s"' $GENESIS_FILE > tmp.json && mv tmp.json $GENESIS_FILE
 
 # Update validator approval configuration
@@ -326,16 +326,16 @@ fi
 
 if [ "$VALIDATOR_APPROVAL_ENABLED" = "true" ]; then
   print_section "Verifying gentx approver_address"
-  
+
   # The gentx file is created in $SIX_HOME/config/gentx/
   GENTX_FILE=$(ls $SIX_HOME/config/gentx/*.json | head -n 1)
-  
+
   if [ -f "$GENTX_FILE" ]; then
     echo "Found gentx file: $GENTX_FILE"
-    
+
     # Check if approver_address is already set
     CURRENT_APPROVER=$(jq -r '.body.messages[0].approver_address' $GENTX_FILE)
-    
+
     if [ "$CURRENT_APPROVER" = "$SUPER_ADMIN_ADDRESS" ]; then
       echo "✅ Approver address already correct: $SUPER_ADMIN_ADDRESS"
     elif [ -z "$CURRENT_APPROVER" ] || [ "$CURRENT_APPROVER" = "null" ] || [ "$CURRENT_APPROVER" = "" ]; then
@@ -365,11 +365,11 @@ sixd genesis collect-gentxs --home $SIX_HOME
 
 if [ "$VALIDATOR_APPROVAL_ENABLED" = "true" ]; then
   print_section "Verifying gentx approver_address in final genesis.json"
-  
+
   # After collect-gentxs, the gentx is now in genesis.json
   # Check if approver_address is correct
   GENESIS_APPROVER=$(jq -r '.app_state.genutil.gen_txs[0].body.messages[0].approver_address' $GENESIS_FILE)
-  
+
   if [ "$GENESIS_APPROVER" = "$SUPER_ADMIN_ADDRESS" ]; then
     echo "✅ Genesis approver address already correct: $SUPER_ADMIN_ADDRESS"
   elif [ -z "$GENESIS_APPROVER" ] || [ "$GENESIS_APPROVER" = "null" ] || [ "$GENESIS_APPROVER" = "" ]; then

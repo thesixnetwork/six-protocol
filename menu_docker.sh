@@ -15,6 +15,50 @@ validator_keys=(
 
 SUPER_ADMIN_ADDRESS="6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"
 
+# ---------------------------------------------------------------------------
+# Helper: get the local chain's P2P peer string suitable for Docker containers.
+# Replaces IP addresses (0.0.0.0 or LAN IPs) with host.docker.internal so containers can reach the host.
+# ---------------------------------------------------------------------------
+get_local_peer_for_docker() {
+    local raw_peer
+    raw_peer=$(jq -r '.app_state.genutil.gen_txs[0].body.memo' ~/.six/config/genesis.json 2>/dev/null || echo "")
+    if [ -z "$raw_peer" ]; then
+        echo ""
+        return
+    fi
+    # Extract node ID and port, replace IP with host.docker.internal
+    # Format: <node-id>@<ip>:<port>
+    local node_id=$(echo "$raw_peer" | cut -d'@' -f1)
+    local port=$(echo "$raw_peer" | cut -d':' -f2)
+    echo "${node_id}@host.docker.internal:${port}"
+}
+
+# ---------------------------------------------------------------------------
+# Helper: get sixnode0's peer string for hub-and-spoke topology
+# Uses docker to get the node ID from sixnode0
+# ---------------------------------------------------------------------------
+get_sixnode0_peer() {
+    if [ ! -f ./build/sixnode0/config/node_key.json ]; then
+        echo ""
+        return
+    fi
+
+    # Try to get node ID using sixd command in a temporary container
+    local node_id=$(docker run --rm \
+        -v "$(pwd)/build/sixnode0:/opt/build/six_home" \
+        asia-southeast1-docker.pkg.dev/six-protocol/six-node-docker-repo/sixnode:${default_docker_tag} \
+        sixd tendermint show-node-id --home /opt/build/six_home 2>/dev/null || echo "")
+
+    if [ -z "$node_id" ]; then
+        echo ""
+        return
+    fi
+
+    # sixnode0 is accessible at 10.10.0.2:26656 within Docker network
+    echo "${node_id}@10.10.0.2:26656"
+}
+
+# ---------------------------------------------------------------------------
 function setUpGenesis() {
     ## config genesis.json
     jq '.app_state.bank.params.send_enabled[0] = {"denom": "usix","enabled": true}' ./build/sixnode0/config/genesis.json | sponge ./build/sixnode0/config/genesis.json
@@ -126,16 +170,49 @@ function setUpConfig() {
 
 function setupLocalSyncConfig() {
     echo "#######################################"
-    echo "Setup ${SIX_HOME} genesis..."
+    echo "Setup ${SIX_HOME} for local chain sync..."
 
-    NODE_PEER=$(jq '.app_state.genutil.gen_txs[0].body.memo' ~/.six/config/genesis.json)
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-        ## replace NODE_PEER in config.toml to persistent_peers
-        sed -i '' "s/persistent_peers = \"\"/persistent_peers = ${NODE_PEER}/g" ./build/${SIX_HOME}/config/config.toml
-    else
-        sed -i "s/persistent_peers = \"\"/persistent_peers = ${NODE_PEER}/g" ./build/${SIX_HOME}/config/config.toml
+    # Get local chain peer string
+    LOCAL_PEER=$(get_local_peer_for_docker)
+    if [ -z "$LOCAL_PEER" ]; then
+        echo "ERROR: Could not read peer from ~/.six/config/genesis.json 🖕"
+        exit 1
     fi
-    ## replace genesis of node0 to all node
+
+    # Determine peers based on node role:
+    # - sixnode0: connects only to local chain (acts as gateway/hub)
+    # - sixnode1-3: connect to both local chain AND sixnode0 (hub-and-spoke)
+    if [[ "${SIX_HOME}" == "sixnode0" ]]; then
+        echo "Configuring sixnode0 as gateway (connects to local chain only)"
+        PEERS="${LOCAL_PEER}"
+    else
+        echo "Configuring ${SIX_HOME} with hub-and-spoke topology (local chain + sixnode0)"
+        SIXNODE0_PEER=$(get_sixnode0_peer)
+        if [ -z "$SIXNODE0_PEER" ]; then
+            echo "WARNING: Could not get sixnode0 peer ID. Using local chain peer only."
+            PEERS="${LOCAL_PEER}"
+        else
+            # Connect to both local chain and sixnode0
+            PEERS="${LOCAL_PEER},${SIXNODE0_PEER}"
+            echo "Peers: local chain + sixnode0 (${SIXNODE0_PEER})"
+        fi
+    fi
+
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        sed -i '' "s/persistent_peers = \"\"/persistent_peers = \"${PEERS}\"/g" ./build/${SIX_HOME}/config/config.toml
+        # Enable PEX (peer exchange) to discover other peers
+        sed -i '' "s/pex = false/pex = true/g" ./build/${SIX_HOME}/config/config.toml
+        # Allow private peer IDs
+        sed -i '' "s/addr_book_strict = true/addr_book_strict = false/g" ./build/${SIX_HOME}/config/config.toml
+    else
+        sed -i "s/persistent_peers = \"\"/persistent_peers = \"${PEERS}\"/g" ./build/${SIX_HOME}/config/config.toml
+        # Enable PEX (peer exchange) to discover other peers
+        sed -i "s/pex = false/pex = true/g" ./build/${SIX_HOME}/config/config.toml
+        # Allow private peer IDs
+        sed -i "s/addr_book_strict = true/addr_book_strict = false/g" ./build/${SIX_HOME}/config/config.toml
+    fi
+
+    ## Copy genesis from local chain
     cp ~/.six/config/genesis.json ./build/${SIX_HOME}/config/genesis.json
 
     # if $TYPE = 0 then ignore this step
@@ -177,17 +254,17 @@ function setupLocalSyncConfig() {
 }
 
 echo "#############################################"
-echo "## 1. Build Docker Image                   ##"
-echo "## 2. Docker Compose init chain            ##"
-echo "## 3. Start chain validator                ##"
-echo "## 4. Stop chain validator                 ##"
-echo "## 5. Config Genesis                       ##"
+echo "## 1.  Build Docker Image                  ##"
+echo "## 2.  Docker Compose init chain           ##"
+echo "## 3.  Start chain validator               ##"
+echo "## 4.  Stop chain validator                ##"
+echo "## 5.  Config Genesis (docker cluster)     ##"
 echo "## 5.2 Config Genesis for Local Sync       ##"
-echo "## 6. Reset chain validator                ##"
-echo "## 7. Staking validator                    ##"
-echo "## 7.2 Staking validator for Local Sync    ##"
-echo "## 8. Query Validator set                  ##"
-echo "## 9. Setup Cosmovisor                     ##"
+echo "## 6.  Reset chain validator               ##"
+echo "## 7.  Staking validator (docker cluster)  ##"
+echo "## 7.2 Staking validator (local sync)      ##"
+echo "## 8.  Query Validator set                 ##"
+echo "## 9.  Setup Cosmovisor                    ##"
 echo "## 10. Start Cosmovisor                    ##"
 echo "#############################################"
 read -p "Enter your choice: " choice
@@ -232,20 +309,24 @@ case $choice in
         ) || exit 1
     done
     ;;
-5.2)
+"5.2")
     echo "Config Genesis for Local Sync"
     read -p "Enter Node Type [0:Default, 1:Fast] : " TYPE
     if [ -z "$TYPE" ]; then
         TYPE=0
     fi
+    if ! [[ -e ~/.six/config/genesis.json ]]; then
+        echo "~/.six/config/genesis.json does not exist. Run bash init_testnet.sh first. 🖕"
+        exit 1
+    fi
     for home in ${node_homes[@]}; do
         (
             export SIX_HOME=${home}
-            if [[ -e !~/.six/config/genesis.json ]]; then
-                echo "File does not exist 🖕"
-            else
-                setupLocalSyncConfig
+            if ! [[ -e ./build/${SIX_HOME}/config/config.toml ]]; then
+                echo "ERROR: ./build/${SIX_HOME}/config/config.toml not found. Initialize the nodes first. 🖕"
+                exit 1
             fi
+            setupLocalSyncConfig
         ) || exit 1
     done
     ;;
@@ -295,30 +376,30 @@ case $choice in
         i=$((i + 1))
     done
     ;;
-7.2)
-    echo "Staking Docker Container"
+"7.2")
+    echo "Staking validators for local chain sync"
     read -p "Chain ID [testnet] : " CHAIN_ID
     if [ -z "$CHAIN_ID" ]; then
         CHAIN_ID="testnet"
     fi
-    i=1
+    # Local chain RPC is at 0.0.0.0:26657 (init_testnet.sh sets it up this way)
+    LOCAL_RPC="http://0.0.0.0:26657"
     amount=100000000000
-    # i=0
-    # for val in ${validator_keys[@]}
-    for val in ${validator_keys[@]:1:3}; do
+    i=0
+    for val in ${validator_keys[@]:0:4}; do
         echo "#######################################"
-            (
-                echo "Creating validators ${val}"
-                echo ${node_homes[i]}
-                export DAEMON_HOME=./build/${node_homes[i]}
-                sixd tx staking create-validator-legacy --amount="${amount}usix" --moniker ${node_homes[i]} --pubkey $(sixd tendermint show-validator --home ./build/${node_homes[i]}) \
-                    --validator-mode="${i-1}" --max-license=100 --min-delegation 10000000000 --delegation-increment 10000000000 --enable-redelegation=false --min-self-delegation 10000000000 \
-                    --commission-rate "0.1" --commission-max-rate "0.1" --commission-max-change-rate "0.1" \
-                    --details "node_test_${i}" --security-contact "node_test_${i}" --website "www.idk_${i}.com" --identity "idk_${i}" \
-                    --sign-mode amino-json --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix \
-                    --approver $SUPER_ADMIN_ADDRESS \
-                    --keyring-backend test --chain-id $CHAIN_ID --from=${val} --home build/${node_homes[i]} -y --node http://0.0.0.0:26657
-                echo "Config Genesis at ${home} Success 🟢"
+        (
+            NODE_HOME=${node_homes[i]}
+            echo "Creating validator ${val} on ${NODE_HOME}"
+            sixd tx staking create-validator-legacy --amount="${amount}usix" --moniker ${NODE_HOME} \
+                --pubkey $(sixd tendermint show-validator --home ./build/${NODE_HOME}) \
+                --validator-mode=0 --max-license=100 --min-delegation 10000000000 --delegation-increment 10000000000 --enable-redelegation=false --min-self-delegation 10000000000 \
+                --commission-rate "1" --commission-max-rate "1" --commission-max-change-rate "1" \
+                --details "local_sync_${i}" --security-contact "local_sync_${i}" --website "www.six_${i}.com" --identity "six_${i}" \
+                --sign-mode amino-json --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix \
+                --approver $SUPER_ADMIN_ADDRESS \
+                --keyring-backend test --chain-id $CHAIN_ID --from=${val} --home build/${NODE_HOME} -y --node $LOCAL_RPC
+            echo "Staking for ${NODE_HOME} Success 🟢"
         ) || exit 1
         i=$((i + 1))
     done
