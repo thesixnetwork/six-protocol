@@ -20,16 +20,24 @@ SUPER_ADMIN_ADDRESS="6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"
 # Replaces IP addresses (0.0.0.0 or LAN IPs) with host.docker.internal so containers can reach the host.
 # ---------------------------------------------------------------------------
 get_local_peer_for_docker() {
-    local raw_peer
-    raw_peer=$(jq -r '.app_state.genutil.gen_txs[0].body.memo' ~/.six/config/genesis.json 2>/dev/null || echo "")
-    if [ -z "$raw_peer" ]; then
+    local node_id port
+    # Query the running node's RPC — most accurate, reflects exactly what the node presents
+    node_id=$(curl -sf --max-time 3 http://localhost:26657/status 2>/dev/null | jq -r '.result.node_info.id // empty')
+    if [ -z "$node_id" ]; then
+        # Fallback: read from the node key file directly
+        node_id=$(sixd tendermint show-node-id --home ~/.six 2>/dev/null || echo "")
+    fi
+    if [ -z "$node_id" ]; then
         echo ""
         return
     fi
-    # Extract node ID and port, replace IP with host.docker.internal
-    # Format: <node-id>@<ip>:<port>
-    local node_id=$(echo "$raw_peer" | cut -d'@' -f1)
-    local port=$(echo "$raw_peer" | cut -d':' -f2)
+    local raw_peer
+    raw_peer=$(jq -r '.app_state.genutil.gen_txs[0].body.memo' ~/.six/config/genesis.json 2>/dev/null || echo "")
+    if [ -n "$raw_peer" ]; then
+        port=$(echo "$raw_peer" | cut -d':' -f2)
+    else
+        port="26656"
+    fi
     echo "${node_id}@host.docker.internal:${port}"
 }
 
@@ -42,20 +50,61 @@ get_sixnode0_peer() {
         echo ""
         return
     fi
-
-    # Try to get node ID using sixd command in a temporary container
-    local node_id=$(docker run --rm \
-        -v "$(pwd)/build/sixnode0:/opt/build/six_home" \
-        asia-southeast1-docker.pkg.dev/six-protocol/six-node-docker-repo/sixnode:${default_docker_tag} \
-        sixd tendermint show-node-id --home /opt/build/six_home 2>/dev/null || echo "")
-
+    local node_id
+    node_id=$(sixd tendermint show-node-id --home ./build/sixnode0 2>/dev/null || echo "")
     if [ -z "$node_id" ]; then
         echo ""
         return
     fi
-
-    # sixnode0 is accessible at 10.10.0.2:26656 within Docker network
     echo "${node_id}@10.10.0.2:26656"
+}
+
+# ---------------------------------------------------------------------------
+# Refresh persistent_peers in all docker node config.toml files by querying
+# the live local chain RPC. Run this after recreating the local node.
+# ---------------------------------------------------------------------------
+refresh_local_peers() {
+    echo "#######################################"
+    echo "Refreshing persistent_peers in all docker nodes..."
+
+    LOCAL_PEER=$(get_local_peer_for_docker)
+    if [ -z "$LOCAL_PEER" ]; then
+        echo "ERROR: Could not determine local chain peer. Is the local chain running? 🖕"
+        return 1
+    fi
+    echo "Local chain peer: ${LOCAL_PEER}"
+
+    SIXNODE0_PEER=$(get_sixnode0_peer)
+    if [ -n "$SIXNODE0_PEER" ]; then
+        echo "sixnode0 peer:    ${SIXNODE0_PEER}"
+    fi
+
+    for home in ${node_homes[@]}; do
+        local config_file="./build/${home}/config/config.toml"
+        if [ ! -f "$config_file" ]; then
+            echo "WARNING: ${config_file} not found, skipping"
+            continue
+        fi
+
+        if [[ "${home}" == "sixnode0" ]]; then
+            PEERS="${LOCAL_PEER}"
+        else
+            if [ -n "$SIXNODE0_PEER" ]; then
+                PEERS="${LOCAL_PEER},${SIXNODE0_PEER}"
+            else
+                PEERS="${LOCAL_PEER}"
+            fi
+        fi
+
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+            sed -i '' "s|persistent_peers = \"[^\"]*\"|persistent_peers = \"${PEERS}\"|g" "$config_file"
+        else
+            sed -i "s|persistent_peers = \"[^\"]*\"|persistent_peers = \"${PEERS}\"|g" "$config_file"
+        fi
+        echo "Updated ${home}: ${PEERS}"
+    done
+
+    echo "Done. Restart containers for changes to take effect. 🟢"
 }
 
 # ---------------------------------------------------------------------------
@@ -199,13 +248,14 @@ function setupLocalSyncConfig() {
     fi
 
     if [[ "$OSTYPE" == "darwin"* ]]; then
-        sed -i '' "s/persistent_peers = \"\"/persistent_peers = \"${PEERS}\"/g" ./build/${SIX_HOME}/config/config.toml
+        # Replace persistent_peers regardless of current value (handles re-runs)
+        sed -i '' "s|persistent_peers = \".*\"|persistent_peers = \"${PEERS}\"|g" ./build/${SIX_HOME}/config/config.toml
         # Enable PEX (peer exchange) to discover other peers
         sed -i '' "s/pex = false/pex = true/g" ./build/${SIX_HOME}/config/config.toml
         # Allow private peer IDs
         sed -i '' "s/addr_book_strict = true/addr_book_strict = false/g" ./build/${SIX_HOME}/config/config.toml
     else
-        sed -i "s/persistent_peers = \"\"/persistent_peers = \"${PEERS}\"/g" ./build/${SIX_HOME}/config/config.toml
+        sed -i "s|persistent_peers = \".*\"|persistent_peers = \"${PEERS}\"|g" ./build/${SIX_HOME}/config/config.toml
         # Enable PEX (peer exchange) to discover other peers
         sed -i "s/pex = false/pex = true/g" ./build/${SIX_HOME}/config/config.toml
         # Allow private peer IDs
@@ -260,6 +310,7 @@ echo "## 3.  Start chain validator               ##"
 echo "## 4.  Stop chain validator                ##"
 echo "## 5.  Config Genesis (docker cluster)     ##"
 echo "## 5.2 Config Genesis for Local Sync       ##"
+echo "## 5.3 Refresh local chain peers           ##"
 echo "## 6.  Reset chain validator               ##"
 echo "## 7.  Staking validator (docker cluster)  ##"
 echo "## 7.2 Staking validator (local sync)      ##"
@@ -329,6 +380,9 @@ case $choice in
             setupLocalSyncConfig
         ) || exit 1
     done
+    ;;
+"5.3")
+    refresh_local_peers
     ;;
 6)
     echo "Reset Docker Container"
