@@ -199,7 +199,7 @@ genesis:
   chain_id: testnet
 validators:
   - name: bob
-    bonded: 1000000000000usix
+    bonded: 20000000000usix
     app:
       api:
         swagger: true
