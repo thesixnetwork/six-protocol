@@ -113,28 +113,12 @@ func (suite *GaslessTestSuite) TestIsTxGasless_BasicCases() {
 	for _, tc := range testCases {
 		suite.Run(tc.name, func() {
 			tx := suite.createMockTx(tc.msgs...)
-			isGasless, err := ante.IsTxGasless(tx, suite.ctx, suite.oracleKeeper, suite.nftAdminKeeper)
+			isGasless, _, err := ante.IsTxGasless(tx, suite.ctx, suite.oracleKeeper, suite.nftAdminKeeper)
 
-			// For basic cases, we don't expect errors, just want to check the logic
+			// IsTxGasless is now side-effect free and falls through (no error)
+			// for any disqualifying condition, so every case here is error-free.
+			suite.Require().NoError(err)
 			suite.Require().Equal(tc.expectedGasless, isGasless)
-			if !tc.expectedGasless {
-				// Non-gasless transactions should not error on basic validation
-				if err != nil {
-					// If there's an error, it should be permission or request-related for oracle messages
-					if len(tc.msgs) > 0 {
-						switch tc.msgs[0].(type) {
-						case *nftoracletypes.MsgSubmitMintResponse,
-							*nftoracletypes.MsgSubmitActionResponse,
-							*nftoracletypes.MsgSubmitVerifyCollectionOwner:
-							// Oracle messages can have permission errors
-							suite.Require().Error(err)
-						default:
-							// Non-oracle messages should not error
-							suite.Require().NoError(err)
-						}
-					}
-				}
-			}
 		})
 	}
 }

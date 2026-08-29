@@ -19,9 +19,15 @@ func MigrateStore(ctx sdk.Context, storeService store.KVStoreService) error {
 
 // removeBurns use to remove buns history from KV
 // then use indexer to collect burn history instead
-func removeBurns(store storetypes.KVStore) error {
+func removeBurns(store storetypes.KVStore) (err error) {
 	iterator := store.Iterator(nil, nil)
-	defer iterator.Close()
+	// defer iterator.Close()
+	defer func() {
+		if closeErr := iterator.Close(); closeErr != nil {
+			err = closeErr
+		}
+	}()
+
 	for ; iterator.Valid(); iterator.Next() {
 		store.Delete(iterator.Key())
 	}
