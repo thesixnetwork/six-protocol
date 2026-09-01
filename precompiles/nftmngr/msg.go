@@ -8,6 +8,7 @@ import (
 	erromod "cosmossdk.io/errors"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 
@@ -168,8 +169,13 @@ func (p PrecompileExecutor) addAttribute(ctx sdk.Context, caller common.Address,
 
 	location := nftmngrtypes.AttributeLocation_NFT_ATTRIBUTE
 
-	if locationArg == 1 {
+	switch locationArg {
+	case 0:
+		location = nftmngrtypes.AttributeLocation_NFT_ATTRIBUTE
+	case 1:
 		location = nftmngrtypes.AttributeLocation_TOKEN_ATTRIBUTE
+	default:
+		return nil, erromod.Wrap(sdkerrors.ErrInvalidRequest, "invalid attribute location")
 	}
 
 	var new_add_attribute nftmngrtypes.AttributeDefinition
@@ -345,15 +351,18 @@ func (p PrecompileExecutor) createSchema(ctx sdk.Context, caller common.Address,
 	}
 
 	// validate owner has using enough to pay schema fee
-	schema_fee, _ := p.nftmngrKeeper.GetNFTFeeConfig(ctx)
-	fee_amount, err := sdk.ParseCoinNormalized(schema_fee.SchemaFee.FeeAmount)
+	schemaFee, found := p.nftmngrKeeper.GetNFTFeeConfig(ctx)
+	if !found || schemaFee.SchemaFee == nil {
+		return nil, erromod.Wrap(nftmngrtypes.ErrInvalidFeeAmount, "schema fee config not set")
+	}
+	feeAmount, err := sdk.ParseCoinNormalized(schemaFee.SchemaFee.FeeAmount)
 	if err != nil {
 		return nil, erromod.Wrap(nftmngrtypes.ErrInvalidFeeAmount, err.Error())
 	}
 
-	user_current_balance := p.bankKeeper.GetBalance(ctx, senderCosmoAddr, "usix")
+	userCurrentBalance := p.bankKeeper.GetBalance(ctx, senderCosmoAddr, "usix")
 
-	if !user_current_balance.Amount.GTE(fee_amount.Amount) {
+	if !userCurrentBalance.Amount.GTE(feeAmount.Amount) {
 		return nil, erromod.Wrap(nftmngrtypes.ErrInvalidFeeAmount, "schema fee are not enough")
 	}
 
@@ -636,13 +645,18 @@ func (p PrecompileExecutor) setMintAuth(ctx sdk.Context, caller common.Address, 
 		return nil, err
 	}
 
-	autorize := nftmngrtypes.AuthorizeTo_SYSTEM
+	authorize := nftmngrtypes.AuthorizeTo_SYSTEM
 
-	if authTo == 1 {
-		autorize = nftmngrtypes.AuthorizeTo_ALL
+	switch authTo {
+	case 0:
+		authorize = nftmngrtypes.AuthorizeTo_SYSTEM
+	case 1:
+		authorize = nftmngrtypes.AuthorizeTo_ALL
+	default:
+		return nil, erromod.Wrap(sdkerrors.ErrInvalidRequest, "invalid mint authorization")
 	}
 
-	err = p.nftmngrKeeper.SetMintAuthKeeper(ctx, senderCosmoAddr.String(), nftschema, autorize)
+	err = p.nftmngrKeeper.SetMintAuthKeeper(ctx, senderCosmoAddr.String(), nftschema, authorize)
 	if err != nil {
 		return nil, err
 	}

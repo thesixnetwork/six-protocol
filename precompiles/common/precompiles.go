@@ -227,7 +227,7 @@ func (p *Precompile) SetBalanceChangeEntries(entries ...BalanceChangeEntry) {
 }
 
 // applyBalanceChanges applies the recorded balance changes to the EVM stateDB
-func (p *Precompile) applyBalanceChanges(stateDB *statedb.StateDB, s snapshot) error {
+func (p *Precompile) applyBalanceChanges(stateDB *statedb.StateDB, snap snapshot) error {
 	for _, entry := range p.balanceChanges {
 		switch entry.Op {
 		case Add:
@@ -236,7 +236,7 @@ func (p *Precompile) applyBalanceChanges(stateDB *statedb.StateDB, s snapshot) e
 			stateDB.SubBalance(entry.Account, entry.Amount)
 		}
 	}
-	return stateDB.AddPrecompileFn(p.Address(), s.MultiStore, s.Events)
+	return stateDB.AddPrecompileFn(p.Address(), snap.MultiStore, snap.Events)
 }
 
 // HandleGasError resets the gas meter and returns an error if out of gas (use in defer).
