@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"math"
 	"strconv"
 
 	"github.com/thesixnetwork/six-protocol/v4/x/nftoracle/types"
@@ -9,6 +10,7 @@ import (
 	errormod "cosmossdk.io/errors"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
 func (k msgServer) SetMinimumConfirmation(goCtx context.Context, msg *types.MsgSetMinimumConfirmation) (*types.MsgSetMinimumConfirmationResponse, error) {
@@ -28,6 +30,19 @@ func (k msgServer) SetMinimumConfirmation(goCtx context.Context, msg *types.MsgS
 	newConfirmation, err := strconv.ParseUint(msg.NewConfirmation, 10, 64)
 	if err != nil {
 		return nil, err
+	}
+
+	// A minimum confirmation of 0 collapses the oracle quorum: a mint/action
+	// request created with RequiredConfirm=1 would reach consensus on the FIRST
+	// oracle submission, so a single (or compromised) oracle key could forge
+	// arbitrary cross-chain mints. Require at least one confirmation, and reject
+	// values that would not fit the int32 storage field (silent truncation could
+	// otherwise wrap a huge value back into range).
+	if newConfirmation < 1 {
+		return nil, errormod.Wrap(sdkerrors.ErrInvalidRequest, "minimum confirmation must be at least 1")
+	}
+	if newConfirmation > math.MaxInt32 {
+		return nil, errormod.Wrapf(sdkerrors.ErrInvalidRequest, "minimum confirmation too large; max %d", math.MaxInt32)
 	}
 
 	// Retrieve the current oracle configuration

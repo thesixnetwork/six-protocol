@@ -335,6 +335,16 @@ func (p PrecompileExecutor) unwrapStakeToken(ctx sdk.Context, caller common.Addr
 		return nil, err
 	}
 
+	// WrapToken mints asix (1 usix = 10^12 asix). Keep the EVM stateDB
+	// balance in sync with the bank keeper so the minted asix is not
+	// overwritten when the EVM frame commits.
+	if pcommon.IsEvmDenom(tokenmngr.DefaultAttoDenom) {
+		tracker := pcommon.NewBalanceTracker(p.precompile)
+		senderEthAddr := utils.CosmosToEthAddr(senderCosmoAddr)
+		attoAmount := new(big.Int).Mul(amount, big.NewInt(int64(tokenmngr.DefaultAttoToMicroDiff)))
+		tracker.TrackBalanceChange(senderEthAddr, attoAmount, pcommon.Add)
+	}
+
 	return method.Outputs.Pack(true)
 }
 
@@ -358,7 +368,7 @@ func (p PrecompileExecutor) accAddressFromArg(arg interface{}) (sdk.AccAddress, 
 
 func (PrecompileExecutor) IsTransaction(method string) bool {
 	switch method {
-	case SendToCosmos:
+	case SendToCosmos, SendToCrossChain, UnwrapStakeToken:
 		return true
 	default:
 		return false

@@ -13,7 +13,10 @@ import (
 )
 
 func (p PrecompileExecutor) AccAddressFromBech32(arg interface{}) (bec32Addr sdk.AccAddress, err error) {
-	addr := arg.(string)
+	addr, ok := arg.(string)
+	if !ok {
+		return nil, erromod.Wrap(sdkerrors.ErrInvalidAddress, "invalid bech32 address")
+	}
 	bec32Addr, err = sdk.AccAddressFromBech32(addr)
 	if err != nil {
 		return nil, erromod.Wrap(sdkerrors.ErrInvalidAddress, "invalid bech32 address")
@@ -22,7 +25,10 @@ func (p PrecompileExecutor) AccAddressFromBech32(arg interface{}) (bec32Addr sdk
 }
 
 func (p PrecompileExecutor) AccAddressFromArg(arg interface{}) (sdk.AccAddress, error) {
-	addr := arg.(common.Address)
+	addr, ok := arg.(common.Address)
+	if !ok {
+		return nil, errors.New("invalid addr")
+	}
 	if addr == (common.Address{}) {
 		return nil, errors.New("invalid addr")
 	}

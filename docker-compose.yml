@@ -3,12 +3,12 @@ version: "3"
 services:
   sixnode0:
     container_name: sixnode0
-    image: "asia-southeast1-docker.pkg.dev/six-protocol/six-node-docker-repo/sixnode:${DOCKER_TAG:-4.0.0}"
+    image: "asia-southeast1-docker.pkg.dev/six-protocol/six-node-docker-repo/sixnode:${DOCKER_TAG:-4.0.3}"
     ports:
-      - "26656-26657:26656-26657"
-      - "1317:1317"
-      - "8545-8546:8545-8546"
-      - "9090-9091:9090-9091"
+      - "26666-26667:26656-26657"
+      - "8645-8646:8545-8546"
+      - "9690-9691:9090-9091"
+      - "1367:1317"
     volumes:
       - ./build/sixnode0/:/opt/build/six_home/
     command: bash ${COMMAND}.sh sixnode0
@@ -20,11 +20,11 @@ services:
 
   sixnode1:
     container_name: sixnode1
-    image: "asia-southeast1-docker.pkg.dev/six-protocol/six-node-docker-repo/sixnode:${DOCKER_TAG:-4.0.0}"
+    image: "asia-southeast1-docker.pkg.dev/six-protocol/six-node-docker-repo/sixnode:${DOCKER_TAG:-4.0.3}"
     ports:
-      - "26665-26666:26656-26657"
-      - "8553-8554:8545-8546"
-      - "9094-9095:9090-9091"
+      - "26676-26677:26656-26657"
+      - "8745-8746:8545-8546"
+      - "9790-9791:9090-9091"
     volumes:
       - ./build/sixnode1/:/opt/build/six_home/
     command: bash ${COMMAND}.sh sixnode1
@@ -36,10 +36,11 @@ services:
 
   sixnode2:
     container_name: sixnode2
-    image: "asia-southeast1-docker.pkg.dev/six-protocol/six-node-docker-repo/sixnode:${DOCKER_TAG:-4.0.0}"
+    image: "asia-southeast1-docker.pkg.dev/six-protocol/six-node-docker-repo/sixnode:${DOCKER_TAG:-4.0.3}"
     ports:
-      - "26661-26662:26656-26657"
-      - "9096-9097:9090-9091"
+      - "26686-26687:26656-26657"
+      - "8845-8846:8545-8546"
+      - "9890-9891:9090-9091"
     volumes:
       - ./build/sixnode2/:/opt/build/six_home/
     command: bash ${COMMAND}.sh sixnode2
@@ -51,10 +52,11 @@ services:
 
   sixnode3:
     container_name: sixnode3
-    image: "asia-southeast1-docker.pkg.dev/six-protocol/six-node-docker-repo/sixnode:${DOCKER_TAG:-4.0.0}"
+    image: "asia-southeast1-docker.pkg.dev/six-protocol/six-node-docker-repo/sixnode:${DOCKER_TAG:-4.0.3}"
     ports:
-      - "26663-26664:26656-26657"
-      - "9098-9099:9090-9091"
+      - "26696-26697:26656-26657"
+      - "8945-8946:8545-8546"
+      - "9990-9991:9090-9091"
     volumes:
       - ./build/sixnode3/:/opt/build/six_home/
     command: bash ${COMMAND}.sh sixnode3

@@ -355,7 +355,10 @@ func (p *PrecompileExecutor) RequiredGas(input []byte, method *abi.Method) uint6
 }
 
 func (p *PrecompileExecutor) accAddressFromArg(arg interface{}) (sdk.AccAddress, error) {
-	addr := arg.(common.Address)
+	addr, ok := arg.(common.Address)
+	if !ok {
+		return nil, errors.New("invalid addr")
+	}
 	if addr == (common.Address{}) {
 		return nil, errors.New("invalid addr")
 	}
@@ -364,7 +367,10 @@ func (p *PrecompileExecutor) accAddressFromArg(arg interface{}) (sdk.AccAddress,
 }
 
 func (p PrecompileExecutor) accAddressFromBech32(arg interface{}) (bec32Addr sdk.AccAddress, err error) {
-	addr := arg.(string)
+	addr, ok := arg.(string)
+	if !ok {
+		return nil, errors.New("invalid addr")
+	}
 	bec32Addr, err = sdk.AccAddressFromBech32(addr)
 	if err != nil {
 		return nil, errors.New("invalid addr")

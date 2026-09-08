@@ -37,6 +37,15 @@ func (k msgServer) WrapToken(goCtx context.Context, msg *types.MsgWrapToken) (*t
 		receiver = sdk.AccAddress(addr)
 	}
 
+	// Bind the wrapped denom to the real base coin. The peg mints asix against
+	// the usix that gets locked here, so the incoming denom MUST be usix itself
+	// — checking an arbitrary token record's Base is not enough, since a
+	// TOKEN_ADMIN could create a decoy token named "foo" with Base=="usix" and
+	// wrap worthless "foo" to mint real asix (and later drain the usix reserve).
+	if denom != DefaultMicroDenom {
+		return nil, errorsmod.Wrapf(sdkerrors.ErrInvalidRequest, "only %s can be wrapped, got %s", DefaultMicroDenom, denom)
+	}
+
 	// Check is this token is exist in token list
 	token, foundToken := k.GetToken(ctx, msg.Amount.Denom)
 	if !foundToken {
@@ -44,7 +53,7 @@ func (k msgServer) WrapToken(goCtx context.Context, msg *types.MsgWrapToken) (*t
 	}
 
 	// accept only usix token to convert to atto or asix
-	if token.Base != "usix" {
+	if token.Base != DefaultMicroDenom {
 		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "token is not usix")
 	}
 
