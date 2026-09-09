@@ -17,13 +17,13 @@ jobs:
         include:
           - goos: linux
             goarch: amd64
-            runs-on: ubuntu-latest
+            runs-on: ubuntu-24.04
           - goos: linux
             goarch: arm64
             runs-on: ubuntu-24.04-arm
           - goos: darwin
             goarch: amd64
-            runs-on: macos-13
+            runs-on: macos-15-intel
           - goos: darwin
             goarch: arm64
             runs-on: macos-14
@@ -44,12 +44,22 @@ jobs:
         if: matrix.goos == 'linux'
         run: |
           sudo apt-get update
-          sudo apt-get install -y musl-tools
+          sudo apt-get install -y musl-tools linux-libc-dev
+          # musl-gcc compiles with -nostdinc and only searches its own sysroot,
+          # so it can't see the kernel UAPI headers (linux/*, asm/*) that libusb
+          # (pulled in by the `ledger` build tag via zondax/hid) needs. Symlink
+          # them into musl's include dir. Arch-agnostic: works on amd64 & arm64.
+          MULTIARCH="$(dpkg-architecture -q DEB_HOST_MULTIARCH)"   # e.g. x86_64-linux-gnu
+          MUSL_ARCH="${MULTIARCH%-gnu}-musl"                       # e.g. x86_64-linux-musl
+          sudo ln -sf /usr/include/linux          "/usr/include/${MUSL_ARCH}/linux"
+          sudo ln -sf /usr/include/asm-generic    "/usr/include/${MUSL_ARCH}/asm-generic"
+          sudo ln -sf "/usr/include/${MULTIARCH}/asm" "/usr/include/${MUSL_ARCH}/asm"
 
       - name: Build binary (Linux, static musl)
         if: matrix.goos == 'linux'
         run: |
           GOOS=linux GOARCH=${{ matrix.goarch }} \
+          CGO_ENABLED=1 \
           CC=musl-gcc \
           LDFLAGS="-linkmode external -extldflags=-static" \
           VERSION=${{ env.BINARY_VERSION }} make build
