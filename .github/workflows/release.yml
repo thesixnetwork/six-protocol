@@ -31,12 +31,12 @@ jobs:
       BINARY_VERSION: ${{ github.event.release.tag_name }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Setup Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version: "1.25"
 
@@ -71,7 +71,7 @@ jobs:
         run: ./build/sixd-${{ matrix.goos }}-${{ matrix.goarch }} version
 
       - name: Upload binary artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: sixd-${{ matrix.goos }}-${{ matrix.goarch }}
           path: ./build/sixd-${{ matrix.goos }}-${{ matrix.goarch }}
@@ -82,7 +82,7 @@ jobs:
     needs: build
     steps:
       - name: Download all binary artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           path: ./artifacts
           merge-multiple: true
@@ -106,7 +106,7 @@ jobs:
       BINARY_VERSION: ${{ github.event.release.tag_name }}
     steps:
       - name: Download all binary artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           path: ./artifacts
           merge-multiple: true
