@@ -11,7 +11,6 @@ jobs:
     name: Build ${{ matrix.goos }}/${{ matrix.goarch }}
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ${{ matrix.runs-on }}
-    container: ${{ matrix.container }}
     strategy:
       fail-fast: false
       matrix:
@@ -19,39 +18,39 @@ jobs:
           - goos: linux
             goarch: amd64
             runs-on: ubuntu-latest
-            container: golang:1.25-alpine
           - goos: linux
             goarch: arm64
             runs-on: ubuntu-24.04-arm
-            container: golang:1.25-alpine
           - goos: darwin
             goarch: amd64
             runs-on: macos-13
-            container: ""
           - goos: darwin
             goarch: arm64
             runs-on: macos-14
-            container: ""
     env:
       BINARY_VERSION: ${{ github.event.release.tag_name }}
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Install build dependencies (Alpine/musl)
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.25"
+
+      - name: Install musl toolchain (Linux only)
         if: matrix.goos == 'linux'
         run: |
-          apk update
-          apk add --no-cache build-base linux-headers
+          sudo apt-get update
+          sudo apt-get install -y musl-tools
 
       - name: Build binary (Linux, static musl)
         if: matrix.goos == 'linux'
         run: |
           GOOS=linux GOARCH=${{ matrix.goarch }} \
-          CC=gcc \
+          CC=musl-gcc \
           LDFLAGS="-linkmode external -extldflags=-static" \
           VERSION=${{ env.BINARY_VERSION }} make build
 
@@ -59,11 +58,11 @@ jobs:
         if: matrix.goos == 'darwin'
         run: |
           GOOS=darwin GOARCH=${{ matrix.goarch }} \
+          CGO_ENABLED=1 \
           VERSION=${{ env.BINARY_VERSION }} make build
 
       - name: Rename binary
-        run: |
-          mv ./build/sixd ./build/sixd-${{ matrix.goos }}-${{ matrix.goarch }}
+        run: mv ./build/sixd ./build/sixd-${{ matrix.goos }}-${{ matrix.goarch }}
 
       - name: Debug - List contents after build
         run: ls -F ./build/
