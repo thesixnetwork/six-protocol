@@ -360,14 +360,14 @@ add_genesis_account "$SUPER_ADMIN_ADDRESS" "1000000000000${STAKING_TOKEN}"
 echo "Creating and collecting gentxs with bob as validator..."
 
 if [ "$VAL_MODE" = "0" ]; then
-  sixd genesis gentx bob 1000000000000usix --min-self-delegation="10000000000" --validator-mode=0 --min-delegation="10000000000" --keyring-backend $KEYRING --chain-id $CHAINID
+  sixd genesis gentx bob 1000000000000usix --min-self-delegation="10000000000" --validator-mode=0 --keyring-backend $KEYRING --chain-id $CHAINID
 elif [ "$VAL_MODE" = "1" ]; then
-  sixd genesis gentx bob 1000000000000usix --min-self-delegation="1000000000000" --validator-mode=1 --min-delegation="1000000000000" --delegation-increment="1000000000000" --max-license=1 --keyring-backend $KEYRING --chain-id $CHAINID --home ${SIX_HOME}
+  sixd genesis gentx bob 1000000000000usix --min-self-delegation="1000000000000" --validator-mode=1 --delegation-increment="1000000000000" --max-license=1 --keyring-backend $KEYRING --chain-id $CHAINID --home ${SIX_HOME}
 elif [ "$VAL_MODE" = "2" ]; then
-  sixd genesis gentx bob 1000000000000usix --min-self-delegation="10000000000" --validator-mode=2 --min-delegation="10000000000" --keyring-backend $KEYRING --chain-id $CHAINID
+  sixd genesis gentx bob 1000000000000usix --min-self-delegation="10000000000" --validator-mode=2 --keyring-backend $KEYRING --chain-id $CHAINID
 else
   echo "Invalid validator mode: $VAL_MODE. Using default mode 0."
-  sixd genesis gentx bob 1000000000000usix --min-self-delegation="10000000000" --validator-mode=0 --min-delegation="10000000000" --keyring-backend $KEYRING --chain-id $CHAINID
+  sixd genesis gentx bob 1000000000000usix --min-self-delegation="10000000000" --validator-mode=0 --keyring-backend $KEYRING --chain-id $CHAINID
 fi
 
 # Collect genesis tx
