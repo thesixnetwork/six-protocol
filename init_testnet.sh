@@ -33,6 +33,9 @@ ALICE_ADDRESS="6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq"
 BOB_ADDRESS="6x13g50hqdqsjk85fmgqz2h5xdxq49lsmjdwlemsp"
 SUPER_ADMIN_ADDRESS="6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"
 
+ALICE_VAL_ADDRESS="6xvaloper1myrlxmmasv6yq4axrxmdswj9kv5gc0pp2tkm4m"
+BOB_VAL_ADDRESS="6xvaloper13g50hqdqsjk85fmgqz2h5xdxq49lsmjdz3mr76"
+
 # =====================================================
 # MNEMONICS SECTION - From config.yml only
 # =====================================================
@@ -190,7 +193,8 @@ update_genesis '.app_state.protocoladmin.groupList[1] |= . + {
 # Validator approval configuration
 update_genesis '.app_state.staking.validator_approval = {
   "approver_address": "'$SUPER_ADMIN_ADDRESS'",
-  "enabled": false
+  "enabled": true,
+  "approved_validators":["'$BOB_VAL_ADDRESS'","'$ALICE_VAL_ADDRESS'"]
 }'
 
 update_genesis '.app_state.staking.params.max_validators = 3'

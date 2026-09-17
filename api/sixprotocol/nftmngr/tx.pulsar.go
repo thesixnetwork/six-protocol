@@ -34840,7 +34840,6 @@ type UpdatedOriginData struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to UpdatedOriginData:
-	//
 	//	*UpdatedOriginData_Opensea
 	UpdatedOriginData isUpdatedOriginData_UpdatedOriginData `protobuf_oneof:"updated_origin_data"`
 }
