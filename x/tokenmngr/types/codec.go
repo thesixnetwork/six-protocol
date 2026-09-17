@@ -23,7 +23,7 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgUnwrapToken{}, "tokenmngr/UnwrapToken", nil)
 	cdc.RegisterConcrete(&MsgSendWrapToken{}, "tokenmngr/SendWrapToken", nil)
 	cdc.RegisterConcrete(&MsgMigrateDelegation{}, "tokenmngr/MigrateDelegation", nil)
-	cdc.RegisterConcrete(&MsgUpdateParams{}, "tokenmngr/UpdateParams", nil)
+	cdc.RegisterConcrete(&MsgUpdateParams{}, "sixprotocol/x/tokenmngr/MsgUpdateParams", nil)
 }
 
 func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {

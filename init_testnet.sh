@@ -215,7 +215,7 @@ update_genesis '.app_state.tokenmngr.tokenList[0] |= . + {
 }'
 
 # Governance configuration - Match working genesis
-update_genesis '.app_state.gov.deposit_params.max_deposit_period = "172800s"'
+update_genesis '.app_state.gov.deposit_params.max_deposit_period = "300s"'
 update_genesis '.app_state.gov.voting_params.voting_period = "300s"'
 
 # Feemarket configuration - Match working genesis exactly
@@ -228,6 +228,14 @@ update_genesis '.app_state.feemarket.params = {
   "min_gas_price": "5000000000000.0",
   "no_base_fee": false
 }'
+
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  PAST_TIME=$(date -u -v-2d +"%Y-%m-%dT%H:%M:%SZ")
+else
+  PAST_TIME=$(date -u -d "2 days ago" +"%Y-%m-%dT%H:%M:%SZ")
+fi
+update_genesis '.genesis_time="'$PAST_TIME'"'
 
 # =====================================================
 # PLATFORM SPECIFIC CONFIGURATIONS
@@ -352,14 +360,14 @@ add_genesis_account "$SUPER_ADMIN_ADDRESS" "1000000000000${STAKING_TOKEN}"
 echo "Creating and collecting gentxs with bob as validator..."
 
 if [ "$VAL_MODE" = "0" ]; then
-  sixd genesis gentx bob 1000000000000usix --min-self-delegation="10000000000" --validator-mode=0 --min-delegation="10000000000" --enable-redelegation=false --keyring-backend $KEYRING --chain-id $CHAINID
+  sixd genesis gentx bob 1000000000000usix --min-self-delegation="10000000000" --validator-mode=0 --min-delegation="10000000000" --keyring-backend $KEYRING --chain-id $CHAINID
 elif [ "$VAL_MODE" = "1" ]; then
-  sixd genesis gentx bob 20000000000usix --min-self-delegation="10000000000" --validator-mode=1 --min-delegation="10000000000" --delegation-increment="10000000000" --max-license=1000 --enable-redelegation=false --keyring-backend $KEYRING --chain-id $CHAINID --home ${SIX_HOME}
+  sixd genesis gentx bob 1000000000000usix --min-self-delegation="1000000000000" --validator-mode=1 --min-delegation="1000000000000" --delegation-increment="1000000000000" --max-license=1 --keyring-backend $KEYRING --chain-id $CHAINID --home ${SIX_HOME}
 elif [ "$VAL_MODE" = "2" ]; then
-  sixd genesis gentx bob 1000000000000usix --min-self-delegation="10000000000" --validator-mode=2 --min-delegation="10000000000" --enable-redelegation=false --keyring-backend $KEYRING --chain-id $CHAINID
+  sixd genesis gentx bob 1000000000000usix --min-self-delegation="10000000000" --validator-mode=2 --min-delegation="10000000000" --keyring-backend $KEYRING --chain-id $CHAINID
 else
   echo "Invalid validator mode: $VAL_MODE. Using default mode 0."
-  sixd genesis gentx bob 1000000000000usix --min-self-delegation="10000000000" --validator-mode=0 --min-delegation="10000000000" --enable-redelegation=false --keyring-backend $KEYRING --chain-id $CHAINID
+  sixd genesis gentx bob 1000000000000usix --min-self-delegation="10000000000" --validator-mode=0 --min-delegation="10000000000" --keyring-backend $KEYRING --chain-id $CHAINID
 fi
 
 # Collect genesis tx

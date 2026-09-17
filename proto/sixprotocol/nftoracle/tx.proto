@@ -73,6 +73,7 @@ message MsgUpdateParamsResponse {}
 
 message MsgCreateMintRequest {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftoracle/CreateMintRequest";
   string creator = 1;
   string nftSchemaCode = 2;
   string tokenId = 3;
@@ -87,6 +88,7 @@ message MsgCreateMintRequestResponse {
 
 message MsgSubmitMintResponse {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftoracle/SubmitMintResponse";
   string creator = 1;
   uint64 mintRequestID = 2;
   string base64NftData = 3;
@@ -96,6 +98,7 @@ message MsgSubmitMintResponseResponse { string mintRequestID = 1; }
 
 message MsgCreateActionRequest {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftoracle/CreateActionRequest";
   string creator = 1;
   string vm = 2;
   string base64ActionSignature = 3;
@@ -106,6 +109,7 @@ message MsgCreateActionRequestResponse { uint64 id = 1; }
 
 message MsgSubmitActionResponse {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftoracle/SubmitActionResponse";
   string creator = 1;
   uint64 actionRequestID = 2;
   string base64NftData = 3;
@@ -115,6 +119,7 @@ message MsgSubmitActionResponseResponse { string actionRequestID = 1; }
 
 message MsgCreateVerifyCollectionOwnerRequest {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftoracle/CreateVerifyCollectionOwnerRequest";
   string creator = 1;
   string nftSchemaCode = 2;
   string base64VerifyRequestorSignature = 3;
@@ -129,6 +134,7 @@ message MsgCreateVerifyCollectionOwnerRequestResponse {
 
 message MsgSubmitVerifyCollectionOwner {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftoracle/SubmitVerifyCollectionOwner";
   string creator = 1;
   uint64 verifyRequestID = 2;
   string nftSchemaCode = 3;
@@ -139,6 +145,7 @@ message MsgSubmitVerifyCollectionOwnerResponse { uint64 verifyRequestID = 1; }
 
 message MsgSetMinimumConfirmation {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftoracle/SetMinimumConfirmation";
   string creator = 1;
   string newConfirmation = 2;
 }
@@ -147,6 +154,7 @@ message MsgSetMinimumConfirmationResponse { string newConfirmation = 1; }
 
 message MsgCreateActionSigner {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftoracle/CreateActionSigner";
   string creator = 1;
   string base64EncodedSetSignerAction = 2;
 }
@@ -158,6 +166,7 @@ message MsgCreateActionSignerResponse {
 
 message MsgUpdateActionSigner {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftoracle/UpdateActionSigner";
   string creator = 1;
   string base64EncodedSetSignerAction = 2;
 }
@@ -169,6 +178,7 @@ message MsgUpdateActionSignerResponse {
 
 message MsgDeleteActionSigner {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftoracle/DeleteActionSigner";
   string creator = 1;
   string base64EncodedSetSignerAction = 2;
 }
@@ -178,6 +188,7 @@ message MsgDeleteActionSignerResponse {
 }
 message MsgCreateActionSignerConfig {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftoracle/CreateActionSignerConfig";
   string creator = 1;
   string chain = 2;
   string rpc_endpoint = 3;
@@ -195,6 +206,7 @@ message MsgCreateActionSignerConfigResponse {
 
 message MsgUpdateActionSignerConfig {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftoracle/UpdateActionSignerConfig";
   string creator = 1;
   string chain = 2;
   string rpc_endpoint = 3;
@@ -216,6 +228,7 @@ message MsgUpdateActionSignerConfigResponse {
 
 message MsgDeleteActionSignerConfig {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftoracle/DeleteActionSignerConfig";
   string creator = 1;
   string chain = 2;
 }
@@ -223,6 +236,7 @@ message MsgDeleteActionSignerConfigResponse { string chain = 1; }
 
 message MsgCreateSyncActionSigner {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftoracle/CreateSyncActionSigner";
   string creator = 1;
   string chain = 2;
   string actorAddress = 3;
@@ -239,6 +253,7 @@ message MsgCreateSyncActionSignerResponse {
 
 message MsgSubmitSyncActionSigner {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftoracle/SubmitSyncActionSigner";
   string creator = 1;
   uint64 syncId = 2;
   string chain = 3;
