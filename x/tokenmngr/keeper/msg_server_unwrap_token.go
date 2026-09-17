@@ -37,6 +37,14 @@ func (k msgServer) UnwrapToken(goCtx context.Context, msg *types.MsgUnwrapToken)
 		return nil, errormod.Wrap(sdkerrors.ErrInvalidAddress, "receiver address is not cosmos address")
 	}
 
+	// Bind the unwrapped denom to the real atto coin. Unwrap burns the incoming
+	// coin and releases real usix from the module reserve, so the incoming denom
+	// MUST be asix itself — otherwise a decoy token with Base=="asix" could be
+	// burned to drain the usix reserve.
+	if denom != DefaultAttoDenom {
+		return nil, errormod.Wrapf(sdkerrors.ErrInvalidRequest, "only %s can be unwrapped, got %s", DefaultAttoDenom, denom)
+	}
+
 	token, foundToken := k.GetToken(ctx, msg.Amount.Denom)
 	if !foundToken {
 		return nil, errormod.Wrap(sdkerrors.ErrKeyNotFound, "token does not exist")

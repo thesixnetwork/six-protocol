@@ -46,10 +46,10 @@ func TestGenesisState_Validate(t *testing.T) {
 				},
 				TokenBurnList: []types.TokenBurn{
 					{
-						Amount: sdk.NewCoin("0", sdkmath.NewInt(0)),
+						Amount: sdk.NewCoin("tokena", sdkmath.NewInt(0)),
 					},
 					{
-						Amount: sdk.NewCoin("0", sdkmath.NewInt(0)),
+						Amount: sdk.NewCoin("tokenb", sdkmath.NewInt(0)),
 					},
 				},
 				Options: &types.Options{
@@ -94,10 +94,10 @@ func TestGenesisState_Validate(t *testing.T) {
 			genState: &types.GenesisState{
 				TokenBurnList: []types.TokenBurn{
 					{
-						Amount: sdk.NewCoin("0", sdkmath.NewInt(0)),
+						Amount: sdk.NewCoin("tokena", sdkmath.NewInt(0)),
 					},
 					{
-						Amount: sdk.NewCoin("1", sdkmath.NewInt(1)),
+						Amount: sdk.NewCoin("tokena", sdkmath.NewInt(1)),
 					},
 				},
 			},

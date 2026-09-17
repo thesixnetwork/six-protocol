@@ -91,6 +91,9 @@ func (c *CrossSchemaMetadata) GetNftData(schemaCode string) *NftData {
 }
 
 func (c *CrossSchemaMetadata) GetTokenURI(schemaCode string) string {
+	if err := c.validateSchemaName(schemaCode); err != nil {
+		panic(err)
+	}
 	return c.nftDatas[schemaCode].TokenUri
 }
 
@@ -107,6 +110,9 @@ func (c *CrossSchemaMetadata) SetTokenURI(schemaCode, uri string) {
 }
 
 func (c *CrossSchemaMetadata) GetImage(schemaCode string) string {
+	if err := c.validateSchemaName(schemaCode); err != nil {
+		panic(err)
+	}
 	if c.nftDatas[schemaCode].OnchainImage != "" {
 		return c.nftDatas[schemaCode].OnchainImage
 	}
@@ -115,6 +121,9 @@ func (c *CrossSchemaMetadata) GetImage(schemaCode string) string {
 }
 
 func (c *CrossSchemaMetadata) SetImage(schemaCode, imagePath string) {
+	if err := c.validateSchemaName(schemaCode); err != nil {
+		panic(err)
+	}
 	currentImage := c.nftDatas[schemaCode].OnchainImage
 	if currentImage == "" {
 		currentImage = c.nftDatas[schemaCode].OriginImage
@@ -208,23 +217,25 @@ func (c *CrossSchemaMetadata) GetString(schemaCode, key string) string {
 
 func (c *CrossSchemaMetadata) GetSubString(schemaCode, key string, start int64, end int64) string {
 	v, err := c.MustGetString(schemaCode, key)
-	if end > int64(len(v)) {
+	if err != nil {
+		panic(err)
+	}
+	length := int64(len(v))
+	// normalize negative indices (counted from the end) before any bounds check
+	if start < 0 {
+		start = length + (start + 1)
+	}
+	if end < 0 {
+		end = length + (end + 1)
+	}
+	if end > length {
 		panic(errormod.Wrap(ErrInvalidActionInput, "end can not be greater than string length"))
+	}
+	if start < 0 || start > end {
+		panic(errormod.Wrap(ErrInvalidActionInput, "start can not be greater than end"))
 	}
 	if start == end {
 		return ""
-	}
-	if start < 0 {
-		start = int64(len(v)) + (start + 1)
-	}
-	if end < 0 {
-		end = int64(len(v)) + (end + 1)
-	}
-	if start > end {
-		panic(errormod.Wrap(ErrInvalidActionInput, "start can not be greater than end"))
-	}
-	if err != nil {
-		panic(err)
 	}
 	return v[start:end]
 }
@@ -347,6 +358,49 @@ func (c *CrossSchemaMetadata) SetFloat(schemaCode, key string, value float64) er
 				Key:           key,
 				PreviousValue: strconv.FormatFloat(attri.AttributeValue.GetFloatAttributeValue().Value, 'f', -1, 64),
 				NewValue:      strconv.FormatFloat(value, 'f', -1, 64),
+			})
+			c.mapSchemaKey[schemaCode][key].AttributeValue = newAttributeValue
+		default:
+			return errormod.Wrap(ErrAttributeOverriding, "can not override the origin attribute")
+		}
+	} else {
+		return errormod.Wrap(ErrAttributeTypeNotMatch, attri.AttributeValue.Name)
+	}
+	return nil
+}
+
+func (c *CrossSchemaMetadata) SetBoolean(schemaCode, key string, value bool) error {
+	attri, err := c.getAttribute(schemaCode, key)
+	if err != nil {
+		return err
+	}
+	if attri == nil {
+		return errormod.Wrap(ErrAttributeNotFoundForAction, key)
+	}
+	if _, ok := attri.AttributeValue.GetValue().(*NftAttributeValue_BooleanAttributeValue); ok {
+		// Boolean
+		newAttributeValue := &NftAttributeValue{
+			Name: attri.AttributeValue.Name,
+			Value: &NftAttributeValue_BooleanAttributeValue{
+				BooleanAttributeValue: &BooleanAttributeValue{
+					Value: value,
+				},
+			},
+		}
+		switch attri.From {
+		case "chain":
+			c.changeList[schemaCode] = append(c.changeList[schemaCode], &MetadataChange{
+				Key:           key,
+				PreviousValue: strconv.FormatBool(attri.AttributeValue.GetBooleanAttributeValue().Value),
+				NewValue:      strconv.FormatBool(value),
+			})
+			c.mapSchemaKey[schemaCode][key].AttributeValue = newAttributeValue
+			c.nftDatas[schemaCode].OnchainAttributes[attri.Index] = newAttributeValue
+		case "schema":
+			c.changeList[schemaCode] = append(c.changeList[schemaCode], &MetadataChange{
+				Key:           key,
+				PreviousValue: strconv.FormatBool(attri.AttributeValue.GetBooleanAttributeValue().Value),
+				NewValue:      strconv.FormatBool(value),
 			})
 			c.mapSchemaKey[schemaCode][key].AttributeValue = newAttributeValue
 		default:

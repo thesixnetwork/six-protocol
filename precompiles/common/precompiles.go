@@ -101,11 +101,23 @@ func (p *Precompile) Run(evm *vm.EVM, caller common.Address, callingContract com
 		em.EmitEvents(ctx.EventManager().Events())
 	}
 
-	// Apply balance changes to stateDB if any were recorded
-	if len(p.balanceChanges) > 0 {
+	// Register this precompile call in the stateDB journal so that if the
+	// calling EVM frame reverts, the cosmos-state writes performed here are
+	// rolled back to the snapshot captured in Prepare. This MUST run for every
+	// state-changing (non read-only) call — not only when an EVM balance change
+	// was recorded — otherwise a reverted call's cosmos writes would survive the
+	// unconditional cacheCtx flush at Commit, allowing state to persist through
+	// an EVM revert (double-spend, cf. Cosmos EVM ASA-2026-002). Any recorded
+	// balance changes are also applied here to keep the EVM stateDB balance view
+	// consistent with the bank state. Read-only (STATICCALL) invocations cannot
+	// mutate state, so they are skipped and do not consume the per-tx precompile
+	// call budget (MaxPrecompileCalls).
+	if !readOnly {
 		stateDB, ok := evm.StateDB.(*statedb.StateDB)
 		if ok {
-			p.applyBalanceChanges(stateDB, snap)
+			if e := p.applyBalanceChanges(stateDB, snap); e != nil {
+				return bz, e
+			}
 		}
 	}
 
@@ -122,6 +134,22 @@ func (p Precompile) Prepare(evm *vm.EVM, input []byte) (sdk.Context, *abi.Method
 
 	ctx, err := stateDB.GetCacheContext()
 	if err != nil {
+		return sdk.Context{}, nil, nil, snap, err
+	}
+
+	// Capture a snapshot of the cache multi-store and events BEFORE this
+	// precompile call mutates any cosmos state. This snapshot is registered in
+	// the stateDB journal (see Run) so that an EVM revert of the calling frame
+	// rolls the cosmos-state changes back to exactly this point. Without it a
+	// reverted precompile call's writes would survive the unconditional
+	// cacheCtx flush at Commit (state-through-revert, cf. Cosmos EVM
+	// ASA-2026-002).
+	snap.MultiStore = stateDB.MultiStoreSnapshot()
+	snap.Events = ctx.EventManager().Events()
+
+	// Flush the stateDB's pending EVM journal changes into the cache context so
+	// the executor observes up-to-date balances/state for this call.
+	if err := stateDB.CommitWithCacheCtx(); err != nil {
 		return sdk.Context{}, nil, nil, snap, err
 	}
 
@@ -199,7 +227,7 @@ func (p *Precompile) SetBalanceChangeEntries(entries ...BalanceChangeEntry) {
 }
 
 // applyBalanceChanges applies the recorded balance changes to the EVM stateDB
-func (p *Precompile) applyBalanceChanges(stateDB *statedb.StateDB, s snapshot) error {
+func (p *Precompile) applyBalanceChanges(stateDB *statedb.StateDB, snap snapshot) error {
 	for _, entry := range p.balanceChanges {
 		switch entry.Op {
 		case Add:
@@ -208,7 +236,7 @@ func (p *Precompile) applyBalanceChanges(stateDB *statedb.StateDB, s snapshot) e
 			stateDB.SubBalance(entry.Account, entry.Amount)
 		}
 	}
-	return stateDB.AddPrecompileFn(p.Address(), s.MultiStore, s.Events)
+	return stateDB.AddPrecompileFn(p.Address(), snap.MultiStore, snap.Events)
 }
 
 // HandleGasError resets the gas meter and returns an error if out of gas (use in defer).

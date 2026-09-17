@@ -34,27 +34,41 @@ func (m *Metadata) TransferNumber(attributeName string, targetTokenId string, tr
 	if numberValue.Value < transferValue {
 		return errormod.Wrap(ErrInsufficientValue, attributeName)
 	}
-	// decrease transferValue
-	m.SetNumber(attributeName, int64(numberValue.Value-transferValue))
-	// increase transferValu
-	// loop over targetNftData.OnchainAttributes to find attributeName
+
+	// Locate and type-check the target attribute BEFORE debiting the source, so
+	// we never decrement the source unless the credit is guaranteed to land.
+	targetIndex := -1
 	for i, targetAttri := range targetNftData.OnchainAttributes {
 		if targetAttri.Name == attributeName {
-			newAttributeValue := &NftAttributeValue{
-				Name: attri.AttributeValue.Name,
-				Value: &NftAttributeValue_NumberAttributeValue{
-					NumberAttributeValue: &NumberAttributeValue{
-						Value: uint64(targetAttri.GetNumberAttributeValue().Value + transferValue),
-					},
-				},
-			}
-			targetNftData.OnchainAttributes[i] = newAttributeValue
-			// check if exists m.OtherUpdatedTokenDatas map
-			if _, ok := m.OtherUpdatedTokenDatas[targetTokenId]; !ok {
-				m.OtherUpdatedTokenDatas[targetTokenId] = targetNftData
-			}
+			targetIndex = i
 			break
 		}
+	}
+	if targetIndex == -1 {
+		return errormod.Wrap(ErrAttributeDoesNotExists, attributeName)
+	}
+	targetAttri := targetNftData.OnchainAttributes[targetIndex]
+	if _, ok := targetAttri.GetValue().(*NftAttributeValue_NumberAttributeValue); !ok {
+		return errormod.Wrap(ErrAttributeTypeNotMatch, targetAttri.Name)
+	}
+
+	// decrease transferValue from source (surface the error instead of dropping it)
+	if err := m.SetNumber(attributeName, int64(numberValue.Value-transferValue)); err != nil {
+		return err
+	}
+
+	// increase transferValue on target
+	targetNftData.OnchainAttributes[targetIndex] = &NftAttributeValue{
+		Name: attri.AttributeValue.Name,
+		Value: &NftAttributeValue_NumberAttributeValue{
+			NumberAttributeValue: &NumberAttributeValue{
+				Value: targetAttri.GetNumberAttributeValue().Value + transferValue,
+			},
+		},
+	}
+	// check if exists m.OtherUpdatedTokenDatas map
+	if _, ok := m.OtherUpdatedTokenDatas[targetTokenId]; !ok {
+		m.OtherUpdatedTokenDatas[targetTokenId] = targetNftData
 	}
 
 	return nil
@@ -90,27 +104,41 @@ func (m *Metadata) TransferFloat(attributeName string, targetTokenId string, tra
 	if floatValue.Value < transferValue {
 		return errormod.Wrap(ErrInsufficientValue, attributeName)
 	}
-	// decrease transferValue
-	m.SetFloat(attributeName, floatValue.Value-transferValue)
-	// increase transferValu
-	// loop over targetNftData.OnchainAttributes to find attributeName
+
+	// Locate and type-check the target attribute BEFORE debiting the source, so
+	// we never decrement the source unless the credit is guaranteed to land.
+	targetIndex := -1
 	for i, targetAttri := range targetNftData.OnchainAttributes {
 		if targetAttri.Name == attributeName {
-			newAttributeValue := &NftAttributeValue{
-				Name: attri.AttributeValue.Name,
-				Value: &NftAttributeValue_FloatAttributeValue{
-					FloatAttributeValue: &FloatAttributeValue{
-						Value: targetAttri.GetFloatAttributeValue().Value + transferValue,
-					},
-				},
-			}
-			targetNftData.OnchainAttributes[i] = newAttributeValue
-			// check if exists m.OtherUpdatedTokenDatas map
-			if _, ok := m.OtherUpdatedTokenDatas[targetTokenId]; !ok {
-				m.OtherUpdatedTokenDatas[targetTokenId] = targetNftData
-			}
+			targetIndex = i
 			break
 		}
+	}
+	if targetIndex == -1 {
+		return errormod.Wrap(ErrAttributeDoesNotExists, attributeName)
+	}
+	targetAttri := targetNftData.OnchainAttributes[targetIndex]
+	if _, ok := targetAttri.GetValue().(*NftAttributeValue_FloatAttributeValue); !ok {
+		return errormod.Wrap(ErrAttributeTypeNotMatch, targetAttri.Name)
+	}
+
+	// decrease transferValue from source (surface the error instead of dropping it)
+	if err := m.SetFloat(attributeName, floatValue.Value-transferValue); err != nil {
+		return err
+	}
+
+	// increase transferValue on target
+	targetNftData.OnchainAttributes[targetIndex] = &NftAttributeValue{
+		Name: attri.AttributeValue.Name,
+		Value: &NftAttributeValue_FloatAttributeValue{
+			FloatAttributeValue: &FloatAttributeValue{
+				Value: targetAttri.GetFloatAttributeValue().Value + transferValue,
+			},
+		},
+	}
+	// check if exists m.OtherUpdatedTokenDatas map
+	if _, ok := m.OtherUpdatedTokenDatas[targetTokenId]; !ok {
+		m.OtherUpdatedTokenDatas[targetTokenId] = targetNftData
 	}
 
 	return nil

@@ -10,6 +10,7 @@ import (
 	modulev1 "github.com/thesixnetwork/six-protocol/v4/api/sixprotocol/tokenmngr/module"
 	"github.com/thesixnetwork/six-protocol/v4/x/tokenmngr/keeper"
 	"github.com/thesixnetwork/six-protocol/v4/x/tokenmngr/types"
+	"github.com/thesixnetwork/six-protocol/v4/x/tokenmngr/types/legacyv3"
 
 	"cosmossdk.io/core/appmodule"
 	"cosmossdk.io/core/store"
@@ -66,6 +67,10 @@ func (AppModuleBasic) RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
 // RegisterInterfaces registers a module's interface types and their concrete implementations as proto.Message.
 func (a AppModuleBasic) RegisterInterfaces(reg cdctypes.InterfaceRegistry) {
 	types.RegisterInterfaces(reg)
+	// Register the pre-v4 (thesixnetwork.sixprotocol.tokenmngr) message type
+	// URLs so historical transactions submitted before the v4 proto-package
+	// rename can still be decoded and queried.
+	legacyv3.RegisterInterfaces(reg)
 }
 
 // DefaultGenesis returns a default GenesisState for the module, marshalled to json.RawMessage.

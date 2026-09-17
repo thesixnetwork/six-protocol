@@ -1733,7 +1733,6 @@ type DefaultMintValue struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Value:
-	//
 	//	*DefaultMintValue_NumberAttributeValue
 	//	*DefaultMintValue_StringAttributeValue
 	//	*DefaultMintValue_BooleanAttributeValue

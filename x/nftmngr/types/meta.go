@@ -166,7 +166,7 @@ func (m *Metadata) SetNumber(key string, value int64) error {
 	// m.mapNumber[key] = value
 	attri := m.MapAllKey[key]
 	if attri == nil {
-		panic(errorsmod.Wrap(ErrAttributeNotFoundForAction, key))
+		return errorsmod.Wrap(ErrAttributeNotFoundForAction, key)
 	}
 	if _, ok := attri.AttributeValue.GetValue().(*NftAttributeValue_NumberAttributeValue); ok {
 		// Number
@@ -215,23 +215,25 @@ func (m *Metadata) GetString(key string) string {
 // sub string for GetString function
 func (m *Metadata) GetSubString(key string, start int64, end int64) string {
 	v, err := m.MustGetString(key)
-	if end > int64(len(v)) {
+	if err != nil {
+		panic(err)
+	}
+	length := int64(len(v))
+	// normalize negative indices (counted from the end) before any bounds check
+	if start < 0 {
+		start = length + (start + 1)
+	}
+	if end < 0 {
+		end = length + (end + 1)
+	}
+	if end > length {
 		panic(errorsmod.Wrap(ErrInvalidActionInput, "end can not be greater than string length"))
+	}
+	if start < 0 || start > end {
+		panic(errorsmod.Wrap(ErrInvalidActionInput, "start can not be greater than end"))
 	}
 	if start == end {
 		return ""
-	}
-	if start < 0 {
-		start = int64(len(v)) + (start + 1)
-	}
-	if end < 0 {
-		end = int64(len(v)) + (end + 1)
-	}
-	if start > end {
-		panic(errorsmod.Wrap(ErrInvalidActionInput, "start can not be greater than end"))
-	}
-	if err != nil {
-		panic(err)
 	}
 	return v[start:end]
 }
@@ -270,7 +272,7 @@ func (m *Metadata) SetString(key string, value string) error {
 	// m.mapString[key] = value
 	attri := m.MapAllKey[key]
 	if attri == nil {
-		panic(errorsmod.Wrap(ErrAttributeNotFoundForAction, key))
+		return errorsmod.Wrap(ErrAttributeNotFoundForAction, key)
 	}
 	if _, ok := attri.AttributeValue.GetValue().(*NftAttributeValue_StringAttributeValue); ok {
 		// Number
@@ -333,7 +335,7 @@ func (m *Metadata) SetFloat(key string, value float64) error {
 	// m.mapFloat[key] = value
 	attri := m.MapAllKey[key]
 	if attri == nil {
-		panic(errorsmod.Wrap(ErrAttributeNotFoundForAction, key))
+		return errorsmod.Wrap(ErrAttributeNotFoundForAction, key)
 	}
 	if _, ok := attri.AttributeValue.GetValue().(*NftAttributeValue_FloatAttributeValue); ok {
 		// Number
@@ -396,7 +398,7 @@ func (m *Metadata) SetBoolean(key string, value bool) error {
 	// m.mapBool[key] = value
 	attri := m.MapAllKey[key]
 	if attri == nil {
-		panic(errorsmod.Wrap(ErrAttributeNotFoundForAction, key))
+		return errorsmod.Wrap(ErrAttributeNotFoundForAction, key)
 	}
 	if _, ok := attri.AttributeValue.GetValue().(*NftAttributeValue_BooleanAttributeValue); ok {
 		// Number

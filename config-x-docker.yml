@@ -182,11 +182,17 @@ genesis:
     staking:
       params:
         bond_denom: usix
-        max_validators: 3
+        max_validators: 100
         unbonding_time: 300s
       validator_approval:
         approver_address: 6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv
-        enabled: false
+        enabled: true
+        approved_validators:
+          - 6xvaloper13g50hqdqsjk85fmgqz2h5xdxq49lsmjdz3mr76
+          - 6xvaloper1ve2lj0wpka90uklkpqte4spmnfpxg52jg4s3qm
+          - 6xvaloper1cqltrmn8cjdgurzsqw9n8n4yatuu8n3cp68v93
+          - 6xvaloper15chnkpdt5g7ul9l0qdfsy4zwxh49ms9akp84gl
+          - 6xvaloper1req2t8u83jef9nut9vg5xx9f7d2wrrzcmcjw70
     tokenmngr:
       mintpermList:
         - address: 6x1myrlxmmasv6yq4axrxmdswj9kv5gc0ppx95rmq

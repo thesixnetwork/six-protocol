@@ -2,6 +2,7 @@ package precompiles
 
 import (
 	"maps"
+	"slices"
 	"sync"
 
 	"github.com/cosmos/cosmos-sdk/codec"
@@ -129,9 +130,21 @@ func addPrecompileToVM(p IPrecompile) {
 	vm.PrecompiledContractsBerlin[p.Address()] = p
 	vm.PrecompiledContractsCancun[p.Address()] = p
 	vm.PrecompiledContractsBLS[p.Address()] = p
-	vm.PrecompiledAddressesHomestead = append(vm.PrecompiledAddressesHomestead, p.Address())
-	vm.PrecompiledAddressesByzantium = append(vm.PrecompiledAddressesByzantium, p.Address())
-	vm.PrecompiledAddressesIstanbul = append(vm.PrecompiledAddressesIstanbul, p.Address())
-	vm.PrecompiledAddressesBerlin = append(vm.PrecompiledAddressesBerlin, p.Address())
-	vm.PrecompiledAddressesCancun = append(vm.PrecompiledAddressesCancun, p.Address())
+	// The address slices are append-only globals; adding a precompile more than
+	// once (e.g. a second app instance in the same process, tests, or a repeated
+	// init) would otherwise leave duplicate addresses in these lists, which then
+	// trips the "duplicate precompile" validation and breaks address sorting.
+	vm.PrecompiledAddressesHomestead = appendAddressUnique(vm.PrecompiledAddressesHomestead, p.Address())
+	vm.PrecompiledAddressesByzantium = appendAddressUnique(vm.PrecompiledAddressesByzantium, p.Address())
+	vm.PrecompiledAddressesIstanbul = appendAddressUnique(vm.PrecompiledAddressesIstanbul, p.Address())
+	vm.PrecompiledAddressesBerlin = appendAddressUnique(vm.PrecompiledAddressesBerlin, p.Address())
+	vm.PrecompiledAddressesCancun = appendAddressUnique(vm.PrecompiledAddressesCancun, p.Address())
+}
+
+// appendAddressUnique appends addr to addrs only if it is not already present.
+func appendAddressUnique(addrs []ecommon.Address, addr ecommon.Address) []ecommon.Address {
+	if slices.Contains(addrs, addr) {
+		return addrs
+	}
+	return append(addrs, addr)
 }

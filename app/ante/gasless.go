@@ -19,6 +19,13 @@ import (
 const (
 	// OraclePriority is the highest priority for oracle transactions
 	OraclePriority = math.MaxInt64 - 100
+
+	// MaxGaslessGasWanted bounds the execution a single fee-exempt oracle vote
+	// may consume. Gasless txs skip fee deduction, so they must NOT run under an
+	// infinite gas meter — otherwise a permissioned (or compromised) oracle key
+	// could drive unbounded computation per block for free. A vote that exceeds
+	// this limit simply runs out of gas and fails, same as any other tx.
+	MaxGaslessGasWanted uint64 = 10_000_000
 )
 
 // GaslessDecorator wraps the fee deduction decorator to conditionally apply gas charges.
@@ -44,58 +51,66 @@ func NewGaslessDecorator(
 
 // AnteHandle implements the AnteDecorator interface
 func (gd GaslessDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulate bool, next sdk.AnteHandler) (newCtx sdk.Context, err error) {
-	// Check if this transaction is gasless
-	isGasless, err := IsTxGasless(tx, ctx, gd.nftOracleKeeper, gd.nftAdminKeeper)
+	// Determine whether this tx qualifies for the fee-exempt oracle path. This
+	// check is side-effect free — it does not mutate any state.
+	isGasless, oracle, err := IsTxGasless(tx, ctx, gd.nftOracleKeeper, gd.nftAdminKeeper)
 	if err != nil {
 		return ctx, err
 	}
 
-	// If gasless and in CheckTx, use infinite gas meter
-	if isGasless && ctx.IsCheckTx() {
-		// Set infinite gas meter for gasless transactions during CheckTx
-		newCtx = ctx.WithGasMeter(storetypes.NewInfiniteGasMeter()).
-			WithPriority(OraclePriority) // Give oracle transactions highest priority
-	} else {
-		newCtx = ctx
-	}
-
-	// Apply wrapped decorators (including fee deduction)
-	// For gasless transactions, we skip fee deduction entirely
-	if !isGasless {
-		for _, decorator := range gd.wrappedDecorators {
-			newCtx, err = decorator.AnteHandle(newCtx, tx, simulate, func(ctx sdk.Context, tx sdk.Tx, simulate bool) (sdk.Context, error) {
-				return ctx, nil
-			})
-			if err != nil {
-				return ctx, err
+	if isGasless {
+		// Enforce the per-block, per-oracle rate limit against COMMITTED state.
+		// Only write the marker in DeliverTx (consensus); in CheckTx do a
+		// read-only comparison so the mempool can shed obvious duplicates
+		// without mutating durable state (a CheckTx write lands in a throwaway
+		// cache and cannot be relied on). If the limit is hit, fall back to the
+		// normal fee-paying path rather than granting another free execution.
+		if ctx.IsCheckTx() {
+			if gd.nftOracleKeeper.GetOracleLastVoteHeight(ctx, oracle) == ctx.BlockHeight() {
+				isGasless = false
 			}
+		} else if spamErr := checkAndSetSpamPreventionCounter(ctx, oracle, gd.nftOracleKeeper); spamErr != nil {
+			isGasless = false
 		}
 	}
 
-	// If gasless, ensure infinite gas meter is maintained
-	if isGasless && !ctx.IsCheckTx() {
-		// Reset gas meter to infinite for gasless oracle transactions in DeliverTx
-		newCtx = newCtx.WithGasMeter(storetypes.NewInfiniteGasMeter())
+	if isGasless {
+		// Fee-exempt path: bound the gas so a free tx cannot consume unbounded
+		// computation, give it high mempool priority, and skip fee deduction.
+		gasCtx := ctx.WithGasMeter(storetypes.NewGasMeter(MaxGaslessGasWanted))
+		if ctx.IsCheckTx() {
+			gasCtx = gasCtx.WithPriority(OraclePriority)
+		}
+		return next(gasCtx, tx, simulate)
+	}
+
+	// Normal path: run the wrapped decorators (including fee deduction).
+	newCtx = ctx
+	for _, decorator := range gd.wrappedDecorators {
+		newCtx, err = decorator.AnteHandle(newCtx, tx, simulate, func(ctx sdk.Context, tx sdk.Tx, simulate bool) (sdk.Context, error) {
+			return ctx, nil
+		})
+		if err != nil {
+			return ctx, err
+		}
 	}
 
 	return next(newCtx, tx, simulate)
 }
 
-// IsTxGasless determines if a transaction should be exempted from gas fees
-func IsTxGasless(tx sdk.Tx, ctx sdk.Context, oracleKeeper nftoraclekeeper.Keeper, nftAdminKeeper nftadminkeeper.Keeper) (bool, error) {
+// IsTxGasless determines if a transaction should be exempted from gas fees. It
+// is side-effect free: any condition that disqualifies the tx returns
+// (false, nil, nil) so the caller falls through to the normal fee-paying path,
+// rather than returning an error that would reject an otherwise-valid tx.
+func IsTxGasless(tx sdk.Tx, ctx sdk.Context, oracleKeeper nftoraclekeeper.Keeper, nftAdminKeeper nftadminkeeper.Keeper) (bool, sdk.AccAddress, error) {
 	msgs := tx.GetMsgs()
-	if len(msgs) == 0 {
-		return false, nil
+
+	// Oracle transactions must contain exactly one message (no bundling allowed).
+	if len(msgs) != 1 {
+		return false, nil, nil
 	}
 
-	// Oracle transactions must contain only one message (no bundling allowed)
-	if len(msgs) > 1 {
-		return false, nil
-	}
-
-	msg := msgs[0]
-
-	switch m := msg.(type) {
+	switch m := msgs[0].(type) {
 	case *nftoracletypes.MsgSubmitMintResponse:
 		return oracleVoteIsGasless(m, ctx, oracleKeeper, nftAdminKeeper)
 	case *nftoracletypes.MsgSubmitActionResponse:
@@ -104,114 +119,99 @@ func IsTxGasless(tx sdk.Tx, ctx sdk.Context, oracleKeeper nftoraclekeeper.Keeper
 		return oracleCollectionVerifyIsGasless(m, ctx, oracleKeeper, nftAdminKeeper)
 	default:
 		// Non-oracle transactions are not gasless
-		return false, nil
+		return false, nil, nil
 	}
 }
 
 // oracleVoteIsGasless validates if an oracle mint response vote is gasless
-func oracleVoteIsGasless(msg *nftoracletypes.MsgSubmitMintResponse, ctx sdk.Context, oracleKeeper nftoraclekeeper.Keeper, nftAdminKeeper nftadminkeeper.Keeper) (bool, error) {
+func oracleVoteIsGasless(msg *nftoracletypes.MsgSubmitMintResponse, ctx sdk.Context, oracleKeeper nftoraclekeeper.Keeper, nftAdminKeeper nftadminkeeper.Keeper) (bool, sdk.AccAddress, error) {
 	// 1. Validate oracle permission
 	oracle, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return false, errorsmod.Wrap(errortypes.ErrInvalidAddress, "invalid oracle address")
+		return false, nil, nil
 	}
 
 	// Check if sender has oracle permission
 	if !nftAdminKeeper.HasPermission(ctx, nftoracletypes.KeyPermissionOracle, oracle) {
-		return false, errorsmod.Wrap(nftoracletypes.ErrNoOraclePermission, msg.Creator)
+		return false, nil, nil
 	}
 
 	// 2. Validate mint request exists and is pending
 	mintRequest, found := oracleKeeper.GetMintRequest(ctx, msg.MintRequestID)
 	if !found {
-		return false, errorsmod.Wrap(nftoracletypes.ErrMintRequestNotFound, "mint request not found")
+		return false, nil, nil
 	}
 
 	if mintRequest.Status != nftoracletypes.RequestStatus_PENDING {
-		return false, errorsmod.Wrap(nftoracletypes.ErrMintRequestNotPending, "mint request not pending")
+		return false, nil, nil
 	}
 
 	// 3. Check for duplicate vote - spam prevention
 	if hasOracleAlreadyVoted(mintRequest.Confirmers, oracle.String()) {
-		return false, errorsmod.Wrap(nftoracletypes.ErrOracleAlreadyVoted, "oracle already voted")
+		return false, nil, nil
 	}
 
-	// 4. Check spam prevention counter
-	if err := checkAndSetSpamPreventionCounter(ctx, oracle, oracleKeeper); err != nil {
-		return false, err
-	}
-
-	return true, nil
+	return true, oracle, nil
 }
 
 // oracleActionResponseIsGasless validates if an oracle action response is gasless
-func oracleActionResponseIsGasless(msg *nftoracletypes.MsgSubmitActionResponse, ctx sdk.Context, oracleKeeper nftoraclekeeper.Keeper, nftAdminKeeper nftadminkeeper.Keeper) (bool, error) {
+func oracleActionResponseIsGasless(msg *nftoracletypes.MsgSubmitActionResponse, ctx sdk.Context, oracleKeeper nftoraclekeeper.Keeper, nftAdminKeeper nftadminkeeper.Keeper) (bool, sdk.AccAddress, error) {
 	// 1. Validate oracle permission
 	oracle, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return false, errorsmod.Wrap(errortypes.ErrInvalidAddress, "invalid oracle address")
+		return false, nil, nil
 	}
 
 	if !nftAdminKeeper.HasPermission(ctx, nftoracletypes.KeyPermissionOracle, oracle) {
-		return false, errorsmod.Wrap(nftoracletypes.ErrNoOraclePermission, msg.Creator)
+		return false, nil, nil
 	}
 
 	// 2. Validate action request exists and is pending
 	actionRequest, found := oracleKeeper.GetActionRequest(ctx, msg.ActionRequestID)
 	if !found {
-		return false, errorsmod.Wrap(nftoracletypes.ErrActionRequestNotFound, "action request not found")
+		return false, nil, nil
 	}
 
 	if actionRequest.Status != nftoracletypes.RequestStatus_PENDING {
-		return false, errorsmod.Wrap(nftoracletypes.ErrActionRequestNotPending, "action request not pending")
+		return false, nil, nil
 	}
 
 	// 3. Check for duplicate vote
 	if hasOracleAlreadyVoted(actionRequest.Confirmers, oracle.String()) {
-		return false, errorsmod.Wrap(nftoracletypes.ErrOracleAlreadyVoted, "oracle already voted")
+		return false, nil, nil
 	}
 
-	// 4. Check spam prevention counter
-	if err := checkAndSetSpamPreventionCounter(ctx, oracle, oracleKeeper); err != nil {
-		return false, err
-	}
-
-	return true, nil
+	return true, oracle, nil
 }
 
 // oracleCollectionVerifyIsGasless validates if an oracle collection verification is gasless
-func oracleCollectionVerifyIsGasless(msg *nftoracletypes.MsgSubmitVerifyCollectionOwner, ctx sdk.Context, oracleKeeper nftoraclekeeper.Keeper, nftAdminKeeper nftadminkeeper.Keeper) (bool, error) {
+func oracleCollectionVerifyIsGasless(msg *nftoracletypes.MsgSubmitVerifyCollectionOwner, ctx sdk.Context, oracleKeeper nftoraclekeeper.Keeper, nftAdminKeeper nftadminkeeper.Keeper) (bool, sdk.AccAddress, error) {
 	// 1. Validate oracle permission
 	oracle, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return false, errorsmod.Wrap(errortypes.ErrInvalidAddress, "invalid oracle address")
+		return false, nil, nil
 	}
 
 	if !nftAdminKeeper.HasPermission(ctx, nftoracletypes.KeyPermissionOracle, oracle) {
-		return false, errorsmod.Wrap(nftoracletypes.ErrNoOraclePermission, msg.Creator)
+		return false, nil, nil
 	}
 
 	// 2. Validate collection owner request exists and is pending
 	collectionRequest, found := oracleKeeper.GetCollectionOwnerRequest(ctx, msg.VerifyRequestID)
 	if !found {
-		return false, errorsmod.Wrap(nftoracletypes.ErrCollectionOwnerRequestNotFound, "collection owner request not found")
+		return false, nil, nil
 	}
 
 	if collectionRequest.Status != nftoracletypes.RequestStatus_PENDING {
-		return false, errorsmod.Wrap(nftoracletypes.ErrCollectionOwnerRequestNotPending, "collection owner request not pending")
+		return false, nil, nil
 	}
 
 	// 3. Check for duplicate vote
 	if hasOracleAlreadyVoted(collectionRequest.Confirmers, oracle.String()) {
-		return false, errorsmod.Wrap(nftoracletypes.ErrOracleAlreadyVoted, "oracle already voted")
+		return false, nil, nil
 	}
 
-	// 4. Check spam prevention counter
-	if err := checkAndSetSpamPreventionCounter(ctx, oracle, oracleKeeper); err != nil {
-		return false, err
-	}
-
-	return true, nil
+	return true, oracle, nil
 }
 
 // hasOracleAlreadyVoted checks if an oracle has already voted
@@ -265,6 +265,8 @@ func (vad VoteAloneDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulate bo
 			*nftoracletypes.MsgSubmitActionResponse,
 			*nftoracletypes.MsgSubmitVerifyCollectionOwner:
 			hasOracleVote = true
+		}
+		if hasOracleVote {
 			break
 		}
 	}

@@ -1,5 +1,3 @@
-// Copyright Tharsis Labs Ltd.(Evmos)
-// SPDX-License-Identifier:ENCL-1.0(https://github.com/evmos/evmos/blob/main/LICENSE)
 package testutils
 
 import (
@@ -42,6 +40,18 @@ type AnteTestSuite struct {
 }
 
 const TestGasLimit uint64 = 100000
+
+func init() {
+	if _, err := sdk.GetBaseDenom(); err == nil {
+		return // already registered (e.g. by the app package's init)
+	}
+	if err := sdk.RegisterDenom("six", sdkmath.LegacyOneDec()); err != nil {
+		panic(err)
+	}
+	if err := sdk.RegisterDenom("usix", sdkmath.LegacyNewDecWithPrec(1, 6)); err != nil {
+		panic(err)
+	}
+}
 
 func (suite *AnteTestSuite) SetupTest() {
 	keys := keyring.New(2)

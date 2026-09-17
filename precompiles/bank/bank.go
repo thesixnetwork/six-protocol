@@ -293,10 +293,15 @@ func (p PrecompileExecutor) totalSupply(ctx sdk.Context, method *abi.Method, arg
 }
 
 func (p PrecompileExecutor) accAddressFromArg(arg interface{}) (sdk.AccAddress, error) {
-	addr := arg.(common.Address)
-	if addr == (common.Address{}) {
+	addr, ok := arg.(common.Address)
+	if !ok {
 		return nil, errors.New("invalid addr")
 	}
+
+	if addr == (common.Address{}) {
+		return nil, errors.New("invalid addr or address zero")
+	}
+
 	bec32Addr := utils.EthToCosmosAddr(addr)
 	return bec32Addr, nil
 }
