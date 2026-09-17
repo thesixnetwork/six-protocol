@@ -418,7 +418,7 @@ case $choice in
             echo "Creating validator ${val} on ${node_homes[i]}"
             export DAEMON_HOME=./build/${node_homes[i]}
             sixd tx staking create-validator-legacy --amount="${amount}usix" --moniker ${node_homes[i]} --pubkey $(sixd tendermint show-validator --home ./build/${node_homes[i]}) \
-                --validator-mode="${i-1}" --max-license=100 --min-delegation 10000000000 --delegation-increment 10000000000 --enable-redelegation=false --min-self-delegation 10000000000 \
+                --validator-mode="${i-1}" --max-license=100 --min-delegation 10000000000 --delegation-increment 10000000000 --min-self-delegation 10000000000 \
                 --commission-rate "0.1" --commission-max-rate "0.1" --commission-max-change-rate "0.1" \
                 --details "node_test_${i}" --security-contact "node_test_${i}" --website "www.idk_${i}.com" --identity "idk_${i}" \
                 --sign-mode amino-json --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix \
@@ -445,7 +445,7 @@ case $choice in
             echo "Creating validator ${val} on ${NODE_HOME}"
             sixd tx staking create-validator-legacy --amount="${amount}usix" --moniker ${NODE_HOME} \
                 --pubkey $(sixd tendermint show-validator --home ./build/${NODE_HOME}) \
-                --validator-mode=0 --max-license=100 --min-delegation 10000000000 --delegation-increment 10000000000 --enable-redelegation=false --min-self-delegation 10000000000 \
+                --validator-mode=0 --max-license=100 --min-delegation 10000000000 --delegation-increment 10000000000  --min-self-delegation 10000000000 \
                 --commission-rate "1" --commission-max-rate "1" --commission-max-change-rate "1" \
                 --details "local_sync_${i}" --security-contact "local_sync_${i}" --website "www.six_${i}.com" --identity "six_${i}" \
                 --sign-mode amino-json --gas auto --gas-adjustment 1.5 --gas-prices 1.25usix \
