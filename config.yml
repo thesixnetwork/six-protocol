@@ -97,7 +97,7 @@ genesis:
             limit_type_urls: []
     evm:
       params:
-        allow_unprotected_txs: true
+        allow_unprotected_txs: false
         evm_denom: asix
         # active_static_precompiles:
         # NOTE: six protocol precompile already set at evm param
@@ -210,7 +210,7 @@ validators:
         enable: true
       json-rpc:
         address: 0.0.0.0:8545
-        allow-unprotected-txs: true
+        allow-unprotected-txs: false
         ws-address: 0.0.0.0:8546
         api: eth,txpool,personal,net,debug,web3
         enable: true
