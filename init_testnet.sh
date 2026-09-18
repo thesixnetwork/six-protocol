@@ -217,8 +217,9 @@ update_genesis '.app_state.tokenmngr.tokenList[0] |= . + {
 }'
 
 # Governance configuration - Match working genesis
-update_genesis '.app_state.gov.deposit_params.max_deposit_period = "172800s"'
-update_genesis '.app_state.gov.voting_params.voting_period = "300s"'
+update_genesis '.app_state.gov.params.max_deposit_period = "172800s"'
+update_genesis '.app_state.gov.params.voting_period = "300s"'
+update_genesis '.app_state.gov.params.expedited_voting_period = "180s"'
 
 # Feemarket configuration - Match working genesis exactly
 update_genesis '.app_state.feemarket.params = {
