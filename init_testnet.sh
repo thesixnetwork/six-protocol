@@ -101,7 +101,7 @@ update_genesis '.app_state["crisis"]["constant_fee"]["amount"]="1000"'
 update_genesis '.app_state["gov"]["deposit_params"]["min_deposit"][0]["denom"]="'$STAKING_TOKEN'"'
 update_genesis '.app_state["gov"]["deposit_params"]["min_deposit"][0]["amount"]="1000000"'
 update_genesis '.app_state["evm"]["params"]["evm_denom"]="'$EVM_TOKEN'"'
-update_genesis '.app_state["evm"]["params"]["allow_unprotected_txs"]=true'  # To deploy create2 contract
+update_genesis '.app_state["evm"]["params"]["allow_unprotected_txs"]=false'  # To deploy create2 contract
 update_genesis '.app_state["inflation"]["params"]["mint_denom"]="'$STAKING_TOKEN'"'
 update_genesis '.app_state["mint"]["params"]["mint_denom"]="'$STAKING_TOKEN'"'
 
