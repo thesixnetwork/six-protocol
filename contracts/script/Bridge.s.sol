@@ -86,7 +86,7 @@ contract SendToCrossChainScript is Script {
     string memory chain = "eth";
 
     // Execute the transaction
-    (bool success, ) = contractAddress.call(
+    (bool success, ) = contractAddress.call{gas: 500000}(
       abi.encodeWithSignature(
         "transferToCrossChain(string,uint256,string,string)",
         bridgeInAddress,
