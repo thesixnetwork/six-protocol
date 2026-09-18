@@ -357,7 +357,7 @@ echo "Creating and collecting gentxs with bob as validator..."
 if [ "$VAL_MODE" = "0" ]; then
   sixd genesis gentx bob 1000000000000usix --min-self-delegation="10000000000" --validator-mode=0 --min-delegation="10000000000" --enable-redelegation=false --keyring-backend $KEYRING --chain-id $CHAINID
 elif [ "$VAL_MODE" = "1" ]; then
-  sixd genesis gentx bob 1500000000000usix --min-self-delegation="10000000000" --validator-mode=1 --min-delegation="10000000000" --delegation-increment="10000000000" --max-license=1000 --enable-redelegation=false --keyring-backend $KEYRING --chain-id $CHAINID --home ${SIX_HOME}
+  sixd genesis gentx bob 1000000000000usix --min-self-delegation="1000000000000" --validator-mode=1 --min-delegation="1000000000000" --delegation-increment="1000000000000" --max-license=1 --enable-redelegation=false --keyring-backend $KEYRING --chain-id $CHAINID --home ${SIX_HOME}
 elif [ "$VAL_MODE" = "2" ]; then
   sixd genesis gentx bob 1000000000000usix --min-self-delegation="10000000000" --validator-mode=2 --min-delegation="10000000000" --enable-redelegation=false --keyring-backend $KEYRING --chain-id $CHAINID
 else
