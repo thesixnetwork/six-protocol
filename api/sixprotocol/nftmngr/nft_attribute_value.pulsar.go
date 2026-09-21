@@ -2569,7 +2569,6 @@ type NftAttributeValue struct {
 
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// Types that are assignable to Value:
-	//
 	//	*NftAttributeValue_NumberAttributeValue
 	//	*NftAttributeValue_StringAttributeValue
 	//	*NftAttributeValue_BooleanAttributeValue

@@ -20,7 +20,7 @@ contract SendToCosmosScript is Script {
     // Initialize variables
     address contractAddress = TOKENFACTORY_PRECOMPILE_ADDRESS;
     string memory destinationAddress = "6x1kch0sdjr5tuvjh0h3a55c6l5sr6m0phjeag9f2";
-    uint256 amount = 990 * 1e18;
+    uint256 amount = 20 * 1e18;
 
     // Execute the transaction
     (bool success, ) = contractAddress.call(
@@ -81,12 +81,20 @@ contract SendToCrossChainScript is Script {
     // Initialize variables
     address contractAddress = TOKENFACTORY_PRECOMPILE_ADDRESS;
     string memory bridgeInAddress = "6x1kch0sdjr5tuvjh0h3a55c6l5sr6m0phjeag9f2";
-    uint256 amount = 990 * 1e18;
-    string memory memo = "six-eth-bridge-001";
+    uint256 amount = 20 * 1e18;
+    string memory memo = "six-eth";
     string memory chain = "eth";
 
     // Execute the transaction
-    (bool success, ) = contractAddress.call(abi.encodeWithSignature("transferToCrossChain(string,uint256,string,string)", bridgeInAddress,amount, memo, chain));
+    (bool success, ) = contractAddress.call{gas: 500000}(
+      abi.encodeWithSignature(
+        "transferToCrossChain(string,uint256,string,string)",
+        bridgeInAddress,
+        amount,
+        memo,
+        chain
+      )
+    );
 
     require(success, "Transaction failed");
 

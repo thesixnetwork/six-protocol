@@ -286,9 +286,9 @@ func (suite *AnteTestSuite) TestAnteHandler() {
 				amount := sdk.NewCoins(coinAmount)
 				gas := uint64(200000)
 				txBuilder, err := suite.CreateTestEIP712MsgCreateValidator(from, privKey, ctx.ChainID(), gas, amount)
-				suite.Require().NoError(err)
-				return txBuilder.GetTx()
-			}, false, false, true,
+				suite.RequireErrorForLegacyTypedData(err)
+				return suite.TxForLegacyTypedData(txBuilder)
+			}, false, false, !suite.useLegacyEIP712TypedData,
 		},
 		{
 			"success- DeliverTx EIP712 create validator (with blank fields)",
@@ -298,9 +298,9 @@ func (suite *AnteTestSuite) TestAnteHandler() {
 				amount := sdk.NewCoins(coinAmount)
 				gas := uint64(200000)
 				txBuilder, err := suite.CreateTestEIP712MsgCreateValidator2(from, privKey, ctx.ChainID(), gas, amount)
-				suite.Require().NoError(err)
-				return txBuilder.GetTx()
-			}, false, false, true,
+				suite.RequireErrorForLegacyTypedData(err)
+				return suite.TxForLegacyTypedData(txBuilder)
+			}, false, false, !suite.useLegacyEIP712TypedData,
 		},
 		{
 			"success- DeliverTx EIP712 MsgSubmitProposal",

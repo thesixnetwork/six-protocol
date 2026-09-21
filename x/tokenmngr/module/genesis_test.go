@@ -39,10 +39,10 @@ func TestGenesis(t *testing.T) {
 		},
 		TokenBurnList: []types.TokenBurn{
 			{
-				Amount: sdk.NewCoin("0", sdkmath.NewInt(0)),
+				Amount: sdk.NewCoin("tokena", sdkmath.NewInt(0)),
 			},
 			{
-				Amount: sdk.NewCoin("1", sdkmath.NewInt(1)),
+				Amount: sdk.NewCoin("tokenb", sdkmath.NewInt(1)),
 			},
 		},
 		Options: &types.Options{

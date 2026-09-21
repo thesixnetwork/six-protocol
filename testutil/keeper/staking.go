@@ -15,6 +15,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	addresscodec "github.com/cosmos/cosmos-sdk/codec/address"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
+	cryptocodec "github.com/cosmos/cosmos-sdk/crypto/codec"
 	"github.com/cosmos/cosmos-sdk/runtime"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authkeeper "github.com/cosmos/cosmos-sdk/x/auth/keeper"
@@ -48,6 +49,7 @@ func StakingKeeper(t testing.TB) (*stakingkeeper.Keeper, sdk.Context) {
 	authtypes.RegisterInterfaces(registry)
 	banktypes.RegisterInterfaces(registry)
 	stakingtypes.RegisterInterfaces(registry)
+	cryptocodec.RegisterInterfaces(registry)
 	cdc := codec.NewProtoCodec(registry)
 
 	// Authority address
@@ -65,8 +67,8 @@ func StakingKeeper(t testing.TB) (*stakingkeeper.Keeper, sdk.Context) {
 		runtime.NewKVStoreService(authStoreKey),
 		authtypes.ProtoBaseAccount,
 		maccPerms,
-		addresscodec.NewBech32Codec(sdk.Bech32PrefixAccAddr),
-		sdk.Bech32PrefixAccAddr,
+		addresscodec.NewBech32Codec(sdk.GetConfig().GetBech32AccountAddrPrefix()),
+		sdk.GetConfig().GetBech32AccountAddrPrefix(),
 		authority.String(),
 	)
 
@@ -87,8 +89,8 @@ func StakingKeeper(t testing.TB) (*stakingkeeper.Keeper, sdk.Context) {
 		accountKeeper,
 		bankKeeper,
 		authority.String(),
-		addresscodec.NewBech32Codec(sdk.Bech32PrefixValAddr),  // validator address codec
-		addresscodec.NewBech32Codec(sdk.Bech32PrefixConsAddr), // consensus address codec
+		addresscodec.NewBech32Codec(sdk.GetConfig().GetBech32ValidatorAddrPrefix()), // validator address codec
+		addresscodec.NewBech32Codec(sdk.GetConfig().GetBech32ConsensusAddrPrefix()), // consensus address codec
 	)
 
 	// Create context
@@ -128,6 +130,7 @@ func StakingKeeperWithDeps(t testing.TB) (*stakingkeeper.Keeper, *authkeeper.Acc
 	authtypes.RegisterInterfaces(registry)
 	banktypes.RegisterInterfaces(registry)
 	stakingtypes.RegisterInterfaces(registry)
+	cryptocodec.RegisterInterfaces(registry)
 	cdc := codec.NewProtoCodec(registry)
 
 	// Authority address
@@ -145,8 +148,8 @@ func StakingKeeperWithDeps(t testing.TB) (*stakingkeeper.Keeper, *authkeeper.Acc
 		runtime.NewKVStoreService(authStoreKey),
 		authtypes.ProtoBaseAccount,
 		maccPerms,
-		addresscodec.NewBech32Codec(sdk.Bech32PrefixAccAddr),
-		sdk.Bech32PrefixAccAddr,
+		addresscodec.NewBech32Codec(sdk.GetConfig().GetBech32AccountAddrPrefix()),
+		sdk.GetConfig().GetBech32AccountAddrPrefix(),
 		authority.String(),
 	)
 
@@ -167,8 +170,8 @@ func StakingKeeperWithDeps(t testing.TB) (*stakingkeeper.Keeper, *authkeeper.Acc
 		accountKeeper,
 		bankKeeper,
 		authority.String(),
-		addresscodec.NewBech32Codec(sdk.Bech32PrefixValAddr),  // validator address codec
-		addresscodec.NewBech32Codec(sdk.Bech32PrefixConsAddr), // consensus address codec
+		addresscodec.NewBech32Codec(sdk.GetConfig().GetBech32ValidatorAddrPrefix()), // validator address codec
+		addresscodec.NewBech32Codec(sdk.GetConfig().GetBech32ConsensusAddrPrefix()), // consensus address codec
 	)
 
 	// Create context

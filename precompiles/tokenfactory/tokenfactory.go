@@ -154,7 +154,7 @@ func (p PrecompileExecutor) sendToCosmos(ctx sdk.Context, caller common.Address,
 	// ------------------------------------
 
 	// check if balance and input are valid
-	balance := p.bankKeeper.GetBalance(ctx, senderCosmoAddr, "asix")
+	balance := p.bankKeeper.GetBalance(ctx, senderCosmoAddr, tokenmngr.DefaultAttoDenom)
 	if balance.Amount.LT(intAmount) {
 		return nil, erromod.Wrap(sdkerrors.ErrInvalidRequest, "Amount of token is too high than current balance")
 	}
@@ -171,7 +171,7 @@ func (p PrecompileExecutor) sendToCosmos(ctx sdk.Context, caller common.Address,
 	}
 
 	// Track balance changes for EVM token conversion (asix -> usix)
-	if pcommon.IsEvmDenom("asix") {
+	if pcommon.IsEvmDenom(tokenmngr.DefaultAttoDenom) {
 		tracker := pcommon.NewBalanceTracker(p.precompile)
 		senderEthAddr := utils.CosmosToEthAddr(senderCosmoAddr)
 
@@ -210,8 +210,17 @@ func (p PrecompileExecutor) sendToCrossChain(ctx sdk.Context, caller common.Addr
 
 	amount := args[1].(*big.Int)
 	if amount.Cmp(utils.Big0) == 0 {
-		// short circuit
-		return method.Outputs.Pack(true)
+		return method.Outputs.Pack(false)
+	}
+
+	senderCosmoAddr, err := p.accAddressFromArg(caller)
+	if err != nil {
+		return nil, err
+	}
+
+	receiverCosmoAddr, err := p.accAddressFromBech32(args[0])
+	if err != nil {
+		return nil, err
 	}
 
 	memo, err := p.StringFromArg(args[2])
@@ -220,15 +229,6 @@ func (p PrecompileExecutor) sendToCrossChain(ctx sdk.Context, caller common.Addr
 	}
 
 	chain, err := p.StringFromArg(args[3])
-	if err != nil {
-		return nil, err
-	}
-
-	senderCosmoAddr, err := p.accAddressFromArg(caller)
-	if err != nil {
-		return nil, err
-	}
-	receiverCosmoAddr, err := p.accAddressFromBech32(args[0])
 	if err != nil {
 		return nil, err
 	}
@@ -246,13 +246,13 @@ func (p PrecompileExecutor) sendToCrossChain(ctx sdk.Context, caller common.Addr
 	// ------------------------------------
 
 	// check if balance and input are valid
-	balance := p.bankKeeper.GetBalance(ctx, senderCosmoAddr, "asix")
+	balance := p.bankKeeper.GetBalance(ctx, senderCosmoAddr, tokenmngr.DefaultAttoDenom)
 	if balance.Amount.LT(intAmount) {
 		return nil, erromod.Wrap(sdkerrors.ErrInvalidRequest, "Amount of token is too high than current balance")
 	}
 
 	// check total supply of evm denom
-	supply := p.bankKeeper.GetSupply(ctx, "asix")
+	supply := p.bankKeeper.GetSupply(ctx, tokenmngr.DefaultAttoDenom)
 	if supply.Amount.LT(intAmount) {
 		return nil, erromod.Wrap(sdkerrors.ErrInvalidRequest, "amount of token is higher than current total supply")
 	}
@@ -263,7 +263,7 @@ func (p PrecompileExecutor) sendToCrossChain(ctx sdk.Context, caller common.Addr
 	}
 
 	// Track balance changes for EVM token conversion (asix -> usix)
-	if pcommon.IsEvmDenom("asix") {
+	if pcommon.IsEvmDenom(tokenmngr.DefaultAttoDenom) {
 		tracker := pcommon.NewBalanceTracker(p.precompile)
 		senderEthAddr := utils.CosmosToEthAddr(senderCosmoAddr)
 

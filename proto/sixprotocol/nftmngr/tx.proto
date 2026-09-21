@@ -99,6 +99,7 @@ enum AuthorizeTo {
 
 message MsgCreateNFTSchema {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftmngr/CreateNFTSchema";
   string creator = 1;
   string nftSchemaBase64 = 2;
 }
@@ -107,6 +108,7 @@ message MsgCreateNFTSchemaResponse { string code = 1; }
 
 message MsgCreateMetadata {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftmngr/CreateMetadata";
   string creator = 1;
   string nftSchemaCode = 2;
   string tokenId = 3;
@@ -137,6 +139,7 @@ message ActionParameter {
 
 message MsgPerformActionByAdmin {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftmngr/PerformActionByAdmin";
   string creator = 1;
   string nftSchemaCode = 2;
   string tokenId = 3;
@@ -152,6 +155,7 @@ message MsgPerformActionByAdminResponse {
 
 message MsgAddAttribute {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftmngr/AddAttribute";
   string creator = 1;
   string code = 2;
   AttributeLocation location = 3;
@@ -165,6 +169,7 @@ message MsgAddAttributeResponse {
 
 message MsgAddAction {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftmngr/AddAction";
   string creator = 1;
   string code = 2;
   string base64NewAction = 3;
@@ -177,6 +182,7 @@ message MsgAddActionResponse {
 
 message MsgSetBaseUri {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftmngr/SetBaseUri";
   string creator = 1;
   string code = 2;
   string newBaseUri = 3;
@@ -189,6 +195,7 @@ message MsgSetBaseUriResponse {
 
 message MsgToggleAction {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftmngr/ToggleAction";
   string creator = 1;
   string code = 2;
   string action = 3;
@@ -203,6 +210,7 @@ message MsgToggleActionResponse {
 
 message MsgChangeSchemaOwner {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftmngr/ChangeSchemaOwner";
   string creator = 1;
   string nftSchemaCode = 2;
   string newOwner = 3;
@@ -220,6 +228,7 @@ message MsgResyncAttributesResponse {
 
 message MsgShowAttributes {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftmngr/ShowAttributes";
   string creator = 1;
   string nftSchemaCode = 2;
   bool show = 3;
@@ -229,6 +238,7 @@ message MsgShowAttributes {
 message MsgShowAttributesResponse { string nftSchema = 1; }
 message MsgResyncAttributes {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftmngr/ResyncAttributes";
   string creator = 1;
   string nftSchemaCode = 2;
   string tokenId = 3;
@@ -236,6 +246,7 @@ message MsgResyncAttributes {
 
 message MsgSetFeeConfig {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftmngr/SetFeeConfig";
   string creator = 1;
   FeeConfig feeConfig = 2;
 }
@@ -244,6 +255,7 @@ message MsgSetFeeConfigResponse {}
 
 message MsgSetMintauth {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftmngr/SetMintauth";
   string creator = 1;
   string nftSchemaCode = 2;
   AuthorizeTo authorizeTo = 3;
@@ -253,6 +265,7 @@ message MsgSetMintauthResponse { string nftSchemaCode = 1; }
 
 message MsgChangeOrgOwner {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftmngr/ChageOrgOwner";
   string creator = 1;
   string orgName = 2;
   string toNewOwner = 3;
@@ -266,6 +279,7 @@ message MsgChangeOrgOwnerResponse {
 
 message MsgSetUriRetrievalMethod {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftmngr/SetUriRetrievalMethod";
   string creator = 1;
   string schemaCode = 2;
   int32 newMethod = 3;
@@ -278,6 +292,7 @@ message MsgSetUriRetrievalMethodResponse {
 
 message MsgSetOriginChain {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftmngr/SetOriginChain";
   string creator = 1;
   string schemaCode = 2;
   string newOriginChain = 3;
@@ -290,6 +305,7 @@ message MsgSetOriginChainResponse {
 
 message MsgSetOriginContract {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftmngr/SetOriginContract";
   string creator = 1;
   string schemaCode = 2;
   string newContractAddress = 3;
@@ -302,6 +318,7 @@ message MsgSetOriginContractResponse {
 
 message MsgSetAttributeOveriding {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftmngr/SetAttributeOveriding";
   string creator = 1;
   string schemaCode = 2;
   int32 newOveridingType = 3;
@@ -314,6 +331,7 @@ message MsgSetAttributeOveridingResponse {
 
 message MsgSetMetadataFormat {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftmngr/SetMetadataFormat";
   string creator = 1;
   string schemaCode = 2;
   string newFormat = 3;
@@ -326,6 +344,7 @@ message MsgSetMetadataFormatResponse {
 
 message MsgCreateActionExecutor {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftmngr/CreateActionExecutor";
   string creator = 1;
   string nftSchemaCode = 2;
   string executorAddress = 3;
@@ -336,6 +355,7 @@ message MsgCreateActionExecutorResponse {
 }
 
 message MsgUpdateActionExecutor {
+  option (amino.name) = "nftmngr/UpdateActionExecutor";
   string creator = 1;
   string nftSchemaCode = 2;
   string executorAddress = 3;
@@ -347,6 +367,7 @@ message MsgUpdateActionExecutorResponse {
 
 message MsgDeleteActionExecutor {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftmngr/DeleteActionExecutor";
   string creator = 1;
   string nftSchemaCode = 2;
   string executorAddress = 3;
@@ -358,19 +379,20 @@ message MsgDeleteActionExecutorResponse {
 
 message MsgUpdateSchemaAttribute {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftmngr/UpdateSchemaAttribute";
   string creator = 1;
   string nftSchemaCode = 2;
   string Base64UpdateAttriuteDefenition = 3;
 }
 
 message MsgUpdateSchemaAttributeResponse {
-  option (cosmos.msg.v1.signer) = "creator";
   string nftSchemaCode = 1;
   string name = 2;
 }
 
 message MsgUpdateAction {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftmngr/UpdateAction";
   string creator = 1;
   string nftSchemaCode = 2;
   string base64UpdateAction = 3;
@@ -419,6 +441,7 @@ message MsgDeleteVirtualActionResponse {
 
 message MsgPerformVirtualAction {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftmngr/PerformVirtualAction";
   string creator = 1;
   string nftSchemaName = 2;
   repeated TokenIdMap tokenIdMap = 3;
@@ -436,6 +459,7 @@ message TokenIdMap {
 
 message MsgProposalVirtualSchema {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftmngr/ProposalVirtualSchema";
   string creator = 1;
   string virtualNftSchemaCode = 2;
   ProposalType proposalType = 3;
@@ -453,6 +477,7 @@ message MsgProposalVirtualSchemaResponse {
 
 message MsgVoteVirtualSchemaProposal {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftmngr/VoteVirtualSchemaProposal";
   string creator = 1;
   string id = 2;
   string nftSchemaCode = 3;

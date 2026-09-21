@@ -9,12 +9,15 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 )
 
-const (
-	UpgradeName = "v4.0.3"
-)
+const UpgradeName = "v4.0.4"
 
 func (app *App) RegisterUpgradeHandlers() {
 	app.UpgradeKeeper.SetUpgradeHandler(UpgradeName, func(ctx context.Context, plan upgradetypes.Plan, vm module.VersionMap) (module.VersionMap, error) {
+
+		if err := app.StakingKeeper.MigrateWhitelistDelegatorKeys(ctx); err != nil {
+			return nil, err
+		}
+
 		// First run the standard module migrations
 		newVM, err := app.ModuleManager.RunMigrations(ctx, app.configurator, vm)
 		if err != nil {

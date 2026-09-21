@@ -1575,7 +1575,6 @@ type SchemaAttributeValue struct {
 	unknownFields protoimpl.UnknownFields
 
 	// Types that are assignable to Value:
-	//
 	//	*SchemaAttributeValue_NumberAttributeValue
 	//	*SchemaAttributeValue_StringAttributeValue
 	//	*SchemaAttributeValue_BooleanAttributeValue

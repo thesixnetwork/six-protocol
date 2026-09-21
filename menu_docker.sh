@@ -1,5 +1,11 @@
-default_six_home=six_home
-default_docker_tag="4.0.3"
+CHAIN_ID=${1:-testnet}
+DOCKER_TAG=${2:-}
+default_docker_tag="4.0.4"
+
+if [ -z "$DOCKER_TAG" ]; then
+    DOCKER_TAG=$default_docker_tag
+fi
+export DOCKER_TAG
 
 node_homes=(
     sixnode0
@@ -13,8 +19,6 @@ validator_keys=(
     val3
     val4
 )
-
-SUPER_ADMIN_ADDRESS="6x1t3p2vzd7w036ahxf4kefsc9sn24pvlqphcuauv"
 
 # ---------------------------------------------------------------------------
 function setUpGenesis() {
@@ -136,11 +140,12 @@ read -p "Enter your choice: " choice
 case $choice in
 "1")
     echo "Building Docker Image"
-    read -p "Enter Docker Tag: " docker_tag
-    if [ -z "$docker_tag" ]; then
-        docker_tag=$default_docker_tag
+    if [ -z "$DOCKER_TAG" ]; then
+      read -p "Enter Docker Tag [default: $default_docker_tag]: " DOCKER_TAG
+      DOCKER_TAG=${DOCKER_TAG:-$default_docker_tag}
+      export DOCKER_TAG
     fi
-    docker build . -t asia-southeast1-docker.pkg.dev/six-protocol/six-node-docker-repo/sixnode:${docker_tag}
+    docker build . -t "asia-southeast1-docker.pkg.dev/six-protocol/six-node-docker-repo/sixnode:${DOCKER_TAG}"
     ;;
 "2")
     echo "Run init Chain validator"

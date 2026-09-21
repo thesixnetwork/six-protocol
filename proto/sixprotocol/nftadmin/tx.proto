@@ -43,6 +43,7 @@ message MsgUpdateParamsResponse {}
 
 message MsgGrantPermission {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftadmin/GrantPermission";
   string creator = 1;
   string name = 2;
   string grantee = 3;
@@ -52,6 +53,7 @@ message MsgGrantPermissionResponse { string grantee = 1; }
 
 message MsgRevokePermission {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "nftadmin/RevokePermission";
   string creator = 1;
   string name = 2;
   string revokee = 3;

@@ -47,6 +47,7 @@ message MsgUpdateParamsResponse {}
 
 message MsgCreateGroup {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "protocoladmin/CreateGroup";
   string creator = 1;
   string name = 2;
 }
@@ -55,6 +56,7 @@ message MsgCreateGroupResponse {}
 
 message MsgUpdateGroup {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "protocoladmin/UpdateGroup";
   string creator = 1;
   string name = 2;
 }
@@ -63,6 +65,7 @@ message MsgUpdateGroupResponse {}
 
 message MsgDeleteGroup {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "protocoladmin/DeleteGroup";
   string creator = 1;
   string name = 2;
 }
@@ -71,6 +74,7 @@ message MsgDeleteGroupResponse {}
 
 message MsgAddAdminToGroup {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "protocoladmin/AddAdminToGroup";
   string creator = 1;
   string name = 2;
   string address = 3;
@@ -80,6 +84,7 @@ message MsgAddAdminToGroupResponse {}
 
 message MsgRemoveAdminFromGroup {
   option (cosmos.msg.v1.signer) = "creator";
+  option (amino.name) = "protocoladmin/RemoveAdminFromGroup";
   string creator = 1;
   string name = 2;
   string address = 3;
