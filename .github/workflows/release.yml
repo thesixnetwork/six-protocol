@@ -59,6 +59,7 @@ jobs:
         if: matrix.goos == 'linux'
         run: |
           GOOS=linux GOARCH=${{ matrix.goarch }} \
+          LEDGER_ENABLED=true \
           CGO_ENABLED=1 \
           CC=musl-gcc \
           LDFLAGS="-linkmode external -extldflags=-static" \
@@ -68,6 +69,7 @@ jobs:
         if: matrix.goos == 'darwin'
         run: |
           GOOS=darwin GOARCH=${{ matrix.goarch }} \
+          LEDGER_ENABLED=true \
           CGO_ENABLED=1 \
           VERSION=${{ env.BINARY_VERSION }} make build
 
