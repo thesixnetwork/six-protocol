@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"math/big"
+	"sync"
 
 	storetypes "cosmossdk.io/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -52,7 +53,15 @@ type Precompile struct {
 	executor Executor
 	name     string
 	abi.ABI
-	address        common.Address
+	address common.Address
+
+	// mu serializes Run: precompile instances are process-global singletons
+	// (registered once into the vm.PrecompiledContracts maps), so consensus
+	// DeliverTx and concurrent JSON-RPC queries (eth_call/estimateGas) share
+	// this instance — without the lock they race on balanceChanges. Executors
+	// never re-enter the EVM, so holding the lock across Execute cannot
+	// deadlock.
+	mu             sync.Mutex
 	balanceChanges []BalanceChangeEntry
 }
 
@@ -62,7 +71,7 @@ func NewPrecompile(a abi.ABI, executor Executor, address common.Address, name st
 	return &Precompile{ABI: a, executor: executor, address: address, name: name}
 }
 
-func (p Precompile) RequiredGas(input []byte) uint64 {
+func (p *Precompile) RequiredGas(input []byte) uint64 {
 	methodID, err := ExtractMethodID(input)
 	if err != nil {
 		return UnknownMethodCallGas
@@ -89,8 +98,19 @@ func (p *Precompile) Run(evm *vm.EVM, caller common.Address, callingContract com
 	initialGas := ctx.GasMeter().GasConsumed()
 	defer HandleGasError(ctx, evm, initialGas, &err)()
 
+	p.mu.Lock()
+	defer p.mu.Unlock()
+
 	// Clear any previous balance changes
 	p.balanceChanges = nil
+
+	if !readOnly {
+		if stateDB, ok := evm.StateDB.(*statedb.StateDB); ok {
+			if err := stateDB.AddPrecompileFn(p.address, snap.MultiStore, snap.Events); err != nil {
+				return nil, err
+			}
+		}
+	}
 
 	bz, err = p.executor.Execute(ctx, method, caller, callingContract, args, value, readOnly, evm)
 	if err != nil {
@@ -98,33 +118,21 @@ func (p *Precompile) Run(evm *vm.EVM, caller common.Address, callingContract com
 	}
 	events := ctx.EventManager().Events()
 	if len(events) > 0 {
-		em.EmitEvents(ctx.EventManager().Events())
+		em.EmitEvents(events)
 	}
 
-	// Register this precompile call in the stateDB journal so that if the
-	// calling EVM frame reverts, the cosmos-state writes performed here are
-	// rolled back to the snapshot captured in Prepare. This MUST run for every
-	// state-changing (non read-only) call — not only when an EVM balance change
-	// was recorded — otherwise a reverted call's cosmos writes would survive the
-	// unconditional cacheCtx flush at Commit, allowing state to persist through
-	// an EVM revert (double-spend, cf. Cosmos EVM ASA-2026-002). Any recorded
-	// balance changes are also applied here to keep the EVM stateDB balance view
-	// consistent with the bank state. Read-only (STATICCALL) invocations cannot
-	// mutate state, so they are skipped and do not consume the per-tx precompile
-	// call budget (MaxPrecompileCalls).
+	// Apply any recorded balance changes so the EVM stateDB balance view stays
+	// consistent with the bank state the executor just modified.
 	if !readOnly {
-		stateDB, ok := evm.StateDB.(*statedb.StateDB)
-		if ok {
-			if e := p.applyBalanceChanges(stateDB, snap); e != nil {
-				return bz, e
-			}
+		if stateDB, ok := evm.StateDB.(*statedb.StateDB); ok {
+			p.applyBalanceChanges(stateDB)
 		}
 	}
 
 	return bz, err
 }
 
-func (p Precompile) Prepare(evm *vm.EVM, input []byte) (sdk.Context, *abi.Method, []interface{}, snapshot, error) {
+func (p *Precompile) Prepare(evm *vm.EVM, input []byte) (sdk.Context, *abi.Method, []interface{}, snapshot, error) {
 	var snap snapshot
 	stateDB, ok := evm.StateDB.(*statedb.StateDB)
 
@@ -171,19 +179,19 @@ func (p Precompile) Prepare(evm *vm.EVM, input []byte) (sdk.Context, *abi.Method
 	return ctx, method, args, snap, nil
 }
 
-func (p Precompile) GetABI() abi.ABI {
+func (p *Precompile) GetABI() abi.ABI {
 	return p.ABI
 }
 
-func (p Precompile) Address() common.Address {
+func (p *Precompile) Address() common.Address {
 	return p.address
 }
 
-func (p Precompile) GetName() string {
+func (p *Precompile) GetName() string {
 	return p.name
 }
 
-func (p Precompile) GetExecutor() Executor {
+func (p *Precompile) GetExecutor() Executor {
 	return p.executor
 }
 
@@ -221,13 +229,17 @@ func DefaultGasCost(input []byte, isTransaction bool) uint64 {
 }
 
 // SetBalanceChangeEntries records balance changes that need to be applied to the EVM stateDB
-// This prevents the stateDB from overwriting the changed balance in the bank keeper when committing the EVM state
+// This prevents the stateDB from overwriting the changed balance in the bank keeper when committing the EVM state.
+// Entries accumulate across calls within one Run (the slice is cleared at the start of each Run),
+// so an executor performing several tracked operations does not clobber earlier entries.
 func (p *Precompile) SetBalanceChangeEntries(entries ...BalanceChangeEntry) {
-	p.balanceChanges = entries
+	p.balanceChanges = append(p.balanceChanges, entries...)
 }
 
-// applyBalanceChanges applies the recorded balance changes to the EVM stateDB
-func (p *Precompile) applyBalanceChanges(stateDB *statedb.StateDB, snap snapshot) error {
+// applyBalanceChanges applies the recorded balance changes to the EVM stateDB.
+// The revert-protection journal entry is registered in Run BEFORE Execute, not
+// here, so that error/out-of-gas exits are covered too.
+func (p *Precompile) applyBalanceChanges(stateDB *statedb.StateDB) {
 	for _, entry := range p.balanceChanges {
 		switch entry.Op {
 		case Add:
@@ -236,7 +248,6 @@ func (p *Precompile) applyBalanceChanges(stateDB *statedb.StateDB, snap snapshot
 			stateDB.SubBalance(entry.Account, entry.Amount)
 		}
 	}
-	return stateDB.AddPrecompileFn(p.Address(), snap.MultiStore, snap.Events)
 }
 
 // HandleGasError resets the gas meter and returns an error if out of gas (use in defer).
