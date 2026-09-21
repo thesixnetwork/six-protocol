@@ -46,7 +46,7 @@ require (
 	github.com/spf13/cobra v1.9.1
 	github.com/spf13/pflag v1.0.6
 	github.com/spf13/viper v1.20.1
-	github.com/stretchr/testify v1.10.0
+	github.com/stretchr/testify v1.11.1
 	golang.org/x/net v0.43.0
 	golang.org/x/sync v0.16.0
 	golang.org/x/text v0.28.0
@@ -97,7 +97,7 @@ require (
 	github.com/bits-and-blooms/bitset v1.8.0 // indirect
 	github.com/bmatcuk/doublestar v1.3.2 // indirect
 	github.com/btcsuite/btcd v0.24.2 // indirect
-	github.com/btcsuite/btcd/btcec/v2 v2.3.5 // indirect
+	github.com/btcsuite/btcd/btcec/v2 v2.5.0 // indirect
 	github.com/btcsuite/btcd/btcutil v1.1.6 // indirect
 	github.com/btcsuite/btcd/chaincfg/chainhash v1.1.0 // indirect
 	github.com/bufbuild/protocompile v0.14.0 // indirect
@@ -124,7 +124,7 @@ require (
 	github.com/cosmos/gogogateway v1.2.0 // indirect
 	github.com/cosmos/iavl v1.2.0 // indirect
 	github.com/cosmos/ics23/go v0.11.0 // indirect
-	github.com/cosmos/ledger-cosmos-go v0.16.0 // indirect
+	github.com/cosmos/ledger-cosmos-go v1.0.1 // indirect
 	github.com/cosmos/rosetta v0.50.9 // indirect
 	github.com/cosmos/rosetta-sdk-go v0.10.0 // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.6 // indirect
@@ -337,9 +337,9 @@ replace (
 	cosmossdk.io/api => github.com/thesixnetwork/cosmos-sdk/api v0.7.6-six-1
 	cosmossdk.io/core => cosmossdk.io/core v0.11.0
 	cosmossdk.io/store => github.com/thesixnetwork/cosmos-sdk/store v1.1.1
-	github.com/cosmos/cosmos-sdk => github.com/thesixnetwork/cosmos-sdk v0.50.10-sixpatch-1
+	github.com/cosmos/cosmos-sdk => github.com/thesixnetwork/cosmos-sdk v0.50.10-sixpatch-2
 	github.com/ethereum/go-ethereum => github.com/thesixnetwork/go-ethereum v1.13.6-0.20250607133945-ba2bad3ed2da
-	github.com/evmos/evmos/v20 => github.com/thesixnetwork/evmos/v20 v20.0.0-sixpatch-1
+	github.com/evmos/evmos/v20 => github.com/thesixnetwork/evmos/v20 v20.0.0-sixpatch-2
 
 	// fix upstream GHSA-h395-qcrw-5vmq vulnerability.
 	github.com/gin-gonic/gin => github.com/gin-gonic/gin v1.7.0
