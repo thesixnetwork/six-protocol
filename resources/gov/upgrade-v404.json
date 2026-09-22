@@ -6,7 +6,7 @@
       "plan": {
         "name": "v4.0.4",
         "time": "0001-01-01T00:00:00Z",
-        "height": "350",
+        "height": "20315840",
         "info": "v4.0.4",
         "upgraded_client_state": null
       }
@@ -15,7 +15,7 @@
   "metadata": "ipfs://CID",
   "deposit": "50000000000usix",
   "title": "v4.0.4",
-  "summary": "Fix staking module",
+  "summary": "Minor upgrade contain security and bug fix",
   "expedited": false
 }
 
