@@ -41,5 +41,5 @@ sixd genesis add-genesis-account $(sixd keys show -a alice --keyring-backend=tes
 sixd genesis add-genesis-account $(sixd keys show -a bob --keyring-backend=test --home ${SIX_HOME}) 1000000000000usix --keyring-backend test --home ${SIX_HOME}
 sixd genesis add-genesis-account $(sixd keys show -a super-admin --keyring-backend=test --home ${SIX_HOME}) 1000000000000usix --keyring-backend test --home ${SIX_HOME}
 
-sixd genesis gentx ${VALKEY} 1000000000000usix --min-self-delegation="10000000000" --validator-mode=0 --min-delegation="10000000000" --enable-redelegation=false --keyring-backend $KEYRING --chain-id $CHAIN_ID --home ${SIX_HOME}
+sixd genesis gentx ${VALKEY} 1000000000000usix --min-self-delegation="10000000000" --validator-mode=0 --min-delegation="10000000000" --keyring-backend $KEYRING --chain-id $CHAIN_ID --home ${SIX_HOME}
 sixd genesis collect-gentxs --home ${SIX_HOME}
