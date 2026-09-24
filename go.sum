@@ -1274,8 +1274,8 @@ github.com/tendermint/go-amino v0.16.0 h1:GyhmgQKvqF82e2oZeuMSp9JTN0N09emoSZlb2l
 github.com/tendermint/go-amino v0.16.0/go.mod h1:TQU0M1i/ImAo+tYpZi73AU3V/dKeCoMC9Sphe2ZwGME=
 github.com/thesixnetwork/cosmos-sdk v0.50.10-sixpatch-2 h1:itYrs60RPJD3S8RqaqOPPH/vbPlHic2dGbAovIpBMAc=
 github.com/thesixnetwork/cosmos-sdk v0.50.10-sixpatch-2/go.mod h1:HUI3nsp6eBu21dvzEucBnpcBUW1vZus0cB3TwlatVqE=
-github.com/thesixnetwork/cosmos-sdk/api v0.7.6-six-1 h1:0cjtpRTyeE/WnsHVgCHV6TTp9cCHgcuUcmyqi4opk0s=
-github.com/thesixnetwork/cosmos-sdk/api v0.7.6-six-1/go.mod h1:HEICW35zV1sJdGRkn0KwnhHAuYDfY54Y1LsM9ih46qU=
+github.com/thesixnetwork/cosmos-sdk/api v0.7.6-six-2 h1:tjse6ZmesZZs+zV4PlY+1PBdDX2ivMKLfQ9k5o5nY6w=
+github.com/thesixnetwork/cosmos-sdk/api v0.7.6-six-2/go.mod h1:HEICW35zV1sJdGRkn0KwnhHAuYDfY54Y1LsM9ih46qU=
 github.com/thesixnetwork/cosmos-sdk/store v1.1.1 h1:BeCcB2FnUwtVs3VwBVnfiENqz7vD8OpY2zKx9SXFkg0=
 github.com/thesixnetwork/cosmos-sdk/store v1.1.1/go.mod h1:8DwVTz83/2PSI366FERGbWSH7hL6sB7HbYp8bqksNwM=
 github.com/thesixnetwork/evmos/v20 v20.0.0-sixpatch-2 h1:0rUv6KrZJ/ClDMrbSU0KjylajNMDUvBPZW+VFVAHjRw=

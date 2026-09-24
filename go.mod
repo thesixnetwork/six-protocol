@@ -334,7 +334,7 @@ require (
 )
 
 replace (
-	cosmossdk.io/api => github.com/thesixnetwork/cosmos-sdk/api v0.7.6-six-1
+	cosmossdk.io/api => github.com/thesixnetwork/cosmos-sdk/api v0.7.6-six-2
 	cosmossdk.io/core => cosmossdk.io/core v0.11.0
 	cosmossdk.io/store => github.com/thesixnetwork/cosmos-sdk/store v1.1.1
 	github.com/cosmos/cosmos-sdk => github.com/thesixnetwork/cosmos-sdk v0.50.10-sixpatch-2
