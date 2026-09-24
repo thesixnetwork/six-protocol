@@ -1,6 +1,6 @@
 CHAIN_ID=${1:-testnet}
 DOCKER_TAG=${2:-}
-default_docker_tag="4.0.4"
+default_docker_tag="4.0.6"
 
 if [ -z "$DOCKER_TAG" ]; then
     DOCKER_TAG=$default_docker_tag
