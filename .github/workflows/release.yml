@@ -55,6 +55,9 @@ jobs:
           sudo ln -sf /usr/include/asm-generic    "/usr/include/${MUSL_ARCH}/asm-generic"
           sudo ln -sf "/usr/include/${MULTIARCH}/asm" "/usr/include/${MUSL_ARCH}/asm"
 
+      # The Makefile's own VERSION default strips the leading "v" from git
+      # tags (sed 's/^v//'), so source builds report "4.0.4". Strip it here
+      # too so release binaries report the same version string.
       - name: Build binary (Linux, static musl)
         if: matrix.goos == 'linux'
         run: |
@@ -63,7 +66,7 @@ jobs:
           CGO_ENABLED=1 \
           CC=musl-gcc \
           LDFLAGS="-linkmode external -extldflags=-static" \
-          VERSION=${{ env.BINARY_VERSION }} make build
+          VERSION=${BINARY_VERSION#v} make build
 
       - name: Build binary (macOS)
         if: matrix.goos == 'darwin'
@@ -71,7 +74,7 @@ jobs:
           GOOS=darwin GOARCH=${{ matrix.goarch }} \
           LEDGER_ENABLED=true \
           CGO_ENABLED=1 \
-          VERSION=${{ env.BINARY_VERSION }} make build
+          VERSION=${BINARY_VERSION#v} make build
 
       - name: Rename binary
         run: mv ./build/sixd ./build/sixd-${{ matrix.goos }}-${{ matrix.goarch }}
@@ -80,7 +83,11 @@ jobs:
         run: ls -F ./build/
 
       - name: Binary Test Version
-        run: ./build/sixd-${{ matrix.goos }}-${{ matrix.goarch }} version
+        run: |
+          GOT=$(./build/sixd-${{ matrix.goos }}-${{ matrix.goarch }} version)
+          WANT=${BINARY_VERSION#v}
+          echo "built: ${GOT} / expected: ${WANT}"
+          test "${GOT}" = "${WANT}"
 
       - name: Upload binary artifact
         uses: actions/upload-artifact@v6
