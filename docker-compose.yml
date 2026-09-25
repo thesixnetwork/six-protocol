@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   sixnode0:
     container_name: sixnode0
