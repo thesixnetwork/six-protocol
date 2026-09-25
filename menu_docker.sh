@@ -436,7 +436,7 @@ case $choice in
     fi
     # Local chain RPC is at 0.0.0.0:26657 (init_testnet.sh sets it up this way)
     LOCAL_RPC="http://0.0.0.0:26657"
-    amount=100000000000
+    amount=1000000000000
     i=0
     for val in ${validator_keys[@]:0:4}; do
         echo "#######################################"
