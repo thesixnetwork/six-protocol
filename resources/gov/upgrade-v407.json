@@ -6,7 +6,7 @@
       "plan": {
         "name": "v4.0.7",
         "time": "0001-01-01T00:00:00Z",
-        "height": "20357820",
+        "height": "21675760",
         "info": "v4.0.7",
         "upgraded_client_state": null
       }
@@ -18,4 +18,3 @@
   "summary": "Minor upgrade contain security and bug fix",
   "expedited": false
 }
-
