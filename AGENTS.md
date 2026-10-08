@@ -168,6 +168,9 @@ So the chain accepts both Ethereum-format and Cosmos-format transactions; fee lo
 
 ## Custom Modules
 
+> For a full hand-off summary of all `x/` modules, precompiles, and the SIX customizations in the
+> cosmos-sdk / evmos / go-ethereum forks, see [`docs/MODULES_AND_FORKS.md`](docs/MODULES_AND_FORKS.md).
+
 All custom modules follow the standard Cosmos SDK `x/<module>/{keeper,types,module,client,simulation}` layout.
 
 ### `x/nftmngr` — NFT schema & rule engine
