@@ -146,8 +146,3 @@ precompiles** (mirrors the cosmos/evm pattern):
   state together.
 - **Permissioned staking** — modes/license/approval/whitelist/redelegation; the entire cosmos-sdk
   fork exists for this.
-
-## Known items shipped as-is
-
-- `DefaultEVMUnsafeOrderedTx = true` (EVM replay risk flagged in the 2026-08 security review).
-- go-ethereum version drift (v1.13.6 pinned in `go.mod`, v1.17.2 checked out locally).
