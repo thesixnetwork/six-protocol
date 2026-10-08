@@ -20,33 +20,34 @@ go.mod replaces (what's forked):
 
 ## Part 1 — Custom `x/` modules
 
-| Module | Purpose | State-changing Msgs (highlights) |
-|---|---|---|
-| **nftmngr** | Largest module. NFT schema + metadata + on-chain **rule/action engine** (Grule GRL). Schemas, attributes, actions, executors, orgs, virtual-schema governance. | `CreateNFTSchema`, `CreateMetadata`, `AddAttribute`, `AddAction`/`UpdateAction`/`ToggleAction`, `PerformActionByAdmin`, `SetFeeConfig`, `SetMintauth`, `Create/DeleteActionExecutor`, `ProposalVirtualSchema`/`VoteVirtualSchemaProposal`/`PerformVirtualAction`, origin-chain setters |
-| **tokenmngr** | Token defs + mint permissions; **wrap/unwrap `usix` ↔ wrapped/EVM token**; delegation migration. Heavy Bank + EVM + Staking/Distribution interop. | `Create/Update/DeleteToken`, `Create/Update/DeleteMintperm`, `Mint`/`Burn`, `WrapToken`/`UnwrapToken`/`SendWrapToken`, `MigrateDelegation`, Options msgs |
-| **nftoracle** | Multi-sig **oracle consensus** for cross-chain NFT verification (mint/action/collection-owner) + action-signer registry with expiry & cross-chain sync. | `CreateMintRequest`/`SubmitMintResponse`, `CreateActionRequest`/`SubmitActionResponse`, `VerifyCollectionOwner` msgs, `SetMinimumConfirmation`, `Create/Update/Delete ActionSigner` (+Config, +Sync) |
-| **nftadmin** | Root-admin + named-permission ACL. Permission gate used by nftmngr/nftoracle. | `GrantPermission`, `RevokePermission` |
-| **protocoladmin** | Named admin groups for protocol-level authority. Used by tokenmngr for param authority. | `Create/Update/DeleteGroup`, `Add/RemoveAdminFromGroup` |
+| Module            | Purpose                                                                                                                                                        | State-changing Msgs (highlights)                                                                                                                                                                                                                                                       |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **nftmngr**       | Largest module. NFT schema + metadata + on-chain **rule/action engine** (Grule GRL). Schemas, attributes, actions, executors, orgs, virtual-schema governance. | `CreateNFTSchema`, `CreateMetadata`, `AddAttribute`, `AddAction`/`UpdateAction`/`ToggleAction`, `PerformActionByAdmin`, `SetFeeConfig`, `SetMintauth`, `Create/DeleteActionExecutor`, `ProposalVirtualSchema`/`VoteVirtualSchemaProposal`/`PerformVirtualAction`, origin-chain setters |
+| **tokenmngr**     | Token defs + mint permissions; **wrap/unwrap `usix` ↔ wrapped/EVM token**; delegation migration. Heavy Bank + EVM + Staking/Distribution interop.              | `Create/Update/DeleteToken`, `Create/Update/DeleteMintperm`, `Mint`/`Burn`, `WrapToken`/`UnwrapToken`/`SendWrapToken`, `MigrateDelegation`, Options msgs                                                                                                                               |
+| **nftoracle**     | Multi-sig **oracle consensus** for cross-chain NFT verification (mint/action/collection-owner) + action-signer registry with expiry & cross-chain sync.        | `CreateMintRequest`/`SubmitMintResponse`, `CreateActionRequest`/`SubmitActionResponse`, `VerifyCollectionOwner` msgs, `SetMinimumConfirmation`, `Create/Update/Delete ActionSigner` (+Config, +Sync)                                                                                   |
+| **nftadmin**      | Root-admin + named-permission ACL. Permission gate used by nftmngr/nftoracle.                                                                                  | `GrantPermission`, `RevokePermission`                                                                                                                                                                                                                                                  |
+| **protocoladmin** | Named admin groups for protocol-level authority. Used by tokenmngr for param authority.                                                                        | `Create/Update/DeleteGroup`, `Add/RemoveAdminFromGroup`                                                                                                                                                                                                                                |
 
 **Dependency flow:** `protocoladmin`/`nftadmin` (authority) → `tokenmngr` + `nftmngr`/`nftoracle`
 → SDK (Bank/Account/Staking/Distribution) + Evmos EVM keeper. `nftadmin` is the permission check
 everyone calls; `nftoracle` feeds verified data back into `nftmngr`.
 
 **Notes:**
+
 - All five modules still use the **legacy `x/params` subspace** pattern (not migrated to `MsgUpdateParams`).
 - `nftmngr`'s rule engine uses a process-local GRL cache (SHA-256 keyed, 100-cycle cap) that is
   consensus-safe because builds are deterministic and each execution clones the knowledge base.
 
 ### Precompiles (`precompiles/`) — Cosmos modules exposed to Solidity
 
-| Precompile | Address | Bridges to |
-|---|---|---|
-| **bank** | `0x…1001` | SDK x/bank — balances, metadata, send |
-| **staking** | `0x…1005` | SDK x/staking (+ tokenmngr denom conversion) — delegate/redelegate/undelegate |
-| **distribution** | `0x…1007` | SDK x/distribution (+ tokenmngr) — rewards, withdraw address |
-| **nftmngr** | `0x…1055` | x/nftmngr + x/nftadmin — full schema/metadata/action lifecycle |
-| **tokenfactory** | `0x…1069` | x/tokenmngr — wrap/unwrap, cross-chain transfer, unwrap-stake |
-| **common** | — | shared base: MultiStore snapshot/revert, balance tracking, gas, mutex |
+| Precompile       | Address   | Bridges to                                                                    |
+| ---------------- | --------- | ----------------------------------------------------------------------------- |
+| **bank**         | `0x…1001` | SDK x/bank — balances, metadata, send                                         |
+| **staking**      | `0x…1005` | SDK x/staking (+ tokenmngr denom conversion) — delegate/redelegate/undelegate |
+| **distribution** | `0x…1007` | SDK x/distribution (+ tokenmngr) — rewards, withdraw address                  |
+| **nftmngr**      | `0x…1055` | x/nftmngr + x/nftadmin — full schema/metadata/action lifecycle                |
+| **tokenfactory** | `0x…1069` | x/tokenmngr — wrap/unwrap, cross-chain transfer, unwrap-stake                 |
+| **common**       | —         | shared base: MultiStore snapshot/revert, balance tracking, gas, mutex         |
 
 ---
 
@@ -74,9 +75,6 @@ x/tx, codec/unknownproto, or the ante handler — those concerns live in the app
 
 **Key files:** `x/staking/keeper/{msg_server,delegation,whitelist,validator_approval,invariants,genesis}.go`,
 `x/staking/migrations/sixchain/store.go`, `store/{cachekv,cachemulti}/store.go`.
-
-> ⚠️ The local `../cosmos-sdk` checkout is on an in-progress `six/v0.53.6` rebase with uncommitted
-> staking edits. The above describes shipped `v0.50.10-sixpatch-3`.
 
 ---
 
@@ -115,17 +113,12 @@ precompiles + native `usix`, and lands the audit fixes.
 
 ## Part 4 — go-ethereum fork
 
-> ⚠️ **Version drift:** `go.mod` pins **v1.13.6**, but the local `../go-ethereum` checkout is on
-> **v1.17.2** (newer, in-progress). The notes below describe that local v1.17.2 branch (single SIX
-> commit `fb40f1f25` "support custom precompile", +874/−146 over 20 files). The actively-built
-> v1.13.6 version is slightly different but shares the same intent.
-
 A single coherent feature: turn vanilla geth into an embeddable EVM with **stateful Cosmos
 precompiles** (mirrors the cosmos/evm pattern):
 
 1. **`PrecompiledContract` interface redesigned** — `Run(evm *EVM, contract *Contract, readonly bool)`
-   + `Address()` + `Name()`. Precompiles now receive the live `*EVM` (→ Cosmos state access),
-   caller/value, and the static-call flag. All ~21 builtins mechanically updated.
+   - `Address()` + `Name()`. Precompiles now receive the live `*EVM` (→ Cosmos state access),
+     caller/value, and the static-call flag. All ~21 builtins mechanically updated.
 2. **Mutable per-EVM precompile registry** — `SetPrecompiles`/`WithPrecompiles`/`Precompile(addr)`/
    `ActivePrecompiles()`; all call/create paths use it, so the host app registers Cosmos precompiles
    at runtime. `ValidatePrecompiles` rejects dup/nil/zero-address **and address-vs-`Address()`
@@ -149,7 +142,7 @@ precompiles** (mirrors the cosmos/evm pattern):
 - **Unbacked-mint safety** — SubBalance guard + gas-refund rework + wrap/unwrap base-denom lock. The
   chain goes to lengths so EVM↔Cosmos balance reconciliation can't mint `usix`/`asix` out of thin air.
 - **Precompile snapshot/revert correctness** — the hardest-won fixes (pendingStorage journal,
-  cosmos-side precompile journaling) span all three forks; a revert must unwind EVM *and* Cosmos
+  cosmos-side precompile journaling) span all three forks; a revert must unwind EVM _and_ Cosmos
   state together.
 - **Permissioned staking** — modes/license/approval/whitelist/redelegation; the entire cosmos-sdk
   fork exists for this.
